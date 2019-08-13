@@ -5,6 +5,21 @@
 {% set user = 'archive' %}
 {{ createuser(user) }}
 
+{% for file in ['id_rsa', 'id_rsa.pub'] %}
+
+/home/{{ user }}/.ssh/{{ file }}:
+  file.managed:
+    - source: salt://private/kingfisher-archive/{{ file }}
+    - makedirs: True
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 600
+    - require:
+       - user: {{ user }}_user_exists
+
+{% endfor %}
+
+
 {% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
 {% set userdir = '/home/' + user %}
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive/' %}
