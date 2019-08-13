@@ -31,3 +31,5 @@ base:
 #    - icinga2-satellite
     - standard-search
 
+  'ocds-redash*':
+    - ocds-redash

@@ -21,3 +21,6 @@ base:
      - live_pillar
      - private.standard_search_pillar
 
+  'ocds-redash*':
+     - live_pillar
+     - private.ocds_redash_pillar
