@@ -29,4 +29,6 @@ base:
      - live_pillar
      - ocdskit_web_pillar
 
+  'ocds-kingfisher-archive':
+     - live_pillar
 
