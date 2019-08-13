@@ -33,3 +33,8 @@ base:
 
   'ocds-redash*':
     - ocds-redash
+
+  'ocdskit-web':
+    - ocdskit-web
+
+

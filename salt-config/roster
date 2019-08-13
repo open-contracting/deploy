@@ -10,4 +10,5 @@ ocds-docs-staging:        staging.docs.opencontracting.uk0.bigv.io
 ocds-docs-live:           live.docs.opencontracting.uk0.bigv.io
 standard-search:          live.standard-search.opencontracting.uk0.bigv.io
 ocds-redash:              live.redash.opencontracting.uk0.bigv.io
+ocdskit-web:              live.toucan.opencontracting.uk0.bigv.io
 

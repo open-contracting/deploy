@@ -24,3 +24,9 @@ base:
   'ocds-redash*':
      - live_pillar
      - private.ocds_redash_pillar
+
+  'ocdskit-web':
+     - live_pillar
+     - ocdskit_web_pillar
+
+
