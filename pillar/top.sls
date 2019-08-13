@@ -11,3 +11,8 @@ base:
      - private.ocdskingfisher_live_pillar
      - private.ocdskingfisher_pillar
 
+  'ocds-docs-live':
+     - live_pillar
+
+  'ocds-docs-staging':
+     - staging_pillar

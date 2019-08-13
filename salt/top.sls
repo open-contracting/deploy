@@ -16,3 +16,13 @@ base:
     - ocdskingfisherprocess
     - ocdskingfisherscrape
     - ocdskingfisheranalyse
+
+
+  'ocds-docs-staging':
+    - icinga2-satellite
+    - ocds-docs-staging
+
+  'ocds-docs-live':
+    - icinga2-satellite
+    - ocds-docs-live
+    - ocds-legacy
