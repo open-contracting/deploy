@@ -16,3 +16,8 @@ base:
 
   'ocds-docs-staging':
      - staging_pillar
+
+  'standard-search':
+     - live_pillar
+     - private.standard_search_pillar
+

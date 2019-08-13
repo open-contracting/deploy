@@ -26,3 +26,8 @@ base:
     - icinga2-satellite
     - ocds-docs-live
     - ocds-legacy
+
+  'standard-search':
+#    - icinga2-satellite
+    - standard-search
+
