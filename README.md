@@ -5,9 +5,8 @@
 To check out all repositories in the correct place:
 
     git clone git@github.com:open-contracting/deploy.git open-contracting-deploy
-    mkdir salt
+    cd open-contracting-deploy
     git clone git@github.com:open-contracting/deploy-salt-private.git salt/private
-    mkdir pillar
     git clone git@github.com:open-contracting/deploy-pillar-private.git pillar/private
     
 ## Updating
