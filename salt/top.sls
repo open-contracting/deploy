@@ -41,3 +41,9 @@ base:
     - ocdskingfisher
     - ocdskingfisheranalyse
     - ocdskingfisherarchiveonarchive
+
+  'cove*live*':
+    - cove
+    - icinga2-satellite
+
+

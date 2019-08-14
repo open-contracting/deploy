@@ -241,7 +241,7 @@
     # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
     ProxyPreserveHost Off
 
-    ProxyPass /review {{ pillar.ocds_cove_backend }}/review timeout={{ pillar.cove.apache_uwsgi_timeout }}
+    ProxyPass /review {{ pillar.ocds_cove_backend }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
     ProxyPass /static {{ pillar.ocds_cove_backend }}/static
     ProxyPass /media {{ pillar.ocds_cove_backend }}/media
     ProxyPass /i18n {{ pillar.ocds_cove_backend }}/i18n
@@ -269,7 +269,7 @@
         </Location>
     {% endif %}
 
-    ProxyPass /infrastructure/review {{ pillar.oc4ids_cove_backend }}/infrastructure/review timeout={{ pillar.cove.apache_uwsgi_timeout }}
+    ProxyPass /infrastructure/review {{ pillar.oc4ids_cove_backend }}/infrastructure/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
     ProxyPass /infrastructure/static {{ pillar.oc4ids_cove_backend }}/infrastructure/static
     ProxyPass /infrastructure/media {{ pillar.oc4ids_cove_backend }}/infrastructure/media
     ProxyPass /infrastructure/i18n {{ pillar.oc4ids_cove_backend }}/infrastructure/i18n
