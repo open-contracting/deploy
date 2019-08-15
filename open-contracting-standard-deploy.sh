@@ -1,11 +1,11 @@
-# Create private key from environment variable
-# (with a couple of character substitutions so that Travis will handle it
-# properly)
+echo "Create a private key from the environment variable..."
 echo "$PRIVATE_KEY" | tr '#' '\n' | tr '_' ' ' > id_rsa
 chmod 600 id_rsa
-# Add host key for relevant server
-echo 'dev3.default.opendataservices.uk0.bigv.io ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDVUnT1C1bqxOqSwGIRQGbM0KTFDRzG5XeBDosei7I6GCg/9WcsMQ9rjYnOC5YN1j6FoB04S9JU/lzFCnENVTLKvl1mua5Wd209H01QzEV6OL2tC3KbXAMvWtsQSuwPZ0sIYr3PrRBA1eQz6Kd8OaU7+7GdoAUNXJDtgjodmd8yOfE0JQ1dy9XSY6jVUbJ2up+sfexFSO3DR7WlNA3AEi5KBmjqm9R4fI0dnEN/yBKagrAstvg2ojh1KFdjZAZKRRniA2CjkvyhNpiOIWbaPqPNuUhyK3soyCRLZTxcrXafUQ6bdA3wT6RU0QPOxsJJukKHAjBugIH8Fl5DSWODNB53' >> ~/.ssh/known_hosts
-# Get lftp binary if necessary
+
+echo "Add the host key for the remote server..."
+echo 'staging.standard.open-contracting.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDk8O226B/sYkPqyHdNBdjUFCEpT9IMdUxgFXEOtlPq1QnwTgHY76PsaOin7KhJcBrm8RAOuzoOIrKfgUJjXoxCtx1edp594tD8OChF5koHyO8YkQVlJmH8LrV16txsxokfh2F31ofRIVMk+TXiEfvR4+WehqeR24TwnXzlLIv1KfMJB7znTDdwqZS3uONKjlNNzSBNNIvCZ4WTI6etVlCzQgv4HL9QllKGfk1ctDuwOgsGPMT8f5NNPhI/z7kZkNbcrHJ5Mo6ZtF26qFmZ3Hy6vxJAQ2C4/x/Zemtb0MbIvI4Qlghh3bl5lER1rB54oMg+DidJ36qMrbqEtZxrBwvP' >> ~/.ssh/known_hosts
+
+echo "Get LFTP binary if necessary..."
 if hash lftp 2>/dev/null; then
     LFTP=lftp
 else
@@ -13,10 +13,13 @@ else
     chmod a+x ./lftp
     LFTP=./lftp
 fi
-# Make a test ssh connection, as lftp doesn't output key errors so well
-# ssh -i id_rsa ocds-docs@dev3.default.opendataservices.uk0.bigv.io
-# Copy the files to the server
-$LFTP -c "set sftp:connect-program \"ssh -i id_rsa\"; connect sftp://ocds-docs:xxx@dev3.default.opendataservices.uk0.bigv.io; mirror -eR build web/$TRAVIS_BRANCH"
-# Arguments to mirror are -R for recursive and -e to delete old files
 
+# Make a test SSH connection, as LFTP doesn't output key errors well.
+# ssh -i id_rsa ocds-docs@staging.docs.opencontracting.uk0.bigv.io
+
+echo "Copy the built files to the remote server..."
+# See http://lftp.yar.ru/lftp-man.html
+$LFTP -c "set sftp:connect-program \"ssh -i id_rsa\"; connect sftp://ocds-docs:xxx@staging.standard.open-contracting.org; mirror -eRv build web/$TRAVIS_BRANCH"
+
+echo "Update the search index..."
 curl "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=${TRAVIS_BRANCH}"
