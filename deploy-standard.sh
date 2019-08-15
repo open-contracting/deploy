@@ -15,7 +15,7 @@ else
 fi
 
 # Make a test SSH connection, as LFTP doesn't output key errors well.
-# ssh -i id_rsa ocds-docs@staging.docs.opencontracting.uk0.bigv.io
+# ssh -i id_rsa ocds-docs@staging.standard.open-contracting.org
 
 echo "Copy the built files to the remote server..."
 # See http://lftp.yar.ru/lftp-man.html
