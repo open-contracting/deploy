@@ -123,6 +123,16 @@ ocdskingfisherscrape-prerequisites  :
     - template: jinja
     - context:
         scrapyddir: {{ scrapyddir }}
+    - watch_in:
+      - service: supervisor
+
+supervisor:
+  pkg:
+    - installed
+  service:
+    - running
+    - enable: True
+    - reload: True
 
 kfs-apache-password:
   cmd.run:
