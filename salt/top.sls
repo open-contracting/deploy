@@ -38,7 +38,6 @@ base:
     - ocdskit-web
 
   'ocds-kingfisher-archive':
-    - postgres11
     - ocdskingfisher
     - ocdskingfisheranalyse
     - ocdskingfisherarchiveonarchive
