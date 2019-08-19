@@ -25,3 +25,6 @@ fi
 echo "Copy the built files to the remote server..."
 # See http://lftp.yar.ru/lftp-man.html
 $LFTP -c "set sftp:connect-program \"ssh -i id_rsa\"; connect sftp://ocds-docs:xxx@staging.standard.open-contracting.org; mirror -eRv build web/profiles/$PROFILE_NAME/$TRAVIS_BRANCH"
+
+echo "Update the search index..."
+curl "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=profiles%2F{$PROFILE_NAME}%2F${TRAVIS_BRANCH}&langs=${LANGS}"
