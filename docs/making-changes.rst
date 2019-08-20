@@ -9,16 +9,16 @@ In other code repositories, we require work to be done in a branch and tested on
 Sometimes, it is possible to test changes to these scripts against a virtual machine and in a separate branch.
 
 Sometimes it's not possible to test against a virtual machine. Cases like this include when SSL certificates are involved (as certbot can not verify the virtual machine) or when external services like Travis are involved.
-Sometimes, for small changes the amount of time it would take to set up a full test environment is not worth it.
+Sometimes (for small changes) the amount of time it would take to set up a full test environment is not worth it.
 
-In these cases, people work on the `master` branch, deploy directly to live machines and commit straight to the `master` branch afterwards.
+In these cases, people work on the `master` branch, deploy directly to live machines, and commit straight to the `master` branch afterwards.
 
-When deploying in this way, extra care should be taken. If worried, seek another staff members review before proceeding.
+When deploying in this way, extra care should be taken. If worried, seek another staff member's review before proceeding.
 
 For this reason, the `master` branch is not protected.
 
 TODO Discuss this. Discuss procedures for people who can not deploy for whatever reason to make changes (eg always via pull request?).
-Have clearer guidelines about when it is and is not appropriated to commit straight to master. Document.
+Have clearer guidelines about when it is and is not appropriate to commit straight to master. Document.
 
 Update private templates
 ------------------------

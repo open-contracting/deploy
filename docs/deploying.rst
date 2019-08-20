@@ -29,5 +29,6 @@ To deploy the latest app and supporting software to a server, use the salt-ssh c
 
 .. code-block:: bash
 
-    salt-ssh  -i 'ocds-docs-staging' state.highstate
+    salt-ssh -i 'ocds-docs-staging' state.highstate
 
+You only need '-i' the first time that you run this command.

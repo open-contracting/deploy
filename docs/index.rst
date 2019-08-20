@@ -9,7 +9,7 @@ OCDS Deploy Scripts
    salt.rst
    scripts-used-by-travis.rst
    on-ocp-servers.rst
-   on-your-servers.rst
+   on-non-ocp-servers.rst
    deploying.rst
    regular-maintenance.rst
    server-monitoring.rst

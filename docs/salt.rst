@@ -10,7 +10,7 @@ Salt is a configuration management tool.
 We use it to script all our standard operations on our servers.
 
  *  They can be rerun at will.
- *  There is no worries about staff doing manual steps and making a mistake.
+ *  There are no worries about staff doing manual steps and making a mistake.
  *  Any staff can run them.
  *  They help with knowledge transfer.
 
