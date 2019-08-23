@@ -225,13 +225,14 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - user: {{ user }}
     - minute: 30
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli delete-collections:
-  cron.present:
-    - identifier: OCDS_KINGFISHER_SCRAPE_DELETE_COLLECTIONS
-    - user: {{ user }}
-    - minute: 30
-    - hour: 7
-    - daymonth: 1
+# While we work out the delete process fully, we don't want this run automatically
+#cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli delete-collections:
+#  cron.present:
+#    - identifier: OCDS_KINGFISHER_SCRAPE_DELETE_COLLECTIONS
+#    - user: {{ user }}
+#    - minute: 30
+#    - hour: 7
+#    - daymonth: 1
 
 cd {{ ocdskingfisherviewsdir }}; . .ve/bin/activate; python ocdskingfisher-views-cli refresh-views --logfile=~/refresh-view.log; python ocdskingfisher-views-cli field-counts --threads=5 --logfile=~/fields-counts.log:
   cron.present:
