@@ -103,5 +103,9 @@
         AddOutputFilter INCLUDES .html
         AddType "application/json;charset=utf-8" .json
         ErrorDocument 404 /error/404
+
+        # This Header directive is in the Directory section to ensure it only
+        # applies to static files, so there's no risk of XSS.
+        Header set Access-Control-Allow-Origin "*"
     </Directory>
 

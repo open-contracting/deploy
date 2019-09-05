@@ -39,6 +39,10 @@
         # Serve json with utf-8 media type
         # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
         AddType "application/json;charset=utf-8" .json
+
+        # This Header directive is in the Directory section to ensure it only
+        # applies to static files, so there's no risk of XSS.
+        Header set Access-Control-Allow-Origin "*"
     </Directory>
     <Directory {{ documentroot }}legacy/>
         Options +IncludesNOEXEC
