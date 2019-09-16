@@ -3,7 +3,7 @@
 # See apache/ocds-docs-live.conf
 #
 # For info on how to do a live deploy, see:
-# https://ocds-standard-development-handbook.readthedocs.io/en/latest/deployment/standard-live/
+# https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html
 
 include:
   - ocds-docs-common
