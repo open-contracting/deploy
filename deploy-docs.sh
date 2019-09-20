@@ -1,3 +1,23 @@
+if [ -z "$PRIVATE_KEY" ]; then
+    echo "\$PRIVATE_KEY is not set or empty, exiting."
+    exit
+fi
+
+if [ -z ${PATH_PREFIX+x} ]; then
+    echo "\$PATH_PREFIX is not set, exiting."
+    exit
+fi
+
+if [ -z "$SEARCH_SECRET" ]; then
+    echo "\$SEARCH_SECRET is not set or empty, exiting."
+    exit
+fi
+
+if [ -z "$LANGS" ]; then
+    echo "\$LANGS is not set or empty, exiting."
+    exit
+fi
+
 echo "Create a private key from the environment variable..."
 echo "$PRIVATE_KEY" | tr '#' '\n' | tr '_' ' ' > id_rsa
 chmod 600 id_rsa
@@ -19,7 +39,7 @@ fi
 
 echo "Copy the built files to the remote server..."
 # See http://lftp.yar.ru/lftp-man.html
-$LFTP -c "set sftp:connect-program \"ssh -i id_rsa\"; connect sftp://ocds-docs:xxx@staging.standard.open-contracting.org; mirror -eRv build web/infrastructure/$TRAVIS_BRANCH"
+$LFTP -c "set sftp:connect-program \"ssh -i id_rsa\"; connect sftp://ocds-docs:xxx@staging.standard.open-contracting.org; mirror -eRv build web/$PATH_PREFIX$TRAVIS_BRANCH"
 
 echo "Update the search index..."
-curl "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=infrastructure%2F${TRAVIS_BRANCH}&langs=${LANGS}"
+curl "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=$(echo $PATH_PREFIX | sed 's/\//%2F/g')${TRAVIS_BRANCH}&langs=${LANGS}"
