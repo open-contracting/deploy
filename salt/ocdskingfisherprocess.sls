@@ -26,15 +26,17 @@ ocdskingfisherprocess-prerequisites  :
       - strace
       - redis
       - libpq-dev
+  pip.installed:
+    - name: ocdskingfisherviews
+    - editable: git+https://github.com/open-contracting/kingfisher-views.git#egg=ocdskingfisherviews
+    - upgrade: true
 
 {% set user = 'ocdskfp' %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
 {% set giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
-{% set views_giturl = 'https://github.com/open-contracting/kingfisher-views.git' %}
 
 {% set userdir = '/home/' + user %}
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherprocess/' %}
-{% set ocdskingfisherviewsdir = userdir + '/ocdskingfisherviews/' %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
@@ -45,18 +47,6 @@ ocdskingfisherprocess-prerequisites  :
     - branch: master
     - rev: master
     - target: {{ ocdskingfisherdir }}
-    - require:
-      - pkg: git
-
-{{ views_giturl }}{{ ocdskingfisherviewsdir }}:
-  git.latest:
-    - name: {{ views_giturl }}
-    - user: {{ user }}
-    - force_fetch: True
-    - force_reset: True
-    - branch: master
-    - rev: master
-    - target: {{ ocdskingfisherviewsdir }}
     - require:
       - pkg: git
 
@@ -76,17 +66,6 @@ ocdskingfisherprocess-prerequisites  :
 
   postgres_database.present:
     - name: ocdskingfisherprocess
-
-{{ ocdskingfisherviewsdir }}.ve/:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
-    - cwd: {{ ocdskingfisherviewsdir }}
-    - requirements: {{ ocdskingfisherviewsdir }}requirements.txt
-    - require:
-      - git: {{ views_giturl }}{{ ocdskingfisherviewsdir }}
-
 
 kfp_postgres_readonlyuser_create:
   postgres_user.present:
@@ -234,7 +213,7 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
 #    - hour: 7
 #    - daymonth: 1
 
-cd {{ ocdskingfisherviewsdir }}; . .ve/bin/activate; python ocdskingfisher-views-cli refresh-views --logfile=~/refresh-view.log; python ocdskingfisher-views-cli field-counts --threads=5 --logfile=~/fields-counts.log:
+ocdskingfisher-views-cli refresh-views --logfile=~/refresh-view.log; ocdskingfisher-views-cli field-counts --threads=5 --logfile=~/fields-counts.log:
   cron.present:
     - identifier: OCDS_KINGFISHER_VIEWS_RUN
     - user: {{ user }}
