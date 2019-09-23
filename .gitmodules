@@ -1,0 +1,8 @@
+[submodule "salt/private"]
+	path = salt/private
+	url = git@github.com:open-contracting/deploy-salt-private.git
+	branch = master
+[submodule "pillar/private"]
+	path = pillar/private
+	url = git@github.com:open-contracting/deploy-pillar-private.git
+	branch = master

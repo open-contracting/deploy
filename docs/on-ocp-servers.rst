@@ -12,9 +12,4 @@ To check out all repositories in the correct place on your computer:
 
 .. code-block:: bash
 
-    git clone git@github.com:open-contracting/deploy.git open-contracting-deploy
-    cd open-contracting-deploy
-    git clone git@github.com:open-contracting/deploy-salt-private.git salt/private
-    git clone git@github.com:open-contracting/deploy-pillar-private.git pillar/private
-
-
+    git clone --recursive git@github.com:open-contracting/deploy.git open-contracting-deploy
