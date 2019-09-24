@@ -16,6 +16,7 @@ base:
 
   'ocds-docs-staging':
      - staging_pillar
+     - private.ocdskingfisher_pillar # this is for the proxy config
 
   'standard-search':
      - live_pillar

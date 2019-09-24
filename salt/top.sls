@@ -21,6 +21,7 @@ base:
   'ocds-docs-staging':
     - icinga2-satellite
     - ocds-docs-staging
+    - tinyproxy
 
   'ocds-docs-live':
     - icinga2-satellite
