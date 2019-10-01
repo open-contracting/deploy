@@ -5,6 +5,7 @@ base:
   '*':
      - common_pillar
      - private.common_pillar
+     - private.prometheus_pillar
 
   'ocdskingfisher-new':
      - ocdskingfisher_live_pillar
