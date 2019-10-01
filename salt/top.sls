@@ -20,19 +20,16 @@ base:
 
 
   'ocds-docs-staging':
-    - icinga2-satellite
     - prometheus-client-apache
     - ocds-docs-staging
     - tinyproxy
 
   'ocds-docs-live':
-    - icinga2-satellite
     - prometheus-client-apache
     - ocds-docs-live
     - ocds-legacy
 
   'standard-search':
-#    - icinga2-satellite
     - prometheus-client-apache
     - standard-search
 
@@ -53,6 +50,5 @@ base:
   'cove*live*':
     - cove
     - prometheus-client-apache
-    - icinga2-satellite
 
 
