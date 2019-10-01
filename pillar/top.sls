@@ -33,6 +33,7 @@ base:
 
   'ocds-kingfisher-archive':
      - live_pillar
+     - ocdskingfisher_archive_live_pillar
 
   'cove-live-oc4ids':
      - live_pillar

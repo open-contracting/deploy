@@ -16,6 +16,7 @@ base:
     - ocdskingfisherprocess
     - ocdskingfisherscrape
     - ocdskingfisheranalyse
+    - prometheus-client-apache
 
 
   'ocds-docs-staging':
@@ -46,6 +47,7 @@ base:
     - ocdskingfisher
     - ocdskingfisheranalyse
     - ocdskingfisherarchiveonarchive
+    - prometheus-client-apache
 
   'cove*live*':
     - cove

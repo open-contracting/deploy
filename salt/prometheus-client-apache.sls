@@ -56,6 +56,7 @@ prometheus-node-exporter:
 
 {% set extracontext %}
 user: {{ user }}
+apache_port: {{ pillar.prometheus.client_port }}
 {% endset %}
 
 {{ apache('prometheus-client.conf',
