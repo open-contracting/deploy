@@ -38,6 +38,7 @@ base:
 
   'ocds-redash*':
     - ocds-redash
+    - prometheus-client-nginx
 
   'ocdskit-web':
     - ocdskit-web

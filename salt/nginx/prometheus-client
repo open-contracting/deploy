@@ -1,0 +1,24 @@
+upstream prometheus_servers {
+  server 127.0.0.1:9157;
+}
+
+server {
+
+  server_tokens off;
+
+  listen 9158 default;
+
+  access_log /var/log/nginx/prometheus.access.log;
+
+  gzip on;
+  gzip_types *;
+  gzip_proxied any;
+
+  location / {
+    proxy_pass       http://prometheus_servers;
+
+    auth_basic "Open Contracting Prometheus Node Exporter";
+    auth_basic_user_file /home/{{ user }}/htpasswd;
+
+  }
+}
