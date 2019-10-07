@@ -19,7 +19,7 @@ You can do this any way you want, but there is a handy script in the repository 
 
 .. code-block:: bash
 
-    ./updateToMaster.sh
+    ./script/update
 
 It will show you the git messages for each repository so you can see if there are any conflicts or problems switching.
 
