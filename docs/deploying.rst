@@ -13,14 +13,15 @@ TODO - Work out how we're going to make a deploy token work between Open Data Se
 Make sure you have the latest scripts
 -------------------------------------
 
-You can run
+Make sure all 3 repositories (public and the 2 private ones, salt/private and pillar/private) are on the master branch and are up to date.
+
+You can do this any way you want, but there is a handy script in the repository to do this for you:
 
 .. code-block:: bash
 
     ./updateToMaster.sh
 
-This will update all 3 repositories (public and 2 private ones) to the master branch and the latest version,
-whilst showing you the git messages so you can see if there are any conflicts or problems switching.
+It will show you the git messages for each repository so you can see if there are any conflicts or problems switching.
 
 Deploy with the salt-ssh command
 --------------------------------
