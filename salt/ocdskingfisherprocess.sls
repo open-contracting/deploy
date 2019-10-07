@@ -120,6 +120,14 @@ kfp_postgres_guest_create:
     - group: {{ user }}
     - makedirs: True
 
+{{ userdir }}/.config/ocdskingfisher-views/config.ini:
+  file.managed:
+    - source: salt://ocdskingfisherviews/config.ini
+    - template: jinja
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
     - source: salt://ocdskingfisherprocess/logging.json
