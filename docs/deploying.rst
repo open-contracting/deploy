@@ -17,9 +17,7 @@ You can run
 
 .. code-block:: bash
 
-    git checkout master
-    git pull --rebase
-    git submodule update --remote --merge
+    ./updateToMaster.sh
 
 This will update all 3 repositories (public and 2 private ones) to the master branch and the latest version,
 whilst showing you the git messages so you can see if there are any conflicts or problems switching.
