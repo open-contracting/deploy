@@ -38,7 +38,7 @@ Add your public key to ``salt/private/authorized_keys/root_to_add``, e.g.:
 
 .. code-block:: bash
 
-    cat -/.ssh/id_rsa.pub >> salt/private/authorized_keys/root_to_add
+    cat ~/.ssh/id_rsa.pub >> salt/private/authorized_keys/root_to_add
     git commit salt/private/authorized_keys/root_to_add -m "Add public key"
     git push origin master
 
