@@ -26,6 +26,6 @@ The repositories for OCDS documentation websites use Travis' `script deployment 
 This script requires the ``PRIVATE_KEY`` and ``SEARCH_SECRET`` to be `set on Travis <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/integrations.html#travis-ci>`__:
 
 * ``SEARCH_SECRET`` is the value of the ``ocds_secret`` key in ``pillar/private/standard_search_pillar.sls``
-* ``PRIVATE_KEY`` is the content of ``salt/private/ocds-docs/private_key``
+* ``PRIVATE_KEY`` is the content of ``salt/private/ocds-docs/ssh_authorized_keys_from_travis_private``
 
 Changes to this script are made via pull request.
