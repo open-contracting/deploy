@@ -21,4 +21,11 @@ We use `Agentless Salt <https://docs.saltstack.com/en/getstarted/ssh/index.html>
 Travis deploy scripts
 ---------------------
 
-We use `Travis CI <https://travis-ci.org>`__ for continuous integration. The repositories for OCDS documentation websites use Travis' `script deployment <https://docs.travis-ci.com/user/deployment/script/>`__ to run the `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ script in this repository. Changes to this script are made via pull request.
+The repositories for OCDS documentation websites use Travis' `script deployment <https://docs.travis-ci.com/user/deployment/script/>`__ to run the `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ script in this repository.
+
+This script requires the ``PRIVATE_KEY`` and ``SEARCH_SECRET`` to be `set on Travis <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/integrations.html#travis-ci>`__:
+
+* ``SEARCH_SECRET`` is the value of the ``ocds_secret`` key in ``pillar/private/standard_search_pillar.sls``
+* ``PRIVATE_KEY`` is the content of ``salt/private/ocds-docs/private_key``
+
+Changes to this script are made via pull request.
