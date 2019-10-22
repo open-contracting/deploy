@@ -4,15 +4,18 @@ Update server configurations
 1. Update private templates
 ---------------------------
 
-If you add, remove or rename a file or variable in ``pillar/private`` or ``salt/private`` (but not if you change the value of a variable), replicate the changes in ``pillar/private-templates`` and ``salt/private-templates``. (This makes it easier for others to use this repository to, for example, deploy Kingfisher to their own servers.)
+If you add, remove or rename a file or variable in ``pillar/private`` or ``salt/private``, replicate the changes in ``pillar/private-templates`` or ``salt/private-templates``.
+
+This allows others to use this repository to, for example, deploy Kingfisher to their own servers.
 
 2. Test changes
 ---------------
 
-To test changes to the Apache files for the :ref:`ocds-documentation` (for example, new redirects or proxy settings), you can make changes inside ``{% if testing  %}`` blocks in the config files. After deploying, visit the testing version of the live website or staging website:
+To test changes to the Apache files for the :ref:`ocds-documentation` (for example, to test new redirects or proxy settings):
 
--  http://testing.live.standard.open-contracting.org/
--  http://testing.staging.standard.open-contracting.org/
+#. Make changes inside ``{% if testing %}`` blocks in the config files
+#. :doc:`Deploy<deploy>` the OCDS Documentation
+#. Visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
 
 Once satisfied, move the changes outside ``{% if testing  %}`` blocks.
 

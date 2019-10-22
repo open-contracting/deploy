@@ -4,7 +4,7 @@ Hetzner
 Kingfisher
 ----------
 
-Two physical servers serve four services:
+Two physical servers host four services:
 
 -  ``EX62-NVMe``: scrape, process, analyse
 -  ``EX61``: archive
