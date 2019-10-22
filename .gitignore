@@ -1,2 +1,6 @@
 /pillar/private
 /salt/private
+/cache
+/salt-config/master.d
+/salt-config/pki
+/ssh_log
