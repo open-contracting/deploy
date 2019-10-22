@@ -4,7 +4,7 @@ Deploy
 Salt
 ----
 
-We use `Salt (a.k.a. SaltStack) <https://docs.saltstack.com/en/latest/>`__ to deploy applications to servers, and to otherwise manage servers.
+We use `Salt <https://docs.saltstack.com/en/latest/>`__ (a.k.a. SaltStack) to deploy applications to servers, and to otherwise manage servers.
 
 All changes to servers should be made as documented here to ensure that changes are documented and reproducible; changes should not be made manually, which is undocumented and error-prone.
 
