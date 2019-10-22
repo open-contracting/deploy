@@ -1,19 +1,18 @@
 #!/bin/bash
 set -e
 
-echo "--------------------- DEPLOY"
+echo "------------------- deploy"
 git checkout master
-git pull
+git pull origin master
 
-echo "--------------------- PILLAR / PRIVATE"
+echo "------------------- deploy/pillar/private"
 cd pillar/private
 git checkout master
-git pull
+git pull origin master
 cd ../..
 
-echo "--------------------- SALT / PRIVATE"
+echo "------------------- deploy/salt/private"
 cd salt/private
 git checkout master
-git pull
+git pull origin master
 cd ../..
-

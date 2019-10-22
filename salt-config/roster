@@ -1,10 +1,5 @@
-# This file defines the server names for use with the salt-ssh command
+# This file defines the potential targets of the salt-ssh command.
 
-
-#   dev:
-
-
-#   live:
 ocdskingfisher-new:       95.216.243.15
 ocds-docs-staging:        staging.docs.opencontracting.uk0.bigv.io
 ocds-docs-live:           live.docs.opencontracting.uk0.bigv.io
@@ -14,4 +9,3 @@ ocdskit-web:              live.toucan.opencontracting.uk0.bigv.io
 ocds-kingfisher-archive:  archive.kingfisher.open-contracting.org
 cove-live-ocds-2:         live.cove.opencontracting.uk0.bigv.io
 cove-live-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
-
