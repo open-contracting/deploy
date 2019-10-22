@@ -1,10 +1,16 @@
-SSH_KEY_DIR=salt-config/pki/ssh
+#!/bin/bash
+set -e
+
+# Configures Salt for a non-root user.
+
+SSH_KEY_PATH=~/.ssh/id_rsa
+SALT_SSH_KEY_DIR=salt-config/pki/ssh
 REPO_DIR=`pwd`
 
 # Add symlinks to the likely locations of your SSH keys.
-mkdir -p $SSH_KEY_DIR
-ln -s ~/.ssh/id_rsa $SSH_KEY_DIR/salt-ssh.rsa
-ln -s ~/.ssh/id_rsa.pub $SSH_KEY_DIR/salt-ssh.rsa.pub
+mkdir -p $SALT_SSH_KEY_DIR
+ln -sf $SSH_KEY_PATH $SALT_SSH_KEY_DIR/salt-ssh.rsa
+ln -sf $SSH_KEY_PATH.pub $SALT_SSH_KEY_DIR/salt-ssh.rsa.pub
 
 # Create a configuration file with sensible settings for running salt as non-root.
 mkdir -p salt-config/master.d

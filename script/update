@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+# Ensures all repositories are on master and up-to-date.
+
 echo "------------------- deploy"
 git checkout master
 git pull origin master
