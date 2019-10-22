@@ -141,6 +141,6 @@ kfs-apache-password:
     - cwd: /home/{{ user }}
 
 {{ apache('ocdskingfisherscrape.conf',
-    name='ocdskingfisherpscrape.conf',
-    servername='ocdskingfisher-dev') }}
+    name='ocdskingfisherscrape.conf',
+    servername='scrape.ocdskingfisher.opendataservices.coop') }}
 
