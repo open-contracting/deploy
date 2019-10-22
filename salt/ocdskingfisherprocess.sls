@@ -253,3 +253,14 @@ reload_uwsgi_service:
   cmd.run:
     - name: sleep 10; /etc/init.d/uwsgi reload
     - order: last
+
+ocdskingfisherprocess-pipinstall:
+  pip.installed:
+    - upgrade: True
+    - user: {{ user }}
+    - requirements: salt://ocdskingfisherprocess/pipinstall.txt
+
+ocdskingfisherprocess-pip-path:
+  file.append:
+    - name: /home/{{ user }}/.bashrc
+    - text: "export PATH=\"/home/{{ user }}/.local/bin/:$PATH\""
