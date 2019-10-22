@@ -10,12 +10,17 @@ Disallow: /1.0-dev
 User-agent: Googlebot
 Allow: /$
 Allow: /latest
-Allow: /review
 Allow: /infrastructure/latest
-Allow: /infrastructure/review
 Allow: /profiles/ppp/latest
 Allow: /profiles/eu/master
 Allow: /profiles/gpa/master
+Disallow: /latest/switcher
+Disallow: /infrastructure/latest/switcher
+Disallow: /profiles/ppp/latest/switcher
+Disallow: /profiles/eu/master/switcher
+Disallow: /profiles/gpa/master/switcher
+Allow: /review
+Allow: /infrastructure/review
 Disallow: /
 
 User-Agent: LinkChecker
