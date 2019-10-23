@@ -1,5 +1,5 @@
-OCDS Documentation
-==================
+OCDS documentation tasks
+========================
 
 Add a new language
 ------------------

@@ -12,10 +12,8 @@ This section of the documentation shows you how to perform specific tasks.
    update.rst
    delete_server.rst
 
-Service-specific tasks
-----------------------
-
 .. toctree::
+   :caption: Service-specific tasks
    :maxdepth: 1
 
    docs.rst
