@@ -142,5 +142,5 @@ kfs-apache-password:
 
 {{ apache('ocdskingfisherscrape.conf',
     name='ocdskingfisherscrape.conf',
-    servername='scrape.ocdskingfisher.opendataservices.coop') }}
+    servername='scrape.kingfisher.open-contracting.org') }}
 
