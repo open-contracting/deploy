@@ -1,3 +1,4 @@
+# See https://cove.readthedocs.io/en/latest/deployment/
 {% from 'lib.sls' import createuser, apache, uwsgi %}
 
 {% set user = 'cove' %}
