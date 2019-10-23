@@ -35,4 +35,20 @@ Take extra care when making larger changes or when making changes to `higher-pri
 Check history
 -------------
 
-The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the change. That repository was itself re-organized at different times. You can browse: `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__.
+The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the change (August 5, 2019). That repository was itself re-organized at different times. You can browse: `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__ (June 5, 2019).
+
+Track upstream
+--------------
+
+The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. Some common files might have improvements in the original repository. To check for updates, run:
+
+.. code-block:: bash
+
+   git clone git@github.com:OpenDataServices/opendataservices-deploy.git
+   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls pillar/staging_pillar.sls salt-config/master salt/apache-proxy.sls salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/fail2ban/action.d/mail-whois.local salt/fail2ban/filter.d/uwsgi.conf salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
+
+-  ``setup_for_non_root.sh`` corresponds to ``script/setup``
+-  ``updateToMaster.sh`` corresponds to ``script/update``
+-  ``salt-config/roster``, ``pillar/top.sls``, ``salt/top.sls`` and ``pillar/live_pillar.sls`` are common files, but are unlikely to contain improvements
+
+This repository has all improvements up to September 30, 2019.
