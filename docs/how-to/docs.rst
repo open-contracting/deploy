@@ -126,7 +126,7 @@ If the branch is for the latest version of the documentation, repeat this step w
 
    You can skip this step if you are not releasing a new major, minor or patch version.
 
-Login to the server:
+Connect to the server:
 
 .. code-block:: bash
 

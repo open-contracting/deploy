@@ -17,3 +17,4 @@ This section of the documentation shows you how to perform specific tasks.
    :maxdepth: 1
 
    docs.rst
+   kingfisher.rst
