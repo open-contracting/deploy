@@ -6,14 +6,39 @@ Add a new language
 
 In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language to the ``langs`` variable.
 
+.. _add-new-profile:
+
 Add a new profile
 -----------------
 
-Below, substitute ``{root}`` and ``{latest-branch}``. For example: ``ppp`` and ``latest``.
+Below, substitute ``{root}``, ``{latest-branch}``, ``{minor-branch}`` and ``{dev-branch}``. For example: ``ppp``, ``latest`` ``1.0`` and ``1.0-dev``.
 
 #. Edit ``salt/ocds-docs/robots_live.txt``
-#. Add ``Allow: /profiles/{root}/{latest-branch}``
-#. Add ``Disallow: /profiles/{root}/{latest-branch}/switcher``
+#. For Googlebot, add:
+
+   .. code-block:: none
+
+      Allow: /profiles/{root}/{latest-branch}
+
+#. If the profile publishes schema files, also add:
+
+   .. code-block:: none
+
+      Allow: /profiles/{root}/schema
+      Allow: /profiles/{root}/extension
+
+#. If the profile has a single branch, skip these steps. Otherwise, for all user agents, add:
+
+   .. code-block:: none
+
+      Disallow: /profiles/{root}/{minor-branch}
+      Disallow: /profiles/{root}/{dev-branch}
+
+#. If the profile has older versions, also add, for each ``{old-version}``:
+
+   .. code-block:: none
+
+      Disallow: /profiles/{root}/{old-branch}
 
 .. _publish-draft-documentation:
 
@@ -158,9 +183,11 @@ For a profile's documentation, run:
 .. note::
    You can skip this step if you are not releasing a new major, minor or patch version.
 
-Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatted-dev-branch}`` and ``{version}``. For example: ``ppp``, ``latest``, ``1.0-dev``, ``1.0 Dev`` and ``1.0.0.beta``.
+Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatted-dev-branch}``, ``{version}`` and ``{name}``. For example: ``ppp``, ``latest``, ``1.0-dev``, ``1.0 Dev``, ``1.0.0.beta`` and ``OCDS for PPPs``.
 
 If this is the first numbered version of a profile:
+
+#. :ref:`Update salt/ocds-docs/robots_live.txt<add-new-profile>`.
 
 #. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's languages to the ``langs`` variable, and add its latest branch and minor series to the ``profile_versions`` variable.
 
@@ -176,11 +203,26 @@ If this is the first numbered version of a profile:
       <option value="{dev-branch}">{formatted-dev-branch}</option>
       </optgroup>
 
+#. Add a ``salt/ocds-docs/includes/banner_staging_profiles_{root}.html`` file to this repository:
+
+   .. code-block:: html
+
+      <div class="oc-fixed-alert-header">
+          This is a development copy of the {name} docs, the <a href="/profiles/ppp/{root}/en/">latest live version is here</a>.
+      </div>
+
 Otherwise:
 
 #. In the appropriate ``salt/ocds-docs/includes/version-options*.html`` file, update the version number in the text of the first ``option`` element.
 
 If this is a new major or minor version:
+
+#. In ``salt/ocds-docs/robots_live.txt``, disallow the minor branch and its dev branch, for example:
+
+   .. code-block:: html
+
+      Disallow: /1.2
+      Disallow: /1.2-dev
 
 #. In ``salt/apache/ocds-docs-live.conf.include``, add the documentations's minor series to the appropriate ``*_versions`` variable.
 
