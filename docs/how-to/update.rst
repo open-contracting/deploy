@@ -24,7 +24,7 @@ To run the automated tests for the OCDS documentation (using the fish shell):
    pip install -r requirements.txt
    env FQDN=testing.live.standard.open-contracting.org pytest
 
-The tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
+The tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org. Remember to update the tests if you changed the behavior of the Apache files.
 
 Once satisfied, move the changes outside ``{% if testing  %}`` blocks.
 
