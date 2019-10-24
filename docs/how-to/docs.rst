@@ -4,7 +4,7 @@ OCDS documentation tasks
 Add a new language
 ------------------
 
-In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language to the ``langs`` variable.
+In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language in the ``options`` variable.
 
 .. _add-new-profile:
 
@@ -189,7 +189,7 @@ If this is the first numbered version of a profile:
 
 #. :ref:`Update salt/ocds-docs/robots_live.txt<add-new-profile>`.
 
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's languages to the ``langs`` variable, and add its latest branch and minor series to the ``profile_versions`` variable.
+#. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
 
 #. Add a ``salt/ocds-docs/includes/version-options-profiles-{root}.html`` file to this repository:
 
@@ -224,7 +224,7 @@ If this is a new major or minor version:
       Disallow: /1.2
       Disallow: /1.2-dev
 
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the documentations's minor series to the appropriate ``*_versions`` variable.
+#. In ``salt/apache/ocds-docs-live.conf.include``, add the documentations's minor series in the ``options`` variable.
 
 #. In the appropriate ``salt/ocds-docs/includes/banner_staging*.html`` file and ``salt/ocds-docs/includes/banner_old*.html>`` file (if any), update the minor series.
 

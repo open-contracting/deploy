@@ -17,6 +17,15 @@ To test changes to the Apache files for the :ref:`ocds-documentation` (for examp
 #. :doc:`Deploy<deploy>` the OCDS Documentation
 #. Visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
 
+To run the automated tests for the OCDS documentation (using the fish shell):
+
+.. code-block:: bash
+
+   pip install -r requirements.txt
+   env FQDN=testing.live.standard.open-contracting.org pytest
+
+The tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
+
 Once satisfied, move the changes outside ``{% if testing  %}`` blocks.
 
 3. Review code
