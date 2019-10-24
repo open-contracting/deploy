@@ -44,11 +44,19 @@
         </Location>
     {% endif %}
 
+    DocumentRoot {{ documentroot }}
+    RewriteMap unescape int:unescape
     # Needed to proxy to SSL servers.
     SSLProxyEngine on
+    # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
+    ProxyPreserveHost Off
+    # With a keepalive, we had problems with headers being interpreted as the start of the response.
+    SetEnv proxy-nokeepalive 1
 
-    DocumentRoot {{ documentroot }}
     SetEnv BANNER /includes/banner_live.html
+    <Location /1.0/>
+        SetEnv BANNER /includes/banner_old.html
+    </Location>
 
     {# Remember: The Directory directive applies only to static files, not to proxied or redirected paths. #}
     <Directory {{ documentroot }}>
@@ -67,13 +75,6 @@
 
         Header set Access-Control-Allow-Origin "*"
     </Directory>
-
-    <Directory {{ documentroot }}legacy/>
-        Options +IncludesNOEXEC
-        AddOutputFilter INCLUDES .html
-    </Directory>
-
-    RewriteMap unescape int:unescape
 
     {% for root, opts in options.items() %}
         <Location {{ root }}/>
@@ -138,24 +139,12 @@
         {% endif %}
 
         {% if opts.cove_backend %}
+            {# /media contains user-submitted content #}
             ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
-            {# /media contains user-submitted content #}
             ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
-            ProxyPass {{ root }}/i18n   {{ opts.cove_backend }}{{ root }}/i18n
-
-            {# This solves a problem - "Convert to Spreadsheet" was working on HTTPS but not HTTP. Fix this by forcing header to be something the CRSF check likes. #}
-            {# When we change HTTPS to force, there will be no HTTP traffic and this block should be removed. #}
-            <Location {{ root }}/review>
-                Header add referer "https://{{ fqdn }}"
-                RequestHeader set referer "https://{{ fqdn }}"
-            </Location>
         {% endfor %}
     {% endfor %}
-
-    <Location /1.0/>
-        SetEnv BANNER /includes/banner_old.html
-    </Location>
 
     # This block applies only to requests that would be proxied to the staging server.
     <Proxy https://staging.standard.open-contracting.org/>
@@ -206,18 +195,14 @@
         RedirectMatch ^/(?!robots\.txt)(?!legacy)(?!schema)([^/]+)/?$ /$1/en/
     </Proxy>
 
-    # With a keepalive, we had problems with headers being interpreted as the start of the response.
-    SetEnv proxy-nokeepalive 1
-
+    # Exceptions, in addition to those for each documentation website above.
     ProxyPass /.well-known/acme-challenge !
     ProxyPass /includes !
     ProxyPass /legacy !
     ProxyPass /robots.txt !
     ProxyPass /switcher !
 
-    # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
-    ProxyPreserveHost Off
-
+    # Proxy everything else.
     ProxyPass / https://staging.standard.open-contracting.org/
 
     {# See https://crm.open-contracting.org/issues/4401 #}
