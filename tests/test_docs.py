@@ -21,7 +21,7 @@ languages = [
 banner_live = [
     ('', ['latest', '1.1']),
     ('/infrastructure', ['latest', '0.9']),
-    ('/profiles/ppp', ['latest']),  # XXX , '1.0'
+    ('/profiles/ppp', ['latest', '1.0']),
 ]
 banner_old = [
     ('', ['1.0']),
@@ -66,7 +66,7 @@ def test_json_charset():
     (root, versions[0]) for root, versions, path in versions
 ])
 def test_add_version(root, version):
-    for suffix in ('/',):  # XXX '',
+    for suffix in ('', '/'):
         r = get('{}{}{}'.format(base_url, root, suffix))
 
         assert r.status_code == 302
@@ -81,7 +81,7 @@ def test_add_language(root, version):
         r = get('{}{}/{}{}'.format(base_url, root, version, suffix))
 
         assert r.status_code == 302
-        assert r.headers['Location'] == '{}{}/{}/en'.format(base_url, root, version)  # XXX /
+        assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
 
 
 def test_version_switcher_legacy():
@@ -214,12 +214,12 @@ def test_banner_staging(root, version):
 
 
 @pytest.mark.parametrize('path, location', [
-    ('/feed', 'http://www.open-contracting.org/feed/'),  # XXX s
-    ('/beta', 'http://www.open-contracting.org/2014/09/04/beta'),  # XXX s
-    ('/project', 'https://standard.open-contracting.org/latest/en'),  # XXX /
+    ('/feed', 'https://www.open-contracting.org/feed/'),
+    ('/beta', 'https://www.open-contracting.org/2014/09/04/beta'),
+    ('/project', 'https://standard.open-contracting.org/latest/en/'),
     ('/validator', 'https://standard.open-contracting.org/review'),
     ('/1.1/es/extensions/community/', 'https://extensions.open-contracting.org/es/extensions/'),
-    # XXX ('/profiles/ppp/1.0/es/extensions/bids/', 'https://extensions.open-contracting.org/es/extensions/bids/'),
+    ('/profiles/ppp/1.0/es/extensions/bids/', 'https://extensions.open-contracting.org/es/extensions/bids/'),
     ('/validator/data/1232ec83-48ac-45cb-923d-1f67701488ef',
      'https://standard.open-contracting.org/review/data/1232ec83-48ac-45cb-923d-1f67701488ef'),
 ])
@@ -234,8 +234,8 @@ def test_redirect(path, location):
     (root, versions[-1]) for root, versions, path in versions
 ])
 def test_add_language_with_development_branch(root, version):
-    for suffix in ('/',):  # XXX '',
+    for suffix in ('', '/'):
         r = get('{}{}/{}{}'.format(base_url, root, version, suffix))
 
         assert r.status_code == 302
-        assert r.headers['Location'] == '{}{}/{}/en'.format(base_url, root, version)  # XXX /
+        assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
