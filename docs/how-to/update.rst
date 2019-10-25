@@ -11,6 +11,16 @@ This allows others to use this repository to, for example, deploy Kingfisher to 
 2. Test changes
 ---------------
 
+Using a virtual machine
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
+#. Update the relevant targets in ``salt-config/roster`` to point to the virtual machine
+#. Deploy to the virtual machine and test
+
+Using a testing virtual host
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 To test changes to the Apache files for the :ref:`ocds-documentation` (for example, to test new redirects or proxy settings):
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
