@@ -39,7 +39,7 @@ remoteip:
       - watch_in:
         - service: apache2
 
-{% macro cove(name, giturl, branch, djangodir, user, uwsgi_port, servername=None, schema_url_ocds=None, app='cove', assets_base_url='') %}
+{% macro cove(name, giturl, branch, djangodir, user, uwsgi_port, servername, app, assets_base_url, schema_url_ocds=None) %}
 
 
 {% set extracontext %}
@@ -64,13 +64,13 @@ schema_url_ocds: null
 {{ apache(user+'.conf',
     name=name+'.conf',
     extracontext=extracontext,
-    servername=servername if servername else branch+'.'+grains.fqdn,
-    serveraliases=[ branch+'.'+grains.fqdn ] if servername else [],
+    servername=servername,
+    serveraliases=[ branch+'.'+grains.fqdn ],
     https=pillar.cove.https) }}
 {% else %}
 {{ apache(user+'.conf',
     name=name+'.conf',
-    servername=servername if servername else 'default',
+    servername=servername,
     extracontext=extracontext) }}
 {% endif %}
 
@@ -110,7 +110,7 @@ schema_url_ocds: null
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
-    - requirements: {{ djangodir }}requirements{{ '_iati' if app=='cove_iati' else '' }}.txt
+    - requirements: {{ djangodir }}requirements.txt
     - require:
       - pkg: cove-deps
       - git: {{ giturl }}{{ djangodir }}
@@ -182,10 +182,10 @@ MAILTO:
     giturl=pillar.cove.giturl if 'giturl' in pillar.cove else giturl,
     branch=pillar.default_branch,
     djangodir='/home/'+user+'/cove/',
-    uwsgi_port=pillar.cove.uwsgi_port if 'uwsgi_port' in pillar.cove else 3031,
-    servername=pillar.cove.servername if 'servername' in pillar.cove else None,
-    app=pillar.cove.app if 'app' in pillar.cove else 'cove',
-    assets_base_url=pillar.cove.assets_base_url if 'assets_base_url' in pillar.cove else '',
+    uwsgi_port=pillar.cove.uwsgi_port,
+    servername=pillar.cove.servername,
+    assets_base_url=pillar.cove.assets_base_url,
+    app=pillar.cove.app,
     user=user) }}
 
 
