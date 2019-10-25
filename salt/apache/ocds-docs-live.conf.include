@@ -24,12 +24,6 @@
     {% set documentroot = '/home/ocds-docs/web/' %}
 
     {% if testing %}
-        {% set fqdn = 'testing.live.standard.open-contracting.org' %}
-    {% else %}
-        {% set fqdn = 'standard.open-contracting.org' %}
-    {% endif %}
-
-    {% if testing %}
         {# Add any configuration specific to the testing virtual host here. #}
     {% else %}
         {# Add any configuration specific to the live virtual host here. #}
