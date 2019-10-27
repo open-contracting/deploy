@@ -86,12 +86,12 @@
         <Location {{ root }}/switcher>
             RewriteEngine on
 
-            {% for versions in stable_sitemap or [None] %}
+            {% for versions in opts.get('stable_sitemap', [None]) %}
                 {% if versions %}
                     # Test that we are switching between versions with the same sitemap.
                     RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})"
                     RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
-                {% end %}
+                {% endif %}
                 # Use the HTTP referer to return to the same page in the new version.
                 RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
                 RewriteRule ^(.*)$ {{ root }}/${unescape:%5}/%3/%4? [R]
@@ -131,13 +131,13 @@
 
         ProxyPass {{ root }}/schema !
 
-        {% if opts.excludes %}
+        {% if 'excludes' in opts %}
             {% for exclude in opts.excludes %}
                 ProxyPass {{ root }}/{{ exclude }} !
             {% endfor %}
         {% endif %}
 
-        {% if opts.cove_backend %}
+        {% if 'cove_backend' in opts %}
             ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
             {# /media contains user-submitted content #}
@@ -150,7 +150,7 @@
                 Header add referer "https://{{ fqdn }}"
                 RequestHeader set referer "https://{{ fqdn }}"
             </Location>
-        {% endfor %}
+        {% endif %}
     {% endfor %}
 
     <Location /1.0/>
@@ -221,7 +221,7 @@
     ProxyPass / https://staging.standard.open-contracting.org/
 
     {# See https://crm.open-contracting.org/issues/4401 #}
-    {% for lang in langs.ocds %}
+    {% for lang in options[''].languages %}
         {% for version in ['latest', '1.1'] %}
             Redirect /{{ version }}/{{ lang }}/extensions/community/            https://extensions.open-contracting.org/{{ lang }}/extensions/
             Redirect /{{ version }}/{{ lang }}/extensions/developing/           https://extensions.open-contracting.org/{{ lang }}/extensions/
@@ -235,7 +235,7 @@
             Redirect /{{ version }}/{{ lang }}/extensions/process_title/        https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
         {% endfor %}
     {% endfor %}
-    {% for lang in langs.ppp %}
+    {% for lang in options['/profiles/ppp'].languages %}
         {% for version in ['latest', '1.0'] %}
             Redirect /profiles/ppp/{{ version }}/{{ lang }}/extensions/bids/                    https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
             Redirect /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget/                  https://extensions.open-contracting.org/{{ lang }}/extensions/budget/
