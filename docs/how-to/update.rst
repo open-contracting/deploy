@@ -11,6 +11,12 @@ This allows others to use this repository to, for example, deploy Kingfisher to 
 2. Test changes
 ---------------
 
+To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
+
+.. code-block:: bash
+
+  salt 'ocds-docs-live' state.apply test=True
+
 To test changes to the Apache files for the :ref:`ocds-documentation` (for example, to test new redirects or proxy settings):
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
