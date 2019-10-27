@@ -11,12 +11,11 @@ This allows others to use this repository to, for example, deploy Kingfisher to 
 2. Test changes
 ---------------
 
-Using a virtual machine
-~~~~~~~~~~~~~~~~~~~~~~~
+To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
 
-#. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
-#. Update the relevant targets in ``salt-config/roster`` to point to the virtual machine
-#. Deploy to the virtual machine and test
+.. code-block:: bash
+
+  salt 'ocds-docs-live' state.apply test=True
 
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,9 +24,24 @@ To test changes to the Apache files for the :ref:`ocds-documentation` (for examp
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
 #. :doc:`Deploy<deploy>` the OCDS Documentation
-#. Visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
+#. To test manually, visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
+#. To test automatically, run (using the fish shell):
 
-Once satisfied, move the changes outside ``{% if testing  %}`` blocks.
+.. code-block:: bash
+
+   pip install -r requirements.txt
+   env FQDN=testing.live.standard.open-contracting.org pytest
+
+Update the tests if you changed the behavior of the Apache files.
+
+Once satisfied, move the changes outside ``{% if testing  %}`` blocks. After deployment, the tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
+
+Using a virtual machine
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
+#. Update the relevant targets in ``salt-config/roster`` to point to the virtual machine
+#. Deploy to the virtual machine and test
 
 3. Review code
 --------------

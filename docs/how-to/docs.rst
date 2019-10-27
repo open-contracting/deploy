@@ -4,7 +4,8 @@ OCDS documentation tasks
 Add a new language
 ------------------
 
-In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language to the ``langs`` variable.
+#. In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language in the ``options`` variable.
+#. In ``tests/test_docs.py``, update the ``languages`` variable.
 
 .. _add-new-profile:
 
@@ -188,9 +189,8 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 If this is the first numbered version of a profile:
 
 #. :ref:`Update salt/ocds-docs/robots_live.txt<add-new-profile>`.
-
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's languages to the ``langs`` variable, and add its latest branch and minor series to the ``profile_versions`` variable.
-
+#. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
+#. In ``tests/test_docs.py``, update the ``versions``, ``languages`` and ``banner_live`` variables.
 #. Add a ``salt/ocds-docs/includes/version-options-profiles-{root}.html`` file to this repository:
 
    .. code-block:: html
@@ -224,10 +224,16 @@ If this is a new major or minor version:
       Disallow: /1.2
       Disallow: /1.2-dev
 
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the documentations's minor series to the appropriate ``*_versions`` variable.
+#. In ``salt/apache/ocds-docs-live.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
 
+   .. code-block:: html
+
+      <Location /1.1/>
+          SetEnv BANNER /includes/banner_old.html
+      </Location>
+
+#. In ``tests/test_docs.py``, update the ``versions``, ``banner_live`` and ``banner_old`` variables.
 #. In the appropriate ``salt/ocds-docs/includes/banner_staging*.html`` file and ``salt/ocds-docs/includes/banner_old*.html>`` file (if any), update the minor series.
-
 #. In the appropriate ``salt/ocds-docs/includes/version-options*.html`` file, add an ``option`` element to the "Live" ``optgroup`` for the previous minor series and previous version number, for example:
 
    .. code-block:: html
