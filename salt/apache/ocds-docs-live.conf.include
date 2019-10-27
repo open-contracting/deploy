@@ -33,7 +33,7 @@
     {% endif %}
 
     {% if testing %}
-        # We want to disallow all in testing only.
+        {# We want to disallow all in testing only. #}
         Alias /robots.txt "/var/www/html/robots.txt"
         <Location "/robots.txt">
             Order allow,deny
@@ -55,15 +55,15 @@
         SetEnv BANNER /includes/banner_old.html
     </Location>
 
-    {# Remember: The Directory directive applies only to static files, not to proxied or redirected paths. #}
+    # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
     <Directory {{ documentroot }}>
         Require all granted
         Options Indexes FollowSymLinks IncludesNOEXEC
         AddOutputFilter INCLUDES .html
 
         {% for root, opts in options.items() %}
-            {# Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc. #}
             # Add an "en" language if not present, to avoid serving a directory listing.
+            # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
             RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
         {% endfor %}
 
@@ -76,12 +76,12 @@
 
     {% for root, opts in options.items() %}
         <Location {{ root or '/' }}>
-            {# The trailing slash is optional, to avoid proxying whether present or absent. #}
             # Add a "latest" version if not present.
+            # The trailing slash is optional, to avoid proxying whether present or absent.
             RedirectMatch ^{{ root }}/?$ {{ root }}/latest/
         </Location>
 
-        {# Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work. #}
+        # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
         <Location {{ root }}/switcher>
             RewriteEngine on
@@ -134,7 +134,7 @@
         {% endfor %}
 
         {% if 'cove_backend' in opts %}
-            {# /media contains user-submitted content #}
+            # /media contains user-submitted content.
             ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
             ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
@@ -184,8 +184,8 @@
         RedirectMatch ^/validator/(.*)$ /review/$1
 
         {% for root, opts in options.items() %}
-            {# This should be identical to the RedirectMatch directive within the Directory directive above. #}
             # Add an "en" language if not present, to avoid serving a directory listing.
+            # This should be identical to the RedirectMatch directive within the Directory directive above.
             RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
         {% endfor %}
     </Proxy>
@@ -198,7 +198,7 @@
     # Proxy everything else.
     ProxyPass / https://staging.standard.open-contracting.org/
 
-    {# See https://crm.open-contracting.org/issues/4401 #}
+    # See: https://crm.open-contracting.org/issues/4401
     {% for lang in options[''].languages %}
         {% for version in ['latest', '1.1'] %}
             Redirect /{{ version }}/{{ lang }}/extensions/community/            https://extensions.open-contracting.org/{{ lang }}/extensions/

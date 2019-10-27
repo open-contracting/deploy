@@ -1,14 +1,12 @@
 # vi: ft=apache
 
-    {% if testing  %}
-        # If you have some config you only want on the testing site, use this ....
-    {% endif %}
-    {% if not testing %}
-        # If you have some config you only want on the live site, use this ....
+    {% if testing %}
+        {# Add any configuration specific to the testing virtual host here. #}
+    {% else %}
+        {# Add any configuration specific to the live virtual host here. #}
     {% endif %}
 
-
-    {% set documentroot='/home/ocds-docs/web/' %}
+    {% set documentroot = '/home/ocds-docs/web' %}
     DocumentRoot {{ documentroot }}
 
     SetEnv BANNER /includes/banner_staging.html
@@ -40,7 +38,7 @@
 
         # If our http referer regex failed for some reason:
         RewriteCond "%{QUERY_STRING}" "^lang=(.+)$"
-        RewriteRule ^{{ documentroot }}(profiles/[^/]*/)?([^/]+)/(.*)$ /$1$2/${unescape:%1}? [R]
+        RewriteRule ^(profiles/[^/]*/)?([^/]+)/(.*)$ /$1$2/${unescape:%1}? [R]
     </LocationMatch>
     <LocationMatch /([^/]*/[^/]*)/404/>
         SetOutputFilter SUBSTITUTE
