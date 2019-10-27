@@ -94,21 +94,21 @@ Then:
 
 Common changed states are:
 
+Function: service.running, ID: apache2
+  Apache was reloaded
+
+For a Django app, common changed states are:
+
 Function: git.latest
   A new commit was deployed
 Function: virtualenv.managed
   This change is a false positive
-Function: service.running, ID: apache2
-  Apache was reloaded
-Function: service.running, ID: uwsgi
-  uWSGI was reloaded
-
-For a Django app, common changed states are:
-
 Function: cmd.run, Name: . .ve/bin/activate; python manage.py migrate --noinput
   Django migrations were applied
 Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --noinput
   Static files were copied
+Function: service.running, ID: uwsgi
+  uWSGI was reloaded
 
 6. Release deploy token
 -----------------------
