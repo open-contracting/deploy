@@ -1,27 +1,30 @@
 # vi: ft=apache
 
+    {# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
     {%
         set options = {
-            '': {
-                'versions': ['latest', '1.1', '1.0'],
-                'languages': ['en', 'es', 'fr', 'it'],
-                'cove_backend': pillar.ocds_cove_backend,
-                'stable_sitemap': [['latest', '1.1', '1.0']],
+            '/profiles/ppp': {
+                'versions': ['latest', '1.0'],
+                'languages': ['en', 'es'],
+                'excludes': ['extension', 'schema'],
             },
             '/infrastructure': {
                 'versions': ['latest', '0.9'],
                 'languages': ['en'],
+                'excludes': ['schema'],
                 'cove_backend': pillar.oc4ids_cove_backend,
             },
-            '/profiles/ppp': {
-                'versions': ['latest', '1.0'],
-                'languages': ['en', 'es'],
-                'excludes': ['extension'],
+            '': {
+                'versions': ['latest', '1.1', '1.0'],
+                'languages': ['en', 'es', 'fr', 'it'],
+                'excludes': ['legacy', 'robots.txt', 'schema'],
+                'cove_backend': pillar.ocds_cove_backend,
+                'stable_sitemap': [['latest', '1.1', '1.0']],
             },
         }
     %}
 
-    {% set documentroot = '/home/ocds-docs/web/' %}
+    {% set documentroot = '/home/ocds-docs/web' %}
 
     {% if testing %}
         {% set fqdn = 'testing.live.standard.open-contracting.org' %}
@@ -56,10 +59,11 @@
         Options Indexes FollowSymLinks IncludesNOEXEC
         AddOutputFilter INCLUDES .html
 
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        RedirectMatch ^/profiles/([^/]+)/(?!schema)(?!extension)([^/]+)/?$ /profiles/$1/$2/en/
-        RedirectMatch ^/infrastructure/(?!schema)([^/]+)/?$ /infrastructure/$1/en/
-        RedirectMatch ^/(?!robots\.txt)(?!legacy)(?!schema)([^/]+)/?$ /$1/en/
+        {% for root, opts in options.items() %}
+            {# Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc. #}
+            # Add an "en" language if not present, to avoid serving a directory listing.
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
+        {% endfor %}
 
         # Serve JSON with UTF-8 charset.
         # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
@@ -68,7 +72,7 @@
         Header set Access-Control-Allow-Origin "*"
     </Directory>
 
-    <Directory {{ documentroot }}legacy/>
+    <Directory {{ documentroot }}/legacy>
         Options +IncludesNOEXEC
         AddOutputFilter INCLUDES .html
     </Directory>
@@ -76,7 +80,8 @@
     RewriteMap unescape int:unescape
 
     {% for root, opts in options.items() %}
-        <Location {{ root }}/>
+        <Location {{ root or '/' }}>
+            {# The trailing slash is optional, to avoid proxying whether present or absent. #}
             # Add a "latest" version if not present.
             RedirectMatch ^{{ root }}/?$ {{ root }}/latest/
         </Location>
@@ -129,13 +134,9 @@
             {% endfor %}
         {% endfor %}
 
-        ProxyPass {{ root }}/schema !
-
-        {% if 'excludes' in opts %}
-            {% for exclude in opts.excludes %}
-                ProxyPass {{ root }}/{{ exclude }} !
-            {% endfor %}
-        {% endif %}
+        {% for exclude in opts.excludes %}
+            ProxyPass {{ root }}/{{ exclude }} !
+        {% endfor %}
 
         {% if 'cove_backend' in opts %}
             ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
@@ -199,11 +200,11 @@
         Redirect /validator /review
         RedirectMatch ^/validator/(.*)$ /review/$1
 
-        {# These should be identical to the RedirectMatch directives within the Directory directive. #}
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        RedirectMatch ^/profiles/([^/]+)/(?!schema)(?!extension)([^/]+)/?$ /profiles/$1/$2/en/
-        RedirectMatch ^/infrastructure/(?!schema)([^/]+)/?$ /infrastructure/$1/en/
-        RedirectMatch ^/(?!robots\.txt)(?!legacy)(?!schema)([^/]+)/?$ /$1/en/
+        {% for root, opts in options.items() %}
+            {# This should be identical to the RedirectMatch directive within the Directory directive above. #}
+            # Add an "en" language if not present, to avoid serving a directory listing.
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
+        {% endfor %}
     </Proxy>
 
     # With a keepalive, we had problems with headers being interpreted as the start of the response.
@@ -211,8 +212,6 @@
 
     ProxyPass /.well-known/acme-challenge !
     ProxyPass /includes !
-    ProxyPass /legacy !
-    ProxyPass /robots.txt !
     ProxyPass /switcher !
 
     # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.

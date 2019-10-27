@@ -67,28 +67,52 @@ def test_json_charset():
 ])
 def test_add_version(root, version):
     for suffix in ('', '/'):
-        r = get('{}{}{}'.format(base_url, root, suffix))
+        r = get('{}{}'.format(base_url, root, suffix))
 
         assert r.status_code == 302
         assert r.headers['Location'] == '{}{}/{}/'.format(base_url, root, version)
 
 
 @pytest.mark.parametrize('root, version', [
-    (root, versions[0]) for root, versions, path in versions
+    (root, version) for root, versions, path in versions for version in versions
 ])
 def test_add_language(root, version):
-    for suffix in ('', '/'):
-        r = get('{}{}/{}{}'.format(base_url, root, version, suffix))
+    r = get('{}{}/{}/'.format(base_url, root, version))
 
-        assert r.status_code == 302
-        assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
+    assert r.status_code == 302
+    assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
+
+
+@pytest.mark.parametrize('root, version', [
+    (root, version) for root, versions, path in versions for version in versions if not version.endswith('-dev')
+])
+def test_add_trailing_slash_per_version(root, version):
+    r = get('{}{}/{}'.format(base_url, root, version))
+
+    assert r.status_code == 301
+    assert r.headers['Location'] == '{}{}/{}/'.format(base_url, root, version)
+
+    r = get('{}{}/{}/en'.format(base_url, root, version))
+
+    assert r.status_code == 301
+    assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
+
+
+@pytest.mark.parametrize('root, lang', [
+    (root, lang) for root, languages, path in languages for lang in languages
+])
+def test_add_trailing_slash_per_lang(root, lang):
+    r = get('{}{}/latest/{}'.format(base_url, root, lang))
+
+    assert r.status_code == 301
+    assert r.headers['Location'] == '{}{}/latest/{}/'.format(base_url, root, lang)
 
 
 def test_version_switcher_legacy():
     r = get(base_url + '/switcher?branch=legacy/r/0__1__0')
 
     assert r.status_code == 302
-    assert r.headers['Location'] == 'https://standard.open-contracting.org/legacy/r/0__1__0'
+    assert r.headers['Location'] == '{}/legacy/r/0__1__0'.format(base_url)
 
 
 def test_version_switcher_legacy_with_referer():
@@ -96,7 +120,7 @@ def test_version_switcher_legacy_with_referer():
             headers={'Referer': base_url + '/latest/es/schema/release/'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == 'https://standard.open-contracting.org/legacy/r/0__1__0'
+    assert r.headers['Location'] == '{}/legacy/r/0__1__0'.format(base_url)
 
 
 @pytest.mark.parametrize('root, version', [
@@ -110,7 +134,7 @@ def test_version_switcher(root, version):
 
 
 @pytest.mark.parametrize('root, version, path', [
-    (root, version, path) for root, versions, path in versions for version in versions
+    (root, version, path) for root, versions, path in versions for version in versions if not version.endswith('-dev')
 ])
 def test_version_switcher_with_referer(root, version, path):
     r = get('{}{}/switcher?branch={}'.format(base_url, root, version),
@@ -216,26 +240,16 @@ def test_banner_staging(root, version):
 @pytest.mark.parametrize('path, location', [
     ('/feed', 'https://www.open-contracting.org/feed/'),
     ('/beta', 'https://www.open-contracting.org/2014/09/04/beta'),
-    ('/project', 'https://standard.open-contracting.org/latest/en/'),
-    ('/validator', 'https://standard.open-contracting.org/review'),
+    ('/project', '{}/latest/en/'.format(base_url)),
+    ('/validator', '{}/review'.format(base_url)),
+    ('/validator/data/1232ec83-48ac-45cb-923d-1f67701488ef',
+     '{}/review/data/1232ec83-48ac-45cb-923d-1f67701488ef'.format(base_url)),
+    # Redirects to extensions.open-contracting.org.
     ('/1.1/es/extensions/community/', 'https://extensions.open-contracting.org/es/extensions/'),
     ('/profiles/ppp/1.0/es/extensions/bids/', 'https://extensions.open-contracting.org/es/extensions/bids/'),
-    ('/validator/data/1232ec83-48ac-45cb-923d-1f67701488ef',
-     'https://standard.open-contracting.org/review/data/1232ec83-48ac-45cb-923d-1f67701488ef'),
 ])
 def test_redirect(path, location):
     r = get(base_url + path)
 
     assert r.status_code == 302
     assert r.headers['Location'] == location
-
-
-@pytest.mark.parametrize('root, version', [
-    (root, versions[-1]) for root, versions, path in versions
-])
-def test_add_language_with_development_branch(root, version):
-    for suffix in ('', '/'):
-        r = get('{}{}/{}{}'.format(base_url, root, version, suffix))
-
-        assert r.status_code == 302
-        assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
