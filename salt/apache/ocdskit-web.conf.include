@@ -1,7 +1,5 @@
     DocumentRoot {{ djangodir }}
 
-    {{ banner }}
-
     <Location "/">
             ProxyPass uwsgi://127.0.0.1:5001/
     </Location>
