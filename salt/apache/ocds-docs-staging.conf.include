@@ -1,111 +1,73 @@
 # vi: ft=apache
 
-    {% if testing  %}
-        # If you have some config you only want on the testing site, use this ....
+    {% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+    {% set documentroot = '/home/ocds-docs/web' %}
+
+    {% if testing %}
+        {# Add any configuration specific to the testing virtual host here. #}
+    {% else %}
+        {# Add any configuration specific to the live virtual host here. #}
     {% endif %}
-    {% if not testing %}
-        # If you have some config you only want on the live site, use this ....
-    {% endif %}
 
-
-    {% set documentroot='/home/ocds-docs/web/' %}
-    DocumentRoot {{ documentroot }}
-
-    SetEnv BANNER /includes/banner_staging.html
-
-    {% set infrastructure_live_versions = ['latest'] %}
-    {% set langs = ['en', 'es', 'fr'] %}
-    {% set langs_ppp = ['en', 'es'] %}
+    # Note: RewriteRule directives match against, e.g. "/home/ocds-docs/web/profiles/ppp/1.0-dev/switcher".
 
     Alias /robots.txt "/var/www/html/robots.txt"
     <Location "/robots.txt">
-            Order allow,deny
-            Allow from all
+        Order allow,deny
+        Allow from all
     </Location>
 
-    <Location /error/404>
-        RewriteEngine on
-        RewriteCond %{THE_REQUEST} "^[^ ]* (/profiles/[^/]*)?(/[^/]*/[^/]*/)"
-        RewriteRule ^(.*)$ %1%2/404/ [L]
-    </Location>
+    DocumentRoot {{ documentroot }}
     RewriteMap unescape int:unescape
-    <LocationMatch /(profiles/[^/]*/)?[^/]+/switcher>
-        RewriteEngine on
-        # Try using the referer to take you back to the same page in the
-        # different version.
-        # We match QUERY_STRING and HTTP_REFERER in the same RewriteCond as
-        # it's only possible to backreference the most recent RewriteCond
-        RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https?://([^/]*)/(profiles/[^/]*/)?([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-        RewriteRule ^(.*)$ /%2%3/${unescape:%6}/%5? [R]
 
-        # If our http referer regex failed for some reason:
-        RewriteCond "%{QUERY_STRING}" "^lang=(.+)$"
-        RewriteRule ^{{ documentroot }}(profiles/[^/]*/)?([^/]+)/(.*)$ /$1$2/${unescape:%1}? [R]
-    </LocationMatch>
-    <LocationMatch /([^/]*/[^/]*)/404/>
-        SetOutputFilter SUBSTITUTE
-        Substitute "s|\"\.\./|\"error_redirect/|i"
-    </LocationMatch>
-    <LocationMatch "(/profiles/[^/]*)?/([^/]*/[^/]*)/(.*/)?error_redirect/(.*)">
-        RewriteEngine on
-        RewriteCond "%{REQUEST_URI}" "(/profiles/[^/]*)?/([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
-        RewriteRule ^(.*)$ %1/%2/%4 [R]
-    </LocationMatch>
-
-    <Location /1.0-dev-fake-old/>
-        SetEnv BANNER /includes/banner_old.html
-    </Location>
-
+    SetEnv BANNER /includes/banner_staging.html
     <Location /profiles/ppp/>
         SetEnv BANNER /includes/banner_staging_profiles_ppp.html
     </Location>
-    <LocationMatch /profiles/ppp/(?!master)>
-        # Inflate and deflate here to ensure that the message is not
-        # compressed when we do the substitution, but is afterwards.
-        # I think this may be adding some extra overhead, but for our
-        # dev site this shouldn't be noticeable.
-        AddOutputFilterByType INFLATE;SUBSTITUTE;DEFLATE text/html
-        Substitute "s|<body([^>]*)>|<body$1><div style=\"background-color:red; color: black; width: 100%; text-align: center; font-weight: bold; position: fixed; right: 0; left: 0; z-index: 1031\">This is a dev copy of these docs.</div>|i"
-    </LocationMatch>
-
-    <Location /infrastructure/switcher>
-        RewriteEngine on
-        # Try using the referer to take you back to the same page in the
-        # different version.
-        # We match QUERY_STRING and HTTP_REFERER in the same RewriteCond as
-        # it's only possible to backreference the most recent RewriteCond
-        RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https?://([^/]*)/infrastructure/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-        RewriteRule ^(.*)$ /infrastructure/${unescape:%5}/%3/%4? [R]
-
-        # If our http referer regex failed for some reason:
-        RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-        RewriteRule ^(.*)$ /infrastructure/${unescape:%1}? [R]
-    </Location>
-
-    {% for infrastructure_version in infrastructure_live_versions %}
-        <Location /infrastructure/{{infrastructure_version}}/switcher>
-            RewriteEngine on
-            # Try using the referer to take you back to the same page in the
-            # different version.
-            # We match QUERY_STRING and HTTP_REFERER in the same RewriteCond as
-            # it's only possible to backreference the most recent RewriteCond
-            RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https?://([^/]*)/infrastructure/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-            RewriteRule ^(.*)$ /infrastructure/{{infrastructure_version}}/${unescape:%5}/%4? [R]
-
-            RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-            RewriteRule ^(.*)$ /infrastructure/{{infrastructure_version}}/${unescape:%1}? [R]
-        </Location>
-    {% endfor %}
 
     <Directory {{ documentroot }}>
         Require all granted
         Options Indexes FollowSymLinks IncludesNOEXEC
         AddOutputFilter INCLUDES .html
-        AddType "application/json;charset=utf-8" .json
-        ErrorDocument 404 /error/404
 
-        # This Header directive is in the Directory section to ensure it only
-        # applies to static files, so there's no risk of XSS.
+        # Serve JSON with UTF-8 charset.
+        # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
+        AddType "application/json; charset=utf-8" .json
+
         Header set Access-Control-Allow-Origin "*"
+
+        ErrorDocument 404 /error/404
     </Directory>
 
+    # We can't set 404 pages for individual branches like on the live server, so we use a RewriteRule directive.
+    # Note: Using REQUEST_URI instead of THE_REQUEST breaks behavior.
+    <Location /error/404>
+        RewriteEngine on
+        RewriteCond "%{THE_REQUEST}" "^GET /{{ pattern }}([^/]*/[^/]*)/"
+        RewriteRule ^.*$ /%1%2/404/ [L]
+    </Location>
+
+    # We can't backreference a LocationMatch regular expression, so we need this intermediate step.
+    # Note: Using ^ or $ anchors breaks behavior.
+    <LocationMatch "/{{ pattern }}[^/]*/[^/]*/404/">
+        SetOutputFilter SUBSTITUTE
+        # This also substitutes URLs for stylesheets, scripts, etc.
+        Substitute "s|\"\.\./|\"error_redirect/|i"
+    </LocationMatch>
+
+    # This also handles requests for stylesheets, scripts, etc.
+    <LocationMatch "^/{{ pattern }}[^/]*/[^/]*/(.*/)?error_redirect/.*$">
+        RewriteEngine on
+        RewriteCond "%{REQUEST_URI}" "^/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
+        RewriteRule ^.*$ https://standard.open-contracting.org/%1%2/%4 [R]
+    </LocationMatch>
+
+    <LocationMatch "^/{{ pattern }}[^/]*/switcher$">
+        RewriteEngine on
+
+        RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
+        RewriteRule ^.*$ https://standard.open-contracting.org/%2%3/${unescape:%6}/%5? [R]
+
+        RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
+        RewriteRule ^{{ documentroot }}/{{ pattern }}([^/]*) https://standard.open-contracting.org/$1$2/${unescape:%1}/? [R]
+    </LocationMatch>

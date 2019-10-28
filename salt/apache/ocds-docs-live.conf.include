@@ -6,7 +6,7 @@
             '/profiles/ppp': {
                 'versions': ['latest', '1.0'],
                 'languages': ['en', 'es'],
-                'excludes': ['extension', 'schema'],
+                'excludes': ['schema', 'extension'],
             },
             '/infrastructure': {
                 'versions': ['latest', '0.9'],
@@ -17,20 +17,15 @@
             '': {
                 'versions': ['latest', '1.1', '1.0'],
                 'languages': ['en', 'es', 'fr', 'it'],
-                'excludes': ['legacy', 'robots.txt', 'schema'],
+                'excludes': ['schema', 'legacy', 'robots.txt'],
                 'cove_backend': pillar.ocds_cove_backend,
                 'stable_sitemap': [['latest', '1.1', '1.0']],
+                'redirect_excludes': ['profiles'],
             },
         }
     %}
 
     {% set documentroot = '/home/ocds-docs/web' %}
-
-    {% if testing %}
-        {% set fqdn = 'testing.live.standard.open-contracting.org' %}
-    {% else %}
-        {% set fqdn = 'standard.open-contracting.org' %}
-    {% endif %}
 
     {% if testing %}
         {# Add any configuration specific to the testing virtual host here. #}
@@ -39,7 +34,7 @@
     {% endif %}
 
     {% if testing %}
-        # We want to disallow all in testing only.
+        {# We want to disallow all in testing only. #}
         Alias /robots.txt "/var/www/html/robots.txt"
         <Location "/robots.txt">
             Order allow,deny
@@ -47,46 +42,48 @@
         </Location>
     {% endif %}
 
+    DocumentRoot {{ documentroot }}
+    RewriteMap unescape int:unescape
+
+    SetEnv BANNER /includes/banner_live.html
+    <Location /1.0/>
+        SetEnv BANNER /includes/banner_old.html
+    </Location>
+
     # Needed to proxy to SSL servers.
     SSLProxyEngine on
+    # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
+    ProxyPreserveHost Off
+    # With a keepalive, we had problems with headers being interpreted as the start of the response.
+    SetEnv proxy-nokeepalive 1
 
-    DocumentRoot {{ documentroot }}
-    SetEnv BANNER /includes/banner_live.html
-
-    {# Remember: The Directory directive applies only to static files, not to proxied or redirected paths. #}
+    # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
     <Directory {{ documentroot }}>
         Require all granted
         Options Indexes FollowSymLinks IncludesNOEXEC
         AddOutputFilter INCLUDES .html
-
-        {% for root, opts in options.items() %}
-            {# Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc. #}
-            # Add an "en" language if not present, to avoid serving a directory listing.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
-        {% endfor %}
 
         # Serve JSON with UTF-8 charset.
         # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
         AddType "application/json; charset=utf-8" .json
 
         Header set Access-Control-Allow-Origin "*"
-    </Directory>
 
-    <Directory {{ documentroot }}/legacy>
-        Options +IncludesNOEXEC
-        AddOutputFilter INCLUDES .html
+        {% for root, opts in options.items() %}
+            # Add an "en" language if not present, to avoid serving a directory listing.
+            # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes + opts.get('redirect_excludes', []) %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+        {% endfor %}
     </Directory>
-
-    RewriteMap unescape int:unescape
 
     {% for root, opts in options.items() %}
         <Location {{ root or '/' }}>
-            {# The trailing slash is optional, to avoid proxying whether present or absent. #}
             # Add a "latest" version if not present.
+            # The trailing slash is optional, to avoid proxying whether present or absent.
             RedirectMatch ^{{ root }}/?$ {{ root }}/latest/
         </Location>
 
-        {# Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work. #}
+        # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
         <Location {{ root }}/switcher>
             RewriteEngine on
@@ -99,12 +96,12 @@
                 {% endif %}
                 # Use the HTTP referer to return to the same page in the new version.
                 RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/${unescape:%5}/%3/%4? [R]
+                RewriteRule ^.*$ {{ root }}/${unescape:%5}/%3/%4? [R]
             {% endfor %}
 
             # If there is no HTTP referer, or if the branch is legacy, go to the version's homepage.
             RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-            RewriteRule ^(.*)$ {{ root }}/${unescape:%1}? [R]
+            RewriteRule ^.*$ {{ root }}/${unescape:%1}/? [R]
         </Location>
 
         {% for version in opts.versions %}
@@ -115,11 +112,11 @@
 
                 # Use the HTTP referer to return to the same page in the new language.
                 RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/%2/${unescape:%5}/%4? [R]
+                RewriteRule ^.*$ {{ root }}/%2/${unescape:%5}/%4? [R]
 
                 # If there is no HTTP referer, go to the version's homepage.
                 RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/{{ version }}/${unescape:%1}? [R]
+                RewriteRule ^.*$ {{ root }}/{{ version }}/${unescape:%1}/? [R]
             </Location>
 
             {% for lang in opts.languages %}
@@ -129,6 +126,7 @@
 
                 <Location {{ root }}/{{ version }}/{{ lang }}/404/>
                     SetOutputFilter SUBSTITUTE
+                    # This also substitutes URLs for stylesheets, scripts, etc.
                     Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
                 </Location>
             {% endfor %}
@@ -139,24 +137,12 @@
         {% endfor %}
 
         {% if 'cove_backend' in opts %}
+            # /media contains user-submitted content.
             ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
-            {# /media contains user-submitted content #}
             ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
-            ProxyPass {{ root }}/i18n   {{ opts.cove_backend }}{{ root }}/i18n
-
-            {# This solves a problem - "Convert to Spreadsheet" was working on HTTPS but not HTTP. Fix this by forcing header to be something the CRSF check likes. #}
-            {# When we change HTTPS to force, there will be no HTTP traffic and this block should be removed. #}
-            <Location {{ root }}/review>
-                Header add referer "https://{{ fqdn }}"
-                RequestHeader set referer "https://{{ fqdn }}"
-            </Location>
         {% endif %}
     {% endfor %}
-
-    <Location /1.0/>
-        SetEnv BANNER /includes/banner_old.html
-    </Location>
 
     # This block applies only to requests that would be proxied to the staging server.
     <Proxy https://staging.standard.open-contracting.org/>
@@ -201,25 +187,21 @@
         RedirectMatch ^/validator/(.*)$ /review/$1
 
         {% for root, opts in options.items() %}
-            {# This should be identical to the RedirectMatch directive within the Directory directive above. #}
             # Add an "en" language if not present, to avoid serving a directory listing.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
+            # This should be identical to the RedirectMatch directive within the Directory directive above.
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes + opts.get('redirect_excludes', []) %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
         {% endfor %}
     </Proxy>
 
-    # With a keepalive, we had problems with headers being interpreted as the start of the response.
-    SetEnv proxy-nokeepalive 1
-
+    # Exceptions, in addition to those for each documentation website above.
     ProxyPass /.well-known/acme-challenge !
     ProxyPass /includes !
     ProxyPass /switcher !
 
-    # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
-    ProxyPreserveHost Off
-
+    # Proxy everything else.
     ProxyPass / https://staging.standard.open-contracting.org/
 
-    {# See https://crm.open-contracting.org/issues/4401 #}
+    # See: https://crm.open-contracting.org/issues/4401
     {% for lang in options[''].languages %}
         {% for version in ['latest', '1.1'] %}
             Redirect /{{ version }}/{{ lang }}/extensions/community/            https://extensions.open-contracting.org/{{ lang }}/extensions/
