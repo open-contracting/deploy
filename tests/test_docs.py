@@ -272,3 +272,11 @@ def test_redirect(path, location):
 
     assert r.status_code == 302
     assert r.headers['Location'] == location
+
+
+@pytest.mark.parametrize('suffix', ['', '/'])
+def test_profiles(suffix):
+    r = get('{}/profiles{}'.format(base_url, suffix))
+
+    assert r.status_code == 200
+    assert 'Parent Directory' in r.text

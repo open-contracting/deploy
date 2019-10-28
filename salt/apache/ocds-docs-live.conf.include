@@ -20,6 +20,7 @@
                 'excludes': ['schema', 'legacy', 'robots.txt'],
                 'cove_backend': pillar.ocds_cove_backend,
                 'stable_sitemap': [['latest', '1.1', '1.0']],
+                'redirect_excludes': ['profiles'],
             },
         }
     %}
@@ -71,7 +72,7 @@
         {% for root, opts in options.items() %}
             # Add an "en" language if not present, to avoid serving a directory listing.
             # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes + opts.get('redirect_excludes', []) %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
         {% endfor %}
     </Directory>
 
@@ -188,7 +189,7 @@
         {% for root, opts in options.items() %}
             # Add an "en" language if not present, to avoid serving a directory listing.
             # This should be identical to the RedirectMatch directive within the Directory directive above.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes + opts.get('redirect_excludes', []) %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
         {% endfor %}
     </Proxy>
 
