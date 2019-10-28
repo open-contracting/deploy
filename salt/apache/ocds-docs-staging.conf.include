@@ -62,7 +62,7 @@
         RewriteRule ^.*$ https://standard.open-contracting.org/%1%2/%4 [R]
     </LocationMatch>
 
-    <LocationMatch "^/{{ pattern }}[^/]*/switcher$">
+    <LocationMatch "^/{{ pattern }}[^/]*/switcher/?$">
         RewriteEngine on
 
         RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
