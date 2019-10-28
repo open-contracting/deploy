@@ -27,12 +27,7 @@ OCDS Documentation
 Version and language switchers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The version switcher links to a ``/switcher`` URL path with a ``branch`` URL parameter. The language switcher links to a ``/{version}/switcher`` URL path with a ``lang`` URL parameter. These are redirected by Apache (you can search for ``/switcher`` in its config files). To switch languages, Apache needs to know which versions exist, which are indicated by the Salt variables ``live_versions``, ``profiles`` and ``infrastructure_live_versions``.
-
-Redirects to Extension Explorer
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Extension documentation pages were moved as part of OCDS 1.1.4. The former locations are redirected by Apache (you can search for ``extensions.open-contracting.org`` in its config files). To do so, Apache needs to know which languages are available, which are indicated by the Salt variables ``langs`` and ``langs_ppp``.
+The version switcher links to a ``/switcher`` URL path with a ``branch`` URL parameter. The language switcher links to a ``/{version}/switcher`` URL path with a ``lang`` URL parameter. These are redirected by Apache (you can search for ``/switcher`` in its config files).
 
 Search API
 ~~~~~~~~~~
