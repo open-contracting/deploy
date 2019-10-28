@@ -30,6 +30,7 @@ base:
   'ocdskit-web':
      - live_pillar
      - ocdskit_web_pillar
+     - private.toucan_pillar
 
   'ocds-kingfisher-archive':
      - live_pillar
