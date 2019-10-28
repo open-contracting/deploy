@@ -12,7 +12,7 @@ On macOS, using Homebrew, install Salt and Salt SSH with:
 
 If you encounter issues, try installing with pip:
 
-.. code-block::bash
+.. code-block:: bash
 
     pip install salt salt-ssh
 
