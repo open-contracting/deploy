@@ -27,9 +27,9 @@ base:
      - live_pillar
      - private.ocds_redash_pillar
 
-  'ocdskit-web':
+  'toucan':
      - live_pillar
-     - ocdskit_web_pillar
+     - toucan_pillar
      - private.toucan_pillar
 
   'ocds-kingfisher-archive':

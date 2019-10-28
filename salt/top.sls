@@ -37,8 +37,8 @@ base:
     - ocds-redash
     - prometheus-client-nginx
 
-  'ocdskit-web':
-    - ocdskit-web
+  'toucan':
+    - toucan
     - prometheus-client-apache
 
   'ocds-kingfisher-archive':
