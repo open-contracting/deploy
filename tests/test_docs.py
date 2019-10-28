@@ -274,6 +274,15 @@ def test_banner_staging(root, version):
         assert '<a href="{}/latest/en/">'.format(root) in r.text
 
 
+def test_banner_staging_profiles(root, version):
+    r = get(base_url + '/profiles/gpa/master/en/')
+
+    assert r.status_code == 200
+    assert 'This profile is in development ' in r.txt
+    assert 'This is an old version of ' not in r.text
+    assert 'This is a development copy of ' not in r.text
+
+
 @pytest.mark.parametrize('path, location', [
     ('/feed', 'https://www.open-contracting.org/feed/'),
     ('/beta', 'https://www.open-contracting.org/2014/09/04/beta'),
