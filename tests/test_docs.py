@@ -4,19 +4,20 @@ from urllib.parse import urlparse
 import pytest
 import requests
 
-base_url = 'https://' + os.environ.get('FQDN', 'standard.open-contracting.org')
+fqdn = os.environ.get('FQDN', 'standard.open-contracting.org')
+base_url = 'https://' + fqdn
 
-versions = [
-    ('', ['latest', '1.0', '1.1-dev'], '/es/schema/release/'),
-    ('/infrastructure', ['latest', '0.9-dev'], '/en/reference/schema/'),
-    ('/profiles/ppp', ['latest', '1.0-dev'], '/es/reference/schema/'),
-]
+versions = {
+    '': (['latest', '1.0', '1.1-dev'], '/es/schema/release/'),
+    '/infrastructure': (['latest', '0.9-dev'], '/en/reference/schema/'),
+    '/profiles/ppp': (['latest', '1.0-dev'], '/es/reference/schema/'),
+}
 
-languages = [
-    ('', ['en', 'es', 'fr', 'it'], '/schema/release/'),
-    ('/infrastructure', ['en'], '/reference/schema/'),
-    ('/profiles/ppp', ['en', 'es'], '/reference/schema/'),
-]
+languages = {
+    '': (['en', 'es', 'fr', 'it'], '/schema/release/'),
+    '/infrastructure': (['en'], '/reference/schema/'),
+    '/profiles/ppp': (['en', 'es'], '/reference/schema/'),
+}
 
 banner_live = [
     ('', ['latest', '1.1']),
@@ -63,7 +64,7 @@ def test_json_charset():
 
 
 @pytest.mark.parametrize('root, version', [
-    (root, versions[0]) for root, versions, path in versions
+    (root, vers[0]) for root, (vers, path) in versions.items()
 ])
 def test_add_version(root, version):
     for suffix in ('', '/'):
@@ -74,45 +75,34 @@ def test_add_version(root, version):
 
 
 @pytest.mark.parametrize('root, version', [
-    (root, version) for root, versions, path in versions for version in versions
+    (root, version) for root, (vers, path) in versions.items() for version in vers
 ])
 def test_add_language(root, version):
-    r = get('{}{}/{}/'.format(base_url, root, version))
+    for suffix in ('', '/'):
+        r = get('{}{}/{}{}'.format(base_url, root, version, suffix))
 
-    assert r.status_code == 302
-    assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
+        assert r.status_code == 302
+        assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
 
 
-@pytest.mark.parametrize('root, version', [
-    (root, version) for root, versions, path in versions for version in versions if not version.endswith('-dev')
+@pytest.mark.parametrize('root, version, lang', [
+    (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
+    for version in versions[root][0] if version != '1.0' or lang != 'it'  # OCDS 1.0 isn't available in IT
 ])
-def test_add_trailing_slash_per_version(root, version):
-    r = get('{}{}/{}'.format(base_url, root, version))
+def test_add_trailing_slash_per_lang(root, version, lang):
+    r = get('{}{}/{}/{}'.format(base_url, root, version, lang))
 
-    assert r.status_code == 301
-    assert r.headers['Location'] == '{}{}/{}/'.format(base_url, root, version)
-
-    r = get('{}{}/{}/en'.format(base_url, root, version))
-
-    assert r.status_code == 301
-    assert r.headers['Location'] == '{}{}/{}/en/'.format(base_url, root, version)
-
-
-@pytest.mark.parametrize('root, lang', [
-    (root, lang) for root, languages, path in languages for lang in languages
-])
-def test_add_trailing_slash_per_lang(root, lang):
-    r = get('{}{}/latest/{}'.format(base_url, root, lang))
-
-    assert r.status_code == 301
-    assert r.headers['Location'] == '{}{}/latest/{}/'.format(base_url, root, lang)
+    # With DirectorySlash On, development branches get redirected to staging.open-contracting.org.
+    if not version.endswith('-dev'):
+        assert r.status_code == 301
+        assert r.headers['Location'] == '{}{}/{}/{}/'.format(base_url, root, version, lang)
 
 
 def test_version_switcher_legacy():
     r = get(base_url + '/switcher?branch=legacy/r/0__1__0')
 
     assert r.status_code == 302
-    assert r.headers['Location'] == '{}/legacy/r/0__1__0'.format(base_url)
+    assert r.headers['Location'] == '{}/legacy/r/0__1__0/'.format(base_url)
 
 
 def test_version_switcher_legacy_with_referer():
@@ -120,59 +110,85 @@ def test_version_switcher_legacy_with_referer():
             headers={'Referer': base_url + '/latest/es/schema/release/'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == '{}/legacy/r/0__1__0'.format(base_url)
+    assert r.headers['Location'] == '{}/legacy/r/0__1__0/'.format(base_url)
 
 
 @pytest.mark.parametrize('root, version', [
-    (root, version) for root, versions, path in versions for version in versions
+    (root, version) for root, (vers, path) in versions.items() for version in vers
 ])
 def test_version_switcher(root, version):
     r = get('{}{}/switcher?branch={}'.format(base_url, root, version))
 
     assert r.status_code == 302
-    assert r.headers['Location'] == '{}{}/{}'.format(base_url, root, version)
+    assert r.headers['Location'] == '{}{}/{}/'.format(base_url, root, version)
 
 
 @pytest.mark.parametrize('root, version, path', [
-    (root, version, path) for root, versions, path in versions for version in versions if not version.endswith('-dev')
+    (root, version, path) for root, (vers, path) in versions.items() for version in vers
 ])
 def test_version_switcher_with_referer(root, version, path):
     r = get('{}{}/switcher?branch={}'.format(base_url, root, version),
             headers={'Referer': '{}{}/latest{}'.format(base_url, root, path)})
 
-    assert r.status_code == 302
-    assert r.headers['Location'] == '{}{}/{}{}'.format(base_url, root, version, path)
-
-
-@pytest.mark.parametrize('root, lang', [
-    (root, lang) for root, languages, path in languages for lang in languages
-])
-def test_language_switcher(root, lang):
-    r = get('{}{}/latest/switcher?lang={}'.format(base_url, root, lang))
+    if root == '' and version.endswith('-dev'):  # unstable sitemap
+        expected = '{}{}/{}/'.format(base_url, root, version)
+    else:
+        expected = '{}{}/{}{}'.format(base_url, root, version, path)
 
     assert r.status_code == 302
-    assert r.headers['Location'] == '{}{}/latest/{}'.format(base_url, root, lang)
+    assert r.headers['Location'] == expected
 
 
-@pytest.mark.parametrize('root, lang, path', [
-    (root, lang, path) for root, languages, path in languages for lang in languages
+@pytest.mark.parametrize('root, version, lang', [
+    (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
+    for version in versions[root][0]
 ])
-def test_language_switcher_with_referer(root, lang, path):
-    r = get('{}{}/latest/switcher?lang={}'.format(base_url, root, lang),
-            headers={'Referer': '{}{}/latest/en{}'.format(base_url, root, path)})
+def test_language_switcher(root, version, lang):
+    r = get('{}{}/{}/switcher?lang={}'.format(base_url, root, version, lang))
 
     assert r.status_code == 302
-    assert r.headers['Location'] == '{}{}/latest/{}{}'.format(base_url, root, lang, path)
+    assert r.headers['Location'] == '{}{}/{}/{}/'.format(base_url, root, version, lang)
 
 
-@pytest.mark.parametrize('root, lang', [
-    (root, lang) for root, languages, path in languages for lang in languages
+@pytest.mark.parametrize('root, version, lang, path', [
+    (root, version, lang, path) for root, (langs, path) in languages.items() for lang in langs
+    for version in versions[root][0]
 ])
-def test_404(root, lang):
-    r = get('{}{}/latest/{}/path/to/nonexistent/'.format(base_url, root, lang))
+def test_language_switcher_with_referer(root, version, lang, path):
+    r = get('{}{}/{}/switcher?lang={}'.format(base_url, root, version, lang),
+            headers={'Referer': '{}{}/{}/en{}'.format(base_url, root, version, path)})
+
+    assert r.status_code == 302
+    assert r.headers['Location'] == '{}{}/{}/{}{}'.format(base_url, root, version, lang, path)
+
+
+@pytest.mark.parametrize('root, version, lang', [
+    (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
+    for version in versions[root][0] if version != '1.0' or lang != 'it'  # OCDS 1.0 isn't available in IT
+])
+def test_custom_404(root, version, lang):
+    r = get('{}{}/{}/{}/path/to/nonexistent/'.format(base_url, root, version, lang))
+
+    if version.endswith('-dev'):
+        expected = '"error_redirect/"'
+    else:
+        expected = '"{}/{}/{}/"'.format(root, version, lang)
 
     assert r.status_code == 404
-    assert '"{}/latest/{}/"'.format(root, lang) in r.text
+    assert expected in r.text
+
+    if version.endswith('-dev'):
+        r = get('{}{}/{}/{}/path/to/nonexistent/error_redirect/'.format(base_url, root, version, lang))
+
+        assert r.status_code == 302
+        assert r.headers['Location'] == '{}{}/{}/{}/'.format(base_url, root, version, lang)
+
+
+def test_default_404():
+    r = get(base_url + '/latest/eo/')
+
+    assert r.status_code == 404
+    assert 'at {} '.format(fqdn) in r.text
 
 
 # As long as no branch is named "schema" or "extension", this also serves to test no proxy.
@@ -227,7 +243,7 @@ def test_banner_old(root, version):
 
 
 @pytest.mark.parametrize('root, version', [
-    (root, versions[-1]) for root, versions, path in versions
+    (root, vers[-1]) for root, (vers, path) in versions.items()
 ])
 def test_banner_staging(root, version):
     r = get('{}{}/{}/en/'.format(base_url, root, version))
@@ -235,6 +251,9 @@ def test_banner_staging(root, version):
     assert r.status_code == 200
     assert 'This is an old version of ' not in r.text
     assert 'This is a development copy of ' in r.text
+
+    if root != '/infrastructure':  # OC4IDS doesn't have its own banner
+        assert '<a href="{}/latest/en/">'.format(root) in r.text
 
 
 @pytest.mark.parametrize('path, location', [

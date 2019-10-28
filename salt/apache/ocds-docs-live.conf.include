@@ -6,7 +6,7 @@
             '/profiles/ppp': {
                 'versions': ['latest', '1.0'],
                 'languages': ['en', 'es'],
-                'excludes': ['extension', 'schema'],
+                'excludes': ['schema', 'extension'],
             },
             '/infrastructure': {
                 'versions': ['latest', '0.9'],
@@ -17,7 +17,7 @@
             '': {
                 'versions': ['latest', '1.1', '1.0'],
                 'languages': ['en', 'es', 'fr', 'it'],
-                'excludes': ['legacy', 'robots.txt', 'schema'],
+                'excludes': ['schema', 'legacy', 'robots.txt'],
                 'cove_backend': pillar.ocds_cove_backend,
                 'stable_sitemap': [['latest', '1.1', '1.0']],
             },
@@ -43,6 +43,12 @@
 
     DocumentRoot {{ documentroot }}
     RewriteMap unescape int:unescape
+
+    SetEnv BANNER /includes/banner_live.html
+    <Location /1.0/>
+        SetEnv BANNER /includes/banner_old.html
+    </Location>
+
     # Needed to proxy to SSL servers.
     SSLProxyEngine on
     # ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
@@ -50,28 +56,23 @@
     # With a keepalive, we had problems with headers being interpreted as the start of the response.
     SetEnv proxy-nokeepalive 1
 
-    SetEnv BANNER /includes/banner_live.html
-    <Location /1.0/>
-        SetEnv BANNER /includes/banner_old.html
-    </Location>
-
     # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
     <Directory {{ documentroot }}>
         Require all granted
         Options Indexes FollowSymLinks IncludesNOEXEC
         AddOutputFilter INCLUDES .html
 
-        {% for root, opts in options.items() %}
-            # Add an "en" language if not present, to avoid serving a directory listing.
-            # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
-        {% endfor %}
-
         # Serve JSON with UTF-8 charset.
         # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
         AddType "application/json; charset=utf-8" .json
 
         Header set Access-Control-Allow-Origin "*"
+
+        {% for root, opts in options.items() %}
+            # Add an "en" language if not present, to avoid serving a directory listing.
+            # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+        {% endfor %}
     </Directory>
 
     {% for root, opts in options.items() %}
@@ -94,12 +95,12 @@
                 {% endif %}
                 # Use the HTTP referer to return to the same page in the new version.
                 RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/${unescape:%5}/%3/%4? [R]
+                RewriteRule ^.*$ {{ root }}/${unescape:%5}/%3/%4? [R]
             {% endfor %}
 
             # If there is no HTTP referer, or if the branch is legacy, go to the version's homepage.
             RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-            RewriteRule ^(.*)$ {{ root }}/${unescape:%1}? [R]
+            RewriteRule ^.*$ {{ root }}/${unescape:%1}/? [R]
         </Location>
 
         {% for version in opts.versions %}
@@ -110,11 +111,11 @@
 
                 # Use the HTTP referer to return to the same page in the new language.
                 RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/%2/${unescape:%5}/%4? [R]
+                RewriteRule ^.*$ {{ root }}/%2/${unescape:%5}/%4? [R]
 
                 # If there is no HTTP referer, go to the version's homepage.
                 RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-                RewriteRule ^(.*)$ {{ root }}/{{ version }}/${unescape:%1}? [R]
+                RewriteRule ^.*$ {{ root }}/{{ version }}/${unescape:%1}/? [R]
             </Location>
 
             {% for lang in opts.languages %}
@@ -124,6 +125,7 @@
 
                 <Location {{ root }}/{{ version }}/{{ lang }}/404/>
                     SetOutputFilter SUBSTITUTE
+                    # This also substitutes URLs for stylesheets, scripts, etc.
                     Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
                 </Location>
             {% endfor %}
@@ -186,7 +188,7 @@
         {% for root, opts in options.items() %}
             # Add an "en" language if not present, to avoid serving a directory listing.
             # This should be identical to the RedirectMatch directive within the Directory directive above.
-            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/$ {{ root }}/$1/en/
+            RedirectMatch ^{{ root }}/{% for exclude in opts.excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
         {% endfor %}
     </Proxy>
 
