@@ -92,10 +92,28 @@ def test_add_language(root, version):
 def test_add_trailing_slash_per_lang(root, version, lang):
     r = get('{}{}/{}/{}'.format(base_url, root, version, lang))
 
-    # With DirectorySlash On, development branches get redirected to staging.open-contracting.org.
-    if not version.endswith('-dev'):
+    # With DirectorySlash On, development branches get redirected to staging server.
+    if version.endswith('-dev'):
+        assert r.status_code == 301
+        assert r.headers['Location'] == 'https://staging.standard.open-contracting.org{}/{}/{}/'.format(root, version, lang)  # noqa
+    else:
         assert r.status_code == 301
         assert r.headers['Location'] == '{}{}/{}/{}/'.format(base_url, root, version, lang)
+
+
+def test_add_trailing_slash_to_profiles():
+    r = get(base_url + '/profiles')
+
+    # With DirectorySlash On, development branches get redirected to staging server.
+    assert r.status_code == 301
+    assert r.headers['Location'] == 'https://staging.standard.open-contracting.org/profiles/'
+
+
+def test_profiles():
+    r = get(base_url + '/profiles/')
+
+    assert r.status_code == 200
+    assert 'Parent Directory' in r.text
 
 
 def test_version_switcher_legacy():
@@ -272,11 +290,3 @@ def test_redirect(path, location):
 
     assert r.status_code == 302
     assert r.headers['Location'] == location
-
-
-@pytest.mark.parametrize('suffix', ['', '/'])
-def test_profiles(suffix):
-    r = get('{}/profiles{}'.format(base_url, suffix))
-
-    assert r.status_code == 200
-    assert 'Parent Directory' in r.text
