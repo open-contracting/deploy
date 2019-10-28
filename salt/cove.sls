@@ -27,9 +27,6 @@ cove-deps:
         - python-virtualenv
         - uwsgi-plugin-python3
         - gettext
-          {% if 'iati' in pillar.cove and pillar.cove.iati %}
-        - python3-dev
-          {% endif %}
       - watch_in:
         - service: apache2
         - service: uwsgi
