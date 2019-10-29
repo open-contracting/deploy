@@ -143,7 +143,7 @@ Set environment variables, for example:
 
 For a profile, set ``SUBDIR`` to, for example, ``profiles/ppp/``. For OC4IDS, set it to ``infrastructure/``.
 
-For the OCDS and OC4IDS documentation, run:
+For the **OCDS** and **OC4IDS** documentation, run:
 
 .. code-block:: bash
 
@@ -155,12 +155,12 @@ For the OCDS and OC4IDS documentation, run:
    cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/codelists /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
 
    # Create a ZIP file of the above.
-   cd /home/ocds-docs/web/schema/
+   cd /home/ocds-docs/web/${SUBDIR}schema/
    zip -r ${RELEASE}.zip ${RELEASE}
 
 The files are then visible at e.g. https://standard.open-contracting.org/schema/1__1__1/.
 
-For a profile's documentation, run:
+For a **profile's** documentation, run:
 
 .. code-block:: bash
 
