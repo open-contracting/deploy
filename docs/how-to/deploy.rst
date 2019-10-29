@@ -112,13 +112,18 @@ Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --no
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 
-6. Release deploy token
+6. Manual cleanup
+-----------------
+
+#. If you changed ``ServerName``, you can remove the SSL certificates for the old value in ``/etc/letsencrypt/live``.
+
+7. Release deploy token
 -----------------------
 
 #. Go to the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page
 #. Click "Edit", replace your name with "nobody", add an entry under History, and click "Save"
 
-7. Close the secondary terminal
+8. Close the secondary terminal
 -------------------------------
 
 #. Stop watching the processes, e.g. with ``Ctrl-C``
