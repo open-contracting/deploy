@@ -117,7 +117,7 @@
         socket_name: {{ socket_name }}
         includefile: {{ name }}.include
         servername: {{ servername }}
-        serveraliases: {{ serveraliases }}
+        serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         {{ extracontext | indent(8) }}
 
@@ -154,7 +154,7 @@
     - context:
         socket_name: {{ socket_name }}
         servername: {{ servername }}
-        serveraliases: {{ serveraliases }}
+        serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         includefile: "/etc/apache2/sites-available/{{ name }}.include"
       {% if 'banner_message' in pillar %}
