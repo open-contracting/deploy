@@ -93,8 +93,8 @@ Set environment variables, for example:
 
 .. code-block:: bash
 
-   SUBDIR=          # leave empty for OCDS documentation
-   VER=1.1          # set to the branch to deploy
+   SUBDIR=          # include a trailing slash (leave empty for OCDS documentation)
+   VER=1.1          # set to the branch to deploy (not to the tag)
    DATE=$(date +%F) # assuming the build completed today; otherwise, set accordingly
    SEQ=1            # increment for each deploy on the same day
 
@@ -104,13 +104,13 @@ Copy files from the staging server to your local machine:
 
 .. code-block:: bash
 
-   scp -r root@staging.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}${VER} ${VER}-${DATE}-${SEQ}
+   rsync -avP root@staging.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}${VER}/ ${VER}-${DATE}-${SEQ}
 
 Copy files from your local machine to the live server:
 
 .. code-block:: bash
 
-   scp -r ${VER}-${DATE}-${SEQ} root@live.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}
+   rsync -avP ${VER}-${DATE}-${SEQ} root@live.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}/
 
 Symlink the branch:
 
@@ -137,7 +137,7 @@ Set environment variables, for example:
 
 .. code-block:: bash
 
-   SUBDIR=          # leave empty for OCDS documentation
+   SUBDIR=          # include a trailing slash (leave empty for OCDS documentation)
    VER=1.1          # set to the branch as above
    RELEASE=1__1__1  # set to the full release tag name
 
