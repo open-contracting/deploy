@@ -1,3 +1,6 @@
+# Toucan used to be named ocdskit-web. We have not yet changed occurrences of r'ocskit.web' where a simple rename would
+# cause a doubling of users, directories, config files, etc.
+
 {% from 'lib.sls' import createuser, private_keys, apache, uwsgi %}
 
 include:
@@ -10,7 +13,7 @@ include:
 {% set user = 'ocdskit-web' %}
 {{ createuser(user) }}
 
-ocdskit-web-deps:
+toucan-deps:
     apache_module.enabled:
       - name: proxy proxy_uwsgi
       - watch_in:
@@ -25,11 +28,11 @@ ocdskit-web-deps:
         - service: apache2
         - service: uwsgi
 
-{% set giturl = 'https://github.com/open-contracting/ocdskit-web.git' %}
+{% set giturl = 'https://github.com/open-contracting/toucan.git' %}
 {% set userdir = '/home/' + user %}
 {% set ocdskitwebdir = userdir + '/ocdskit-web/' %}
 
-{% macro ocdskit_web(name, branch, giturl, user, servername, https='') %}
+{% macro toucan(name, branch, giturl, user, servername, https='') %}
 
 {% set djangodir='/home/'+user+'/'+name+'/' %}
 
@@ -72,7 +75,7 @@ bare_name: {{ name }}
     - system_site_packages: False
     - pip_pkgs: pip==8.1.2
     - require:
-      - pkg: ocdskit-web-deps
+      - pkg: toucan-deps
       - git: {{ giturl }}{{ djangodir }}
 
 # Then install the rest of our requirements
@@ -139,9 +142,9 @@ collectstatic-{{name}}:
 
 {% endmacro %}
 
-{{ ocdskit_web(
+{{ toucan(
     name='ocdskit-web',
-    branch=pillar.ocdskit_web.default_branch,
+    branch=pillar.toucan.default_branch,
     giturl=giturl,
     user=user,
     servername='toucan.open-contracting.org',
