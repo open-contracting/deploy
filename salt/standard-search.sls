@@ -75,9 +75,9 @@ elasticsearch:
     - template: jinja
 
 
-{% macro standard_search(name, branch, giturl, user, servername, https, serveraliases=[]) %}
-
-{% set djangodir='/home/'+user+'/'+name+'/' %}
+{% set name = 'ocds-search' %}
+{% set branch = 'master' %}
+{% set djangodir = '/home/' + user + '/' + name + '/' %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
@@ -85,15 +85,15 @@ branch: {{ branch }}
 bare_name: {{ name }}
 {% endset %}
 
-{{ apache(user+'.conf',
-    name=name+'.conf',
-    https=https,
-    servername=servername,
-    serveraliases=serveraliases,
+{{ apache(user + '.conf',
+    name=name + '.conf',
+    https='yes',
+    servername='standard-search.open-contracting.org',
+    serveraliases=['www.live.standard-search.opencontracting.uk0.bigv.io'],
     extracontext=extracontext) }}
 
-{{ uwsgi(user+'.ini',
-    name=name+'.ini',
+{{ uwsgi(user + '.ini',
+    name=name + '.ini',
     extracontext=extracontext) }}
 
 {{ giturl }}{{ djangodir }}:
@@ -135,7 +135,7 @@ bare_name: {{ name }}
     - watch_in:
       - service: apache2
 
-migrate-{{name}}:
+migrate-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; python manage.py migrate --noinput
     - user: {{ user }}
@@ -145,7 +145,7 @@ migrate-{{name}}:
     - onchanges:
       - git: {{ giturl }}{{ djangodir }}
 
-#compilemessages-{{name}}:
+#compilemessages-{{ name }}:
 #  cmd.run:
 #    - name: . .ve/bin/activate; python manage.py compilemessages
 #    - user: {{ user }}
@@ -155,7 +155,7 @@ migrate-{{name}}:
 #    - onchanges:
 #      - git: {{ giturl }}{{ djangodir }}
 
-collectstatic-{{name}}:
+collectstatic-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; python manage.py collectstatic --noinput
     - user: {{ user }}
@@ -172,7 +172,7 @@ collectstatic-{{name}}:
     - recurse:
       - mode
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
 
@@ -180,20 +180,6 @@ collectstatic-{{name}}:
   file.directory:
     - dir_mode: 755
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
-
-{% endmacro %}
-
-
-{{ standard_search(
-    name='ocds-search',
-    branch='master',
-    giturl=giturl,
-    user=user,
-    servername='standard-search.open-contracting.org',
-    serveraliases=['www.live.standard-search.opencontracting.uk0.bigv.io'],
-    https='yes'
-) }}
-
