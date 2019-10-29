@@ -221,6 +221,12 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - user: {{ user }}
     - minute: 0,15,30,45
 
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli process-redis-queue-collection-store-finished --runforseconds 3540:
+  cron.present:
+    - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE_COLLECTION_STORE_FINISHED
+    - user: {{ user }}
+    - minute: 0
+
 cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli check-collections --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_CHECK_COLLECTIONS

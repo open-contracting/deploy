@@ -1,2 +1,2 @@
-ocdskit_web:
+toucan:
   default_branch: 'master'
