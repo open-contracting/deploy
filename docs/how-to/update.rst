@@ -91,7 +91,7 @@ Delete a package
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' pkg.purge icinga2 nagios-plugins nagios-plugins-contrib
+   salt-ssh 'ocds-docs-staging' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
    salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
    salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
 
