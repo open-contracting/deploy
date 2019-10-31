@@ -1,5 +1,5 @@
 # See https://cove.readthedocs.io/en/latest/deployment/
-{% from 'lib.sls' import createuser, apache, uwsgi %}
+{% from 'lib.sls' import createuser, apache, uwsgi, django %}
 
 {% set user = 'cove' %}
 {{ createuser(user) }}
@@ -76,90 +76,7 @@ schema_url_ocds: null
     extracontext=extracontext,
     port=uwsgi_port) }}
 
-{{ giturl }}{{ djangodir }}:
-  git.latest:
-    - name: {{ giturl }}
-    - rev: {{ branch }}
-    - target: {{ djangodir }}
-    - user: {{ user }}
-    - force_fetch: True
-    - force_reset: True
-    - require:
-      - pkg: git
-    - watch_in:
-      - service: uwsgi
-
-# We have seen different permissions on different servers and we have seen bugs arise due to problems with the permissions.
-# Make sure the user and permissions are set correctly for the media folder and all it's contents!
-# (This in itself won't make sure permissions are correct on new files, but it will sort any existing problems)
-{{ djangodir }}/media:
-  file.directory:
-    - name: {{ djangodir }}/media
-    - user: {{ user }}
-    - dir_mode: 755
-    - file_mode: 644
-    - recurse:
-      - user
-      - mode
-
-{{ djangodir }}.ve/:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
-    - requirements: {{ djangodir }}requirements.txt
-    - require:
-      - pkg: cove-deps
-      - git: {{ giturl }}{{ djangodir }}
-      - file: set_lc_all # required to avoid unicode errors for the "schema" library
-    - watch_in:
-      - service: apache2
-
-migrate-{{name}}:
-  cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings python manage.py migrate --noinput
-    - runas: {{ user }}
-    - cwd: {{ djangodir }}
-    - require:
-      - virtualenv: {{ djangodir }}.ve/
-    - onchanges:
-      - git: {{ giturl }}{{ djangodir }}
-
-compilemessages-{{name}}:
-  cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings  python manage.py compilemessages
-    - runas: {{ user }}
-    - cwd: {{ djangodir }}
-    - require:
-      - virtualenv: {{ djangodir }}.ve/
-    - onchanges:
-      - git: {{ giturl }}{{ djangodir }}
-
-collectstatic-{{name}}:
-  cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings  python manage.py collectstatic --noinput
-    - runas: {{ user }}
-    - cwd: {{ djangodir }}
-    - require:
-      - virtualenv: {{ djangodir }}.ve/
-    - onchanges:
-      - git: {{ giturl }}{{ djangodir }}
-
-{{ djangodir }}static/:
-  file.directory:
-    - user: {{ user }}
-    - file_mode: 644
-    - dir_mode: 755
-    - recurse:
-      - mode
-    - require:
-      - cmd: collectstatic-{{name}}
-
-{{ djangodir }}:
-  file.directory:
-    - dir_mode: 755
-    - require:
-      - cmd: collectstatic-{{name}}
+{{ django(name, user, giturl, branch, djangodir, 'pkg: cove-deps', app=app) }}
 
 cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{pillar.cove.secret_key}}" python manage.py expire_files:
   cron.present:
