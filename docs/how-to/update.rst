@@ -15,7 +15,18 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 .. code-block:: bash
 
-  salt 'ocds-docs-live' state.apply test=True
+   salt 'ocds-docs-live' state.apply test=True
+
+To compare Jinja2 output after refactoring, run, for example:
+
+.. code-block::bash
+
+   git stash
+   salt-ssh 'toucan' state.show_sls toucan > before
+   git stash pop
+   salt-ssh 'toucan' state.show_sls toucan > after
+   diff -u before after
+   rm -f before after
 
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
