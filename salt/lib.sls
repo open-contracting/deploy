@@ -143,7 +143,7 @@
 
 {% else %}
 
-# Render the config files (common and include) with jinja and place them in sites-available
+# Render the config files with jinja and place them in sites-available
 /etc/apache2/sites-available/{{ name }}:
   file.managed:
     - source: salt://apache/{{ conffile }}
@@ -156,7 +156,6 @@
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
-        includefile: "/etc/apache2/sites-available/{{ name }}.include"
       {% if 'banner_message' in pillar %}
         banner: |
           # Inflate and deflate here to ensure that the message is not
