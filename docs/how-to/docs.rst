@@ -76,7 +76,7 @@ Publish released documentation
 
 If this is the first numbered version of a profile, in its ``docs/_templates/layout.html``, add:
 
-.. code-block:: html
+.. code-block:: none
 
    {% block version_options %}
    <!--#include virtual="/includes/version-options-profiles-{root}.html" -->
@@ -219,14 +219,14 @@ If this is a new major or minor version:
 
 #. In ``salt/ocds-docs/robots_live.txt``, disallow the minor branch and its dev branch, for example:
 
-   .. code-block:: html
+   .. code-block:: none
 
       Disallow: /1.2
       Disallow: /1.2-dev
 
 #. In ``salt/apache/ocds-docs-live.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
 
-   .. code-block:: html
+   .. code-block:: none
 
       <Location /1.1/>
           SetEnv BANNER /includes/banner_old.html
