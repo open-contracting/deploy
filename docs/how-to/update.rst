@@ -70,7 +70,7 @@ Take extra care when making larger changes or when making changes to `higher-pri
 Remove content
 --------------
 
-If you delete a service, package, user, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy <deploy>`:
+If you delete a service, package, user, file, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy <deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -84,6 +84,15 @@ Delete an authorized key
       salt-ssh '*' state.sls_id root_authorized_keys_remove core
 
 #. Delete it from ``salt/private/authorized_keys/root_to_remove``
+
+Delete a file
+~~~~~~~~~~~~~
+
+Run, for example:
+
+.. code-block:: bash
+
+   salt-ssh 'ocds-docs-staging' file.remove /path/to/file_to_remove
 
 Delete a service
 ~~~~~~~~~~~~~~~~
