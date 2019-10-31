@@ -19,7 +19,7 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 To compare Jinja2 output after refactoring, run, for example:
 
-.. code-block::bash
+.. code-block:: bash
 
    git stash
    salt-ssh 'toucan' state.show_sls toucan > before
