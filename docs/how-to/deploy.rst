@@ -119,7 +119,7 @@ Function: service.running, ID: uwsgi
 6. Manual cleanup
 -----------------
 
-#. If you changed ``ServerName``, you can remove the SSL certificates for the old value in ``/etc/letsencrypt/live``.
+If you :ref:`changed servername<change-servername>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
 
 7. Release deploy token
 -----------------------

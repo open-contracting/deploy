@@ -67,10 +67,35 @@ In entirely uncontroversial or time-sensitive cases, work is done on the ``maste
 
 Take extra care when making larger changes or when making changes to `higher-priority apps <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md>`__.
 
+.. _change-servername:
+
+Change ServerName
+-----------------
+
+If the virtual host uses HTTPS, you will need to acquire SSL certificates for the new server name and remove the SSL certificates for the old server name.
+
+#. Change the ``ServerName``
+#. In the relevant Pillar file, change ``https`` to ``certonly``
+#. :doc:`Deploy the app<deploy>`
+#. In the relevant Pillar file, change ``https`` to ``force`` or ``yes``
+#. Remove the old SSL certificates, for example:
+
+   .. code-block:: bash
+
+      salt-ssh 'ocds-docs-staging' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
+
+To check for old SSL certificates that were previously not removed, run:
+
+.. code-block:: bash
+
+   salt-ssh '*' cmd.run 'ls /etc/letsencrypt/live'
+
+.. _remove-content:
+
 Remove content
 --------------
 
-If you delete a service, package, user, file, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy <deploy>`:
+If you delete a service, package, user, file, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
