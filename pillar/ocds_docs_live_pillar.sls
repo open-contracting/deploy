@@ -1,5 +1,10 @@
-https: 'force'
-# The URL to which /review is proxied.
+# For salt/ocds-docs-common.sls
+https: force
+environment: live
+subdomain: ''
+testing_subdomain: live.
+
+# For salt/ocds-docs-live.sls
 ocds_cove_backend: https://cove.live.cove.opencontracting.uk0.bigv.io
 oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
 cove:
