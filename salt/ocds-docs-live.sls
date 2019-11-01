@@ -1,5 +1,6 @@
 include:
   - ocds-docs-common
+  - apache-proxy
 
 https://github.com/open-contracting/standard-legacy-staticsites.git:
   git.latest:

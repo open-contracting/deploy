@@ -1,5 +1,6 @@
 include:
   - ocds-docs-common
+  - apache
 
 add-travis-key-for-ocds-docs-dev:
     ssh_auth.present:

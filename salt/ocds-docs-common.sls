@@ -1,10 +1,23 @@
 include:
-  - apache-proxy
   - letsencrypt
 
 {% from 'lib.sls' import createuser, apache %}
+
 {% set user = 'ocds-docs' %}
 {{ createuser(user) }}
+
+mod_headers:
+  apache_module.enabled:
+    - name: headers
+mod_include:
+  apache_module.enabled:
+    - name: include
+mod_rewrite:
+  apache_module.enabled:
+    - name: rewrite
+mod_substitute:
+  apache_module.enabled:
+    - name: substitute
 
 /home/{{ user }}/web/:
   file.directory:
@@ -16,17 +29,6 @@ include:
   file.recurse:
     - source: salt://ocds-docs/includes
     - user: ocds-docs
-
-mod_include:
-  apache_module.enabled:
-    - name: include
-
-rewrite:
-  apache_module.enabled
-
-mod_substitute:
-  apache_module.enabled:
-    - name: substitute
 
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/how-to/update.html#using-a-testing-virtual-host

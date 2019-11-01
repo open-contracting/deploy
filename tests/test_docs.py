@@ -56,11 +56,12 @@ def test_robots_txt():
     assert 'Googlebot' in r.text
 
 
-def test_json_charset():
+def test_json_headers():
     r = get(base_url + '/schema/1__1__0/release-schema.json')
 
     assert r.status_code == 200
     assert r.headers['Content-Type'] == 'application/json; charset=utf-8'
+    assert r.headers['Access-Control-Allow-Origin'] == '*'
 
 
 @pytest.mark.parametrize('root, version', [
