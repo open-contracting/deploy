@@ -107,7 +107,7 @@
 
 {{ servername }}_acquire_certs:
   cmd.run:
-    - name: /etc/init.d/apache2 reload; letsencrypt certonly --non-interactive --no-self-upgrade --expand --email code@opendataservices.coop --agree-tos --webroot --webroot-path /var/www/html/ {{ domainargs }}
+    - name: /etc/init.d/apache2 reload; letsencrypt certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /var/www/html/ {{ domainargs }}
     - creates:
       - /etc/letsencrypt/live/{{ servername }}/cert.pem
       - /etc/letsencrypt/live/{{ servername }}/chain.pem
