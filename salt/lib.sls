@@ -68,11 +68,8 @@
 {% set servername=grains.fqdn %}
 {% endif %}
 
-# We always copy this .include file. For many sites it is empty. That is fine.
-# But for sites we want to use SSL on, you need an .include file.
-# And we want to avoid duplicating config between the X.conf and the X.conf.include file.
-# So always copy the .include file, and then it is available to be used via an Include statement, whatever SSL mode is selected.
-# (see salt/apache/opendataservices-website.conf for an example)
+{% if https == 'yes' or https == 'force' or https == 'certonly' %}
+
 /etc/apache2/sites-available/{{ name }}.include:
   file.managed:
     - source: salt://apache/{{ conffile }}.include
@@ -84,9 +81,6 @@
         socket_name: {{ socket_name }}
         https: "{{ https }}"
         {{ extracontext | indent(8) }}
-
-
-{% if https == 'yes' or https == 'force' or https == 'certonly' %}
 
 # https-enabled config has two files: the main .conf file is just
 # boilerplate from _common.conf, the service-specific config is in an
