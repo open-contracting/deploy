@@ -11,7 +11,9 @@ Clean root user directory
       salt-ssh '*' cmd.run 'ls'
 
 #. Leave any ``post.install.log`` files
-#. Delete any ``index.html*`` files (created by a developer running ``wget`` commands to e.g. test proxy settings)
+#. Delete any ``index.html*`` files
+
+   -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
 
 Upgrade packages
 ----------------
@@ -24,8 +26,8 @@ To show the upgradable packages, run:
 
    salt-ssh '*' pkg.list_upgrades
 
-Autoremove packages
--------------------
+Auto-remove packages
+--------------------
 
 To show the packages that were automatically installed and are no longer required:
 
