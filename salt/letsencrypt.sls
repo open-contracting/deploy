@@ -1,4 +1,4 @@
-# See also the {{ servername }}_acquire_certs ID in lib.sls
+# See also the *_acquire_certs ID in lib.sls
 
 letsencrypt:
   pkg.installed
