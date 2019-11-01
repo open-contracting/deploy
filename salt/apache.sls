@@ -18,14 +18,6 @@ apache2:
     - require:
       - pkg: apache2
 
-# Set up a htpasswd file if it's in the pillar
-{% if 'htpasswd' in pillar %}
-/etc/apache2/htpasswd:
-  file.managed:
-    - contents_pillar: htpasswd
-    - makedirs: True
-{% endif %}
-
 /var/www/html/robots.txt:
   file.managed:
     - source: salt://apache/robots_dev.txt
