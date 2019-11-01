@@ -156,6 +156,11 @@ Then, login to the server and check for and delete any remaining packages, files
    ls /etc/icinga2
    ls /usr/lib/nagios
 
+Troubleshoot
+------------
+
+-  If unquoted, `yes`, `no`, `true` and `false` are parsed as booleans. Use quotes to parse as strings.
+
 Check history
 -------------
 
