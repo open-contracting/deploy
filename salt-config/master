@@ -1,4 +1,3 @@
-# This is the config for the salt-ssh master
 file_roots:
   base:
     - salt/

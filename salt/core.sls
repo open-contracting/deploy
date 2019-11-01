@@ -1,5 +1,4 @@
-# This defines a base configuration that we want installed on all of our
-# servers.
+# Defines a base configuration that we want installed on all of our servers.
 
 # Core packages that almost all our software will depend on
 git:

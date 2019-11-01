@@ -1,12 +1,8 @@
-# top.sls defines which states should be installed onto which servers
-# and is used by the state.highstate command (see README)
+# Defines which states should be applied for each target and is used by the state.apply command.
 
 base:
-  # Install our core sls onto all servers
   '*':
     - core
-
-  # LIVE
 
   'ocdskingfisher-new':
     - postgres11
@@ -17,7 +13,6 @@ base:
     - ocdskingfisherscrape
     - ocdskingfisheranalyse
     - prometheus-client-apache
-
 
   'ocds-docs-staging':
     - prometheus-client-apache
@@ -50,5 +45,3 @@ base:
   'cove*live*':
     - cove
     - prometheus-client-apache
-
-

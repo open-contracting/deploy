@@ -1,5 +1,4 @@
-# This file defines what pillars should be used for our servers
-# For each environment we have a public and a private pillar
+# Defines which pillars should be used for each target. Each target has a public and private pillar.
 
 base:
   '*':

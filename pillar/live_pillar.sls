@@ -1,4 +1,4 @@
-# URL that OCDS /validator proxies to
+# The URL to which /review is proxied.
 ocds_cove_backend: https://cove.live.cove.opencontracting.uk0.bigv.io
 oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
 cove:

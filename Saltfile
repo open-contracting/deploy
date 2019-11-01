@@ -1,4 +1,3 @@
-# This file means that we can run just 'salt-ssh' in this directory instead of
-# 'salt-ssh -c salt-config' to pick up the correct config.
+# This allows `-c salt-config` to be omitted from salt-ssh commands run from this directory.
 salt-ssh:
   config_dir: salt-config

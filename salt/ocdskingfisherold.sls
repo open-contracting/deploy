@@ -1,6 +1,5 @@
 {% from 'lib.sls' import createuser %}
 
-#
 # Everything in this file now sets up the old Kingfisher code.
 # The new Process code is set up in salt/ocdskingfisherprocess.sls
 # When we are ready to remove the old code, everything below this line (and it's associated files and variables) can be deleted.

@@ -1,5 +1,4 @@
-# This file defines various common macros.
-
+# Defines various common macros.
 
 #-----------------------------------------------------------------------
 # createuser

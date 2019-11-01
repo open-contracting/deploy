@@ -1,10 +1,8 @@
 {% from 'lib.sls' import apache %}
 
 apache2:
-  # Ensure that  apache is installed
   pkg:
     - installed
-  # Ensure apache running, and reload if any of the conf files change
   service:
     - running
     - enable: True
@@ -20,7 +18,7 @@ apache2:
     - require:
       - pkg: apache2
 
-# Set up a htpasswd file if its in the pillar
+# Set up a htpasswd file if it's in the pillar
 {% if 'htpasswd' in pillar %}
 /etc/apache2/htpasswd:
   file.managed:

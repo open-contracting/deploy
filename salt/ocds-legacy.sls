@@ -1,9 +1,7 @@
-# This file sets up some redirects and an archived opendatacomparison static
-# site for ocds.open-contracting.org, which has now been replaced by
-# standard.open-contracting.org
-#
-{% from 'lib.sls' import createuser, apache %}
+# This sets up redirects and an archived opendatacomparison static site for ocds.open-contracting.org,
+# which has been replaced by standard.open-contracting.org
 
+{% from 'lib.sls' import createuser, apache %}
 
 {% set user = 'opencontracting' %}
 {{ createuser(user) }}

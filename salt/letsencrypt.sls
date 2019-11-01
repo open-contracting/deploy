@@ -1,13 +1,4 @@
-# letsencrypt.sls
-#   installs f/k/a letsencrypt from the 16.04 repo
-#   see also 'letsencrypt' macro in lib.sls
-#
-#  NOTES
-#
-#  * the version in the 16.04 repo is tragically old (0.4.1) and
-#    predates renaming to certbot, nice apache support, etc
-#  * the version in the 18.04 repo is just a alias for certbot
-#  * when we have got rid of our last 16.04 server we can just switch this to certbot
+# See also the {{ servername }}_acquire_certs ID in lib.sls
 
 letsencrypt:
   pkg.installed

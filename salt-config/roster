@@ -1,4 +1,4 @@
-# This file defines the potential targets of the salt-ssh command.
+# Defines the potential targets of the salt-ssh command.
 
 ocdskingfisher-new:       95.216.243.15
 ocds-docs-staging:        staging.docs.opencontracting.uk0.bigv.io
