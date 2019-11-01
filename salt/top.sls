@@ -28,7 +28,7 @@ base:
     - prometheus-client-apache
     - standard-search
 
-  'ocds-redash*':
+  'ocds-redash':
     - ocds-redash
     - prometheus-client-nginx
 

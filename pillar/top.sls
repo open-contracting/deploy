@@ -20,9 +20,6 @@ base:
   'standard-search':
      - private.standard_search_pillar
 
-  'ocds-redash*':
-     - private.ocds_redash_pillar
-
   'toucan':
      - toucan_pillar
      - private.toucan_pillar
