@@ -29,12 +29,9 @@ toucan-deps:
         - service: uwsgi
 
 {% set giturl = 'https://github.com/open-contracting/toucan.git' %}
-{% set userdir = '/home/' + user %}
-{% set ocdskitwebdir = userdir + '/ocdskit-web/' %}
-
-{% macro toucan(name, branch, giturl, user, servername, https='') %}
-
-{% set djangodir='/home/'+user+'/'+name+'/' %}
+{% set name = 'ocdskit-web' %}
+{% set branch = pillar.toucan.default_branch %}
+{% set djangodir = '/home/' + user + '/' + name + '/' %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
@@ -42,14 +39,14 @@ branch: {{ branch }}
 bare_name: {{ name }}
 {% endset %}
 
-{{ apache(user+'.conf',
-    name=name+'.conf',
+{{ apache(user + '.conf',
+    name=name + '.conf',
     extracontext=extracontext,
-    servername=servername,
-    https=https) }}
+    servername='toucan.open-contracting.org',
+    https='force') }}
 
-{{ uwsgi(user+'.ini',
-    name=name+'.ini',
+{{ uwsgi(user + '.ini',
+    name=name + '.ini',
     extracontext=extracontext) }}
 
 {{ giturl }}{{ djangodir }}:
@@ -91,7 +88,7 @@ bare_name: {{ name }}
     - watch_in:
       - service: apache2
 
-migrate-{{name}}:
+migrate-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; python manage.py migrate --noinput
     - user: {{ user }}
@@ -101,7 +98,7 @@ migrate-{{name}}:
     - onchanges:
       - git: {{ giturl }}{{ djangodir }}
 
-#compilemessages-{{name}}:
+#compilemessages-{{ name }}:
 #  cmd.run:
 #    - name: . .ve/bin/activate; python manage.py compilemessages
 #    - user: {{ user }}
@@ -111,7 +108,7 @@ migrate-{{name}}:
 #    - onchanges:
 #      - git: {{ giturl }}{{ djangodir }}
 
-collectstatic-{{name}}:
+collectstatic-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; python manage.py collectstatic --noinput
     - user: {{ user }}
@@ -128,7 +125,7 @@ collectstatic-{{name}}:
     - recurse:
       - mode
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
 
@@ -136,20 +133,9 @@ collectstatic-{{name}}:
   file.directory:
     - dir_mode: 755
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
-
-{% endmacro %}
-
-{{ toucan(
-    name='ocdskit-web',
-    branch=pillar.toucan.default_branch,
-    giturl=giturl,
-    user=user,
-    servername='toucan.open-contracting.org',
-    https='force'
-    ) }}
 
 # Set up an redirect from an old server name
 {{ apache('ocdskit-web-redirects.conf',
