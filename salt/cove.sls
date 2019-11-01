@@ -77,7 +77,7 @@ cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.setting
 
 MAILTO:
   cron.env_present:
-    - value: code@opendataservices.coop
+    - value: sysadmin@open-contracting.org,code@opendataservices.coop
     - user: cove
 
 # We were having problems with the Raven library for Sentry on Ubuntu 18

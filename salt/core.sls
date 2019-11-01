@@ -102,7 +102,7 @@ create_swapfile:
 MAILTO_root:
   cron.env_present:
     - name: MAILTO
-    - value: code@opendataservices.coop
+    - value: sysadmin@open-contracting.org,code@opendataservices.coop
     - user: root
 
 set_lc_all:
