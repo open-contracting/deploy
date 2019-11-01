@@ -52,7 +52,6 @@ branch: {{ branch }}
 app: {{ app }}
 bare_name: {{ name }}
 assets_base_url: {{ pillar.cove.assets_base_url }}
-schema_url_ocds: null
 {% endset %}
 
 {{ apache(user + '.conf',
