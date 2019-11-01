@@ -29,7 +29,7 @@ run-redash-upgrade-nointeraction:
       - cmd: run-redash-upgrade-nointeraction
       - cmd: /tmp/redash-bootstrap.sh
 
-restart-nignx:
+restart-nginx:
   cmd.run:
     - name: /etc/init.d/nginx restart
     - require:

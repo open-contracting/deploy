@@ -31,7 +31,7 @@ include:
       - file: /etc/nginx/sites-available/prometheus-client
     - makedirs: True
 
-restart-nignx:
+restart-nginx-for-prometheus:
   cmd.run:
     - name: /etc/init.d/nginx restart
     - require:
