@@ -129,6 +129,13 @@ Delete a service
    salt-ssh 'ocds-docs-staging' service.stop icinga2
    salt-ssh 'ocds-docs-staging' service.disable icinga2
 
+If you deleted a ``uwsgi`` configuration, run, for example:
+
+.. code-block:: bash
+
+   salt-ssh 'target' file.remove /etc/uwsgi/apps-available/cove.ini
+   salt-ssh 'target' file.remove /etc/uwsgi/apps-enabled/cove.ini
+
 Delete a package
 ~~~~~~~~~~~~~~~~
 

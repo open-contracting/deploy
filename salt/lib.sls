@@ -220,17 +220,6 @@
 {% endmacro %}
 
 
-{% macro removeuwsgi(name) %}
-
-/etc/uwsgi/apps-available/{{ name }}:
-  file.absent
-
-/etc/uwsgi/apps-enabled/{{ name }}:
-  file.absent
-
-{% endmacro %}
-
-
 # app: override the DJANGO_SETTINGS_MODULE set in the Django project's manage.py file
 {% macro django(name, user, giturl, branch, djangodir, pip_require, app=None, compilemessages=True) %}
 {{ giturl }}{{ djangodir }}:
