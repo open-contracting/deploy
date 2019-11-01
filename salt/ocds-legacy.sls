@@ -6,12 +6,10 @@
 {% set user = 'opencontracting' %}
 {{ createuser(user) }}
 
-{% set repo = 'opendatacomparison-archive' %}
-{% set giturl = 'https://github.com/OpenDataServices/'+repo~'.git' %}
-{{ giturl }}:
+https://github.com/OpenDataServices/opendatacomparison-archive.git:
   git.latest:
     - rev: live
-    - target: /home/{{ user }}/{{ repo }}/
+    - target: /home/{{ user }}/opendatacomparison-archive/
     - user: {{ user }}
     - require:
       - pkg: git
