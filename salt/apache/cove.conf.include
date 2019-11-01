@@ -10,9 +10,6 @@
         RemoteIPTrustedProxy 5.28.62.151
         RemoteIPTrustedProxy 2001:41c9:1:41c::151
 
-
-        {{ banner }}
-
         <Location "/">
                 {% if uwsgi_port %}
                 ProxyPass uwsgi://127.0.0.1:{{ uwsgi_port }}/ timeout={{ pillar.cove.uwsgi_harakiri + 15 }}
