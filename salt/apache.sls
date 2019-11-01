@@ -18,6 +18,7 @@ apache2:
     - require:
       - pkg: apache2
 
+# This file is not served unless explicitly aliased from an Apache configuration file.
 /var/www/html/robots.txt:
   file.managed:
     - source: salt://apache/robots_dev.txt

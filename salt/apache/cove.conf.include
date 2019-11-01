@@ -18,16 +18,6 @@
                 {% endif %}
         </Location>
 
-        {% if pillar.dev_robots_txt %}
-        Alias /robots.txt "/var/www/html/robots.txt"
-        <Location "/robots.txt">
-                ProxyPass !
-                Order allow,deny
-                Allow from all
-                SetHandler None
-        </Location>
-        {% endif %}
-
         # Static content needed by Django
         Alias {{ assets_base_url }}/static "{{ djangodir }}static/"
         <Location "{{ assets_base_url }}/static">
