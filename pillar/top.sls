@@ -11,10 +11,10 @@ base:
      - private.ocdskingfisher_pillar
 
   'ocds-docs-live':
-     - live_pillar
+     - ocds_docs_live_pillar
 
   'ocds-docs-staging':
-     - staging_pillar
+     - ocds_docs_staging_pillar
      - private.ocdskingfisher_pillar # this is for the proxy config
 
   'standard-search':
