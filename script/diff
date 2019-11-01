@@ -1,0 +1,26 @@
+#!/bin/bash
+set -e
+
+if [ -z "$1" ]; then
+  echo 'No target provided' 1>&2
+  exit 1
+fi
+
+git stash
+
+if [ -z "$2" ]; then
+  salt-ssh "$1" state.show_highstate > before
+else
+  salt-ssh "$1" state.show_sls $2 > before
+fi
+
+git stash pop
+
+if [ -z "$2" ]; then
+  salt-ssh "$1" state.show_highstate > after
+else
+  salt-ssh "$1" state.show_sls $2 > after
+fi
+
+diff -u before after | less
+rm -f before after

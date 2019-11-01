@@ -17,16 +17,12 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
    salt 'ocds-docs-live' state.apply test=True
 
-To compare Jinja2 output after refactoring, run, for example:
+To compare Jinja2 output after refactoring but before committing, use ``script/diff`` to compare a full state or one SLS file, for example:
 
 .. code-block:: bash
 
-   git stash
-   salt-ssh 'toucan' state.show_sls toucan > before
-   git stash pop
-   salt-ssh 'toucan' state.show_sls toucan > after
-   diff -u before after
-   rm -f before after
+   ./script/diff ocds-docs-staging
+   ./script/diff ocds-docs-staging ocds-docs-common
 
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
