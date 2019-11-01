@@ -30,6 +30,10 @@ Check the output in case there are any issues switching to the ``master`` branch
 3. Watch Salt activity
 ----------------------
 
+.. note::
+
+   This step is optional.
+
 #. Find the server's IP or fully-qualified domain name in the roster:
 
    .. code-block:: bash
@@ -125,6 +129,10 @@ Function: service.running, ID: uwsgi
 
 8. Close the secondary terminal
 -------------------------------
+
+.. note::
+
+   Skip this step if you didn't watch Salt activity on the remote server.
 
 #. Stop watching the processes, e.g. with ``Ctrl-C``
 #. Disconnect from the server, e.g. with ``Ctrl-D``

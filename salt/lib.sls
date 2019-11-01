@@ -83,17 +83,6 @@
     - context:
         socket_name: {{ socket_name }}
         https: "{{ https }}"
-      {% if 'banner_message' in pillar %}
-        banner: |
-          # Inflate and deflate here to ensure that the message is not
-          # compressed when we do the substitution, but is afterwards.
-          # I think this may be adding some extra overhead, but for our
-          # dev site this shouldn't be noticeable.
-          AddOutputFilterByType INFLATE;SUBSTITUTE;DEFLATE text/html
-          Substitute "s|<body([^>]*)>|<body$1><div style=\"background-color:red; color: black; width: 100%; text-align: center; font-weight: bold; position: fixed; right: 0; left: 0; z-index: 1031\">{{ pillar.banner_message }}</div>|i"
-        {% else %}
-        banner: ''
-      {% endif %}
         {{ extracontext | indent(8) }}
 
 
@@ -143,7 +132,7 @@
 
 {% else %}
 
-# Render the config files (common and include) with jinja and place them in sites-available
+# Render the config files with jinja and place them in sites-available
 /etc/apache2/sites-available/{{ name }}:
   file.managed:
     - source: salt://apache/{{ conffile }}
@@ -157,17 +146,6 @@
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         includefile: "/etc/apache2/sites-available/{{ name }}.include"
-      {% if 'banner_message' in pillar %}
-        banner: |
-          # Inflate and deflate here to ensure that the message is not
-          # compressed when we do the substitution, but is afterwards.
-          # I think this may be adding some extra overhead, but for our
-          # dev site this shouldn't be noticeable.
-          AddOutputFilterByType INFLATE;SUBSTITUTE;DEFLATE text/html
-          Substitute "s|<body([^>]*)>|<body$1><div style=\"background-color:red; color: black; width: 100%; text-align: center; font-weight: bold; position: fixed; right: 0; left: 0; z-index: 1031\">{{ pillar.banner_message }}</div>|i"
-      {% else %}
-        banner: ''
-      {% endif %}
         {{ extracontext | indent(8) }}
 
 {% endif %}

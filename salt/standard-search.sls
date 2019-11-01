@@ -75,9 +75,9 @@ elasticsearch:
     - template: jinja
 
 
-{% macro standard_search(name, branch, giturl, user, servername, https, serveraliases=[]) %}
-
-{% set djangodir='/home/'+user+'/'+name+'/' %}
+{% set name = 'ocds-search' %}
+{% set branch = 'master' %}
+{% set djangodir = '/home/' + user + '/' + name + '/' %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
@@ -85,29 +85,15 @@ branch: {{ branch }}
 bare_name: {{ name }}
 {% endset %}
 
-{{ apache(user+'.conf',
-    name=name+'.conf',
-    https=https,
-    servername=servername,
-    serveraliases=serveraliases,
+{{ apache(user + '.conf',
+    name=name + '.conf',
+    https='yes',
+    servername='standard-search.open-contracting.org',
+    serveraliases=['www.live.standard-search.opencontracting.uk0.bigv.io'],
     extracontext=extracontext) }}
 
-{{ uwsgi(user+'.ini',
-    name=name+'.ini',
+{{ uwsgi(user + '.ini',
+    name=name + '.ini',
     extracontext=extracontext) }}
 
 {{ django(name, user, giturl, branch, djangodir, 'standard-search-uwsgi', compilemessages=False) }}
-
-{% endmacro %}
-
-
-{{ standard_search(
-    name='ocds-search',
-    branch='master',
-    giturl=giturl,
-    user=user,
-    servername='standard-search.open-contracting.org',
-    serveraliases=['www.live.standard-search.opencontracting.uk0.bigv.io'],
-    https='yes'
-) }}
-

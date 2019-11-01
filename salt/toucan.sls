@@ -29,12 +29,9 @@ toucan-deps:
         - service: uwsgi
 
 {% set giturl = 'https://github.com/open-contracting/toucan.git' %}
-{% set userdir = '/home/' + user %}
-{% set ocdskitwebdir = userdir + '/ocdskit-web/' %}
-
-{% macro toucan(name, branch, giturl, user, servername, https='') %}
-
-{% set djangodir='/home/'+user+'/'+name+'/' %}
+{% set name = 'ocdskit-web' %}
+{% set branch = pillar.toucan.default_branch %}
+{% set djangodir = '/home/' + user + '/' + name + '/' %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
@@ -42,28 +39,17 @@ branch: {{ branch }}
 bare_name: {{ name }}
 {% endset %}
 
-{{ apache(user+'.conf',
-    name=name+'.conf',
+{{ apache(user + '.conf',
+    name=name + '.conf',
     extracontext=extracontext,
-    servername=servername,
-    https=https) }}
+    servername='toucan.open-contracting.org',
+    https='force') }}
 
-{{ uwsgi(user+'.ini',
-    name=name+'.ini',
+{{ uwsgi(user + '.ini',
+    name=name + '.ini',
     extracontext=extracontext) }}
 
 {{ django(name, user, giturl, branch, djangodir, 'pkg: toucan-deps', compilemessages=False) }}
-
-{% endmacro %}
-
-{{ toucan(
-    name='ocdskit-web',
-    branch=pillar.toucan.default_branch,
-    giturl=giturl,
-    user=user,
-    servername='toucan.open-contracting.org',
-    https='force'
-    ) }}
 
 # Set up an redirect from an old server name
 {{ apache('ocdskit-web-redirects.conf',

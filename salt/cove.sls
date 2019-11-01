@@ -4,8 +4,6 @@
 {% set user = 'cove' %}
 {{ createuser(user) }}
 
-{% set giturl = 'https://github.com/OpenDataServices/cove.git' %}
-
 # libapache2-mod-wsgi-py3
 # gettext
 
@@ -36,8 +34,12 @@ remoteip:
       - watch_in:
         - service: apache2
 
-{% macro cove(name, giturl, branch, djangodir, user, uwsgi_port, servername, app, assets_base_url, schema_url_ocds=None) %}
-
+{% set name = 'cove' %}
+{% set giturl = pillar.cove.giturl %}
+{% set branch = pillar.default_branch %}
+{% set djangodir = '/home/' + user + '/cove/' %}
+{% set uwsgi_port = pillar.cove.uwsgi_port %}
+{% set app = pillar.cove.app %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
@@ -49,59 +51,35 @@ uwsgi_port: {{ uwsgi_port }}
 branch: {{ branch }}
 app: {{ app }}
 bare_name: {{ name }}
-assets_base_url: {{ assets_base_url }}
-{% if schema_url_ocds %}
-schema_url_ocds: {{ schema_url_ocds }}
-{% else %}
+assets_base_url: {{ pillar.cove.assets_base_url }}
 schema_url_ocds: null
-{% endif %}
 {% endset %}
 
-{% if 'https' in pillar.cove %}
-{{ apache(user+'.conf',
-    name=name+'.conf',
+{{ apache(user + '.conf',
+    name=name + '.conf',
     extracontext=extracontext,
-    servername=servername,
-    serveraliases=[ branch+'.'+grains.fqdn ],
+    servername=pillar.cove.servername,
+    serveraliases=[ branch + '.' + grains.fqdn ],
     https=pillar.cove.https) }}
-{% else %}
-{{ apache(user+'.conf',
-    name=name+'.conf',
-    servername=servername,
-    extracontext=extracontext) }}
-{% endif %}
 
-{{ uwsgi(user+'.ini',
-    name=name+'.ini',
+{{ uwsgi(user + '.ini',
+    name=name + '.ini',
     extracontext=extracontext,
     port=uwsgi_port) }}
 
 {{ django(name, user, giturl, branch, djangodir, 'pkg: cove-deps', app=app) }}
 
-cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{pillar.cove.secret_key}}" python manage.py expire_files:
+cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{ pillar.cove.secret_key }}" python manage.py expire_files:
   cron.present:
     - identifier: COVE_EXPIRE_FILES{% if name != 'cove' %}_{{ name }}{% endif %}
     - user: cove
     - minute: random
     - hour: 0
-{% endmacro %}
 
 MAILTO:
   cron.env_present:
     - value: code@opendataservices.coop
     - user: cove
-
-{{ cove(
-    name='cove',
-    giturl=pillar.cove.giturl if 'giturl' in pillar.cove else giturl,
-    branch=pillar.default_branch,
-    djangodir='/home/'+user+'/cove/',
-    uwsgi_port=pillar.cove.uwsgi_port,
-    servername=pillar.cove.servername,
-    assets_base_url=pillar.cove.assets_base_url,
-    app=pillar.cove.app,
-    user=user) }}
-
 
 # We were having problems with the Raven library for Sentry on Ubuntu 18
 # https://github.com/getsentry/raven-python/issues/1311

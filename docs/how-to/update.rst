@@ -15,7 +15,18 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 .. code-block:: bash
 
-  salt 'ocds-docs-live' state.apply test=True
+   salt 'ocds-docs-live' state.apply test=True
+
+To compare Jinja2 output after refactoring, run, for example:
+
+.. code-block:: bash
+
+   git stash
+   salt-ssh 'toucan' state.show_sls toucan > before
+   git stash pop
+   salt-ssh 'toucan' state.show_sls toucan > after
+   diff -u before after
+   rm -f before after
 
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -59,7 +70,7 @@ Take extra care when making larger changes or when making changes to `higher-pri
 Remove content
 --------------
 
-If you delete a service, package, user, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy <deploy>`:
+If you delete a service, package, user, file, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy <deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,6 +84,15 @@ Delete an authorized key
       salt-ssh '*' state.sls_id root_authorized_keys_remove core
 
 #. Delete it from ``salt/private/authorized_keys/root_to_remove``
+
+Delete a file
+~~~~~~~~~~~~~
+
+Run, for example:
+
+.. code-block:: bash
+
+   salt-ssh 'ocds-docs-staging' file.remove /path/to/file_to_remove
 
 Delete a service
 ~~~~~~~~~~~~~~~~
