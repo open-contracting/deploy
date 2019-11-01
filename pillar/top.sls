@@ -18,29 +18,23 @@ base:
      - private.ocdskingfisher_pillar # this is for the proxy config
 
   'standard-search':
-     - live_pillar
      - private.standard_search_pillar
 
   'ocds-redash*':
-     - live_pillar
      - private.ocds_redash_pillar
 
   'toucan':
-     - live_pillar
      - toucan_pillar
      - private.toucan_pillar
 
   'ocds-kingfisher-archive':
-     - live_pillar
      - ocdskingfisher_archive_live_pillar
 
   'cove-live-oc4ids':
-     - live_pillar
      - cove_oc4ids_live_pillar
      - private.cove_oc4ids_live_pillar
 
   'cove-live-ocds-2':
-     - live_pillar
      - cove_ocds_live_pillar
      - private.cove_ocds_live_pillar
 
