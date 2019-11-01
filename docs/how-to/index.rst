@@ -10,6 +10,7 @@ This section of the documentation shows you how to perform specific tasks.
    get_started.rst
    deploy.rst
    update.rst
+   maintain.rst
    delete_server.rst
 
 .. toctree::
