@@ -95,13 +95,15 @@ Look for these lines at the end of the output in the primary terminal:
 Then:
 
 #. Check that the app is still responding in your web browser.
-#. If there are any failed states, look for each in the output (red text) and debug.
-#. If there are any changed states, look for each in the output (blue text) and verify the changes.
+#. If there are any failed states, look for each in the output (red text) (or search for ``Result: False``) and debug.
+#. If there are any changed states, look for each in the output (blue text) (or grep for ``Changes:   \n[^\n-]``) and verify the changes.
 
 Common changed states are:
 
 Function: service.running, ID: apache2
   Apache was reloaded
+Function: cmd.run, ID: prometheus-client-apache-password
+  This change is a false positive
 
 For a Django app, common changed states are:
 
@@ -119,7 +121,7 @@ Function: service.running, ID: uwsgi
 6. Manual cleanup
 -----------------
 
-If you :ref:`changed servername<change-servername>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
+If you :ref:`changed the server name<change-servername>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
 
 7. Release deploy token
 -----------------------

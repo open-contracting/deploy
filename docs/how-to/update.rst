@@ -69,8 +69,8 @@ Take extra care when making larger changes or when making changes to `higher-pri
 
 .. _change-servername:
 
-Change ServerName
------------------
+Change server name
+------------------
 
 If the virtual host uses HTTPS, you will need to acquire SSL certificates for the new server name and remove the SSL certificates for the old server name.
 
