@@ -40,7 +40,7 @@ standard-search-uwsgi:
 
 elasticsearch:
   cmd.run:
-    - name: wget -O - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
+    - name: wget -nv -O - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
 
   pkgrepo.managed:
     - humanname: Elasticsearch
