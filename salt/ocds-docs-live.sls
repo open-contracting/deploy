@@ -12,10 +12,8 @@ testing: False
 {{ apache('ocds-docs-live.conf',
     name='ocds-docs-live.conf',
     extracontext=extracontext,
-    socket_name='',
     servername='standard.open-contracting.org',
-    serveraliases=[],
-    https='force') }}
+    https=pillar.https) }}
 
 {% set extracontext %}
 testing: True
@@ -23,10 +21,8 @@ testing: True
 {{ apache('ocds-docs-live.conf',
     name='ocds-docs-live-testing.conf',
     extracontext=extracontext,
-    socket_name='',
     servername='testing.live.standard.open-contracting.org',
-    serveraliases=[],
-    https='force') }}
+    https=pillar.https) }}
 
 https://github.com/open-contracting/standard-legacy-staticsites.git:
   git.latest:

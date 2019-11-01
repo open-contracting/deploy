@@ -12,10 +12,8 @@ testing: False
 {{ apache('ocds-docs-staging.conf',
     name='ocds-docs-staging.conf',
     extracontext=extracontext,
-    socket_name='',
     servername='staging.standard.open-contracting.org',
-    serveraliases=[],
-    https='yes') }}
+    https=pillar.https) }}
 
 {% set extracontext %}
 testing: True
@@ -23,10 +21,8 @@ testing: True
 {{ apache('ocds-docs-staging.conf',
     name='ocds-docs-staging-testing.conf',
     extracontext=extracontext,
-    socket_name='',
     servername='testing.staging.standard.open-contracting.org',
-    serveraliases=[],
-    https='yes') }}
+    https=pillar.https) }}
 
 add-travis-key-for-ocds-docs-dev:
     ssh_auth.present:

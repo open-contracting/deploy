@@ -58,7 +58,8 @@
 # Install the named conf file in the apache dir onto the server.
 #-----------------------------------------------------------------------
 
-{% macro apache(conffile, name='', extracontext='', socket_name='', servername='', serveraliases=[], https='') %}
+# It is safe to set `serveraliases=[]`, because the default argument is never mutated.
+{% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='') %}
 
 {% if name == '' %}
 {% set name=conffile %}
@@ -77,7 +78,6 @@
     - watch_in:
       - service: apache2
     - context:
-        socket_name: {{ socket_name }}
         https: "{{ https }}"
         {{ extracontext | indent(8) }}
 
@@ -96,7 +96,6 @@
     - watch_in:
       - service: apache2
     - context:
-        socket_name: {{ socket_name }}
         includefile: {{ name }}.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
@@ -134,7 +133,6 @@
     - watch_in:
       - service: apache2
     - context:
-        socket_name: {{ socket_name }}
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
@@ -174,7 +172,7 @@
 # uwsgi
 #-----------------------------------------------------------------------
 
-{% macro uwsgi(conffile, name, port='', socket_name='', extracontext='') %}
+{% macro uwsgi(conffile, name, port='', extracontext='') %}
 # Render the file with jinja and place it in apps-available
 /etc/uwsgi/apps-available/{{ name }}:
   file.managed:
@@ -184,7 +182,6 @@
     - watch_in:
       - service: uwsgi
     - context:
-        socket_name: {{ socket_name }}
         port: {{ port }}
         {{ extracontext | indent(8) }}
 
