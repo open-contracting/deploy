@@ -1,5 +1,5 @@
 # For salt/ocds-docs-common.sls
-https: 'yes'
+https: both
 environment: staging
 subdomain: staging.
 testing_subdomain: staging.

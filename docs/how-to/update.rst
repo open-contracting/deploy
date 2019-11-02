@@ -73,7 +73,7 @@ If the virtual host uses HTTPS, you will need to acquire SSL certificates for th
 #. Change the ``ServerName``
 #. In the relevant Pillar file, change ``https`` to ``certonly``
 #. :doc:`Deploy the app<deploy>`
-#. In the relevant Pillar file, change ``https`` to ``force`` or ``yes``
+#. In the relevant Pillar file, change ``https`` to ``force`` or ``both``
 #. Remove the old SSL certificates, for example:
 
    .. code-block:: bash

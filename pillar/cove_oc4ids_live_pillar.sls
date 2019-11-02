@@ -15,5 +15,5 @@ cove:
   larger_uwsgi_limits: True
   uwsgi_as_limit: 12000
   uwsgi_harakiri: 1800
-  https: 'yes'
+  https: both
   prefixmap: ''

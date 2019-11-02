@@ -56,7 +56,7 @@
 {% set servername = grains.fqdn %}
 {% endif %}
 
-{% if https == 'yes' or https == 'force' or https == 'certonly' %}
+{% if https == 'both' or https == 'force' or https == 'certonly' %}
 
 /etc/apache2/sites-available/{{ name }}.include:
   file.managed:
