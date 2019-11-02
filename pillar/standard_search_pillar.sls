@@ -4,12 +4,13 @@ apache:
   https: both
   serveraliases: ['www.live.standard-search.opencontracting.uk0.bigv.io']
   servername: standard-search.open-contracting.org
+  assets_base_url: ''
 git:
   url: https://github.com/OpenDataServices/standard-search.git
   branch: master
 django:
   app: standardsearch
-  compilemessages: false
+  compilemessages: False
   env:
     DEBUG: 'False'
     LANG: en_US.utf8
