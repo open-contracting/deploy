@@ -1,7 +1,8 @@
 include:
-  - ocds-docs-common
   - apache-proxy
+  - ocds-docs-common
 
+# These will be served the same as files that were copied into place.
 https://github.com/open-contracting/standard-legacy-staticsites.git:
   git.latest:
     - rev: master

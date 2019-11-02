@@ -19,6 +19,7 @@ mod_substitute:
   apache_module.enabled:
     - name: substitute
 
+# Create directory into which files are copied into place.
 /home/{{ user }}/web/:
   file.directory:
     - user: {{ user }}
