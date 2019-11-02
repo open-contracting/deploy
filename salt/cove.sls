@@ -10,7 +10,6 @@
 include:
   - apache
   - uwsgi
-  - letsencrypt
 
 cove-deps:
     apache_module.enabled:

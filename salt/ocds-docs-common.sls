@@ -1,6 +1,3 @@
-include:
-  - letsencrypt
-
 {% from 'lib.sls' import createuser, apache %}
 
 {% set user = 'ocds-docs' %}

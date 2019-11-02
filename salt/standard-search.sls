@@ -10,7 +10,6 @@
 include:
   - apache
   - uwsgi
-  - letsencrypt
 
 standard-search-deps:
     apache_module.enabled:

@@ -6,7 +6,6 @@
 include:
   - apache-proxy
   - uwsgi
-  - letsencrypt
 
 {% set user = 'ocdskit-web' %}
 {{ createuser(user) }}
