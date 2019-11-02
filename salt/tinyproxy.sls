@@ -1,4 +1,3 @@
-
 tinyproxy-deps:
     pkg.installed:
       - pkgs:
