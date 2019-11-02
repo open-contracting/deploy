@@ -91,7 +91,7 @@ To check for old SSL certificates that were previously not removed, run:
 Remove content
 --------------
 
-If you delete a file, service, package, user, authorized key, or Apache module from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
+If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -129,8 +129,8 @@ If you deleted a ``uwsgi`` configuration, run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'target' file.remove /etc/uwsgi/apps-available/cove.ini
-   salt-ssh 'target' file.remove /etc/uwsgi/apps-enabled/cove.ini
+   salt-ssh 'cove-live-ocds-2' file.remove /etc/uwsgi/apps-available/cove.ini
+   salt-ssh 'cove-live-ocds-2' file.remove /etc/uwsgi/apps-enabled/cove.ini
 
 Delete a package
 ~~~~~~~~~~~~~~~~
@@ -169,6 +169,19 @@ Delete an Apache module
       salt-ssh 'toucan' state.apply
 
 #. Remove the temporary salt ID
+
+Delete a virtual host
+~~~~~~~~~~~~~~~~~~~~~
+
+Run, for example:
+
+.. code-block:: bash
+
+   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-enabled/cove.conf
+   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf
+   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
+
+You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
 
 Troubleshoot
 ------------

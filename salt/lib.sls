@@ -66,7 +66,7 @@
     - watch_in:
       - service: apache2
     - context:
-        https: "{{ https }}"
+        https: {{ https }}
         {{ extracontext | indent(8) }}
 
 /etc/apache2/sites-available/{{ name }}:
@@ -80,10 +80,10 @@
         includefile: {{ name }}.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
-        https: "{{ https }}"
+        https: {{ https }}
         {{ extracontext | indent(8) }}
 
-{% set domainargs = "-d " + " -d ".join([ servername ] + serveraliases) %}
+{% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
 
 {{ servername }}_acquire_certs:
   cmd.run:
@@ -105,7 +105,6 @@
 
 {% else %}
 
-# Render the config files with jinja and place them in sites-available
 /etc/apache2/sites-available/{{ name }}:
   file.managed:
     - source: salt://apache/{{ conffile }}
@@ -114,15 +113,14 @@
     - watch_in:
       - service: apache2
     - context:
+        includefile: /etc/apache2/sites-available/{{ name }}.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
-        includefile: "/etc/apache2/sites-available/{{ name }}.include"
         {{ extracontext | indent(8) }}
 
 {% endif %}
 
-# Create a symlink from sites-enabled to enable the config
 /etc/apache2/sites-enabled/{{ name }}:
   file.symlink:
     - target: /etc/apache2/sites-available/{{ name }}
@@ -131,20 +129,6 @@
     - makedirs: True
     - watch_in:
       - service: apache2
-
-{% endmacro %}
-
-
-{% macro removeapache(name) %}
-
-/etc/apache2/sites-available/{{ name }}:
-  file.absent
-
-/etc/apache2/sites-available/{{ name }}.include:
-  file.absent
-
-/etc/apache2/sites-enabled/{{ name }}:
-  file.absent
 
 {% endmacro %}
 

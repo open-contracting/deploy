@@ -121,7 +121,7 @@ Function: service.running, ID: uwsgi
 6. Manual cleanup
 -----------------
 
-If you :ref:`changed the server name<change-servername>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
+If you :ref:`changed the server name<change-server-name>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
 
 7. Release deploy token
 -----------------------
