@@ -1,11 +1,9 @@
-# Toucan used to be named ocdskit-web. We have not yet changed occurrences of r'ocskit.web' where a simple rename would
-# cause a doubling of users, directories, config files, etc.
+# Toucan used to be named ocdskit-web. We have not yet changed occurrences of r'ocskit.?web' where a simple rename
+# would cause a doubling of users, directories, config files, etc.
 
 {% from 'lib.sls' import createuser, apache, uwsgi, django %}
 
 include:
-  - core
-  - apache
   - apache-proxy
   - uwsgi
   - letsencrypt
@@ -49,7 +47,7 @@ bare_name: {{ name }}
     name=name + '.ini',
     extracontext=extracontext) }}
 
-{{ django(name, user, giturl, branch, djangodir, 'pkg: toucan-deps', compilemessages=False) }}
+{{ django(name, user, giturl, branch, djangodir, 'pkg: toucan-deps') }}
 
 # Set up an redirect from an old server name
 {{ apache('ocdskit-web-redirects.conf',
