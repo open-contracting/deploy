@@ -1,14 +1,6 @@
-# Defines various common macros.
+# Defines common macros.
 
-#-----------------------------------------------------------------------
-# createuser
-#
-# Our deployment policy is to run as much as possible as unprivileged users.
-# Ideally each piece of work we do (which probably maps to a separate salt
-# forumula) should have its own user defined.
-# Therefore, most of our main salt formulas will begin by defining a user.
-#-----------------------------------------------------------------------
-
+# Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
 {% macro createuser(user, auth_keys_files=[]) %}
 
 {{ user }}_user_exists:
@@ -53,19 +45,15 @@
 {% endmacro %}
 
 
-#-----------------------------------------------------------------------
-# apache
-# Install the named conf file in the apache dir onto the server.
-#-----------------------------------------------------------------------
-
 # It is safe to set `serveraliases=[]`, because the default argument is never mutated.
 {% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='') %}
 
 {% if name == '' %}
-{% set name=conffile %}
+{% set name = conffile %}
 {% endif %}
+
 {% if servername == '' %}
-{% set servername=grains.fqdn %}
+{% set servername = grains.fqdn %}
 {% endif %}
 
 {% if https == 'yes' or https == 'force' or https == 'certonly' %}
@@ -81,13 +69,6 @@
         https: "{{ https }}"
         {{ extracontext | indent(8) }}
 
-# https-enabled config has two files: the main .conf file is just
-# boilerplate from _common.conf, the service-specific config is in an
-# Apache-included file <name>.conf.include.
-#   Note 1, the include does not get linked into sites-enabled.
-#   Note 2, ideally we would use a Jinja include to create a proper
-#           standalone conf file, but that doesn't work in salt-ssh.
-
 /etc/apache2/sites-available/{{ name }}:
   file.managed:
     - source: salt://apache/_common.conf
@@ -102,7 +83,7 @@
         https: "{{ https }}"
         {{ extracontext | indent(8) }}
 
-{% set domainargs= "-d "+ " -d ".join([ servername ] + serveraliases ) %}
+{% set domainargs = "-d " + " -d ".join([ servername ] + serveraliases) %}
 
 {{ servername }}_acquire_certs:
   cmd.run:
@@ -168,11 +149,8 @@
 {% endmacro %}
 
 
-#-----------------------------------------------------------------------
-# uwsgi
-#-----------------------------------------------------------------------
-
 {% macro uwsgi(conffile, name, port='', extracontext='') %}
+
 # Render the file with jinja and place it in apps-available
 /etc/uwsgi/apps-available/{{ name }}:
   file.managed:
@@ -212,6 +190,7 @@
 
 # app: override the DJANGO_SETTINGS_MODULE set in the Django project's manage.py file
 {% macro django(name, user, giturl, branch, djangodir, pip_require, app=None, compilemessages=True) %}
+
 {{ giturl }}{{ djangodir }}:
   git.latest:
     - name: {{ giturl }}
@@ -264,7 +243,7 @@
     - watch_in:
       - service: apache2
 
-migrate-{{name}}:
+migrate-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; {% if app %}DJANGO_SETTINGS_MODULE={{ app }}.settings {% endif %}python manage.py migrate --noinput
     - runas: {{ user }}
@@ -275,7 +254,7 @@ migrate-{{name}}:
       - git: {{ giturl }}{{ djangodir }}
 
 {% if compilemessages %}
-compilemessages-{{name}}:
+compilemessages-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; {% if app %}DJANGO_SETTINGS_MODULE={{ app }}.settings {% endif %}python manage.py compilemessages
     - runas: {{ user }}
@@ -286,7 +265,7 @@ compilemessages-{{name}}:
       - git: {{ giturl }}{{ djangodir }}
 {% endif %}
 
-collectstatic-{{name}}:
+collectstatic-{{ name }}:
   cmd.run:
     - name: . .ve/bin/activate; {% if app %}DJANGO_SETTINGS_MODULE={{ app }}.settings {% endif %}python manage.py collectstatic --noinput
     - runas: {{ user }}
@@ -303,7 +282,7 @@ collectstatic-{{name}}:
     - recurse:
       - mode
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
 
@@ -311,7 +290,8 @@ collectstatic-{{name}}:
   file.directory:
     - dir_mode: 755
     - require:
-      - cmd: collectstatic-{{name}}
+      - cmd: collectstatic-{{ name }}
     - user: {{ user }}
     - group: {{ user }}
+
 {% endmacro %}
