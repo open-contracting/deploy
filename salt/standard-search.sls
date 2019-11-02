@@ -1,11 +1,7 @@
 {% from 'lib.sls' import createuser, apache, uwsgi, django %}
 
 {% set user = 'standard-search' %}
-{% set name = 'ocds-search' %}
-
 {{ createuser(user) }}
-
-{% set giturl = 'https://github.com/OpenDataServices/standard-search.git' %}
 
 include:
   - apache
@@ -34,7 +30,6 @@ standard-search-uwsgi:
         - service: apache2
       - require:
         - pkg: standard-search-deps
-
 
 elasticsearch:
   cmd.run:
@@ -72,26 +67,29 @@ elasticsearch:
     - source: salt://standard-search/jvm.options
     - template: jinja
 
-
 {% set name = 'ocds-search' %}
-{% set branch = 'master' %}
 {% set djangodir = '/home/' + user + '/' + name + '/' %}
 
 {% set extracontext %}
 djangodir: {{ djangodir }}
-branch: {{ branch }}
 bare_name: {{ name }}
 {% endset %}
 
 {{ apache(user + '.conf',
     name=name + '.conf',
-    https='yes',
     servername='standard-search.open-contracting.org',
     serveraliases=['www.live.standard-search.opencontracting.uk0.bigv.io'],
+    https='yes',
     extracontext=extracontext) }}
 
 {{ uwsgi(user + '.ini',
     name=name + '.ini',
     extracontext=extracontext) }}
 
-{{ django(name, user, giturl, branch, djangodir, 'standard-search-uwsgi', compilemessages=False) }}
+{{ django(name,
+    user,
+    'https://github.com/OpenDataServices/standard-search.git',
+    'master',
+    djangodir,
+    'standard-search-uwsgi',
+    compilemessages=False) }}

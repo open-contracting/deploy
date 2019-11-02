@@ -4,9 +4,6 @@
 {% set user = 'cove' %}
 {{ createuser(user) }}
 
-# libapache2-mod-wsgi-py3
-# gettext
-
 include:
   - apache
   - uwsgi
@@ -45,7 +42,6 @@ uwsgi_port: null
 {% else %}
 uwsgi_port: {{ uwsgi_port }}
 {% endif %}
-branch: {{ branch }}
 app: {{ app }}
 bare_name: {{ name }}
 assets_base_url: "{{ pillar.cove.assets_base_url }}"
@@ -53,17 +49,23 @@ assets_base_url: "{{ pillar.cove.assets_base_url }}"
 
 {{ apache(user + '.conf',
     name=name + '.conf',
-    extracontext=extracontext,
     servername=pillar.cove.servername,
-    serveraliases=[ branch + '.' + grains.fqdn ],
-    https=pillar.cove.https) }}
+    serveraliases=[branch + '.' + grains.fqdn],
+    https=pillar.cove.https,
+    extracontext=extracontext) }}
 
 {{ uwsgi(user + '.ini',
     name=name + '.ini',
     extracontext=extracontext,
     port=uwsgi_port) }}
 
-{{ django(name, user, pillar.cove.giturl, branch, djangodir, 'pkg: cove-deps', app=app) }}
+{{ django(name,
+    user,
+    pillar.cove.giturl,
+    branch,
+    djangodir,
+    'pkg: cove-deps',
+    app=app) }}
 
 cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{ pillar.cove.secret_key }}" python manage.py expire_files:
   cron.present:
