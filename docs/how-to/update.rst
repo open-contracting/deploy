@@ -96,7 +96,8 @@ If you delete a file, service, package, user, authorized key, Apache module, or 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Cut it from ``salt/private/authorized_keys/root_to_add`` and paste it into ``salt/private/authorized_keys/root_to_remove``
+#. Cut it from ``salt/private/authorized_keys/root_to_add``
+#. Paste it into ``salt/private/authorized_keys/root_to_remove``
 #. Run:
 
    .. code-block:: bash
@@ -118,14 +119,16 @@ Run, for example:
 Delete a service
 ~~~~~~~~~~~~~~~~
 
-`Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service. For example, to stop and disable the ``icinga2`` service on the ``ocds-docs-staging`` target:
+`Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
+
+To stop and disable the ``icinga2`` service on the ``ocds-docs-staging`` target, for example:
 
 .. code-block:: bash
 
    salt-ssh 'ocds-docs-staging' service.stop icinga2
    salt-ssh 'ocds-docs-staging' service.disable icinga2
 
-If you deleted a ``uwsgi`` configuration, run, for example:
+If you deleted the ``uwsgi`` service, also run, for example:
 
 .. code-block:: bash
 
@@ -135,7 +138,9 @@ If you deleted a ``uwsgi`` configuration, run, for example:
 Delete a package
 ~~~~~~~~~~~~~~~~
 
-`Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__. For example, to scrub Icinga-related packages from the ``ocds-docs-staging`` target:
+`Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
+
+To scrub Icinga-related packages from the ``ocds-docs-staging`` target, for example:
 
 .. code-block:: bash
 
@@ -143,7 +148,7 @@ Delete a package
    salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
    salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
 
-Then, login to the server and check for and delete any remaining packages, files or directories relating to the package:
+Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
 .. code-block:: bash
 
