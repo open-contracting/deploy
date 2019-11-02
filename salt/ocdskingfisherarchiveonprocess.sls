@@ -1,12 +1,9 @@
 {% from 'lib.sls' import createuser %}
 
-
-
 {% set user = 'archive' %}
 {{ createuser(user) }}
 
 {% for file in ['id_rsa', 'id_rsa.pub'] %}
-
 /home/{{ user }}/.ssh/{{ file }}:
   file.managed:
     - source: salt://private/kingfisher-archive/{{ file }}
@@ -16,14 +13,11 @@
     - mode: 600
     - require:
        - user: {{ user }}_user_exists
-
 {% endfor %}
-
 
 {% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
 {% set userdir = '/home/' + user %}
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive/' %}
-
 
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
@@ -72,5 +66,3 @@ cd {{ ocdskingfisherdir }}; ./rsync-downloaded-files.sh  >> {{ userdir }}/logs/r
     - minute: 0
     - hour: 1
 #    - dayweek: 6
-
-
