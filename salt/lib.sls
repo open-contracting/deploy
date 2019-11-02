@@ -135,7 +135,6 @@
 
 {% macro uwsgi(conffile, name, port='', extracontext='') %}
 
-# Render the file with jinja and place it in apps-available
 /etc/uwsgi/apps-available/{{ name }}:
   file.managed:
     - source: salt://uwsgi/{{ conffile }}
@@ -147,7 +146,6 @@
         port: {{ port }}
         {{ extracontext | indent(8) }}
 
-# Create a symlink from apps-enabled to enable the config
 /etc/uwsgi/apps-enabled/{{ name }}:
   file.symlink:
     - target: /etc/uwsgi/apps-available/{{ name }}
@@ -176,9 +174,8 @@
     - watch_in:
       - service: uwsgi
 
-# We have seen different permissions on different servers and we have seen bugs arise due to problems with the permissions.
-# Make sure the user and permissions are set correctly for the media folder and all it's contents!
-# (This in itself won't make sure permissions are correct on new files, but it will sort any existing problems)
+# We have seen different permissions on different servers, and we have seen bugs arise as a result.
+# (This won't ensure permissions are correct on new files, but it will fix any existing problems.)
 {{ djangodir }}media:
   file.directory:
     - name: {{ djangodir }}media
@@ -189,8 +186,7 @@
       - user
       - mode
 
-# Install the latest version of pip first
-# This is necessary to download linux wheels, which avoids building C code
+# Install the latest version of pip, needed to download linux wheels, which avoids building C code.
 {{ djangodir }}.ve/-pip:
   virtualenv.managed:
     - name: {{ djangodir }}.ve/
@@ -202,7 +198,7 @@
       - {{ pip_require }}
       - git: {{ giturl }}{{ djangodir }}
 
-# Then install the rest of our requirements
+# Then, install the rest of the requirements.
 {{ djangodir }}.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
