@@ -159,7 +159,7 @@
 
 
 # app: override the DJANGO_SETTINGS_MODULE set in the Django project's manage.py file
-{% macro django(name, user, giturl, branch, djangodir, pip_require, app=None, compilemessages=True) %}
+{% macro django(name, user, giturl, branch, djangodir, app=None, compilemessages=True) %}
 
 {{ giturl }}{{ djangodir }}:
   git.latest:
@@ -195,7 +195,7 @@
     - system_site_packages: False
     - pip_pkgs: pip==8.1.2
     - require:
-      - {{ pip_require }}
+      - pkg: {{ user }}-deps
       - git: {{ giturl }}{{ djangodir }}
 
 # Then, install the rest of the requirements.

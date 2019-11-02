@@ -7,9 +7,9 @@ include:
   - apache
   - uwsgi
 
-standard-search-deps:
+{{ user }}-deps:
     apache_module.enabled:
-      - name: proxy
+      - name: proxy proxy_uwsgi
       - watch_in:
         - service: apache2
     pkg.installed:
@@ -22,14 +22,6 @@ standard-search-deps:
       - watch_in:
         - service: apache2
         - service: uwsgi
-
-standard-search-uwsgi:
-    apache_module.enabled:
-      - name: proxy_uwsgi
-      - watch_in:
-        - service: apache2
-      - require:
-        - pkg: standard-search-deps
 
 elasticsearch:
   cmd.run:
@@ -91,5 +83,4 @@ bare_name: {{ name }}
     'https://github.com/OpenDataServices/standard-search.git',
     'master',
     djangodir,
-    'standard-search-uwsgi',
     compilemessages=False) }}

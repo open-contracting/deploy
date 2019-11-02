@@ -8,7 +8,7 @@ include:
   - apache
   - uwsgi
 
-cove-deps:
+{{ user }}-deps:
     apache_module.enabled:
       - name: proxy proxy_uwsgi
       - watch_in:
@@ -64,7 +64,6 @@ assets_base_url: "{{ pillar.cove.assets_base_url }}"
     pillar.cove.giturl,
     branch,
     djangodir,
-    'pkg: cove-deps',
     app=app) }}
 
 cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{ pillar.cove.secret_key }}" python manage.py expire_files:

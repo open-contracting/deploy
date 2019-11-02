@@ -10,7 +10,7 @@ include:
   - apache-proxy
   - uwsgi
 
-toucan-deps:
+{{ user }}-deps:
     apache_module.enabled:
       - name: proxy proxy_uwsgi
       - watch_in:
@@ -46,8 +46,7 @@ djangodir: {{ djangodir }}
     user,
     'https://github.com/open-contracting/toucan.git',
     'master',
-    djangodir,
-    'pkg: toucan-deps') }}
+    djangodir) }}
 
 # Set up a redirect from an old server name.
 {{ apache('ocdskit-web-redirects.conf') }}
