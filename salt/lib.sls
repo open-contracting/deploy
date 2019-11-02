@@ -157,18 +157,6 @@
     - watch_in:
       - service: uwsgi
 
-# Add a fail2ban jail for this uwsgi instance
-# /etc/fail2ban/jail.d/uwsgi-{{ name }}.conf:
-#   file.managed:
-#     - source: salt://fail2ban/jail.d/uwsgi.conf
-#     - template: jinja
-#     - makedirs: True
-#     - watch_in:
-#       - service: fail2ban
-#     - context:
-#         name: {{ name }}
-#         port: {{ port }}
-
 {% endmacro %}
 
 
