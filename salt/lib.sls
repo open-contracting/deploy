@@ -186,27 +186,14 @@
       - user
       - mode
 
-# Install the latest version of pip, needed to download linux wheels, which avoids building C code.
-{{ djangodir }}.ve/-pip:
-  virtualenv.managed:
-    - name: {{ djangodir }}.ve/
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
-    - pip_pkgs: pip==8.1.2
-    - require:
-      - pkg: {{ user }}-deps
-      - git: {{ giturl }}{{ djangodir }}
-
-# Then, install the rest of the requirements.
 {{ djangodir }}.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
-    - system_site_packages: False
     - requirements: {{ djangodir }}requirements.txt
     - require:
-      - virtualenv: {{ djangodir }}.ve/-pip
+      - pkg: {{ user }}-deps
+      - git: {{ giturl }}{{ djangodir }}
       - file: set_lc_all # required to avoid unicode errors for the "schema" library
     - watch_in:
       - service: apache2
