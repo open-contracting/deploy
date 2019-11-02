@@ -5,4 +5,3 @@ include:
 
 # Set up a redirect from an old server name.
 {{ apache('ocdskit-web-redirects.conf') }}
-

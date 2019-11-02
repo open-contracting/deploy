@@ -26,6 +26,9 @@ include:
         - python3-pip
         - python-virtualenv
         - uwsgi-plugin-python3
+        {% if pillar.django.compilemessages %}
+        - gettext
+        {% endif %}
       - watch_in:
         - service: apache2
         - service: uwsgi

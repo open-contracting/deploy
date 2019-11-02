@@ -12,8 +12,8 @@ DocumentRoot {{ djangodir }}
 </Location>
 
 # Static content needed by Django
-Alias /static "{{ djangodir }}static/"
-<Location "/static">
+Alias {{ pillar.apache.assets_base_url }}/static "{{ djangodir }}static/"
+<Location "{{ pillar.apache.assets_base_url }}/static">
     ProxyPass !
     Order allow,deny
     Allow from all
@@ -21,12 +21,16 @@ Alias /static "{{ djangodir }}static/"
 </Location>
 
 # Static content uploaded by users
-Alias /media "{{ djangodir }}media/"
-<Location "/media">
+Alias {{ pillar.apache.assets_base_url }}/media "{{ djangodir }}media/"
+<Location "{{ pillar.apache.assets_base_url }}/media">
     ProxyPass !
     Order allow,deny
     Allow from all
     SetHandler None
+
+    # Serve JSON with UTF-8 charset.
+    # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
+    AddType "application/json; charset=utf-8" .json
 </Location>
 
 <Directory {{ djangodir }}>
