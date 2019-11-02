@@ -4,4 +4,4 @@ Unattended-Upgrade::Allowed-Origins {
 };
 Unattended-Upgrade::Mail "sysadmin@open-contracting.org,code@opendataservices.coop";
 Unattended-Upgrade::MailOnlyOnError "true";
-Unattended-Upgrade::Automatic-Reboot "{{pillar.automatic_reboot}}";
+Unattended-Upgrade::Automatic-Reboot "{{ pillar.automatic_reboot }}";
