@@ -1,9 +1,7 @@
-
 {% from 'lib.sls' import createuser, apache %}
 
 include:
   - prometheus-client-common
-  - apache
   - apache-proxy
 
 # Note user variable is set in other prometheus-client-*.sls files too!
@@ -26,4 +24,3 @@ prometheus-client-apache-password:
     - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd prom {{ pillar.prometheus.client_password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
-

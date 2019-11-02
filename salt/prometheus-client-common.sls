@@ -1,4 +1,3 @@
-
 {% from 'lib.sls' import createuser %}
 
 prometheus-client-deps:
