@@ -91,7 +91,7 @@ To check for old SSL certificates that were previously not removed, run:
 Remove content
 --------------
 
-If you delete a service, package, user, file, or authorized key from file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
+If you delete a file, service, package, user, authorized key, or Apache module from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -151,6 +151,24 @@ Then, login to the server and check for and delete any remaining packages, files
    dpkg -l | grep nagios
    ls /etc/icinga2
    ls /usr/lib/nagios
+
+Delete an Apache module
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Add a temporary Salt ID, for example:
+
+   .. code-block:: none
+
+      headers:
+          apache_module.disabled
+
+#. Deploy the relevant target, for example:
+
+   .. code-block:: bash
+
+      salt-ssh 'toucan' state.apply
+
+#. Remove the temporary salt ID
 
 Troubleshoot
 ------------
