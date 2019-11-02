@@ -1,0 +1,34 @@
+# vi: ft=apache
+
+DocumentRoot {{ djangodir }}
+
+<Location "/">
+    # See https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
+    ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/
+</Location>
+
+<Location "/.well-known/acme-challenge">
+    ProxyPass !
+</Location>
+
+# Static content needed by Django
+Alias /static "{{ djangodir }}static/"
+<Location "/static">
+    ProxyPass !
+    Order allow,deny
+    Allow from all
+    SetHandler None
+</Location>
+
+# Static content uploaded by users
+Alias /media "{{ djangodir }}media/"
+<Location "/media">
+    ProxyPass !
+    Order allow,deny
+    Allow from all
+    SetHandler None
+</Location>
+
+<Directory {{ djangodir }}>
+    Require all granted
+</Directory>

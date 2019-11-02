@@ -1,3 +1,3 @@
-toucan:
-    sentry_dsn: xxxxxxxxxxxxxxxxxxx
-
+django:
+  private_env:
+    SENTRY_DSN: xxxxxxxxxxxxxxxxxxx

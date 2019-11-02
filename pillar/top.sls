@@ -18,6 +18,7 @@ base:
      - private.ocdskingfisher_pillar # this is for the proxy config
 
   'standard-search':
+     - standard_search_pillar
      - private.standard_search_pillar
 
   'toucan':
