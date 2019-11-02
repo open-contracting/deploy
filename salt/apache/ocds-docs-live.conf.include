@@ -138,7 +138,7 @@
 
         {% if 'cove_backend' in opts %}
             # /media contains user-submitted content.
-            ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.cove.apache_on_docs_server_proxy_timeout }}
+            ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.apache_on_docs_server_proxy_timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
             ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
         {% endif %}
