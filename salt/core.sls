@@ -1,23 +1,25 @@
 # Defines a base configuration that we want installed on all of our servers.
 
-# Core packages that almost all our software will depend on
+# Nearly universal dependency.
 git:
   pkg.installed
-python-apt: # required for salt to interact with apt
+
+# Required for salt to interact with apt.
+python-apt:
   pkg.installed
-# Useful commands for people logging into the servers
+
+# Useful commands for people logging into the servers.
 useful-shell-commands:
   pkg.installed:
     - pkgs:
-      - vim
-      - tmux
-      - man-db
-      - psmisc # gives us killall
       - htop
+      - man-db
+      - psmisc # provides killall
+      - tmux
+      - vim
 
 ## Security
 
-# Install fail2ban
 fail2ban:
   pkg.installed:
     - pkgs:
@@ -33,28 +35,25 @@ f2b-startup:
   require:
     - pkg: fail2ban
 
-# Additional fail2ban config: setup email alerts when bans are triggered
-# (enabled only if the jail has an appropriate action: uwsgi does, but ssh doesn't)
+# Setup email alerts when bans are triggered - enabled only if the jail has a configured action (uwsgi does, not ssh).
 /etc/fail2ban/action.d/mail-whois.local:
   file.managed:
     - source: salt://fail2ban/action.d/mail-whois.local
 
-# Disable SSH password login (use keys instead)
+# Disable password login (use keys instead).
 /etc/ssh/sshd_config:
   file.replace:
     - pattern: PasswordAuthentication yes
     - repl: PasswordAuthentication no
 
-# reload SSH if we change the config
 ssh:
   service:
     - running
     - enable: True
     - reload: True
-    - watch:
+    - watch: # reload if we change the config
       - file: /etc/ssh/sshd_config
 
-# Install authorized SSH public keys
 root_authorized_keys_add:
   ssh_auth.present:
    - user: root
@@ -64,14 +63,10 @@ root_authorized_keys_remove:
    - user: root
    - source: salt://private/authorized_keys/root_to_remove
 
-
-# Don't need and don't want RPC portmapper:
+# Don't need RPC portmapper.
 rpcbind:
-  pkg.removed
+  pkg.purged
 
-
-
-# Set up unattended upgrades
 unattended-upgrades:
   pkg.installed:
     - pkgs:
@@ -87,7 +82,7 @@ unattended-upgrades:
   file.managed:
     - source: salt://apt/10periodic
 
-# Swap file
+## Swap
 
 create_swapfile:
   cmd.run:
@@ -98,6 +93,8 @@ create_swapfile:
   mount.swap:
     - require:
       - cmd: create_swapfile
+
+## Miscellaneous
 
 MAILTO_root:
   cron.env_present:
