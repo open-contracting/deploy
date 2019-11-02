@@ -49,7 +49,7 @@ uwsgi_port: {{ uwsgi_port }}
 branch: {{ branch }}
 app: {{ app }}
 bare_name: {{ name }}
-assets_base_url: {{ pillar.cove.assets_base_url }}
+assets_base_url: "{{ pillar.cove.assets_base_url }}"
 {% endset %}
 
 {{ apache(user + '.conf',
