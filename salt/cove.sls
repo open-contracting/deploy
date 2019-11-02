@@ -8,7 +8,6 @@
 # gettext
 
 include:
-  - core
   - apache
   - uwsgi
   - letsencrypt

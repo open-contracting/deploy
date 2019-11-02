@@ -8,7 +8,6 @@
 {% set giturl = 'https://github.com/OpenDataServices/standard-search.git' %}
 
 include:
-  - core
   - apache
   - uwsgi
   - letsencrypt
