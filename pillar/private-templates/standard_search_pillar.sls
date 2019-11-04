@@ -1,4 +1,4 @@
 django:
-  private_env:
-    SENTRY_DSN: https://xxxxxxxxxxxxxx:xxxxxxxxxxxxxxxxxx@sentry.io/xxxxxxxxxxxxxxxxxxxxxxxxxxxx
-    OCDS_SECRET: 'xxxxxxxxxxxxxxxxxxxxxx'
+  env:
+    SENTRY_DSN: https://xxxxxxxxxxxxxxxxxxxxxxx@sentry.io/xxxxxxxxxxxxxxxxx
+    OCDS_SECRET: 'xxxxxxxxxxxxxxxxxxxxxxx'

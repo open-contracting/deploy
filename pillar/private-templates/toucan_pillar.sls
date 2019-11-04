@@ -1,3 +1,3 @@
 django:
-  private_env:
-    SENTRY_DSN: xxxxxxxxxxxxxxxxxxx
+  env:
+    SENTRY_DSN: https://xxxxxxxxxxxxxxxxxxxxxxx@sentry.io/xxxxxxxxxxxxxxxxx

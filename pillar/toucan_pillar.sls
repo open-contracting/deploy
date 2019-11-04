@@ -2,8 +2,8 @@ user: ocdskit-web
 name: ocdskit-web
 apache:
   https: force
-  serveraliases: []
   servername: toucan.open-contracting.org
+  serveraliases: []
   assets_base_url: ''
 git:
   url: https://github.com/open-contracting/toucan.git
