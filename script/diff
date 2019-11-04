@@ -19,7 +19,7 @@ fi
 
 git stash pop
 cd pillar/private
-git stash pop
+git stash pop || true # in case pillar/private was clean
 cd ../..
 
 if [ -z "$2" ]; then
