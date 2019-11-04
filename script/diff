@@ -7,6 +7,9 @@ if [ -z "$1" ]; then
 fi
 
 git stash
+cd pillar/private
+git stash
+cd ../..
 
 if [ -z "$2" ]; then
   salt-ssh "$1" state.show_highstate > before
@@ -15,6 +18,9 @@ else
 fi
 
 git stash pop
+cd pillar/private
+git stash pop
+cd ../..
 
 if [ -z "$2" ]; then
   salt-ssh "$1" state.show_highstate > after
