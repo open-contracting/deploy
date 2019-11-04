@@ -30,6 +30,7 @@ Alias {{ pillar.apache.assets_base_url }}/media "{{ djangodir }}media/"
 
     # Serve JSON with UTF-8 charset.
     # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
+    # https://bugs.webkit.org/show_bug.cgi?id=197369
     AddType "application/json; charset=utf-8" .json
 </Location>
 
