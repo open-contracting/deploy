@@ -4,7 +4,7 @@ DocumentRoot {{ djangodir }}
 
 <Location "/">
     # See https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
-    ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/
+    ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/{% if pillar.uwsgi.larger_limits %} timeout={{ pillar.uwsgi.harakiri + 15 }}{% endif %}
 </Location>
 
 <Location "/.well-known/acme-challenge">

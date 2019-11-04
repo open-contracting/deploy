@@ -8,3 +8,5 @@ django:
   env:
     DEBUG: 'False'
     LANG: en_US.utf8
+uwsgi:
+  larger_limits: False
