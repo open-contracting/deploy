@@ -18,10 +18,12 @@ base:
      - private.ocdskingfisher_pillar # this is for the proxy config
 
   'standard-search':
+     - django_pillar
      - standard_search_pillar
      - private.standard_search_pillar
 
   'toucan':
+     - django_pillar
      - toucan_pillar
      - private.toucan_pillar
 
@@ -35,5 +37,3 @@ base:
   'cove-live-ocds-2':
      - cove_ocds_live_pillar
      - private.cove_ocds_live_pillar
-
-
