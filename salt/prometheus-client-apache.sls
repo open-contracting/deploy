@@ -2,7 +2,13 @@
 
 include:
   - prometheus-client-common
-  - apache-proxy
+  - apache
+
+prometheus-client modules:
+  apache_module.enabled:
+    - names:
+      - proxy
+      - proxy_http
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}

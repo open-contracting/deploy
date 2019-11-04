@@ -3,18 +3,13 @@
 {% set user = 'ocds-docs' %}
 {{ createuser(user) }}
 
-mod_headers:
+ocds-docs-common modules:
   apache_module.enabled:
-    - name: headers
-mod_include:
-  apache_module.enabled:
-    - name: include
-mod_rewrite:
-  apache_module.enabled:
-    - name: rewrite
-mod_substitute:
-  apache_module.enabled:
-    - name: substitute
+    - names:
+      - headers
+      - include
+      - rewrite
+      - substitute
 
 # Create directory into which files are copied into place.
 /home/{{ user }}/web/:

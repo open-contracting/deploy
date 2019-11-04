@@ -10,7 +10,9 @@ include:
 
 ocdskingfisherprocess-prerequisites  :
   apache_module.enabled:
-    - name: proxy proxy_uwsgi
+    - names:
+      - proxy
+      - proxy_uwsgi
     - watch_in:
       - service: apache2
   pkg.installed:

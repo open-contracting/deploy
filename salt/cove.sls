@@ -4,12 +4,15 @@
 {{ createuser(pillar.user) }}
 
 include:
-  - apache-proxy
+  - apache
   - uwsgi
 
 {{ pillar.user }}-deps:
     apache_module.enabled:
-      - name: proxy proxy_uwsgi
+      - names:
+        - proxy
+        - proxy_http
+        - proxy_uwsgi
       - watch_in:
         - service: apache2
     pkg.installed:

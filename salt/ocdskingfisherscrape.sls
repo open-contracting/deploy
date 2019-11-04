@@ -5,7 +5,9 @@ include:
 
 ocdskingfisherscrape-prerequisites  :
   apache_module.enabled:
-    - name: proxy proxy_http
+    - names:
+      - proxy
+      - proxy_http
     - watch_in:
       - service: apache2
   pkg.installed:

@@ -1,6 +1,12 @@
 include:
-  - apache-proxy
+  - apache
   - ocds-docs-common
+
+ocds-docs-live modules:
+  apache_module.enabled:
+    - names:
+      - proxy
+      - proxy_http
 
 # These will be served the same as files that were copied into place.
 https://github.com/open-contracting/standard-legacy-staticsites.git:

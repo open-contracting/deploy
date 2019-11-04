@@ -30,6 +30,12 @@ To compare Jinja2 output after refactoring but before committing, use ``script/d
    ./script/diff ocds-docs-staging
    ./script/diff ocds-docs-staging ocds-docs-common
 
+If you get the error:
+
+   An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'
+
+Run ``state.apply test=True`` as above. You might have conflicting IDs.
+
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -230,7 +236,7 @@ The files in this repository were originally in the `opendataservices-deploy <ht
 .. code-block:: bash
 
    git clone git@github.com:OpenDataServices/opendataservices-deploy.git
-   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls salt-config/master salt/apache-proxy.sls salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/fail2ban/action.d/mail-whois.local salt/fail2ban/filter.d/uwsgi.conf salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
+   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls salt-config/master salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/fail2ban/action.d/mail-whois.local salt/fail2ban/filter.d/uwsgi.conf salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
 
 -  ``setup_for_non_root.sh`` corresponds to ``script/setup``
 -  ``updateToMaster.sh`` corresponds to ``script/update``
