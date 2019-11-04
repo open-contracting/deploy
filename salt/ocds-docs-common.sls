@@ -45,6 +45,6 @@ testing: True
 {% endset %}
 {{ apache('ocds-docs-' + pillar.environment + '.conf',
     name='ocds-docs-' + pillar.environment + '-testing.conf',
-    servername='testing.' + pillar.testing_subdomain + 'standard.open-contracting.org',
+    servername='testing.' + pillar.environment + '.standard.open-contracting.org',
     extracontext=extracontext,
     https=pillar.https) }}
