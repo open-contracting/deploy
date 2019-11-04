@@ -23,7 +23,6 @@ include:
     pkg.installed:
       - pkgs:
         - libapache2-mod-proxy-uwsgi
-        - python3-pip
         - python-virtualenv
         - uwsgi-plugin-python3
         {% if pillar.django.compilemessages %}
