@@ -116,7 +116,7 @@ Symlink the branch:
 
 .. code-block:: bash
 
-   ssh root@live.standard.open-contracting.org "ln -sf ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
+   ssh root@live.standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
 
 If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
 
