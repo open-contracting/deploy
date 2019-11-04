@@ -67,7 +67,7 @@
       - service: apache2
     - context:
         https: {{ https }}
-        {{ extracontext | indent(8) }}
+        {{ extracontext|indent(8) }}
 
 /etc/apache2/sites-available/{{ name }}:
   file.managed:
@@ -81,7 +81,7 @@
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: {{ https }}
-        {{ extracontext | indent(8) }}
+        {{ extracontext|indent(8) }}
 
 {% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
 
@@ -117,7 +117,7 @@
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
-        {{ extracontext | indent(8) }}
+        {{ extracontext|indent(8) }}
 
 {% endif %}
 
@@ -144,7 +144,7 @@
       - service: uwsgi
     - context:
         port: {{ port }}
-        {{ extracontext | indent(8) }}
+        {{ extracontext|indent(8) }}
 
 /etc/uwsgi/apps-enabled/{{ name }}:
   file.symlink:
