@@ -5,7 +5,6 @@
 ocdskingfisheranalyse-prerequisites:
   pkg.installed:
     - pkgs:
-      - git
       - jq
       - unrar
 
