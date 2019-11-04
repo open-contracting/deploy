@@ -1,14 +1,13 @@
 # See https://cove.readthedocs.io/en/latest/deployment/
 {% from 'lib.sls' import createuser, apache, uwsgi, django %}
 
-{% set user = 'cove' %}
-{{ createuser(user) }}
+{{ createuser(pillar.user) }}
 
 include:
-  - apache
+  - apache-proxy
   - uwsgi
 
-{{ user }}-deps:
+{{ pillar.user }}-deps:
     apache_module.enabled:
       - name: proxy proxy_uwsgi
       - watch_in:
@@ -16,59 +15,48 @@ include:
     pkg.installed:
       - pkgs:
         - libapache2-mod-proxy-uwsgi
-        - python-pip
         - python-virtualenv
         - uwsgi-plugin-python3
+        {% if pillar.django.compilemessages %}
         - gettext
+        {% endif %}
       - watch_in:
         - service: apache2
         - service: uwsgi
+
+{% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
+
+{% set extracontext %}
+djangodir: {{ djangodir }}
+{% endset %}
+
+{{ apache(pillar.user + '.conf',
+    name=pillar.name + '.conf',
+    servername=pillar.apache.servername,
+    serveraliases=pillar.apache.serveraliases,
+    https=pillar.apache.https,
+    extracontext=extracontext) }}
+
+{{ uwsgi(pillar.user + '.ini',
+    name=pillar.name + '.ini',
+    extracontext=extracontext) }}
+
+{{ django(pillar.name,
+    user=pillar.user,
+    giturl=pillar.git.url,
+    branch=pillar.git.branch,
+    djangodir=djangodir,
+    app=pillar.django.app,
+    compilemessages=pillar.django.compilemessages) }}
 
 remoteip:
     apache_module.enabled:
       - watch_in:
         - service: apache2
 
-{% set name = 'cove' %}
-{% set branch = pillar.default_branch %}
-{% set djangodir = '/home/' + user + '/cove/' %}
-{% set uwsgi_port = pillar.cove.uwsgi_port %}
-{% set app = pillar.cove.app %}
-
-{% set extracontext %}
-djangodir: {{ djangodir }}
-{% if grains['osrelease'] == '16.04' %}
-uwsgi_port: null
-{% else %}
-uwsgi_port: {{ uwsgi_port }}
-{% endif %}
-app: {{ app }}
-bare_name: {{ name }}
-assets_base_url: "{{ pillar.cove.assets_base_url }}"
-{% endset %}
-
-{{ apache(user + '.conf',
-    name=name + '.conf',
-    servername=pillar.cove.servername,
-    serveraliases=[branch + '.' + grains.fqdn],
-    https=pillar.cove.https,
-    extracontext=extracontext) }}
-
-{{ uwsgi(user + '.ini',
-    name=name + '.ini',
-    extracontext=extracontext,
-    port=uwsgi_port) }}
-
-{{ django(name,
-    user,
-    pillar.cove.giturl,
-    branch,
-    djangodir,
-    app=app) }}
-
-cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ app }}.settings SECRET_KEY="{{ pillar.cove.secret_key }}" python manage.py expire_files:
+cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.app }}.settings SECRET_KEY="{{ pillar.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
   cron.present:
-    - identifier: COVE_EXPIRE_FILES{% if name != 'cove' %}_{{ name }}{% endif %}
+    - identifier: COVE_EXPIRE_FILES
     - user: cove
     - minute: random
     - hour: 0

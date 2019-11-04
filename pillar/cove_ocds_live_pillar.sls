@@ -1,19 +1,21 @@
-# Values used only on the Cove OCDS server
-default_branch: 'master'
-cove:
-  servername: 'cove.live.cove.opencontracting.uk0.bigv.io'
-  allowedhosts: '.cove.opencontracting.uk0.bigv.io,.standard.open-contracting.org'
-  giturl: 'https://github.com/OpenDataServices/cove.git'
-  app: cove_ocds
-  assets_base_url: ''
-  uwsgi_port: 3031
-  piwik:
-    url: '//mon.opendataservices.coop/piwik/'
-    site_id: '20' 
-    dimension_map: 'file_type=1,page_type=2,form_name=3,language=4,exit_language=5'
-  google_analytics_id: 'UA-35677147-1'
-  larger_uwsgi_limits: True
-  uwsgi_as_limit: 12000
-  uwsgi_harakiri: 1800
+user: cove
+name: cove
+apache:
   https: both
-  prefixmap: ''
+  servername: cove.live.cove.opencontracting.uk0.bigv.io
+  serveraliases: ['master.{{ grains.fqdn }}'] # should match git.branch
+git:
+  url: https://github.com/OpenDataServices/cove.git
+django:
+  app: cove_ocds
+  env:
+    ALLOWED_HOSTS: .standard.open-contracting.org,.cove.opencontracting.uk0.bigv.io
+    GOOGLE_ANALYTICS_ID: UA-35677147-1
+    PIWIK_URL: //mon.opendataservices.coop/piwik/
+    PIWIK_SITE_ID: '20'
+    PIWIK_DIMENSION_MAP: 'file_type=1,page_type=2,form_name=3,language=4,exit_language=5'
+    PREFIX_MAP: ''
+uwsgi:
+  larger_limits: True
+  limit_as: 12000 # 12 GB
+  harakiri: 1800 # 30 min

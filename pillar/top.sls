@@ -31,9 +31,11 @@ base:
     - ocdskingfisher_archive_live_pillar
 
   'cove-live-oc4ids':
+    - django_pillar
     - cove_oc4ids_live_pillar
     - private.cove_oc4ids_live_pillar
 
   'cove-live-ocds-2':
+    - django_pillar
     - cove_ocds_live_pillar
     - private.cove_ocds_live_pillar

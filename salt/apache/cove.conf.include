@@ -1,49 +1,46 @@
 # vi: ft=apache
 
-        DocumentRoot {{ djangodir }} 
+DocumentRoot {{ djangodir }} 
 
-        ErrorDocument 500 "<h2>Sorry, something went wrong.</h2> <p>Sometimes this happens because the input file is too big - maybe try again with a smaller sample.</p><p>Please file a <a href=\"https://github.com/OpenDataServices/cove/issues/new\">GitHub issue</a> or email <a href=\"mailto:code@opendataservices.coop\">code@opendataservices.coop</a> if this problem persists.</p>"
+ErrorDocument 500 "<h2>Sorry, something went wrong.</h2> <p>Sometimes this happens because the input file is too big - maybe try again with a smaller sample.</p><p>Please file a <a href=\"https://github.com/OpenDataServices/cove/issues/new\">GitHub issue</a> or email <a href=\"mailto:code@opendataservices.coop\">code@opendataservices.coop</a> if this problem persists.</p>"
 
-        RemoteIPHeader X-Forwarded-For
-        # Trust Proxies:
-        # OCDS Docs Live
-        RemoteIPTrustedProxy 5.28.62.151
-        RemoteIPTrustedProxy 2001:41c9:1:41c::151
+RemoteIPHeader X-Forwarded-For
+# Trust ocds-docs-live proxy
+RemoteIPTrustedProxy 5.28.62.151
+RemoteIPTrustedProxy 2001:41c9:1:41c::151
 
-        <Location "/">
-                {% if uwsgi_port %}
-                ProxyPass uwsgi://127.0.0.1:{{ uwsgi_port }}/ timeout={{ pillar.cove.uwsgi_harakiri + 15 }}
-                {% else %}
-                ProxyPass unix:/tmp/uwsgi_{{ bare_name }}.sock|uwsgi://{{ bare_name }}/ timeout={{ pillar.cove.uwsgi_harakiri + 15 }}
-                {% endif %}
-        </Location>
+<Location "/">
+    # See https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
+    ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/{% if pillar.uwsgi.larger_limits %} timeout={{ pillar.uwsgi.harakiri + 15 }}{% endif %}
+</Location>
 
-        # Static content needed by Django
-        Alias {{ assets_base_url }}/static "{{ djangodir }}static/"
-        <Location "{{ assets_base_url }}/static">
-                ProxyPass !
-                Order allow,deny
-                Allow from all
-                SetHandler None
-        </Location>
+<Location "/.well-known/acme-challenge">
+    ProxyPass !
+</Location>
 
-        # Static content uploaded by users
-        Alias {{ assets_base_url }}/media "{{ djangodir }}media/"
-        <Location "{{ assets_base_url }}/media">
-                ProxyPass !
-                Order allow,deny
-                Allow from all
-                SetHandler None
-                # Serve json with utf-8 media type
-                # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
-                # https://github.com/OpenDataServices/cove/issues/478
-                AddType "application/json;charset=utf-8" .json
-        </Location>
+# Static content needed by Django
+Alias {{ pillar.apache.assets_base_url }}/static "{{ djangodir }}static/"
+<Location "{{ pillar.apache.assets_base_url }}/static">
+    ProxyPass !
+    Order allow,deny
+    Allow from all
+    SetHandler None
+</Location>
 
-        <Directory {{ djangodir }}>
-                Require all granted
-        </Directory>
+# Static content uploaded by users
+Alias {{ pillar.apache.assets_base_url }}/media "{{ djangodir }}media/"
+<Location "{{ pillar.apache.assets_base_url }}/media">
+    ProxyPass !
+    Order allow,deny
+    Allow from all
+    SetHandler None
 
-        <Location "/.well-known/acme-challenge">
-                ProxyPass !
-        </Location>
+    # Serve JSON with UTF-8 charset.
+    # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
+    # https://bugs.webkit.org/show_bug.cgi?id=197369
+    AddType "application/json; charset=utf-8" .json
+</Location>
+
+<Directory {{ djangodir }}>
+    Require all granted
+</Directory>

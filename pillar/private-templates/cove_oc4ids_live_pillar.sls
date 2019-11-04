@@ -1,3 +1,4 @@
-cove:
-  secret_key: 'xxxxxxxxxxxxxxxxxxxxxxxx'
-  sentry_dsn: https://xxxxxxxxxxxxxxxxx:xxxxxxxxxxxxxxxxxx@app.getsentry.com/xxxxxxxxxxxx
+django:
+  env:
+    SENTRY_DSN: https://xxxxxxxxxxxxxxxxxxxxxxx@sentry.io/xxxxxxxxxxxxxxxxx
+    SECRET_KEY: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
