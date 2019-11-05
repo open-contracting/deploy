@@ -9,6 +9,8 @@ We use `Agentless Salt <https://docs.saltstack.com/en/getstarted/ssh/index.html>
 
 To orient you to the repository: When you run the ``salt-ssh`` command, it reads ``Saltfile``, which directs it to read the ``salt-config`` directory. ``salt-config/master`` directs it to read the ``salt`` and ``pillar`` directories. The ``top.sls`` file in each directory serves as an index to the other SLS files, which in turn refer to the files in sub-directories.
 
+Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__ before editing this repository.
+
 .. toctree::
    :maxdepth: 3
 
