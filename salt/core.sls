@@ -1,10 +1,14 @@
 # Defines a base configuration that we want installed on all of our servers.
 
-core dependencies:
+# git needs to be installed under its own ID to be referenced as a requisite.
+# See https://github.com/saltstack/salt/issues/3683
+git:
   pkg.installed:
-    - pkgs:
-      - git # nearly universal dependency
-      - python-apt # required for salt to interact with apt
+    - name: git # nearly universal dependency
+
+python-apt:
+  pkg.installed:
+    - name: python-apt # required for salt to interact with apt
 
 useful commands:
   pkg.installed:
