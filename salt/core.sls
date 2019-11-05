@@ -1,15 +1,12 @@
 # Defines a base configuration that we want installed on all of our servers.
 
-# Nearly universal dependency.
-git:
-  pkg.installed
+core dependencies:
+  pkg.installed:
+    - pkgs:
+      - git # nearly universal dependency
+      - python-apt # required for salt to interact with apt
 
-# Required for salt to interact with apt.
-python-apt:
-  pkg.installed
-
-# Useful commands for people logging into the servers.
-useful-shell-commands:
+useful commands:
   pkg.installed:
     - pkgs:
       - htop
@@ -27,9 +24,8 @@ fail2ban:
       - mailutils
 
 f2b-startup:
-  service:
+  service.running:
     - name: fail2ban
-    - running
     - enable: True
     - reload: True
   require:
@@ -47,8 +43,8 @@ f2b-startup:
     - repl: PasswordAuthentication no
 
 ssh:
-  service:
-    - running
+  service.running:
+    - name: ssh
     - enable: True
     - reload: True
     - watch: # reload if we change the config
@@ -64,8 +60,9 @@ root_authorized_keys_remove:
    - source: salt://private/authorized_keys/root_to_remove
 
 # Don't need RPC portmapper.
-rpcbind:
-  pkg.purged
+purge rpcbind:
+  pkg.purged:
+    - name: rpcbind
 
 unattended-upgrades:
   pkg.installed:

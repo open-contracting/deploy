@@ -1,7 +1,6 @@
 tinyproxy-deps:
-    pkg.installed:
-      - pkgs:
-        - tinyproxy
+  pkg.installed:
+    - name: tinyproxy
 
 /etc/tinyproxy/tinyproxy.conf:
   file.managed:

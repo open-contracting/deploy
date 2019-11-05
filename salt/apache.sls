@@ -1,15 +1,16 @@
 {% from 'lib.sls' import apache %}
 
 apache2:
-  pkg:
-    - installed
-  service:
-    - running
+  pkg.installed:
+    - name: apache2
+  service.running:
+    - name: apache2
     - enable: True
     - reload: True
 
 letsencrypt:
-  pkg.installed
+  pkg.installed:
+    - name: letsencrypt
 
 # Use the system default locale for Apache
 # This affects how python behaves under mod_wsgi

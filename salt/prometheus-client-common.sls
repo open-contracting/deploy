@@ -1,9 +1,8 @@
 {% from 'lib.sls' import createuser %}
 
 prometheus-client-deps:
-    pkg.installed:
-      - pkgs:
-        - curl
+  pkg.installed:
+    - name: curl
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}

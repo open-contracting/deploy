@@ -6,8 +6,7 @@ postgresql-11:
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
   pkg.installed:
-    - pkgs:
-      - postgresql-11
+    - name: postgresql-11
 
 /etc/postgresql/11/main/pg_hba.conf:
   file.managed:
