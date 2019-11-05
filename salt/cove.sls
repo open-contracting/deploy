@@ -1,9 +1,9 @@
 include:
   - django
 
-# See https://cove.readthedocs.io/en/latest/deployment/
+{% from 'django.sls' import djangodir %}
 
-{% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
+# See https://cove.readthedocs.io/en/latest/deployment/
 
 remoteip:
     apache_module.enabled:
