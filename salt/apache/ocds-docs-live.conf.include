@@ -12,13 +12,13 @@
                 'versions': ['latest', '0.9'],
                 'languages': ['en'],
                 'excludes': ['schema'],
-                'cove_backend': pillar.oc4ids_cove_backend,
+                'cove_backend': pillar.apache.oc4ids_cove_backend,
             },
             '': {
                 'versions': ['latest', '1.1', '1.0'],
                 'languages': ['en', 'es', 'fr', 'it'],
                 'excludes': ['schema', 'legacy', 'robots.txt'],
-                'cove_backend': pillar.ocds_cove_backend,
+                'cove_backend': pillar.apache.ocds_cove_backend,
                 'stable_sitemap': [['latest', '1.1', '1.0']],
                 'redirect_excludes': ['profiles'],
             },
@@ -139,7 +139,7 @@
 
         {% if 'cove_backend' in opts %}
             # /media contains user-submitted content.
-            ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.apache_on_docs_server_proxy_timeout }}
+            ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.apache.timeout }}
             ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
             ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
         {% endif %}

@@ -29,17 +29,17 @@ ocds-docs-common modules:
 {% set extracontext %}
 testing: False
 {% endset %}
-{{ apache('ocds-docs-' + pillar.environment + '.conf',
-    name='ocds-docs-' + pillar.environment + '.conf',
-    servername=pillar.subdomain + 'standard.open-contracting.org',
+{{ apache('ocds-docs-' + pillar.apache.environment + '.conf',
+    name='ocds-docs-' + pillar.apache.environment + '.conf',
+    servername=pillar.apache.subdomain + 'standard.open-contracting.org',
     extracontext=extracontext,
-    https=pillar.https) }}
+    https=pillar.apache.https) }}
 
 {% set extracontext %}
 testing: True
 {% endset %}
-{{ apache('ocds-docs-' + pillar.environment + '.conf',
-    name='ocds-docs-' + pillar.environment + '-testing.conf',
-    servername='testing.' + pillar.environment + '.standard.open-contracting.org',
+{{ apache('ocds-docs-' + pillar.apache.environment + '.conf',
+    name='ocds-docs-' + pillar.apache.environment + '-testing.conf',
+    servername='testing.' + pillar.apache.environment + '.standard.open-contracting.org',
     extracontext=extracontext,
-    https=pillar.https) }}
+    https=pillar.apache.https) }}

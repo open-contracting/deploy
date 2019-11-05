@@ -1,10 +1,8 @@
-# For salt/ocds-docs-common.sls
-https: force
-environment: live
-subdomain: ''
-
-# For salt/ocds-docs-live.sls
-ocds_cove_backend: https://cove.live.cove.opencontracting.uk0.bigv.io
-oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
-# This is intended to be a *little* larger than uWSGI's harakiri.
-apache_on_docs_server_proxy_timeout: 1830
+apache:
+  https: force
+  environment: live
+  subdomain: ''
+  # These are unique to ocds-docs-live.
+  ocds_cove_backend: https://cove.live.cove.opencontracting.uk0.bigv.io
+  oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
+  timeout: 1830  # 30 sec longer than cove's uwsgi.harakiri
