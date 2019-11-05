@@ -26,20 +26,14 @@ ocds-docs-common modules:
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/how-to/update.html#using-a-testing-virtual-host
 
-{% set extracontext %}
-testing: False
-{% endset %}
 {{ apache('ocds-docs-' + pillar.apache.environment + '.conf',
     name='ocds-docs-' + pillar.apache.environment + '.conf',
     servername=pillar.apache.subdomain + 'standard.open-contracting.org',
-    extracontext=extracontext,
+    extracontext='testing: False',
     https=pillar.apache.https) }}
 
-{% set extracontext %}
-testing: True
-{% endset %}
 {{ apache('ocds-docs-' + pillar.apache.environment + '.conf',
     name='ocds-docs-' + pillar.apache.environment + '-testing.conf',
     servername='testing.' + pillar.apache.environment + '.standard.open-contracting.org',
-    extracontext=extracontext,
+    extracontext='testing: True',
     https=pillar.apache.https) }}
