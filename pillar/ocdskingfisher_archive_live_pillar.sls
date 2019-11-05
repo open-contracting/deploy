@@ -1,2 +1,2 @@
 prometheus:
-    client_port: 7231
+  client_port: 7231

@@ -16,24 +16,24 @@ include:
   - uwsgi
 
 django-deps:
-    apache_module.enabled:
-      - names:
-        - proxy
-        - proxy_http
-        - proxy_uwsgi
-      - watch_in:
-        - service: apache2
-    pkg.installed:
-      - pkgs:
-        - libapache2-mod-proxy-uwsgi
-        - python-virtualenv
-        - uwsgi-plugin-python3
-        {% if pillar.django.compilemessages %}
-        - gettext
-        {% endif %}
-      - watch_in:
-        - service: apache2
-        - service: uwsgi
+  apache_module.enabled:
+    - names:
+      - proxy
+      - proxy_http
+      - proxy_uwsgi
+    - watch_in:
+      - service: apache2
+  pkg.installed:
+    - pkgs:
+      - libapache2-mod-proxy-uwsgi
+      - python-virtualenv
+      - uwsgi-plugin-python3
+      {% if pillar.django.compilemessages %}
+      - gettext
+      {% endif %}
+    - watch_in:
+      - service: apache2
+      - service: uwsgi
 
 {% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
 

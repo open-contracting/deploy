@@ -3,7 +3,7 @@
 include:
   - apache
 
-ocdskingfisherscrape-prerequisites  :
+ocdskingfisherscrape-prerequisites:
   apache_module.enabled:
     - names:
       - proxy

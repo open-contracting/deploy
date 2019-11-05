@@ -8,7 +8,7 @@ include:
   - apache
   - uwsgi
 
-ocdskingfisherprocess-prerequisites  :
+ocdskingfisherprocess-prerequisites:
   apache_module.enabled:
     - names:
       - proxy
@@ -156,56 +156,56 @@ restart-syslog:
         - file: /etc/rsyslog.d/90-kingfisher.conf
 
 createdatabase-{{ ocdskingfisherdir }}:
-    cmd.run:
-      - name: . .ve/bin/activate; python ocdskingfisher-process-cli upgrade-database
-      - runas: {{ user }}
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - virtualenv: {{ ocdskingfisherdir }}.ve/
-        - {{ userdir }}/.config/ocdskingfisher-process/config.ini
+  cmd.run:
+    - name: . .ve/bin/activate; python ocdskingfisher-process-cli upgrade-database
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - virtualenv: {{ ocdskingfisherdir }}.ve/
+      - {{ userdir }}/.config/ocdskingfisher-process/config.ini
 
 kfp_postgres_schema_creation:
-    cmd.run:
-      - name: >
-            psql
-            -c "create schema if not exists views; create schema if not exists views_test;"
-            ocdskingfisherprocess
-      - runas: postgres
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - {{ userdir }}/.pgpass
-        - {{ ocdskingfisherdir }}.ve/
+  cmd.run:
+    - name: >
+          psql
+          -c "create schema if not exists views; create schema if not exists views_test;"
+          ocdskingfisherprocess
+    - runas: postgres
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - {{ userdir }}/.pgpass
+      - {{ ocdskingfisherdir }}.ve/
 
 kfp_postgres_readonlyuser_setup_as_postgres:
-    cmd.run:
-      - name: >
-            psql
-            -c "
-            REVOKE ALL ON schema public, views, views_test FROM public;
-            GRANT ALL ON schema public, views, views_test TO ocdskfp;
-            GRANT USAGE ON schema public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
-            GRANT SELECT ON ALL TABLES IN SCHEMA public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
-            "
-            ocdskingfisherprocess
-      - runas: postgres
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - {{ userdir }}/.pgpass
-        - kfp_postgres_readonlyuser_create
-        - {{ ocdskingfisherdir }}.ve/
-        - kfp_postgres_schema_creation
+  cmd.run:
+    - name: >
+          psql
+          -c "
+          REVOKE ALL ON schema public, views, views_test FROM public;
+          GRANT ALL ON schema public, views, views_test TO ocdskfp;
+          GRANT USAGE ON schema public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
+          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
+          "
+          ocdskingfisherprocess
+    - runas: postgres
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - {{ userdir }}/.pgpass
+      - kfp_postgres_readonlyuser_create
+      - {{ ocdskingfisherdir }}.ve/
+      - kfp_postgres_schema_creation
 
 kfp_postgres_readonlyuser_setup_as_user:
-    cmd.run:
-      - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views, views_test GRANT SELECT ON TABLES TO ocdskfpreadonly, ocdskfpguest;" ocdskingfisherprocess
-      - runas: {{ user }}
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - {{ userdir }}/.pgpass
-        - kfp_postgres_readonlyuser_create
-        - {{ ocdskingfisherdir }}.ve/
-        - kfp_postgres_readonlyuser_setup_as_postgres
-        - kfp_postgres_schema_creation
+  cmd.run:
+    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views, views_test GRANT SELECT ON TABLES TO ocdskfpreadonly, ocdskfpguest;" ocdskingfisherprocess
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - {{ userdir }}/.pgpass
+      - kfp_postgres_readonlyuser_create
+      - {{ ocdskingfisherdir }}.ve/
+      - kfp_postgres_readonlyuser_setup_as_postgres
+      - kfp_postgres_schema_creation
 
 
 {{ apache('ocdskingfisherprocess.conf',

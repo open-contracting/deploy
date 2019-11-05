@@ -5,7 +5,7 @@
 # When we are ready to remove the old code, everything below this line (and it's associated files and variables) can be deleted.
 
 
-ocdskingfisher-prerequisites  :
+ocdskingfisher-prerequisites:
   pkg.installed:
     - pkgs:
       - python-pip
@@ -74,37 +74,35 @@ postgres_readonlyuser_create:
     - makedirs: True
 
 createdatabase-{{ ocdskingfisherdir }}:
-    cmd.run:
-      - name: . .ve/bin/activate; python ocdskingfisher-cli upgrade-database
-      - runas: {{ user }}
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - virtualenv: {{ ocdskingfisherdir }}.ve/
-        - {{ userdir }}/.config/ocdskingfisher/config.ini
+  cmd.run:
+    - name: . .ve/bin/activate; python ocdskingfisher-cli upgrade-database
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - virtualenv: {{ ocdskingfisherdir }}.ve/
+      - {{ userdir }}/.config/ocdskingfisher/config.ini
 
 postgres_readonlyuser_setup_as_postgres:
-    cmd.run:
-      - name: >
-            psql
-            -c "REVOKE ALL ON schema public FROM public; GRANT ALL ON schema public TO ocdskingfisher;
-            GRANT USAGE ON schema public TO ocdskingfisherreadonly; GRANT SELECT ON ALL TABLES IN SCHEMA public TO ocdskingfisherreadonly;"
-            ocdskingfisher
-      - runas: postgres
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - {{ userdir }}/.pgpass
-        - postgres_readonlyuser_create
-        - {{ ocdskingfisherdir }}.ve/
+  cmd.run:
+    - name: >
+          psql
+          -c "REVOKE ALL ON schema public FROM public; GRANT ALL ON schema public TO ocdskingfisher;
+          GRANT USAGE ON schema public TO ocdskingfisherreadonly; GRANT SELECT ON ALL TABLES IN SCHEMA public TO ocdskingfisherreadonly;"
+          ocdskingfisher
+    - runas: postgres
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - {{ userdir }}/.pgpass
+      - postgres_readonlyuser_create
+      - {{ ocdskingfisherdir }}.ve/
 
 postgres_readonlyuser_setup_as_user:
-    cmd.run:
-      - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO ocdskingfisherreadonly;" ocdskingfisher
-      - runas: {{ user }}
-      - cwd: {{ ocdskingfisherdir }}
-      - require:
-        - {{ userdir }}/.pgpass
-        - postgres_readonlyuser_create
-        - {{ ocdskingfisherdir }}.ve/
-        - postgres_readonlyuser_setup_as_postgres
-
-
+  cmd.run:
+    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO ocdskingfisherreadonly;" ocdskingfisher
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - {{ userdir }}/.pgpass
+      - postgres_readonlyuser_create
+      - {{ ocdskingfisherdir }}.ve/
+      - postgres_readonlyuser_setup_as_postgres
