@@ -1,5 +1,7 @@
 # vi: ft=apache
 
+{% include 'apache/includes/' + pillar.name + '.jinja' %}
+
 DocumentRoot {{ djangodir }}
 
 <Location "/">

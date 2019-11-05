@@ -1,56 +1,9 @@
-# See https://cove.readthedocs.io/en/latest/deployment/
-{% from 'lib.sls' import createuser, apache, uwsgi, django %}
-
-{{ createuser(pillar.user) }}
-
 include:
-  - apache
-  - uwsgi
+  - django
 
-{{ pillar.user }}-deps:
-    apache_module.enabled:
-      - names:
-        - proxy
-        - proxy_http
-        - proxy_uwsgi
-      - watch_in:
-        - service: apache2
-    pkg.installed:
-      - pkgs:
-        - libapache2-mod-proxy-uwsgi
-        - python-virtualenv
-        - uwsgi-plugin-python3
-        {% if pillar.django.compilemessages %}
-        - gettext
-        {% endif %}
-      - watch_in:
-        - service: apache2
-        - service: uwsgi
+# See https://cove.readthedocs.io/en/latest/deployment/
 
 {% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
-
-{% set extracontext %}
-djangodir: {{ djangodir }}
-{% endset %}
-
-{{ apache(pillar.user + '.conf',
-    name=pillar.name + '.conf',
-    servername=pillar.apache.servername,
-    serveraliases=pillar.apache.serveraliases,
-    https=pillar.apache.https,
-    extracontext=extracontext) }}
-
-{{ uwsgi(pillar.user + '.ini',
-    name=pillar.name + '.ini',
-    extracontext=extracontext) }}
-
-{{ django(pillar.name,
-    user=pillar.user,
-    giturl=pillar.git.url,
-    branch=pillar.git.branch,
-    djangodir=djangodir,
-    app=pillar.django.app,
-    compilemessages=pillar.django.compilemessages) }}
 
 remoteip:
     apache_module.enabled:
