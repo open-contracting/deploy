@@ -7,6 +7,7 @@ include:
 
 remoteip:
     apache_module.enabled:
+      - name: remoteip
       - watch_in:
         - service: apache2
 
@@ -19,6 +20,7 @@ cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.
 
 MAILTO:
   cron.env_present:
+    - name: MAILTO
     - value: sysadmin@open-contracting.org,code@opendataservices.coop
     - user: cove
 

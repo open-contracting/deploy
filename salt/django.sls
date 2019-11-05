@@ -7,7 +7,7 @@
 #
 # and to name Django-related IDs.
 
-{% from 'lib.sls' import createuser, apache, uwsgi, django %}
+{% from 'lib.sls' import createuser, apache, uwsgi %}
 
 {{ createuser(pillar.user) }}
 
