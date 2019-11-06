@@ -30,11 +30,7 @@ To compare Jinja2 output after refactoring but before committing, use ``script/d
    ./script/diff ocds-docs-staging
    ./script/diff ocds-docs-staging ocds-docs-common
 
-If you get the error:
-
-   An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'
-
-Run ``state.apply test=True`` as above. You might have conflicting IDs.
+If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
