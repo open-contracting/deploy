@@ -71,7 +71,7 @@ In entirely uncontroversial or time-sensitive cases, work is done on the ``maste
 
 Take extra care when making larger changes or when making changes to `higher-priority apps <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md>`__.
 
-.. _change-servername:
+.. _change-server-name:
 
 Change server name
 ------------------
