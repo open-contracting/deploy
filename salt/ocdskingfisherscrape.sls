@@ -146,3 +146,8 @@ kfs-apache-password:
     name='ocdskingfisherscrape.conf',
     servername='scrape.kingfisher.open-contracting.org') }}
 
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-scrape-cli  log-dir-scrape-report {{ scrapyddir }}logs:
+  cron.present:
+    - identifier: OCDS_KINGFISHER_SCRAPE_LOG_DIR_SCRAPE_REPORT
+    - user: {{ user }}
+    - minute: 0
