@@ -55,14 +55,20 @@ Using a virtual machine
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 #. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
-#. Update the relevant targets in ``salt-config/roster`` to point to the virtual machine
+#. Get the virtual machine's IP address
+
+   - If using VirtualBox, run (replacing ``VMNAME``):
+
+     .. code-block:: bash
+
+        VBoxManage guestproperty get VMNAME "/VirtualBox/GuestInfo/Net/0/V4/IP"
+
+#. Update the relevant target in ``salt-config/roster`` to point to the virtual machine's IP address
+#. In the relevant Pillar file, change ``https`` to ``no``, if certbot is used to enable HTTPS
+#. Edit ``/etc/hosts`` to map the virtual machine's IP address to the service's hostname
 #. Deploy to the virtual machine and test
 
-Notes about using a Virtual Machine:
-
-*  The deployed software to your virtual machine will have the same host names as real services. You will probably have to edit /etc/hosts on your machine to see the test services.
-*  Any SSL websites using certbot will not work on your virtual machine. You should find any calls to the apache macro and temporarily edit `https` to `no`.
-*  Python errors that occur on your virtual machine may still be reported to Sentry; just be careful these don't confuse people (the `server_name` tag in the report should be different).
+Note that Python errors that occur on the virtual machine might still be reported to Sentry. The ``server_name`` tag in any error reports is expected to be different, but the error reports might still confuse other developers who don't know to check that tag.
 
 3. Review code
 --------------
