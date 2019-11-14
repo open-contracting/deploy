@@ -58,6 +58,12 @@ Using a virtual machine
 #. Update the relevant targets in ``salt-config/roster`` to point to the virtual machine
 #. Deploy to the virtual machine and test
 
+Notes about using a Virtual Machine:
+
+*  The deployed software to your virtual machine will have the same host names as real services. You will probably have to edit /etc/hosts on your machine to see the test services.
+*  Any SSL websites using certbot will not work on your virtual machine. You should find any calls to the apache macro and temporarily edit `https` to `no`.
+*  Python errors that occur on your virtual machine may still be reported to Sentry; just be careful these don't confuse people (the `server_name` tag in the report should be different).
+
 3. Review code
 --------------
 
