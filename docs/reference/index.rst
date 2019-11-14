@@ -21,10 +21,10 @@ Prometheus
 
 Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to configure Prometheus monitoring on each server.
 
-We use the following techniques:
+We use the following exporters:
 
--  `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each machine to monitor things like disk space, memory use, etc.
--  `Black Box Exporter <https://github.com/prometheus/blackbox_exporter>`__ is used to check websites are up. (Keyword checks are more complicated than on UptimeRobot and so are not configured.)
+-  `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
+-  `Black Box Exporter <https://github.com/prometheus/blackbox_exporter>`__ is installed on the Prometheus server to check that services are up. (Keyword monitors are more complicated to configure than on UptimeRobot, and so are not used.)
 
 Salt does not (yet) setup a Prometheus server to collect metrics from these servers. Currently, Open Data Services runs a Prometheus server to process client data, which raises alarms to ODS staff only (`#31 <https://github.com/open-contracting/deploy/issues/31>`__).
 
