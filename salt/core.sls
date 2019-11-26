@@ -35,11 +35,6 @@ f2b-startup:
   require:
     - pkg: fail2ban
 
-# Setup email alerts when bans are triggered - enabled only if the jail has a configured action.
-/etc/fail2ban/action.d/mail-whois.local:
-  file.managed:
-    - source: salt://fail2ban/action.d/mail-whois.local
-
 # Disable password login (use keys instead).
 /etc/ssh/sshd_config:
   file.replace:
