@@ -168,7 +168,7 @@ kfp_postgres_schema_creation:
   cmd.run:
     - name: >
           psql
-          -c "create schema if not exists views; create schema if not exists views_test;"
+          -c "create schema if not exists views; create schema if not exists views_test; create schema if not exists view_info; create schema if not exists view_meta;"
           ocdskingfisherprocess
     - runas: postgres
     - cwd: {{ ocdskingfisherdir }}
@@ -181,10 +181,10 @@ kfp_postgres_readonlyuser_setup_as_postgres:
     - name: >
           psql
           -c "
-          REVOKE ALL ON schema public, views, views_test FROM public;
-          GRANT ALL ON schema public, views, views_test TO ocdskfp;
-          GRANT USAGE ON schema public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
-          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, views_test TO ocdskfpreadonly, ocdskfpguest;
+          REVOKE ALL ON schema public, views, views_test, view_info, view_meta FROM public;
+          GRANT ALL ON schema public, views, views_test, view_info, view_meta TO ocdskfp;
+          GRANT USAGE ON schema public, views, views_test, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
+          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, views_test, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
           "
           ocdskingfisherprocess
     - runas: postgres
