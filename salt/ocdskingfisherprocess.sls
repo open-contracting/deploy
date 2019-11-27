@@ -78,6 +78,7 @@ ocdskingfisherprocess-prerequisites:
 
   postgres_database.present:
     - name: ocdskingfisherprocess
+    - owner: ocdskfp
 
 {{ ocdskingfisherviewsdir }}.ve/:
   virtualenv.managed:
@@ -163,6 +164,23 @@ createdatabase-{{ ocdskingfisherdir }}:
     - require:
       - virtualenv: {{ ocdskingfisherdir }}.ve/
       - {{ userdir }}/.config/ocdskingfisher-process/config.ini
+
+createdatabase-{{ ocdskingfisherviewsdir }}:
+  cmd.run:
+    - name: . .ve/bin/activate; python ocdskingfisher-views-cli upgrade-database
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherviewsdir }}
+    - require:
+      - virtualenv: {{ ocdskingfisherviewsdir }}.ve/
+      - {{ userdir }}/.config/ocdskingfisher-views/config.ini
+
+correctuserpermissions-{{ ocdskingfisherviewsdir }}:
+  cmd.run:
+    - name: . .ve/bin/activate; python ocdskingfisher-views-cli correct-user-permissions
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherviewsdir }}
+    - require:
+      - cmd: createdatabase-{{ ocdskingfisherviewsdir }}
 
 kfp_postgres_schema_creation:
   cmd.run:
