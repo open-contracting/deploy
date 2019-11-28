@@ -54,8 +54,7 @@ OCP uses:
    hetzner.rst
    bytemark.rst
 
-Communications during routine and emergency work
-------------------------------------------------
+Communicating during downtime
+-----------------------------
 
-For this, please see `this Google Doc <https://docs.google.com/document/d/1qAoh2scU5ZMGC_WYFjjNNJU-34NzYaC4V2xjmb2G75k/edit#>`__.
-
+For services managed by Open Data Services, please see the `protocol <https://docs.google.com/document/d/1qAoh2scU5ZMGC_WYFjjNNJU-34NzYaC4V2xjmb2G75k/edit>`__ for planned and unplanned downtime.
