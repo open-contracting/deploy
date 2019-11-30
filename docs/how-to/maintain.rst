@@ -50,11 +50,13 @@ To show the packages that were removed but not purged, run:
 Upgrade Ubuntu
 --------------
 
-To determine the current versions, run:
+To determine the current releases, run:
 
 .. code-block:: bash
 
    salt-ssh '*' cmd.run 'lsb_release -a'
+
+To check the long term support of the releases, consult the `Ubuntu documentation <https://ubuntu.com/about/release-cycle>`__.
 
 Check mail
 ----------
