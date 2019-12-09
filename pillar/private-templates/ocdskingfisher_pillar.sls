@@ -1,9 +1,3 @@
-ocdskingfisher:
-  postgres:
-    ocdskingfisher:
-      password: xxxxxxxxxxxxxxxxxxxxxxxxxxx
-    ocdskingfisherreadonly:
-      password: xxxxxxxxxxxxxxxxxxxxxxxxx
 ocdskingfisherprocess:
   postgres:
     ocdskfp:

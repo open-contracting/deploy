@@ -7,7 +7,6 @@ base:
   'ocdskingfisher-new':
     - postgres11
     - ocdskingfisher
-    - ocdskingfisherold
     - ocdskingfisherarchiveonprocess
     - ocdskingfisherprocess
     - ocdskingfisherscrape
