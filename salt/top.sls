@@ -45,3 +45,11 @@ base:
   'cove-live*':
     - cove
     - prometheus-client-apache
+
+  'kingfisher-process*':
+    - postgres11
+    - ocdskingfisher
+    - ocdskingfisherscrape
+    - ocdskingfisherprocess
+    - ocdskingfisheranalyse
+    - prometheus-client-apache
