@@ -7,6 +7,7 @@ ocdskingfisheranalyse-prerequisites:
     - pkgs:
       - jq
       - unrar
+      - unzip
 
 {% set user = 'analysis' %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
