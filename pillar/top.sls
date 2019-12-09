@@ -9,13 +9,14 @@ base:
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
     - private.ocdskingfisher_pillar
+    - tinyproxy_pillar
 
   'ocds-docs-live':
     - ocds_docs_live_pillar
 
   'ocds-docs-staging':
     - ocds_docs_staging_pillar
-    - private.ocdskingfisher_pillar # this is for the proxy config
+    - tinyproxy_pillar
 
   'standard-search':
     - django_pillar
@@ -46,3 +47,4 @@ base:
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
     - private.ocdskingfisher_pillar
+    - tinyproxy_pillar
