@@ -268,7 +268,8 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - dayweek: 5
 
 cd {{ ocdskingfisherviewsdir }}; . .ve/bin/activate; python ocdskingfisher-views-cli refresh-views --logfile=~/refresh-view.log; python ocdskingfisher-views-cli field-counts --threads=5 --logfile=~/fields-counts.log:
-  cron.present:
+  # Change to cron.present when ready to restore functionality.
+  cron.absent:
     - identifier: OCDS_KINGFISHER_VIEWS_RUN
     - user: {{ user }}
     - minute: 0
