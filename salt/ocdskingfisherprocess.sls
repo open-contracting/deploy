@@ -248,11 +248,14 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - user: {{ user }}
     - minute: 0
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli check-collections --runforseconds 3540:
+# This process is a backup; this work should be done by workers on the Redis que.
+# So run it once per night. It also takes a while to check all processes, so run for 8 hours.
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli check-collections --runforseconds 28800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_CHECK_COLLECTIONS
     - user: {{ user }}
-    - minute: 15
+    - minute: 0
+    - hour: 1
 
 cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli transform-collections --runforseconds 3540:
   cron.present:
