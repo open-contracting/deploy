@@ -235,7 +235,8 @@ kfp_postgres_readonlyuser_setup_as_user:
     port=5001) }}
 
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli process-redis-queue --runforseconds 840:
+# This is to have four workers at once.
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli process-redis-queue --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE
     - user: {{ user }}
