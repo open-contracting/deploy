@@ -257,10 +257,12 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - minute: 0
     - hour: 1
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli transform-collections --runforseconds 3540:
+# It takes just under 2 hours to do a full run at the moment, so run for 3 hours.
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli transform-collections --runforseconds 10800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_TRANSFORM_COLLECTIONS
     - user: {{ user }}
+    - hour: 0,3,6,9,12,15,18,21
     - minute: 30
 
 cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli delete-collections:
