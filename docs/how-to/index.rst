@@ -17,4 +17,5 @@ This section of the documentation shows you how to perform specific tasks.
    :caption: Service-specific tasks
    :maxdepth: 1
 
+   kingfisher.rst
    docs.rst
