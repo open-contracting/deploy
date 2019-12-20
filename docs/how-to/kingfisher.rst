@@ -6,7 +6,7 @@ Deploy Kingfisher Process without losing Scrapy requests
 
 This should match ``salt/ocdskingfisherprocess.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/ocdskingfisherprocess.sls`` to see if there have been any relevant changes, and update this page accordingly.
 
-This assumes that there have been no changes to ``requirements.txt``. If you are adding an index or performing an operation that locks tables for longer than uWSGI's ``harakiri`` setting, this might interfere with an ongoing collection (until queues are fully implemented).
+This assumes that there have been no changes to ``requirements.txt``. If you are adding an index, altering a column, updating many rows, or performing another operation that locks tables or rows for longer than uWSGI's ``harakiri`` setting, this might interfere with an ongoing collection (until queues are fully implemented).
 
 Below, the two key operations are reloading uWSGI with the new application code, and migrating the database.
 
@@ -49,12 +49,12 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
 
       tmux new -s deploy
 
-#. If workers are likely to interfere with a migration (e.g. inserting new rows that need to be migrated), comment out the lines that start the workers in the cron table and kill the workers, for example:
+#. If workers are likely to interfere with a migration (e.g. inserting new rows that meet the criteria for an update), comment out the lines that start them in the cron table and kill them:
 
    .. code-block:: bash
 
       crontab -e
-      pkill -f " process-redis-queue "
+      pkill -f ocdskingfisher-process-cli
 
 #. Migrate the database (log the time, in case you need to retry):
 
