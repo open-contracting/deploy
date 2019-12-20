@@ -12,7 +12,7 @@ Below, the two key operations are reloading uWSGI with the new application code,
 
 It's possible for requests to arrive after uWSGI reloads and before the database migrates. If the new application code is not backwards-compatible with the old database schema, the requests might error. If, on the other hand, your old application code is forwards-compatible with the new database schema, then reload uWSGI after migrating the database, instead of before.
 
-Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose a single request from Scrapy.
+``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose any requests from Scrapy.
 
 #. :ref:`Get the deploy token<get-deploy-token>`.
 
@@ -40,10 +40,12 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
 
 #. In a new terminal, connect to the server as the ``root`` user, reload uWSGI, then close your connection to the server:
 
+   .. code-block:: bash
+
       ssh root@process.kingfisher.open-contracting.org
       service uwsgi reload
 
-#. In the original terminal, open a terminal multiplexer, in case you lose your connection to the server while migrating the database. You can re-attach to the session with ``tmux attach-session -t deploy``:
+#. In the original terminal, open a terminal multiplexer, in case you lose your connection while migrating the database. You can re-attach to the session with ``tmux attach-session -t deploy``:
 
    .. code-block:: bash
 
@@ -56,7 +58,7 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
       crontab -e
       pkill -f ocdskingfisher-process-cli
 
-#. Migrate the database (log the time, in case you need to retry). Alembic has no verbose mode for upgrades. To see the current queries, run ``psql postgres -c "SELECT state, query FROM pg_stat_activity;"`` from another terminal.
+#. Migrate the database (log the time, in case you need to retry). Alembic has no verbose mode for upgrades. To see the current queries, open another terminal, open a PostgreSQL shell, and run ``SELECT pid, state, wait_event_type, query FROM pg_stat_activity;``. If a migration query has a ``wait_event_type`` of ``Lock``, look for queries that block it (for example, long-running DELETE queries). To stop a query, run ``SELECT pg_cancel_backend(PID)``, where ``PID`` is the ``pid`` of the query.
 
    .. code-block:: bash
 
