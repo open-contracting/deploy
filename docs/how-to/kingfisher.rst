@@ -14,7 +14,7 @@ It's possible for requests to arrive after uWSGI reloads and before the database
 
 Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose a single request from Scrapy.
 
-#. `Get the deploy token <https://ocdsdeploy.readthedocs.io/en/latest/how-to/deploy.html#get-deploy-token>`__.
+#. :ref:`Get the deploy token<get-deploy-token>`.
 
 #. Connect to the server as the ``ocdskfp`` user and change into the working directory:
 
@@ -70,3 +70,5 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
       crontab -e
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
+
+#. :ref:`Release the deploy token<release-deploy-token>`.

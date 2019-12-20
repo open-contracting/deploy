@@ -3,6 +3,8 @@ Deploy an app
 
 Before deploying Kingfisher, `check whether any spiders are running <https://kingfisher-scrape.readthedocs.io/en/latest/use-hosted.html#are-any-spiders-currently-running>`__.
 
+_ get-deploy-token:
+
 1. Get deploy token
 -------------------
 
@@ -122,6 +124,8 @@ Function: service.running, ID: uwsgi
 -----------------
 
 If you :ref:`changed the server name<change-server-name>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
+
+_ release-deploy-token:
 
 7. Release deploy token
 -----------------------
