@@ -6,7 +6,7 @@ Deploy Kingfisher Process without losing Scrapy requests
 
 This should match ``salt/ocdskingfisherprocess.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/ocdskingfisherprocess.sls`` to see if there have been any relevant changes, and update this page accordingly.
 
-This assumes that there have been no changes to ``requirements.txt``. If you are adding indexes or performing operations that lock tables, this might interfere with an ongoing collection (until queues are fully implemented).
+This assumes that there have been no changes to ``requirements.txt``. If you are adding indexes or performing operations that lock tables for longer than uWSGI's ``harakiri`` setting, this might interfere with an ongoing collection (until queues are fully implemented).
 
 #. `Get the deploy token <https://ocdsdeploy.readthedocs.io/en/latest/how-to/deploy.html#get-deploy-token>`__.
 
