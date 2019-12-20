@@ -49,11 +49,24 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
 
       tmux new -s deploy
 
+#. If workers are likely to interfere with a migration (e.g. inserting new rows that need to be migrated), comment out the lines that start the workers in the cron table and kill the workers, for example:
+
+   .. code-block:: bash
+
+      crontab -e
+      pkill -f " process-redis-queue "
+
 #. Migrate the database:
 
    .. code-block:: bash
 
       . .ve/bin/activate
       python ocdskingfisher-process-cli upgrade-database
+
+#. Uncomment the lines that start the workers in the cron table:
+
+   .. code-block:: bash
+
+      crontab -e
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
