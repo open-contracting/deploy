@@ -1,8 +1,8 @@
 Kingfisher tasks
 ================
 
-Deploy Kingfisher Process without interrupting a Scrapy crawl
--------------------------------------------------------------
+Deploy Kingfisher Process without losing Scrapy requests
+--------------------------------------------------------
 
 This should match ``salt/ocdskingfisherprocess.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/ocdskingfisherprocess.sls`` to see if there have been any relevant changes, and update this page accordingly.
 
@@ -40,3 +40,5 @@ This assumes that there have been no changes to ``requirements.txt``. If you are
       service uwsgi reload
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
+
+``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload`` which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose a single request from Scrapy.
