@@ -56,7 +56,7 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
       crontab -e
       pkill -f ocdskingfisher-process-cli
 
-#. Migrate the database (log the time, in case you need to retry):
+#. Migrate the database (log the time, in case you need to retry). Alembic has no verbose mode for upgrades. To see the current queries, run ``psql postgres -c "SELECT state, query FROM pg_stat_activity;"`` from another terminal.
 
    .. code-block:: bash
 
