@@ -56,12 +56,14 @@ Note: ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends th
       crontab -e
       pkill -f " process-redis-queue "
 
-#. Migrate the database:
+#. Migrate the database (log the time, in case you need to retry):
 
    .. code-block:: bash
 
       . .ve/bin/activate
+      date
       python ocdskingfisher-process-cli upgrade-database
+      date
 
 #. Uncomment the lines that start the workers in the cron table:
 
