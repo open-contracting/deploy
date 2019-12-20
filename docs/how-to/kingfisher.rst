@@ -8,6 +8,8 @@ This should match ``salt/ocdskingfisherprocess.sls`` (up-to-date as of 2019-12-1
 
 This assumes that there have been no changes to ``requirements.txt``. If you are adding indexes or performing operations that lock tables, this might interfere with an ongoing collection (until queues are fully implemented).
 
+#. `Get the deploy token <https://ocdsdeploy.readthedocs.io/en/latest/how-to/deploy.html#get-deploy-token>`__.
+
 #. Connect to the server and change into the working directory:
 
    .. code-block:: bash
