@@ -1,6 +1,10 @@
-tinyproxy-deps:
+tinyproxy:
   pkg.installed:
     - name: tinyproxy
+  service.running:
+    - name: tinyproxy
+    - enable: True
+    - restart: True
 
 /etc/tinyproxy/tinyproxy.conf:
   file.managed:
@@ -8,4 +12,6 @@ tinyproxy-deps:
     - template: jinja
     - makedirs: True
     - context:
-        ipallow: "{{ pillar.tinyproxy.ipallow }}"
+        ipallows: {{ pillar.tinyproxy.ipallows|yaml }}
+    - watch_in:
+      - service: tinyproxy
