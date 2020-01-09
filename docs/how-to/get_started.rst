@@ -18,6 +18,8 @@ If you encounter issues, try installing with pip:
 
 For other operating systems and package managers, see `this page <https://repo.saltstack.com/>`__ (or `this page <https://docs.saltstack.com/en/latest/topics/installation/index.html>`__) to install a recent version (2019 or later).
 
+Make sure you install a version of Salt that runs on Python 3, not Python 2. Python 2 is end of life and errors will occur if you try and use it.
+
 2. Clone repositories
 ---------------------
 
