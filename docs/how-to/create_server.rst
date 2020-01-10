@@ -46,7 +46,7 @@ Deploy the service
 
 #. Update this repository
 
-   #. Add the server to ``salt-config/roster``, using the hostname copied above
+   #. Add the server to ``salt-config/roster``, using the hostname from above
    #. Add a target to ``salt/top.sls``, if necessary, and include the ``prometheus-client-apache`` state
    #. Add a target to ``pillar/top.sls``, if necessary
    #. Add any states, if necessary
@@ -56,13 +56,13 @@ Deploy the service
 
    .. code-block:: bash
 
-      salt-ssh <target> pkg.upgrade refresh=True dist_upgrade=True
+      salt-ssh TARGET pkg.upgrade refresh=True dist_upgrade=True
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
 
-      salt-ssh <target> system.reboot
+      salt-ssh TARGET system.reboot
 
 #. :doc:`Deploy the service<deploy>` (can be slow)
 #. :ref:`Release the deploy token<release-deploy-token>`
