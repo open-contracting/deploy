@@ -28,4 +28,3 @@ At this stage details of the server should be logged in a password safe. These d
 Add information about the server to any wiki pages or other places.  Details for how to do this have not yet been agreed.
 
 #. Set up server in Prometheus.
-
