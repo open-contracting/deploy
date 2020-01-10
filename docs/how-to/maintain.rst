@@ -16,6 +16,8 @@ If you lose your connection to the server, re-attach to your session with:
 
    tmux attach-session -t initials-task-description
 
+To manually detach from a session, press ``Ctrl-b``, release both keys, then press ``d``.
+
 If you forget the name of your session, list all sessions with:
 
 .. code-block:: bash
