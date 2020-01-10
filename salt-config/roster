@@ -1,6 +1,5 @@
 # Defines the potential targets of the salt-ssh command.
 
-ocdskingfisher-new:       95.216.243.15
 ocds-docs-staging:        staging.docs.opencontracting.uk0.bigv.io
 ocds-docs-live:           live.docs.opencontracting.uk0.bigv.io
 standard-search:          live.standard-search.opencontracting.uk0.bigv.io

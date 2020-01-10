@@ -5,12 +5,6 @@ base:
     - common_pillar
     - private.prometheus_pillar
 
-  'ocdskingfisher-new':
-    - ocdskingfisher_live_pillar
-    - private.ocdskingfisher_live_pillar
-    - private.ocdskingfisher_pillar
-    - tinyproxy_pillar
-
   'ocds-docs-live':
     - ocds_docs_live_pillar
 

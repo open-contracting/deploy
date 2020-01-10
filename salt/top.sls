@@ -4,15 +4,6 @@ base:
   '*':
     - core
 
-  'ocdskingfisher-new':
-    - postgres11
-    - ocdskingfisher
-    - ocdskingfisherarchiveonprocess
-    - ocdskingfisherprocess
-    - ocdskingfisherscrape
-    - ocdskingfisheranalyse
-    - prometheus-client-apache
-
   'ocds-docs-staging':
     - prometheus-client-apache
     - ocds-docs-staging
