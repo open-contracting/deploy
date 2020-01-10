@@ -1,30 +1,79 @@
 Create a server
 ===============
 
+A server is created either when a service is moving to a new server, or when a service is being introduced.
+
+Setup
+-----
+
+#. :ref:`Get the deploy token<get-deploy-token>`
+#. Create the server via the :ref:`host<hosting>`'s interface (below)
+
+Create the server
+-----------------
+
 Bytemark
---------
+~~~~~~~~
 
-#. Make sure you have the deploy token during the whole process
-#. Log in to Bytemark
-#. Select to create a new server
-#. Enter a name and group
-#. Traditionally, all our servers are in "York" - select this.
-#. Select Performance and disk space
-#. Select Ubuntu 18.04 (LTS)
-#. Enable Backups every 7 days, on a Thursday, at a random time before 10 (UTC time)
-#. For Authentication, select "SSH key (+ Password)" and enter your public key
-#. Select "Add This Server"
-#. Wait for it to boot up
-#. Log in and set a new root password
+#. `Login to Bytemark <https://panel.bytemark.co.uk>`__
+#. Click "Servers" and "Add a cloud server"
 
-At this stage details of the server should be logged in a password safe. These details should include both IP addresses, the hostname and the root password. Details for how to do this have not yet been agreed.
+   #. Enter a *Name*
+   #. Select a *Group*
+   #. Set *Location* to "York"
+   #. Set *Server Resources*
+   #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
+   #. Check *Enable backups*
+   #. Set *Take a backup every* to 7 days
+   #. Set *Starting on* to the following Thursday at a random time before 10:00 UTC
+   #. Set *Root user has* to "SSH key (+ Password)" and enter your public key
+   #. Click "Add this server"
 
-#. On the server run:  apt-get install python-msgpack python-concurrent.futures  (This is needed for Salt to work)
-#. Add the server to salt-config/roster and salt/top.sls in opendataservices-deploy. If applicable, add the "prometheus-client-apache" state.
-#. Locally run:  'salt-ssh <newserver> pkg.upgrade refresh=True dist_upgrade=True' (this can be very slow)
-#. Reboot the server
-#. Locally run:  'salt-ssh <newserver> state.highstate' (this can be very slow)
+#. Wait for the server to boot (a few minutes)
+#. Click "Info" and copy the "Hostname/SSH"
 
-Add information about the server to any wiki pages or other places.  Details for how to do this have not yet been agreed.
+Deploy the service
+------------------
 
-#. Set up server in Prometheus.
+#. Connect to the server over SSH
+
+   #. Change the password of the root user
+   #. Install packages for Agentless Salt:
+
+      .. code-block:: bash
+
+         apt-get install python-concurrent.futures python-msgpack
+
+#. Update this repository
+
+   #. Add the server to ``salt-config/roster``, using the hostname copied above
+   #. Add a target to ``salt/top.sls``, if necessary, and include the ``prometheus-client-apache`` state
+   #. Add a target to ``pillar/top.sls``, if necessary
+   #. Add any states, if necessary
+   #. If a service is moving to the new server, update occurrences of the old server's hostname and IP address, as needed
+
+#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__ (can be slow):
+
+   .. code-block:: bash
+
+      salt-ssh <target> pkg.upgrade refresh=True dist_upgrade=True
+
+#. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
+
+   .. code-block:: bash
+
+      salt-ssh <target> system.reboot
+
+#. :doc:`Deploy the service<deploy>` (can be slow)
+#. :ref:`Release the deploy token<release-deploy-token>`
+
+Update external services
+------------------------
+
+#. Add the server to Prometheus
+#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+
+If the service is being introduced:
+
+#. Add its downtime monitor to `UptimeRobot <https://uptimerobot.com/dashboard>`__
+#. Add its error monitor to `Sentry <https://sentry.io/organizations/open-data-services/projects/>`__

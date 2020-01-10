@@ -28,6 +28,8 @@ We use the following exporters:
 
 Salt does not (yet) setup a Prometheus server to collect metrics from these servers. Currently, Open Data Services runs a Prometheus server to process client data, which raises alarms to ODS staff only (`#31 <https://github.com/open-contracting/deploy/issues/31>`__).
 
+.. _hosting:
+
 Hosting
 -------
 
