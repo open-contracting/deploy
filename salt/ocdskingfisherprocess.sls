@@ -292,6 +292,7 @@ ocdskingfisherprocess-pipinstall:
     - upgrade: True
     - user: {{ user }}
     - requirements: salt://ocdskingfisherprocess/pipinstall.txt
+    - bin_env: /usr/bin/pip3
 
 ocdskingfisherprocess-pip-path:
   file.append:
