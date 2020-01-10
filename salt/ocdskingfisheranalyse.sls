@@ -17,6 +17,7 @@ ocdskingfisheranalyse-pipinstall:
     - upgrade: True
     - user: {{ user }}
     - requirements: salt://ocdskingfisheranalyse/pipinstall.txt
+    - bin_env: /usr/bin/pip3
 
 ocdskingfisheranalyse-pip-path:
   file.append:
