@@ -205,6 +205,7 @@
     # See: https://crm.open-contracting.org/issues/4401
     {% for lang in options[''].languages %}
         {% for version in ['latest', '1.1'] %}
+            # Extensions
             Redirect /{{ version }}/{{ lang }}/extensions/community/            https://extensions.open-contracting.org/{{ lang }}/extensions/
             Redirect /{{ version }}/{{ lang }}/extensions/developing/           https://extensions.open-contracting.org/{{ lang }}/extensions/
             Redirect /{{ version }}/{{ lang }}/extensions/party_details/        https://extensions.open-contracting.org/{{ lang }}/extensions/
@@ -215,6 +216,12 @@
             Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents/  https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
             Redirect /{{ version }}/{{ lang }}/extensions/participation_fee/    https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
             Redirect /{{ version }}/{{ lang }}/extensions/process_title/        https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+
+            # Iterative improvements after OCDS 1.1.4
+            Redirect /{{ version }}/{{ lang }}/schema/changelog/                /{{ version }}/{{ lang }}/history/changelog/
+            Redirect /{{ version }}/{{ lang }}/support/credits/                 /{{ version }}/{{ lang }}/history/credits/
+            Redirect /{{ version }}/{{ lang }}/support/history_and_development/ /{{ version }}/{{ lang }}/history/history_and_development/
+            Redirect /{{ version }}/{{ lang }}/support/governance/              /{{ version }}/{{ lang }}/schema/governance/
         {% endfor %}
     {% endfor %}
     {% for lang in options['/profiles/ppp'].languages %}
