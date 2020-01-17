@@ -206,22 +206,32 @@
     {% for lang in options[''].languages %}
         {% for version in ['latest', '1.1'] %}
             # Extensions
-            Redirect /{{ version }}/{{ lang }}/extensions/community/            https://extensions.open-contracting.org/{{ lang }}/extensions/
-            Redirect /{{ version }}/{{ lang }}/extensions/developing/           https://extensions.open-contracting.org/{{ lang }}/extensions/
-            Redirect /{{ version }}/{{ lang }}/extensions/party_details/        https://extensions.open-contracting.org/{{ lang }}/extensions/
-            Redirect /{{ version }}/{{ lang }}/extensions/bids/                 https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
-            Redirect /{{ version }}/{{ lang }}/extensions/enquiries/            https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
-            Redirect /{{ version }}/{{ lang }}/extensions/location/             https://extensions.open-contracting.org/{{ lang }}/extensions/location/
-            Redirect /{{ version }}/{{ lang }}/extensions/lots/                 https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
-            Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents/  https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
-            Redirect /{{ version }}/{{ lang }}/extensions/participation_fee/    https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
-            Redirect /{{ version }}/{{ lang }}/extensions/process_title/        https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+            Redirect /{{ version }}/{{ lang }}/extensions/community/              https://extensions.open-contracting.org/{{ lang }}/extensions/
+            Redirect /{{ version }}/{{ lang }}/extensions/developing/             https://extensions.open-contracting.org/{{ lang }}/extensions/
+            Redirect /{{ version }}/{{ lang }}/extensions/party_details/          https://extensions.open-contracting.org/{{ lang }}/extensions/
+            Redirect /{{ version }}/{{ lang }}/extensions/bids/                   https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
+            Redirect /{{ version }}/{{ lang }}/extensions/enquiries/              https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
+            Redirect /{{ version }}/{{ lang }}/extensions/location/               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
+            Redirect /{{ version }}/{{ lang }}/extensions/lots/                   https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
+            Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents/    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
+            Redirect /{{ version }}/{{ lang }}/extensions/participation_fee/      https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
+            Redirect /{{ version }}/{{ lang }}/extensions/process_title/          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
 
             # Iterative improvements after OCDS 1.1.4
-            Redirect /{{ version }}/{{ lang }}/schema/changelog/                /{{ version }}/{{ lang }}/history/changelog/
-            Redirect /{{ version }}/{{ lang }}/support/credits/                 /{{ version }}/{{ lang }}/history/credits/
-            Redirect /{{ version }}/{{ lang }}/support/history_and_development/ /{{ version }}/{{ lang }}/history/history_and_development/
-            Redirect /{{ version }}/{{ lang }}/support/governance/              /{{ version }}/{{ lang }}/schema/governance/
+            Redirect /{{ version }}/{{ lang }}/implementation/                    /{{ version }}/{{ lang }}/guidance/
+            Redirect /{{ version }}/{{ lang }}/implementation/amendments/         /{{ version }}/{{ lang }}/guidance/model/amendments/
+            Redirect /{{ version }}/{{ lang }}/implementation/related_processes/  /{{ version }}/{{ lang }}/guidance/model/related_processes/
+            Redirect /{{ version }}/{{ lang }}/extensions/                        /{{ version }}/{{ lang }}/guidance/model/extensions/
+            Redirect /{{ version }}/{{ lang }}/implementation/hosting/            /{{ version }}/{{ lang }}/guidance/publish/hosting/
+            Redirect /{{ version }}/{{ lang }}/implementation/levels/             /{{ version }}/{{ lang }}/guidance/publish/levels/
+            Redirect /{{ version }}/{{ lang }}/implementation/licensing/          /{{ version }}/{{ lang }}/guidance/publish/licensing/
+            Redirect /{{ version }}/{{ lang }}/implementation/publication_policy/ /{{ version }}/{{ lang }}/guidance/publish/publication_policy/
+            Redirect /{{ version }}/{{ lang }}/implementation/registration/       /{{ version }}/{{ lang }}/guidance/publish/registration/
+            Redirect /{{ version }}/{{ lang }}/implementation/serialization/      /{{ version }}/{{ lang }}/guidance/publish/serialization/
+            Redirect /{{ version }}/{{ lang }}/schema/changelog/                  /{{ version }}/{{ lang }}/history/changelog/
+            Redirect /{{ version }}/{{ lang }}/support/credits/                   /{{ version }}/{{ lang }}/history/credits/
+            Redirect /{{ version }}/{{ lang }}/support/history_and_development/   /{{ version }}/{{ lang }}/history/history_and_development/
+            Redirect /{{ version }}/{{ lang }}/support/governance/                /{{ version }}/{{ lang }}/schema/governance/
         {% endfor %}
     {% endfor %}
     {% for lang in options['/profiles/ppp'].languages %}
