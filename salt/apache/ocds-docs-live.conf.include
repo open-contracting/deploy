@@ -229,7 +229,7 @@
             Redirect /{{ version }}/{{ lang }}/implementation/registration/       /{{ version }}/{{ lang }}/guidance/publish/registration/
             Redirect /{{ version }}/{{ lang }}/implementation/serialization/      /{{ version }}/{{ lang }}/guidance/publish/serialization/
             Redirect /{{ version }}/{{ lang }}/schema/changelog/                  /{{ version }}/{{ lang }}/history/changelog/
-            Redirect /{{ version }}/{{ lang }}/support/credits/                   /{{ version }}/{{ lang }}/history/credits/
+            Redirect /{{ version }}/{{ lang }}/support/credits/                   /{{ version }}/{{ lang }}/history/history_and_development/
             Redirect /{{ version }}/{{ lang }}/support/history_and_development/   /{{ version }}/{{ lang }}/history/history_and_development/
             Redirect /{{ version }}/{{ lang }}/support/governance/                /{{ version }}/{{ lang }}/schema/governance/
         {% endfor %}
