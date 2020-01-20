@@ -232,6 +232,7 @@
             Redirect /{{ version }}/{{ lang }}/support/credits/                   /{{ version }}/{{ lang }}/history/history_and_development/
             Redirect /{{ version }}/{{ lang }}/support/history_and_development/   /{{ version }}/{{ lang }}/history/history_and_development/
             Redirect /{{ version }}/{{ lang }}/support/governance/                /{{ version }}/{{ lang }}/schema/governance/
+            Redirect /{{ version }}/{{ lang }}/support/tools/                     /{{ version }}/{{ lang }}/support/
         {% endfor %}
     {% endfor %}
     {% for lang in options['/profiles/ppp'].languages %}
