@@ -17,7 +17,7 @@
             '': {
                 'versions': ['latest', '1.1', '1.0'],
                 'languages': ['en', 'es', 'fr', 'it'],
-                'excludes': ['schema', 'legacy', 'robots.txt'],
+                'excludes': ['schema', 'legacy', 'favicon.ico', 'robots.txt'],
                 'cove_backend': pillar.apache.ocds_cove_backend,
                 'stable_sitemap': [['latest', '1.1', '1.0']],
                 'redirect_excludes': ['profiles'],
@@ -216,7 +216,7 @@
             Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents/    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
             Redirect /{{ version }}/{{ lang }}/extensions/participation_fee/      https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
             Redirect /{{ version }}/{{ lang }}/extensions/process_title/          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
-
+{#
             # Iterative improvements after OCDS 1.1.4
             Redirect /{{ version }}/{{ lang }}/implementation/                    /{{ version }}/{{ lang }}/guidance/
             Redirect /{{ version }}/{{ lang }}/implementation/amendments/         /{{ version }}/{{ lang }}/guidance/model/amendments/
@@ -233,6 +233,7 @@
             Redirect /{{ version }}/{{ lang }}/support/history_and_development/   /{{ version }}/{{ lang }}/history/history_and_development/
             Redirect /{{ version }}/{{ lang }}/support/governance/                /{{ version }}/{{ lang }}/schema/governance/
             Redirect /{{ version }}/{{ lang }}/support/tools/                     /{{ version }}/{{ lang }}/support/
+#}
         {% endfor %}
     {% endfor %}
     {% for lang in options['/profiles/ppp'].languages %}
