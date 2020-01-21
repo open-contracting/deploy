@@ -44,3 +44,6 @@ base:
     - ocdskingfisherprocess
     - ocdskingfisheranalyse
     - prometheus-client-apache
+
+  'prometheus':
+    - prometheus-client-apache

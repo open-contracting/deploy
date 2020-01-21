@@ -10,3 +10,4 @@ cove-live-ocds-2:         live.cove.opencontracting.uk0.bigv.io
 cove-live-ocds-3:         live3.cove.opencontracting.uk0.bigv.io
 cove-live-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
 kingfisher-process1:      95.217.76.74
+prometheus:               prometheus.default.opencontracting.uk0.bigv.io
