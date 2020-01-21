@@ -47,3 +47,4 @@ base:
 
   'prometheus':
     - prometheus-client-apache
+    - prometheus-server
