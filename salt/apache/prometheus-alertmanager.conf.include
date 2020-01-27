@@ -1,7 +1,5 @@
 # vi: ft=apache
 
-<VirtualHost *:80>
-    ServerName {{servername}}
 
     <Location "/">
 
@@ -20,4 +18,3 @@
             Require all granted
     </Location>
 
-</VirtualHost>
