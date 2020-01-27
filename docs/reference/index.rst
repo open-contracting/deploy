@@ -26,7 +26,15 @@ We use the following exporters:
 -  `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
 -  `Black Box Exporter <https://github.com/prometheus/blackbox_exporter>`__ is installed on the Prometheus server to check that services are up. (Keyword monitors are more complicated to configure than on UptimeRobot, and so are not used.)
 
-Salt does not (yet) setup a Prometheus server to collect metrics from these servers. Currently, Open Data Services runs a Prometheus server to process client data, which raises alarms to ODS staff only (`#31 <https://github.com/open-contracting/deploy/issues/31>`__).
+Salt sets up a Prometheus server to collect metrics from these servers.
+
+For access details, check the configuration file ``pillar/private/prometheus_pillar.sls``. You can find `OCP's verson of this here <https://github.com/open-contracting/deploy-pillar-private/blob/master/prometheus_pillar.sls>`__.
+
+To access the monitoring service, go to the URL in the ``server_fqdn`` variable. The username is ``prom`` and the password is in the ``server_password`` variable.
+
+To access the alerting service, go to the URL in the ``alertmanager_fqdn`` variable. The username is ``prom`` and the password is in the ``alertmanager_password`` variable.
+
+Currently, Open Data Services runs a Prometheus server to process client data, which raises alarms to ODS staff only (`#31 <https://github.com/open-contracting/deploy/issues/31>`__).
 
 .. _hosting:
 
