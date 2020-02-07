@@ -1,14 +1,25 @@
 Kingfisher tasks
 ================
 
-.. access-scrapyd-web-service:
+.. _access-scrapyd-web-service:
 
 Access Scrapyd's web interface
 ------------------------------
 
 Open http://scrape.kingfisher.open-contracting.org
 
-.. check-if-spiders-are-running:
+.. _connect-collect-server:
+
+Connect to the Kingfisher Scrape server
+---------------------------------------
+
+Connect to the server as the ``ocdskfs`` user:
+
+.. code-block:: bash
+
+   ssh ocdskfs@scrape.kingfisher.open-contracting.org
+
+.. _check-if-spiders-are-running:
 
 Check if spiders are running
 ----------------------------
@@ -18,13 +29,9 @@ Check if spiders are running
 Collect data with Kingfisher Scrape
 -----------------------------------
 
-`Read its documentation <https://kingfisher-scrape.readthedocs.io/en/latest/>`__ first.
+`Read its documentation <https://kingfisher-scrape.readthedocs.io/en/latest/>`__, which covers general usage.
 
-#. Connect to the server as the ``ocdskfs`` user:
-
-   .. code-block:: bash
-
-      ssh ocdskfs@scrape.kingfisher.open-contracting.org
+#. :ref:`Connect to the server<connect-collect-server>`
 
 #. Schedule a crawl and set its note and any other `spider arguments <https://kingfisher-scrape.readthedocs.io/en/latest/use-cases/local.html#collect-data>`__. For example, replace ``spider_name`` with a spider's name and ``NAME`` with your name:
 

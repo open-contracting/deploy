@@ -5,7 +5,7 @@ This section of the documentation shows you how to perform specific tasks.
 
 .. toctree::
    :caption: Generic tasks
-   :maxdepth: 1
+   :maxdepth: 2
 
    get_started.rst
    deploy.rst
@@ -16,7 +16,7 @@ This section of the documentation shows you how to perform specific tasks.
 
 .. toctree::
    :caption: Service-specific tasks
-   :maxdepth: 1
+   :maxdepth: 2
 
    kingfisher.rst
    docs.rst

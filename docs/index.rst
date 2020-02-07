@@ -12,7 +12,18 @@ To orient you to the repository: When you run the ``salt-ssh`` command, it reads
 Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__ before editing this repository.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
 
    how-to/index.rst
+
+.. toctree::
+   :maxdepth: 3
+
    reference/index.rst
+
+.. toctree::
+   :caption: Service-specific tasks
+   :maxdepth: 2
+
+   how-to/kingfisher.rst
+   how-to/docs.rst
