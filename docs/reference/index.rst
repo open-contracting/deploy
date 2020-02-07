@@ -50,10 +50,12 @@ OCP uses:
 -  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher, managed by Open Data Services
 
    -  Contact: code@opendataservices.coop
+   -  The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access. The 'opencontracting' user has limited access.
 
 -  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for all others, managed by Open Data Services
 
    -  Contact: code@opendataservices.coop
+   -  The 'opendataservices' user has secondary access to the 'opencontracting' account.
 
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
