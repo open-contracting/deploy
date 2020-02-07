@@ -1,7 +1,7 @@
 Deploy an app
 =============
 
-Before deploying Kingfisher, `check whether any spiders are running <https://kingfisher-scrape.readthedocs.io/en/latest/use-hosted.html#are-any-spiders-currently-running>`__.
+Before deploying Kingfisher, :ref:`check if any spiders are running<check-if-spiders-are-running>`.
 
 .. _get-deploy-token:
 
