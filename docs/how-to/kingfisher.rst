@@ -37,7 +37,7 @@ Collect data with Kingfisher Scrape
 
    .. code-block:: bash
 
-       $ curl http://localhost:6800/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+      curl http://localhost:6800/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
 
 Access Scrapyd's crawl logs
 ---------------------------
@@ -51,7 +51,7 @@ From the command-line, connect to the server as the ``ocdskfs`` user, and change
    ssh ocdskfs@scrape.kingfisher.open-contracting.org
    cd scrapyd/logs/kingfisher
 
-Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``_report.log`` in the same directory as the log file. Access them as above, or, from the `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__:
+Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``_report.log`` in the same directory as the log file. Access as above, or, from the `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__:
 
 -  Right-click on a "Log" link.
 -  Select "Copy Link" or similar.
