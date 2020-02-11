@@ -32,9 +32,22 @@ For access details, check the configuration file ``pillar/private/prometheus_pil
 
 To access the monitoring service, go to the URL in the ``server_fqdn`` variable. The username is ``prom`` and the password is in the ``server_password`` variable.
 
+The monitoring service allows you to query the present and historical data. You can see historical data in a basic graphing UI. You can also see current alarms.
+
 To access the alerting service, go to the URL in the ``alertmanager_fqdn`` variable. The username is ``prom`` and the password is in the ``alertmanager_password`` variable.
 
-Currently, Open Data Services runs a Prometheus server to process client data, which raises alarms to ODS staff only (`#31 <https://github.com/open-contracting/deploy/issues/31>`__).
+The alerting service handles actually sending alarms. Alarms are raised to relevant ODS staff and OCP staff.
+
+In the alerting service you can also put in a temporary "silence", with definitions of what alarms will be silenced. This can be used to avoid alerts if you know you are about to do something that would generate an alarm, such as taking a server off-line.
+
+To add a new server to Prometheus:
+
+-  Make sure ``prometheus-client-apache`` or ``prometheus-client-nginx`` is included for the server in ``salt/top.sls``.
+-  Salt will try to work out a domain name to use for the client server automatically. If it gets this wrong, you can set one manually by setting the ``prometheus.client_fqdn`` variable. Make sure you set this variable for one server only, and not all servers!
+-  Deploy to the server you want to moniter. This should now be working - test this by going to the end point in a web browser.
+-  Now update ``salt/private/prometheus-server-server/conf-prometheus.yml`` and add details of the new end point.
+-  Deploy to the Prometheus server. While you do so, watch the Status / Targets page in the monitoring service and make sure the server can access the new end point without problems.
+
 
 .. _hosting:
 
