@@ -90,6 +90,21 @@ create_swapfile:
     - require:
       - cmd: create_swapfile
 
+## Locale
+
+add_system_locale_en_gb_utf8:
+  # This line may be in the file but commented out.
+  # However we use file.append here instead of file.replace because we can't guarantee each Linux Distro build will comment out the lines in the same way.
+  file.append:
+    - name:  /etc/locale.gen
+    - text: "en_GB.UTF-8 UTF-8"
+
+run_locale_gen:
+  cmd.run:
+    - name: locale-gen
+    - onchanges:
+      - file: add_system_locale_en_gb_utf8
+
 ## Miscellaneous
 
 MAILTO_root:
