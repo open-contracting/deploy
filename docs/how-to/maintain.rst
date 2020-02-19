@@ -88,7 +88,7 @@ Find mailboxes with mail across servers:
 
 .. code-block:: bash
 
-   salt-ssh '*' cmd.run 'find /var/mail -type f ! -size 0'
+   salt-ssh '*' cmd.run 'find /var/mail -type f -not -size 0'
 
 Connect to a server, for example:
 
