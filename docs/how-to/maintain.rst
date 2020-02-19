@@ -117,7 +117,7 @@ Here are common `commands <http://www.johnkerl.org/doc/mail-how-to.html>`__:
 In most cases, all messages can be ignored and deleted. Relevant messages might include:
 
 Failed cron jobs
-   If possible, try to correct the failure
+   Try to correct the failure
 Failed attempts to use sudo
    If the attempt is not attributable to a team member, discuss security measures
 
