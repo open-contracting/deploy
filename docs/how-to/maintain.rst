@@ -84,6 +84,12 @@ To check the long term support of the releases, consult the `Ubuntu documentatio
 Check mail
 ----------
 
+Find mailboxes with mail across servers:
+
+.. code-block:: bash
+
+   salt-ssh '*' cmd.run 'find /var/mail -type f ! -size 0'
+
 Connect to a server, for example:
 
 .. code-block:: bash
@@ -94,7 +100,7 @@ Open the mailbox:
 
 .. code-block:: bash
 
-   mail
+   mail -f /var/mail/root
 
 You might see a lot of repeat messages.
 
@@ -108,16 +114,15 @@ Here are common `commands <http://www.johnkerl.org/doc/mail-how-to.html>`__:
 -  ``q``: save changes and exit
 -  ``x``: exit without saving changes
 
-In most cases, all messages can be ignored and deleted.
+In most cases, all messages can be ignored and deleted. Relevant messages might include:
+
+Failed cron jobs
+   If possible, try to correct the failure
+Failed attempts to use sudo
+   If the attempt is not attributable to a team member, discuss security measures
 
 Check that no messages were saved:
 
 .. code-block:: bash
 
-    ls /root/mbox
-
-Repeat for other users with mail:
-
-.. code-block:: bash
-
-   ls -1 /var/mail
+    ls ~/mbox
