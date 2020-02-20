@@ -26,6 +26,10 @@ Check if spiders are running
 
 :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click "Jobs" and look under "Running".
 
+There may be other long running tasks that you want to check up on. These are usually done in ``tmux`` sessions. SSH to the server as the ``root``, ``ocdskfs`` and ``ocdskfp`` users and use the ``tmux ls`` command.
+
+:ref:`See more tmux options<tmux>`
+
 Collect data with Kingfisher Scrape
 -----------------------------------
 
