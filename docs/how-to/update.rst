@@ -152,8 +152,8 @@ If you deleted the ``uwsgi`` service, also run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'cove-live-ocds-2' file.remove /etc/uwsgi/apps-available/cove.ini
-   salt-ssh 'cove-live-ocds-2' file.remove /etc/uwsgi/apps-enabled/cove.ini
+   salt-ssh 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-available/cove.ini
+   salt-ssh 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-enabled/cove.ini
 
 Delete a package
 ~~~~~~~~~~~~~~~~
