@@ -19,7 +19,7 @@ Try and not upgrade Kingfisher when any work is running on that server.
 
 For only running commands on some servers, you can obtain up to date server names by looking in ``salt-config/roster``.
 
-List packages
+List upgrades
 -------------
 
 For all servers:
