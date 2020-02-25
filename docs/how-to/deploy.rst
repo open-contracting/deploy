@@ -18,6 +18,8 @@ Only one person should be making changes to a server at once. To implement this 
 
    * If this results in an edit conflict, wait until the deploy token is released
 
+.. _update-deploy-repositories:
+
 2. Update repositories
 ----------------------
 

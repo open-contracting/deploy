@@ -13,6 +13,7 @@ This section of the documentation shows you how to perform specific tasks.
    maintain.rst
    create_server.rst
    delete_server.rst
+   update_server_packages.rst
 
 .. toctree::
    :caption: Service-specific tasks

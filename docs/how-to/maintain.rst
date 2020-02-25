@@ -1,6 +1,8 @@
 Maintain a server
 =================
 
+.. _tmux:
+
 Perform a long-running operation
 --------------------------------
 
