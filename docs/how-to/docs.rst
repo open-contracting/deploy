@@ -46,7 +46,7 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{minor-branch}`` and ``{dev
 Publish draft documentation
 ---------------------------
 
-To configure a documentation repository to push builds to the :ref:`staging server<ocds-documentation>`:
+To configure a documentation repository to push builds to the :doc:`staging server<../reference/docs>`:
 
 #. Access the repository’s Travis page
 #. Click "More options" and "Settings"

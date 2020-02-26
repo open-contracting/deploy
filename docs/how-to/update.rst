@@ -35,7 +35,7 @@ If you get the error, ``An Exception occurred while executing state.show_highsta
 Using a testing virtual host
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To test changes to the Apache files for the :ref:`ocds-documentation` (for example, to test new redirects or proxy settings):
+To test changes to the Apache files for the :doc:`../reference/docs` (for example, to test new redirects or proxy settings):
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
 #. :doc:`Deploy<deploy>` the OCDS Documentation

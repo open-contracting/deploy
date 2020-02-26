@@ -75,11 +75,10 @@ OCP uses:
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
 .. toctree::
-   :caption: Host-specific information
+   :caption: Service-specific information
    :maxdepth: 3
 
-   hetzner.rst
-   bytemark.rst
+   docs.rst
 
 Communicating during downtime
 -----------------------------
