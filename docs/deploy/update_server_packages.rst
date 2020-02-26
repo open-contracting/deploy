@@ -1,4 +1,4 @@
-Update Server Packages
+Update server packages
 ======================
 
 Our servers run Ubuntu Linux.

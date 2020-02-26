@@ -3,5 +3,5 @@ This is a shared server! Check who else is logged in (run the w command) before 
 **********************************************************************************************
 Before restarting it, please check whether any scrapers are running!
 Try to only restart when no scrapers are running.
-https://ocdsdeploy.readthedocs.io/en/latest/how-to/kingfisher.html#check-if-any-spiders-are-running
+https://ocdsdeploy.readthedocs.io/en/latest/deploy/kingfisher.html#check-if-any-spiders-are-running
 **********************************************************************************************

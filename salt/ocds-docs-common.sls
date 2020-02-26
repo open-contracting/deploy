@@ -24,7 +24,7 @@ ocds-docs-common modules:
     - user: ocds-docs
 
 # For information on the testing virtual host, see:
-# https://ocdsdeploy.readthedocs.io/en/latest/how-to/update.html#using-a-testing-virtual-host
+# https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
 
 {{ apache('ocds-docs-' + pillar.apache.environment + '.conf',
     name='ocds-docs-' + pillar.apache.environment + '.conf',

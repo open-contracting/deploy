@@ -3,21 +3,38 @@ Deploy
 
 All changes to servers should be made as documented here to ensure that changes are documented and reproducible; changes should not be made manually, which is undocumented and error-prone.
 
-Salt
-----
+Development Guides
+------------------
 
-We use `Salt <https://docs.saltstack.com/en/latest/>`__ (a.k.a. SaltStack) to deploy apps to servers, and to otherwise manage servers.
+Follow the :doc:`develop/get_started` guide before following any of the :doc:`deploy/index`. If you're new to Salt, :doc:`develop/learn`.
 
-We use `Agentless Salt <https://docs.saltstack.com/en/getstarted/ssh/index.html>`__ (i.e. using the ``salt-ssh`` command). This avoids having to run Salt minions on servers, and requires only SSH to connect to the server and Python to run operations on it.
-
-To orient you to the repository: When you run the ``salt-ssh`` command, it reads ``Saltfile``, which directs it to read the ``salt-config`` directory. ``salt-config/master`` directs it to read the ``salt`` and ``pillar`` directories. The ``top.sls`` file in each directory serves as an index to the other SLS files, which in turn refer to the files in sub-directories.
-
-Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__ before editing this repository.
+To make changes to the `deploy repository <https://github.com/open-contracting/deploy>`__, read the :doc:`develop/update` guide. If you run into trouble, read the :doc:`develop/troubleshoot` guide.
 
 .. toctree::
    :maxdepth: 2
 
-   how-to/index.rst
+   develop/index.rst
+
+Deployment Guides
+-----------------
+
+If you need to perform a specific deployment task, read the relevant how-to guide.
+
+.. toctree::
+   :maxdepth: 2
+
+   deploy/index.rst
+
+User Guides
+-----------
+
+.. toctree::
+   :maxdepth: 2
+
+   use/index.rst
+
+Reference
+---------
 
 .. toctree::
    :maxdepth: 3
@@ -28,5 +45,5 @@ Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_prac
    :caption: Service-specific tasks
    :maxdepth: 2
 
-   how-to/kingfisher.rst
-   how-to/docs.rst
+   deploy/kingfisher.rst
+   deploy/docs.rst

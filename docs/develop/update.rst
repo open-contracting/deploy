@@ -38,7 +38,7 @@ Using a testing virtual host
 To test changes to the Apache files for the :doc:`../reference/docs` (for example, to test new redirects or proxy settings):
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
-#. :doc:`Deploy<deploy>` the OCDS Documentation
+#. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
 #. To test manually, visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
 #. To test automatically, run (using the fish shell):
 
@@ -92,7 +92,7 @@ If the virtual host uses HTTPS, you will need to acquire SSL certificates for th
 
 #. Change the ``ServerName``
 #. In the relevant Pillar file, change ``https`` to ``certonly``
-#. :doc:`Deploy the app<deploy>`
+#. :doc:`Deploy the app<../deploy/deploy>`
 #. In the relevant Pillar file, change ``https`` to ``force`` or ``both``
 #. Remove the old SSL certificates, for example:
 
@@ -111,7 +111,7 @@ To check for old SSL certificates that were previously not removed, run:
 Remove content
 --------------
 
-If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
+If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<../deploy/deploy>`:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -207,34 +207,6 @@ Run, for example:
    salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
-
-Troubleshoot
-------------
-
-Gotchas in Pillar files:
-
--  If unquoted, ``yes``, ``no``, ``true`` and ``false`` are parsed as booleans. Use quotes to parse as strings.
--  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
--  Below, if ``a`` is equal to an empty string, then ``b`` will be ``None``:
-
-   .. code-block:: none
-
-      {% set extracontext %}
-      b: {{ a }}
-      {% endset %}
-
-   Instead, surround it in quotes:
-
-   .. code-block:: none
-
-      {% set extracontext %}
-      b: "{{ a }}"
-      {% endset %}
-
-Check history
--------------
-
-The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the change (August 5, 2019). That repository was itself re-organized at different times. You can browse `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__ (June 5, 2019).
 
 Track upstream
 --------------

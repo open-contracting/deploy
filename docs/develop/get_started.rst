@@ -67,4 +67,4 @@ Unless your local user is the root user, run:
 
 This script assumes your SSH keys are ``~/.ssh/id_rsa`` and ``~/.ssh/id_rsa.pub``.
 
-You're now ready to :doc:`deploy`.
+You're now ready to :doc:`../deploy/deploy`.

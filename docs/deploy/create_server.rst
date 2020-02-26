@@ -3,14 +3,14 @@ Create a server
 
 A server is created either when a service is moving to a new server, or when a service is being introduced.
 
-Setup
------
+1. Setup
+--------
 
 #. :ref:`Get the deploy token<get-deploy-token>`
 #. Create the server via the :ref:`host<hosting>`'s interface (below)
 
-Create the server
------------------
+2. Create the server
+--------------------
 
 Bytemark
 ~~~~~~~~
@@ -32,8 +32,8 @@ Bytemark
 #. Wait for the server to boot (a few minutes)
 #. Click "Info" and copy the "Hostname/SSH"
 
-Deploy the service
-------------------
+3. Deploy the service
+---------------------
 
 #. Connect to the server over SSH
 
@@ -67,12 +67,12 @@ Deploy the service
 #. :doc:`Deploy the service<deploy>` (can be slow)
 #. :ref:`Release the deploy token<release-deploy-token>`
 
-Update external services
-------------------------
+4. Update external services
+---------------------------
 
 #. Add (or update) the service's job in ``salt/private/prometheus-server-monitor/conf-prometheus.yml``
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
-#. Add (or update) the service's row on the *Services* sheet of the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
+#. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
 
 If the service is being introduced:
