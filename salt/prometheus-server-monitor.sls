@@ -35,7 +35,7 @@ extract_prometheus:
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
-    - source: salt://private/prometheus-server-server/conf-prometheus.yml
+    - source: salt://private/prometheus-server-monitor/conf-prometheus.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -44,7 +44,7 @@ extract_prometheus:
 
 /home/{{ user }}/conf-prometheus-rules.yml:
   file.managed:
-    - source: salt://private/prometheus-server-server/conf-prometheus-rules.yml
+    - source: salt://private/prometheus-server-monitor/conf-prometheus-rules.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -65,7 +65,7 @@ extract_prometheus:
 
 /etc/systemd/system/prometheus-server.service:
   file.managed:
-    - source: salt://prometheus-server-server/prometheus-server.service
+    - source: salt://prometheus-server-monitor/prometheus-server.service
     - template: jinja
     - context:
         user: {{ user }}

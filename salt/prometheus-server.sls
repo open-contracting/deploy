@@ -1,5 +1,4 @@
-
 include:
-  - prometheus-server-server
+  - prometheus-server-monitor
   - prometheus-server-alertmanager
   - prometheus-server-blackbox
