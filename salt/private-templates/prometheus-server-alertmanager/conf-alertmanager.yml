@@ -1,0 +1,20 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1d
+  receiver: 'email.planio.servers'
+receivers:
+- name: 'email.planio.servers'
+  email_configs:
+    - to: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      from: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      smarthost: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      auth_username: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      auth_password: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      require_tls: yes
+
+
