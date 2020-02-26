@@ -32,7 +32,7 @@ Clean root user directory
 #. Run:
 
    .. code-block:: bash
-   
+
       salt-ssh '*' cmd.run 'ls'
 
 #. Leave any ``post.install.log`` files

@@ -1,5 +1,5 @@
 **********************************************************************************************
-This is a shared server! Check who else is logged in (run the w command) before starting work. 
+This is a shared server! Check who else is logged in (run the w command) before starting work.
 **********************************************************************************************
 Before restarting it, please check whether any scrapers are running!
 Try to only restart when no scrapers are running.
