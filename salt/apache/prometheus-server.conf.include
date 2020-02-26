@@ -16,4 +16,3 @@
             ProxyPass !
             Require all granted
     </Location>
-

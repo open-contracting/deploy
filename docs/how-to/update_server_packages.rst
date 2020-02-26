@@ -77,4 +77,3 @@ Cleanup
 -------
 
 #. :ref:`Release the deploy token, noting which servers were rebooted in the token history<get-deploy-token>`
-

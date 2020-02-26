@@ -22,4 +22,3 @@ alerting:
 
 rule_files:
   - /home/{{ user }}/conf-prometheus-rules.yml
-

@@ -60,4 +60,3 @@ prometheus-blackbox:
     - watch:
       - file: /home/{{ user }}/conf-blackbox.yml
       - file: /etc/systemd/system/prometheus-blackbox.service
-

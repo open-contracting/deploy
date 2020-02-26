@@ -16,5 +16,3 @@ receivers:
       auth_username: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       auth_password: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       require_tls: yes
-
-

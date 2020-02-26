@@ -23,4 +23,3 @@ ocdskingfisheranalyse-pip-path:
   file.append:
     - name: /home/{{ user }}/.bashrc
     - text: "export PATH=\"/home/{{ user }}/.local/bin/:$PATH\""
-

@@ -9,4 +9,3 @@
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
-

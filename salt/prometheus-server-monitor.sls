@@ -103,5 +103,3 @@ prometheus-server-apache-password:
     - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd prom {{ pillar.prometheus.server_password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
-
-
