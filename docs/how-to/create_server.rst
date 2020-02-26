@@ -70,7 +70,7 @@ Deploy the service
 Update external services
 ------------------------
 
-#. Add the server to Prometheus
+#. Add (or update) the service's job in ``salt/private/prometheus-server-monitor/conf-prometheus.yml``
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 #. Add (or update) the service's row on the *Services* sheet of the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
