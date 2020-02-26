@@ -72,8 +72,11 @@ Update external services
 
 #. Add the server to Prometheus
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+#. Add (or update) the service's row on the *Services* sheet of the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
+#. Add (or update) managed passwords, if appropriate
 
 If the service is being introduced:
 
 #. Add its downtime monitor to `UptimeRobot <https://uptimerobot.com/dashboard>`__
 #. Add its error monitor to `Sentry <https://sentry.io/organizations/open-data-services/projects/>`__
+#. Add the analytics tag for `Google Analytics <https://analytics.google.com>`__, if appropriate
