@@ -38,14 +38,9 @@ This section contains documentation specific to our deployment of a given servic
 Reference
 ---------
 
-.. toctree::
-   :maxdepth: 3
-
-   reference/index.rst
+This section describes facts about our servers and deployments.
 
 .. toctree::
-   :caption: Service-specific tasks
    :maxdepth: 2
 
-   deploy/kingfisher.rst
-   deploy/docs.rst
+   reference/index.rst
