@@ -1,20 +1,31 @@
 Prometheus tasks
 ================
 
-Add a server
-------------
+Monitor a service
+-----------------
 
-Make sure ``prometheus-client-apache`` or ``prometheus-client-nginx`` is included for the server in ``salt/top.sls``.
+If the ``prometheus-client-apache`` state applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/private/prometheus_pillar.sls``), or a port set by the ``prometheus.client_port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
 
-Deploy to the server you want to monitor.
+If the ``prometheus-client-nginx`` state applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 9158 (see ``salt/nginx/prometheus-client``). It is served from the server's FQDN.
 
-For Apache, Salt will try to work out a domain name to use for the client server automatically. It might fail to do this, if the server is not aware of it's own domain name (Bytemark servers tend to be fine, Hetzner tend not to). Check the host name in ``/etc/apache2/sites-enabled/prometheus-client.conf``. If it gets this wrong, you can set one manually by setting the ``prometheus.client_fqdn`` variable (You can also change the ``prometheus.client_port`` variable). Make sure you set these variables for one server only, and not all servers! Deploy again.
+#. For a Hetzner server, set the ``prometheus.client_port`` variable in the target's Pillar file to ``7231``, and :doc:`re-deploy<deploy>` the service.
 
-For Nginx, it will by default serve the documents on a different port, as defined in ``salt/nginx/prometheus-client`` (currently 9158).
+#. Check that Node Exporter is accessible and that its "Metrics" page displays metrics.
 
-Test this by going to the endpoint in a web browser. You should know the URL from the steps above. The username is ``prom`` and the password is in the ``prometheus.client_password`` variable. Click ``Metrics`` and you should see a text response, listing variables and values.
+   For Apache, open, for example, http://prom-client.live.docs.opencontracting.uk0.bigv.io for a Bytemark server or http://95.217.76.74:7231 for a Hetzner server.
 
-Now update ``salt/private/prometheus-server-monitor/conf-prometheus.yml`` and add details of the new endpoint.
+   For Nginx, open, for example, http://live.redash.opencontracting.uk0.bigv.io:9158.
 
-Deploy to the Prometheus server. While you do so, watch the Status / Targets page in the monitoring service and make sure the server can access the new endpoint without problems.
+   The username is ``prom``. The password is set by the ``prometheus.client_password`` variable in the ``pillar/private/prometheus_pillar.sls`` file.
 
+#. If Node Exporter isn't accessible, edit the ``prometheus.client_port`` and/or ``prometheus.client_fqdn`` variables in the target's Pillar file as needed, and :doc:`re-deploy<deploy>` the service.
+
+#. Add a job to ``salt/private/prometheus-server-monitor/conf-prometheus.yml``, following the pattern of others.
+
+#. :doc:`Deploy<deploy>` the Prometheus service.
+
+#. Check that the job is "UP" on Prometheus' `Targets <https://monitor.prometheus.open-contracting.org/targets>`__ page.
+
+.. note::
+
+   Bytemark assigns hostnames like ``<server>.<group>.opencontracting.uk0.bigv.io`` to its servers, and implements wildcard DNS for any subdomains. By default, Node Exporter is served from ``prom-client.<hostname>`` on port 80, which works for Bytemark servers without additional configuration. For Hetzner servers, additional configuration is needed. Instead of adding a DNS entry and setting the ``prometheus.client_fqdn`` variable, we simply set the ``prometheus.client_port`` variable and access Node Exporter by the server's IP address.
