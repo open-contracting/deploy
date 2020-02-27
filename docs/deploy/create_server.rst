@@ -3,14 +3,12 @@ Create a server
 
 A server is created either when a service is moving to a new server, or when a service is being introduced.
 
-1. Setup
---------
+As with other deployment tasks, do the :doc:`setup tasks<setup>` before (and the cleanup tasks after) the steps below.
 
-#. :ref:`Get the deploy token<get-deploy-token>`
-#. Create the server via the :ref:`host<hosting>`'s interface (below)
-
-2. Create the server
+1. Create the server
 --------------------
+
+Create the server via the :ref:`host<hosting>`'s interface.
 
 Bytemark
 ~~~~~~~~
@@ -32,7 +30,7 @@ Bytemark
 #. Wait for the server to boot (a few minutes)
 #. Click "Info" and copy the "Hostname/SSH"
 
-3. Deploy the service
+2. Deploy the service
 ---------------------
 
 #. Connect to the server over SSH
@@ -65,9 +63,8 @@ Bytemark
       salt-ssh TARGET system.reboot
 
 #. :doc:`Deploy the service<deploy>` (can be slow)
-#. :ref:`Release the deploy token<release-deploy-token>`
 
-4. Update external services
+3. Update external services
 ---------------------------
 
 #. Add (or update) the service's job in ``salt/private/prometheus-server-monitor/conf-prometheus.yml``

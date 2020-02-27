@@ -18,7 +18,7 @@ To make changes to the `deploy repository <https://github.com/open-contracting/d
 Deployment Guides
 -----------------
 
-If you need to perform a specific deployment task, read the relevant how-to guide.
+If you need to perform a specific deployment task, follow the relevant how-to guide.
 
 .. toctree::
    :maxdepth: 2
@@ -27,6 +27,8 @@ If you need to perform a specific deployment task, read the relevant how-to guid
 
 User Guides
 -----------
+
+This section contains documentation specific to our deployment of a given service. For generic documentation of a given service that we authored, follow the *Docs* links on `this page <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md#tools>`__.
 
 .. toctree::
    :maxdepth: 2

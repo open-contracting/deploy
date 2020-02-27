@@ -4,11 +4,12 @@ Deployment Guides
 .. toctree::
    :caption: Generic tasks
 
+   setup.rst
    deploy.rst
    create_server.rst
-   maintain.rst
-   update_server_packages.rst
+   packages.rst
    delete_server.rst
+   maintain.rst
 
 .. toctree::
    :caption: Service-specific tasks

@@ -1,37 +1,7 @@
 Deploy an app
 =============
 
-Before deploying Kingfisher, :ref:`check if any spiders are running<check-if-spiders-are-running>`.
-
-.. _get-deploy-token:
-
-1. Get deploy token
--------------------
-
-Only one person should be making changes to a server at once. To implement this rule, the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page indicates who holds the 'deploy token'. Whoever holds the deploy token is the only person who can make changes to *any* server, until the deploy token is released. If the wiki page has "Held by: <NAME>", that person holds the token; if it has "Held by: nobody", then the token is released. To hold the token:
-
-#. Go to the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page
-
-   * If "Held by" is followed by a person's name, wait until the deploy token is released
-
-#. Click the "Edit" link, replace "nobody" with your name and click the "Save" button
-
-   * If this results in an edit conflict, wait until the deploy token is released
-
-.. _update-deploy-repositories:
-
-2. Update repositories
-----------------------
-
-Ensure the ``deploy``, ``salt/private``, and ``pillar/private`` repositories are on the ``master`` branch and are up-to-date. You can run this convenience script to run the appropriate ``git`` commands:
-
-.. code-block:: bash
-
-    ./script/update
-
-Check the output in case there are any issues switching to the ``master`` branch or any conflicts pulling from GitHub.
-
-3. Watch Salt activity
+1. Watch Salt activity
 ----------------------
 
 .. note::
@@ -58,7 +28,7 @@ Check the output in case there are any issues switching to the ``master`` branch
 
 #. Access your primary terminal
 
-4. Run Salt function
+2. Run Salt function
 --------------------
 
 To deploy an app, indicate the desired target and the ``state.apply`` function, for example:
@@ -84,7 +54,7 @@ In the secondary terminal, to monitor what Salt is doing, look at the lines belo
     |-sshd-+-sshd---bash---watch
     |      |-sshd---bash---watch---watch---sh---pstree
 
-5. Check Salt output
+3. Check Salt output
 --------------------
 
 Look for these lines at the end of the output in the primary terminal:
@@ -122,20 +92,12 @@ Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --no
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 
-6. Manual cleanup
+4. Manual cleanup
 -----------------
 
 If you :ref:`changed the server name<change-server-name>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
 
-.. _release-deploy-token:
-
-7. Release deploy token
------------------------
-
-#. Go to the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page
-#. Click "Edit", replace your name with "nobody", add an entry under History, and click "Save"
-
-8. Close the secondary terminal
+5. Close the secondary terminal
 -------------------------------
 
 .. note::

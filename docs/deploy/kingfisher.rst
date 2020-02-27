@@ -19,25 +19,6 @@ Connect to the server as the ``ocdskfs`` user:
 
    ssh ocdskfs@scrape.kingfisher.open-contracting.org
 
-.. _check-if-spiders-are-running:
-
-Check if spiders are running
-----------------------------
-
-#. :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click "Jobs" and look under "Running".
-
-#. Connect to the server as the ``root`` user:
-
-   .. code-block:: bash
-
-      ssh root@scrape.kingfisher.open-contracting.org
-
-#. Check if any :ref:`long-running tasks<tmux>` are in progress:
-
-   .. code-block:: bash
-
-      for i in root ocdskfs ocdskfp; do echo $i; su $i -c "tmux ls"; done
-
 Collect data with Kingfisher Scrape
 -----------------------------------
 
@@ -114,7 +95,7 @@ It's possible for requests to arrive after uWSGI reloads and before the database
 
 ``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose any requests from Scrapy.
 
-#. :ref:`Get the deploy token<get-deploy-token>`.
+As with other deployment tasks, do the :doc:`setup tasks<setup>` before (and the cleanup tasks after) the steps below.
 
 #. Connect to the server as the ``ocdskfp`` user and change to the working directory:
 
@@ -174,5 +155,3 @@ It's possible for requests to arrive after uWSGI reloads and before the database
       crontab -e
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
-
-#. :ref:`Release the deploy token<release-deploy-token>`.

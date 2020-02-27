@@ -1,6 +1,8 @@
 Maintain a server
 =================
 
+For tasks related to upgrading packages, see :doc:`packages`.
+
 .. _tmux:
 
 Perform a long-running operation
@@ -40,17 +42,6 @@ Clean root user directory
 
    -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
 
-Upgrade packages
-----------------
-
-All servers use the `unattended-upgrades package <https://help.ubuntu.com/lts/serverguide/automatic-updates.html>`__ for security updates.
-
-To show the upgradable packages, run:
-
-.. code-block:: bash
-
-   salt-ssh '*' pkg.list_upgrades
-
 Auto-remove packages
 --------------------
 
@@ -71,17 +62,6 @@ To show the packages that were removed but not purged, run:
 .. code-block:: bash
 
    salt-ssh '*' pkg.list_pkgs removed=True
-
-Upgrade Ubuntu
---------------
-
-To determine the current releases, run:
-
-.. code-block:: bash
-
-   salt-ssh '*' cmd.run 'lsb_release -a'
-
-To check the long term support of the releases, consult the `Ubuntu documentation <https://ubuntu.com/about/release-cycle>`__.
 
 Check mail
 ----------
@@ -128,3 +108,14 @@ Check that no messages were saved:
 .. code-block:: bash
 
     ls ~/mbox
+
+Upgrade Ubuntu
+--------------
+
+To determine the current releases, run:
+
+.. code-block:: bash
+
+   salt-ssh '*' cmd.run 'lsb_release -a'
+
+To check the long term support of the releases, consult the `Ubuntu documentation <https://ubuntu.com/about/release-cycle>`__.
