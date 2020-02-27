@@ -1,5 +1,5 @@
-Deploy an app
-=============
+Deploy a service
+================
 
 1. Watch Salt activity
 ----------------------
@@ -31,13 +31,13 @@ Deploy an app
 2. Run Salt function
 --------------------
 
-To deploy an app, indicate the desired target and the ``state.apply`` function, for example:
+To deploy a service, indicate the desired target and the ``state.apply`` function, for example:
 
 .. code-block:: bash
 
     salt-ssh -i 'ocds-docs-staging' state.apply
 
-Setting ``-i`` disables StrictHostKeyChecking, which avoids an extra prompt the first time you connect to a host.
+The ``-i`` flag disables StrictHostKeyChecking, which avoids an extra prompt the first time you connect to a host.
 
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 
