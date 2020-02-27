@@ -1,7 +1,16 @@
 Deploy
 ======
 
-All changes to servers should be made as documented here to ensure that changes are documented and reproducible; changes should not be made manually, which is undocumented and error-prone.
+This documentation is split into:
+
+:doc:`Development Guides<develop/index>`
+   Instructions on getting set-up and making changes.
+:doc:`Deployment Guides<deploy/index>`
+   Instructions for specific deployment tasks.
+:doc:`User Guides<use/index>`
+   Documentation for our deployments of services.
+:doc:`Reference<reference/index>`
+   Infrequently accessed reference material.
 
 Development Guides
 ------------------
@@ -19,6 +28,8 @@ Deployment Guides
 -----------------
 
 If you need to perform a specific deployment task, follow the relevant how-to guide.
+
+All changes to servers should be made using Salt to ensure that changes are documented and reproducible; changes should not be made manually, which is undocumented and error-prone.
 
 .. toctree::
    :maxdepth: 2

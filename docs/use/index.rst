@@ -3,5 +3,5 @@ User Guides
 
 .. toctree::
 
-   kingfisher.rst
+   kingfisher-collect.rst
    prometheus.rst

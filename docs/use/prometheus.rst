@@ -28,6 +28,6 @@ Alert manager
 
 Access the `alerting service <http://alertmanager.prometheus.open-contracting.org>`__.  The username is ``prom``. The password is set by the ``prometheus.alertmanager_password`` variable in the ``pillar/private/prometheus_pillar.sls`` file.
 
-Whereas the monitoring service configures alerts, the alerting service actually sends alerts. Alerts are sent to the email addresses set in ``salt/private/prometheus-server-alertmanager/conf-alertmanager.yml``.
+Whereas the monitoring service configures alerts, the alerting service sends alerts. Alerts are sent to the recipients set in ``salt/private/prometheus-server-alertmanager/conf-alertmanager.yml``.
 
 You can temporarily "silence" alerts, when you know your actions will trigger those alerts: for example, when shutting down a server.

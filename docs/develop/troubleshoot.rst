@@ -1,7 +1,8 @@
 Troubleshoot
 ============
 
-Gotchas in Pillar files:
+Pillar file gotchas
+-------------------
 
 -  If unquoted, ``yes``, ``no``, ``true`` and ``false`` are parsed as booleans. Use quotes to parse as strings.
 -  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.

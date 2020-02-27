@@ -1,11 +1,7 @@
-Kingfisher
-==========
+Kingfisher Scrape
+=================
 
-Read the documentation of each component, which cover general usage:
-
--  `Kingfisher Scrape <https://kingfisher-scrape.readthedocs.io/en/latest/>`__
--  `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__
--  `Kingfisher Views <https://kingfisher-views.readthedocs.io/en/latest/>`__
+Read the `Kingfisher Scrape <https://kingfisher-scrape.readthedocs.io/en/latest/>`__ documentation, which cover general usage.
 
 .. _access-scrapyd-web-service:
 
