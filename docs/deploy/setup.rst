@@ -3,6 +3,8 @@ Get deploy token
 
 Before performing any deployment task, run the *Setup* tasks. Once done, run the *Cleanup* tasks.
 
+.. _generic-setup:
+
 Setup
 -----
 
@@ -50,6 +52,8 @@ Only one person should be making changes to a server at once. To implement this 
 #. Click the "Edit" link, replace "nobody" with your name and click the "Save" button
 
    * If this results in an edit conflict, wait until the deploy token is released
+
+.. _generic-cleanup:
 
 Cleanup
 -------

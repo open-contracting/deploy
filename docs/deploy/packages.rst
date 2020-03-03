@@ -3,9 +3,9 @@ Manage server packages
 
 All servers use the `unattended-upgrades package <https://help.ubuntu.com/lts/serverguide/automatic-updates.html>`__ for `security updates <https://usn.ubuntu.com/>`__. On development/staging servers, the package is configured to automatically reboot the server, according to the ``automatic_reboot`` variable in Pillar. For other servers, administrators perform the steps below on a weekly basis.
 
-The commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern like ``'ocds-docs-*'`` or with a comma-separated list using the ``-L`` flag, like ``-L ocds-docs-live,ocds-docs-staging``.
+The commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern, like ``'ocds-docs-*'``, or with a comma-separated list using the ``-L`` flag, like ``-L ocds-docs-live,ocds-docs-staging``.
 
-As with other deployment tasks, do the :doc:`setup tasks<setup>` before (and the cleanup tasks after) the steps below.
+As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
 1. List upgrades
 ----------------
