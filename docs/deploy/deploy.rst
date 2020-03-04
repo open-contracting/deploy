@@ -1,34 +1,11 @@
 Deploy a service
 ================
 
-1. Watch Salt activity
-----------------------
-
 .. note::
 
-   This step is optional.
+   If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
 
-#. Find the server's IP or fully-qualified domain name in the roster:
-
-   .. code-block:: bash
-
-      cat salt-config/roster
-
-#. Open a secondary terminal to connect to the server as root, for example:
-
-   .. code-block:: bash
-
-      ssh root@live.docs.opencontracting.uk0.bigv.io
-
-#. Watch the processes on the server:
-
-   .. code-block:: bash
-
-      watch -n 1 pstree
-
-#. Access your primary terminal
-
-2. Run Salt function
+1. Run Salt function
 --------------------
 
 To deploy a service, indicate the desired target and the ``state.apply`` function, for example:
@@ -54,7 +31,7 @@ In the secondary terminal, to monitor what Salt is doing, look at the lines belo
     |-sshd-+-sshd---bash---watch
     |      |-sshd---bash---watch---watch---sh---pstree
 
-3. Check Salt output
+2. Check Salt output
 --------------------
 
 Look for these lines at the end of the output in the primary terminal:
@@ -92,17 +69,7 @@ Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --no
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 
-4. Manual cleanup
+3. Manual cleanup
 -----------------
 
 If you :ref:`changed the server name<change-server-name>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
-
-5. Close the secondary terminal
--------------------------------
-
-.. note::
-
-   Skip this step if you didn't watch Salt activity on the remote server.
-
-#. Stop watching the processes, e.g. with ``Ctrl-C``
-#. Disconnect from the server, e.g. with ``Ctrl-D``

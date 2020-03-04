@@ -1,8 +1,38 @@
 Troubleshoot
 ============
 
-Pillar file gotchas
+.. _watch-salt-activity:
+
+Watch Salt activity
 -------------------
+
+If you want to check whether a deployment is simply slow or actually stalled, perform these steps:
+
+#. Find the server's IP or fully-qualified domain name in the roster:
+
+   .. code-block:: bash
+
+      cat salt-config/roster
+
+#. Open a secondary terminal to connect to the server as root, for example:
+
+   .. code-block:: bash
+
+      ssh root@live.docs.opencontracting.uk0.bigv.io
+
+#. Watch the processes on the server:
+
+   .. code-block:: bash
+
+      watch -n 1 pstree
+
+Then, once the deployment is done:
+
+#. Stop watching the processes, e.g. with ``Ctrl-C``
+#. Disconnect from the server, e.g. with ``Ctrl-D``
+
+Avoid Pillar gotchas
+--------------------
 
 -  If unquoted, ``yes``, ``no``, ``true`` and ``false`` are parsed as booleans. Use quotes to parse as strings.
 -  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
