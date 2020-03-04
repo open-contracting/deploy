@@ -21,7 +21,7 @@ Consider whether any upgrades are backwards-incompatible or have post-installati
 
 .. code-block:: bash
 
-    salt-ssh '*' pkg.upgrade
+    salt-ssh '*' pkg.upgrade dist_upgrade=True
 
 Monitor the output for relevant messages.
 
