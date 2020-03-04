@@ -19,12 +19,14 @@ Ensure the ``deploy``, ``salt/private``, and ``pillar/private`` repositories are
 
 Check the output in case there are any issues switching to the ``master`` branch or any conflicts pulling from GitHub.
 
+.. _check-if-kingfisher-is-busy:
+
 2. Check if Kingfisher is busy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
-   Skip unless you're working on Kingfisher.
+   Skip this step unless you're working on Kingfisher.
 
 #. :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click "Jobs" and look under "Running". If any spiders are running, don't deploy without the consent of helpdesk analysts.
 
@@ -39,6 +41,8 @@ Check the output in case there are any issues switching to the ``master`` branch
    .. code-block:: bash
 
       for i in root ocdskfs ocdskfp; do echo $i; su $i -c "tmux ls"; done
+
+If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher Process without losing Scrapy requests<deploy-kingfisher-process>`.
 
 3. Get deploy token
 ~~~~~~~~~~~~~~~~~~~
