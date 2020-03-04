@@ -42,6 +42,7 @@ OCP uses:
 
    -  Contact: sysadmin@dogsbody.com
    -  `Status page <https://status.linode.com/>`__
+   -  Dogsbody configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
 
 -  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher, managed by Open Data Services
 
@@ -54,6 +55,7 @@ OCP uses:
    -  Contact: code@opendataservices.coop
    -  `Status page <https://status.bytemark.org/>`__
    -  The 'opendataservices' user has secondary access to the 'opencontracting' account.
+   -  We configured weekly backups (see :doc:`../deploy/create_server`).
 
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
