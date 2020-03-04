@@ -23,7 +23,7 @@ Service specific queries include:
 Other relevant pages are:
 
 * `Alerts <https://monitor.prometheus.open-contracting.org/alerts>`__
-* `Targets <https://monitor.prometheus.open-contracting.org/targets>`__
+* `Targets <https://monitor.prometheus.open-contracting.org/targets>`__ (check "Unhealthy" targets)
 
 Read `Prometheus' documentation <https://prometheus.io/docs/introduction/overview/>`__ to learn more.
 
