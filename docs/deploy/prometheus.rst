@@ -4,9 +4,9 @@ Prometheus tasks
 Monitor a service
 -----------------
 
-If the ``prometheus-client-apache`` state applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/private/prometheus_pillar.sls``), or the port set by the ``prometheus.client_port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
+If the ``prometheus-client-apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/private/prometheus_pillar.sls``), or the port set by the ``prometheus.client_port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
 
-If the ``prometheus-client-nginx`` state applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 9158 (see ``salt/nginx/prometheus-client``). It is served from the server's FQDN.
+If the ``prometheus-client-nginx`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 9158 (see ``salt/nginx/prometheus-client``). It is served from the server's FQDN.
 
 #. For a Hetzner server, set the ``prometheus.client_port`` variable in the target's Pillar file to ``7231``, and :doc:`re-deploy<deploy>` the service.
 
