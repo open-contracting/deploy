@@ -16,6 +16,10 @@ The landing page lets you query the collected data. For example:
 * `RAM usage <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.stacked=0&g0.expr=1%20-%20node_memory_MemAvailable_bytes%20%2F%20node_memory_MemTotal_bytes&g0.tab=0>`__
 * `Swap usage  <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.stacked=0&g0.expr=node_memory_SwapCached_bytes%20%2F%20node_memory_SwapTotal_bytes&g0.tab=0>`__
 
+Service specific queries include:
+
+* `Kingfisher Process Redis queue length <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=kingfisher_process_redis_queue_length&g0.tab=0>`__
+
 Other relevant pages are:
 
 * `Alerts <https://monitor.prometheus.open-contracting.org/alerts>`__
