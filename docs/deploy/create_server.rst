@@ -33,8 +33,9 @@ Bytemark
 2. Deploy the service
 ---------------------
 
-#. Connect to the server over SSH
+#. Setup the server:
 
+   #. Connect to the server over SSH
    #. Change the password of the root user
    #. Install packages for Agentless Salt:
 
@@ -42,19 +43,29 @@ Bytemark
 
          apt-get install python-concurrent.futures python-msgpack
 
-#. Update this repository
+#. Update this repository:
 
-   #. Add the server to ``salt-config/roster``, using the hostname from above
-   #. Add a target to ``salt/top.sls``, if necessary, and include the ``prometheus-client-apache`` state
-   #. Add a target to ``pillar/top.sls``, if necessary
-   #. Add any states, if necessary
-   #. If a service is moving to the new server, update occurrences of the old server's hostname and IP address, as needed
+   #. Add a target to ``salt-config/roster``, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-live-``.
 
-#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__ (can be slow):
+   #. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
+
+      .. note::
+
+         If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-live*'`` matches ``cove-live-oc4ids``.
+
+   #. If the service is being introduced, add the target to ``pillar/top.sls``, and include any new Pillar files you authored for the service.
+
+      .. note::
+
+         If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-live*'`` matches ``cove-live-oc4ids``.
+
+   #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
+
+#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__:
 
    .. code-block:: bash
 
-      salt-ssh TARGET pkg.upgrade refresh=True dist_upgrade=True
+      salt-ssh TARGET pkg.upgrade dist_upgrade=True
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -62,7 +73,7 @@ Bytemark
 
       salt-ssh TARGET system.reboot
 
-#. :doc:`Deploy the service<deploy>` (can be slow)
+#. :doc:`Deploy the service<deploy>`
 
 3. Update external services
 ---------------------------
