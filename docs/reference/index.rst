@@ -59,6 +59,8 @@ OCP uses:
 
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
+   -  `Network status <https://www.githubstatus.com>`__
+
 .. toctree::
    :caption: Service-specific information
 
