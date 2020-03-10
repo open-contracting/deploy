@@ -167,7 +167,7 @@ createdatabase-{{ ocdskingfisherdir }}:
 
 createdatabase-{{ ocdskingfisherviewsdir }}:
   cmd.run:
-    - name: . .ve/bin/activate; python ocdskingfisher-views-cli upgrade-database
+    - name: . .ve/bin/activate; alembic --raiseerr --config ocdskingfisherviews/alembic.ini upgrade head
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherviewsdir }}
     - require:
