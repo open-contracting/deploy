@@ -36,7 +36,7 @@ Bytemark
 #. Setup the server:
 
    #. Connect to the server over SSH
-   #. Change the password of the root user
+   #. Change the password of the root user using the ``passwd`` command. Select a new random password using `a random password generator <https://www.lastpass.com/password-generator>`__. Make sure it is saved in the OCDS LastPass account.
    #. Install packages for Agentless Salt:
 
       .. code-block:: bash
