@@ -9,16 +9,6 @@ For services managed by Open Data Services, please see the `protocol <https://do
 Monitoring
 ----------
 
-UptimeRobot
-~~~~~~~~~~~
-
-Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, which notifies sysadmin email addresses at OCP and ODS. Keyword monitors are used where possible.
-
-Sentry
-~~~~~~
-
-Application errors are reported to `Sentry <https://sentry.io/>`__, which notifies individual email addresses. Not all services report errors to Sentry.
-
 Prometheus
 ~~~~~~~~~~
 
@@ -30,6 +20,21 @@ We use the following exporters:
 -  `Black Box Exporter <https://github.com/prometheus/blackbox_exporter>`__ is installed on the Prometheus server to check that services are up. (Keyword monitors are more complicated to configure than on UptimeRobot, and so are not used.)
 
 Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
+
+DMARC Analyzer
+~~~~~~~~~~~~~~
+
+OCP's `DMARC policy <https://support.google.com/a/answer/2466563>`__ (``dig TXT _dmarc.open-contracting.org``) sends aggregate and forensic reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__.
+
+Sentry
+~~~~~~
+
+Application errors are reported to `Sentry <https://sentry.io/>`__, which notifies individual email addresses. Not all services report errors to Sentry.
+
+UptimeRobot
+~~~~~~~~~~~
+
+Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, which notifies sysadmin email addresses at OCP and ODS. Keyword monitors are used where possible.
 
 .. _hosting:
 
