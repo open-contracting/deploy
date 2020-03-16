@@ -298,3 +298,8 @@ ocdskingfisherprocess-pip-path:
   file.append:
     - name: /home/{{ user }}/.bashrc
     - text: "export PATH=\"/home/{{ user }}/.local/bin/:$PATH\""
+
+kfp_postgres_set_random_page_cost:
+  cmd.run:
+    - name: psql -c "ALTER TABLESPACE pg_default SET (random_page_cost = 2)"
+    - runas: postgres
