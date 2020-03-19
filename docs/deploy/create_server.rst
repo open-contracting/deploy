@@ -30,6 +30,10 @@ Bytemark
 #. Wait for the server to boot (a few minutes)
 #. Click "Info" and copy the "Hostname/SSH"
 
+.. note::
+
+   The above steps add your public key to ``/root/.ssh/authorized_keys``. Related: :ref:`delete-authorized_key`.
+
 2. Deploy the service
 ---------------------
 

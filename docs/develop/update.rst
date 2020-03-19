@@ -113,6 +113,8 @@ Remove content
 
 If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<../deploy/deploy>`:
 
+.. _delete-authorized_key:
+
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
