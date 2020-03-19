@@ -37,11 +37,6 @@ Bytemark
 
    #. Connect to the server over SSH
    #. Change the password of the root user, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
-   #. Install packages for Agentless Salt:
-
-      .. code-block:: bash
-
-         apt-get install python-concurrent.futures python-msgpack
 
 #. Update this repository:
 
