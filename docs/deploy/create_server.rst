@@ -42,6 +42,10 @@ Bytemark
    #. Connect to the server over SSH
    #. Change the password of the root user, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
+   .. note::
+
+      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's "Console" button, and login.
+
 #. Update this repository:
 
    #. Add a target to ``salt-config/roster``, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-live-``.
