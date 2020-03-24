@@ -17,7 +17,6 @@ Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used t
 We use the following exporters:
 
 -  `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
--  `Black Box Exporter <https://github.com/prometheus/blackbox_exporter>`__ is installed on the Prometheus server to check that services are up. (Keyword monitors are more complicated to configure than on UptimeRobot, and so are not used.)
 
 Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 

@@ -14,4 +14,3 @@ prometheus:
   server_prometheus_version: 2.12.0
   server_alertmanager_version: 0.18.0
   node_exporter_version: 0.18.1
-  server_blackbox_exporter_version: 0.14.0
