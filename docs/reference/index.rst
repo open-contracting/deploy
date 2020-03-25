@@ -33,7 +33,7 @@ Application errors are reported to `Sentry <https://sentry.io/>`__, which notifi
 UptimeRobot
 ~~~~~~~~~~~
 
-Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, which notifies sysadmin email addresses at OCP and ODS. Keyword monitors are used where possible.
+Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, which notifies sysadmin email addresses at OCP and ODS. Keyword monitors are used where possible. See `status page <https://status.open-contracting.org/>`__.
 
 .. _hosting:
 
