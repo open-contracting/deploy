@@ -30,30 +30,31 @@ If the ``prometheus-client-nginx`` state file applies to the target, `Node Expor
 
    Bytemark assigns hostnames like ``<server>.<group>.opencontracting.uk0.bigv.io`` to its servers, and implements wildcard DNS for any subdomains. By default, Node Exporter is served from ``prom-client.<hostname>`` on port 80, which works for Bytemark servers without additional configuration. For Hetzner servers, additional configuration is needed. Instead of adding a DNS entry and setting the ``prometheus.client_fqdn`` variable, we simply set the ``prometheus.client_port`` variable and access Node Exporter by the server's IP address.
 
-Upgrading Prometheus
---------------------
+Upgrade Prometheus
+------------------
 
-We lock to set versions of the Prometheus software for consistent servers.
+We set the version numbers of the Prometheus software to use in the ``prometheus`` section of the ``pillar/private/prometheus_pillar.sls`` file:
 
-We set the versions in variables in the ``pillar/private/prometheus_pillar.sls`` file:
+-  ``server_prometheus_version``
+-  ``server_alertmanager_version``
+-  ``node_exporter_version``
 
-* ``server_prometheus_version``
-* ``server_alertmanager_version``
-* ``node_exporter_version``
+Our practice is to upgrade annually. We can upgrade sooner if there is a release with a bugfix or feature that we want.
 
-Upgrading to the latest versions should be done periodically. Annually should be fine, unless there is a release with a major fix or feature we want earlier.
+Setup
+~~~~~
 
-Before upgrading:
+#. Access the changelogs (they follow `semantic versioning <https://semver.org/>`__), for the `Server <https://github.com/prometheus/prometheus/releases>`__, `Alert Manager <https://github.com/prometheus/alertmanager/releases>`__ and `Node Exporter <https://github.com/prometheus/node_exporter/releases>`__.
 
-* Check the release logs for any breaking changes that would affect our setup.
-   * `Server Change Log <https://github.com/prometheus/prometheus/releases>`__
-   * `Alert Manager Change Log <https://github.com/prometheus/alertmanager/releases>`__
-   * `Node Exporter Change Log <https://github.com/prometheus/node_exporter/releases>`__
-* Consider deploying  :ref:`to a virtual machine to test locally<using-a-virtual-machine>`.
+#. Check whether any breaking changes are relevant to us. In particular, check whether newer versions work with data from older versions (the server and alert manager store data on disk).
 
-Note some components store data on disk. Check release logs to make sure that newer versions will work with data from older versions. This also means that for these components, if you want to downgrade, you may have errors with the format of the data on disk.
+Deploy
+~~~~~~
 
-To upgrade or downgrade, simply change the version number in these variables and re-deploy the relevant machines.
+Once you're ready to upgrade, as with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
-* If you want to upgrade server components, you only need to deploy the server.
-* If you want to upgrade client components, you will have to deploy every server they are on.
+#. Change the version numbers in the ``pillar/private/prometheus_pillar.sls`` file. (To test locally, you can :ref:`use to a virtual machine<using-a-virtual-machine>`.)
+
+#. If you're upgrading the server and/or alert manager, deploy the ``prometheus`` target.
+
+#. If you're upgrading the node exporter, deploy all targets.
