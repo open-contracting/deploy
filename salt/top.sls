@@ -20,7 +20,7 @@ base:
 
   'ocds-redash':
     - ocds-redash
-    - prometheus-client-nginx
+    - prometheus-client-apache
 
   'toucan':
     - toucan
