@@ -29,3 +29,31 @@ If the ``prometheus-client-nginx`` state file applies to the target, `Node Expor
 .. note::
 
    Bytemark assigns hostnames like ``<server>.<group>.opencontracting.uk0.bigv.io`` to its servers, and implements wildcard DNS for any subdomains. By default, Node Exporter is served from ``prom-client.<hostname>`` on port 80, which works for Bytemark servers without additional configuration. For Hetzner servers, additional configuration is needed. Instead of adding a DNS entry and setting the ``prometheus.client_fqdn`` variable, we simply set the ``prometheus.client_port`` variable and access Node Exporter by the server's IP address.
+
+Upgrading Prometheus
+--------------------
+
+We lock to set versions of the Prometheus software for consistent servers.
+
+We set the versions in variables in the ``pillar/private/prometheus_pillar.sls`` file:
+
+* ``server_prometheus_version``
+* ``server_alertmanager_version``
+* ``node_exporter_version``
+
+Upgrading to the latest versions should be done periodically. Annually should be fine, unless there is a release with a major fix or feature we want earlier.
+
+Before upgrading:
+
+* Check the release logs for any breaking changes that would affect our setup.
+   * `Server Change Log <https://github.com/prometheus/prometheus/releases>`__
+   * `Alert Manager Change Log <https://github.com/prometheus/alertmanager/releases>`__
+   * `Node Exporter Change Log <https://github.com/prometheus/node_exporter/releases>`__
+* Consider deploying  :ref:`to a virtual machine to test locally<using-a-virtual-machine>`.
+
+Note some components store data on disk. Check release logs to make sure that newer versions will work with data from older versions. This also means that for these components, if you want to downgrade, you may have errors with the format of the data on disk.
+
+To upgrade or downgrade, simply change the version number in these variables and re-deploy the relevant machines.
+
+* If you want to upgrade server components, you only need to deploy the server.
+* If you want to upgrade client components, you will have to deploy every server they are on.

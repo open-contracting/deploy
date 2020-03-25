@@ -51,6 +51,8 @@ Update the tests if you changed the behavior of the Apache files.
 
 Once satisfied, move the changes outside ``{% if testing  %}`` blocks. After deployment, the tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
 
+.. _using-a-virtual-machine:
+
 Using a virtual machine
 ~~~~~~~~~~~~~~~~~~~~~~~
 
