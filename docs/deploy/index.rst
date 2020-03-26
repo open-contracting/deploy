@@ -17,3 +17,9 @@ Deployment Guides
    prometheus.rst
    docs.rst
    kingfisher.rst
+
+
+.. toctree::
+   :caption: External service tasks
+
+   aws.rst
