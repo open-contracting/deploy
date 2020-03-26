@@ -12,6 +12,9 @@ include:
 #   REDASH_BASE_PATH=/opt/redash
 # then run the  commands from the create_config function by hand (ignore stuff in  "if [[ -e $REDASH_BASE_PATH/env ]]; then" )
 #
+# Note: If migrating from an old server, you must now edit /opt/redash/env and set REDASH_COOKIE_SECRET and REDASH_SECRET_KEY
+# to be the same as the old server.
+#
 # 2. Create a Docker compose file
 # This is based on the setup_compose function of https://github.com/getredash/setup/blob/master/setup.sh
 # The only state in the docker compose file is what version of redash we are locking to. But this is how they do it so ....
