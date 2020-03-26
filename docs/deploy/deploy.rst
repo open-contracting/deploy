@@ -26,13 +26,6 @@ If the output has an error of ``Unable to detect Python-2 version``, you don't h
 
 The ``state.apply`` function often completes within one minute. You can ignore this warning: ``DeprecationWarning: encoding is deprecated, Use raw=False instead``.
 
-In the secondary terminal, to monitor what Salt is doing, look at the lines below these:
-
-.. code-block:: none
-
-    |-sshd-+-sshd---bash---watch
-    |      |-sshd---bash---watch---watch---sh---pstree
-
 2. Check Salt output
 --------------------
 

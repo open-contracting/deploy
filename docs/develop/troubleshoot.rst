@@ -26,6 +26,13 @@ If you want to check whether a deployment is simply slow or actually stalled, pe
 
       watch -n 1 pstree
 
+#. Look at the lines below these:
+
+.. code-block:: none
+
+    |-sshd-+-sshd---bash---watch
+    |      |-sshd---bash---watch---watch---sh---pstree
+
 Then, once the deployment is done:
 
 #. Stop watching the processes, e.g. with ``Ctrl-C``
