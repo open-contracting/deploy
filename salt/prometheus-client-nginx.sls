@@ -3,8 +3,13 @@
 include:
   - prometheus-client-common
 
-# NOTE: We probably should require some kind of nginx package here.
-# The one server this is currently used on has this from redash, so we'll do that later.
+nginx-for-prometheus:
+  pkg.installed:
+    - name: nginx
+  service.running:
+    - name: nginx
+    - enable: True
+    - reload: True
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
@@ -21,6 +26,7 @@ include:
     - template: jinja
     - context:
         user: {{ user }}
+    - makedirs: True
 
 # Create a symlink from sites-enabled to enable the config
 /etc/nginx/sites-enabled/prometheus-client:
