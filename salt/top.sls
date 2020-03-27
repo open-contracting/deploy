@@ -25,7 +25,6 @@ base:
 
   'ocds-redash2':
     - ocds-redash
-    - prometheus-client-apache
 
   'toucan':
     - toucan

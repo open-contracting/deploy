@@ -22,11 +22,9 @@ include:
 #   REDASH_BASE_PATH=/opt/redash
 # then run the  commands from the setup_compose by hand, starting at the top and until you get to echoing stuff to profile
 #
-# 3. Edit Docker Compose file to move port
-# Edit /opt/redash/docker-compose.yml
-# Find machine nginx and edit port to: "9090:80"
 #
-# 4. Finally start app - if totally now
+#
+# 3. Finally start app - if totally now
 # (Note: this is taken from setup_compose function of https://github.com/getredash/setup/blob/master/setup.sh )
 #   cd /opt/redash
 #   docker-compose run --rm server create_db
@@ -34,7 +32,7 @@ include:
 #
 #   OR
 #
-# 4. Finally, start app - If moving from an old server
+# 3. Finally, start app - If moving from an old server
 #
 #   cd /opt/redash
 #
