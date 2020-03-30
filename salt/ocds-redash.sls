@@ -75,6 +75,10 @@ include:
 #   Add
 #   REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true
 #
+# 2. Email sending
+# See https://redash.io/help/open-source/setup#Mail-Configuration and set REDASH_HOST too.
+# note: the send_test_mail command did not work for me but just putting my email in "Forgotten Password" did.
+#
 #
 
 
