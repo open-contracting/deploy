@@ -42,3 +42,6 @@ base:
     - private.ocdskingfisher_live_pillar
     - private.ocdskingfisher_pillar
     - tinyproxy_pillar
+
+  'ocds-redash2':
+    - redash

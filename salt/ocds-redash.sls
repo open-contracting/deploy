@@ -82,4 +82,5 @@ redash_prepackages:
 
 {{ apache('redash.conf',
     name='redash.conf',
-    servername='redash.open-contracting.org') }}
+    servername=pillar.redash.server_name,
+    https=pillar.redash.https) }}
