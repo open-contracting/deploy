@@ -67,6 +67,24 @@ include:
 # Follow https://redash.io/help/open-source/admin-guide/how-to-upgrade
 #
 
+#### CONFIG SETUP
+#
+# Edit /opt/redash/env
+#
+# 1. We want REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL
+#   Add
+#   REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true
+#
+#
+
+
+#### To restart redash for any reason (just edited config, etc)
+#
+# cd /opt/redash/
+# docker-compose stop
+# docker-compose up -d
+#
+
 redash_prepackages:
   pkg.installed:
     - pkgs:
