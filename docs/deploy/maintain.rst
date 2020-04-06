@@ -109,6 +109,21 @@ Check that no messages were saved:
 
     ls ~/mbox
 
+Restart services
+----------------
+
+To restart a service, run, for example:
+
+.. code-block:: bash
+
+   salt-ssh TARGET service.restart uwsgi
+
+To reboot a server:
+
+.. code-block:: bash
+
+   salt-ssh TARGET system.reboot
+
 Upgrade Ubuntu
 --------------
 
