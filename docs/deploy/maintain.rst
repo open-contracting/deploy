@@ -66,6 +66,12 @@ To show the packages that were removed but not purged, run:
 Check mail
 ----------
 
+Find saved messages across servers:
+
+.. code-block:: bash
+
+   salt-ssh '*' cmd.run 'find /root /home/* -maxdepth 0 -name mbox'
+
 Find mailboxes with mail across servers:
 
 .. code-block:: bash
@@ -102,12 +108,6 @@ Failed cron jobs
    Try to correct the failure
 Failed attempts to use sudo
    If the attempt is not attributable to a team member, discuss security measures
-
-Check that no messages were saved:
-
-.. code-block:: bash
-
-    ls ~/mbox
 
 Restart services
 ----------------
