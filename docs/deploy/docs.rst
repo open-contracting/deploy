@@ -48,26 +48,26 @@ Publish draft documentation
 
 To configure a documentation repository to push builds to the :doc:`staging server<../reference/docs>`:
 
-#. Access the repository’s Travis page
-#. Click "More options" and "Settings"
+#. Access the repository’s *Settings* tab
+#. Click *Secrets*
 #. Set the private key:
 
-   #. Enter "PRIVATE_KEY" in the first input under "Environment Variables"
-   #. Get the ``ocds-docs`` user’s private key (`deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ will restore the newlines and spaces):
+   #. Click *Add a new secret*
+   #. Set *Name* to "PRIVATE_KEY"
+   #. Set *Value* to the private key of the ``ocds-docs`` user (`deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ will restore the newlines and spaces):
 
       .. code-block:: bash
 
          cat salt/private/ocds-docs/ssh_authorized_keys_from_travis_private | tr '\n' '#' | tr ' ' '_'
 
-   #. Enter the private key in the second input
-   #. Click "Add"
+   #. Click *Add secret*
 
 #. Set the search secret:
 
-   #. Enter "SEARCH_SECRET" in the first input under "Environment Variables"
-   #. Get the value of the ``ocds_secret`` key in ``pillar/private/standard_search_pillar.sls``
-   #. Enter it in the second input
-   #. Click "Add"
+   #. Click *Add a new secret*
+   #. Set *Name* to "SEARCH_SECRET"
+   #. Set *Value* to the value of the ``OCDS_SECRET`` key in ``pillar/private/standard_search_pillar.sls``
+   #. Click *Add secret*
 
 .. _publish-released-documentation:
 
@@ -82,7 +82,7 @@ If this is the first numbered version of a profile, in its ``docs/_templates/lay
    <!--#include virtual="/includes/version-options-profiles-{root}.html" -->
    {% endblock %}
 
-In any case, once the `build passes on Travis <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#build-on-travis>`__ for the live branch of the documentation:
+In any case, once the `build passes <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#build>`__ for the live branch of the documentation:
 
 1. Copy the files to the live server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
