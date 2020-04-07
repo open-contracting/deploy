@@ -20,12 +20,12 @@ Search API
 
 The `search.js file <https://github.com/open-contracting/standard_theme/blob/open_contracting/standard_theme/static/js/search.js>`__ in the ``standard_theme`` repository sends an unauthenticated request to the API's ``/search`` endpoint to retrieve search results.
 
-The `Travis deploy script <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository sends an authenticated request to the API's ``/index_ocds`` endpoint to index the documentation for the OCDS and its profiles.
+The `documentation deploy script <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository sends an authenticated request to the API's ``/index_ocds`` endpoint to index the documentation for the OCDS and its profiles.
 
-Travis
-------
+Continuous deployment
+---------------------
 
-The repositories for OCDS documentation use Travis to push builds to the staging server and to rebuild the search index for the documentation:
+The repositories for OCDS documentation use continuous integration to push builds to the staging server and to rebuild the search index for the documentation:
 
 -  Each branch of the `standard <https://github.com/open-contracting/standard>`__ repository is automatically built to:
 
@@ -39,4 +39,4 @@ The repositories for OCDS documentation use Travis to push builds to the staging
 
       https://standard.open-contracting.org/profiles/{root}/{branch}/en/
 
-In detail, the repositories use `script deployment <https://docs.travis-ci.com/user/deployment/script/>`__ to run `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository. For this script to succeed, Travis must be :ref:`configured<publish-draft-documentation>` to have access to the staging server and to the Search API's ``/index_ocds`` endpoint.
+In detail, continuous integration runs `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository. For this script to succeed, continuous integration must be :ref:`configured<publish-draft-documentation>` to have access to the staging server and to the Search API's ``/index_ocds`` endpoint.

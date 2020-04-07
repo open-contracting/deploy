@@ -75,9 +75,9 @@ Note that Python errors that occur on the virtual machine might still be reporte
 3. Review code
 --------------
 
-For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on Travis CI, reviewed and approved before merging.
+For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.
 
-However, for this repository, in some cases, it's impossible to test changes to server configurations, for example: if SSL certificates are involved (because certbot can't verify a virtual machine), or if external services like Travis are involved. In other cases, it's too much effort to setup a test environment in which to test changes.
+However, for this repository, in some cases, it's impossible to test changes to server configurations, for example: if SSL certificates are involved (because certbot can't verify a virtual machine), or if external services are involved. In other cases, it's too much effort to setup a test environment in which to test changes.
 
 In such cases, the same process is followed as in other repositories, but without the benefit of tests.
 
