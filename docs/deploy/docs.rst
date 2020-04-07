@@ -54,12 +54,7 @@ To configure a documentation repository to push builds to the :doc:`staging serv
 
    #. Click *Add a new secret*
    #. Set *Name* to "PRIVATE_KEY"
-   #. Set *Value* to the private key of the ``ocds-docs`` user (`deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ will restore the newlines and spaces):
-
-      .. code-block:: bash
-
-         cat salt/private/ocds-docs/ssh_authorized_keys_from_travis_private | tr '\n' '#' | tr ' ' '_'
-
+   #. Set *Value* to the contents of ``salt/private/ocds-docs/ssh_authorized_keys_from_travis_private``
    #. Click *Add secret*
 
 #. Set the search secret:
