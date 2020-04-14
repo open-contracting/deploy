@@ -17,6 +17,7 @@ Deployment Guides
    prometheus.rst
    docs.rst
    kingfisher.rst
+   redash.rst
 
 
 .. toctree::
