@@ -50,10 +50,12 @@ html_theme = 'default'
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = []
+html_static_path = ['_static']
 
 
 # -- Extension configuration -------------------------------------------------
+
+html_css_files = ['css/custom.css']
 
 # Needed for ReadTheDocs (Sphinx 1.8).
 master_doc = 'index'
