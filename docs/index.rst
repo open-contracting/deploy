@@ -4,11 +4,11 @@ Deploy
 This documentation is split into:
 
 :doc:`Development Guides<develop/index>`
-   Instructions on getting set-up and making changes.
+   Instructions on getting set-up and making changes to the ``deploy`` repository.
 :doc:`Deployment Guides<deploy/index>`
    Instructions for specific deployment tasks.
 :doc:`User Guides<use/index>`
-   Documentation for our deployments of services.
+   Documentation for users of our services.
 :doc:`Reference<reference/index>`
    Infrequently accessed reference material.
 
