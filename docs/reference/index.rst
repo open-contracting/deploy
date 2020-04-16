@@ -12,11 +12,7 @@ Monitoring
 Prometheus
 ~~~~~~~~~~
 
-Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to configure Prometheus monitoring on each server, and to set up a Prometheus server to to collect metrics from these servers.
-
-We use the following exporters:
-
--  `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
+Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to configure Prometheus monitoring on each server, and to set up a Prometheus server to to collect metrics from these servers. `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
 
 Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 
@@ -40,26 +36,23 @@ Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, whi
 Hosting
 -------
 
-OCP uses:
+All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
 
--  `Linode <https://cloud.linode.com/>`__ for the `Helpdesk CRM <https://crm.open-contracting.org>`__, managed by `Dogsbody Technology <https://www.dogsbody.com>`__
+-  `Linode <https://cloud.linode.com/>`__ for the `Helpdesk CRM <https://crm.open-contracting.org>`__
 
-   -  Contact: sysadmin@dogsbody.com
    -  `Network status <https://status.linode.com/>`__: We subscribe to only: Regions: EU-West (London), Backups: EU-West (London) Backups.
-   -  Access: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access. The 'opencontracting' user has limited access.
-   -  Backups: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
+   -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access. The 'opencontracting' user has limited access.
+   -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
 
--  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher, managed by Open Data Services
+-  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher
 
-   -  Contact: code@opendataservices.coop
    -  `Network status <https://www.hetzner-status.de/en.html>`__
 
--  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for all others, managed by Open Data Services
+-  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for all others
 
-   -  Contact: code@opendataservices.coop
    -  `Network status <https://status.bytemark.org/>`__
-   -  Access: The 'opendataservices' user has secondary access to the 'opencontracting' account.
-   -  Backups: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
+   -  **Access**: The 'opendataservices' and 'opencon-tech' users have secondary access to the 'opencontracting' account.
+   -  **Backups**: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
 
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
