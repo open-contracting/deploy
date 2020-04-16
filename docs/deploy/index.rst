@@ -7,12 +7,14 @@ Deployment Guides
    setup.rst
    deploy.rst
    create_server.rst
+   update.rst
    packages.rst
    delete_server.rst
    maintain.rst
 
 .. toctree::
    :caption: Service-specific tasks
+   :maxdepth: 2
 
    prometheus.rst
    docs.rst
@@ -22,5 +24,6 @@ Deployment Guides
 
 .. toctree::
    :caption: External service tasks
+   :maxdepth: 2
 
    aws.rst
