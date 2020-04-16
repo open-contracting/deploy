@@ -1,19 +1,23 @@
 Maintain a server
 =================
 
-This page documents specific maintenance tasks. At a higher level, being responsible for servers involves:
+This page documents specific maintenance tasks. For tasks related to upgrading packages, see :doc:`packages`.
 
--  Subscribing to:
+At a higher level, to be responsible for servers, you should:
+
+-  Subscribe to:
 
    -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
-   -  Hosting provider :ref:`network status updates<hosting>`
+   -  Hosting provider :ref:`network status announcements<hosting>`
 
--  Checking server monitoring, at a regular interval:
+-  :doc:`Upgrading packages<packages>` on a weekly basis
 
-   -  :doc:`Interpret the resource usage graphs <../use/prometheus>` and decide whether to rescale
+-  Check server monitoring, at a regular interval:
+
+   -  :doc:`Check the resource usage <../use/prometheus>` and decide whether to rescale or to investigate any abnormalities
    -  `Check the alerts configuration <https://monitor.prometheus.open-contracting.org/alerts>`__
 
--  Performing periodic tasks, at a regular interval:
+-  Perform periodic server tasks, at a regular interval:
 
    -  Review root access
 
@@ -24,12 +28,13 @@ This page documents specific maintenance tasks. At a higher level, being respons
 
             salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3'
 
-      #. :ref:`Remove authorized keys<delete-authorized_key>` as needed
+      #. :ref:`Remove authorized keys<delete-authorized_key>`, as needed
 
    -  :ref:`Check mail<check-mail>`
    -  :ref:`Clean root user directory<clean-root-user-directory>`
+   -  :doc:`Re-deploy services<deploy>` to guarantee all changes are applied (optional)
 
-For tasks related to upgrading packages, see :doc:`packages`.
+-  :ref:`Check that backups are made<hosting>`, at a regular interval
 
 .. _tmux:
 
