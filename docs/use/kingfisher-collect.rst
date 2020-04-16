@@ -109,4 +109,4 @@ If you can't wait, you can :ref:`connect to the server<connect-collect-server>`,
 
 .. code-block:: bash
 
-tac /home/ocdskfs/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
+   tac /home/ocdskfs/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
