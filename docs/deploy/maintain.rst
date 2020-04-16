@@ -1,6 +1,34 @@
 Maintain a server
 =================
 
+This page documents specific maintenance tasks. At a higher level, being responsible for servers involves:
+
+-  Subscribing to:
+
+   -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
+   -  Hosting provider :ref:`network status updates<hosting>`
+
+-  Checking server monitoring, at a regular interval:
+
+   -  :doc:`Interpret the resource usage graphs <../use/prometheus>` and decide whether to rescale
+   -  `Check the alerts configuration <https://monitor.prometheus.open-contracting.org/alerts>`__
+
+-  Performing periodic tasks, at a regular interval:
+
+   -  Review root access
+
+      #. Read ``salt/private/authorized_keys/root_to_add``
+      #. Run:
+
+         .. code-block:: bash
+
+            salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3'
+
+      #. :ref:`Remove authorized keys<delete-authorized_key>` as needed
+
+   -  :ref:`Check mail<check-mail>`
+   -  :ref:`Clean root user directory<clean-root-user-directory>`
+
 For tasks related to upgrading packages, see :doc:`packages`.
 
 .. _tmux:
@@ -28,6 +56,8 @@ If you forget the name of your session, list all sessions with:
 
    tmux ls
 
+.. _clean-root-user-directory:
+
 Clean root user directory
 -------------------------
 
@@ -42,26 +72,7 @@ Clean root user directory
 
    -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
 
-Auto-remove packages
---------------------
-
-To show the packages that were automatically installed and are no longer required:
-
-.. code-block:: bash
-
-   salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
-
-To remove these, run:
-
-.. code-block:: bash
-
-   salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
-
-To show the packages that were removed but not purged, run:
-
-.. code-block:: bash
-
-   salt-ssh '*' pkg.list_pkgs removed=True
+.. _check-mail:
 
 Check mail
 ----------
@@ -108,6 +119,27 @@ Failed cron jobs
    Try to correct the failure
 Failed attempts to use sudo
    If the attempt is not attributable to a team member, discuss security measures
+
+Auto-remove packages
+--------------------
+
+To show the packages that were automatically installed and are no longer required:
+
+.. code-block:: bash
+
+   salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
+
+To remove these, run:
+
+.. code-block:: bash
+
+   salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
+
+To show the packages that were removed but not purged, run:
+
+.. code-block:: bash
+
+   salt-ssh '*' pkg.list_pkgs removed=True
 
 Restart services
 ----------------
