@@ -54,6 +54,12 @@ Run, for example:
 
    salt-ssh 'ocds-docs-staging' file.remove /path/to/file_to_remove
 
+Delete a cron job
+~~~~~~~~~~~~~~~~~
+
+#. Change ``cron.present`` to ``cron.absent`` in the Salt state
+#. Delete the Salt state
+
 Delete a service
 ~~~~~~~~~~~~~~~~
 
@@ -125,4 +131,3 @@ Run, for example:
    salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
-

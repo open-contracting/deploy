@@ -145,8 +145,8 @@ kfs-apache-password:
     name='ocdskingfisherscrape.conf',
     servername='scrape.kingfisher.open-contracting.org') }}
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-scrape-cli  log-dir-scrape-report {{ scrapyddir }}logs:
+find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
-    - identifier: OCDS_KINGFISHER_SCRAPE_LOG_DIR_SCRAPE_REPORT
+    - identifier: OCDS_KINGFISHER_SCRAPE_LOG_STATS
     - user: {{ user }}
     - minute: 0
