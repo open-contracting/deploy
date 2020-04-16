@@ -30,11 +30,11 @@ ocdskingfisherprocess-prerequisites:
       - libpq-dev
 
 {% set user = 'ocdskfp' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
+
 {% set giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
 {% set views_giturl = 'https://github.com/open-contracting/kingfisher-views.git' %}
-
-{% set userdir = '/home/' + user %}
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherprocess/' %}
 {% set ocdskingfisherviewsdir = userdir + '/ocdskingfisherviews/' %}
 
@@ -296,8 +296,8 @@ ocdskingfisherprocess-pipinstall:
 
 ocdskingfisherprocess-pip-path:
   file.append:
-    - name: /home/{{ user }}/.bashrc
-    - text: "export PATH=\"/home/{{ user }}/.local/bin/:$PATH\""
+    - name: {{ userdir }}/.bashrc
+    - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""
 
 kfp_postgres_set_random_page_cost:
   cmd.run:

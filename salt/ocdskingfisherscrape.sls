@@ -16,11 +16,10 @@ ocdskingfisherscrape-prerequisites:
       - curl
 
 {% set user = 'ocdskfs' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
 
 {% set giturl = 'https://github.com/open-contracting/kingfisher-scrape.git' %}
-
-{% set userdir = '/home/' + user %}
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherscrape/' %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:
@@ -97,7 +96,7 @@ ocdskingfisherscrape-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
 
-/home/{{ user }}/.scrapyd.conf:
+{{ userdir }}/.scrapyd.conf:
   file.managed:
     - source: salt://ocdskingfisherscrape/scrapyd.ini
     - template: jinja
@@ -110,7 +109,7 @@ ocdskingfisherscrape-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
 
-/home/{{ user }}/.config/ocdskingfisher/old-config.ini:
+{{ userdir }}/.config/ocdskingfisher/old-config.ini:
   file.managed:
     - source: salt://ocdskingfisherscrape/old-config.ini
     - template: jinja
@@ -138,9 +137,9 @@ supervisor:
 
 kfs-apache-password:
   cmd.run:
-    - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd scrape {{ pillar.ocdskingfisherscrape.web.password }}
+    - name: rm {{ userdir }}/htpasswd ; htpasswd -c -b {{ userdir }}/htpasswd scrape {{ pillar.ocdskingfisherscrape.web.password }}
     - runas: {{ user }}
-    - cwd: /home/{{ user }}
+    - cwd: {{ userdir }}
 
 {{ apache('ocdskingfisherscrape.conf',
     name='ocdskingfisherscrape.conf',

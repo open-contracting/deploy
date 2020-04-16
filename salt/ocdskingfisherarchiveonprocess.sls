@@ -1,10 +1,14 @@
 {% from 'lib.sls' import createuser %}
 
 {% set user = 'archive' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user) }}
 
+{% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
+{% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive/' %}
+
 {% for file in ['id_rsa', 'id_rsa.pub'] %}
-/home/{{ user }}/.ssh/{{ file }}:
+{{ userdir }}/.ssh/{{ file }}:
   file.managed:
     - source: salt://private/kingfisher-archive/{{ file }}
     - makedirs: True
@@ -14,10 +18,6 @@
     - require:
        - user: {{ user }}_user_exists
 {% endfor %}
-
-{% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
-{% set userdir = '/home/' + user %}
-{% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive/' %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
