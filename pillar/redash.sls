@@ -1,3 +1,3 @@
 redash:
    https: force
-   server_name: 'redash.open-contracting.org'
+   servername: redash.open-contracting.org

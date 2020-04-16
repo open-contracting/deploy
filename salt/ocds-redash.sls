@@ -34,5 +34,5 @@ redash_prepackages:
 
 {{ apache('redash.conf',
     name='redash.conf',
-    servername=pillar.redash.server_name,
+    servername=pillar.redash.servername,
     https=pillar.redash.https) }}
