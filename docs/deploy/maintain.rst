@@ -134,3 +134,20 @@ To determine the current releases, run:
    salt-ssh '*' cmd.run 'lsb_release -a'
 
 To check the long term support of the releases, consult the `Ubuntu documentation <https://ubuntu.com/about/release-cycle>`__.
+
+
+Be aware of security updates
+----------------------------
+
+Generally be aware of the various relevant tech communities, so when a big security issue happens work can be done straight away and it does not wait until the normal schedule. Some places to check include:
+
+* `Ubuntu Security Website <https://usn.ubuntu.com/>`__
+* `Ubuntu Email List Website <https://lists.ubuntu.com/archives/ubuntu-security-announce/>`__
+
+Manual Checks
+-------------
+
+It's good to occasionally manually check servers and look for anything that other systems might have missed or anything that might become an issue later. For instance:
+
+* Review logs in `/var/log`, especially system ones, for anything out of the ordinary.
+* Review machine resource usage as recorded in Prometheus. Maybe scale servers up or down in response.
