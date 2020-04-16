@@ -8,12 +8,20 @@ Read the `Kingfisher Scrape <https://kingfisher-scrape.readthedocs.io/en/latest/
 Access Scrapyd's web interface
 ------------------------------
 
+.. admonition:: One-time setup
+
+   Save the username (``scrape``) and the password (ask a colleague) in your password manager.
+
 Open http://scrape.kingfisher.open-contracting.org
 
 .. _connect-collect-server:
 
 Connect to the Kingfisher Scrape server
 ---------------------------------------
+
+.. admonition:: One-time setup
+
+   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
 
 Connect to the server as the ``ocdskfs`` user:
 
@@ -24,44 +32,59 @@ Connect to the server as the ``ocdskfs`` user:
 Collect data with Kingfisher Scrape
 -----------------------------------
 
-#. :ref:`Connect to the server<connect-collect-server>`
+First, `read this section <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Scrape documentation.
 
-#. Schedule a crawl and set its note and any other `spider arguments <https://kingfisher-scrape.readthedocs.io/en/latest/use-cases/local.html#collect-data>`__. For example, replace ``spider_name`` with a spider's name and ``NAME`` with your name:
+To schedule a crawl, replace ``spider_name`` with a spider's name, ``NAME`` with your name (you can edit the note any way you like), and ``PASSWORD`` with the password for http://scrape.kingfisher.open-contracting.org (ask a colleague), and run:
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      curl http://localhost:6800/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+   curl http://scrape:PASSWORD@scrape.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+
+To avoid having to replace the password, use a ``.netrc`` file. In order to create (or append the Kingfisher Scrape credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
+
+.. code-block:: bash
+
+   echo 'machine scrape.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
+
+Then, you can run, for example:
+
+.. code-block:: bash
+
+   curl -n http://scrape.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+
+Alternately, you can :ref:`connect to the server<connect-collect-server>`, and use ``localhost:6800`` instead of ``scrape.kingfisher.open-contracting.org`` above.
 
 Update spiders in Kingfisher Scrape
 -----------------------------------
 
-#. Merge your changes to the master branch of the `kingfisher-scrape repository <https://github.com/open-contracting/kingfisher-scrape>`__.
+.. admonition:: One-time setup
 
-#. Connect to the server as the ``ocdskfs`` user and change to the working directory:
+   `Create a scrapy.cfg file in your local repository <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-scrape>`__, and set the ``url`` variable to ``scrape.kingfisher.open-contracting.org``.
 
-   .. code-block:: bash
-
-      ssh ocdskfs@scrape.kingfisher.open-contracting.org
-      cd ocdskingfisherscrape
-
-#. Pull your changes into the local repository:
+#. Ensure your local repository and the `GitHub repository <https://github.com/open-contracting/kingfisher-scrape>`__ are in sync:
 
    .. code-block:: bash
 
-      git pull --rebase
+      git checkout master
+      git remote update
+      git status
 
-#. Activate the virtual environment and Update the project's requirements:
+   The output should be exactly:
 
-   .. code-block:: bash
+   .. code-block:: none
 
-      source .ve/bin/activate
-      pip install -r requirements.txt
+      On branch master
+      Your branch is up to date with 'origin/master'.
 
-#. Deploy the spiders:
+      nothing to commit, working tree clean
+
+#. Activate a virtual environment in which ``scrapyd-client`` is installed, and deploy the spiders:
 
    .. code-block:: bash
 
          scrapyd-deploy
+
+Alternately, you can :ref:`connect to the server<connect-collect-server>`, change to the ``ocdskingfisherscrape`` directory, activate the virtual environment (``source .ve/bin/activate``), and run the above.
 
 Access Scrapyd's crawl logs
 ---------------------------
