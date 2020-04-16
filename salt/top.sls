@@ -18,11 +18,6 @@ base:
     - prometheus-client-apache
     - standard-search
 
-  'ocds-redash':
-    # This server does not have ocds-redash because the redash on this server is installed via an old method that does not work any more.
-    # The ocds-redash salt stuff is the new method  and we don't want to apply the new method to this old server
-    - prometheus-client-nginx
-
   'ocds-redash2':
     - ocds-redash
     - prometheus-client-apache
