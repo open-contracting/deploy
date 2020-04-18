@@ -10,7 +10,7 @@ At a higher level, to be responsible for servers, you should:
    -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
    -  Hosting provider :ref:`network status announcements<hosting>`
 
--  :doc:`Upgrading packages<packages>` on a weekly basis
+-  :doc:`Upgrade packages<packages>` on a weekly basis
 
 -  Check server monitoring, at a regular interval:
 
@@ -154,6 +154,12 @@ To restart a service, run, for example:
 .. code-block:: bash
 
    salt-ssh TARGET service.restart uwsgi
+
+To restart a service managed by `Supervisor <http://supervisord.org>`__, run, for example:
+
+.. code-block:: bash
+
+   salt-ssh TARGET supervisord.restart scrapyd
 
 To reboot a server:
 
