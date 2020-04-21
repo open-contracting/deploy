@@ -100,6 +100,6 @@ user: {{ user }}
 
 prometheus-server-apache-password:
   cmd.run:
-    - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd prom {{ pillar.prometheus.server_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.server_password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}

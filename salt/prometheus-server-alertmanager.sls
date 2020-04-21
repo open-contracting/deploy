@@ -90,6 +90,6 @@ user: {{ user }}
 
 prometheus-alertmanager-apache-password:
   cmd.run:
-    - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd prom {{ pillar.prometheus.alertmanager_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.alertmanager_password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}

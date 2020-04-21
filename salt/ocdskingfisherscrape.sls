@@ -121,7 +121,7 @@ supervisor:
 
 kfs-apache-password:
   cmd.run:
-    - name: rm {{ userdir }}/htpasswd ; htpasswd -c -b {{ userdir }}/htpasswd scrape {{ pillar.ocdskingfisherscrape.web.password }}
+    - name: htpasswd -b -c {{ userdir }}/htpasswd scrape {{ pillar.ocdskingfisherscrape.web.password }}
     - runas: {{ user }}
     - cwd: {{ userdir }}
 

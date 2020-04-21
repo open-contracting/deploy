@@ -27,6 +27,6 @@ apache_port: {{ pillar.prometheus.client_port }}
 
 prometheus-client-apache-password:
   cmd.run:
-    - name: rm /home/{{ user }}/htpasswd ; htpasswd -c -b /home/{{ user }}/htpasswd prom {{ pillar.prometheus.client_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.client_password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
