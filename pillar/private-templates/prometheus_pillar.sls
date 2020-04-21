@@ -12,3 +12,4 @@ prometheus:
   server_prometheus_version: 2.12.0
   server_alertmanager_version: 0.18.0
   node_exporter_version: 0.18.1
+  client_node_exporter_textfile_collector_smartmon: False

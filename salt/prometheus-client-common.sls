@@ -46,3 +46,47 @@ prometheus-node-exporter:
     # Make sure service restarts if any config changes
     - watch:
       - file: /etc/systemd/system/prometheus-node-exporter.service
+
+
+########### General Textfile Collector
+
+{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
+/home/{{ user }}/node-exporter-textfile-directory:
+  file.directory:
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+    - requires:
+      - user: {{ user }}_user_exists
+
+/home/{{ user }}/node-exporter-textfile-collector-scripts:
+  git.latest:
+    - name: https://github.com/prometheus-community/node-exporter-textfile-collector-scripts.git
+    - user: {{ user }}
+    - force_fetch: True
+    - force_reset: True
+    - branch: master
+    - rev: master
+    - target: /home/{{ user }}/node-exporter-textfile-collector-scripts
+    - require:
+      - pkg: git
+      - user: {{ user }}_user_exists
+
+{% endif %}
+
+
+########### SmartMon?
+
+{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
+
+smartmontools:
+  pkg.installed:
+    - name: smartmontools
+
+/home/prometheus-client/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
+    # This must run as root not user cos non-root users can't access these stats
+    - user: root
+
+{% endif %}
