@@ -71,8 +71,6 @@ Update spiders in Kingfisher Scrape
 
          scrapyd-deploy kingfisher
 
-Alternately, you can :ref:`connect to the server<connect-collect-server>`, change to the ``ocdskingfisherscrape`` directory, activate the virtual environment (``source .ve/bin/activate``), and run the above.
-
 Access Scrapyd's crawl logs
 ---------------------------
 
