@@ -102,12 +102,6 @@ ocdskingfisherscrape-prerequisites:
     - context:
         scrapyddir: {{ scrapyddir }}
 
-{{ userdir }}/old-data:
-  file.directory:
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
-
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
     - source: salt://ocdskingfisherscrape/supervisor.conf
