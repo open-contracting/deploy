@@ -37,8 +37,6 @@ Then, you can run, for example:
 
    curl -n http://scrape.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
 
-Alternately, you can :ref:`connect to the server<connect-collect-server>`, and use ``localhost:6800`` instead of ``scrape.kingfisher.open-contracting.org`` above.
-
 Update spiders in Kingfisher Scrape
 -----------------------------------
 
@@ -76,7 +74,7 @@ Access Scrapyd's crawl logs
 
 From a browser, click on a "Log" link from the `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__, or open Scrapyd's `logs page for the kingfisher project <http://scrape.kingfisher.open-contracting.org/logs/kingfisher/>`__.
 
-From the command-line, connect to the server as the ``ocdskfs`` user, and change to the logs directory for the ``kingfisher`` project:
+From the command-line, :ref:`connect to the server<connect-collect-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
 
 .. code-block:: bash
 
@@ -90,11 +88,13 @@ Scrapy statistics are extracted from the end of each log file every hour on the 
 -  Paste the URL into the address bar.
 -  Change ``.log`` at the end of the URL to ``.log.stats`` and press Enter.
 
-If you can't wait, you can :ref:`connect to the server<connect-collect-server>`, replace ``spider_name/alpha-numeric-string``, and run:
+If you can't wait for the statistics to be extracted, you can connect to the server, replace ``spider_name/alpha-numeric-string``, and run:
 
 .. code-block:: bash
 
    tac /home/ocdskfs/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
+
+If you are frequently running the above, `create an issue <https://github.com/open-contracting/deploy/issues>`__ to change the schedule.
 
 .. _connect-collect-server:
 
