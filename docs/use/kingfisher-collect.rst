@@ -59,7 +59,9 @@ Update spiders in Kingfisher Scrape
 
 .. admonition:: One-time setup
 
-   `Create a scrapy.cfg file in your local repository <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-scrape>`__, and set the ``url`` variable to ``scrape.kingfisher.open-contracting.org``.
+   `Create a ~/.config/scrapy.cfg file <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-scrape>`__, and set the ``url`` variable to ``http://scrape.kingfisher.open-contracting.org/``.
+
+#. Change to your local directory containing your local repository
 
 #. Ensure your local repository and the `GitHub repository <https://github.com/open-contracting/kingfisher-scrape>`__ are in sync:
 
@@ -82,7 +84,7 @@ Update spiders in Kingfisher Scrape
 
    .. code-block:: bash
 
-         scrapyd-deploy
+         scrapyd-deploy kingfisher
 
 Alternately, you can :ref:`connect to the server<connect-collect-server>`, change to the ``ocdskingfisherscrape`` directory, activate the virtual environment (``source .ve/bin/activate``), and run the above.
 
