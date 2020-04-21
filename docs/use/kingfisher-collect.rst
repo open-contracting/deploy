@@ -14,21 +14,6 @@ Access Scrapyd's web interface
 
 Open http://scrape.kingfisher.open-contracting.org
 
-.. _connect-collect-server:
-
-Connect to the Kingfisher Scrape server
----------------------------------------
-
-.. admonition:: One-time setup
-
-   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
-
-Connect to the server as the ``ocdskfs`` user:
-
-.. code-block:: bash
-
-   ssh ocdskfs@scrape.kingfisher.open-contracting.org
-
 Collect data with Kingfisher Scrape
 -----------------------------------
 
@@ -112,3 +97,18 @@ If you can't wait, you can :ref:`connect to the server<connect-collect-server>`,
 .. code-block:: bash
 
    tac /home/ocdskfs/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
+
+.. _connect-collect-server:
+
+Connect to the Kingfisher Scrape server
+---------------------------------------
+
+.. admonition:: One-time setup
+
+   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
+
+Connect to the server as the ``ocdskfs`` user:
+
+.. code-block:: bash
+
+   ssh ocdskfs@scrape.kingfisher.open-contracting.org
