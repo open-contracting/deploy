@@ -44,7 +44,6 @@ ocdskingfisherscrape-prerequisites:
     - require:
       - git: {{ giturl }}{{ ocdskingfisherdir }}
 
-
 {% set scrapyddir = userdir + '/scrapyd/' %}
 
 {{ scrapyddir }}:
@@ -108,15 +107,6 @@ ocdskingfisherscrape-prerequisites:
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
-
-{{ userdir }}/.config/ocdskingfisher/old-config.ini:
-  file.managed:
-    - source: salt://ocdskingfisherscrape/old-config.ini
-    - template: jinja
-    - makedirs: True
-    - context:
-        userdir: {{ userdir }}
-
 
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
