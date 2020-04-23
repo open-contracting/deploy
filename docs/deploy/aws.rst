@@ -18,7 +18,7 @@ Verify a domain
 
 #. Go to GoDaddy's `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__:
 
-   #. Add the TXT, CNAME and MX records
+   #. Add the TXT and CNAME records. Add the MX record if none exists.
 
       .. note::
 
@@ -28,13 +28,13 @@ Verify a domain
 
          Omit ``.open-contracting.org`` from hostnames. GoDaddy appends it automatically.
 
-   #. `Add an SPF record <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-spf.html>`__
+   #. `Add or update the SPF record <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-spf.html>`__
 
 #. Wait for the domain's verification status to become "verified" on SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__
 
    .. note::
 
-      AWS will notify you by email. Last time, it took an hour.
+      AWS will notify you by email. Last time, it took a few minutes.
 
 Reference: `Verifying a Domain <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domain-procedure.html>`__
 
@@ -43,7 +43,7 @@ Verify an email address
 
 #. Check that the domain's verification status is "verified" on SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__
 
-#. Go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__:
+#. If an MX record didn't exist, go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__:
 
    #. Click *Create a New Rule Set*
    #. Click the rule set's name
@@ -67,7 +67,7 @@ Verify an email address
    #. Enter the email address in *Email Address:*
    #. Click *Verify This Email Address*
 
-#. Go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__:
+#. If an MX record didn't exist, go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__ (otherwise, check your email):
 
    #. Click the bucket name
    #. Click the long alpha-numeric string (if there is none, double-check the earlier steps)
@@ -77,7 +77,7 @@ Verify an email address
 
 #. Check that the email address's verification status is "verified" on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__
 
-#. Cleanup:
+#. If an MX record didn't exist, cleanup:
 
    #. Delete the bucket
    #. Disable and delete the rule set
