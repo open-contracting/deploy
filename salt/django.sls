@@ -77,7 +77,6 @@ django-deps:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ pillar.user }}
-    - requirements: {{ djangodir }}requirements.txt
     - require:
       - pkg: django-deps
       - git: {{ pillar.git.url }}{{ djangodir }}
@@ -85,13 +84,23 @@ django-deps:
     - watch_in:
       - service: apache2
 
+# Due to a bug in Salt, we can't use `- requirements: {{ djangodir }}requirements.txt` in the above
+# `{{ djangodir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
+pip_install_requirements:
+  cmd.run:
+    - name: . .ve/bin/activate; pip install -r requirements.txt
+    - runas: {{ pillar.user }}
+    - cwd: {{ djangodir }}
+    - require:
+      - virtualenv: {{ djangodir }}.ve/
+
 migrate:
   cmd.run:
     - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.app }}.settings python manage.py migrate --noinput
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
-      - virtualenv: {{ djangodir }}.ve/
+      - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
 
@@ -102,7 +111,7 @@ compilemessages:
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
-      - virtualenv: {{ djangodir }}.ve/
+      - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
 {% endif %}
@@ -113,7 +122,7 @@ collectstatic:
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
-      - virtualenv: {{ djangodir }}.ve/
+      - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
 
