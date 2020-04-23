@@ -88,7 +88,7 @@ django-deps:
 # `{{ djangodir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip install -r requirements.txt
+    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
