@@ -31,6 +31,12 @@ To avoid having to replace the password, use a ``.netrc`` file. In order to crea
 
    echo 'machine scrape.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
 
+You must change the file's permissions to be readable only by the owner:
+
+.. code-block:: bash
+
+   chmod 600 ~/.netrc
+
 Then, you can run, for example:
 
 .. code-block:: bash
