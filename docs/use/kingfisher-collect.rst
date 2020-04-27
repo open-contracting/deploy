@@ -60,7 +60,7 @@ To cancel a crawl, replace ``JOBID`` with the job ID from the response or from S
 
 .. code-block:: bash
 
-   curl -n http://scrape.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=6487ec79947edab326d6db28a2d86511e8247444
+   curl -n http://scrape.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
 
 You should see a response like:
 
