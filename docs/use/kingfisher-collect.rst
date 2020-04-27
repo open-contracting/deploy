@@ -12,20 +12,20 @@ Access Scrapyd's web interface
 
    Save the username (``scrape``) and the password (ask a colleague) in your password manager.
 
-Open http://scrape.kingfisher.open-contracting.org
+Open http://collect.kingfisher.open-contracting.org
 
 .. _create-netrc-file:
 
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://scrape.kingfisher.open-contracting.org in a web browser.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://collect.kingfisher.open-contracting.org in a web browser.
 
 Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
 .. code-block:: bash
 
-   echo 'machine scrape.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
+   echo 'machine collect.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
 
 You must change the file's permissions to be readable only by the owner:
 
@@ -48,7 +48,7 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
 
 .. code-block:: bash
 
-   curl -n http://scrape.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+   curl -n http://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
 
 You should see a response like:
 
@@ -56,11 +56,11 @@ You should see a response like:
 
    {"node_name": "process1", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
-To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__:
+To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <http://collect.kingfisher.open-contracting.org/jobs>`__:
 
 .. code-block:: bash
 
-   curl -n http://scrape.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
+   curl -n http://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
 
 You should see a response like:
 
@@ -77,7 +77,7 @@ Update spiders in Kingfisher Collect
 
 .. admonition:: One-time setup
 
-   :ref:`Create a ~/.netrc file<create-netrc-file>`. `Create a ~/.config/scrapy.cfg file <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-collect>`__, and set the ``url`` variable to ``http://scrape.kingfisher.open-contracting.org/``.
+   :ref:`Create a ~/.netrc file<create-netrc-file>`. `Create a ~/.config/scrapy.cfg file <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-collect>`__, and set the ``url`` variable to ``http://collect.kingfisher.open-contracting.org/``.
 
 #. Change to your local directory containing your local repository
 
@@ -107,16 +107,16 @@ Update spiders in Kingfisher Collect
 Access Scrapyd's crawl logs
 ---------------------------
 
-From a browser, click on a "Log" link from Scrapyd's `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <http://scrape.kingfisher.open-contracting.org/logs/kingfisher/>`__.
+From a browser, click on a "Log" link from Scrapyd's `jobs page <http://collect.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <http://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__.
 
 From the command-line, :ref:`connect to the server<connect-collect-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
 
 .. code-block:: bash
 
-   ssh ocdskfs@scrape.kingfisher.open-contracting.org
+   ssh ocdskfs@collect.kingfisher.open-contracting.org
    cd scrapyd/logs/kingfisher
 
-Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__:
+Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <http://collect.kingfisher.open-contracting.org/jobs>`__:
 
 -  Right-click on a "Log" link.
 -  Select "Copy Link" or similar.
@@ -144,4 +144,4 @@ Connect to the server as the ``ocdskfs`` user:
 
 .. code-block:: bash
 
-   ssh ocdskfs@scrape.kingfisher.open-contracting.org
+   ssh ocdskfs@collect.kingfisher.open-contracting.org
