@@ -50,6 +50,26 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
 
    curl -n http://scrape.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
 
+You should see a response like:
+
+.. code-block:: none
+
+   {"node_name": "process1", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
+
+To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__:
+
+.. code-block:: bash
+
+   curl -n http://scrape.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=6487ec79947edab326d6db28a2d86511e8247444
+
+You should see a response like:
+
+.. code-block:: none
+
+   {"node_name": "process1", "status": "ok", "prevstate": "running"}
+
+The crawl won't stop immediately. You can force an unclean shutdown by sending the request again; however, it's preferred to allow the crawl to stop gracefully, so that the log file is completed.
+
 .. _update-spiders:
 
 Update spiders in Kingfisher Scrape
@@ -87,7 +107,7 @@ Update spiders in Kingfisher Scrape
 Access Scrapyd's crawl logs
 ---------------------------
 
-From a browser, click on a "Log" link from the `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__, or open Scrapyd's `logs page for the kingfisher project <http://scrape.kingfisher.open-contracting.org/logs/kingfisher/>`__.
+From a browser, click on a "Log" link from Scrapyd's `jobs page <http://scrape.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <http://scrape.kingfisher.open-contracting.org/logs/kingfisher/>`__.
 
 From the command-line, :ref:`connect to the server<connect-collect-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
 
