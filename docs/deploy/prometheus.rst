@@ -1,6 +1,16 @@
 Prometheus tasks
 ================
 
+Test Alert Manager
+------------------
+
+.. code-block:: bash
+
+   ssh root@alertmanager.prometheus.open-contracting.org
+   curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
+
+Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
+
 Monitor a service
 -----------------
 
