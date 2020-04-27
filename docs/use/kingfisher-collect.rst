@@ -1,7 +1,7 @@
-Kingfisher Scrape
-=================
+Kingfisher Collect
+==================
 
-Read the `Kingfisher Scrape <https://kingfisher-scrape.readthedocs.io/en/latest/>`__ documentation, which cover general usage.
+Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which cover general usage.
 
 .. _access-scrapyd-web-service:
 
@@ -19,9 +19,9 @@ Open http://scrape.kingfisher.open-contracting.org
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Scrape, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://scrape.kingfisher.open-contracting.org in a web browser.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://scrape.kingfisher.open-contracting.org in a web browser.
 
-Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Scrape credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
+Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
 .. code-block:: bash
 
@@ -35,14 +35,14 @@ You must change the file's permissions to be readable only by the owner:
 
 .. _collect-data:
 
-Collect data with Kingfisher Scrape
------------------------------------
+Collect data with Kingfisher Collect
+------------------------------------
 
 .. admonition:: One-time setup
 
    :ref:`Create a ~/.netrc file<create-netrc-file>`.
 
-First, `read this section <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Scrape documentation.
+First, `read this section <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Collect documentation.
 
 To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run:
 
@@ -72,16 +72,16 @@ The crawl won't stop immediately. You can force an unclean shutdown by sending t
 
 .. _update-spiders:
 
-Update spiders in Kingfisher Scrape
------------------------------------
+Update spiders in Kingfisher Collect
+------------------------------------
 
 .. admonition:: One-time setup
 
-   :ref:`Create a ~/.netrc file<create-netrc-file>`. `Create a ~/.config/scrapy.cfg file <https://kingfisher-scrape.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-scrape>`__, and set the ``url`` variable to ``http://scrape.kingfisher.open-contracting.org/``.
+   :ref:`Create a ~/.netrc file<create-netrc-file>`. `Create a ~/.config/scrapy.cfg file <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-collect>`__, and set the ``url`` variable to ``http://scrape.kingfisher.open-contracting.org/``.
 
 #. Change to your local directory containing your local repository
 
-#. Ensure your local repository and the `GitHub repository <https://github.com/open-contracting/kingfisher-scrape>`__ are in sync:
+#. Ensure your local repository and the `GitHub repository <https://github.com/open-contracting/kingfisher-collect>`__ are in sync:
 
    .. code-block:: bash
 
@@ -133,8 +133,8 @@ If you are frequently running the above, `create an issue <https://github.com/op
 
 .. _connect-collect-server:
 
-Connect to the Kingfisher Scrape server
----------------------------------------
+Connect to the Kingfisher Collect server
+----------------------------------------
 
 .. admonition:: One-time setup
 

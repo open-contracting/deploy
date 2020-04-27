@@ -3,7 +3,7 @@
 include:
   - apache
 
-ocdskingfisherscrape-prerequisites:
+ocdskingfishercollect-prerequisites:
   apache_module.enabled:
     - names:
       - proxy
@@ -29,7 +29,7 @@ ocdskingfisherscrape-prerequisites:
 
 {{ scrapyddir }}requirements.txt:
   file.managed:
-    - source: salt://ocdskingfisherscrape/scrapyd-requirements.txt
+    - source: salt://ocdskingfishercollect/scrapyd-requirements.txt
     - user: {{ user }}
     - group: {{ user }}
     - mode: 0444
@@ -72,14 +72,14 @@ ocdskingfisherscrape-prerequisites:
 
 {{ userdir }}/.scrapyd.conf:
   file.managed:
-    - source: salt://ocdskingfisherscrape/scrapyd.ini
+    - source: salt://ocdskingfishercollect/scrapyd.ini
     - template: jinja
     - context:
         scrapyddir: {{ scrapyddir }}
 
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
-    - source: salt://ocdskingfisherscrape/supervisor.conf
+    - source: salt://ocdskingfishercollect/supervisor.conf
     - template: jinja
     - context:
         scrapyddir: {{ scrapyddir }}
@@ -96,7 +96,7 @@ supervisor:
 
 kfs-apache-password:
   cmd.run:
-    - name: htpasswd -b -c {{ userdir }}/htpasswd scrape {{ pillar.ocdskingfisherscrape.web.password }}
+    - name: htpasswd -b -c {{ userdir }}/htpasswd scrape {{ pillar.ocdskingfishercollect.web.password }}
     - runas: {{ user }}
     - cwd: {{ userdir }}
 

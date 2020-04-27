@@ -40,7 +40,7 @@ base:
     - postgres11
     - ocdskingfisher
     - ocdskingfisherarchiveonprocess
-    - ocdskingfisherscrape
+    - ocdskingfishercollect
     - ocdskingfisherprocess
     - ocdskingfisheranalyse
     - prometheus-client-apache

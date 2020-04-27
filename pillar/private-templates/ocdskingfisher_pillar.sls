@@ -8,7 +8,7 @@ ocdskingfisherprocess:
       password: xxxxxxxxxxxxxxxxxxxxxxxxx
   web:
     apikeys: xxxxxxxxxxxxxxxxxxxxxxx
-ocdskingfisherscrape:
+ocdskingfishercollect:
   web:
     password: xxxxxxxxxxxxxxxxxxxxx
   tokens:
