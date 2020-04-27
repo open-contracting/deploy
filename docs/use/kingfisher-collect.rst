@@ -19,9 +19,9 @@ Open http://scrape.kingfisher.open-contracting.org
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Scrape, you need to connect to it as described below, using the same password as to access http://scrape.kingfisher.open-contracting.org in a web browser (ask a colleague for the password).
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Scrape, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://scrape.kingfisher.open-contracting.org in a web browser.
 
-Instead of setting the password in multiple locations (on the command line and in ``scrapy.cfg`` files), set the password in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Scrape credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
+Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Scrape credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
 .. code-block:: bash
 
