@@ -1,7 +1,7 @@
 Kingfisher Collect
 ==================
 
-Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which cover general usage.
+Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
 .. _access-scrapyd-web-service:
 
