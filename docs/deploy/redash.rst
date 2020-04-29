@@ -1,8 +1,10 @@
 Redash tasks
 ============
 
-Create to a Redash server
--------------------------
+Create a Redash server
+----------------------
+
+First, :doc:`create the new server<create_server>`, making sure to use the ``redash`` state file.
 
 Update script
 ~~~~~~~~~~~~~
@@ -10,8 +12,8 @@ Update script
 We `installed Redash <https://redash.io/help/open-source/setup#docker>`__ using its `setup script <https://github.com/getredash/setup>`__. However, we made a few changes to its ``setup.sh`` file:
 
 #. Add a comment with a link to the version used of the setup script (to make it easier to compare against future scripts).
-#. Comment out the ``install_docker`` function call. (Instead, the ``docker`` state file installs Docker.)
-#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the Prometheus client, so the port isn't available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
+#. Comment out the ``install_docker`` function call. (The ``docker`` state file installs Docker, to keep system packages under Salt's management.)
+#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the :doc:`Prometheus client<prometheus>`, so the port isn't available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
 #. Expose the ``postgres`` service's ports as ``5432:5432`` (to make it easier to load a database dump).
 
 Before :ref:`running the script<run-redash-script>`, compare the ``setup-redash.sh`` file in this repository to the latest version of the `setup script <https://github.com/getredash/setup>`__.
