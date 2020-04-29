@@ -18,8 +18,8 @@ base:
     - prometheus-client-apache
     - standard-search
 
-  'ocds-redash2':
-    - ocds-redash
+  'redash2':
+    - redash
     - prometheus-client-apache
 
   'toucan':
