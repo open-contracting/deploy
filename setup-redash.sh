@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 # This script setups dockerized Redash on Ubuntu 18.04.
+
+# curl -o setup-redash.sh https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
+
 set -eu
 
 REDASH_BASE_PATH=/opt/redash
@@ -61,6 +64,9 @@ setup_compose() {
     GIT_BRANCH="${REDASH_BRANCH:-master}" # Default branch/version to master if not specified in REDASH_BRANCH env var
     wget https://raw.githubusercontent.com/getredash/setup/${GIT_BRANCH}/data/docker-compose.yml
     sed -ri "s/image: redash\/redash:([A-Za-z0-9.-]*)/image: redash\/redash:$LATEST_VERSION/" docker-compose.yml
+    sed -i 's/80:80/9090:80/' /opt/redash/docker-compose.yml
+    sed -i '/postgresql/a\'$'\n''      - "5432:5432"' /opt/redash/docker-compose.yml
+    sed -i '/postgresql/a\'$'\n''    ports:'  /opt/redash/docker-compose.yml
     echo "export COMPOSE_PROJECT_NAME=redash" >> ~/.profile
     echo "export COMPOSE_FILE=/opt/redash/docker-compose.yml" >> ~/.profile
     export COMPOSE_PROJECT_NAME=redash
@@ -69,7 +75,7 @@ setup_compose() {
     sudo docker-compose up -d
 }
 
-install_docker
+# install_docker
 create_directories
 create_config
 setup_compose
