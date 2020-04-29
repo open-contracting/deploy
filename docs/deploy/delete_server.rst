@@ -15,7 +15,7 @@ If the service is being retired:
 #. Remove its configuration from this repository
 #. Remove its DNS entries from `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 #. Remove its downtime monitor from `UptimeRobot <https://uptimerobot.com/dashboard>`__
-#. Remove its error monitor from `Sentry <https://sentry.io/organizations/open-data-services/projects/>`__
+#. Remove its error monitor from `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
 #. Remove its row from the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Remove its managed passwords, if appropriate
 
