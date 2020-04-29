@@ -33,7 +33,7 @@ You must change the file's permissions to be readable only by the owner:
 
    chmod 600 ~/.netrc
 
-If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, correct the file in a text editor.
+If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, you must correct the file in a text editor.
 
 To test your configuration, run:
 
@@ -41,7 +41,7 @@ To test your configuration, run:
 
    curl -n http://collect.kingfisher.open-contracting.org/listprojects.json
 
-You should see a response like::
+You should see a response like:
 
 .. code-block:: none
 
