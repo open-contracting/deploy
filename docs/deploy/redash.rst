@@ -4,6 +4,23 @@ Redash tasks
 Create to a Redash server
 -------------------------
 
+Update script
+~~~~~~~~~~~~~
+
+We `installed Redash <https://redash.io/help/open-source/setup#docker>`__ using its `setup script <https://github.com/getredash/setup>`__. However, we made a few changes to its ``setup.sh`` file:
+
+#. Add a comment with a link to the version of the setup script we used.
+#. Comment out the ``install_docker`` function call. (Instead, the ``docker`` state file installs Docker.)
+#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the Prometheus client, so the port is not available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
+#. Expose the ``postgres`` service's ports as ``5432:5432``.
+
+Before :ref:`running the script<run-redash-script>`, compare the ``setup-redash.sh`` file in this repository to the latest version of the `setup script <https://github.com/getredash/setup>`__.
+
+.. _run-redash-script:
+
+Run script
+~~~~~~~~~~
+
 #. If migrating from an old server:
 
    #. Connect to the old server. For example:
@@ -18,7 +35,7 @@ Create to a Redash server
 
          cat /opt/redash/env
 
-   #. Dump the database:
+   #. Dump the database. You might need to expose ports for the ``postgres`` service.
 
       .. code-block:: bash
 
