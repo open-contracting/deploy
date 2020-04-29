@@ -96,11 +96,12 @@ Run script
 
          psql -h localhost -U postgres postgres -f redash.sql
 
-   #. TODO:
+   #. Stop Redash services and apply database migrations:
 
       .. code-block:: bash
 
-         docker-compose run --rm server create_db
+         docker-compose stop server scheduler scheduled_worker adhoc_worker
+         docker-compose run --rm server manage db upgrade
 
 #. Remove the ``ports`` variable from the ``/opt/redash/docker-compose.yml`` file:
 
@@ -108,7 +109,11 @@ Run script
 
       sed -i '/postgresql/{n;N;d}' /opt/redash/docker-compose.yml
 
-#. :ref:`Restart Redash<restart-redash>`.
+#. Start all services:
+
+   .. code-block:: bash
+
+      docker-compose up -d
 
 Configure Redash
 ----------------
@@ -125,12 +130,14 @@ Configure Redash
 
 #. Test the email configuration using the `Password Reset <https://redash.open-contracting.org/forgot>`__ feature.
 
-.. _restart-redash:
+.. _upgrade-redash:
 
 Upgrade Redash
 --------------
 
-`See official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.
+To upgrade Redash without creating a new server, `see the official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.
+
+.. _restart-redash:
 
 Restart Redash
 --------------
