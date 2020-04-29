@@ -1,19 +1,45 @@
 Kingfisher Process
 ==================
 
-Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which cover general usage.
+Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
-View Logs
----------
+Review log files
+----------------
+
+**Access:**
 
 The logs from Process are available for the ``ocdskfs`` and ``ocdskfp`` users to read.
 
-The newest logs are at ``/var/log/kingfisher.log``.
+**Location:**
 
-Log rotation is used, and older logs can be found at ``/var/log/kingfisher.log.1`` and other compressed files like ``/var/log/kingfisher.log.2.gz``.
+The newest logs are at ``/var/log/kingfisher.log``. Log rotation is used, and older logs can be found at ``/var/log/kingfisher.log.1`` and other compressed files like ``/var/log/kingfisher.log.2.gz``.
 
-Logs are tagged with a logger, and you can use this to filter for events you want to see.
+**Understanding:**
 
-* Run ``grep  ocdskingfisher.checks  /var/log/kingfisher.log  | less`` to see which collections the system is running checks on.
-* Run ``grep  ocdskingfisher.web  /var/log/kingfisher.log  | less`` to see calls made to the process system by a crawl.
+Log messages are formatted::
+
+    [date] [hostname] "%(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s"
+
+You can look up the meaning of each section `in the Python documentation <https://docs.python.org/3/library/logging.html#logrecord-attributes>`__.
+
+In particular, you can use the name to filter for events you want to see.
+
+.. code-block:: bash
+
+    grep  NAME  /var/log/kingfisher.log  | less
+
+Where ``NAME`` is one of:
+
+ocdskingfisher.checks
+  An informative message for each collection, file item, release and record that is checked for structural errors.
+ocdskingfisher.cli
+  When any CLI command is run, by hand or automatically by a timer.
+ocdskingfisher.cli.transform-collections
+  When the transform-collections command runs individual collections. Use this to see if a collection is being processed.
+ocdskingfisher.database.delete-collection
+  To do with deleting collections.
+ocdskingfisher.redis-queue
+  To do with the processing of the Redis queue.
+odskingfisher.web
+  An informative message for each web API call.
 
