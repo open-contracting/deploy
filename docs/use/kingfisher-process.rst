@@ -3,43 +3,36 @@ Kingfisher Process
 
 Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
-Review log files
-----------------
+.. _connect-process-server:
 
-**Access:**
+Connect to the Kingfisher Process server
+----------------------------------------
 
-The logs from Process are available for the ``ocdskfs`` and ``ocdskfp`` users to read.
+.. admonition:: One-time setup
 
-**Location:**
+   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
 
-The newest logs are at ``/var/log/kingfisher.log``. Log rotation is used, and older logs can be found at ``/var/log/kingfisher.log.1`` and other compressed files like ``/var/log/kingfisher.log.2.gz``.
-
-**Understanding:**
-
-Log messages are formatted::
-
-    [date] [hostname] "%(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s"
-
-You can look up the meaning of each section `in the Python documentation <https://docs.python.org/3/library/logging.html#logrecord-attributes>`__.
-
-In particular, you can use the name to filter for events you want to see.
+Connect to the server as the ``ocdskfp`` user:
 
 .. code-block:: bash
 
-    grep  NAME  /var/log/kingfisher.log  | less
+   ssh ocdskfp@process.kingfisher.open-contracting.org
 
-Where ``NAME`` is one of:
+Review log files
+----------------
 
-ocdskingfisher.checks
-  An informative message for each collection, file item, release and record that is checked for structural errors.
-ocdskingfisher.cli
-  When any CLI command is run, by hand or automatically by a timer.
-ocdskingfisher.cli.transform-collections
-  When the transform-collections command runs individual collections. Use this to see if a collection is being processed.
-ocdskingfisher.database.delete-collection
-  To do with deleting collections.
-ocdskingfisher.redis-queue
-  To do with the processing of the Redis queue.
-odskingfisher.web
-  An informative message for each web API call.
+Kingfisher Process writes log messages to the ``/var/log/kingfisher.log`` file. The log file is rotated weekly; last week's log file is at ``/var/log/kingfisher.log.1``, and earlier log files are compressed at ``/var/log/kingfisher.log.2.gz``, etc.
 
+The log files can be read by the ``ocdskfs`` and ``ocdskfp`` users, after :ref:`connecting to the server<connect-process-server>`.
+
+Log messages are formatted as::
+
+    [date] [hostname] %(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s
+
+You can filter messages by topic. For example:
+
+.. code-block:: bash
+
+    grep NAME /var/log/kingfisher.log | less
+
+For more information, read Kingfisher Process' `logging documentation <https://kingfisher-process.readthedocs.io/en/latest/logging.html>`__.
