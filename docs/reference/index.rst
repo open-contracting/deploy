@@ -24,7 +24,9 @@ OCP's `DMARC policy <https://support.google.com/a/answer/2466563>`__ (``dig TXT 
 Sentry
 ~~~~~~
 
-Application errors are reported to `Sentry <https://sentry.io/>`__, which notifies individual email addresses. Not all services report errors to Sentry.
+Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
+
+There should be at most one `member <https://sentry.io/settings/open-contracting-partnership/members/>`__ with the Admin role from each of ODS and CDS, and at least one member with the Owner role from OCP.
 
 UptimeRobot
 ~~~~~~~~~~~
@@ -57,6 +59,28 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
    -  `Network status <https://www.githubstatus.com>`__
+
+Administrative access
+---------------------
+
+The staff of the following organizations can have administrative roles:
+
+-  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
+-  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
+-  `Dogsbody Technology <https://www.dogsbody.com>`__
+-  `Open Data Services Co-operative <http://opendataservices.coop>`__ (ODS)
+
+The files referenced by `ssh_auth.present <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.ssh_auth.html#salt.states.ssh_auth.present>`__ states give people access to servers. All people should belong to the above organizations. Root access should be :doc:`routinely reviewed <../deploy/maintain>`.
+
+Redash
+~~~~~~
+
+There should be at most two users in the `admin <https://redash.open-contracting.org/groups/1>`__ group from each of OCP and ODS.
+
+Redmine
+~~~~~~~
+
+There should be at most two users with the `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ role from each of OCP and ODS.
 
 .. toctree::
    :caption: Service-specific information
