@@ -15,7 +15,7 @@ We `installed Redash <https://redash.io/help/open-source/setup#docker>`__ using 
 #. Comment out the ``install_docker`` function call. (The ``docker`` state file installs Docker, to keep system packages under Salt's management.)
 #. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the :doc:`Prometheus client<prometheus>`, so the port isn't available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
 #. Expose the ``postgres`` service's ports as ``5432:5432`` (to make it easier to load a database dump).
-#. Comment out the database creation and container startup commands (to run these only after upgrading).
+#. Comment out the database creation and container startup commands (to be run after upgrade).
 
 Before :ref:`running the script<run-redash-script>`, compare the ``setup-redash.sh`` file in this repository to the latest version of the `setup script <https://github.com/getredash/setup>`__.
 
@@ -24,7 +24,7 @@ Before :ref:`running the script<run-redash-script>`, compare the ``setup-redash.
 Run script
 ~~~~~~~~~~
 
-#. If migrating from an old server:
+#. If migrating from an old server, get its configuration settings and database dump.
 
    #. Connect to the old server. For example:
 
@@ -82,7 +82,7 @@ Run script
 
       bash setup-redash.sh
 
-#. If migrating from an old server:
+#. If migrating from an old server, restore the database dump and upgrade the database.
 
    #. Get the PostgreSQL credentials on the new server:
 
@@ -120,20 +120,20 @@ Run script
 
       sed -i '/postgresql/{n;N;d}' /opt/redash/docker-compose.yml
 
-#. :ref:`restart-redash`.
-
-Configure Redash
-----------------
-
-#. Enable the `permissions <https://github.com/getredash/redash/pull/1113>`__ feature:
+#. Edit the ``opt/redash/env`` file to enable the `permissions <https://github.com/getredash/redash/pull/1113>`__ feature:
 
    .. code-block:: bash
 
       echo 'REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true' >> /opt/redash/env
 
-#. Edit the ``opt/redash/env`` file to `configure mail servers <https://redash.io/help/open-source/setup#Mail-Configuration>`__.
+#. Edit the ``opt/redash/env`` file to `configure the mail server <https://redash.io/help/open-source/setup#Mail-Configuration>`__.
 
-#. :ref:`Restart Redash<restart-redash>`.
+#. Restart Redash:
+
+   .. code-block:: bash
+
+       docker-compose stop
+       docker-compose up -d
 
 #. Test the email configuration using the `Password Reset <https://redash.open-contracting.org/forgot>`__ feature.
 
@@ -143,13 +143,3 @@ Upgrade Redash
 --------------
 
 To upgrade Redash without creating a new server, `see the official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.
-
-.. _restart-redash:
-
-Restart Redash
---------------
-
-.. code-block:: bash
-
-    docker-compose stop
-    docker-compose up -d
