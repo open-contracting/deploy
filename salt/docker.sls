@@ -13,7 +13,6 @@ docker_prepackages:
       - gnupg-agent
       - software-properties-common
 
-
 docker_repo:
   pkgrepo.managed:
     - humanname: Docker Official Repository

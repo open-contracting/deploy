@@ -1,136 +1,155 @@
 Redash tasks
 ============
 
-Setting up a new Redash server
-------------------------------
+Create a Redash server
+----------------------
 
-To set up a new Redash server, there are some steps that must be taken that aren't done in Salt. Instead they are documented here.
+First, :doc:`create the new server<create_server>`, making sure to use the ``redash`` state file.
 
-(It would have taken a lot of work to do the Salt correctly, and given how rarely they would be used it was felt this was fine.)
+Update script
+~~~~~~~~~~~~~
 
-1. Make directory
-~~~~~~~~~~~~~~~~~
+We `installed Redash <https://redash.io/help/open-source/setup#docker>`__ using its `setup script <https://github.com/getredash/setup>`__. However, we made a few changes to its ``setup.sh`` file:
 
-.. code-block:: bash
+#. Add a comment with a link to the version used of the setup script (to make it easier to compare against future scripts).
+#. Comment out the ``install_docker`` function call. (The ``docker`` state file installs Docker, to keep system packages under Salt's management.)
+#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the :doc:`Prometheus client<prometheus>`, so the port isn't available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
+#. Expose the ``postgres`` service's ports as ``5432:5432`` (to make it easier to load a database dump).
+#. Comment out the database creation and container startup commands (to run these only after upgrading).
 
-    mkdir -p /opt/redash/postgres-data
+Before :ref:`running the script<run-redash-script>`, compare the ``setup-redash.sh`` file in this repository to the latest version of the `setup script <https://github.com/getredash/setup>`__.
 
-Once this is made, the user permissions on it must not be changed. So it is in here, and not a salt instruction.
+.. _run-redash-script:
 
+Run script
+~~~~~~~~~~
 
-2. Create a config file.
-~~~~~~~~~~~~~~~~~~~~~~~~
+#. If migrating from an old server:
 
-`Look in the setup script <https://github.com/getredash/setup/blob/master/setup.sh>`__ - we will follow the instructions in the `create_config` function.
+   #. Connect to the old server. For example:
 
-Start by setting
+      .. code-block:: bash
 
-.. code-block:: bash
+         ssh root@redash.open-contracting.org
 
-    REDASH_BASE_PATH=/opt/redash
+   #. Copy the values of the ``REDASH_COOKIE_SECRET`` and ``REDASH_SECRET_KEY`` variables in the ``/opt/redash/env`` file on the old server:
 
-Then run the commands from the `create_config` function by hand (ignore stuff in  `if [[ -e $REDASH_BASE_PATH/env ]]; then` )
+      .. code-block:: bash
 
-If migrating from an old server, you must now edit `/opt/redash/env` and set `REDASH_COOKIE_SECRET` and `REDASH_SECRET_KEY` to be the same as the old server.
+         cat /opt/redash/env
 
-3. Create a Docker compose file
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   #. Dump the database. You might need to expose ports for the ``postgres`` service.
 
+      .. code-block:: bash
 
-`Look in the setup script <https://github.com/getredash/setup/blob/master/setup.sh>`__ -  we will follow the instructions in the `setup_compose` function.
+         pg_dump -h localhost -U postgres postgres -f redash.sql
 
-Start by setting
+   #. Disconnect from the old server:
 
-.. code-block:: bash
+      .. code-block:: bash
 
-    REDASH_BASE_PATH=/opt/redash
+         exit
 
-Then run the  commands from the `setup_compose` function by hand, starting at the top and until you get to commands that echo stuff to profile.
+   #. Copy the database dump to your local machine. For example:
 
-4. Edit Docker Compose file to move port
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      .. code-block:: bash
 
+         scp root@redash.open-contracting.org:~/redash.sql .
 
-Edit `/opt/redash/docker-compose.yml`
+   #. Copy the database dump to the new server. For example:
 
-Find machine `nginx` and edit port to `9090:80`
+      .. code-block:: bash
 
+         scp redash.sql root@HOSTNAME:~/
 
-5. Finally start app - if totally new server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   #. Edit the ``setup-redash.sh`` file in this repository, setting the ``COOKIE_SECRET`` and ``SECRET_KEY`` variables to the values copied above.
 
+#. Copy the ``setup-redash.sh`` file in this repository to the new server. For example:
 
+   .. code-block:: bash
 
-.. code-block:: bash
+      scp setup-redash.sh root@HOSTNAME:~/
 
-    cd /opt/redash/
-    docker-compose run --rm server create_db
-    docker-compose up -d
+#. Connect to the new server. For example:
 
-5. Finally, start app - If moving from an old server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   .. code-block:: bash
 
-In this case, we must migrate the old database.
+      ssh root@HOSTNAME
 
-.. code-block:: bash
+#. Run the ``setup-redash.sh`` file:
 
-    cd /opt/redash/
+   .. code-block:: bash
 
-You must edit the `docker-compose.yml` file to make the Postgres server available. To the `postgres` server add:
+      bash setup-redash.sh
 
-.. code-block:: bash
+#. If migrating from an old server:
 
-    cd /opt/redash/
-    ports:
-      - "5432:5432"
+   #. Get the PostgreSQL credentials on the new server:
 
-Run
+      .. code-block:: bash
 
-.. code-block:: bash
+         grep REDASH_DATABASE_URL /opt/redash/env
 
-    docker-compose up -d
+   #. Start the ``postgres`` service:
 
-Dump the Postgres database on the old server and import it to the new server.
-Look in `/opt/redash/env` for database settings to use in new server.
+      .. code-block:: bash
 
-Now for any upgrades run
+         docker-compose up -d postgres
 
-.. code-block:: bash
+   #. Load the database dump using the PostgreSQL credentials:
 
-    docker-compose run --rm server create_db
+      .. code-block:: bash
 
-Edit `docker-compose.yml` and remove the `postgres` port (for better security). To make that change active, restart Redash.
+         psql -h localhost -U postgres postgres -f redash.sql
 
+   #. Apply database migrations (starts services as needed):
 
+      .. code-block:: bash
 
-Upgrading Redash
+         docker-compose run --rm server manage db upgrade
+
+#. If creating a new server from scratch, create the database:
+
+   .. code-block:: bash
+
+      docker-compose run --rm server create_db
+
+#. Remove the ``ports`` variable from the ``/opt/redash/docker-compose.yml`` file:
+
+   .. code-block:: bash
+
+      sed -i '/postgresql/{n;N;d}' /opt/redash/docker-compose.yml
+
+#. :ref:`restart-redash`.
+
+Configure Redash
 ----------------
 
-Follow `a usual Docker upgrade process. <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__
+#. Enable the `permissions <https://github.com/getredash/redash/pull/1113>`__ feature:
 
+   .. code-block:: bash
 
-Configuration Setup
--------------------
+      echo 'REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true' >> /opt/redash/env
 
-To do this, edit `/opt/redash/env` and then restart (see below).
+#. Edit the ``opt/redash/env`` file to `configure mail servers <https://redash.io/help/open-source/setup#Mail-Configuration>`__.
 
-We use the permissions feature, set:
+#. :ref:`Restart Redash<restart-redash>`.
+
+#. Test the email configuration using the `Password Reset <https://redash.open-contracting.org/forgot>`__ feature.
+
+.. _upgrade-redash:
+
+Upgrade Redash
+--------------
+
+To upgrade Redash without creating a new server, `see the official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.
+
+.. _restart-redash:
+
+Restart Redash
+--------------
 
 .. code-block:: bash
 
-    REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true
-
-For email sending, see `Redash docs <https://redash.io/help/open-source/setup#Mail-Configuration>`__. Make sure you set `REDASH_HOST` too.
-
-(note: the `send_test_mail` command did not work for me but just putting my email in "Forgotten Password" did.)
-
-Restarting Redash
------------------
-
-If you have just edited the configuration, for example.
-
-.. code-block:: bash
-
-    cd /opt/redash/
     docker-compose stop
     docker-compose up -d

@@ -43,5 +43,5 @@ base:
     - private.ocdskingfisher_pillar
     - tinyproxy_pillar
 
-  'ocds-redash2':
+  'redash2':
     - redash
