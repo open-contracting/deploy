@@ -141,6 +141,16 @@ kfp_postgres_guest_create:
     - context:
         userdir: {{ userdir }}
 
+{{ userdir }}/.config/ocdskingfisher-views/logging.json:
+  file.managed:
+    - source: salt://ocdskingfisherviews/logging.json
+    - template: jinja
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+    - context:
+        userdir: {{ userdir }}
+
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
     - source: salt://ocdskingfisherprocess/rsyslog.conf
