@@ -26,7 +26,7 @@ base:
     - toucan
     - prometheus-client-apache
 
-  'ocds-kingfisher-archive':
+  'kingfisher-archive':
     - ocdskingfisher
     - ocdskingfisheranalyse
     - ocdskingfisherarchiveonarchive
