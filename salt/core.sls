@@ -38,7 +38,7 @@ f2b-startup:
 # Disable password login (use keys instead).
 /etc/ssh/sshd_config:
   file.replace:
-    - pattern: PasswordAuthentication yes
+    - pattern: "PasswordAuthentication yes|#PasswordAuthentication no"
     - repl: PasswordAuthentication no
 
 ssh:
