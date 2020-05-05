@@ -155,9 +155,17 @@ kfp_postgres_guest_create:
   file.managed:
     - source: salt://ocdskingfisherprocess/rsyslog.conf
 
+/etc/rsyslog.d/91-kingfisher-views.conf:
+  file.managed:
+    - source: salt://ocdskingfisherviews/rsyslog.conf
+
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
     - source: salt://ocdskingfisherprocess/logrotate.conf
+
+/etc/logrotate.d/kingfisher-views.conf:
+  file.managed:
+    - source: salt://ocdskingfisherviews/logrotate.conf
 
 restart-syslog:
   cmd.run:
