@@ -167,6 +167,15 @@ To reboot a server:
 
    salt-ssh TARGET system.reboot
 
+Run a specific state
+--------------------
+
+To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
+
+.. code-block:: bash
+
+   salt-ssh '*' state.sls_id root_authorized_keys_add core
+
 Upgrade Ubuntu
 --------------
 
