@@ -19,17 +19,7 @@ At a higher level, to be responsible for servers, you should:
 
 -  Perform periodic server tasks, at a regular interval:
 
-   -  Review root access
-
-      #. Read ``salt/private/authorized_keys/root_to_add``
-      #. Run:
-
-         .. code-block:: bash
-
-            salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3'
-
-      #. :ref:`Remove authorized keys<delete-authorized_key>`, as needed
-
+   -  :ref:`Review root access<review-root-access>`
    -  :ref:`Check mail<check-mail>`
    -  :ref:`Clean root user directory<clean-root-user-directory>`
    -  :doc:`Re-deploy services<deploy>` to guarantee all changes are applied (optional)
@@ -76,6 +66,20 @@ Clean root user directory
 #. Delete any ``index.html*`` files
 
    -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
+
+.. _review-root-access:
+
+Review root access
+------------------
+
+#. Read ``salt/private/authorized_keys/root_to_add``
+#. Run:
+
+   .. code-block:: bash
+
+      salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3'
+
+#. :ref:`Remove authorized keys<delete-authorized_key>`, as needed
 
 .. _check-mail:
 
