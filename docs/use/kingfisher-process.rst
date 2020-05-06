@@ -18,6 +18,8 @@ Connect to the server as the ``ocdskfp`` user:
 
    ssh ocdskfp@process.kingfisher.open-contracting.org
 
+.. _kingfisher-process-review-log-files:
+
 Review log files
 ----------------
 
