@@ -64,4 +64,5 @@ Cleanup
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Go to the `Deploy token <https://docs.google.com/document/d/1kW2hI1PYYd8KC5QDyys8clPvshBMUZuLpEOO-DvSxqk/edit>`__ document
-#. Replace your name with "Nobody", and add an entry under *History*, noting any reboots.
+#. Replace your name with "Nobody"
+#. Append an entry to the `Deploy history <https://docs.google.com/spreadsheets/d/1lmX7c5PQ83lzhPK2y91RmOO4nv9Di4jzA2yn0ZdFIjY/edit#gid=0>`__ spreadsheet
