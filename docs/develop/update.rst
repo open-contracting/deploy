@@ -1,5 +1,5 @@
-Making changes
-==============
+Make changes
+============
 
 Most changes are deployed when :doc:`deploying a service<../deploy/deploy>`. However, some changes require :doc:`additional steps<../deploy/update>`.
 
