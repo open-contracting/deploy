@@ -1,4 +1,3 @@
 #
-# If you want to remove a key from this file, don't just delete it. It will still be on the servers.
-# Instead, remove it from here and instead put it in the kingfisher_to_remove file.
+# To delete a key, see https://ocdsdeploy.readthedocs.io/en/latest/deploy/update.html#delete-an-authorized-key
 #
