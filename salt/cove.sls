@@ -1,6 +1,11 @@
 include:
   - django
 
+root_cove:
+  ssh_auth.present:
+    - user: root
+    - source: salt://private/authorized_keys/root_to_add_cove
+
 {% from 'django.sls' import djangodir %}
 
 # See https://cove.readthedocs.io/en/latest/deployment/
