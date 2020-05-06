@@ -47,15 +47,13 @@ If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher
 3. Get deploy token
 ~~~~~~~~~~~~~~~~~~~
 
-Only one person should be making changes to a server at once. To implement this rule, the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page indicates who holds the 'deploy token'. Whoever holds the deploy token is the only person who can make changes to *any* server, until the deploy token is released. If the wiki page has "Held by: <NAME>", that person holds the token; if it has "Held by: nobody", then the token is released. To hold the token:
+Only one person should be making changes to a server at once. To implement this rule, the `Deploy token <https://docs.google.com/document/d/1kW2hI1PYYd8KC5QDyys8clPvshBMUZuLpEOO-DvSxqk/edit>`__ document indicates who holds the 'deploy token'. Whoever holds the deploy token is the only person who can make changes to *any* server, until the deploy token is released. If the document has "Held by: <NAME>", that person holds the token; if it has "Held by: Nobody", then the token is released. To hold the token:
 
-#. Go to the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page
+#. Go to the `Deploy token <https://docs.google.com/document/d/1kW2hI1PYYd8KC5QDyys8clPvshBMUZuLpEOO-DvSxqk/edit>`__ document
 
    * If "Held by" is followed by a person's name, wait until the deploy token is released
 
-#. Click the "Edit" link, replace "nobody" with your name and click the "Save" button
-
-   * If this results in an edit conflict, wait until the deploy token is released
+#. Replace "Nobody" with your name
 
 .. _generic-cleanup:
 
@@ -65,5 +63,5 @@ Cleanup
 1. Release deploy token
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Go to the `Deploy token <https://crm.open-contracting.org/projects/ocds/wiki/Deploy_token>`__ wiki page
-#. Click "Edit", replace your name with "nobody", add an entry under History, and click "Save". If any servers were rebooted, add a note to the entry.
+#. Go to the `Deploy token <https://docs.google.com/document/d/1kW2hI1PYYd8KC5QDyys8clPvshBMUZuLpEOO-DvSxqk/edit>`__ document
+#. Replace your name with "Nobody", and add an entry under *History*, noting any reboots.
