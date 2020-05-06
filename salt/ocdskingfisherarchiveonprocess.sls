@@ -16,7 +16,7 @@
     - group: {{ user }}
     - mode: 600
     - require:
-       - user: {{ user }}_user_exists
+      - user: {{ user }}_user_exists
 {% endfor %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:

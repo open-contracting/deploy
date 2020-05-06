@@ -51,8 +51,8 @@ ssh:
 
 root_authorized_keys_add:
   ssh_auth.present:
-   - user: root
-   - source: salt://private/authorized_keys/root_to_add
+    - user: root
+    - source: salt://private/authorized_keys/root_to_add
 
 # Don't need RPC portmapper.
 purge rpcbind:
