@@ -29,12 +29,12 @@ Remove content
 
 If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
 
-.. _delete-authorized_key:
+.. _delete-authorized-key:
 
 Delete an authorized key
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Delete it from ``salt/private/authorized_keys/root_to_add``
+#. Delete it from the relevant file in the ``salt/private/authorized_keys`` directory
 #. Run, for example:
 
 .. code-block:: bash

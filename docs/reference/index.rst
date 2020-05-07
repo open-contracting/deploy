@@ -72,12 +72,16 @@ The staff of the following organizations can have administrative roles:
 
 The files referenced by `ssh_auth.present <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.ssh_auth.html#salt.states.ssh_auth.present>`__ states give people access to servers. All people should belong to the above organizations.
 
+.. _root-access-policy:
+
 Root access
 ~~~~~~~~~~~
 
 Server owners (OCP) and server managers (Dogsbody) should have root access to all servers. Otherwise, only developers who are reasonably expected to deploy to a server should have root access to that server.
 
 If a developer did not deploy (and was not recently granted root access) to a server within the last six months, their root access to that server should be revoked.
+
+If a developer intends to deploy to a server, anyone with root access can grant that developer root access to that server.
 
 Root access should be :doc:`routinely reviewed <../deploy/maintain>`.
 

@@ -72,14 +72,15 @@ Clean root user directory
 Review root access
 ------------------
 
-#. Read ``salt/private/authorized_keys/root_to_add``
+#. Read the :ref:`root access policy<root-access-policy>`
+#. Review the ``salt/private/authorized_keys`` directory
 #. Run:
 
    .. code-block:: bash
 
-      salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3'
+      salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3 | sort'
 
-#. :ref:`Remove authorized keys<delete-authorized_key>`, as needed
+#. :ref:`Remove authorized keys<delete-authorized-key>`, as needed
 
 .. _check-mail:
 
