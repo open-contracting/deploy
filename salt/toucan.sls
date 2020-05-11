@@ -1,3 +1,8 @@
+toucan-deps:
+  pkg.installed:
+    - pkgs:
+      - libyajl-dev # OCDS Kit performance
+
 include:
   - django
 

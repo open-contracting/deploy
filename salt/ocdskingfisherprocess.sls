@@ -28,6 +28,7 @@ ocdskingfisherprocess-prerequisites:
       - strace
       - redis
       - libpq-dev
+      - libyajl-dev # OCDS Kit performance
 
 {% set user = 'ocdskfp' %}
 {% set userdir = '/home/' + user %}
