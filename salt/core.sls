@@ -110,7 +110,7 @@ run_locale_gen:
 MAILTO_root:
   cron.env_present:
     - name: MAILTO
-    - value: sysadmin@open-contracting.org,code@opendataservices.coop
+    - value: sysadmin@open-contracting.org,code@opendataservices.coop,sysadmin@dogsbody.com
     - user: root
 
 set_lc_all:
