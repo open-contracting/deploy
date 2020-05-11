@@ -42,7 +42,7 @@ Note: This documentation is for working with OCP servers. If you want to work wi
 3. Add public key to remote servers
 -----------------------------------
 
-Add your public key to ``salt/private/authorized_keys/root_to_add``, e.g.:
+Add your public key to the relevant file in the ``salt/private/authorized_keys`` directory, e.g.:
 
 .. code-block:: bash
 
@@ -50,7 +50,7 @@ Add your public key to ``salt/private/authorized_keys/root_to_add``, e.g.:
     git commit salt/private/authorized_keys/root_to_add -m "Add public key"
     git push origin master
 
-Then, add this public key to all servers:
+Then, add this public key to the relevant servers. For example:
 
 .. code-block:: bash
 

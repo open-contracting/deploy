@@ -38,7 +38,7 @@ f2b-startup:
 # Disable password login (use keys instead).
 /etc/ssh/sshd_config:
   file.replace:
-    - pattern: PasswordAuthentication yes
+    - pattern: "PasswordAuthentication yes|#PasswordAuthentication no"
     - repl: PasswordAuthentication no
 
 ssh:
@@ -51,12 +51,8 @@ ssh:
 
 root_authorized_keys_add:
   ssh_auth.present:
-   - user: root
-   - source: salt://private/authorized_keys/root_to_add
-root_authorized_keys_remove:
-  ssh_auth.absent:
-   - user: root
-   - source: salt://private/authorized_keys/root_to_remove
+    - user: root
+    - source: salt://private/authorized_keys/root_to_add
 
 # Don't need RPC portmapper.
 purge rpcbind:

@@ -12,33 +12,19 @@
 
 {{ user }}_root_authorized_keys_add:
   ssh_auth.present:
-   - user: {{ user }}
-   - source: salt://private/authorized_keys/root_to_add
-   - require:
-     - user: {{ user }}_user_exists
-
-{{ user }}_root_authorized_keys_remove:
-  ssh_auth.absent:
-   - user: {{ user }}
-   - source: salt://private/authorized_keys/root_to_remove
-   - require:
-     - user: {{ user }}_user_exists
+    - user: {{ user }}
+    - source: salt://private/authorized_keys/root_to_add
+    - require:
+      - user: {{ user }}_user_exists
 
 {% for auth_keys_file in auth_keys_files %}
 
 {{ user }}_{{ auth_keys_file }}_authorized_keys_add:
   ssh_auth.present:
-   - user: {{ user }}
-   - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
-   - require:
-     - user: {{ user }}_user_exists
-
-{{ user }}_{{ auth_keys_file }}_authorized_keys_remove:
-  ssh_auth.absent:
-   - user: {{ user }}
-   - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_remove
-   - require:
-     - user: {{ user }}_user_exists
+    - user: {{ user }}
+    - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
+    - require:
+      - user: {{ user }}_user_exists
 
 {% endfor %}
 

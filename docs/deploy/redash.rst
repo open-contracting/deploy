@@ -139,7 +139,7 @@ Run script
 
 .. _upgrade-redash:
 
-Upgrade Redash
---------------
+Upgrade the Redash service
+--------------------------
 
 To upgrade Redash without creating a new server, `see the official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.

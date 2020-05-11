@@ -22,7 +22,7 @@ base:
     - toucan_pillar
     - private.toucan_pillar
 
-  'ocds-kingfisher-archive':
+  'kingfisher-archive':
     - ocdskingfisher_archive_live_pillar
 
   'cove-live-oc4ids':
