@@ -4,6 +4,11 @@ from collections import defaultdict
 
 import click
 
+PROVIDERS = (
+    'bytemark',
+    'hetzner',
+)
+
 
 def get_provider(target):
     if 'kingfisher' in target:
@@ -12,7 +17,7 @@ def get_provider(target):
         return 'bytemark'
 
 
-def compare(content, get_item):
+def compare(content, get_item, mode='diff', margin=0, providers=None):
     provider_count = defaultdict(int)
     target_items = defaultdict(list)
     item_providers = defaultdict(lambda: defaultdict(int))
@@ -34,15 +39,22 @@ def compare(content, get_item):
     provider_items = defaultdict(set)
     for item, providers in item_providers.items():
         for provider, count in providers.items():
-            if count == provider_count[provider]:
+            if count >= provider_count[provider] - margin:
                 provider_items[provider].add(item)
 
     for target in sorted(target_items):
         print('{}:'.format(target))
         for item in target_items[target]:
             provider = get_provider(target)
-            if item not in provider_items[provider]:
+            if provider not in providers:
+                continue
+            included = item in provider_items[provider]
+            if mode == 'diff' and not included or mode == 'comm' and included:
                 print('  {}'.format(item))
+
+
+def run(*args):
+    return subprocess.run(args, check=True, stdout=subprocess.PIPE).stdout.decode()
 
 
 @click.group()
@@ -51,25 +63,43 @@ def cli():
 
 
 @click.command()
-def services():
+@click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
+              help='the providers to report on')
+def services(provider):
     """
     List services that are not common to all servers of the same provider.
     """
-    content = subprocess.run(['salt-ssh', '*', 'service.get_all'], check=True, stdout=subprocess.PIPE).stdout.decode()
-    compare(content, lambda line: line.strip()[2:])
+    content = run('salt-ssh', '*', 'service.get_all')
+    compare(content, lambda line: line.strip()[2:], providers=provider)
 
 
 @click.command()
-def packages():
+@click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
+              help='the providers to report on')
+def packages(provider):
     """
     List packages that are not common to all servers of the same provider.
     """
-    content = subprocess.run(['salt-ssh', '*', 'pkg.list_pkgs'], check=True, stdout=subprocess.PIPE).stdout.decode()
-    compare(content, lambda line: line.strip()[:-1])
+    content = run('salt-ssh', '*', 'pkg.list_pkgs')
+    compare(content, lambda line: line.strip()[:-1], providers=provider)
+
+
+@click.command()
+@click.option('--margin', type=int, default=0,
+              help='the margin within which packages are considered to be common to all servers')
+@click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
+              help='the providers to report on')
+def autoremove(margin, provider):
+    """
+    List packages that can be auto-removed and that are common to all servers of the same provider.
+    """
+    content = run('salt-ssh', '*', 'pkg.autoremove', 'list_only=True')
+    compare(content, lambda line: line.strip()[2:], mode='comm', margin=margin, providers=provider)
 
 
 cli.add_command(services)
 cli.add_command(packages)
+cli.add_command(autoremove)
 
 if __name__ == '__main__':
     cli()
