@@ -1,7 +1,7 @@
 Maintain a server
 =================
 
-This page documents specific maintenance tasks. For tasks related to upgrading packages and maintaining databases, see :doc:`packages` and :doc:`database`.
+This page documents specific maintenance tasks. For tasks related to upgrading packages and maintaining databases, see :doc:`packages` and :doc:`databases`.
 
 At a higher level, to be responsible for servers, you should:
 
