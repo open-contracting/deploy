@@ -11,5 +11,5 @@ django:
     PREFIX_MAP: ''
 uwsgi:
   larger_limits: True
-  limit_as: 12000 # 12 GB
+  limit_as: 6000 # 6 GB
   harakiri: 1800 # 30 min
