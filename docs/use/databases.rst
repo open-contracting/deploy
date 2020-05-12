@@ -9,7 +9,7 @@ psql
 
 If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/current/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
 
-For security, remember to set *SSL mode* to "require".
+For security, remember to set ``sslmode`` to ``require``.
 
 .. code-block:: bash
 
