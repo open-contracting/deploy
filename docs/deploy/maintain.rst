@@ -15,7 +15,7 @@ At a higher level, to be responsible for servers, you should:
 
 -  Check server monitoring, at a regular interval:
 
-   -  :doc:`Check the resource usage <../use/prometheus>` and decide whether to rescale or to investigate any abnormalities
+   -  :doc:`Check the resource usage <../use/prometheus>` and decide whether to :ref:`rescale<rescale-server>` or to investigate any abnormalities
    -  `Check the alerts configuration <https://monitor.prometheus.open-contracting.org/alerts>`__
 
 -  Perform periodic server tasks, at a regular interval:
@@ -183,6 +183,15 @@ To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/s
 .. code-block:: bash
 
    salt-ssh '*' state.sls_id root_authorized_keys_add core
+
+.. rescale-server:
+
+Rescale a server
+----------------
+
+The Bytemark Panel makes it easy to scale a server (number of cores and GiB of RAM).
+
+If appropriate, update the service's ``limit-as`` uWSGI setting.
 
 Upgrade Ubuntu
 --------------
