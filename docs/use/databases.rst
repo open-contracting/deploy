@@ -105,8 +105,8 @@ Services that connect to databases
 Redash
   The connection is configured for all users at https://redash.open-contracting.org/data_sources
 Kingfisher Process
-  `See documentation <https://kingfisher-process.readthedocs.io/en/latest/config.html#postgresql>`__
+  `See documentation <https://kingfisher-process.readthedocs.io/en/latest/config.html#postgresql>`__.
 Kingfisher Views
-  `See documentation <https://kingfisher-views.readthedocs.io/en/latest/get-started.html#database-connection-settings>`__
+  `See documentation <https://kingfisher-views.readthedocs.io/en/latest/get-started.html#database-connection-settings>`__.
 Pelican
   The connection is configured in a file.
