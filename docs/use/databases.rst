@@ -86,3 +86,8 @@ For security, remember to set ``sslmode`` to ``'require'``.
        password='PASSWORD',
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
+
+Using Redash
+~~~~~~~~~~~~
+
+The connection is configured for all users at https://redash.open-contracting.org/data_sources
