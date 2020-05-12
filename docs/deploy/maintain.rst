@@ -7,6 +7,7 @@ At a higher level, to be responsible for servers, you should:
 
 -  Subscribe to:
 
+   -  The `Servers Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/servers-status>`__ mailing list
    -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
    -  Hosting provider :ref:`network status announcements<hosting>`
 

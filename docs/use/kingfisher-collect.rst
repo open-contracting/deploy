@@ -3,6 +3,8 @@ Kingfisher Collect
 
 Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
+If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list.
+
 .. _access-scrapyd-web-service:
 
 Access Scrapyd's web interface
