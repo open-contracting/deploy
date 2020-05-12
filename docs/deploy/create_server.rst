@@ -14,7 +14,7 @@ Bytemark
 ~~~~~~~~
 
 #. `Login to Bytemark <https://panel.bytemark.co.uk>`__
-#. Click "Servers" and "Add a cloud server"
+#. Click *Servers* and *Add a cloud server*
 
    #. Enter a *Name*
    #. Select a *Group*
@@ -25,10 +25,10 @@ Bytemark
    #. Set *Take a backup every* to 7 days
    #. Set *Starting on* to the following Thursday at a random time before 10:00 UTC
    #. Set *Root user has* to "SSH key (+ Password)" and enter your public key
-   #. Click "Add this server"
+   #. Click *Add this server*
 
 #. Wait for the server to boot (a few minutes)
-#. Click "Info" and copy the "Hostname/SSH"
+#. Click *Info* and copy the *Hostname/SSH*
 
 .. note::
 
@@ -44,7 +44,7 @@ Bytemark
 
    .. note::
 
-      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's "Console" button, and login.
+      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
 #. Update this repository:
 
