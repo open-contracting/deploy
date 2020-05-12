@@ -1,19 +1,25 @@
 SQL Databases
 =============
 
-Connect
--------
+Connect to a database
+---------------------
 
-Using psql
-~~~~~~~~~~
+psql
+~~~~
+
+If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/current/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
+
+For security, remember to set *SSL mode* to "require".
 
 .. code-block:: bash
 
-   psql DBNAME USERNAME -h HOST
+   psql "dbname=DBNAME user=USERNAME host=HOST sslmode=require"
 
 For example:
 
-   psql ocdskingfisherprocess ocdskfpreadonly -h process.kingfisher.open-contracting.org
+.. code-block:: bash
+
+   psql "dbname=ocdskingfisherprocess user=ocdskfpreadonly host=process.kingfisher.open-contracting.org sslmode=require"
 
 Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/11/libpq-pgpass.html>`__:
 
@@ -27,8 +33,10 @@ Then, set the permissions of the ``~/.pgpass`` file:
 
    chmod 600 ~/.pgpass
 
-Using pgAdmin
-~~~~~~~~~~~~~
+pgAdmin
+~~~~~~~
+
+`pgAdmin <https://www.pgadmin.org>`__ is a locally hosted web interface for querying databases. (You might prefer `Redash <https://redash.open-contracting.org>`__, which is remotely hosted.)
 
 For security, remember to set *SSL mode* to "Require".
 
@@ -51,8 +59,10 @@ To avoid unnecessary queries to the database, please make these one-time configu
 #. Uncheck *Show graphs?*
 #. Click the *Save* button
 
-Using Google Colaboratory
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Google Colaboratory
+~~~~~~~~~~~~~~~~~~~
+
+`Google Colaboratory <https://colab.research.google.com/notebooks/welcome.ipynb>`__ is an executable document to write, run and share code in Google Drive, similar to `Jupyter Notebook <https://jupyter.org>`__.
 
 Install the `ocdskingfishercolab <https://pypi.org/project/ocdskingfishercolab/>`__ Python package.
 
@@ -69,8 +79,10 @@ For security, remember to set ``sslmode`` to ``'require'``.
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
 
-Using Python
-~~~~~~~~~~~~
+Python
+~~~~~~
+
+`Python <https://www.python.org>`__ is the programming language in which many OCDS tools are written.
 
 Install the `psycopg2 <https://pypi.org/project/psycopg2/>`__ Python package.
 
@@ -87,7 +99,14 @@ For security, remember to set ``sslmode`` to ``'require'``.
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
 
-Using Redash
-~~~~~~~~~~~~
+Services that connect to databases
+----------------------------------
 
-The connection is configured for all users at https://redash.open-contracting.org/data_sources
+Redash
+  The connection is configured for all users at https://redash.open-contracting.org/data_sources
+Kingfisher Process
+  `See documentation <https://kingfisher-process.readthedocs.io/en/latest/config.html#postgresql>`__
+Kingfisher Views
+  `See documentation <https://kingfisher-views.readthedocs.io/en/latest/get-started.html#database-connection-settings>`__
+Pelican
+  The connection is configured in a file.
