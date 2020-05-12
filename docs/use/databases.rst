@@ -92,7 +92,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
    import psycopg2
 
-   psycopg2.connect(
+   conn = psycopg2.connect(
        dbname='ocdskingfisherprocess',
        user='ocdskfpreadonly',
        password='PASSWORD',
