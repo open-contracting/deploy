@@ -99,11 +99,11 @@ Show autovacuum statistics:
    SELECT relname,
           n_live_tup,
           n_dead_tup,
-          TRUNC(n_dead_tup::numeric / GREATEST(n_live_tup, 1) * 100, 2) as percent,
+          TRUNC(n_dead_tup::numeric / GREATEST(n_live_tup, 1) * 100, 2) AS percent,
           last_vacuum,
           last_autovacuum,
           last_analyze,
           last_autoanalyze
-   FROM pg_stat_user_tables
+   FROM pg_stat_all_tables
    WHERE schemaname = 'public'
    ORDER BY last_autoanalyze;
