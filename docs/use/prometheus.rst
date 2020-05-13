@@ -13,8 +13,8 @@ The landing page lets you query the collected data. For example:
 * `Load averages <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=node_load15%20%2F%20count(count(node_cpu_seconds_total)%20without%20(mode))%20without%20(cpu)&g0.tab=0>`__
 * `Blocked processes <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=node_procs_blocked&g0.tab=0>`__
 * `Disk usage  <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=1%20-%20node_filesystem_avail_bytes%20%2F%20node_filesystem_size_bytes%20%7Bmountpoint%3D%22%2F%22%7D&g0.tab=0>`__
-* `Disk I/O <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=SUM(%7B__name__%3D~%22node_disk_io.*%22%7D)%20without%20(device)&g0.tab=0>`__
-* `I/O wait <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=SUM(node_cpu_seconds_total%7Bmode%3D%22iowait%22%7D)%20without%20(cpu)&g0.tab=0>`__
+* `Disk I/O <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=(avg%20by(instance)%20(rate(node_disk_io_time_seconds_total%5B10m%5D)))%20*%20100&g0.tab=0>`__
+* `I/O wait <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=(avg%20by(instance)%20(rate(node_cpu_seconds_total%7Bmode%3D%22iowait%22%7D%5B10m%5D)))%20*%20100&g0.tab=0>`__
 * `Disk wear <https://monitor.prometheus.open-contracting.org/graph?g0.range_input=8w&g0.expr=smartmon_wear_leveling_count_value&g0.tab=0>`__
 
 Service specific queries include:

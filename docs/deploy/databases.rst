@@ -87,7 +87,7 @@ Show running queries:
 
 .. code-block:: sql
 
-   SELECT pid, state, NOW() - query_start AS time, wait_event_type, query
+   SELECT pid, client_addr, usename, state, wait_event_type, NOW() - query_start AS time, query
    FROM pg_stat_activity
    WHERE query <> ''
    ORDER BY time DESC;
