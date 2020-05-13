@@ -74,8 +74,8 @@ Get all schema sizes:
    FROM (
      SELECT pg_catalog.pg_namespace.nspname AS schema_name,
             SUM(pg_relation_size(pg_catalog.pg_class.oid))::bigint AS schema_size
-     FROM   pg_catalog.pg_class
-     JOIN   pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
+     FROM pg_catalog.pg_class
+     JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
      GROUP BY schema_name
    ) t
    ORDER BY schema_size DESC;
@@ -96,14 +96,15 @@ Show autovacuum statistics:
 
 .. code-block:: sql
 
-   SELECT relname,
-          n_live_tup,
+   SELECT nspname,
+          s.relname,
+          reltuples,
+          n_live_tup::real,
           n_dead_tup,
-          TRUNC(n_dead_tup::numeric / GREATEST(n_live_tup, 1) * 100, 2) AS percent,
-          last_vacuum,
+          TRUNC(n_dead_tup / GREATEST(reltuples::numeric, 1) * 100, 2) AS percent,
           last_autovacuum,
-          last_analyze,
           last_autoanalyze
-   FROM pg_stat_all_tables
-   WHERE schemaname = 'public'
-   ORDER BY last_autoanalyze;
+   FROM pg_stat_all_tables s
+   JOIN pg_class c ON relid = c.oid
+   JOIN pg_namespace ON relnamespace = pg_namespace.oid
+   ORDER BY percent DESC;
