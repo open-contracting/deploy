@@ -202,20 +202,12 @@ correctuserpermissions-{{ ocdskingfisherviewsdir }}:
       - cmd: createdatabase-{{ ocdskingfisherviewsdir }}
 
 kfp_postgres_schema_creation:
-  cmd.run:
-    - name: >
-          psql
-          -c "
-          CREATE SCHEMA IF NOT EXISTS views;
-          CREATE SCHEMA IF NOT EXISTS view_info;
-          CREATE SCHEMA IF NOT EXISTS view_meta;
-          "
-          ocdskingfisherprocess
-    - runas: postgres
-    - cwd: {{ ocdskingfisherdir }}
-    - require:
-      - {{ userdir }}/.pgpass
-      - {{ ocdskingfisherdir }}.ve/
+  postgres_schema.present:
+    - dbname: ocdskingfisherprocess
+    - names:
+      - views
+      - view_info
+      - view_meta
 
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:
