@@ -205,7 +205,11 @@ kfp_postgres_schema_creation:
   cmd.run:
     - name: >
           psql
-          -c "create schema if not exists views; create schema if not exists views_test; create schema if not exists view_info; create schema if not exists view_meta;"
+          -c "
+          CREATE SCHEMA IF NOT EXISTS views;
+          CREATE SCHEMA IF NOT EXISTS view_info;
+          CREATE SCHEMA IF NOT EXISTS view_meta;
+          "
           ocdskingfisherprocess
     - runas: postgres
     - cwd: {{ ocdskingfisherdir }}
@@ -218,10 +222,10 @@ kfp_postgres_readonlyuser_setup_as_postgres:
     - name: >
           psql
           -c "
-          REVOKE ALL ON schema public, views, views_test, view_info, view_meta FROM public;
-          GRANT ALL ON schema public, views, views_test, view_info, view_meta TO ocdskfp;
-          GRANT USAGE ON schema public, views, views_test, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
-          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, views_test, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
+          REVOKE ALL ON SCHEMA public, views, view_info, view_meta FROM public;
+          GRANT ALL ON SCHEMA public, views, view_info, view_meta TO ocdskfp;
+          GRANT USAGE ON SCHEMA public, views, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
+          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
           "
           ocdskingfisherprocess
     - runas: postgres
@@ -234,7 +238,7 @@ kfp_postgres_readonlyuser_setup_as_postgres:
 
 kfp_postgres_readonlyuser_setup_as_user:
   cmd.run:
-    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views, views_test GRANT SELECT ON TABLES TO ocdskfpreadonly, ocdskfpguest;" ocdskingfisherprocess
+    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views GRANT SELECT ON TABLES TO ocdskfpreadonly, ocdskfpguest;" ocdskingfisherprocess
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
