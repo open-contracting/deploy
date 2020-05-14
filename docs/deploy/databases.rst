@@ -100,11 +100,11 @@ Show autovacuum statistics:
           s.relname,
           reltuples,
           n_live_tup::real,
-          n_dead_tup,
+          n_dead_tup::real,
           TRUNC(n_dead_tup / GREATEST(reltuples::numeric, 1) * 100, 2) AS percent,
           last_autovacuum,
           last_autoanalyze
    FROM pg_stat_all_tables s
    JOIN pg_class c ON relid = c.oid
    JOIN pg_namespace ON relnamespace = pg_namespace.oid
-   ORDER BY percent DESC;
+   ORDER BY percent DESC, last_autovacuum;
