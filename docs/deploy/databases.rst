@@ -22,17 +22,11 @@ List tables, views and sequences:
 
    \d
 
-List tables:
+List tables, indexes, views and sequences:
 
 .. code-block:: sql
 
-   \dt
-
-List views:
-
-.. code-block:: sql
-
-   \dv
+   \dtivs
 
 To list tables, views and/or sequences in a specific schema, append, for example, ``views.*``.
 
@@ -45,23 +39,23 @@ Get all database sizes:
 
    \l+
 
-Get table sizes in the ``public`` schema:
+Get relation sizes in the ``public`` schema:
 
 .. code-block:: sql
 
-   \dti+
+   \dtis+
 
-Get table sizes in a specific schema, for example:
-
-.. code-block:: sql
-
-   \dti+ views.*
-
-Get all table sizes:
+Get relation sizes in a specific schema, for example:
 
 .. code-block:: sql
 
-   \dti+ *.*
+   \dtis+ views.*
+
+Get all relation sizes:
+
+.. code-block:: sql
+
+   \dtis+ *.*
 
 Get all schema sizes:
 
