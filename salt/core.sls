@@ -14,6 +14,7 @@ useful commands:
   pkg.installed:
     - pkgs:
       - htop
+      - iotop
       - man-db
       - psmisc # provides killall
       - tmux
