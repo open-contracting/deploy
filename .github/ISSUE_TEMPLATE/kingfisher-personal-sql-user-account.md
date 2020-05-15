@@ -7,4 +7,4 @@ assignees: jpmckinney
 
 ---
 
-[Leave this blank]
+[If you work at/with OCP and the account is for yourself, simply click "Submit new issue". Otherwise, please share the full name of the person whom the account is for and briefly describe their use cases.]
