@@ -1,10 +1,26 @@
 Maintain a database
 ===================
 
-Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging, for example, an unscheduled restart of the ``postgres`` service.
+Troubleshoot
+------------
 
-Explore
--------
+Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging an unscheduled restart of the ``postgres`` service, for example.
+
+Control access
+--------------
+
+Service accounts
+~~~~~~~~~~~~~~~~
+
+Each service should have its own user, including:
+
+-  Kingfisher Process
+-  Kingfisher Views
+-  Pelican
+-  Redash
+
+Explore database
+----------------
 
 List databases:
 
@@ -70,8 +86,10 @@ To get relation sizes in a specific schema, append, for example, ``views.*``, or
 
 See the `Database Object Size Functions <https://www.postgresql.org/docs/current/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE>`__ documentation.
 
-Other operations
-----------------
+.. pg-stat-activity:
+
+Show running queries
+--------------------
 
 Show running queries:
 
@@ -84,7 +102,10 @@ Show running queries:
 
 See the `pg_stat_activity <https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW>`__ table's documentation.
 
-Show autovacuum statistics:
+.. pg-stat-all-tables:
+
+Show autovacuum statistics
+--------------------------
 
 .. code-block:: sql
 

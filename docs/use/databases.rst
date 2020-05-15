@@ -4,6 +4,8 @@ SQL Databases
 Connect to a database
 ---------------------
 
+.. _psql:
+
 psql
 ~~~~
 
@@ -32,6 +34,8 @@ Then, set the permissions of the ``~/.pgpass`` file:
 .. code-block:: bash
 
    chmod 600 ~/.pgpass
+
+.. _pgadmin:
 
 pgAdmin
 ~~~~~~~
@@ -98,15 +102,3 @@ For security, remember to set ``sslmode`` to ``'require'``.
        password='PASSWORD',
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
-
-Services that connect to databases
-----------------------------------
-
-Redash
-  The connection is configured for all users at https://redash.open-contracting.org/data_sources
-Kingfisher Process
-  `See documentation <https://kingfisher-process.readthedocs.io/en/latest/config.html#postgresql>`__.
-Kingfisher Views
-  `See documentation <https://kingfisher-views.readthedocs.io/en/latest/get-started.html#database-connection-settings>`__.
-Pelican
-  The connection is configured in a file.

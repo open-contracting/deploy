@@ -36,11 +36,13 @@ Check the output in case there are any issues switching to the ``master`` branch
 
       ssh root@collect.kingfisher.open-contracting.org
 
-#. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of helpdesk analysts. To list all sessions:
+#. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the helpdesk analysts, who should be identified by the session name. To list all sessions:
 
    .. code-block:: bash
 
       for i in root ocdskfs ocdskfp; do echo $i; su $i -c "tmux ls"; done
+
+#. If the ``postgres`` service would be restarted by the deployment (for example, due to a configuration change or a package upgrade), check if any :ref:`long-running queries<pg-stat-activity>` are running. If there are queries with a ``state`` of ``active`` and a ``time`` greater than an hour, don't deploy without the consent of the helpdesk analysts, who should be identified by the ``usename``, ``client_addr`` or comment at the start of ``query``.
 
 If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher Process without losing Scrapy requests<deploy-kingfisher-process>`.
 
