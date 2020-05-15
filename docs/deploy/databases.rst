@@ -86,7 +86,7 @@ To get relation sizes in a specific schema, append, for example, ``views.*``, or
 
 See the `Database Object Size Functions <https://www.postgresql.org/docs/current/functions-admin.html#FUNCTIONS-ADMIN-DBSIZE>`__ documentation.
 
-.. pg-stat-activity:
+.. _pg-stat-activity:
 
 Show running queries
 --------------------
@@ -102,7 +102,7 @@ Show running queries:
 
 See the `pg_stat_activity <https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW>`__ table's documentation.
 
-.. pg-stat-all-tables:
+.. _pg-stat-all-tables:
 
 Show autovacuum statistics
 --------------------------
