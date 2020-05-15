@@ -40,7 +40,6 @@ base:
   'kingfisher-process*':
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
-    - private.ocdskingfisher_pillar
     - tinyproxy_pillar
 
   'redash2':

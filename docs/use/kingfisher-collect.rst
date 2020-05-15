@@ -12,7 +12,7 @@ Access Scrapyd's web interface
 
 .. admonition:: One-time setup
 
-   Save the username (``scrape``) and the password (ask a colleague) in your password manager. (If you have access, the password is the value of the ``ocdskingfishercollect.web.password`` key in the ``pillar/private/ocdskingfisher_pillar.sls`` file.)
+   Save the username (``scrape``) and the password (ask a colleague) in your password manager. (If you have access, the password is the value of the ``ocdskingfishercollect.web.password`` key in the ``pillar/private/ocdskingfisher_live_pillar.sls`` file.)
 
 Open http://collect.kingfisher.open-contracting.org
 
