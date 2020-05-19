@@ -14,9 +14,7 @@ To deploy a service, indicate the desired target and the ``state.apply`` functio
 
 .. code-block:: bash
 
-    salt-ssh -i 'ocds-docs-staging' state.apply
-
-The ``-i`` flag disables StrictHostKeyChecking, which avoids an extra prompt the first time you connect to a host.
+    salt-ssh 'ocds-docs-staging' state.apply
 
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 

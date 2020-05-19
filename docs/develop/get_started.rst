@@ -54,7 +54,7 @@ Then, add this public key to the relevant servers. For example:
 
 .. code-block:: bash
 
-    salt-ssh -i '*' state.sls_id root_authorized_keys_add core
+    salt-ssh '*' state.sls_id root_authorized_keys_add core
 
 4. Configure Salt for non-root user
 -----------------------------------
