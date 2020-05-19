@@ -79,7 +79,7 @@ Root access
 
 Server owners (OCP) and server managers (Dogsbody) should have root access to all servers. Otherwise, only developers who are reasonably expected to deploy to a server should have root access to that server.
 
-If a developer did not deploy (and was not recently granted root access) to a server within the last six months, their root access to that server should be revoked.
+If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
 
 If a developer intends to deploy to a server, anyone with root access can grant that developer root access to that server.
 
