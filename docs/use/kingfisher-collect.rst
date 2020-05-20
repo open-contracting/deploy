@@ -3,7 +3,14 @@ Kingfisher Collect
 
 Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
-If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list.
+Review a new publication
+------------------------
+
+#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository. CDS and James will prioritize it.
+#. :ref:`Schedule a crawl<collect-data>`, once the spider is written and :ref:`deployed<update-spiders>` by CDS.
+#. :ref:`Wait for the crawl to finish<access-scrapyd-web-service>`.
+#. :ref:`Review the crawl's log file<kingfisher-collect-review-log-files>`.
+#. Review the data.
 
 .. _access-scrapyd-web-service:
 
@@ -14,40 +21,7 @@ Access Scrapyd's web interface
 
    Save the username (``scrape``) and the password (ask a colleague) in your password manager. (If you have access, the password is the value of the ``ocdskingfishercollect.web.password`` key in the ``pillar/private/ocdskingfisher_live_pillar.sls`` file.)
 
-Open http://collect.kingfisher.open-contracting.org
-
-.. _create-netrc-file:
-
-Create a .netrc file
---------------------
-
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://collect.kingfisher.open-contracting.org in a web browser.
-
-Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
-
-.. code-block:: bash
-
-   echo 'machine collect.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
-
-You must change the file's permissions to be readable only by the owner:
-
-.. code-block:: bash
-
-   chmod 600 ~/.netrc
-
-If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, you must correct the file in a text editor.
-
-To test your configuration, run:
-
-.. code-block:: bash
-
-   curl -n http://collect.kingfisher.open-contracting.org/listprojects.json
-
-You should see a response like:
-
-.. code-block:: none
-
-   {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}
+Open http://collect.kingfisher.open-contracting.org to view the statuses and logs of crawls.
 
 .. _collect-data:
 
@@ -93,7 +67,7 @@ Update spiders in Kingfisher Collect
 
 .. admonition:: One-time setup
 
-   :ref:`Create a ~/.netrc file<create-netrc-file>`. `Create a ~/.config/scrapy.cfg file <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-collect>`__, and set the ``url`` variable to ``http://collect.kingfisher.open-contracting.org/``.
+   :ref:`Create a ~/.netrc file<create-netrc-file>`. Then, `create a ~/.config/scrapy.cfg file <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#configure-kingfisher-collect>`__, and set the ``url`` variable to ``http://collect.kingfisher.open-contracting.org/``.
 
 #. Change to your local directory containing your local repository
 
@@ -119,6 +93,8 @@ Update spiders in Kingfisher Collect
    .. code-block:: bash
 
          scrapyd-deploy kingfisher
+
+.. _kingfisher-collect-review-log-files:
 
 Access Scrapyd's crawl logs
 ---------------------------
@@ -147,17 +123,35 @@ If you can't wait for the statistics to be extracted, you can connect to the ser
 
 If you are frequently running the above, `create an issue <https://github.com/open-contracting/deploy/issues>`__ to change the schedule.
 
-.. _connect-collect-server:
+.. _create-netrc-file:
 
-Connect to the Kingfisher Collect server
-----------------------------------------
+Create a .netrc file
+--------------------
 
-.. admonition:: One-time setup
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access http://collect.kingfisher.open-contracting.org in a web browser.
 
-   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
-
-Connect to the server as the ``ocdskfs`` user:
+Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
 .. code-block:: bash
 
-   ssh ocdskfs@collect.kingfisher.open-contracting.org
+   echo 'machine collect.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
+
+You must change the file's permissions to be readable only by the owner:
+
+.. code-block:: bash
+
+   chmod 600 ~/.netrc
+
+If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, you must correct the file in a text editor.
+
+To test your configuration, run:
+
+.. code-block:: bash
+
+   curl -n http://collect.kingfisher.open-contracting.org/listprojects.json
+
+You should see a response like:
+
+.. code-block:: none
+
+   {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}

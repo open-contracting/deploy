@@ -3,21 +3,6 @@ Kingfisher Process
 
 Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
-.. _connect-process-server:
-
-Connect to the Kingfisher Process server
-----------------------------------------
-
-.. admonition:: One-time setup
-
-   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
-
-Connect to the server as the ``ocdskfp`` user:
-
-.. code-block:: bash
-
-   ssh ocdskfp@process.kingfisher.open-contracting.org
-
 .. _kingfisher-process-review-log-files:
 
 Review log files
