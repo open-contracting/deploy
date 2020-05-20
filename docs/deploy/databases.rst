@@ -24,25 +24,25 @@ Explore database
 
 List databases:
 
-.. code-block:: sql
+.. code-block:: none
 
    \l
 
 List schemas:
 
-.. code-block:: sql
+.. code-block:: none
 
    \dn
 
 List tables, views and sequences in the ``public`` schema:
 
-.. code-block:: sql
+.. code-block:: none
 
    \d
 
 List tables, indexes, views and sequences in the ``public`` schema:
 
-.. code-block:: sql
+.. code-block:: none
 
    \dtivs
 
@@ -55,7 +55,7 @@ Check disk usage
 
 Get all database sizes:
 
-.. code-block:: sql
+.. code-block:: none
 
    \l+
 
@@ -78,7 +78,7 @@ Get all schema sizes:
 
 Get relation sizes in the ``public`` schema:
 
-.. code-block:: sql
+.. code-block:: none
 
    \dtis+
 
