@@ -1,3 +1,5 @@
+set -e
+
 if [ -z ${PATH_PREFIX+x} ]; then
     echo "\$PATH_PREFIX is not set, exiting."
     exit
