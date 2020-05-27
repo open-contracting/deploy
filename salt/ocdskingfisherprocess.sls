@@ -206,18 +206,16 @@ kfp_postgres_schema_creation:
     - dbname: ocdskingfisherprocess
     - names:
       - views
-      - view_info
-      - view_meta
 
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:
     - name: >
           psql
           -c "
-          REVOKE ALL ON SCHEMA public, views, view_info, view_meta FROM public;
-          GRANT ALL ON SCHEMA public, views, view_info, view_meta TO ocdskfp;
-          GRANT USAGE ON SCHEMA public, views, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
-          GRANT SELECT ON ALL TABLES IN SCHEMA public, views, view_info, view_meta TO ocdskfpreadonly, ocdskfpguest;
+          REVOKE ALL ON SCHEMA public, views FROM public;
+          GRANT ALL ON SCHEMA public, views TO ocdskfp;
+          GRANT USAGE ON SCHEMA public, views TO ocdskfpreadonly, ocdskfpguest;
+          GRANT SELECT ON ALL TABLES IN SCHEMA public, views TO ocdskfpreadonly, ocdskfpguest;
           "
           ocdskingfisherprocess
     - runas: postgres
