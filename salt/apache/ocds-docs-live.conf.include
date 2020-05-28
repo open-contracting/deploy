@@ -3,6 +3,11 @@
     {# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
     {%
         set options = {
+            '/profiles/eu': {
+                'versions': ['master'],
+                'languages': ['en'],
+                'excludes': ['schema', 'extension'],
+            },
             '/profiles/ppp': {
                 'versions': ['latest', '1.0'],
                 'languages': ['en', 'es'],

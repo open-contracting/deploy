@@ -10,12 +10,14 @@ base_url = 'https://' + fqdn
 versions = {
     '': (['latest', '1.0', '1.1-dev'], '/es/schema/release/'),
     '/infrastructure': (['latest', '0.9-dev'], '/en/reference/schema/'),
+    '/profiles/eu': (['master'], '/en/reference/'),
     '/profiles/ppp': (['latest', '1.0-dev'], '/es/reference/schema/'),
 }
 
 languages = {
     '': (['en', 'es', 'fr', 'it'], '/schema/release/'),
     '/infrastructure': (['en'], '/reference/schema/'),
+    '/profiles/eu': (['en'], '/reference/'),
     '/profiles/ppp': (['en', 'es'], '/reference/schema/'),
 }
 
@@ -23,6 +25,7 @@ banner_live = [
     ('', ['latest', '1.1']),
     ('/infrastructure', ['latest', '0.9']),
     ('/profiles/ppp', ['latest', '1.0']),
+    ('/profiles/eu', ['master']),
 ]
 banner_old = [
     ('', ['1.0']),

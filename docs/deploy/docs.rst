@@ -99,13 +99,13 @@ Copy files from the staging server to your local machine:
 
 .. code-block:: bash
 
-   rsync -avP root@staging.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}${VER}/ ${VER}-${DATE}-${SEQ}
+   rsync -avzP root@staging.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}${VER}/ ${VER}-${DATE}-${SEQ}
 
 Copy files from your local machine to the live server:
 
 .. code-block:: bash
 
-   rsync -avP ${VER}-${DATE}-${SEQ} root@live.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}/
+   rsync -avzP ${VER}-${DATE}-${SEQ} root@live.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}/
 
 Symlink the branch:
 
@@ -203,7 +203,7 @@ If this is the first numbered version of a profile:
    .. code-block:: html
 
       <div class="oc-fixed-alert-header">
-          This is a development copy of the {name} docs, the <a href="/profiles/ppp/{root}/en/">latest live version is here</a>.
+          This is a development copy of the {name} docs, the <a href="/profiles/{root}/{latest-branch}/en/">latest live version is here</a>.
       </div>
 
 Otherwise:
