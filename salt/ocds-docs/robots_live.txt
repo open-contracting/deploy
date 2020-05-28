@@ -21,17 +21,22 @@ Allow: /$
 Allow: /latest
 Allow: /infrastructure/latest
 Allow: /profiles/ppp/latest
+Allow: /profiles/gpa/master
+Allow: /profiles/eu/master
 # Allow schema directories.
 Allow: /schema
 Allow: /infrastructure/schema
 Allow: /profiles/ppp/schema
 Allow: /profiles/ppp/extension
+Allow: /profiles/gpa/schema
+Allow: /profiles/gpa/extension
+Allow: /profiles/eu/schema
+Allow: /profiles/eu/extension
 # Allow Data Review Tools.
 Allow: /review
 Allow: /infrastructure/review
 # Allow the master branches of draft profiles.
-Allow: /profiles/eu/master
-Allow: /profiles/gpa/master
+# Disallow anything else.
 Disallow: /
 
 User-Agent: LinkChecker
