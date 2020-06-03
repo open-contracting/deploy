@@ -34,6 +34,31 @@ Bytemark
 
    The above steps add your public key to ``/root/.ssh/authorized_keys``. Related: :ref:`delete-authorized-key`.
 
+Hetzner
+~~~~~~~
+
+.. note::
+
+   Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed during the setup process, as some servers may not be available for several days.  
+
+#. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
+#. Click "Dedicated", and navigate to choose a suitable server for your application. So far, we've used EX-Line servers. 
+#. Click the "Order" button for the server that you've chosen
+
+   #. Select a location; we've never had an issue with simply choosing the cheapest
+   #. Select an operating system - "Ubuntu 18.04 LTS minimal"
+   #. Select any additional storage required 
+
+#. Click "Order Now"
+#. (optionally) Select "Public key" in the "Server Login Details" section, and paste your SSH key in; this will be added to /root/.ssh/authorized_keys
+#. Click "Save"
+#. Review the contents of the cart, then click "Checkout" 
+#. Log in using OCP's credentials. This will happen automatically if you're already logged into Hetzner services. 
+#. Check the "I have read your Terms and Conditions as well as your Privacy Policy and I agree to them." box
+#. Click "Order in Obligation"
+#. Wait until you receive an email notifying you that your server is ready, then proceed to deploying the service.
+
+   
 2. Deploy the service
 ---------------------
 
