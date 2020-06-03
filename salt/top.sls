@@ -32,7 +32,7 @@ base:
     - ocdskingfisherarchiveonarchive
     - prometheus-client-apache
 
-  'cove-live*':
+  'cove-*':
     - cove
     - prometheus-client-apache
 

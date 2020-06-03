@@ -6,6 +6,7 @@ standard-search:          live.standard-search.opencontracting.uk0.bigv.io
 redash2:                  live2.redash.opencontracting.uk0.bigv.io
 toucan:                   live.toucan.opencontracting.uk0.bigv.io
 cove-live-ocds-3:         live3.cove.opencontracting.uk0.bigv.io
+cove-dev-ocds-1:          dev1.cove.opencontracting.uk0.bigv.io
 cove-live-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
 kingfisher-archive:       archive.kingfisher.open-contracting.org
 kingfisher-process1:      95.217.76.74
