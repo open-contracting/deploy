@@ -3,7 +3,15 @@ Kingfisher
 
 Kingfisher is a family of tools to `collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__, `pre-process <https://kingfisher-process.readthedocs.io/en/latest/>`__, `summarize <https://kingfisher-views.readthedocs.io/en/latest/>`__ and `query <https://kingfisher-colab.readthedocs.io/en/latest/>`__ OCDS data.
 
-Kingfisher Collect, Process and Views are deployed to a main server. An :ref:`archive server<connect-archive-server>` keeps a copy of all the data downloaded by Kingfisher Collect and loaded into Kingfisher Process.
+This page is about internal use of these tools by the Open Contracting Partnership. For your personal use, see each tool's documentation:
+
+-  `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__
+-  `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__
+-  `Kingfisher Views <https://kingfisher-views.readthedocs.io/en/latest/>`__
+
+To more easily install all tools on a personal computer, we offer `Kingfisher Vagrant <https://github.com/open-contracting/kingfisher-vagrant>`__.
+
+For internal use, Kingfisher Collect, Process and Views are deployed to a main server. An :ref:`archive server<connect-archive-server>` keeps a copy of all the data downloaded by Kingfisher Collect and loaded into Kingfisher Process.
 
 If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list, in order to receive notifications about major downtime.
 
