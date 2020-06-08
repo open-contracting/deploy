@@ -11,7 +11,7 @@ This page is about internal use of these tools by the Open Contracting Partnersh
 
 To more easily install all tools on a personal computer, we offer `Kingfisher Vagrant <https://github.com/open-contracting/kingfisher-vagrant>`__.
 
-For internal use, Kingfisher Collect, Process and Views are deployed to a main server. An :ref:`archive server<connect-archive-server>` keeps a copy of all the data downloaded by Kingfisher Collect and loaded into Kingfisher Process.
+For internal use, Kingfisher Collect, Process and Views are deployed to a main server. An :ref:`archive server<connect-archive-server>` keeps a copy of all the data downloaded by Collect and loaded into Process.
 
 If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list, in order to receive notifications about major downtime.
 
