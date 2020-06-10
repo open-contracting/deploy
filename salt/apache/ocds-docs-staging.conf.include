@@ -21,6 +21,9 @@
     RewriteMap unescape int:unescape
 
     SetEnv BANNER /includes/banner_staging.html
+    <Location /infrastructure/>
+        SetEnv BANNER /includes/banner_staging_infrastructure.html
+    </Location>
     <Location /profiles/>
         SetEnv BANNER /includes/banner_staging_profiles.html
     </Location>
