@@ -1,3 +1,5 @@
+## Note this task, while having a title that suggests it is for any postgres server, contains settings that are specific for Kingfisher
+
 postgresql-11:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -11,3 +13,7 @@ postgresql-11:
 /etc/postgresql/11/main/pg_hba.conf:
   file.managed:
     - source: salt://postgres/ocdskingfisher_pg_hba.conf
+
+/etc/postgresql/11/main/conf.d/kingfisher.conf:
+  file.managed:
+    - source: salt://postgres/ocdskingfisher_postgres.conf
