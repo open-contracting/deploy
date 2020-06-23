@@ -1,3 +1,6 @@
-scrapyd
+ijson>=3
+jsonpointer
 rarfile
 requests
+scrapyd
+sentry-sdk
