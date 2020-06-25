@@ -1,4 +1,3 @@
-## Locale
 add_system_locale_en_gb_utf8:
   # This line may be in the file but commented out.
   # However we use file.append here instead of file.replace because we can't guarantee each Linux Distro build will comment out the lines in the same way.
@@ -17,4 +16,3 @@ set_lc_all:
   file.append:
     - text: 'LC_ALL="en_GB.UTF-8"'
     - name: /etc/default/locale
-

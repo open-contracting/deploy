@@ -1,4 +1,4 @@
-include: 
+include:
   - core.mail
 
 fail2ban:
@@ -21,4 +21,3 @@ f2b-startup:
 
 # In the future I'd like to whitelist both admin and server IP's as well.
 # grains.get ip_interfaces
-

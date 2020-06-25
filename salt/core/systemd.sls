@@ -1,4 +1,4 @@
-# Stop RemoveIPC killing all processes by a user when they log out. 
+# Stop RemoveIPC killing all processes by a user when they log out.
 
 /etc/systemd/logind.conf:
   file.replace:

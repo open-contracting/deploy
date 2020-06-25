@@ -12,7 +12,7 @@ base:
     - core.motd
     - core.apt
     - core.systemd
-    - core.customisation
+    - core.customization
 
   'ocds-docs-staging':
     - prometheus-client-apache
