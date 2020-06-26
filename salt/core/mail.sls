@@ -2,8 +2,8 @@
 postfix:
   pkg:
     - installed
-  service:
-    - running
+  service.running:
+    - enable: True
     - require:
       - pkg: postfix
   debconf.set:
@@ -37,10 +37,6 @@ admin:
 postmaster:
   alias.present:
     - target: root
-
-# pillar[[admin_username]] :
-#  alias.present:
-#    - target: root
 
 # Set up root crontab email.
 MAILTO_root:
