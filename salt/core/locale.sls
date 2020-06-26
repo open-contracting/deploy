@@ -1,10 +1,9 @@
 add_system_locale_en_gb_utf8:
-  # This line may be in the file but commented out.
-  # However we use file.append here instead of file.replace because we can't guarantee each Linux Distro build will comment out the lines in the same way.
-  # Could use replace with "- append_if_not_found: True"
-  file.append:
+  file.replace:
     - name:  /etc/locale.gen
-    - text: "en_GB.UTF-8 UTF-8"
+    - pattern: "#*en_GB.UTF-8 UTF-8"
+    - repl: "en_GB.UTF-8 UTF-8"
+    - append_if_not_found: True
 
 run_locale_gen:
   cmd.run:
