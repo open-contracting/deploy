@@ -5,7 +5,9 @@ disable password authentication:
     - pattern: "^#?PasswordAuthentication .*"
     - repl: PasswordAuthentication no
 
-# Technically not needed but setting for posterity.
+# The above "PasswordAuthentication no" technically disables root logins with passwords but we are explicitly setting "PermitRootLogin" as well for two reasons:
+# Firstly it adds an extra layer to the security if PasswordAuthentication is toggled back on.
+# Secondly while PermitRootLogin is set to either "no" or "without-password" we can monitor it with our intrusion detection software.
 force root ssh keys:
   file.replace:
     - name: /etc/ssh/sshd_config
