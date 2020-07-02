@@ -21,8 +21,7 @@ postgresql:
       - pkg: apt-transport-https
   pkg.installed:
     - name: postgresql-{{ pg_version }}
-  service:
-    - running
+  service.running:
     - enable: True
 
 # Upload configuration for postgres
