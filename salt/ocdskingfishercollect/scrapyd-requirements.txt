@@ -1,3 +1,10 @@
-scrapyd
+ijson>=3
+jsonpointer
+jsonref
+jsonschema
 rarfile
 requests
+rfc3987
+Scrapy
+scrapyd-client
+sentry-sdk

@@ -1,4 +1,4 @@
-include: 
+include:
   - core.mail
 
 fail2ban:
@@ -18,7 +18,4 @@ f2b-startup:
 /etc/fail2ban/jail.local:
   file.managed:
     - source: salt://core/fail2ban/jail.local
-
-# In the future I'd like to whitelist both admin and server IP's as well.
-# grains.get ip_interfaces
 

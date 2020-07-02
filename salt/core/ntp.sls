@@ -1,4 +1,4 @@
-# Disable pre-installed systemd-timesyncd as we prefer NTP
+# Disable pre-installed systemd-timesyncd as we prefer NTP.
 systemd-timesyncd:
   service.dead:
     - enable: False
@@ -8,7 +8,7 @@ ntp:
     - installed
   service.running:
     - enable: True
-    - watch: # restart if we change the config
+    - watch:
       - file: /etc/ntp.conf
 
 /etc/ntp.conf:
@@ -18,6 +18,6 @@ ntp:
   require:
     - pkg: ntp
 
-#Set timezone to UTC
+# Set timezone to UTC.
 UTC:
   timezone.system

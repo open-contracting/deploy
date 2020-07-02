@@ -64,12 +64,6 @@ ocdskingfishercollect-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
 
-{{ scrapyddir }}items:
-  file.directory:
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
-
 {{ userdir }}/.scrapyd.conf:
   file.managed:
     - source: salt://ocdskingfishercollect/scrapyd.ini

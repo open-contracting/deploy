@@ -11,6 +11,8 @@ ocdskingfisherprocess:
   web:
     apikeys: xxxxxxxxxxxxxxxxxxxxxxx
 ocdskingfishercollect:
+  sentry:
+    dsn: https://xxxxxxxxxxxxxxxxxxxxxxx@sentry.io/xxxxxxxxxxxxxxxxx
   web:
     password: xxxxxxxxxxxxxxxxxxxxx
   tokens:

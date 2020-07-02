@@ -5,16 +5,16 @@ set -e
 
 echo "------------------- deploy"
 git checkout master
-git pull origin master
+git pull --rebase origin master
 
 echo "------------------- deploy/pillar/private"
 cd pillar/private
 git checkout master
-git pull origin master
+git pull --rebase origin master
 cd ../..
 
 echo "------------------- deploy/salt/private"
 cd salt/private
 git checkout master
-git pull origin master
+git pull --rebase origin master
 cd ../..

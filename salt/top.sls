@@ -3,16 +3,16 @@
 base:
   '*':
     - core
-    - core.sshd
-    - core.swap
-    - core.mail
+    - core.apt
+    - core.customization
     - core.fail2ban
     - core.locale
-    - core.ntp
+    - core.mail
     - core.motd
-    - core.apt
+    - core.ntp
+    - core.sshd
+    - core.swap
     - core.systemd
-    - core.customisation
 
   'ocds-docs-staging':
     - prometheus-client-apache
