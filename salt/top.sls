@@ -47,7 +47,7 @@ base:
     - prometheus-client-apache
 
   'kingfisher-process*':
-    - postgres11
+    - postgres
     - ocdskingfisher
     - ocdskingfisherarchiveonprocess
     - ocdskingfishercollect
