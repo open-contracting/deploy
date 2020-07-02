@@ -35,6 +35,7 @@ postgresql:
     - source: 
       - salt://postgres/{{ grains['id'] }}/pg_hba.conf
       - salt://postgres/default/pg_hba.conf
+    - template: jinja
     - watch_in:
       - service: postgresql 
 
