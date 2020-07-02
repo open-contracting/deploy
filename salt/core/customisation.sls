@@ -4,13 +4,14 @@
 useful commands:
   pkg.installed:
     - pkgs:
+      - curl
       - htop
       - iotop
       - man-db
       - psmisc # provides killall
       - tmux
-      - vim
       - unzip
+      - vim
 
 
 #set vim as default editor now that we've installed it:
@@ -19,7 +20,6 @@ editor:
     - path: /usr/bin/vim.basic
   require:
     - pkg: vim
-
 
 
 /etc/profile.d/99-history-timeformat.sh:
