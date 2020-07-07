@@ -3,6 +3,8 @@ Get deploy token
 
 Before performing any deployment task, run the *Setup* tasks. Once done, run the *Cleanup* tasks.
 
+If you haven't already, please follow the :doc:`../deploy/get_started` guide.
+
 .. _generic-setup:
 
 Setup
