@@ -28,11 +28,6 @@ Application errors are reported to `Sentry <https://sentry.io/organizations/open
 
 There should be at most one `member <https://sentry.io/settings/open-contracting-partnership/members/>`__ with the Admin role from each of ODS and CDS, and at least one member with the Owner role from OCP.
 
-UptimeRobot
-~~~~~~~~~~~
-
-Website downtime is monitored by `UptimeRobot <https://uptimerobot.com/>`__, which notifies sysadmin email addresses at OCP and ODS. Keyword monitors are used where possible. See `status page <https://status.open-contracting.org/>`__.
-
 .. _hosting:
 
 Hosting

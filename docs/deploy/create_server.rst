@@ -114,6 +114,5 @@ Hetzner
 
 If the service is being introduced:
 
-#. Add its downtime monitor to `UptimeRobot <https://uptimerobot.com/dashboard>`__
 #. Add its error monitor to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
 #. Add the analytics tag for `Google Analytics <https://analytics.google.com>`__, if appropriate
