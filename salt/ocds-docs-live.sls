@@ -2,6 +2,11 @@ include:
   - apache
   - ocds-docs-common
 
+# Needed to create a ZIP file of the schema and codelists.
+# https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
+zip:
+  pkg.installed
+
 ocds-docs-live modules:
   apache_module.enabled:
     - names:
