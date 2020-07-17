@@ -9,5 +9,6 @@ cove-live-ocds-3:         live3.cove.opencontracting.uk0.bigv.io
 cove-dev-ocds-1:          dev1.cove.opencontracting.uk0.bigv.io
 cove-live-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
 kingfisher-archive:       archive.kingfisher.open-contracting.org
-kingfisher-process1:      95.217.76.74
+kingfisher-process1:      process1.kingfisher.open-contracting.org
+kingfisher-replica1:      replica1.kingfisher.open-contracting.org
 prometheus:               prometheus.default.opencontracting.uk0.bigv.io
