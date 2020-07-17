@@ -55,6 +55,10 @@ base:
     - ocdskingfisheranalyse
     - prometheus-client-apache
 
+
+  'kingfisher-replica*':
+    - postgres
+
   'prometheus':
     - prometheus-client-apache
     - prometheus-server
