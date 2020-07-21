@@ -27,31 +27,29 @@ For more information, read Kingfisher Process' `logging documentation <https://k
 Load local data
 ---------------
 
-Before using the `local-local command <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__:
+**Before** using the `local-load command <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__:
 
 #. :ref:`Connect to the main server as the ocdskfp user<connect-process-server>`
 
-#. Change into the ``local-load`` directory.
+#. Change into the ``local-load`` directory:
 
    .. code:: bash
 
       cd ~/local-load
 
-#. Create a data directory following the pattern ``source-YYYY-MM-DD-analyst``. For example: ``portugal-2020-04-07-romina``
+#. Create a data directory following the pattern ``source-YYYY-MM-DD-analyst``. For example: ``moldova-2020-04-07-romina``
 
-   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/master/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows the regular pattern ``country[_region][_publisher]``, for example: ``moldova_covid19``.
+   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/master/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
 
 #. If you need to download an archive file from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
-   -  After unarchiving its contents, you should remove any unnecessary hierarchy from the unarchived files, for example: if all the files are under ``ocds/json``, move the ``json`` directory to the data directory, then remove the ``ocds`` directory.
+   -  After unarchiving its contents, you should remove any unnecessary hierarchy from the unarchived files. For example, if all the files are under ``ocds/json``, move the ``json`` directory to the data directory, then remove the ``ocds`` directory.
 
 #. In principle, you should not make changes to the original files. If you need to make changes, put the original and changed files in distinct directories.
 
-After using the ``local-load`` command:
+**After** using the ``local-load`` command, check whether the data meets the :ref:`data retention policy<data-retention-policy>` below.
 
-#. Check whether the data meets the :ref:`data retention policy<data-retention-policy>` below.
-
-   - If so, move the data directory to the ``archive`` directory within the ``local-load`` directory.
+   - If so, move the data directory to the ``archive`` directory within the ``local-load`` directory. Remove any changed files.
    - If not, delete the data directory once you're satisfied that it loaded correctly – and at most 90 days after its creation.
 
 To find directories containing data created more than 90 days ago, run:
