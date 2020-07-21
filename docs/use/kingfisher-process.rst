@@ -23,3 +23,54 @@ You can filter messages by topic. For example:
     grep NAME /var/log/kingfisher.log | less
 
 For more information, read Kingfisher Process' `logging documentation <https://kingfisher-process.readthedocs.io/en/latest/logging.html>`__.
+
+Load local data
+---------------
+
+Before using the `local-local command <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__:
+
+#. :ref:`Connect to the main server as the ocdskfp user<connect-process-server>`
+
+#. Change into the ``local-load`` directory.
+
+   .. code:: bash
+
+      cd ~/local-load
+
+#. Create a data directory following the pattern ``source-YYYY-MM-DD-analyst``. For example: ``portugal-2020-04-07-romina``
+
+   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/master/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows the regular pattern ``country[_region][_publisher]``, for example: ``moldova_covid19``.
+
+#. If you need to download an archive file from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
+
+   -  After unarchiving its contents, you should remove any unnecessary hierarchy from the unarchived files, for example: if all the files are under ``ocds/json``, move the ``json`` directory to the data directory, then remove the ``ocds`` directory.
+
+#. In principle, you should not make changes to the original files. If you need to make changes, put the original and changed files in distinct directories.
+
+After using the ``local-load`` command:
+
+#. Check whether the data meets the :ref:`data retention policy<data-retention-policy>` below.
+
+   - If so, move the data directory to the ``archive`` directory within the ``local-load`` directory.
+   - If not, delete the data directory once you're satisfied that it loaded correctly – and at most 90 days after its creation.
+
+To find directories containing data created more than 90 days ago, run:
+
+.. code:: bash
+
+    find -maxdepth 1 -type d ! -name archive -exec bash -c 'if [[ -n $(find {} -ctime +90) ]]; then echo {}; fi' \; | sort
+
+.. _data-retention-policy:
+
+Data retention policy
+~~~~~~~~~~~~~~~~~~~~~
+
+We want to retain newly collected data that is:
+
+-  **Clean**: There were few (preferably zero) errors during data collection.
+-  **Complete**: The data is not test data, sample data, or otherwise a subset of the complete dataset.
+-  **Periodic**: The data was collected at least 30 days after the most recently retained data for the data source. In other words, we retain at most one collection per month per source.
+
+Whenever we retain data for a given source for the first time in each calendar year, we can delete all but the first collection for that source from the prior year.
+
+In other words, for each source, we will retain at most monthly collections in the last year in which the source was available, and yearly collections otherwise.
