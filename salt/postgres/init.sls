@@ -2,9 +2,6 @@
 # Install postgres from the official repositories as they offer newer versions than os repos
 # 
 
-# Set postgres version as a variable to be a bit more future proof
-{% set pg_version = "11" %}
-
 # For the apt-transport-https check
 include: 
  - core
@@ -20,33 +17,33 @@ postgresql:
     - require:
       - pkg: apt-transport-https
   pkg.installed:
-    - name: postgresql-{{ pg_version }}
+    - name: postgresql-{{ pillar["postgres"]["version"] }}
   service.running:
     - enable: True
 
 # Upload configuration for postgres
 # Postgres servers will all have custom configuration so it checks for a local directory with the same target ID
 # If it can't find this it falls back to the default directory.
-/etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
+/etc/postgresql/{{ pillar["postgres"]["version"] }}/main/pg_hba.conf:
   file.managed:
     - user: postgres
     - group: postgres
     - mode: 640
     - source: 
-      - salt://postgres/{{ grains['id'] }}/pg_hba.conf
-      - salt://postgres/default/pg_hba.conf
+      - salt://postgres/configs/pg_hba.conf
     - template: jinja
     - watch_in:
       - service: postgresql 
 
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ grains['id'] }}.conf:
+# Upload custom configuration if defined
+{% if pillar['postgres']['custom_configuration'] %}
+/etc/postgresql/{{ pillar["postgres"]["version"] }}/main/conf.d/030_{{ grains['id'] }}.conf:
   file.managed:
     - user: postgres
     - group: postgres
     - mode: 640
     - source: 
-      - salt://postgres/{{ grains['id'] }}/postgres.conf
-      - salt://postgres/default/postgres.conf
+      - {{ pillar['postgres']['custom_configuration'] }}
     - watch_in:
       - service: postgresql 
-
+{% endif %}
