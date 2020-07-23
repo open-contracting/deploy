@@ -55,6 +55,8 @@ base:
     - ocdskingfisheranalyse
     - prometheus-client-apache
 
+  'kingfisher-process1':
+    - postgres.replica_master
 
   'kingfisher-replica*':
     - postgres
