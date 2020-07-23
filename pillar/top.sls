@@ -48,5 +48,8 @@ base:
     - private.ocdskingfisher_live_pillar
     - tinyproxy_pillar
 
+  'kingfisher-replica*':
+    - ocdskingfisher_replica_live_pillar
+
   'redash2':
     - redash
