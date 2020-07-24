@@ -51,46 +51,48 @@ Setting up postgres replication
 For postgres replication you need to configure both a master server and a replica.
 
 #. Upload custom configuration following the above guide.
-This configuration should enable wal_level replication.
 
-For reference, we've set this up on kingfisher-process1 and kingfisher-replica1.
+   This configuration should enable wal_level replication.
+
+   For reference, we've set this up on kingfisher-process1 and kingfisher-replica1.
 
 #. Update master server pillar data with replica details
 
-.. code-block:: yaml
-  postgres:
-    replica_user:
-      username: example_username
-    replica_ips:
-      - 198.51.100.0/32
-      - 2001:db8::/128
+   .. code-block:: yaml
+      postgres:
+        replica_user:
+          username: example_username
+        replica_ips:
+          - 198.51.100.0/32
+          - 2001:db8::/128
 
-Put the replica user password in the ``pillar/private/`` repo.
+   Put the replica user password in the ``pillar/private/`` repo.
 
-.. code-block:: yaml
-  postgres:
-    replica_user:
-      password: example_password
+   .. code-block:: yaml
+      postgres:
+        replica_user:
+          password: example_password
 
 #. Enable the ``postgres.replica_master`` state file on the master server
 
 #. Apply changes
 
-The servers are now configured but we still need to copy the data over and start replication
+   The servers are now configured but we still need to copy the data over and start replication
 
 #. Copy the data over and start replication
-.. code-block:: bash
 
-  service postgresql stop
-  rm -rf /var/lib/postgresql/11/main # (assuming the version is 11)
-  su - postgres
-  pg_basebackup -h ${master_server_hostname} -D /var/lib/postgresql/11/main -U ${replica_username} -v -P -Fp -Xs -R
+   .. code-block:: bash
 
-  # For example on kingfisher-replica, I ran...
-  pg_basebackup -h process1.kingfisher.open-contracting.org -D /var/lib/postgresql/11/main -U replica -v -P -Fp -Xs -R
+     service postgresql stop
+     rm -rf /var/lib/postgresql/11/main # (assuming the version is 11)
+     su - postgres
+     pg_basebackup -h ${master_server_hostname} -D /var/lib/postgresql/11/main -U ${replica_username} -v -P -Fp -Xs -R
 
-  exit # go back to the root user
+     # For example on kingfisher-replica, I ran...
+     pg_basebackup -h process1.kingfisher.open-contracting.org -D /var/lib/postgresql/11/main -U replica -v -P -Fp -Xs -R
 
-  service postgres start
-  pg_lsclusters # Double check postgres has started
+     exit # go back to the root user
+
+     service postgres start
+     pg_lsclusters # Double check postgres has started
 
