@@ -60,6 +60,7 @@ Hetzner
 #. Wait until you receive an email notifying you that your server is ready, then proceed to deploying the service.
 
 Some Hetzner servers only let you start on their recovery OS.
+
 If you were not able to select Ubuntu above, you will need to follow these additional steps:
 
 #. SSH into recovery image
@@ -72,31 +73,34 @@ If you were not able to select Ubuntu above, you will need to follow these addit
 
 #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    installimage
+      installimage
 
-  #. Follow the default installer prompts, unless specified.
+   #. Follow the default installer prompts, unless specified.
 
-    #. Select Ubuntu 18.04 - minimal
+   #. Select Ubuntu 18.04 - minimal
 
-    #. The installer takes you to a configuration file with a number of install options.
-    For swap partition sizings refer to `salt coniguration<https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`.
+   #. The installer takes you to a configuration file with a number of install options.
 
-    .. code-block:: none
+      .. code-block:: none
 
-      Set DRIVE1 and DRIVE2 etc to the physical disks you want
-      ...
-      SWRAIDLEVEL 1
-      ...
-      HOSTNAME <server hostname>
-      ...
-      PART swap swap 16G
-      PART /boot ext2 1G
-      PART / ext4 all
+         Set DRIVE1 and DRIVE2 etc to the physical disks you want
+         ...
+         SWRAIDLEVEL 1
+         ...
+         HOSTNAME <server hostname>
+         ...
+         PART swap swap 16G
+         PART /boot ext2 1G
+         PART / ext4 all
 
-    #. F2 # Save
-    #. Overwrite drives
+      For swap partition sizings refer to `salt coniguration<https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`.
+
+   #. F2 # Save
+
+   #. Overwrite drives
+
 #. ``reboot``
 
 
