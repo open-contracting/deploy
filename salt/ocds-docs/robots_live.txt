@@ -13,6 +13,8 @@ Disallow: /1.1-dev
 Disallow: /1.0-dev
 Disallow: /infrastructure/0.9-dev
 Disallow: /profiles/ppp/1.0-dev
+Disallow: /review/data
+Disallow: /infrastructure/review/data
 
 # Googlebot supports Allow, so we can disallow all development branches.
 User-agent: Googlebot
@@ -33,8 +35,10 @@ Allow: /profiles/gpa/extension
 Allow: /profiles/eu/schema
 Allow: /profiles/eu/extension
 # Allow Data Review Tools.
-Allow: /review
-Allow: /infrastructure/review
+Allow: /review$
+Allow: /review/$
+Allow: /infrastructure/review$
+Allow: /infrastructure/review/$
 # Allow the master branches of draft profiles.
 # Disallow anything else.
 Disallow: /
