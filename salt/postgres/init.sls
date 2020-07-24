@@ -6,6 +6,9 @@
 include: 
  - core
 
+# Default to postgres version 11, if not defined in pillar.
+{% set pg_version = salt['pillar.get']('postgres:version', '11') %}
+
 # Install and start postgres
 postgresql:
   pkgrepo.managed:
@@ -17,14 +20,12 @@ postgresql:
     - require:
       - pkg: apt-transport-https
   pkg.installed:
-    - name: postgresql-{{ pillar["postgres"]["version"] }}
+    - name: postgresql-{{ pg_version }}
   service.running:
     - enable: True
 
-# Upload configuration for postgres
-# Postgres servers will all have custom configuration so it checks for a local directory with the same target ID
-# If it can't find this it falls back to the default directory.
-/etc/postgresql/{{ pillar["postgres"]["version"] }}/main/pg_hba.conf:
+# Upload access configuration for postgres
+/etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
     - user: postgres
     - group: postgres
@@ -37,7 +38,7 @@ postgresql:
 
 # Upload custom configuration if defined
 {% if pillar['postgres']['custom_configuration'] %}
-/etc/postgresql/{{ pillar["postgres"]["version"] }}/main/conf.d/030_{{ grains['id'] }}.conf:
+/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ grains['id'] }}.conf:
   file.managed:
     - user: postgres
     - group: postgres

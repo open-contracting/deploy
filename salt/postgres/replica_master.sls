@@ -2,8 +2,10 @@
 # Configure postgres replication master specific settings.
 # 
 
+# Default to postgres version 11, if not defined in pillar.
+{% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
-/var/lib/postgresql/{{ pillar["postgres"]["version"] }}/main/archive/:
+/var/lib/postgresql/{{ pg_version }}/main/archive/:
   file.directory:
     - user: postgres
     - group: postgres
