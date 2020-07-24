@@ -1,15 +1,13 @@
-#
-# Install postgres from the official repositories as they offer newer versions than os repos
-# 
+# Install postgres from the official repositories as they offer newer versions than os repos.
 
-# For the apt-transport-https check
+# To ensure apt-transport-https is installed.
 include: 
  - core
 
 # Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
-# Install and start postgres
+# Install and start postgres.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -24,7 +22,7 @@ postgresql:
   service.running:
     - enable: True
 
-# Upload access configuration for postgres
+# Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
     - user: postgres
@@ -36,7 +34,7 @@ postgresql:
     - watch_in:
       - service: postgresql 
 
-# Upload custom configuration if defined
+# Upload custom configuration if defined.
 {% if pillar['postgres']['custom_configuration'] %}
 /etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ grains['id'] }}.conf:
   file.managed:

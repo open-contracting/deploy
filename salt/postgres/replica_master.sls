@@ -1,6 +1,4 @@
-#
 # Configure postgres replication master specific settings.
-# 
 
 # Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
