@@ -41,9 +41,8 @@ Hetzner
 
    Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed during the setup process, as some servers may not be available for several days.
 
-
 #. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
-#. Click "Dedicated", and navigate to choose a suitable server for your application. So far, we've used EX-Line servers.
+#. Click "Dedicated", and navigate to choose a suitable server for your application.
 #. Click the "Order" button for the server that you've chosen
 
    #. Select a location; we've never had an issue with simply choosing the cheapest
@@ -64,46 +63,43 @@ Some Hetzner servers only let you start on their recovery OS.
 If you were not able to select Ubuntu above, you will need to follow these additional steps:
 
 #. SSH into recovery image
-#. Test the server hardware
+#. Test the server hardware:
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-    smartctl -t long /dev/<device>
-    smartctl -a /dev/<device>
+      smartctl -t long /dev/<device>
+      smartctl -a /dev/<device>
 
-#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`
+#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ and accept the defaults, unless stated otherwise below:
 
    .. code-block:: bash
 
       installimage
 
-   #. Follow the default installer prompts, unless specified.
+   #. Select "Ubuntu 18.04 - minimal"
 
-   #. Select Ubuntu 18.04 - minimal
+   #. The installer opens a configuration file with a number of install options.
 
-   #. The installer takes you to a configuration file with a number of install options.
+      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the physical disks you want
+      #. Set ``SWRAIDLEVEL 1``
+      #. Set ``HOSTNAME <hostname>``
+      #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
 
       .. code-block:: none
 
-         Set DRIVE1 and DRIVE2 etc to the physical disks you want
-         ...
-         SWRAIDLEVEL 1
-         ...
-         HOSTNAME <server hostname>
-         ...
          PART swap swap 16G
          PART /boot ext2 1G
          PART / ext4 all
 
-      For swap partition sizings refer to `salt coniguration<https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`.
-
-   #. F2 # Save
+   #. Press ``F2`` to save
 
    #. Overwrite drives
 
-#. ``reboot``
+#. Reboot the server:
 
+   .. code-block:: bash
 
+      reboot
 
 2. Deploy the service
 ---------------------

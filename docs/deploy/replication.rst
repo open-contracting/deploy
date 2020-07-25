@@ -1,10 +1,12 @@
-Configuring Postgres
-====================
+Configuring PostgreSQL
+======================
 
-Change postgres version
------------------------
+Specify version
+---------------
 
-The version of postgres that is installed defaults to version 11 but can be overwritten in your servers pillar file.
+The default version is 11.
+
+To override the version, update the server's pillar file:
 
 .. code-block:: yaml
   :emphasize-lines: 2
@@ -12,12 +14,12 @@ The version of postgres that is installed defaults to version 11 but can be over
   postgres:
     version: 11
 
-Allow global connections
-------------------------
+Enable public access
+--------------------
 
-By default postgres only listens for local connections, the template config can be found `here <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`.
+By default, PostgreSQL only listens for local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`__).
 
-To allow public access set the following in pillar.
+To enable public access, update the server's pillar file:
 
 .. code-block:: yaml
   :emphasize-lines: 2
@@ -25,15 +27,12 @@ To allow public access set the following in pillar.
   postgres:
     public_access: True
 
+Change default settings
+-----------------------
 
-Upload custom configuration
----------------------------
+#. Put your configuration file in the `salt/postgres/configs <https://github.com/open-contracting/deploy/tree/master/salt/postgres/configs>`__ directory.
 
-If you are customising any postgres settings these custom configs should be in the git repo.
-
-#. Upload your configuration file `here <https://github.com/open-contracting/deploy/tree/master/salt/postgres/configs>`.
-
-#. Point the ``pillar['postgres']['custom_configuration']`` parameter at your new config.
+#. Update the server's pillar file:
 
   .. code-block:: yaml
     :emphasize-lines: 2
@@ -41,24 +40,21 @@ If you are customising any postgres settings these custom configs should be in t
     postgres:
       custom_configuration: salt://postgres/configs/kingfisher-process1-postgres.conf
 
-#. Update with ``state.apply``, you will find your new config here ``/etc/postgresql/11/main/conf.d/`` (assuming the version is 11)
+#. :doc:`Deploy<deploy>`
 
+The configuration file should appear in ``/etc/postgresql/11/main/conf.d/`` on the server (for PostgreSQL version 11).
 
+Set up replication
+------------------
 
-Setting up postgres replication
--------------------------------
+You will configure a master server and a replica server.
 
-For postgres replication you need to configure both a master server and a replica.
+#. Create configuration files for each server as above, setting ``wal_level = replica``. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
 
-#. Upload custom configuration following the above guide.
-
-   This configuration should enable wal_level replication.
-
-   For reference, we've set this up on kingfisher-process1 and kingfisher-replica1.
-
-#. Update master server pillar data with replica details
+#. Update the master server's pillar file with the replica user's name and the replica's IP addresses:
 
    .. code-block:: yaml
+
       postgres:
         replica_user:
           username: example_username
@@ -66,33 +62,51 @@ For postgres replication you need to configure both a master server and a replic
           - 198.51.100.0/32
           - 2001:db8::/128
 
-   Put the replica user password in the ``pillar/private/`` repo.
+#. Update the master server's private pillar file in the ``pillar/private`` directory with the replica user's password.
 
    .. code-block:: yaml
+
       postgres:
         replica_user:
           password: example_password
 
-#. Enable the ``postgres.replica_master`` state file on the master server
+#. Add the ``postgres.replica_master`` state file to the master server's target in the ``salt/top.sls`` file.
 
-#. Apply changes
+#. :doc:`Deploy<deploy>` both servers
 
-   The servers are now configured but we still need to copy the data over and start replication
+#. Transfer data and start replication.
 
-#. Copy the data over and start replication
+   #. Connect to the replica server as the ``root`` user.
 
-   .. code-block:: bash
+   #. Stop the PostgreSQL service and delete the main cluster's data.
 
-     service postgresql stop
-     rm -rf /var/lib/postgresql/11/main # (assuming the version is 11)
-     su - postgres
-     pg_basebackup -h ${master_server_hostname} -D /var/lib/postgresql/11/main -U ${replica_username} -v -P -Fp -Xs -R
+      .. code-block:: bash
 
-     # For example on kingfisher-replica, I ran...
-     pg_basebackup -h process1.kingfisher.open-contracting.org -D /var/lib/postgresql/11/main -U replica -v -P -Fp -Xs -R
+         service postgresql stop
+         rm -rf /var/lib/postgresql/11/main # (for PostgreSQL version 11)
 
-     exit # go back to the root user
+   #. Switch to the ``postgres`` user and transfer data.
 
-     service postgres start
-     pg_lsclusters # Double check postgres has started
+      .. code-block:: bash
 
+         su - postgres
+         pg_basebackup -h ${master_server_hostname} -D /var/lib/postgresql/11/main -U ${replica_username} -v -P -Fp -Xs -R
+
+      For example, for ``kingfisher-replica``:
+
+      .. code-block:: bash
+
+         pg_basebackup -h process1.kingfisher.open-contracting.org -D /var/lib/postgresql/11/main -U replica -v -P -Fp -Xs -R
+
+   #. Switch to the ``root`` user and start the PostgreSQL service.
+
+      .. code-block:: bash
+
+         exit
+         service postgres start
+
+   #. Double-check that the service started:
+
+      .. code-block:: bash
+
+         pg_lsclusters
