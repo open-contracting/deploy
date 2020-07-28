@@ -63,14 +63,15 @@ If you couldn't select Ubuntu above, follow these additional steps:
 #. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
 #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
 #. Test the server hardware:
+
    #. Test the drives. The SMART values to look for vary depending on the drive manufacturer. Ask a colleague if you need help. 
    
-   .. code-block:: bash
+      .. code-block:: bash
 
-      smartctl -t long /dev/<device>
-      smartctl -a /dev/<device>
+         smartctl -t long /dev/<device>
+         smartctl -a /dev/<device>
 
-   #. Test the hardware RAID controller, if there is one. The  software to do so varies based on the RAID controller. Ask a colleague if you need help.
+   #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
 
 #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en>`__) and accept the defaults, unless stated otherwise below:
 
@@ -88,6 +89,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
             DRIVE1 /dev/sdb
             DRIVE2 /dev/sdd
+
       #. Set ``SWRAIDLEVEL 1``
       #. Set the hostname. For example:
 
