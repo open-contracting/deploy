@@ -1,0 +1,18 @@
+dist: xenial
+language: python
+addons:
+  chrome: stable
+python: "3.6"
+install:
+- "git clone 'https://github.com/open-contracting/cove-ocds.git' coveocds"
+- "cd coveocds"
+- "pip install -r requirements_dev.txt"
+- "wget https://chromedriver.storage.googleapis.com/2.36/chromedriver_linux64.zip; unzip chromedriver_linux64.zip -d chromedriver; export PATH=$PATH:`pwd`/chromedriver"
+script:
+- "CUSTOM_SERVER_URL=http://standard.open-contracting.org/ DJANGO_SETTINGS_MODULE=cove_project.settings py.test cove_ocds/tests_functional.py"
+notifications:
+  email:
+    recipients:
+      - inbox+opendataservices+443f+servers@plan.io
+    on_success: never # default: change
+    on_failure: always # default: always
