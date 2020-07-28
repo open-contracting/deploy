@@ -58,11 +58,10 @@ Hetzner
 #. Click "Order in Obligation"
 #. Wait until you receive an email notifying you that your server is ready, then proceed to deploying the service.
 
-Some Hetzner servers only let you start on their recovery OS.
+If you couldn't select Ubuntu above, follow these additional steps:
 
-If you were not able to select Ubuntu above, you will need to follow these additional steps:
-
-#. SSH into recovery image
+#. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
+#. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
 #. Test the server hardware:
 
    .. code-block:: bash
@@ -70,7 +69,7 @@ If you were not able to select Ubuntu above, you will need to follow these addit
       smartctl -t long /dev/<device>
       smartctl -a /dev/<device>
 
-#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ and accept the defaults, unless stated otherwise below:
+#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en>`__) and accept the defaults, unless stated otherwise below:
 
    .. code-block:: bash
 
@@ -80,20 +79,30 @@ If you were not able to select Ubuntu above, you will need to follow these addit
 
    #. The installer opens a configuration file with a number of install options.
 
-      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the physical disks you want
+      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en#Drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+
+         .. code-block:: code
+
+            DRIVE1 /dev/sdb
+            DRIVE2 /dev/sdd
       #. Set ``SWRAIDLEVEL 1``
-      #. Set ``HOSTNAME <hostname>``
+      #. Set the hostname. For example:
+
+         .. code-block:: none
+
+            HOSTNAME example.open-contracting.org
+
       #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
 
-      .. code-block:: none
+         .. code-block:: none
 
-         PART swap swap 16G
-         PART /boot ext2 1G
-         PART / ext4 all
+            PART swap swap 16G
+            PART /boot ext2 1G
+            PART / ext4 all
 
    #. Press ``F2`` to save
 
-   #. Overwrite drives
+   #. Confirm that you want to overwrite the drives, when prompted
 
 #. Reboot the server:
 
