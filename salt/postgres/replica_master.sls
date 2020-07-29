@@ -16,7 +16,7 @@
 replica_user:
   postgres_user.present:
     - name: {{ pillar['postgres']['replica_user']['username'] }}
-    - password: md5{MD5OF({{ pillar['postgres']['replica_user']['password'] }})
+    - password: {{ pillar['postgres']['replica_user']['password'] }}
     - encrypted: True
     - login: True
     - replication: True
