@@ -39,26 +39,82 @@ Hetzner
 
 .. note::
 
-   Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed during the setup process, as some servers may not be available for several days.  
+   Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed during the setup process, as some servers may not be available for several days.
 
 #. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
-#. Click "Dedicated", and navigate to choose a suitable server for your application. So far, we've used EX-Line servers. 
+#. Click "Dedicated", and navigate to choose a suitable server for your application.
 #. Click the "Order" button for the server that you've chosen
 
    #. Select a location; we've never had an issue with simply choosing the cheapest
    #. Select an operating system - "Ubuntu 18.04 LTS minimal"
-   #. Select any additional storage required 
+   #. Select any additional storage required
 
 #. Click "Order Now"
 #. (optionally) Select "Public key" in the "Server Login Details" section, and paste your SSH key in; this will be added to /root/.ssh/authorized_keys
 #. Click "Save"
-#. Review the contents of the cart, then click "Checkout" 
-#. Log in using OCP's credentials. This will happen automatically if you're already logged into Hetzner services. 
+#. Review the contents of the cart, then click "Checkout"
+#. Log in using OCP's credentials. This will happen automatically if you're already logged into Hetzner services.
 #. Check the "I have read your Terms and Conditions as well as your Privacy Policy and I agree to them." box
 #. Click "Order in Obligation"
 #. Wait until you receive an email notifying you that your server is ready, then proceed to deploying the service.
 
+If you couldn't select Ubuntu above, follow these additional steps:
+
+#. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
+#. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
+#. Test the server hardware:
+
+   #. Test the drives. The SMART values to look for vary depending on the drive manufacturer. Ask a colleague if you need help. 
    
+      .. code-block:: bash
+
+         smartctl -t long /dev/<device>
+         smartctl -a /dev/<device>
+
+   #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
+
+#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en>`__) and accept the defaults, unless stated otherwise below:
+
+   .. code-block:: bash
+
+      installimage
+
+   #. Select "Ubuntu 18.04 - minimal"
+
+   #. The installer opens a configuration file with a number of install options.
+
+      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en#Drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+
+         .. code-block:: code
+
+            DRIVE1 /dev/sdb
+            DRIVE2 /dev/sdd
+
+      #. Set ``SWRAIDLEVEL 1``
+      #. Set the hostname. For example:
+
+         .. code-block:: none
+
+            HOSTNAME example.open-contracting.org
+
+      #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
+
+         .. code-block:: none
+
+            PART swap swap 16G
+            PART /boot ext2 1G
+            PART / ext4 all
+
+   #. Press ``F2`` to save
+
+   #. Confirm that you want to overwrite the drives, when prompted
+
+#. Reboot the server:
+
+   .. code-block:: bash
+
+      reboot
+
 2. Deploy the service
 ---------------------
 
@@ -110,7 +166,7 @@ Hetzner
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
-#. Contact Dogsbody Technology Ltd to set up maintenance 
+#. Contact Dogsbody Technology Ltd to set up maintenance
 
 If the service is being introduced:
 

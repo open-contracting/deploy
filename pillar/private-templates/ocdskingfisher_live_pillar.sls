@@ -21,3 +21,6 @@ ocdskingfishercollect:
     kingfisher_paraguay_dncp_request_token: "Basic xxxxxxxxxxxxxxxxxxxxxxxxxxx"
     kingfisher_openopps_username: xxxxxxxxxxxxxxxxx
     kingfisher_openopps_password: xxxxxxxxxxxxxxxxx
+postgres:
+  replica_user:
+    password: xxxxxxxxxxxxxxxxxxxxx
