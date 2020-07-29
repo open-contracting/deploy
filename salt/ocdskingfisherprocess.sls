@@ -68,11 +68,20 @@ ocdskingfisherprocess-prerequisites:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
-    - cwd: {{ ocdskingfisherdir }}
-    - requirements: {{ ocdskingfisherdir }}requirements.txt
     - require:
       - git: {{ giturl }}{{ ocdskingfisherdir }}
 
+# Due to a bug in Salt, we can't use `- requirements: {{ ocdskingfisherdir }}requirements.txt` in the above
+# `{{ ocdskingfisherdir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
+pip_install_requirements:
+  cmd.run:
+    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
+    - runas: {{ user }}
+    - cwd: {{ ocdskingfisherdir }}
+    - require:
+      - virtualenv: {{ ocdskingfisherdir }}.ve/
+
+postgres_user_and_db:
   postgres_user.present:
     - name: ocdskfp
     - password: {{ pillar.ocdskingfisherprocess.postgres.ocdskfp.password }}
