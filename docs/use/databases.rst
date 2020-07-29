@@ -4,6 +4,10 @@ SQL Databases
 Connect to a database
 ---------------------
 
+.. note::
+
+   If you connect to the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql` and/or :ref:`pgadmin` to use it.
+
 .. _psql:
 
 psql
@@ -21,7 +25,7 @@ For example:
 
 .. code-block:: bash
 
-   psql "dbname=ocdskingfisherprocess user=ocdskfpreadonly host=process.kingfisher.open-contracting.org sslmode=require"
+   psql "dbname=ocdskingfisherprocess user=jmckinney host=process.kingfisher.open-contracting.org sslmode=require"
 
 Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/11/libpq-pgpass.html>`__:
 
@@ -48,7 +52,7 @@ For security, remember to set *SSL mode* to "Require".
 #. Set the *Name*, e.g. "Kingfisher"
 #. Click the *Connection* tab
 #. Set the *Host name/address*, e.g. "process.kingfisher.open-contracting.org"
-#. Set the *Username*, e.g. "ocdskfpreadonly"
+#. Set the *Username*
 #. Set the *Password*
 #. Check *Save password?*
 #. Click the *SSL* tab
@@ -78,10 +82,14 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
    conn = create_connection(
        database='ocdskingfisherprocess',
-       user='ocdskfpreadonly',
+       user='USER',
        password='PASSWORD',
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
+
+.. note::
+
+   There is an `open issue <https://trello.com/c/uopUu4aj/225-refactor-kf-colab-notebooks-to-use-a-form-to-populate-db-creds-to-save-in-a-particular-instance-of-the-notebook>`__ to use `Colaboratory Forms <https://colab.research.google.com/notebooks/forms.ipynb>`__ to store credentials.
 
 Python
 ~~~~~~
@@ -98,7 +106,12 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
    conn = psycopg2.connect(
        dbname='ocdskingfisherprocess',
-       user='ocdskfpreadonly',
+       user='USER',
        password='PASSWORD',
        host='process.kingfisher.open-contracting.org',
        sslmode='require')
+
+Redash
+~~~~~~
+
+`Redash <https://redash.open-contracting.org>`__ connects to the database using a ``redash`` user, which has read-only access to all schema. To request an account, email data@open-contracting.org.
