@@ -1,0 +1,32 @@
+name: OCDS Data Review Tool
+on: 
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+    - uses: actions/cache@v1
+      with:
+        path: venv
+        key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements_dev.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-venv-
+    - name: Install
+      run: |
+        python -m venv venv
+        . venv/bin/activate
+        git clone 'https://github.com/open-contracting/cove-ocds.git'
+        cd cove-ocds
+        pip install -r requirements_dev.txt
+        # Google Chrome and ChromeDriver are already included.
+        # https://help.github.com/en/actions/reference/software-installed-on-github-hosted-runners
+    - name: Test
+      run: |
+        . venv/bin/activate
+        cd cove-ocds
+        CUSTOM_SERVER_URL=http://standard.open-contracting.org/ DJANGO_SETTINGS_MODULE=cove_project.settings py.test cove_ocds/tests_functional.py
