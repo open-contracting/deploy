@@ -47,13 +47,19 @@ base:
     - prometheus-client-apache
 
   'kingfisher-process*':
-    - postgres11
+    - postgres
     - ocdskingfisher
     - ocdskingfisherarchiveonprocess
     - ocdskingfishercollect
     - ocdskingfisherprocess
     - ocdskingfisheranalyse
     - prometheus-client-apache
+
+  'kingfisher-process1':
+    - postgres.replica_master
+
+  'kingfisher-replica*':
+    - postgres
 
   'prometheus':
     - prometheus-client-apache

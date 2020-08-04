@@ -11,6 +11,7 @@ Deployment Guides
    packages.rst
    delete_server.rst
    maintain.rst
+   postgres.rst
    databases.rst
 
 .. toctree::

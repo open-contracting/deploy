@@ -4,13 +4,14 @@
 useful commands:
   pkg.installed:
     - pkgs:
+      - curl
       - htop
       - iotop
       - man-db
       - psmisc # provides killall
       - tmux
-      - vim
       - unzip
+      - vim
 
 # Set vim as the default editor now that we've installed it.
 editor:

@@ -1,5 +1,3 @@
-{% from 'lib.sls' import createuser %}
-
 root_kingfisher:
   ssh_auth.present:
     - user: root
