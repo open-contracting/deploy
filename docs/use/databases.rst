@@ -1,6 +1,10 @@
 SQL Databases
 =============
 
+.. note::
+
+   If you need to create temporary tables, use ``CREATE TEMPORARY TABLE``. If you need to create persistent tables, create a new schema first; do not create tables in the ``public`` schema.
+
 Connect to a database
 ---------------------
 

@@ -114,7 +114,43 @@ Reference: `Moving Out of the Amazon SES Sandbox <https://docs.aws.amazon.com/se
 Aurora Serverless
 -----------------
 
-Adjust this template as needed:
+Note: `"You can't give an Aurora Serverless DB cluster a public IP address." <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations>`__; instead, you need to use an EC2 instance as a bastion host.
+
+Create a VPC
+~~~~~~~~~~~~
+
+1. Set *IPv4 CIDR block* to 10.0.0.0/16
+1. Click *Create*
+
+Reference: `Create a DB instance in the VPC <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
+
+Create subnets
+~~~~~~~~~~~~~~
+
+1. Set *VPC* to the created VPC
+1. Set *Availability Zone* to any zone
+1. Set *IPv4 CIDR block* to 10.0.1.0/24
+1. Click *Create*
+
+Then:
+
+1. Set *VPC* to the created VPC
+1. Set *Availability Zone* to another zone
+1. Set *IPv4 CIDR block* to 10.0.2.0/24
+1. Click *Create*
+
+Create security group
+~~~~~~~~~~~~~~~~~~~~~
+
+1. Set *Security group name* to "postgresql-anywhere"
+1. Set *Description* to "Allows PostgreSQL connections from anywhere"
+1. Click *Add rule* under *Inbound rules*
+1. Set *Type* to "PostgreSQL"
+1. Set *Source* to "Anywhere"
+1. Click *Create security group*
+
+Create database
+~~~~~~~~~~~~~~~
 
 1. Choose a database creation method: (no changes)
 1. Engine options
@@ -135,8 +171,14 @@ Adjust this template as needed:
 
 1. Connectivity
 
-   1. *Virtual private cloud (VPC)*: Select a VPC that is configured to be `publicly accessible <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
-   1. *VPC security group*: Create new
+   1. *Virtual private cloud (VPC)*: Select the created VPC
+   1. Expand *Additional connectivity configuration*
+   1. *VPC security group*:
+
+      1. Select the created group
+      1. Remove the default group
+
+   1. Check *Data API*
 
 1. Additional configuration
 
