@@ -86,7 +86,7 @@
         <Location {{ root or '/' }}>
             # Add a "latest" version if not present.
             # The trailing slash is optional, to avoid proxying whether present or absent.
-            RedirectMatch ^{{ root }}/?$ {{ root }}/latest/
+            RedirectMatch ^{{ root }}/?$ {{ root }}/{{ opts.versions[0] }}/
         </Location>
 
         # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
