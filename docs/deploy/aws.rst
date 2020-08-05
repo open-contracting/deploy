@@ -110,3 +110,37 @@ Move out of sandbox
    You only need to do this once per AWS account.
 
 Reference: `Moving Out of the Amazon SES Sandbox <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html>`__
+
+Aurora Serverless
+-----------------
+
+Adjust this template as needed:
+
+1. Choose a database creation method: (no changes)
+1. Engine options
+
+   1. *Engine type*: Amazon Aurora
+   1. *Edition*: Amazon Aurora with PostgreSQL compatibility
+   1. *Version*: Aurora PostgreSQL (compatible with PostgreSQL 10.7)
+
+1. Database features: Serverless
+1. Settings: (no changes)
+1. Capacity settings
+
+   1. *Minimum Aurora capacity unit*: 2
+   1. *Maximum Aurora capacity unit*: 2
+   1. Expand *Additional scaling configuration*
+   1. Check *Pause compute capacity after consecutive minutes of inactivity*
+   1. Set to *1* hours 0 minutes 0 seconds
+
+1. Connectivity
+
+   1. *Virtual private cloud (VPC)*: Select a VPC that is configured to be `publicly accessible <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
+   1. *VPC security group*: Create new
+
+1. Additional configuration
+
+   1. *Initial database name*: common
+   1. *Backup retention period*: 1 day
+
+1. Click *Create database*
