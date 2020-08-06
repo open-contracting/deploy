@@ -65,11 +65,12 @@ Data retention policy
 
 We want to retain newly collected data that is:
 
+-  **Distinct**: The new data is not identical to earlier data.
+-  **Complete**: The data is not test data, sample data, or otherwise a subset of the complete dataset.
 -  **Clean**: There were few (preferably zero) errors during data collection.
 
    - Data collection errors include HTTP 500 error responses and Kingfisher Collect exceptions. They don't include errors in the data itself like structural errors.
 
--  **Complete**: The data is not test data, sample data, or otherwise a subset of the complete dataset.
 -  **Periodic**: The data was collected at least 30 days after the most recently retained data for the data source. In other words, we retain at most one collection per month per source.
 
 Whenever we retain data for a given source for the first time in each calendar year, we can delete all but the first collection for that source from the prior year.
