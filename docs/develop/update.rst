@@ -3,14 +3,7 @@ Make changes
 
 Most changes are deployed when :doc:`deploying a service<../deploy/deploy>`. However, some changes require :doc:`additional steps<../deploy/update>`.
 
-1. Update private templates
----------------------------
-
-If you add, remove or rename a file or variable in ``pillar/private`` or ``salt/private``, replicate the changes in ``pillar/private-templates`` or ``salt/private-templates``.
-
-This allows others to use this repository to, for example, deploy Kingfisher to their own servers.
-
-2. Test changes
+1. Test changes
 ---------------
 
 To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
@@ -74,7 +67,7 @@ Using a virtual machine
 
 Note that Python errors that occur on the virtual machine might still be reported to Sentry. The ``server_name`` tag in any error reports is expected to be different, but the error reports might still confuse other developers who don't know to check that tag.
 
-3. Review code
+2. Review code
 --------------
 
 For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.

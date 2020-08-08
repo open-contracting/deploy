@@ -31,14 +31,6 @@ You must first have access to two private repositories. Contact an owner of the 
     git clone git@github.com:open-contracting/deploy-salt-private.git deploy/salt/private
     git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
 
-Note: This documentation is for working with OCP servers. If you want to work with other servers, then instead of cloning the private repositories, copy and edit the template directories:
-
-.. code-block:: bash
-
-    git clone git@github.com:open-contracting/deploy.git
-    cp -r deploy/pillar/private-templates deploy/pillar/private
-    cp -r deploy/salt/private-templates deploy/salt/private
-
 3. Add public key to remote servers
 -----------------------------------
 
