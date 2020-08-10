@@ -56,6 +56,7 @@ Delete a cron job
 ~~~~~~~~~~~~~~~~~
 
 #. Change ``cron.present`` to ``cron.absent`` in the Salt state
+#. Deploy the relevant service
 #. Delete the Salt state
 
 Delete a service
