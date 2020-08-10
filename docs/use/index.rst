@@ -7,11 +7,13 @@ User Guides
 
 .. note::
 
-   Is a service producing unexpected errors and interfering with your work? Please open an issue in the relevant `GitHub <https://github.com/open-contracting>`__ repository (or the `deploy <https://github.com/open-contracting/deploy>`__ repository if you don't know). If urgent, contact James McKinney via Signal, WhatsApp or Google Hangouts. If absent, use the CRM to contact:
+   Is a service producing unexpected errors and interfering with your work? Please open an issue in the relevant `GitHub <https://github.com/open-contracting>`__ repository (or the `deploy <https://github.com/open-contracting/deploy>`__ repository if you don't know). Please follow this `issue template <https://github.com/open-contracting/deploy/issues/new?assignees=jpmckinney&template=critical-service-error.md&title=Critical+service+error>`__.
 
-     -  Centro de Desarrollo Sostenible about Kingfisher Collect and Toucan
-     -  Dogsbody about Redmine CRM and PostgreSQL replica
-     -  Datlab about Pelican
+   If urgent, contact James McKinney via Signal, WhatsApp or Google Hangouts. If absent, use the CRM to contact:
+
+   -  Centro de Desarrollo Sostenible about Kingfisher Collect and Toucan
+   -  Dogsbody about Redmine CRM and PostgreSQL replica
+   -  Datlab about Pelican
 
    For any gaps in responsibility, open a ticket in the CRM for Lindsey Marchessault to coordinate.
 
