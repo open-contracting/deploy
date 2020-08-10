@@ -295,14 +295,6 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - hour: 2
     - dayweek: 5
 
-cd {{ ocdskingfisherviewsdir }}; . .ve/bin/activate; python ocdskingfisher-views-cli refresh-views --logfile=~/refresh-view.log; python ocdskingfisher-views-cli field-counts --threads=5 --logfile=~/fields-counts.log:
-  # Change to cron.present when ready to restore functionality.
-  cron.absent:
-    - identifier: OCDS_KINGFISHER_VIEWS_RUN
-    - user: {{ user }}
-    - minute: 0
-    - hour: 22
-
 # Need to manually reload this service - the library code should really do this for us
 reload_uwsgi_service:
   cmd.run:
