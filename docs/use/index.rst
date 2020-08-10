@@ -3,7 +3,7 @@ User Guides
 
 .. note::
 
-   Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out? Please open a ticket in the CRM's `Internal <https://crm.open-contracting.org/projects/ocds/issues?set_filter=1&tracker_id=7>`__ tracker, and send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
+   Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out? Open a ticket in the CRM's `Internal <https://crm.open-contracting.org/projects/ocds/issues?set_filter=1&tracker_id=7>`__ tracker, and send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
 
 .. note::
 
