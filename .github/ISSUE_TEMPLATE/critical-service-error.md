@@ -1,7 +1,7 @@
 ---
-name: Service unavailable
+name: Critical service error
 about: A service is producing unexpected errors and interfering with your work.
-title: Service unavailable
+title: Critical service error
 assignees: jpmckinney
 
 ---
