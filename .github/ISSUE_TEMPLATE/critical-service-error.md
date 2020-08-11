@@ -12,7 +12,7 @@ If yes, instead of creating a GitHub issue, open a CRM ticket in the Internal (h
 
 **Which service is affected?**
 
-Please provide its name, URL and version, if available.
+Please provide its name, URL and version (if available).
 
 **What were you trying to do?**
 
@@ -20,7 +20,7 @@ Please list *every* specific step to reproduce the error. Assume the reader is u
 
 **What error did you receive?**
 
-Please provide the entire output, error message and stacktrace, if available. Do not omit any output, as this will delay resolution.
+Please provide the entire output, error message and stacktrace, if available. Do not omit any output, as this will delay resolution. If part of the output is large, attach it to the issue instead (you might need to save as TXT or ZIP).
 
 **What is your environment?**
 
@@ -29,3 +29,5 @@ Where relevant, please provide: web browser name and version, operating system n
 **Did you attempt a fix?**
 
 If so, please describe what you did.
+
+**How soon do you need a fix?**
