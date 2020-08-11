@@ -3,6 +3,10 @@ Kingfisher Collect
 
 Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
+.. note::
+
+   Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
+
 Review a new publication
 ------------------------
 

@@ -3,6 +3,10 @@ Kingfisher Process
 
 Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
+.. note::
+
+   Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
+
 .. _kingfisher-process-review-log-files:
 
 Review log files

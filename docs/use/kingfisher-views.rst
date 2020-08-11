@@ -3,6 +3,10 @@ Kingfisher Views
 
 Read the `Kingfisher Views <https://kingfisher-views.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
 
+.. note::
+
+   Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
+
 .. _kingfisher-views-review-log-files:
 
 Review log files
