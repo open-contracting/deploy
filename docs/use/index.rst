@@ -9,14 +9,13 @@ User Guides
 
    Is a service producing unexpected errors and interfering with your work? Please open an issue in the relevant `GitHub <https://github.com/open-contracting>`__ repository (or the `deploy <https://github.com/open-contracting/deploy>`__ repository if you don't know), following this `issue template <https://github.com/open-contracting/deploy/issues/new?assignees=jpmckinney&template=critical-service-error.md&title=Critical+service+error>`__.
 
-   If urgent, contact James McKinney (Toronto) via email, Signal, WhatsApp or Google Hangouts. If you receive an email auto-reply, use the CRM to contact:
+   If urgent, contact James McKinney (Ontario) via email, Signal, WhatsApp or Google Hangouts (details in CRM). If you receive an email auto-reply, use the CRM to contact:
 
    -  Centro de Desarrollo Sostenible (Paraguay) about Kingfisher Collect and Toucan
    -  Datlab (Czech Republic) about Pelican
    -  Dogsbody Technology Ltd (UK) about Redmine CRM and PostgreSQL replica
-   -  Open Data Services (UK) about Data Review Tool, Kingfisher Views, Kingfisher Colab
-
-   For any gaps in responsibility, open a ticket in the CRM for Lindsey Marchessault to coordinate.
+   -  Open Data Services (UK) about Data Review Tool, Kingfisher Views and Kingfisher Colab
+   -  Lindsey Marchessault (Alberta) for anything else
 
 .. toctree::
 
