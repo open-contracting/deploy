@@ -1,6 +1,7 @@
 # Private repositories
 /pillar/private
 /salt/private
+/salt/maintenance
 # Files created by script/setup
 /salt-config/master.d
 /salt-config/pki
