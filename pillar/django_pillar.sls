@@ -16,6 +16,7 @@ django:
   env:
     DEBUG: 'False'
     LANG: en_US.utf8
+    DJANGO_ENV: production
     # ALLOWED_HOSTS:
 uwsgi:
   # If larger_limits is set to True, the app-specific Pillar file must set uwsgi.limit_as and uwsgi.harakiri.
