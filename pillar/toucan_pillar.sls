@@ -9,3 +9,4 @@ django:
   app: ocdstoucan
   env:
     ALLOWED_HOSTS: toucan.open-contracting.org
+    TOUCAN_ENV: production
