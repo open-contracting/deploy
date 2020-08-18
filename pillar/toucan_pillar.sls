@@ -9,3 +9,4 @@ django:
   app: ocdstoucan
   env:
     ALLOWED_HOSTS: toucan.open-contracting.org
+    GOOGLE_ANALYTICS_ID: UA-35677147-3
