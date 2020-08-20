@@ -119,70 +119,70 @@ Note: `"You can't give an Aurora Serverless DB cluster a public IP address." <ht
 Create a VPC
 ~~~~~~~~~~~~
 
-1. Set *IPv4 CIDR block* to 10.0.0.0/16
-1. Click *Create*
+#. Set *IPv4 CIDR block* to 10.0.0.0/16
+#. Click *Create*
 
 Reference: `Create a DB instance in the VPC <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
 
 Create subnets
 ~~~~~~~~~~~~~~
 
-1. Set *VPC* to the created VPC
-1. Set *Availability Zone* to any zone
-1. Set *IPv4 CIDR block* to 10.0.1.0/24
-1. Click *Create*
+#. Set *VPC* to the created VPC
+#. Set *Availability Zone* to any zone
+#. Set *IPv4 CIDR block* to 10.0.1.0/24
+#. Click *Create*
 
 Then:
 
-1. Set *VPC* to the created VPC
-1. Set *Availability Zone* to another zone
-1. Set *IPv4 CIDR block* to 10.0.2.0/24
-1. Click *Create*
+#. Set *VPC* to the created VPC
+#. Set *Availability Zone* to another zone
+#. Set *IPv4 CIDR block* to 10.0.2.0/24
+#. Click *Create*
 
 Create security group
 ~~~~~~~~~~~~~~~~~~~~~
 
-1. Set *Security group name* to "postgresql-anywhere"
-1. Set *Description* to "Allows PostgreSQL connections from anywhere"
-1. Click *Add rule* under *Inbound rules*
-1. Set *Type* to "PostgreSQL"
-1. Set *Source* to "Anywhere"
-1. Click *Create security group*
+#. Set *Security group name* to "postgresql-anywhere"
+#. Set *Description* to "Allows PostgreSQL connections from anywhere"
+#. Click *Add rule* under *Inbound rules*
+#. Set *Type* to "PostgreSQL"
+#. Set *Source* to "Anywhere"
+#. Click *Create security group*
 
 Create database
 ~~~~~~~~~~~~~~~
 
-1. Choose a database creation method: (no changes)
-1. Engine options
+#. Choose a database creation method: (no changes)
+#. Engine options
 
-   1. *Engine type*: Amazon Aurora
-   1. *Edition*: Amazon Aurora with PostgreSQL compatibility
-   1. *Version*: Aurora PostgreSQL (compatible with PostgreSQL 10.7)
+   #. *Engine type*: Amazon Aurora
+   #. *Edition*: Amazon Aurora with PostgreSQL compatibility
+   #. *Version*: Aurora PostgreSQL (compatible with PostgreSQL 10.7)
 
-1. Database features: Serverless
-1. Settings: (no changes)
-1. Capacity settings
+#. Database features: Serverless
+#. Settings: (no changes)
+#. Capacity settings
 
-   1. *Minimum Aurora capacity unit*: 2
-   1. *Maximum Aurora capacity unit*: 2
-   1. Expand *Additional scaling configuration*
-   1. Check *Pause compute capacity after consecutive minutes of inactivity*
-   1. Set to *1* hours 0 minutes 0 seconds
+   #. *Minimum Aurora capacity unit*: 2
+   #. *Maximum Aurora capacity unit*: 2
+   #. Expand *Additional scaling configuration*
+   #. Check *Pause compute capacity after consecutive minutes of inactivity*
+   #. Set to *1* hours 0 minutes 0 seconds
 
-1. Connectivity
+#. Connectivity
 
-   1. *Virtual private cloud (VPC)*: Select the created VPC
-   1. Expand *Additional connectivity configuration*
-   1. *VPC security group*:
+   #. *Virtual private cloud (VPC)*: Select the created VPC
+   #. Expand *Additional connectivity configuration*
+   #. *VPC security group*:
 
-      1. Select the created group
-      1. Remove the default group
+      #. Select the created group
+      #. Remove the default group
 
-   1. Check *Data API*
+   #. Check *Data API*
 
-1. Additional configuration
+#. Additional configuration
 
-   1. *Initial database name*: common
-   1. *Backup retention period*: 1 day
+   #. *Initial database name*: common
+   #. *Backup retention period*: 1 day
 
-1. Click *Create database*
+#. Click *Create database*
