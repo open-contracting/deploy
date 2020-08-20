@@ -5,14 +5,14 @@ Deployment Guides
    :caption: Generic tasks
 
    setup.rst
-   deploy.rst
    create_server.rst
+   deploy.rst
    update.rst
    packages.rst
-   delete_server.rst
-   maintain.rst
    postgres.rst
    databases.rst
+   maintain.rst
+   delete_server.rst
 
 .. toctree::
    :caption: Service-specific tasks
