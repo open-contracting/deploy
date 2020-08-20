@@ -66,12 +66,12 @@ Get all schema sizes:
    SELECT schema_name,
           schema_size,
           pg_size_pretty(schema_size),
-          TRUNC((schema_size::numeric / pg_database_size(current_database())) * 100, 2) AS percent
+          TRUNC(schema_size::numeric / pg_database_size(current_database()) * 100, 2) AS percent
    FROM (
-     SELECT pg_catalog.pg_namespace.nspname AS schema_name,
-            SUM(pg_relation_size(pg_catalog.pg_class.oid))::bigint AS schema_size
-     FROM pg_catalog.pg_class
-     JOIN pg_catalog.pg_namespace ON relnamespace = pg_catalog.pg_namespace.oid
+     SELECT nspname AS schema_name,
+            SUM(pg_relation_size(c.oid))::bigint AS schema_size
+     FROM pg_class c
+     JOIN pg_namespace n ON c.relnamespace = n.oid
      GROUP BY schema_name
    ) t
    ORDER BY schema_size DESC;
