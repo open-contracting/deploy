@@ -123,3 +123,9 @@ Show autovacuum statistics
    ORDER BY percent DESC, last_autovacuum;
 
 See the `pg_stat_all_tables <https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ALL-TABLES-VIEW>`__ table's documentation.
+
+To find the table related to a ``pg_toast_*`` table, take the number after ``pg_toast_``, and run, for example:
+
+.. code-block:: sql
+
+   SELECT '16712'::regclass;
