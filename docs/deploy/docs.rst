@@ -69,7 +69,12 @@ To configure a documentation repository to push builds to the :doc:`staging serv
 Publish released documentation
 ------------------------------
 
-If this is the first numbered version of a profile, in its ``docs/_templates/layout.html``, add:
+1. Update the documentation repository
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Follow the OCDS Development Handbook's `deployment guide <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html>`__.
+
+If this is the first numbered version of a profile, in its ``docs/_templates/layout.html``, add (substituting ``{root}`` with ``ppp``, for example):
 
 .. code-block:: none
 
@@ -79,7 +84,7 @@ If this is the first numbered version of a profile, in its ``docs/_templates/lay
 
 In any case, once the `build passes <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#build>`__ for the live branch of the documentation:
 
-1. Copy the files to the live server
+2. Copy the files to the live server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Each deployment of each branch is given its own directory on the live server, named according to the format ``branch-date-sequence``, for example: ``1.1-2017-08-08-2``. A symlink named after each branch links to the directory to publish for that branch. In this way, you can rollback a deployment by changing the symlink.
@@ -115,7 +120,7 @@ Symlink the branch:
 
 If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
 
-2. Copy the schema and ZIP file into place
+3. Copy the schema and ZIP file into place
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -173,7 +178,7 @@ For a **profile's** documentation, run:
    # Copy the patched schema and codelist files.
    cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/_static/patched/* /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
 
-3. Update this repository
+4. Update this repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -234,3 +239,8 @@ If this is a new major or minor version:
    .. code-block:: html
 
       <option value="0.9">0.9.2</option>
+
+5. Update other repositories
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+`Update the Data Review Tool <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#update-the-data-review-tool>`__ and any other tools per `this spreadsheet <https://docs.google.com/spreadsheets/d/18Pq5Hyyk4bNQ_mIaCRqGqwut4ws2_cIh0UYQNAYKv-A/edit#gid=0>`__. (See `sample CRM issue <https://crm.open-contracting.org/issues/4580>`__.)
