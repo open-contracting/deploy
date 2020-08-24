@@ -47,6 +47,9 @@ base:
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
     - tinyproxy_pillar
+  
+  'kingfisher-process1':
+    - kingfisher_process1_maintenance
 
   'kingfisher-replica*':
     - ocdskingfisher_replica_live_pillar
