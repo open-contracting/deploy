@@ -7,35 +7,42 @@ base:
 
   'ocds-docs-live':
     - ocds_docs_live_pillar
+    - ocds_docs_live_maintenance
 
   'ocds-docs-staging':
     - ocds_docs_staging_pillar
     - tinyproxy_pillar
+    - ocds_docs_staging_maintenance
 
   'standard-search':
     - django_pillar
     - standard_search_pillar
     - private.standard_search_pillar
+    - standard-search_maintenance
 
   'toucan':
     - django_pillar
     - toucan_pillar
     - private.toucan_pillar
+    - toucan_maintenance
 
   'kingfisher-archive':
     - ocdskingfisher_archive_live_pillar
+    - ocdskingfisher_archive_maintenance
 
   'cove-live-oc4ids':
     - django_pillar
     - cove_pillar
     - cove_oc4ids_live_pillar
     - private.cove_oc4ids_live_pillar
+    - cove_oc4ids_live_maintenance
 
   'cove-live-ocds-3':
     - django_pillar
     - cove_pillar
     - cove_ocds_live3_pillar
     - private.cove_ocds_live_pillar
+    - cove_ocds_live3_maintenance
 
   'cove-dev-*':
     - django_pillar
@@ -50,6 +57,11 @@ base:
 
   'kingfisher-replica*':
     - ocdskingfisher_replica_live_pillar
+    - ocdskingfisher_replica1_maintenance
+
+  'prometheus'
+    - prometheus_maintenance 
 
   'redash2':
     - redash
+    - redash2_maintenance
