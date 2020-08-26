@@ -23,13 +23,14 @@ You must use Salt with Python 3. If your system package uses Python 2, install s
 2. Clone repositories
 ---------------------
 
-You must first have access to two private repositories. Contact an owner of the open-contracting organization on GitHub for access. Then:
+You must first have access to three private repositories. Contact an owner of the open-contracting organization on GitHub for access. Then:
 
 .. code-block:: bash
 
     git clone git@github.com:open-contracting/deploy.git
     git clone git@github.com:open-contracting/deploy-salt-private.git deploy/salt/private
     git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
+    git clone git@github.com:open-contracting/dogsbody-maintenance.git deploy/salt/maintenance
 
 3. Add public key to remote servers
 -----------------------------------

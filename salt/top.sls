@@ -64,3 +64,11 @@ base:
   'prometheus':
     - prometheus-client-apache
     - prometheus-server
+
+  'maintenance:enabled:true':
+    - match: pillar
+    - maintenance.hardware_sensors
+    - maintenance.patching
+    - maintenance.postgres_monitoring
+    - maintenance.raid_monitoring
+    - maintenance.rkhunter
