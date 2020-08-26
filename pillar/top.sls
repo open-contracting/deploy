@@ -62,7 +62,7 @@ base:
     - ocdskingfisher_replica_live_pillar
     - ocdskingfisher_replica1_maintenance
 
-  'prometheus'
+  'prometheus':
     - prometheus_maintenance 
 
   'redash2':

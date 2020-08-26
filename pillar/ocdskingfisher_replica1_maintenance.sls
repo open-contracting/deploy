@@ -6,3 +6,4 @@ maintenance:
   hardware_sensors: true
   custom_sensors:
     - coretemp
+    - nct6775
