@@ -5,7 +5,7 @@ apache:
   servername: standard-search.open-contracting.org
   serveraliases: ['www.live.standard-search.opencontracting.uk0.bigv.io']
 git:
-  url: https://github.com/OpenDataServices/standard-search.git
+  url: https://github.com/open-contracting/standard-search.git
 django:
   app: standardsearch
   compilemessages: False
