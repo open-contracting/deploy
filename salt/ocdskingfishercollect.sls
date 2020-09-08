@@ -2,14 +2,9 @@
 
 include:
   - apache
+  - apache-proxy
 
 ocdskingfishercollect-prerequisites:
-  apache_module.enabled:
-    - names:
-      - proxy
-      - proxy_http
-    - watch_in:
-      - service: apache2
   pkg.installed:
     - pkgs:
       - supervisor
