@@ -1,7 +1,7 @@
 include:
   - apache
 
-apache_proxy_salt_file:
+apache-proxy modules:
   apache_module.enabled:
     - names:
       - proxy
