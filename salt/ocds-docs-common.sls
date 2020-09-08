@@ -10,6 +10,8 @@ ocds-docs-common modules:
       - include
       - rewrite
       - substitute
+    - watch_in:
+      - service: apache2
 
 # Create directory into which files are copied into place.
 /home/{{ user }}/web/:
