@@ -15,18 +15,18 @@ base:
     - core.systemd
 
   'ocds-docs-staging':
-    - prometheus-client-apache
     - ocds-docs-staging
     - tinyproxy
+    - prometheus-client-apache
 
   'ocds-docs-live':
-    - prometheus-client-apache
     - ocds-docs-live
     - ocds-legacy
+    - prometheus-client-apache
 
   'standard-search':
-    - prometheus-client-apache
     - standard-search
+    - prometheus-client-apache
 
   'redash2':
     - redash
@@ -62,8 +62,8 @@ base:
     - postgres
 
   'prometheus':
-    - prometheus-client-apache
     - prometheus-server
+    - prometheus-client-apache
 
   'maintenance:enabled:true':
     - match: pillar
