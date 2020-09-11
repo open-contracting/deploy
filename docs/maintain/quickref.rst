@@ -1,4 +1,4 @@
-Quick Reference
+Quick reference
 ===============
 
 .. _tmux:
