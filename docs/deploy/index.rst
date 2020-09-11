@@ -8,10 +8,7 @@ Deployment Guides
    create_server.rst
    deploy.rst
    update.rst
-   packages.rst
    postgres.rst
-   databases.rst
-   maintain.rst
    delete_server.rst
 
 .. toctree::
@@ -22,7 +19,6 @@ Deployment Guides
    docs.rst
    kingfisher.rst
    redash.rst
-
 
 .. toctree::
    :caption: External service tasks

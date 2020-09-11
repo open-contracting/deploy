@@ -36,6 +36,16 @@ All changes to servers should be made using Salt to ensure that changes are docu
 
    deploy/index.rst
 
+Maintenance Guides
+------------------
+
+This section describes how to perform tasks that don't involve changes in Salt.
+
+.. toctree::
+   :maxdepth: 2
+
+   maintain/index.rst
+
 User Guides
 -----------
 
