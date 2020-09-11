@@ -20,14 +20,14 @@ root_toucan:
 
 {% from 'lib.sls' import apache %}
 
-find /home/ocdskit-web/ocdskit-web/media -mindepth 2 -mtime +1 -exec rm {} \;:
+find /home/ocdskit-web/ocdskit-web/media -mindepth 2 -mtime +1 -delete:
   cron.present:
     - identifier: OCDS_TOUCAN_CLEAR_MEDIA_1
     - user: {{ pillar.user }}
     - minute: 0
     - hour: 0
 
-find /home/ocdskit-web/ocdskit-web/media -mindepth 1 -type d -print | xargs rmdir 2>/dev/null:
+find /home/ocdskit-web/ocdskit-web/media -mindepth 1 -type d -empty -delete:
   cron.present:
     - identifier: OCDS_TOUCAN_CLEAR_MEDIA_2
     - user: {{ pillar.user }}
