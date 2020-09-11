@@ -1,56 +1,5 @@
-Maintain a server
-=================
-
-This page documents specific maintenance tasks. For tasks related to upgrading packages and maintaining databases, see :doc:`packages` and :doc:`databases`.
-
-At a higher level, to be responsible for servers, you should:
-
--  Subscribe to:
-
-   -  The `Servers Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/servers-status>`__ mailing list
-   -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
-   -  Hosting provider :ref:`network status announcements<hosting>`
-
--  :doc:`Upgrade packages<packages>` on a weekly basis
-
--  Check server monitoring, at a regular interval:
-
-   -  :doc:`Check the resource usage <../use/prometheus>` and decide whether to :ref:`rescale<rescale-server>` or to investigate any abnormalities
-   -  `Check the alerts configuration <https://monitor.prometheus.open-contracting.org/alerts>`__
-
--  Perform periodic server tasks, at a regular interval:
-
-   -  :ref:`Review root access<review-root-access>`
-   -  :ref:`Check mail<check-mail>`
-   -  :ref:`Clean root user directory<clean-root-user-directory>`
-   -  :doc:`Re-deploy services<deploy>` to guarantee all changes are applied (optional)
-
--  :ref:`Check that backups are made<hosting>`, at a regular interval
-
-.. _tmux:
-
-Perform a long-running operation
---------------------------------
-
-If an operation will take a long time to run, run it in a terminal multiplexer (``tmux``), in case you lose your connection to the server. To open a session in ``tmux``, use this command, replacing ``initials-task-description`` with your initials and a short description of your task. By including your initials, it is easy for others to determine to whom the session belongs – especially if you forget to close it.
-
-.. code-block:: bash
-
-   tmux new -s initials-task-description
-
-If you lose your connection to the server, re-attach to your session with:
-
-.. code-block:: bash
-
-   tmux attach-session -t initials-task-description
-
-To manually detach from a session, press ``Ctrl-b``, release both keys, then press ``d``.
-
-If you forget the name of your session, list all sessions with:
-
-.. code-block:: bash
-
-   tmux ls
+Periodic tasks
+==============
 
 .. _clean-root-user-directory:
 
@@ -154,44 +103,7 @@ To show the packages that were removed but not purged, run:
 
    salt-ssh '*' pkg.list_pkgs removed=True
 
-Restart services
-----------------
-
-To restart a service, run, for example:
-
-.. code-block:: bash
-
-   salt-ssh TARGET service.restart uwsgi
-
-To restart a service managed by `Supervisor <http://supervisord.org>`__, run, for example:
-
-.. code-block:: bash
-
-   salt-ssh TARGET supervisord.restart scrapyd
-
-To reboot a server:
-
-.. code-block:: bash
-
-   salt-ssh TARGET system.reboot
-
-Run a specific state
---------------------
-
-To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
-
-.. code-block:: bash
-
-   salt-ssh '*' state.sls_id root_authorized_keys_add core
-
 .. _rescale-server:
-
-Rescale a server
-----------------
-
-The Bytemark Panel makes it easy to scale a server (number of cores and GiB of RAM).
-
-If appropriate, update the service's ``limit-as`` uWSGI setting.
 
 Upgrade Ubuntu
 --------------
