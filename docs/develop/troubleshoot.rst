@@ -1,6 +1,36 @@
 Troubleshoot
 ============
 
+.. _increase-verbosity:
+
+Increase verbosity
+------------------
+
+.. code-block:: bash
+
+   salt-ssh -v all TARGET FUNCTION
+
+Salt hangs inexplicably
+-----------------------
+
+If you haven't previously connected to a server using SSH, then ``salt-ssh`` will log a ``TRACE``-level message like:
+
+.. code-block:: none
+
+   The authenticity of host 'example.com (101.2.3.4)' can't be established.
+   ECDSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.
+   Are you sure you want to continue connecting (yes/no/[fingerprint])?
+
+You can also experience this issue if anyone changes the hostnames in the ``salt-config/roster`` file.
+
+Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``salt-ssh`` will appear to hang.
+
+To fix this, simply connect to the server using SSH, then re-run the ``salt-ssh`` command, for example:
+
+.. code-block:: bash
+
+   ssh root@live.standard.open-contracting.org
+
 .. _watch-salt-activity:
 
 Watch Salt activity
