@@ -133,13 +133,9 @@ You will configure a master server and a replica server.
 
       echo "restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'" >> /var/lib/postgresql/11/main/recovery.conf
 
-Reference / Supporting configs 
-------------------------------
+Once you're done, the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server should look something like this:
 
-When you've finished setting up replication, the `/var/lib/postgresql/11/main/recovery.conf` should look something like the following.
-This is an extract from replica1.kingfisher.open-contracting.org.
-
-.. code-block:: text
+.. code-block:: none
 
   standby_mode = 'on'
   primary_conninfo = 'user=replica password=redacted host=process1.kingfisher.open-contracting.org port=5432 sslmode=prefer sslcompression=0 gssencmode=prefer krbsrvname=postgres target_session_attrs=any'
