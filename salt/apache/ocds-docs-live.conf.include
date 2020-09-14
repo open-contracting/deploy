@@ -8,6 +8,11 @@
                 'languages': ['en'],
                 'excludes': ['schema', 'extension'],
             },
+            '/profiles/gpa': {
+                'versions': ['master'],
+                'languages': ['en'],
+                'excludes': ['schema', 'extension'],
+            },
             '/profiles/ppp': {
                 'versions': ['latest', '1.0'],
                 'languages': ['en', 'es'],
