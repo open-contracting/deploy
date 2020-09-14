@@ -103,12 +103,12 @@ Then, login to the server and check for and delete any remaining packages, files
 Delete an Apache module
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Add a temporary Salt ID, for example:
+#. Add a temporary state, for example:
 
    .. code-block:: none
 
       headers:
-          apache_module.disabled
+        apache_module.disabled
 
 #. Deploy the relevant service, for example:
 
@@ -116,7 +116,7 @@ Delete an Apache module
 
       salt-ssh 'toucan' state.apply
 
-#. Remove the temporary salt ID
+#. Remove the temporary state
 
 Delete a virtual host
 ~~~~~~~~~~~~~~~~~~~~~
@@ -130,3 +130,64 @@ Run, for example:
    salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
+
+Delete a PostgreSQL user
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Add a temporary state, for example:
+
+   .. code-block:: none
+
+      ocdskfpguest:
+        postgres_user.absent
+
+#. Run it, for example:
+
+   .. code-block:: bash
+
+      salt-ssh 'kingfisher-process*' state.sls_id ocdskfpguest ocdskingfisherprocess
+
+#. Remove the temporary state
+
+If the state fails with "User ocdskfpguest failed to be removed":
+
+#. Connect to the server as the ``root`` user, for example:
+
+   .. code-block:: bash
+
+      ssh root@process.kingfisher.open-contracting.org
+
+#. Attempt to drop the given user as the ``postgres`` user, for example:
+
+   .. code-block:: bash
+
+      su postgres -c 'psql -c "DROP ROLE ocdskfpguest;"'
+
+#. You should see a message like:
+
+   .. code-block:: none
+
+      ERROR:  role "ocdskfpguest" cannot be dropped because some objects depend on it
+      DETAIL:  privileges for table …
+      …
+      and 1234 other objects (see server log for list)
+
+#. Open the server log, and search for the relevant ``DROP ROLE`` statement (after running the command below, press ``/``, type ``DROP ROLE``, press Enter, and press ``n`` until you match the relevant statement):
+
+   .. code-block:: bash
+
+      less /var/log/postgresql/postgresql-11-main.log
+
+#. If all the objects listed after ``DETAIL:`` in the server log can be dropped (press Space to scroll forward), then press ``q`` to quit ``less`` and open a SQL terminal as the ``postgres`` user:
+
+   .. code-block:: bash
+
+      su postgres -c psql
+
+#. Finally, delete the given user:
+
+   .. code-block:: sql
+
+      REASSIGN OWNED BY ocdskfpguest TO anotheruser;
+      DROP OWNED BY ocdskfpguest;
+      DROP ROLE ocdskfpguest;

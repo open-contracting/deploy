@@ -26,6 +26,13 @@ If you forget the name of your session, list all sessions with:
 
    tmux ls
 
+Increase verbosity
+------------------
+
+.. code-block:: bash
+
+   salt-ssh -v all TARGET FUNCTION
+
 Run a single state
 ------------------
 
