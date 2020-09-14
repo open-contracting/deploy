@@ -31,6 +31,10 @@ To fix this, simply connect to the server using SSH, then re-run the ``salt-ssh`
 
    ssh root@live.standard.open-contracting.org
 
+.. note::
+
+   It is **not recommended** to use the ``-i`` (``--ignore-host-keys``) option, as this disables strict host key checking, allowing for man-in-the-middle attacks.
+
 .. _watch-salt-activity:
 
 Watch Salt activity
