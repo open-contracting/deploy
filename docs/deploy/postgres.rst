@@ -110,3 +110,40 @@ You will configure a master server and a replica server.
       .. code-block:: bash
 
          pg_lsclusters
+
+#. Optional steps
+
+   #. Enable automatic WAL archive restoration on the replica
+
+      .. code-block:: bash
+
+         echo "restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'" >> /var/lib/postgresql/11/main/recovery.conf
+
+   #. Enable replica slots on the replica server
+
+      .. code-block:: bash
+
+         echo "primary_slot_name = 'example_unique_identifier'" >> /var/lib/postgresql/11/main/recovery.conf
+         service postgresql restart
+
+   #. Enable replica slots on the master server
+
+      .. code-block:: bash
+
+         sudo su - postgres
+         psql
+         > select * from pg_create_physical_replication_slot('example_unique_identifier');
+
+
+Reference / Supporting configs 
+------------------------------
+
+When you've finished setting up replication, the `/var/lib/postgresql/11/main/recovery.conf` should look something like the following.
+This is an extract from replica1.kingfisher.open-contracting.org.
+
+.. code-block:: text
+
+  standby_mode = 'on'
+  primary_conninfo = 'user=replica password=redacted host=process1.kingfisher.open-contracting.org port=5432 sslmode=prefer sslcompression=0 gssencmode=prefer krbsrvname=postgres target_session_attrs=any'
+  restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'
+  primary_slot_name = 'replica1'
