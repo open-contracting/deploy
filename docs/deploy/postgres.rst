@@ -111,29 +111,27 @@ You will configure a master server and a replica server.
 
          pg_lsclusters
 
-#. Optional steps
+#. It is recommended to enable replication slots:
 
-   #. Enable automatic WAL archive restoration on the replica
-
-      .. code-block:: bash
-
-         echo "restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'" >> /var/lib/postgresql/11/main/recovery.conf
-
-   #. Enable replica slots on the replica server
+   #. On the replica server:
 
       .. code-block:: bash
 
          echo "primary_slot_name = 'example_unique_identifier'" >> /var/lib/postgresql/11/main/recovery.conf
          service postgresql restart
 
-   #. Enable replica slots on the master server
+   #. On the master server:
 
       .. code-block:: bash
 
-         sudo su - postgres
-         psql
-         > select * from pg_create_physical_replication_slot('example_unique_identifier');
+         su - postgres
+         psql -c "SELECT * FROM pg_create_physical_replication_slot('example_unique_identifier');"
 
+#. (Optional) Enable automatic WAL archive restoration on the replica server:
+
+   .. code-block:: bash
+
+      echo "restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'" >> /var/lib/postgresql/11/main/recovery.conf
 
 Reference / Supporting configs 
 ------------------------------
