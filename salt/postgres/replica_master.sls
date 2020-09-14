@@ -3,6 +3,9 @@
 # Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
+
+# Replica slots should make sure that enough WAL segments in pg_wal/pg_xlog. 
+# In case replica slots are not set up and as a fallback we are also creating an archive directory and storing the last 7 days worth of WAL archives.
 /var/lib/postgresql/{{ pg_version }}/main/archive/:
   file.directory:
     - user: postgres
