@@ -37,7 +37,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
 -  `Linode <https://cloud.linode.com/>`__ for the `Helpdesk CRM <https://crm.open-contracting.org>`__
 
-   -  `Network status <https://status.linode.com/>`__: We subscribe to only: Regions: EU-West (London), Backups: EU-West (London) Backups.
+   -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access. The 'opencontracting' user has limited access.
    -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
 
