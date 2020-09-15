@@ -134,6 +134,12 @@ You might also delete the SSL certificates as when :ref:`changing server name<ch
 Delete a PostgreSQL user
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
+#. Connect to the Kingfisher database, and delete the given user from the ``views.read_only_user`` table, for example:
+
+   .. code-block:: sql
+
+      DELETE FROM views.read_only_user WHERE username = 'ocdskfpguest';
+
 #. Add a temporary state, for example:
 
    .. code-block:: none
@@ -141,7 +147,7 @@ Delete a PostgreSQL user
       ocdskfpguest:
         postgres_user.absent
 
-#. Run it, for example:
+#. Run the temporary state, for example:
 
    .. code-block:: bash
 
