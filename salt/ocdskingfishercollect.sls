@@ -24,7 +24,8 @@ ocdskingfishercollect-prerequisites:
 
 {{ scrapyddir }}requirements.txt:
   file.managed:
-    - source: salt://ocdskingfishercollect/scrapyd-requirements.txt
+    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
+    - skip_verify: True
     - user: {{ user }}
     - group: {{ user }}
     - mode: 0444
@@ -37,8 +38,18 @@ ocdskingfishercollect-prerequisites:
     - user: {{ user }}
     - system_site_packages: False
     - cwd: {{ scrapyddir }}
-    - requirements: {{ scrapyddir }}requirements.txt
+    - pip_pkgs:
+        - pip-tools
     - require:
+      - file: {{ scrapyddir }}
+
+{{ scrapyddir }}-requirements:
+  cmd.run:
+    - name: source .ve/bin/activate; pip-sync
+    - runas: {{ user }}
+    - cwd: {{ scrapyddir }}
+    - require:
+      - virtualenv: {{ scrapyddir }}.ve/
       - file: {{ scrapyddir }}requirements.txt
 
 {{ scrapyddir }}dbs:
