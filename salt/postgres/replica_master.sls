@@ -28,7 +28,7 @@
 
 # Using file.append rather than the salt cron module.
 # Because system crons are easier to find if they are all stored in /etc.
-/etc/cron.d/replica_monitoring:
+/etc/cron.d/postgres_archive_cleanup:
   file.append:
     - text: |
         MAILTO=root
