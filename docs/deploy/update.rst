@@ -167,7 +167,7 @@ If the state fails with "User ocdskfpguest failed to be removed":
 
    .. code-block:: bash
 
-      su postgres -c 'psql -c "DROP ROLE ocdskfpguest;"'
+      su - postgres -c 'psql -c "DROP ROLE ocdskfpguest;"'
 
 #. You should see a message like:
 
@@ -188,7 +188,7 @@ If the state fails with "User ocdskfpguest failed to be removed":
 
    .. code-block:: bash
 
-      su postgres -c psql
+      su - postgres -c psql
 
 #. Finally, delete the given user:
 
