@@ -318,3 +318,14 @@ kfp_postgres_set_random_page_cost:
   cmd.run:
     - name: psql -c "ALTER TABLESPACE pg_default SET (random_page_cost = 2)"
     - runas: postgres
+
+
+# https://github.com/open-contracting/deploy/issues/117
+kingfisher_views_postgres_extensions:
+  postgres_extension.present:
+    - name: tablefunc
+    - user: postgres
+    - if_not_exists: True
+    - require:
+      - postgresql
+
