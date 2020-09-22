@@ -58,8 +58,11 @@ django-deps:
     - force_reset: True
     - require:
       - pkg: git
-    - watch_in:
-      - service: uwsgi
+    # we do NOT have:
+    #- watch_in:
+    #  - service: uwsgi
+    # because the Python virtual env may be out of date at this point. See the virtual env state later in this file.
+    # https://github.com/open-contracting/deploy/issues/146
 
 # We have seen different permissions on different servers, and we have seen bugs arise as a result.
 # (This won't ensure permissions are correct on new files, but it will fix any existing problems.)
@@ -93,6 +96,15 @@ pip_install_requirements:
     - cwd: {{ djangodir }}
     - require:
       - virtualenv: {{ djangodir }}.ve/
+    # If there are changes to git repo, we want to run this command to update Python Env.
+    # After we want to restart uwsgi so it runs with latest code AND environment.
+    # watch_in will trigger the restart - because a cmd.run always counts as changed, it will always trigger
+    # So we need onchanges here, so this only runs (and uwsgi only restarts) when there actually are changes.
+    # https://github.com/open-contracting/deploy/issues/146
+    - onchanges:
+      - git: {{ pillar.git.url }}{{ djangodir }}
+    - watch_in:
+      - service: uwsgi
 
 migrate:
   cmd.run:
@@ -100,6 +112,7 @@ migrate:
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
+      # Because pip_install_requirements only runs if git changes, this command does not run unless git changes
       - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
@@ -111,6 +124,7 @@ compilemessages:
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
+      # Because pip_install_requirements only runs if git changes, this command does not run unless git changes
       - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
@@ -122,6 +136,7 @@ collectstatic:
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
+      # Because pip_install_requirements only runs if git changes, this command does not run unless git changes
       - cmd: pip_install_requirements
     - onchanges:
       - git: {{ pillar.git.url }}{{ djangodir }}
