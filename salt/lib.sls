@@ -32,7 +32,7 @@
 
 
 # It is safe to set `serveraliases=[]`, because the default argument is never mutated.
-{% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='') %}
+{% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='', ports=[]) %}
 
 {% if name == '' %}
 {% set name = conffile %}
@@ -42,7 +42,17 @@
 {% set servername = grains.fqdn %}
 {% endif %}
 
-{% if https == 'both' or https == 'force' or https == 'certonly' %}
+{% if ports == [] %}
+    {% if https == 'both' or https == 'force' %}
+        {% set ports = [ '80', '443' ] %}
+    {% else %} {# https == 'certonly' or turned off #}
+        {% set ports = [ '80' ] %}
+    {% endif %}
+    {# Note there is a third https mode, certonly! But it is NOT used in setting myportlist #}
+    {# In this mode we want to setup /.well-known/acme-challenge BUT NOT the actual SSL site #}
+    {# This mode is used when we don't currently have SSL certs but want them. #}
+    {# So we can't enable the SSL site (because no certs) but we do want /.well-known/acme-challenge #}
+{% endif %}
 
 /etc/apache2/sites-available/{{ name }}.include:
   file.managed:
@@ -52,7 +62,7 @@
     - watch_in:
       - service: apache2
     - context:
-        https: {{ https }}
+        https: "{{ https }}"
         {{ extracontext|indent(8) }}
 
 /etc/apache2/sites-available/{{ name }}:
@@ -63,11 +73,16 @@
     - watch_in:
       - service: apache2
     - context:
-        includefile: {{ name }}.include
+        myportlist: {{ ports|yaml }}
+        includefile: /etc/apache2/sites-available/{{ name }}.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
-        https: {{ https }}
+        https: "{{ https }}"
         {{ extracontext|indent(8) }}
+    - require:
+      - file: /etc/apache2/sites-available/{{ name }}.include
+
+{% if https == 'both' or https == 'force' or https == 'certonly' %}
 
 {% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
 
@@ -88,22 +103,6 @@
       - file: /var/www/html/.well-known/acme-challenge
     - watch_in:
       - service: apache2
-
-{% else %}
-
-/etc/apache2/sites-available/{{ name }}:
-  file.managed:
-    - source: salt://apache/{{ conffile }}
-    - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: apache2
-    - context:
-        includefile: /etc/apache2/sites-available/{{ name }}.include
-        servername: {{ servername }}
-        serveraliases: {{ serveraliases|yaml }}
-        https: "{{ https }}"
-        {{ extracontext|indent(8) }}
 
 {% endif %}
 

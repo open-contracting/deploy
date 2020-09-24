@@ -17,13 +17,13 @@ prometheus-client modules:
 
 {% set extracontext %}
 user: {{ user }}
-apache_port: {{ pillar.prometheus.client_port }}
 {% endset %}
 
 {{ apache('prometheus-client.conf',
     name='prometheus-client.conf',
     extracontext=extracontext,
-    servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn) }}
+    servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
+    ports=[pillar.prometheus.client_port]) }}
 
 prometheus-client-apache-password:
   cmd.run:

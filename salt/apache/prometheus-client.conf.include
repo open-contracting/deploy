@@ -1,11 +1,5 @@
 # vi: ft=apache
 
-{% if apache_port != 80 %}
-Listen {{ apache_port }}
-{% endif %}
-
-<VirtualHost *:{{ apache_port }}>
-        ServerName {{ servername }}
 
         <Location "/">
 
@@ -17,4 +11,3 @@ Listen {{ apache_port }}
             require valid-user
 
         </Location>
-</VirtualHost>

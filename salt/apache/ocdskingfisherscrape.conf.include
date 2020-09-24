@@ -1,10 +1,5 @@
 # vi: ft=apache
 
-<VirtualHost *:80>
-        ServerName {{ servername }}
-        {% for myalias in serveraliases %}
-            ServerAlias {{ myalias }}
-        {% endfor %}
         DocumentRoot /home/ocdskfs/scrapyd/
         Timeout 600
         ProxyTimeout 600
@@ -16,4 +11,3 @@
                 AuthUserFile /home/ocdskfs/htpasswd
                 require valid-user
         </Location>
-</VirtualHost>
