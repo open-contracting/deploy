@@ -37,11 +37,15 @@
 #
 #     PRIVATESMTPSERVER=yes   <- Allow trusted systems and admins access to Port 25
 #
-#     POSTGRESSERVER=yes <- Allow trusted systems and admins access to Port 3306
-#     
-#     Web server IP's for DB servers to allow
-#     WEBSERVERIPS=""
+#     PUBLICPOSTGRESSERVER=yes <- Allow public access to Port 5432
+#     PRIVATEPOSTGRESSERVER=yes <- Allow trusted systems and admins access to Port 5432
 #
+#     TINYPROXYSERVER=yes <- Allow public access to Port 8888
+#
+#     PROMETHEUSCLIENTACCESS=yes <- Allow the prometheus server access to port 7231
+#
+#     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
+#     
 #     Other settings below can also be overridden in firewall-settings.local
 #
 set -eu
@@ -56,13 +60,13 @@ ADMIN6IPS="trusted6.dogsbody.com"
 ALLOWALL=""
 ALLOW6ALL=""
 
-# Access only to DB port
-DATABASEONLYIPS=""
-
 # Blindly BLOCK connections from these IP addresses
 # For seriously bad offenders that we don't want on our servers at all
 BLOCKALL=""
 BLOCK6ALL=""
+
+# Prometheus server IPs
+PROMETHEUSACCESS="213.138.113.219"
 
 # Paths to executables and files
 IPTABLES="/sbin/iptables"
@@ -335,6 +339,32 @@ if [ "$PRIVATEPOSTGRESSERVER" == "yes" ]; then
     done
 fi
 
+## Tiny proxy server
+if [ "$TINYPROXYSERVER" == "yes" ]; then
+    echo_interactive "Public Tiny proxy access"
+    $IPTABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
+    $IP6TABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
+fi
+
+## Prometheus Client Access
+if [ "$PROMETHEUSCLIENTACCESS" == "yes" ]; then
+    echo_interactive "Private prometheus client access"
+    for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $PROMETHEUSACCESS; do
+        $IPTABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
+    done
+    for IP in $LOCAL6IPS $ADMIN6IPS $ADDADMIN6IPS $SYSTEM6IPS $PROMETHEUS6ACCESS; do
+        $IP6TABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
+    done
+fi
+
+## Elastic search server
+if [ "$ELASTICSEARCHSERVER" == "yes" ]; then
+    echo_interactive "Public Elasticsearch access"
+    $IPTABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
+    $IP6TABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
+    $IPTABLES -A INPUT -p tcp --dport 9300 -j ACCEPT
+    $IP6TABLES -A INPUT -p tcp --dport 9300 -j ACCEPT
+fi
 
 echo_interactive "Updating monitoring IPs"
 if [ "$MONITORAPPBEAT" == "yes" ]; then

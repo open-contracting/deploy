@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser, apache %}
+{% from 'lib.sls' import createuser, apache, configurefirewall %}
 
 include:
   - prometheus-client-common
@@ -19,6 +19,12 @@ prometheus-client modules:
 user: {{ user }}
 apache_port: {{ pillar.prometheus.client_port }}
 {% endset %}
+
+{% if pillar.prometheus.client_port = 80 %}
+{{ configurefirewall("PUBLICHTTPSERVER") }}
+{% elif pillar.prometheus.client_port = 7231 %}
+{{ configurefirewall("PROMETHEUSCLIENTACCESS=yes") }}
+{% endif %}
 
 {{ apache('prometheus-client.conf',
     name='prometheus-client.conf',
