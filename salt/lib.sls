@@ -1,5 +1,15 @@
 # Defines common macros.
 
+{% macro configurefirewall(setting_name,setting_value="yes") %}
+configure firewall setting {{ setting_name }}:
+  file.replace:
+    - name:  /home/sysadmin-tools/firewall-settings.local
+    - pattern: "{{ setting_name }}=.*"
+    - repl: "{{ setting_name }}=\"{{setting_value}}\""
+    - append_if_not_found: True
+    - backup: ""
+{% endmacro %}
+
 # Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
 {% macro createuser(user, auth_keys_files=[]) %}
 

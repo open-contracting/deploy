@@ -6,6 +6,7 @@ base:
     - core.apt
     - core.customization
     - core.fail2ban
+    - core.firewall
     - core.locale
     - core.mail
     - core.motd

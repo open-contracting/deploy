@@ -3,6 +3,7 @@
 base:
   '*':
     - common_pillar
+    - private.common_pillar
     - private.prometheus_pillar
 
   'ocds-docs-live':
