@@ -322,10 +322,14 @@ kfp_postgres_set_random_page_cost:
 
 # https://github.com/open-contracting/deploy/issues/117
 kingfisher_views_postgres_extensions:
-  postgres_extension.present:
-    - name: tablefunc
-    - user: postgres
-    - if_not_exists: True
+  cmd.run:
+    - name: >
+          psql
+          -c "
+          CREATE EXTENSION IF NOT EXISTS tablefunc;
+          "
+          ocdskingfisherprocess
+    - runas: postgres
     - require:
-      - postgresql
+      - postgres_user_and_db
 
