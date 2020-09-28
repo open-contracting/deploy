@@ -84,8 +84,6 @@ django-deps:
       - pkg: django-deps
       - git: {{ pillar.git.url }}{{ djangodir }}
       - file: set_lc_all # required to avoid unicode errors for the "schema" library
-    - watch_in:
-      - service: apache2
 
 # Due to a bug in Salt, we can't use `- requirements: {{ djangodir }}requirements.txt` in the above
 # `{{ djangodir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
