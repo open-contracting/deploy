@@ -35,6 +35,8 @@ To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/s
 
    salt-ssh '*' state.sls_id root_authorized_keys_add core
 
+.. _restart-service:
+
 Restart a service
 -----------------
 

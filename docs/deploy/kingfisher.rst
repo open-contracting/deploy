@@ -1,6 +1,17 @@
 Kingfisher tasks
 ================
 
+Restart Scrapyd
+---------------
+
+Deploying Kingfisher Collect won't restart the Scrapyd service, to avoid interrupting crawls (`see issue <https://github.com/open-contracting/kingfisher-collect/issues/485>`__).
+
+If you changed the ``requirements.txt`` file in Kingfisher Collect, you need to :ref:`restart<restart-service>` Scrapyd. After :doc:`deploying as usual<deploy>`, run:
+
+.. code-block:: bash
+
+   salt-ssh 'kingfisher-process*' supervisord.restart scrapyd
+
 .. _deploy-kingfisher-process:
 
 Deploy Kingfisher Process without losing Scrapy requests
@@ -80,19 +91,3 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
       crontab -e
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
-
-Restarting Scrapyd
-------------------
-
-When Kingfisher Collect is deployed, the scrapyd service is not restarted.
-
-This is deliberate; it is not yet configured to retain current scrapy runs between restarts.
-
-You way want to restart Scrapyd manually; for example after upgrading Scrapyd itself.
-
-First deploy as usual to make sure the server has the latest changes. Then run:
-
-.. code-block:: bash
-
-   salt-ssh kingfisher-process1 supervisord.restart scrapyd
-
