@@ -80,3 +80,19 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
       crontab -e
 
 #. Close the session with ``Ctrl-D`` and close your connection to the server.
+
+Restarting Scrapyd
+------------------
+
+When Kingfisher Collect is deployed, the scrapyd service is not restarted.
+
+This is deliberate; it is not yet configured to retain current scrapy runs between restarts.
+
+You way want to restart Scrapyd manually; for example after upgrading Scrapyd itself.
+
+First deploy as usual to make sure the server has the latest changes. Then run:
+
+.. code-block:: bash
+
+   salt-ssh kingfisher-process1 supervisord.restart scrapyd
+
