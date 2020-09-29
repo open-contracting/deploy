@@ -37,8 +37,8 @@ django-deps:
 
 {% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
 
-{{ apache('django.conf',
-    name=pillar.name + '.conf',
+{{ apache('django',
+    name=pillar.name,
     servername=pillar.apache.servername,
     serveraliases=pillar.apache.serveraliases,
     https=pillar.apache.https,

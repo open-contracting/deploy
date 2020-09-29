@@ -51,4 +51,4 @@ cron-letsencrypt-renew:
     - pkg: letsencrypt
 
 # Ensure 000-default conf exists, so it's obvious when we've typo'd something
-{{ apache('000-default.conf') }}
+{{ apache('000-default') }}

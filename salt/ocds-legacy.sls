@@ -16,4 +16,4 @@ https://github.com/OpenDataServices/opendatacomparison-archive.git:
     - watch_in:
       - service: apache2
 
-{{ apache('ocds-legacy.conf', servername='ocds.open-contracting.org') }}
+{{ apache('ocds-legacy', servername='ocds.open-contracting.org') }}

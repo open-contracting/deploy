@@ -20,7 +20,7 @@ redash_prepackages:
     - group: root
     - makedirs: True
 
-{{ apache('redash.conf',
-    name='redash.conf',
+{{ apache('redash',
+    name='redash',
     servername=pillar.redash.servername,
     https=pillar.redash.https) }}

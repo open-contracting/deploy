@@ -35,11 +35,11 @@
 {% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='', ports=[]) %}
 
 {% if name == '' %}
-{% set name = conffile %}
+    {% set name = conffile %}
 {% endif %}
 
 {% if servername == '' %}
-{% set servername = grains.fqdn %}
+    {% set servername = grains.fqdn %}
 {% endif %}
 
 {% if ports == [] %}
@@ -54,9 +54,9 @@
     {# So we can't enable the SSL site (because no certs) but we do want /.well-known/acme-challenge #}
 {% endif %}
 
-/etc/apache2/sites-available/{{ name }}.include:
+/etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/{{ conffile }}.include
+    - source: salt://apache/{{ conffile }}.conf.include
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -65,7 +65,7 @@
         https: "{{ https }}"
         {{ extracontext|indent(8) }}
 
-/etc/apache2/sites-available/{{ name }}:
+/etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
     - source: salt://apache/_common.conf
     - template: jinja
@@ -74,13 +74,13 @@
       - service: apache2
     - context:
         myportlist: {{ ports|yaml }}
-        includefile: /etc/apache2/sites-available/{{ name }}.include
+        includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         {{ extracontext|indent(8) }}
     - require:
-      - file: /etc/apache2/sites-available/{{ name }}.include
+      - file: /etc/apache2/sites-available/{{ name }}.conf.include
 
 {% if https == 'both' or https == 'force' or https == 'certonly' %}
 
@@ -96,9 +96,9 @@
       - /etc/letsencrypt/live/{{ servername }}/privkey.pem
     - require:
       - pkg: letsencrypt
-      - file: /etc/apache2/sites-available/{{ name }}
-      - file: /etc/apache2/sites-available/{{ name }}.include
-      - file: /etc/apache2/sites-enabled/{{ name }}
+      - file: /etc/apache2/sites-available/{{ name }}.conf
+      - file: /etc/apache2/sites-available/{{ name }}.conf.include
+      - file: /etc/apache2/sites-enabled/{{ name }}.conf
       # The next line refers to something in salt/letsencrypt.sls
       - file: /var/www/html/.well-known/acme-challenge
     - watch_in:
@@ -106,11 +106,11 @@
 
 {% endif %}
 
-/etc/apache2/sites-enabled/{{ name }}:
+/etc/apache2/sites-enabled/{{ name }}.conf:
   file.symlink:
-    - target: /etc/apache2/sites-available/{{ name }}
+    - target: /etc/apache2/sites-available/{{ name }}.conf
     - require:
-      - file: /etc/apache2/sites-available/{{ name }}
+      - file: /etc/apache2/sites-available/{{ name }}.conf
     - makedirs: True
     - watch_in:
       - service: apache2

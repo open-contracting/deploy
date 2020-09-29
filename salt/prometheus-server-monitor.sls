@@ -92,8 +92,8 @@ user: {{ user }}
 {% endset %}
 
 
-{{ apache('prometheus-server.conf',
-    name='prometheus-server.conf',
+{{ apache('prometheus-server',
+    name='prometheus-server',
     extracontext=extracontext,
     servername=pillar.prometheus.server_fqdn,
     https=pillar.prometheus.server_https ) }}

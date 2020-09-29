@@ -82,8 +82,8 @@ user: {{ user }}
 {% endset %}
 
 
-{{ apache('prometheus-alertmanager.conf',
-    name='prometheus-alertmanager.conf',
+{{ apache('prometheus-alertmanager',
+    name='prometheus-alertmanager',
     extracontext=extracontext,
     servername=pillar.prometheus.alertmanager_fqdn,
     https=pillar.prometheus.alertmanager_https) }}
