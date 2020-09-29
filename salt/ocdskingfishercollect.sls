@@ -101,7 +101,6 @@ kfs-apache-password:
     - cwd: {{ userdir }}
 
 {{ apache('ocdskingfisherscrape',
-    name='ocdskingfisherscrape',
     servername='collect.kingfisher.open-contracting.org',
     serveraliases=['scrape.kingfisher.open-contracting.org']) }}
 

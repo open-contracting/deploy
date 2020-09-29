@@ -21,6 +21,5 @@ redash_prepackages:
     - makedirs: True
 
 {{ apache('redash',
-    name='redash',
     servername=pillar.redash.servername,
     https=pillar.redash.https) }}

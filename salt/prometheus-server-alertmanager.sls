@@ -83,7 +83,6 @@ user: {{ user }}
 
 
 {{ apache('prometheus-alertmanager',
-    name='prometheus-alertmanager',
     extracontext=extracontext,
     servername=pillar.prometheus.alertmanager_fqdn,
     https=pillar.prometheus.alertmanager_https) }}

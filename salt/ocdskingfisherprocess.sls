@@ -241,7 +241,6 @@ kfp_postgres_readonlyuser_setup_as_user:
 
 
 {{ apache('ocdskingfisherprocess',
-    name='ocdskingfisherprocess',
     servername='process.kingfisher.open-contracting.org') }}
 
 {{ uwsgi('ocdskingfisherprocess.ini',

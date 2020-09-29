@@ -93,7 +93,6 @@ user: {{ user }}
 
 
 {{ apache('prometheus-server',
-    name='prometheus-server',
     extracontext=extracontext,
     servername=pillar.prometheus.server_fqdn,
     https=pillar.prometheus.server_https ) }}

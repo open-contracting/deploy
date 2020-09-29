@@ -20,7 +20,6 @@ user: {{ user }}
 {% endset %}
 
 {{ apache('prometheus-client',
-    name='prometheus-client',
     extracontext=extracontext,
     servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
     ports=[pillar.prometheus.client_port]) }}
