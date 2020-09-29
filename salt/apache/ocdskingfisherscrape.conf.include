@@ -1,12 +1,12 @@
 # vi: ft=apache
 
-DocumentRoot /home/ocdskfs/scrapyd/
+DocumentRoot {{ userdir }}/scrapyd/
 
 <Location "/">
     ProxyPass http://localhost:6800/
 
     AuthName "Kingfisher Scrapyd"
     AuthType Basic
-    AuthUserFile /home/ocdskfs/htpasswd
+    AuthUserFile /home/{{ user }}/htpasswd
     require valid-user
 </Location>
