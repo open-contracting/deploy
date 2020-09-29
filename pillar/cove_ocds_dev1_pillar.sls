@@ -3,7 +3,7 @@ apache:
   serveraliases: []
 git:
   url: https://github.com/open-contracting/cove-ocds.git
-  branch: cove-845-red-box
+  branch: 1285-sheetnames-warnings
 django:
   app: cove_project
   env:
