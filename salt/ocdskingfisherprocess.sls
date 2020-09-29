@@ -240,8 +240,7 @@ kfp_postgres_readonlyuser_setup_as_user:
       - kfp_postgres_schema_creation
 
 
-{{ apache('ocdskingfisherprocess',
-    servername='process.kingfisher.open-contracting.org') }}
+{{ apache('ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
 {{ uwsgi('ocdskingfisherprocess.ini',
     name='ocdskingfisherprocess.ini',
