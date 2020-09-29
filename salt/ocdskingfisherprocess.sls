@@ -332,4 +332,3 @@ kingfisher_views_postgres_extensions:
     - runas: postgres
     - require:
       - postgres_user_and_db
-

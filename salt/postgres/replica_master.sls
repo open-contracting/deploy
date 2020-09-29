@@ -41,4 +41,3 @@ replica_user:
     - encrypted: True
     - login: True
     - replication: True
-

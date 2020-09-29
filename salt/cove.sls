@@ -28,4 +28,3 @@ MAILTO:
     - name: MAILTO
     - value: sysadmin@open-contracting.org,code@opendataservices.coop
     - user: cove
-

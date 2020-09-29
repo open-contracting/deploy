@@ -38,4 +38,3 @@
         RedirectMatch ^/standard/r/?$ http://standard.open-contracting.org
         RedirectMatch ^/standard/r/(.*)/?$ http://standard.open-contracting.org
         RedirectMatch ^/index(.*)$ http://standard.open-contracting.org
-        

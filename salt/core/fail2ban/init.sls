@@ -18,4 +18,3 @@ f2b-startup:
 /etc/fail2ban/jail.local:
   file.managed:
     - source: salt://core/fail2ban/jail.local
-
