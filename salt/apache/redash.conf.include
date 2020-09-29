@@ -1,11 +1,7 @@
 # vi: ft=apache
 
-#  timeout of 10 minutes copied from other sites as a precaution for big downloads of data, but not yet seen evidence it is specifically needed for redash
-Timeout 600
-ProxyTimeout 600
-
 <Location "/">
-    ProxyPass http://127.0.0.1:9090/ timeout=600
+    ProxyPass http://127.0.0.1:9090/
 </Location>
 
 <Location "/.well-known/acme-challenge">

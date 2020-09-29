@@ -1,11 +1,10 @@
 # vi: ft=apache
 
 DocumentRoot /home/ocdskfs/scrapyd/
-Timeout 600
-ProxyTimeout 600
 
 <Location "/">
-    ProxyPass http://localhost:6800/ timeout=600
+    ProxyPass http://localhost:6800/
+
     AuthName "Kingfisher Scrapyd"
     AuthType Basic
     AuthUserFile /home/ocdskfs/htpasswd
