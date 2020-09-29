@@ -1,10 +1,9 @@
 # vi: ft=apache
 
+DocumentRoot /home/ocdskfp/ocdskingfisherprocess/
+Timeout 600
+ProxyTimeout 600
 
-        DocumentRoot /home/ocdskfp/ocdskingfisherprocess/
-        Timeout 600
-        ProxyTimeout 600
-
-        <Location "/">
-                ProxyPass uwsgi://127.0.0.1:5001/ timeout=600
-        </Location>
+<Location "/">
+    ProxyPass uwsgi://127.0.0.1:5001/ timeout=600
+</Location>

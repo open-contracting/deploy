@@ -1,80 +1,80 @@
 # vi: ft=apache
 
-    {% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
-    {% set documentroot = '/home/ocds-docs/web' %}
+{% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+{% set documentroot = '/home/ocds-docs/web' %}
 
-    {% if testing %}
-        {# Add any configuration specific to the testing virtual host here. #}
-    {% else %}
-        {# Add any configuration specific to the live virtual host here. #}
-    {% endif %}
+{% if testing %}
+    {# Add any configuration specific to the testing virtual host here. #}
+{% else %}
+    {# Add any configuration specific to the live virtual host here. #}
+{% endif %}
 
-    # Note: RewriteRule directives match against, e.g. "/home/ocds-docs/web/profiles/ppp/1.0-dev/switcher".
+# Note: RewriteRule directives match against, e.g. "/home/ocds-docs/web/profiles/ppp/1.0-dev/switcher".
 
-    Alias /robots.txt "/var/www/html/robots.txt"
-    <Location "/robots.txt">
-        Order allow,deny
-        Allow from all
-    </Location>
+Alias /robots.txt "/var/www/html/robots.txt"
+<Location "/robots.txt">
+    Order allow,deny
+    Allow from all
+</Location>
 
-    DocumentRoot {{ documentroot }}
-    RewriteMap unescape int:unescape
+DocumentRoot {{ documentroot }}
+RewriteMap unescape int:unescape
 
-    SetEnv BANNER /includes/banner_staging.html
-    <Location /infrastructure/>
-        SetEnv BANNER /includes/banner_staging_infrastructure.html
-    </Location>
-    <Location /profiles/>
-        SetEnv BANNER /includes/banner_staging_profiles.html
-    </Location>
-    <Location /profiles/ppp/>
-        SetEnv BANNER /includes/banner_staging_profiles_ppp.html
-    </Location>
+SetEnv BANNER /includes/banner_staging.html
+<Location /infrastructure/>
+    SetEnv BANNER /includes/banner_staging_infrastructure.html
+</Location>
+<Location /profiles/>
+    SetEnv BANNER /includes/banner_staging_profiles.html
+</Location>
+<Location /profiles/ppp/>
+    SetEnv BANNER /includes/banner_staging_profiles_ppp.html
+</Location>
 
-    <Directory {{ documentroot }}>
-        Require all granted
-        Options Indexes FollowSymLinks IncludesNOEXEC
-        AddOutputFilter INCLUDES .html
+<Directory {{ documentroot }}>
+    Require all granted
+    Options Indexes FollowSymLinks IncludesNOEXEC
+    AddOutputFilter INCLUDES .html
 
-        # Serve JSON with UTF-8 charset.
-        # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
-        # https://bugs.webkit.org/show_bug.cgi?id=197369
-        AddType "application/json; charset=utf-8" .json
+    # Serve JSON with UTF-8 charset.
+    # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
+    # https://bugs.webkit.org/show_bug.cgi?id=197369
+    AddType "application/json; charset=utf-8" .json
 
-        Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Origin "*"
 
-        ErrorDocument 404 /error/404
-    </Directory>
+    ErrorDocument 404 /error/404
+</Directory>
 
-    # We can't set 404 pages for individual branches like on the live server, so we use a RewriteRule directive.
-    # Note: Using REQUEST_URI instead of THE_REQUEST breaks behavior.
-    <Location /error/404>
-        RewriteEngine on
-        RewriteCond "%{THE_REQUEST}" "^GET /{{ pattern }}([^/]*/[^/]*)/"
-        RewriteRule ^.*$ /%1%2/404/ [L]
-    </Location>
+# We can't set 404 pages for individual branches like on the live server, so we use a RewriteRule directive.
+# Note: Using REQUEST_URI instead of THE_REQUEST breaks behavior.
+<Location /error/404>
+    RewriteEngine on
+    RewriteCond "%{THE_REQUEST}" "^GET /{{ pattern }}([^/]*/[^/]*)/"
+    RewriteRule ^.*$ /%1%2/404/ [L]
+</Location>
 
-    # We can't backreference a LocationMatch regular expression, so we need this intermediate step.
-    # Note: Using ^ or $ anchors breaks behavior.
-    <LocationMatch "/{{ pattern }}[^/]*/[^/]*/404/">
-        SetOutputFilter SUBSTITUTE
-        # This also substitutes URLs for stylesheets, scripts, etc.
-        Substitute "s|\"\.\./|\"error_redirect/|i"
-    </LocationMatch>
+# We can't backreference a LocationMatch regular expression, so we need this intermediate step.
+# Note: Using ^ or $ anchors breaks behavior.
+<LocationMatch "/{{ pattern }}[^/]*/[^/]*/404/">
+    SetOutputFilter SUBSTITUTE
+    # This also substitutes URLs for stylesheets, scripts, etc.
+    Substitute "s|\"\.\./|\"error_redirect/|i"
+</LocationMatch>
 
-    # This also handles requests for stylesheets, scripts, etc.
-    <LocationMatch "^/{{ pattern }}[^/]*/[^/]*/(.*/)?error_redirect/.*$">
-        RewriteEngine on
-        RewriteCond "%{REQUEST_URI}" "^/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
-        RewriteRule ^.*$ https://standard.open-contracting.org/%1%2/%4 [R]
-    </LocationMatch>
+# This also handles requests for stylesheets, scripts, etc.
+<LocationMatch "^/{{ pattern }}[^/]*/[^/]*/(.*/)?error_redirect/.*$">
+    RewriteEngine on
+    RewriteCond "%{REQUEST_URI}" "^/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
+    RewriteRule ^.*$ https://standard.open-contracting.org/%1%2/%4 [R]
+</LocationMatch>
 
-    <LocationMatch "^/{{ pattern }}[^/]*/switcher/?$">
-        RewriteEngine on
+<LocationMatch "^/{{ pattern }}[^/]*/switcher/?$">
+    RewriteEngine on
 
-        RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-        RewriteRule ^.*$ https://standard.open-contracting.org/%2%3/${unescape:%6}/%5? [R]
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
+    RewriteRule ^.*$ https://standard.open-contracting.org/%2%3/${unescape:%6}/%5? [R]
 
-        RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-        RewriteRule ^{{ documentroot }}/{{ pattern }}([^/]*) https://standard.open-contracting.org/$1$2/${unescape:%1}/? [R]
-    </LocationMatch>
+    RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
+    RewriteRule ^{{ documentroot }}/{{ pattern }}([^/]*) https://standard.open-contracting.org/$1$2/${unescape:%1}/? [R]
+</LocationMatch>

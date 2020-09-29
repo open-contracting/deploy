@@ -1,13 +1,10 @@
 # vi: ft=apache
 
+<Location "/">
+    ProxyPass http://localhost:9157/
 
-        <Location "/">
-
-            ProxyPass http://localhost:9157/
-
-            AuthName "Open Contracting Prometheus Node Exporter"
-            AuthType Basic
-            AuthUserFile /home/{{ user }}/htpasswd
-            require valid-user
-
-        </Location>
+    AuthName "Open Contracting Prometheus Node Exporter"
+    AuthType Basic
+    AuthUserFile /home/{{ user }}/htpasswd
+    require valid-user
+</Location>
