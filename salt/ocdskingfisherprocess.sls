@@ -68,6 +68,8 @@ ocdskingfisherprocess-prerequisites:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
+    - pip_pkgs:
+      - pip-tools
     - require:
       - git: {{ giturl }}{{ ocdskingfisherdir }}
 
@@ -75,7 +77,7 @@ ocdskingfisherprocess-prerequisites:
 # `{{ ocdskingfisherdir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
+    - name: . .ve/bin/activate; pip-sync
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
