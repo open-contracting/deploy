@@ -73,8 +73,6 @@ ocdskingfisherprocess-prerequisites:
     - require:
       - git: {{ giturl }}{{ ocdskingfisherdir }}
 
-# Due to a bug in Salt, we can't use `- requirements: {{ ocdskingfisherdir }}requirements.txt` in the above
-# `{{ ocdskingfisherdir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync
