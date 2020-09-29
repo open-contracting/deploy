@@ -242,9 +242,7 @@ kfp_postgres_readonlyuser_setup_as_user:
 
 {{ apache('ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
-{{ uwsgi('ocdskingfisherprocess.ini',
-    name='ocdskingfisherprocess.ini',
-    port=5001) }}
+{{ uwsgi('ocdskingfisherprocess', port=5001) }}
 
 
 # This is to have eight workers at once.

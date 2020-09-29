@@ -118,11 +118,15 @@
 {% endmacro %}
 
 
-{% macro uwsgi(conffile, name, port='', extracontext='') %}
+{% macro uwsgi(conffile, name='', port='', extracontext='') %}
 
-/etc/uwsgi/apps-available/{{ name }}:
+{% if name == '' %}
+    {% set name = conffile %}
+{% endif %}
+
+/etc/uwsgi/apps-available/{{ name }}.ini:
   file.managed:
-    - source: salt://uwsgi/{{ conffile }}
+    - source: salt://uwsgi/{{ conffile }}.ini
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -131,11 +135,11 @@
         port: {{ port }}
         {{ extracontext|indent(8) }}
 
-/etc/uwsgi/apps-enabled/{{ name }}:
+/etc/uwsgi/apps-enabled/{{ name }}.ini:
   file.symlink:
-    - target: /etc/uwsgi/apps-available/{{ name }}
+    - target: /etc/uwsgi/apps-available/{{ name }}.ini
     - require:
-      - file: /etc/uwsgi/apps-available/{{ name }}
+      - file: /etc/uwsgi/apps-available/{{ name }}.ini
     - makedirs: True
     - watch_in:
       - service: uwsgi
