@@ -3,7 +3,7 @@
 <Location "/">
     ProxyPass http://localhost:9095/
 
-    AuthName "Open Contracting Partnership Prometheus AlertManager"
+    AuthName "Open Contracting Partnership Prometheus Alert Manager"
     AuthType Basic
     AuthUserFile /home/{{ user }}/htpasswd
     require valid-user
