@@ -73,16 +73,17 @@ django-deps:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ pillar.user }}
+    - system_site_packages: False
+    - pip_pkgs:
+        - pip-tools
     - require:
       - pkg: django-deps
       - git: {{ pillar.git.url }}{{ djangodir }}
       - file: set_lc_all # required to avoid unicode errors for the "schema" library
 
-# Due to a bug in Salt, we can't use `- requirements: {{ djangodir }}requirements.txt` in the above
-# `{{ djangodir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
+    - name: . .ve/bin/activate; pip-sync
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
