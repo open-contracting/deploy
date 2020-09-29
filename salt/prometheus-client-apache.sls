@@ -15,12 +15,8 @@ prometheus-client modules:
 
 ########### Apache Reverse Proxy with password for security
 
-{% set extracontext %}
-user: {{ user }}
-{% endset %}
-
 {{ apache('prometheus-client',
-    extracontext=extracontext,
+    extracontext='user: ' + user,
     servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
     ports=[pillar.prometheus.client_port]) }}
 
