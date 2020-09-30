@@ -83,7 +83,7 @@ django-deps:
 
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync
+    - name: . .ve/bin/activate; pip-sync -q
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
