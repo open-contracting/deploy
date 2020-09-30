@@ -61,7 +61,7 @@ prometheus-node-exporter:
 
 /home/{{ user }}/node-exporter-textfile-collector-scripts:
   git.latest:
-    - name: https://github.com/open-contracting/node-exporter-textfile-collector-scripts
+    - name: https://github.com/prometheus-community/node-exporter-textfile-collector-scripts
     - user: {{ user }}
     - force_fetch: True
     - force_reset: True
