@@ -1,7 +1,14 @@
-/home/archive/logs/rsync-downloaded-files.log {
-  rotate 365
-  daily
-  compress
-  missingok
-  notifempty
+/var/log/kingfisher-archive.log
+{
+        rotate 12
+        weekly
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+        postrotate
+                /usr/lib/rsyslog/rsyslog-rotate
+        endscript
+        create 0644 syslog adm
 }
