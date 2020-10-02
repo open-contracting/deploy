@@ -19,7 +19,7 @@
             "class": "logging.handlers.SysLogHandler",
             "level": "DEBUG",
             "address": "/dev/log",
-            "facility": "local6",
+            "facility": "local5",
             "formatter": "simple"
         }
     },
