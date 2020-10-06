@@ -13,7 +13,7 @@
 # Usage:  $0 <how many days to keep files> <path to look under>
 #
 # Future Improvements:
-#   - Leaves the root directory because the delete is updating the timestamp. 
+#   - Leaves the root directory because the delete is updating the timestamp.
 #
 
 set -e
@@ -31,7 +31,7 @@ RMPATH="${2}"
 # Don't want to remove the base directory.
 touch ${RMPATH}
 
-# Using xargs because it passes the files as arguments to one single rm, alternatively "-exec rm {} \;" runs rm multiple times. 
+# Using xargs because it passes the files as arguments to one single rm, alternatively "-exec rm {} \;" runs rm multiple times.
 find ${RMPATH} -mtime +${DAYSTOKEEP} -type f | xargs --no-run-if-empty rm
 
 # Find empty old directories

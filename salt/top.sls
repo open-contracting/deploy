@@ -61,6 +61,7 @@ base:
 
   'kingfisher-replica*':
     - postgres
+    - prometheus-client-apache
 
   'prometheus':
     - prometheus-server

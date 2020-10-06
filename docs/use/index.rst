@@ -17,6 +17,8 @@ User Guides
    -  Open Data Services (UK) about Data Review Tool, Kingfisher Views and Kingfisher Colab
    -  Lindsey Marchessault (Alberta) for anything else
 
+   Furthermore, if you need root access in order to address an issue in James' absence, ask Dogsbody to grant you root access, linking to this policy.
+
 .. toctree::
 
    databases.rst

@@ -1,18 +1,15 @@
 # vi: ft=apache
 
+<Location "/">
+    ProxyPass http://localhost:9057/
 
-    <Location "/">
+    AuthName "Open Contracting Partnership Prometheus Monitor"
+    AuthType Basic
+    AuthUserFile /home/{{ user }}/htpasswd
+    require valid-user
+</Location>
 
-        ProxyPass http://localhost:9057/
-
-        AuthName "Open Contracting Partnership Prometheus"
-        AuthType Basic
-        AuthUserFile /home/{{ user }}/htpasswd
-        require valid-user
-
-    </Location>
-
-    <Location "/.well-known/acme-challenge">
-            ProxyPass !
-            Require all granted
-    </Location>
+<Location "/.well-known/acme-challenge">
+    ProxyPass !
+    Require all granted
+</Location>

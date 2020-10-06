@@ -7,6 +7,6 @@ django:
   env:
     ALLOWED_HOSTS: .standard.open-contracting.org,.cove.opencontracting.uk0.bigv.io
     PIWIK_SITE_ID: '20'
-    HOTJAR_ID: 1501232
-    HOTJAR_SV: 6
-    HOTJAR_DATE_INFO: "4th March to 30th September 2020"
+    # HOTJAR_ID: 1501232
+    # HOTJAR_SV: 6
+    # HOTJAR_DATE_INFO: "4th March to 30th September 2020"

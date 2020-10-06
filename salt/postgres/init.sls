@@ -2,7 +2,7 @@
 {% from 'lib.sls' import configurefirewall %}
 
 # To ensure apt-transport-https is installed.
-include: 
+include:
  - core
 
 # Default to postgres version 11, if not defined in pillar.
@@ -31,11 +31,11 @@ postgresql:
     - user: postgres
     - group: postgres
     - mode: 640
-    - source: 
+    - source:
       - salt://postgres/configs/pg_hba.conf
     - template: jinja
     - watch_in:
-      - service: postgresql 
+      - service: postgresql
 
 # Upload custom configuration if defined.
 {% if pillar['postgres']['custom_configuration'] %}
@@ -44,8 +44,8 @@ postgresql:
     - user: postgres
     - group: postgres
     - mode: 640
-    - source: 
+    - source:
       - {{ pillar['postgres']['custom_configuration'] }}
     - watch_in:
-      - service: postgresql 
+      - service: postgresql
 {% endif %}

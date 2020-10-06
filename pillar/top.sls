@@ -55,7 +55,7 @@ base:
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
     - tinyproxy_pillar
-  
+
   'kingfisher-process1':
     - kingfisher_process1_maintenance
 
@@ -64,7 +64,7 @@ base:
     - ocdskingfisher_replica1_maintenance
 
   'prometheus':
-    - prometheus_maintenance 
+    - prometheus_maintenance
 
   'redash2':
     - redash

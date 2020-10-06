@@ -37,16 +37,14 @@ django-deps:
 
 {% set djangodir = '/home/' + pillar.user + '/' + pillar.name + '/' %}
 
-{{ apache('django.conf',
-    name=pillar.name + '.conf',
+{{ apache('django',
+    name=pillar.name,
     servername=pillar.apache.servername,
     serveraliases=pillar.apache.serveraliases,
     https=pillar.apache.https,
     extracontext='djangodir: ' + djangodir) }}
 
-{{ uwsgi('django.ini',
-    name=pillar.name + '.ini',
-    extracontext='djangodir: ' + djangodir) }}
+{{ uwsgi('django', name=pillar.name, extracontext='djangodir: ' + djangodir) }}
 
 {{ pillar.git.url }}{{ djangodir }}:
   git.latest:
@@ -58,8 +56,6 @@ django-deps:
     - force_reset: True
     - require:
       - pkg: git
-    - watch_in:
-      - service: uwsgi
 
 # We have seen different permissions on different servers, and we have seen bugs arise as a result.
 # (This won't ensure permissions are correct on new files, but it will fix any existing problems.)
@@ -77,22 +73,25 @@ django-deps:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ pillar.user }}
+    - system_site_packages: False
+    - pip_pkgs:
+        - pip-tools
     - require:
       - pkg: django-deps
       - git: {{ pillar.git.url }}{{ djangodir }}
       - file: set_lc_all # required to avoid unicode errors for the "schema" library
-    - watch_in:
-      - service: apache2
 
-# Due to a bug in Salt, we can't use `- requirements: {{ djangodir }}requirements.txt` in the above
-# `{{ djangodir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
+    - name: . .ve/bin/activate; pip-sync
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:
       - virtualenv: {{ djangodir }}.ve/
+    - onchanges:
+      - git: {{ pillar.git.url }}{{ djangodir }}
+    - watch_in:
+      - service: uwsgi
 
 migrate:
   cmd.run:

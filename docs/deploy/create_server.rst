@@ -64,8 +64,8 @@ If you couldn't select Ubuntu above, follow these additional steps:
 #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
 #. Test the server hardware:
 
-   #. Test the drives. The SMART values to look for vary depending on the drive manufacturer. Ask a colleague if you need help. 
-   
+   #. Test the drives. The SMART values to look for vary depending on the drive manufacturer. Ask a colleague if you need help.
+
       .. code-block:: bash
 
          smartctl -t long /dev/<device>

@@ -68,14 +68,14 @@ ocdskingfisherprocess-prerequisites:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
+    - pip_pkgs:
+      - pip-tools
     - require:
       - git: {{ giturl }}{{ ocdskingfisherdir }}
 
-# Due to a bug in Salt, we can't use `- requirements: {{ ocdskingfisherdir }}requirements.txt` in the above
-# `{{ ocdskingfisherdir }}.ve/` state. See https://github.com/saltstack/salt/issues/56514
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; yes w | pip install -r requirements.txt
+    - name: . .ve/bin/activate; pip-sync
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
@@ -240,13 +240,9 @@ kfp_postgres_readonlyuser_setup_as_user:
       - kfp_postgres_schema_creation
 
 
-{{ apache('ocdskingfisherprocess.conf',
-    name='ocdskingfisherprocess.conf',
-    servername='process.kingfisher.open-contracting.org') }}
+{{ apache('ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
-{{ uwsgi('ocdskingfisherprocess.ini',
-    name='ocdskingfisherprocess.ini',
-    port=5001) }}
+{{ uwsgi('ocdskingfisherprocess', port=5001) }}
 
 
 # This is to have eight workers at once.
@@ -318,3 +314,17 @@ kfp_postgres_set_random_page_cost:
   cmd.run:
     - name: psql -c "ALTER TABLESPACE pg_default SET (random_page_cost = 2)"
     - runas: postgres
+
+
+# https://github.com/open-contracting/deploy/issues/117
+kingfisher_views_postgres_extensions:
+  cmd.run:
+    - name: >
+          psql
+          -c "
+          CREATE EXTENSION IF NOT EXISTS tablefunc;
+          "
+          ocdskingfisherprocess
+    - runas: postgres
+    - require:
+      - postgres_user_and_db

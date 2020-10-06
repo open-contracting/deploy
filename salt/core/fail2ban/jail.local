@@ -3,4 +3,4 @@
 #
 
 [DEFAULT]
-ignoreip = 127.0.0.1/8 
+ignoreip = 127.0.0.1/8
