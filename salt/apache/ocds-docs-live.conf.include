@@ -228,7 +228,6 @@ ProxyPass / https://staging.standard.open-contracting.org/
         Redirect /{{ version }}/{{ lang }}/extensions/process_title/          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
         # Iterative improvements after OCDS 1.1.4
         Redirect /{{ version }}/{{ lang }}/extensions/                        /{{ version }}/{{ lang }}/guidance/map/extensions/
-        Redirect /{{ version }}/{{ lang }}/implementation/                    /{{ version }}/{{ lang }}/guidance/
         Redirect /{{ version }}/{{ lang }}/implementation/amendments/         /{{ version }}/{{ lang }}/guidance/map/amendments/
         Redirect /{{ version }}/{{ lang }}/implementation/hosting/            /{{ version }}/{{ lang }}/guidance/build/hosting/
         Redirect /{{ version }}/{{ lang }}/implementation/levels/             /{{ version }}/{{ lang }}/getting_started/quality/
@@ -237,6 +236,7 @@ ProxyPass / https://staging.standard.open-contracting.org/
         Redirect /{{ version }}/{{ lang }}/implementation/registration/       /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
         Redirect /{{ version }}/{{ lang }}/implementation/related_processes/  /{{ version }}/{{ lang }}/guidance/map/related_processes/
         Redirect /{{ version }}/{{ lang }}/implementation/serialization/      /{{ version }}/{{ lang }}/guidance/build/serialization/
+        Redirect /{{ version }}/{{ lang }}/implementation/                    /{{ version }}/{{ lang }}/guidance/
         Redirect /{{ version }}/{{ lang }}/schema/changelog/                  /{{ version }}/{{ lang }}/history/changelog/
         Redirect /{{ version }}/{{ lang }}/schema/deprecation/                /{{ version }}/{{ lang }}/governance/deprecation/
         Redirect /{{ version }}/{{ lang }}/support/credits/                   /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
