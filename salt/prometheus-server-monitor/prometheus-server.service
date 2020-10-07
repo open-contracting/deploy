@@ -11,7 +11,8 @@ ExecStart=/home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_ver
     --config.file /home/{{ user }}/conf-prometheus.yml \
     --storage.tsdb.path /home/{{ user }}/data \
     --storage.tsdb.retention.time {{ pillar.prometheus.server_local_storage_retention }} \
-    --web.listen-address 127.0.0.1:9057
+    --web.listen-address 127.0.0.1:9057 \
+    --log.level=debug
 
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=process
