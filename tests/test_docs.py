@@ -102,7 +102,7 @@ def test_add_trailing_slash_per_lang(root, version, lang):
     # With DirectorySlash On, development branches get redirected to staging server.
     if version.endswith('-dev'):
         assert r.status_code == 301
-        assert r.headers['Location'] == 'https://staging.standard.open-contracting.org{}/{}/{}/'.format(root, version, lang)  # noqa
+        assert r.headers['Location'] == 'https://staging.standard.open-contracting.org{}/{}/{}/'.format(root, version, lang)  # noqa: E501
     else:
         assert r.status_code == 301
         assert r.headers['Location'] == '{}{}/{}/{}/'.format(base_url, root, version, lang)
