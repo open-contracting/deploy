@@ -403,18 +403,15 @@ else
 fi
 
 echo_interactive "Saving IP tables"
-if [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "18.04" ];then
+if [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "20.04" ];then
+    IPTABLESSAVLOC=/etc/iptables/rules.v4
+    IP6TABLESSAVLOC=/etc/iptables/rules.v6
+elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "18.04" ];then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
 elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "16.04" ];then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "14.04" ];then
-    IPTABLESSAVLOC=/etc/iptables/rules.v4
-    IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "12.04" ];then
-    IPTABLESSAVLOC=/etc/iptables.rules
-    IP6TABLESSAVLOC=/etc/ip6tables.rules
 elif [ "$ID" == "debian" ] && [ "$VERSION_ID" == "8" ];then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
