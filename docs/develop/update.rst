@@ -23,7 +23,7 @@ To compare Jinja2 output after refactoring but before committing, use ``script/d
 .. code-block:: bash
 
    ./script/diff ocds-docs-live
-   ./script/diff ocds-docs-live ocds-docs-common
+   ./script/diff ocds-docs-live zip
 
 If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
