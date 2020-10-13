@@ -87,13 +87,13 @@ To show the packages that were automatically installed and are no longer require
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
+   salt-ssh 'ocds-docs-live' pkg.autoremove list_only=True
 
 It is generally safe to remove these. Run:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
+   salt-ssh 'ocds-docs-live' pkg.autoremove purge=True
 
 You can omit ``purge=True`` to make it easier to restore a package.
 
