@@ -44,12 +44,6 @@ base:
     - private.cove_ocds_live_pillar
     - cove_ocds_live3_maintenance
 
-  'cove-dev-*':
-    - django_pillar
-    - cove_pillar
-    - cove_ocds_dev1_pillar
-    - private.cove_ocds_dev_pillar
-
   'kingfisher-process*':
     - ocdskingfisher_live_pillar
     - private.ocdskingfisher_live_pillar
