@@ -7,6 +7,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
 #. If appropriate, notify relevant users of the change
 #. Remove the server from ``salt/private/prometheus-server-monitor/conf-prometheus.yml``
+#. :doc:`Deploy<deploy>` the Prometheus service
 #. Shutdown the server via the :ref:`host<hosting>`'s interface
 #. Remove all occurrences of the server's FQDN and IP address from this repository
 
