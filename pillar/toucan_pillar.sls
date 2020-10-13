@@ -10,3 +10,8 @@ django:
   env:
     ALLOWED_HOSTS: toucan.open-contracting.org
     GOOGLE_ANALYTICS_ID: UA-35677147-3
+
+uwsgi:
+  limit-as: 1536
+  max-requests: 1024
+  reload-on-as: 250

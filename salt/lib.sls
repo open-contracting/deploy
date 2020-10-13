@@ -118,22 +118,23 @@
 {% endmacro %}
 
 
-{% macro uwsgi(conffile, name='', port='', extracontext='') %}
+{% macro uwsgi(service, name='', port='', appdir='') %}
+# Service indicates which config file to use from salt/uwsgi/configs.
 
 {% if name == '' %}
-    {% set name = conffile %}
+    {% set name = service %}
 {% endif %}
 
 /etc/uwsgi/apps-available/{{ name }}.ini:
   file.managed:
-    - source: salt://uwsgi/{{ conffile }}.ini
+    - source: salt://uwsgi/configs/{{ service }}.ini
     - template: jinja
     - makedirs: True
     - watch_in:
       - service: uwsgi
     - context:
         port: {{ port }}
-        {{ extracontext|indent(8) }}
+        appdir: {{ appdir }}
 
 /etc/uwsgi/apps-enabled/{{ name }}.ini:
   file.symlink:
