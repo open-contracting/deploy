@@ -7,12 +7,8 @@ base:
 
   'ocds-docs-live':
     - ocds_docs_live_pillar
-    - ocds_docs_live_maintenance
-
-  'ocds-docs-staging':
-    - ocds_docs_staging_pillar
     - tinyproxy_pillar
-    - ocds_docs_staging_maintenance
+    - ocds_docs_live_maintenance
 
   'standard-search':
     - django_pillar

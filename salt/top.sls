@@ -14,14 +14,10 @@ base:
     - core.swap
     - core.systemd
 
-  'ocds-docs-staging':
-    - ocds-docs-staging
-    - tinyproxy
-    - prometheus-client-apache
-
   'ocds-docs-live':
     - ocds-docs-live
     - ocds-legacy
+    - tinyproxy
     - prometheus-client-apache
 
   'standard-search':
