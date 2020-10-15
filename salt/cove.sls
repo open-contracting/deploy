@@ -24,7 +24,9 @@ MAILTO:
     - value: sysadmin@open-contracting.org
     - user: cove
 
-memcached_server:
+memcached:
   pkg.installed:
-    - pkgs:
-     - memcached
+    - name: memcached
+  service.running:
+    - name: memcached
+    - enable: True
