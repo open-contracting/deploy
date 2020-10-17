@@ -45,7 +45,7 @@ base:
   'kingfisher-process*':
     - postgres
     - ocdskingfisher
-    - ocdskingfisherarchiveonprocess
+    #- ocdskingfisherarchiveonprocess
     - ocdskingfishercollect
     - ocdskingfisherprocess
     - ocdskingfisheranalyse
