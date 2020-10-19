@@ -7,6 +7,8 @@ This documentation is split into:
    Instructions on getting set-up and making changes to the ``deploy`` repository.
 :doc:`Deployment Guides<deploy/index>`
    Instructions for specific deployment tasks.
+:doc:`Maintenance Guides<maintain/index>`
+   Instructions for specific maintenance tasks.
 :doc:`User Guides<use/index>`
    Documentation for users of our services.
 :doc:`Reference<reference/index>`
