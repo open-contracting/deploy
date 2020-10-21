@@ -44,7 +44,7 @@ django-deps:
     https=pillar.apache.https,
     extracontext='djangodir: ' + djangodir) }}
 
-{{ uwsgi('django', name=pillar.name, extracontext='djangodir: ' + djangodir) }}
+{{ uwsgi('django', name=pillar.name, appdir=djangodir) }}
 
 {{ pillar.git.url }}{{ djangodir }}:
   git.latest:
