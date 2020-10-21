@@ -9,6 +9,7 @@ Deployment Guides
    deploy.rst
    update.rst
    postgres.rst
+   uwsgi.rst
    delete_server.rst
 
 .. toctree::

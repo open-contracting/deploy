@@ -1,5 +1,5 @@
-uWSGI
-=====
+Configuring uWSGI
+=================
 
 We use uWSGI to host python based applications, mainly django.
 
