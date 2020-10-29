@@ -5,8 +5,8 @@ A server is created either when a service is moving to a new server, or when a s
 
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
-1. Create the server
---------------------
+1. Create the new server
+------------------------
 
 Create the server via the :ref:`host<hosting>`'s interface.
 
@@ -159,7 +159,28 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
 #. :doc:`Deploy the service<deploy>`
 
-3. Update external services
+3. Migrate from the old server
+------------------------------
+
+#. :ref:`check-mail` for the root user
+#. :ref:`Clean the user directory<clean-root-user-directory>` of the root user
+
+For Django application servers:
+
+#. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
+#. :ref:`check-mail` for the app user
+#. Clean the user directory of the app user
+#. Optionally, copy the Apache and uWSGI log files
+
+For OCDS documentation servers:
+
+#. Copy the ``/home/ocds-docs/web`` directory
+
+For Redash servers, see :doc:`redash`.
+
+If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
+
+4. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
@@ -167,6 +188,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
 #. Contact Dogsbody Technology Ltd to set up maintenance
+#. :doc:`Delete the old server<delete_server>`
 
 If the service is being introduced:
 
