@@ -163,18 +163,19 @@ If you couldn't select Ubuntu above, follow these additional steps:
 ------------------------------
 
 #. :ref:`check-mail` for the root user
-#. :ref:`Clean the user directory<clean-root-user-directory>` of the root user
+#. :ref:`Check the user directory<clean-root-user-directory>` of the root user
 
 For Django application servers:
 
 #. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 #. :ref:`check-mail` for the app user
-#. Clean the user directory of the app user
+#. Check the user directory of the app user
 #. Optionally, copy the Apache and uWSGI log files
 
 For OCDS documentation servers:
 
 #. Copy the ``/home/ocds-docs/web`` directory
+#. Optionally, copy the Apache log files
 
 For Redash servers, see :doc:`redash`.
 
