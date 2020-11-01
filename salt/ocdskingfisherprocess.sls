@@ -246,13 +246,13 @@ kfp_postgres_readonlyuser_setup_as_user:
 
 
 # This is to have eight workers at once.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli process-redis-queue --runforseconds 3540 > /dev/null:
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE
     - user: {{ user }}
     - minute: 0,5,15,20,30,35,45,50
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli process-redis-queue-collection-store-finished --runforseconds 3540:
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE_COLLECTION_STORE_FINISHED
     - user: {{ user }}
@@ -260,7 +260,7 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
 
 # This process is a backup; this work should be done by workers on the Redis que.
 # So run it once per night. It also takes a while to check all processes, so run for 8 hours.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli check-collections --runforseconds 28800:
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet check-collections --runforseconds 28800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_CHECK_COLLECTIONS
     - user: {{ user }}
@@ -268,14 +268,14 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - hour: 1
 
 # It takes just under 2 hours to do a full run at the moment, so run for 3 hours.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli transform-collections --threads 10 --runforseconds 10800:
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_TRANSFORM_COLLECTIONS
     - user: {{ user }}
     - hour: 0,3,6,9,12,15,18,21
     - minute: 30
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli delete-collections:
+cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_DELETE_COLLECTIONS
     - user: {{ user }}
