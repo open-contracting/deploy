@@ -22,10 +22,6 @@ base:
     - private.toucan_pillar
     - toucan_maintenance
 
-  'kingfisher-archive':
-    - ocdskingfisher_archive_live_pillar
-    - ocdskingfisher_archive_maintenance
-
   'cove-live-oc4ids':
     - django_pillar
     - cove_pillar

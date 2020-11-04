@@ -32,12 +32,6 @@ base:
     - toucan
     - prometheus-client-apache
 
-  'kingfisher-archive':
-    - ocdskingfisher
-    - ocdskingfisheranalyse
-    - ocdskingfisherarchiveonarchive
-    - prometheus-client-apache
-
   'cove-*':
     - cove
     - prometheus-client-apache

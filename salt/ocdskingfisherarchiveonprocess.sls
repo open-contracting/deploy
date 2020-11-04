@@ -1,29 +1,16 @@
 {% from 'lib.sls' import createuser %}
 
-{% set user = 'archive' %}
+{% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
-{{ createuser(user) }}
 
 {% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
-{% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive/' %}
-{% set scrapyddir = '/home/ocdskfs/scrapyd/' %}
+{% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive' %}
+{% set scrapyddir = userdir + '/scrapyd' %}
 
 ocdskingfisherarchive-prerequisites:
   pkg.installed:
     - pkgs:
       - liblz4-tool
-
-{% for file in ['id_rsa', 'id_rsa.pub'] %}
-{{ userdir }}/.ssh/{{ file }}:
-  file.managed:
-    - source: salt://private/kingfisher-archive/{{ file }}
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 600
-    - require:
-      - user: {{ user }}_user_exists
-{% endfor %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
@@ -38,7 +25,7 @@ ocdskingfisherarchive-prerequisites:
       - pkg: git
       - user: {{ user }}_user_exists
 
-{{ ocdskingfisherdir }}.ve/:
+{{ ocdskingfisherdir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -54,26 +41,21 @@ archive_pip_install_requirements:
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}.ve/
+      - virtualenv: {{ ocdskingfisherdir }}/.ve/
 
-{{ userdir }}/.config/ocdskingfisher-archive/config.ini:
+{{ ocdskingfisherdir }}/.env:
   file.managed:
-    - source: salt://ocdskingfisherarchive/config.ini
+    - source: salt://ocdskingfisherarchive/.env
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
+    - mode: 0400
     - makedirs: True
     - context:
         userdir: {{ userdir }}
         scrapyddir: {{ scrapyddir }}
-
-{{ userdir }}/.aws/config:
-  file.managed:
-    - source: salt://ocdskingfisherarchive/awsconfig.ini
-    - template: jinja
-    - user: {{ user }}
-    - group: {{ user }}
-    - makedirs: True
+    - require:
+      - git: {{ giturl }}{{ ocdskingfisherdir }}
 
 {{ userdir }}/.config/ocdskingfisher-archive/logging.json:
   file.managed:
@@ -84,21 +66,6 @@ archive_pip_install_requirements:
     - makedirs: True
     - context:
         userdir: {{ userdir }}
-
-/etc/sudoers.d/archive:
-  file.managed:
-    - source: salt://ocdskingfisherarchive/archive.sudoers
-    - makedirs: True
-
-{{ userdir }}/.pgpass:
-  file.managed:
-    - source: salt://postgres/ocdskingfisher_archive_.pgpass
-    - template: jinja
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 0400
-    - require:
-      - user: {{ user }}_user_exists
 
 /etc/rsyslog.d/92-kingfisher-archive.conf:
   file.managed:
