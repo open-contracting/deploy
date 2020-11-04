@@ -7,11 +7,6 @@
 {% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive' %}
 {% set scrapyddir = userdir + '/scrapyd' %}
 
-ocdskingfisherarchive-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - liblz4-tool
-
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
     - name: {{ giturl }}
@@ -71,18 +66,10 @@ archive_pip_install_requirements:
   file.managed:
     - source: salt://ocdskingfisherarchive/rsyslog.conf
 
-
 /etc/logrotate.d/archive:
   file.managed:
     - source: salt://ocdskingfisherarchive/logrotate
     - makedirs: True
-
-
-# Temporarily during final checks, we remove cron. The real cron is ready to go below
-cd {{ ocdskingfisherdir }}; ./rsync-downloaded-files.sh  >> {{ userdir }}/logs/rsync-downloaded-files.log 2>&1:
-  cron.absent:
-    - identifier: OCDS_KINGFISHER_ARCHIVE_RUN
-    - user: {{ user }}
 
 #cd {{ ocdskingfisherdir }}; source .ve/bin/activate; python manage.py archive:
 #  cron.present:
