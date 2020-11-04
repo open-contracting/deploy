@@ -22,8 +22,8 @@ To compare Jinja2 output after refactoring but before committing, use ``script/d
 
 .. code-block:: bash
 
-   ./script/diff ocds-docs-staging
-   ./script/diff ocds-docs-staging ocds-docs-common
+   ./script/diff ocds-docs-live
+   ./script/diff ocds-docs-live zip
 
 If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
@@ -34,7 +34,7 @@ To test changes to the Apache files for the :doc:`../reference/docs` (for exampl
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
 #. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
-#. To test manually, visit the testing version of the `live website <http://testing.live.standard.open-contracting.org/>`__ or `staging website <http://testing.staging.standard.open-contracting.org/>`__
+#. To test manually, visit the `testing version <http://testing.live.standard.open-contracting.org/>`__
 #. To test automatically, run (using the fish shell):
 
 .. code-block:: bash

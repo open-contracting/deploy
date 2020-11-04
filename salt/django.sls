@@ -44,7 +44,7 @@ django-deps:
     https=pillar.apache.https,
     extracontext='djangodir: ' + djangodir) }}
 
-{{ uwsgi('django', name=pillar.name, extracontext='djangodir: ' + djangodir) }}
+{{ uwsgi('django', name=pillar.name, appdir=djangodir) }}
 
 {{ pillar.git.url }}{{ djangodir }}:
   git.latest:
@@ -83,7 +83,7 @@ django-deps:
 
 pip_install_requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync
+    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
     - runas: {{ pillar.user }}
     - cwd: {{ djangodir }}
     - require:

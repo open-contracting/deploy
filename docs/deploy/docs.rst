@@ -4,7 +4,7 @@ OCDS documentation tasks
 Add a new language
 ------------------
 
-#. In ``salt/apache/ocds-docs-live.conf.include`` and ``salt/apache/ocds-docs-staging.conf.include``, add the new language in the ``options`` variable.
+#. In ``salt/apache/ocds-docs-live.conf.include``, add the new language in the ``options`` variable.
 #. In ``tests/test_docs.py``, update the ``languages`` variable.
 
 .. _add-new-profile:
@@ -46,7 +46,7 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{minor-branch}`` and ``{dev
 Publish draft documentation
 ---------------------------
 
-To configure a documentation repository to push builds to the :doc:`staging server<../reference/docs>`:
+To configure a documentation repository to push builds to the server:
 
 #. Access the repository’s *Settings* tab
 #. Click *Secrets*
@@ -54,7 +54,7 @@ To configure a documentation repository to push builds to the :doc:`staging serv
 
    #. Click *Add a new secret*
    #. Set *Name* to "PRIVATE_KEY"
-   #. Set *Value* to the contents of ``salt/private/ocds-docs/ssh_authorized_keys_from_travis_private``
+   #. Set *Value* to the contents of ``salt/private/ocds-docs/ssh_authorized_keys_for_ci_private``
    #. Click *Add secret*
 
 #. Set the search secret:
@@ -84,10 +84,10 @@ If this is the first numbered version of a profile, in its ``docs/_templates/lay
 
 In any case, once the `build passes <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#build>`__ for the live branch of the documentation:
 
-2. Copy the files to the live server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+2. Copy the files to the server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Each deployment of each branch is given its own directory on the live server, named according to the format ``branch-date-sequence``, for example: ``1.1-2017-08-08-2``. A symlink named after each branch links to the directory to publish for that branch. In this way, you can rollback a deployment by changing the symlink.
+The build of the live branch is copied from the staging directory to the live directory, as a build directory named ``branch-date-sequence``, for example: ``1.1-2017-08-08-2``. A symlink named ``branch`` points to the build directory. As such, you can rollback by pointing to another build directory.
 
 Set environment variables, for example:
 
@@ -100,23 +100,23 @@ Set environment variables, for example:
 
 For a profile, set ``SUBDIR`` to, for example, ``profiles/ppp/``. For OC4IDS, set it to ``infrastructure/``.
 
-Copy files from the staging server to your local machine:
+Copy files from the staging directory to the live directory:
 
 .. code-block:: bash
 
-   rsync -avzP root@staging.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}${VER}/ ${VER}-${DATE}-${SEQ}
+   ssh root@live.standard.open-contracting.org "rsync -avzP /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
 
-Copy files from your local machine to the live server:
-
-.. code-block:: bash
-
-   rsync -avzP ${VER}-${DATE}-${SEQ} root@live.standard.open-contracting.org:/home/ocds-docs/web/${SUBDIR}/
-
-Symlink the branch:
+Update the symlink:
 
 .. code-block:: bash
 
    ssh root@live.standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
+
+Rebuild the search index, after setting the ``SEARCH_SECRET`` and ``LANGS`` variables:
+
+.. code-block:: bash
+
+   curl --fail "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=$(echo $SUBDIR | sed 's/\//%2F/g')${VER}&langs=${LANGS}"
 
 If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
 
@@ -196,12 +196,7 @@ If this is the first numbered version of a profile:
    .. code-block:: html
 
       <option>Version</option>
-      <optgroup label="Live">
       <option value="{latest-branch}">{version} ({latest-branch})</option>
-      </optgroup>
-      <optgroup label="Development Branches">
-      <option value="{dev-branch}">{formatted-dev-branch}</option>
-      </optgroup>
 
 #. Add a ``salt/ocds-docs/includes/banner_staging_profiles_{root}.html`` file to this repository:
 

@@ -45,7 +45,7 @@ ocdskingfishercollect-prerequisites:
 
 {{ scrapyddir }}-requirements:
   cmd.run:
-    - name: source .ve/bin/activate; pip-sync
+    - name: source .ve/bin/activate; pip-sync -q
     - runas: {{ user }}
     - cwd: {{ scrapyddir }}
     - require:

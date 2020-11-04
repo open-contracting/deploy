@@ -1,7 +1,7 @@
 # vi: ft=apache
 
-Redirect /validator/validate http://standard.open-contracting.org/validator
-Redirect /validator http://standard.open-contracting.org/validator
+Redirect /validator/validate http://standard.open-contracting.org/review
+Redirect /validator http://standard.open-contracting.org/review
 Redirect /standard/legacy http://standard.open-contracting.org/legacy
 RedirectMatch /standard/r/(.*)/(.*)\.json http://standard.open-contracting.org/schema/$1/$2.json
 RedirectMatch /standard/r/(.*)/en/standard/intro/ http://standard.open-contracting.org/latest/en/

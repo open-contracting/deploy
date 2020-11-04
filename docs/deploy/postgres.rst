@@ -1,5 +1,5 @@
-Configure PostgreSQL
-====================
+Configuring PostgreSQL
+======================
 
 Specify version
 ---------------

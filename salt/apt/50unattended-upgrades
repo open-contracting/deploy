@@ -2,6 +2,6 @@ Unattended-Upgrade::Allowed-Origins {
         "Ubuntu {{ grains.oscodename }}-security";
 //      "Ubuntu {{ grains.oscodename }}-updates";
 };
-Unattended-Upgrade::Mail "sysadmin@open-contracting.org,code@opendataservices.coop";
+Unattended-Upgrade::Mail "sysadmin@open-contracting.org";
 Unattended-Upgrade::MailOnlyOnError "true";
 Unattended-Upgrade::Automatic-Reboot "{{ pillar.automatic_reboot }}";

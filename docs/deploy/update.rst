@@ -14,7 +14,7 @@ If the virtual host uses HTTPS, you will need to acquire SSL certificates for th
 
    .. code-block:: bash
 
-      salt-ssh 'ocds-docs-staging' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
+      salt-ssh 'ocds-docs-live' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
 
 To check for old SSL certificates that were previously not removed, run:
 
@@ -50,7 +50,7 @@ Run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' file.remove /path/to/file-to-remove
+   salt-ssh 'ocds-docs-live' file.remove /path/to/file-to-remove
 
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
@@ -64,12 +64,12 @@ Delete a service
 
 `Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
 
-To stop and disable the ``icinga2`` service on the ``ocds-docs-staging`` target, for example:
+To stop and disable the ``icinga2`` service on the ``ocds-docs-live`` target, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' service.stop icinga2
-   salt-ssh 'ocds-docs-staging' service.disable icinga2
+   salt-ssh 'ocds-docs-live' service.stop icinga2
+   salt-ssh 'ocds-docs-live' service.disable icinga2
 
 If you deleted the ``uwsgi`` service, also run, for example:
 
@@ -83,13 +83,13 @@ Delete a package
 
 `Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
 
-To scrub Icinga-related packages from the ``ocds-docs-staging`` target, for example:
+To scrub Icinga-related packages from the ``ocds-docs-live`` target, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-staging' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
-   salt-ssh 'ocds-docs-staging' pkg.autoremove list_only=True
-   salt-ssh 'ocds-docs-staging' pkg.autoremove purge=True
+   salt-ssh 'ocds-docs-live' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
+   salt-ssh 'ocds-docs-live' pkg.autoremove list_only=True
+   salt-ssh 'ocds-docs-live' pkg.autoremove purge=True
 
 Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 

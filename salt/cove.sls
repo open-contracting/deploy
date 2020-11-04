@@ -26,5 +26,12 @@ cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.
 MAILTO:
   cron.env_present:
     - name: MAILTO
-    - value: sysadmin@open-contracting.org,code@opendataservices.coop
+    - value: sysadmin@open-contracting.org
     - user: cove
+
+memcached:
+  pkg.installed:
+    - name: memcached
+  service.running:
+    - name: memcached
+    - enable: True

@@ -6,7 +6,7 @@ system_contacts:
   root: "sysadmin@dogsbody.com"
 
   # Email contact for crons
-  cron_admin: "sysadmin@open-contracting.org,code@opendataservices.coop,sysadmin@dogsbody.com"
+  cron_admin: "sysadmin@open-contracting.org,sysadmin@dogsbody.com"
 
   maintenance:
     enabled: false

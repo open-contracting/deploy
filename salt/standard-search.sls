@@ -6,12 +6,11 @@ include:
 {{ configurefirewall("ELASTICSEARCHSERVER") }}
 
 elasticsearch:
-  cmd.run:
-    - name: wget -nv -O - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | apt-key add -
   pkgrepo.managed:
     - humanname: Elasticsearch
-    - name: deb https://artifacts.elastic.co/packages/6.x/apt stable main
+    - name: deb https://artifacts.elastic.co/packages/7.x/apt stable main
     - file: /etc/apt/sources.list.d/elasticsearch.list
+    - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
   pkg.installed:
     - pkgs:
       - apt-transport-https
@@ -30,7 +29,7 @@ elasticsearch:
 
 /etc/default/elasticsearch:
   file.managed:
-    - source: salt://etc-default/elasticsearch-standard-search
+    - source: salt://standard-search/elasticsearch-defaults
     - template: jinja
 
 /etc/elasticsearch/jvm.options:
