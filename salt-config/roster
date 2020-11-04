@@ -9,3 +9,4 @@ cove-live-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
 kingfisher-process1:      process1.kingfisher.open-contracting.org
 kingfisher-replica1:      replica1.kingfisher.open-contracting.org
 prometheus:               prometheus.default.opencontracting.uk0.bigv.io
+covid19-dev:              covid19.development.opencontracting.uk0.bigv.io

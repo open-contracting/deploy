@@ -54,3 +54,6 @@ base:
   'redash2':
     - redash
     - redash2_maintenance
+
+  'covid19-dev':
+    - covid19
