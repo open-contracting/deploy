@@ -63,3 +63,6 @@ base:
     - maintenance.postgres_monitoring
     - maintenance.raid_monitoring
     - maintenance.rkhunter
+
+  'covid19-dev':
+    - covid19
