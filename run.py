@@ -1,11 +1,13 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
-import subprocess
 import sys
+import socket
 
 import salt.cli.ssh
 import salt.client.ssh
 
+
+portknock_port = 8255
 
 def main():
     # Replace program name to match Saltfile.
@@ -20,7 +22,10 @@ def main():
 
     # Port-knock all the targets.
     for target in ssh.targets.values():
-        subprocess.run(['nc', '-G', '1', target['host'], '8255'])
+        try:
+            socket.create_connection((target['host'], portknock_port), 1)
+        except OSError:
+            pass
 
     # Run salt-ssh as usual.
     os.execvp('salt-ssh', sys.argv)
