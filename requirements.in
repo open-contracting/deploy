@@ -1,0 +1,5 @@
+click
+requests
+salt-ssh<3002
+pip-tools
+pytest
