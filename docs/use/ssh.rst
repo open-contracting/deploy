@@ -15,8 +15,8 @@ You can do this by sending traffic to port 8255.
 For example using one of the following methods (replacing example.open-contracting.org with the server or IP you're connecting to):
 
 .. code-block:: bash
-    curl --silent --connect-timeout 1 example.open-contracting.org:8255
 
+    curl --silent --connect-timeout 1 example.open-contracting.org:8255
     ssh root@example.open-contracting.org -p 8255
 
 Or by visiting http://example.open-contracting.org:8255 in a browser.
