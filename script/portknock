@@ -1,5 +1,0 @@
-#!/bin/bash
-set -eu
-HSTNM=$1
-hash nc
-nc -w 1 ${HSTNM} 8255
