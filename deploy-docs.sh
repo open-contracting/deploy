@@ -15,6 +15,10 @@ if [ -z "$LANGS" ]; then
     exit
 fi
 
+echo "Port knocking"
+# This returns error code 28 (timeout), which is fine. 
+curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+
 echo "Copy the built files to the remote server..."
 rsync -avz --delete-after build/ ocds-docs@standard.open-contracting.org:web/staging/$PATH_PREFIX${GITHUB_REF##*/}
 
