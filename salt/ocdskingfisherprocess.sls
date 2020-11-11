@@ -34,36 +34,36 @@ ocdskingfisherprocess-prerequisites:
 {% set userdir = '/home/' + user %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
 
-{% set giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
-{% set views_giturl = 'https://github.com/open-contracting/kingfisher-views.git' %}
-{% set ocdskingfisherdir = userdir + '/ocdskingfisherprocess' %}
-{% set ocdskingfisherviewsdir = userdir + '/ocdskingfisherviews' %}
+{% set process_giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
+{% set summarize_giturl = 'https://github.com/open-contracting/kingfisher-summarize.git' %}
+{% set process_dir = userdir + '/ocdskingfisherprocess' %}
+{% set summarize_dir = userdir + '/ocdskingfisherviews' %}
 
-{{ giturl }}{{ ocdskingfisherdir }}:
+{{ process_giturl }}{{ process_dir }}:
   git.latest:
-    - name: {{ giturl }}
+    - name: {{ process_giturl }}
     - user: {{ user }}
     - force_fetch: True
     - force_reset: True
     - branch: master
     - rev: master
-    - target: {{ ocdskingfisherdir }}
+    - target: {{ process_dir }}
     - require:
       - pkg: git
 
-{{ views_giturl }}{{ ocdskingfisherviewsdir }}:
+{{ summarize_giturl }}{{ summarize_dir }}:
   git.latest:
-    - name: {{ views_giturl }}
+    - name: {{ summarize_giturl }}
     - user: {{ user }}
     - force_fetch: True
     - force_reset: True
     - branch: master
     - rev: master
-    - target: {{ ocdskingfisherviewsdir }}
+    - target: {{ summarize_dir }}
     - require:
       - pkg: git
 
-{{ ocdskingfisherdir }}/.ve/:
+{{ process_dir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -71,15 +71,15 @@ ocdskingfisherprocess-prerequisites:
     - pip_pkgs:
       - pip-tools
     - require:
-      - git: {{ giturl }}{{ ocdskingfisherdir }}
+      - git: {{ process_giturl }}{{ process_dir }}
 
 pip_install_requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync -q
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherdir }}
+    - cwd: {{ process_dir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}/.ve/
+      - virtualenv: {{ process_dir }}/.ve/
 
 postgres_user_and_db:
   postgres_user.present:
@@ -90,15 +90,15 @@ postgres_user_and_db:
     - name: ocdskingfisherprocess
     - owner: ocdskfp
 
-{{ ocdskingfisherviewsdir }}/.ve/:
+{{ summarize_dir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
-    - cwd: {{ ocdskingfisherviewsdir }}
-    - requirements: {{ ocdskingfisherviewsdir }}/requirements.txt
+    - cwd: {{ summarize_dir }}
+    - requirements: {{ summarize_dir }}/requirements.txt
     - require:
-      - git: {{ views_giturl }}{{ ocdskingfisherviewsdir }}
+      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 kfp_postgres_readonlyuser_create:
   postgres_user.present:
@@ -113,7 +113,7 @@ kfp_postgres_readonlyuser_create:
     - group: {{ user }}
     - mode: 0400
 
-{{ ocdskingfisherdir }}/wsgi.py:
+{{ process_dir }}/wsgi.py:
   file.managed:
     - source: salt://wsgi/ocdskingfisherprocess.py
 
@@ -125,9 +125,9 @@ kfp_postgres_readonlyuser_create:
     - group: {{ user }}
     - makedirs: True
 
-{{ ocdskingfisherviewsdir }}/.env:
+{{ summarize_dir }}/.env:
   file.managed:
-    - source: salt://ocdskingfisherviews/.env
+    - source: salt://ocdskingfishersummarize/.env
     - user: {{ user }}
     - group: {{ user }}
     - mode: 0400
@@ -141,7 +141,7 @@ kfp_postgres_readonlyuser_create:
 
 {{ userdir }}/.config/ocdskingfisher-views/logging.json:
   file.managed:
-    - source: salt://ocdskingfisherviews/logging.json
+    - source: salt://ocdskingfishersummarize/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
@@ -152,7 +152,7 @@ kfp_postgres_readonlyuser_create:
 
 /etc/rsyslog.d/91-kingfisher-views.conf:
   file.managed:
-    - source: salt://ocdskingfisherviews/rsyslog.conf
+    - source: salt://ocdskingfishersummarize/rsyslog.conf
 
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
@@ -160,7 +160,7 @@ kfp_postgres_readonlyuser_create:
 
 /etc/logrotate.d/kingfisher-views.conf:
   file.managed:
-    - source: salt://ocdskingfisherviews/logrotate.conf
+    - source: salt://ocdskingfishersummarize/logrotate.conf
 
 restart-syslog:
   cmd.run:
@@ -169,31 +169,31 @@ restart-syslog:
       - require:
         - file: /etc/rsyslog.d/90-kingfisher.conf
 
-createdatabase-{{ ocdskingfisherdir }}:
+createdatabase-{{ process_dir }}:
   cmd.run:
     - name: . .ve/bin/activate; python ocdskingfisher-process-cli upgrade-database
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherdir }}
+    - cwd: {{ process_dir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}/.ve/
+      - virtualenv: {{ process_dir }}/.ve/
       - {{ userdir }}/.config/ocdskingfisher-process/config.ini
 
-createdatabase-{{ ocdskingfisherviewsdir }}:
+createdatabase-{{ summarize_dir }}:
   cmd.run:
-    - name: . .ve/bin/activate; python ocdskingfisher-views-cli install
+    - name: . .ve/bin/activate; ./manage.py install
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherviewsdir }}
+    - cwd: {{ summarize_dir }}
     - require:
-      - virtualenv: {{ ocdskingfisherviewsdir }}/.ve/
-      - {{ ocdskingfisherviewsdir }}/.env
+      - virtualenv: {{ summarize_dir }}/.ve/
+      - {{ summarize_dir }}/.env
 
-correctuserpermissions-{{ ocdskingfisherviewsdir }}:
+correctuserpermissions-{{ summarize_dir }}:
   cmd.run:
-    - name: . .ve/bin/activate; python ocdskingfisher-views-cli correct-user-permissions
+    - name: . .ve/bin/activate; ./manage.py correct-user-permissions
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherviewsdir }}
+    - cwd: {{ summarize_dir }}
     - require:
-      - cmd: createdatabase-{{ ocdskingfisherviewsdir }}
+      - cmd: createdatabase-{{ summarize_dir }}
 
 kfp_postgres_schema_creation:
   postgres_schema.present:
@@ -213,22 +213,22 @@ kfp_postgres_readonlyuser_setup_as_postgres:
           "
           ocdskingfisherprocess
     - runas: postgres
-    - cwd: {{ ocdskingfisherdir }}
+    - cwd: {{ process_dir }}
     - require:
       - {{ userdir }}/.pgpass
       - kfp_postgres_readonlyuser_create
-      - {{ ocdskingfisherdir }}/.ve/
+      - {{ process_dir }}/.ve/
       - kfp_postgres_schema_creation
 
 kfp_postgres_readonlyuser_setup_as_user:
   cmd.run:
     - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views GRANT SELECT ON TABLES TO ocdskfpreadonly;" ocdskingfisherprocess
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherdir }}
+    - cwd: {{ process_dir }}
     - require:
       - {{ userdir }}/.pgpass
       - kfp_postgres_readonlyuser_create
-      - {{ ocdskingfisherdir }}/.ve/
+      - {{ process_dir }}/.ve/
       - kfp_postgres_readonlyuser_setup_as_postgres
       - kfp_postgres_schema_creation
 
@@ -239,13 +239,13 @@ kfp_postgres_readonlyuser_setup_as_user:
 
 
 # This is to have eight workers at once.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
+cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE
     - user: {{ user }}
     - minute: 0,5,15,20,30,35,45,50
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
+cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE_COLLECTION_STORE_FINISHED
     - user: {{ user }}
@@ -253,7 +253,7 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
 
 # This process is a backup; this work should be done by workers on the Redis que.
 # So run it once per night. It also takes a while to check all processes, so run for 8 hours.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet check-collections --runforseconds 28800:
+cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet check-collections --runforseconds 28800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_CHECK_COLLECTIONS
     - user: {{ user }}
@@ -261,14 +261,14 @@ cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cl
     - hour: 1
 
 # It takes just under 2 hours to do a full run at the moment, so run for 3 hours.
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
+cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_TRANSFORM_COLLECTIONS
     - user: {{ user }}
     - hour: 0,3,6,9,12,15,18,21
     - minute: 30
 
-cd {{ ocdskingfisherdir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
+cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_DELETE_COLLECTIONS
     - user: {{ user }}
@@ -301,7 +301,7 @@ ocdskingfisherprocess-pip-path:
 # drives are used, it is appropriate to decrease `random_page_cost`.
 #
 # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-RANDOM-PAGE-COST
-# https://github.com/open-contracting/kingfisher-views/issues/92
+# https://github.com/open-contracting/kingfisher-summarize/issues/92
 # https://stackoverflow.com/a/52833441/244258
 kfp_postgres_set_random_page_cost:
   cmd.run:
@@ -310,7 +310,7 @@ kfp_postgres_set_random_page_cost:
 
 
 # https://github.com/open-contracting/deploy/issues/117
-kingfisher_views_postgres_extensions:
+kingfisher_postgres_extensions:
   cmd.run:
     - name: >
           psql

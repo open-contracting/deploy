@@ -14,7 +14,7 @@ User Guides
    -  Centro de Desarrollo Sostenible (Paraguay) about Kingfisher Collect and Toucan
    -  Datlab (Czech Republic) about Pelican
    -  Dogsbody Technology Ltd (UK) about Redmine CRM and PostgreSQL replica
-   -  Open Data Services (UK) about Data Review Tool, Kingfisher Views and Kingfisher Colab
+   -  Open Data Services (UK) about Data Review Tool, Kingfisher Summarize and Kingfisher Colab
    -  Lindsey Marchessault (Alberta) for anything else
 
    Furthermore, if you need root access in order to address an issue in James' absence, ask Dogsbody to grant you root access, linking to this policy.

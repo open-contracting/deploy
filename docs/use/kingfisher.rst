@@ -1,17 +1,17 @@
 Kingfisher
 ==========
 
-Kingfisher is a family of tools to `collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__, `pre-process <https://kingfisher-process.readthedocs.io/en/latest/>`__, `summarize <https://kingfisher-views.readthedocs.io/en/latest/>`__ and `query <https://kingfisher-colab.readthedocs.io/en/latest/>`__ OCDS data.
+Kingfisher is a family of tools to `collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__, `pre-process <https://kingfisher-process.readthedocs.io/en/latest/>`__, `summarize <https://kingfisher-summarize.readthedocs.io/en/latest/>`__ and `query <https://kingfisher-colab.readthedocs.io/en/latest/>`__ OCDS data.
 
 This page is about internal use of these tools by the Open Contracting Partnership. For your personal use, see each tool's documentation:
 
 -  `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__
 -  `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__
--  `Kingfisher Views <https://kingfisher-views.readthedocs.io/en/latest/>`__
+-  `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/>`__
 
 To more easily install all tools on a personal computer, we offer `Kingfisher Vagrant <https://github.com/open-contracting/kingfisher-vagrant>`__.
 
-For internal use, Kingfisher Collect, Process and Views are deployed to a main server.
+For internal use, Kingfisher Collect, Process and Summarize are deployed to a main server.
 
 If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list, in order to receive notifications about major downtime.
 
@@ -21,7 +21,7 @@ The following pages describe specific tasks for each tool:
 
    kingfisher-collect.rst
    kingfisher-process.rst
-   kingfisher-views.rst
+   kingfisher-summarize.rst
 
 Connect to servers
 ------------------
@@ -50,9 +50,9 @@ You shouldn't need to connect to the main server as the ``ocdskfs`` user, as its
 Process
 ~~~~~~~
 
-The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Views.
+The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Summarize.
 
-Connect to the main server as the ``ocdskfp`` user, to use the command-line tools of `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/cli/>`__ and `Kingfisher Views <https://kingfisher-views.readthedocs.io/en/latest/cli/>`__:
+Connect to the main server as the ``ocdskfp`` user, to use the command-line tools of `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/cli/>`__ and `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/cli/>`__:
 
 .. code-block:: bash
 

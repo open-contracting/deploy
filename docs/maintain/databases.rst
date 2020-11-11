@@ -15,7 +15,7 @@ Service accounts
 Each service should have its own user, including:
 
 -  Kingfisher Process
--  Kingfisher Views
+-  Kingfisher Summarize
 -  Pelican
 -  Redash
 
