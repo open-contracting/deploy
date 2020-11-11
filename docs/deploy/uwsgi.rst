@@ -1,93 +1,89 @@
 Configuring uWSGI
 =================
 
-We use uWSGI to host python based applications, mainly django.
-
-Creating new uWSGI apps
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-
-   If you are creating a django app you can skip this section. See :ref:`django-apps`.
-
-To set up a new uWSGI application you can use the uwsgi macro defined in `lib.sls <https://github.com/open-contracting/deploy/blob/master/salt/lib.sls>`_.
-
-You can pass the uwsgi macro a number of parameters to customise the install.
-
-.. code-block:: yml
-
-   uwsgi(service, name='', port='', appdir='')
-
-The ``service`` indicates the type of application it is hosting. 
-This in turn chooses the uWSGI configuration file.
-If this is a new service you may need to create a new config file. Configuration files are stored `here <https://github.com/open-contracting/deploy/tree/master/salt/uwsgi/configs/>`_. 
-
-The ``port`` and ``appdir`` settings are passed through and used to render the configuration file.
-Not all of the parameters are used in the service configs so check the config to know which to set.
-This list of parameters that the macro accepts can be manually extended as configs require new settings.
-
-
-When creating uwsgi configs, they should be designed to query pillar for any uwsgi settings.
-If it cannot find a setting, it should either set a sensible default or assume the setting is blank.
-
-You can see an example where uwsgi settings are customised in the app pillar data below :ref:`example-configs`.
+We use `uWSGI <https://uwsgi-docs.readthedocs.io/en/latest/>`__ to serve Python apps, mainly Django apps.
 
 .. _django-apps:
 
-django apps
-~~~~~~~~~~~
+Create a Django app
+-------------------
 
-To set up a django app, you simply need to include the django state file from yours and update your config file. 
-You can do this as follows:
+#. In your app's state file, include the `django <https://github.com/open-contracting/deploy/blob/master/salt/django.sls>`__ state file:
 
-.. code-block:: yml
+   .. code-block:: yaml
 
-   include:
-     - django
+      include:
+        - django
 
-And then update your pillar settings to include `these settings <https://github.com/open-contracting/deploy/blob/pillar/django_pillar.sls>`_.
+#. In your app's Pillar file, set the variables that are commented out in the `django_pillar <https://github.com/open-contracting/deploy/blob/pillar/django_pillar.sls>`__ Pillar file.
 
-You can see what the ``django`` include sets up `here <https://github.com/open-contracting/deploy/blob/master/salt/django.sls>`_.
+All Django apps use the `uwsgi/configs/django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/configs/django.ini>`__ configuration template.
 
-All django apps use the `uwsgi/configs/django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/configs/django.ini>`_ config file.
+Example
+~~~~~~~
 
+An example app's Pillar file, with custom uWSGI settings:
 
-.. _example-configs:
-
-Example configs
-~~~~~~~~~~~~~~~
-
-Below is an example django app with custom uwsgi settings. 
-
-.. code-block:: yml
+.. code-block:: yaml
 
    # App user.
-   user: exampleuser
-   
+   user: example_user
+
    # App directory.
-   # /home/$user/$app_dir
+   # /home/$user/$name
    name: example_app
-   
+
    apache:
+     https: force
      servername: ex1.open-contracting.org
-     https: both
-   
+
    git:
      url: https://github.com/open-contracting/example_django_app.git
-   
+
    django:
      app: example_app
      env:
        EXAMPLE=value
-   
+
    uwsgi:
      # Timeout in seconds per request (900 = 15 minutes).
-     haraki: 900
+     harakiri: 900
      # Limit memory usage in MB.
      limit-as: 1024
-     # Total requests before worker is restarted.
-     # This helps address memory leaks.
+     # Total requests before worker is restarted. This helps address memory leaks.
      max-requests: 1024
      # Restart the worker if it finishes processing its request with 250MB or more in memory.
      reload-on-as: 250
 
+Create a Python app
+-------------------
+
+Use the ``uwsgi`` macro defined in the `lib.sls <https://github.com/open-contracting/deploy/blob/master/salt/lib.sls>`__ file:
+
+.. code-block:: yaml
+
+   uwsgi(service, name='', port='', appdir='')
+
+-  The ``service`` argument selects the uWSGI `configuration template <https://github.com/open-contracting/deploy/tree/master/salt/uwsgi/configs/>`__. If this is a new service, you might need to create a new one.
+-  The ``name`` argument defaults to the ``service`` argument, and controls the name of the application in ``/etc/uwsgi/apps-available/`` and ``/etc/uwsgi/apps-enabled/``.
+-  The ``port`` and ``appdir`` arguments are passed through as context variables to render the configuration template (which might or might not use the variables).
+
+If you need to create a uWSGI configuration template:
+
+-  Design the template to get the values of uWSGI settings from the Pillar data.
+-  If a value isn't in the Pillar data, it should either:
+
+   -  Use a default value, for example:
+
+      .. code-block:: jinja
+
+         {{ salt['pillar.get']('uwsgi:max-requests', "1024") }}
+
+
+   -  Ignore the value, for example:
+
+      .. code-block:: jinja
+
+         {%- if salt['pillar.get']('uwsgi:cheaper') %}
+         cheaper = {{ salt['pillar.get']('uwsgi:cheaper') }}
+         {%- endif %}

@@ -21,7 +21,7 @@ To be responsible for servers, you should:
    -  :ref:`Review root access<review-root-access>`
    -  :ref:`Check mail<check-mail>`
    -  :ref:`Clean root user directory<clean-root-user-directory>`
-   -  :doc:`Re-deploy services<deploy>` to guarantee all changes are applied (optional)
+   -  :doc:`Re-deploy services<../deploy/deploy>` to guarantee all changes are applied (optional)
 
 -  :ref:`Check that backups are made<hosting>`, at a regular interval
 
