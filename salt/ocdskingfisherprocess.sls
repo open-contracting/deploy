@@ -139,7 +139,7 @@ kfp_postgres_readonlyuser_create:
     - group: {{ user }}
     - makedirs: True
 
-{{ userdir }}/.config/ocdskingfisher-views/logging.json:
+{{ userdir }}/.config/kingfisher-summarize/logging.json:
   file.managed:
     - source: salt://ocdskingfishersummarize/logging.json
     - user: {{ user }}
