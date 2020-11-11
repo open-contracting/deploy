@@ -36,8 +36,8 @@ ocdskingfisherprocess-prerequisites:
 
 {% set giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
 {% set views_giturl = 'https://github.com/open-contracting/kingfisher-views.git' %}
-{% set ocdskingfisherdir = userdir + '/ocdskingfisherprocess/' %}
-{% set ocdskingfisherviewsdir = userdir + '/ocdskingfisherviews/' %}
+{% set ocdskingfisherdir = userdir + '/ocdskingfisherprocess' %}
+{% set ocdskingfisherviewsdir = userdir + '/ocdskingfisherviews' %}
 
 {{ giturl }}{{ ocdskingfisherdir }}:
   git.latest:
@@ -63,7 +63,7 @@ ocdskingfisherprocess-prerequisites:
     - require:
       - pkg: git
 
-{{ ocdskingfisherdir }}.ve/:
+{{ ocdskingfisherdir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -79,7 +79,7 @@ pip_install_requirements:
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}.ve/
+      - virtualenv: {{ ocdskingfisherdir }}/.ve/
 
 postgres_user_and_db:
   postgres_user.present:
@@ -90,13 +90,13 @@ postgres_user_and_db:
     - name: ocdskingfisherprocess
     - owner: ocdskfp
 
-{{ ocdskingfisherviewsdir }}.ve/:
+{{ ocdskingfisherviewsdir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
     - cwd: {{ ocdskingfisherviewsdir }}
-    - requirements: {{ ocdskingfisherviewsdir }}requirements.txt
+    - requirements: {{ ocdskingfisherviewsdir }}/requirements.txt
     - require:
       - git: {{ views_giturl }}{{ ocdskingfisherviewsdir }}
 
@@ -125,33 +125,26 @@ kfp_postgres_readonlyuser_create:
     - group: {{ user }}
     - makedirs: True
 
-{{ userdir }}/.config/ocdskingfisher-views/config.ini:
+{{ ocdskingfisherviewsdir }}/.env:
   file.managed:
-    - source: salt://ocdskingfisherviews/config.ini
-    - template: jinja
+    - source: salt://ocdskingfisherviews/.env
     - user: {{ user }}
     - group: {{ user }}
-    - makedirs: True
+    - mode: 0400
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
     - source: salt://ocdskingfisherprocess/logging.json
-    - template: jinja
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - context:
-        userdir: {{ userdir }}
 
 {{ userdir }}/.config/ocdskingfisher-views/logging.json:
   file.managed:
     - source: salt://ocdskingfisherviews/logging.json
-    - template: jinja
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - context:
-        userdir: {{ userdir }}
 
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
@@ -182,7 +175,7 @@ createdatabase-{{ ocdskingfisherdir }}:
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherdir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}.ve/
+      - virtualenv: {{ ocdskingfisherdir }}/.ve/
       - {{ userdir }}/.config/ocdskingfisher-process/config.ini
 
 createdatabase-{{ ocdskingfisherviewsdir }}:
@@ -191,7 +184,7 @@ createdatabase-{{ ocdskingfisherviewsdir }}:
     - runas: {{ user }}
     - cwd: {{ ocdskingfisherviewsdir }}
     - require:
-      - virtualenv: {{ ocdskingfisherviewsdir }}.ve/
+      - virtualenv: {{ ocdskingfisherviewsdir }}/.ve/
       - {{ userdir }}/.config/ocdskingfisher-views/config.ini
 
 correctuserpermissions-{{ ocdskingfisherviewsdir }}:
@@ -224,7 +217,7 @@ kfp_postgres_readonlyuser_setup_as_postgres:
     - require:
       - {{ userdir }}/.pgpass
       - kfp_postgres_readonlyuser_create
-      - {{ ocdskingfisherdir }}.ve/
+      - {{ ocdskingfisherdir }}/.ve/
       - kfp_postgres_schema_creation
 
 kfp_postgres_readonlyuser_setup_as_user:
@@ -235,7 +228,7 @@ kfp_postgres_readonlyuser_setup_as_user:
     - require:
       - {{ userdir }}/.pgpass
       - kfp_postgres_readonlyuser_create
-      - {{ ocdskingfisherdir }}.ve/
+      - {{ ocdskingfisherdir }}/.ve/
       - kfp_postgres_readonlyuser_setup_as_postgres
       - kfp_postgres_schema_creation
 
