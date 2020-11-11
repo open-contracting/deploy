@@ -185,7 +185,7 @@ createdatabase-{{ ocdskingfisherviewsdir }}:
     - cwd: {{ ocdskingfisherviewsdir }}
     - require:
       - virtualenv: {{ ocdskingfisherviewsdir }}/.ve/
-      - {{ userdir }}/.config/ocdskingfisher-views/config.ini
+      - {{ ocdskingfisherviewsdir }}/.env
 
 correctuserpermissions-{{ ocdskingfisherviewsdir }}:
   cmd.run:
