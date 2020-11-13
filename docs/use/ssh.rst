@@ -2,8 +2,7 @@ Connecting to servers with SSH
 ==============================
 
 .. note::
-    Before you can SSH into the OCP servers you first need to upload your SSH public key.
-    `See notes on salt install page. <https://ocdsdeploy.readthedocs.io/en/latest/develop/get_started.html?highlight=ssh#add-public-key-to-remote-servers>`_. 
+    Before you can SSH into the OCP servers you first need to upload your SSH public key. See :ref:`salt install page<add-public-key>`.
 
 
 SSH access on all servers has been locked down using port knocking. 

@@ -32,6 +32,8 @@ You must first have access to three private repositories. Contact an owner of th
     git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
     git clone git@github.com:open-contracting/dogsbody-maintenance.git deploy/salt/maintenance
 
+.. _add-public-key:
+
 3. Add public key to remote servers
 -----------------------------------
 
