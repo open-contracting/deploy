@@ -36,6 +36,7 @@ Check the output in case there are any issues switching to the ``master`` branch
 
    .. code-block:: bash
 
+      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
       ssh root@collect.kingfisher.open-contracting.org
 
 #. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the helpdesk analysts, who should be identified by the session name. To list all sessions:

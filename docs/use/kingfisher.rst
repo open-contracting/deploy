@@ -43,6 +43,7 @@ You shouldn't need to connect to the main server as the ``ocdskfs`` user, as its
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
    ssh ocdskfs@collect.kingfisher.open-contracting.org
 
 .. _connect-process-server:
@@ -56,6 +57,7 @@ Connect to the main server as the ``ocdskfp`` user, to use the command-line tool
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
    ssh ocdskfp@process.kingfisher.open-contracting.org
 
 .. _connect-archive-server:
@@ -69,6 +71,7 @@ Connect to the main server as the ``analysis`` user, to perform operations that 
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
    ssh analysis@process.kingfisher.open-contracting.org
 
 This user has access to the `jq <https://stedolan.github.io/jq/manual/>`__, `flatten-tool <https://flatten-tool.readthedocs.io/en/latest/usage-ocds/>`__ and `ocdskit <https://ocdskit.readthedocs.io/en/latest/>`__ command-line tools.
@@ -82,6 +85,7 @@ Connect to the archive server as the ``archive`` user, to restore data files to 
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 archive.kingfisher.open-contracting.org:8255 || true
    ssh archive@archive.kingfisher.open-contracting.org
 
 Share files between users

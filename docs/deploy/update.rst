@@ -161,6 +161,7 @@ If the state fails with "User ocdskfpguest failed to be removed":
 
    .. code-block:: bash
 
+      curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
       ssh root@process.kingfisher.open-contracting.org
 
 #. Attempt to drop the given user as the ``postgres`` user, for example:

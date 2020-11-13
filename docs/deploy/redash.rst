@@ -30,6 +30,7 @@ Run script
 
       .. code-block:: bash
 
+         curl --silent --connect-timeout 1 redash.open-contracting.org:8255 || true
          ssh root@redash.open-contracting.org
 
    #. Copy the values of the ``REDASH_COOKIE_SECRET`` and ``REDASH_SECRET_KEY`` variables in the ``/opt/redash/env`` file on the old server:

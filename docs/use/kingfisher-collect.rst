@@ -109,6 +109,7 @@ From the command-line, :ref:`connect to the server<connect-collect-server>`, and
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
    ssh ocdskfs@collect.kingfisher.open-contracting.org
    cd scrapyd/logs/kingfisher
 

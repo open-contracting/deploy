@@ -37,6 +37,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
    .. code-block:: bash
 
+      curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
       ssh ocdskfp@process.kingfisher.open-contracting.org
       cd ocdskingfisherprocess
 
@@ -59,6 +60,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
    .. code-block:: bash
 
+      curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
       ssh root@process.kingfisher.open-contracting.org
       service uwsgi reload
 
