@@ -10,7 +10,7 @@ Clean root user directory
 
    .. code-block:: bash
 
-      salt-ssh '*' cmd.run 'ls'
+      ./run.py '*' cmd.run 'ls'
 
 #. Leave any ``post.install.log`` files
 #. Delete any ``index.html*`` files
@@ -28,7 +28,7 @@ Review root access
 
    .. code-block:: bash
 
-      salt-ssh '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3 | sort'
+      ./run.py '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3 | sort'
 
 #. :ref:`Remove authorized keys<delete-authorized-key>`, as needed
 
@@ -41,13 +41,13 @@ Find saved messages across servers:
 
 .. code-block:: bash
 
-   salt-ssh '*' cmd.run 'find /root /home/* -maxdepth 0 -name mbox'
+   ./run.py '*' cmd.run 'find /root /home/* -maxdepth 0 -name mbox'
 
 Find mailboxes with mail across servers:
 
 .. code-block:: bash
 
-   salt-ssh '*' cmd.run 'find /var/mail -type f -not -size 0'
+   ./run.py '*' cmd.run 'find /var/mail -type f -not -size 0'
 
 Connect to a server, for example:
 
@@ -87,13 +87,13 @@ To show the packages that were automatically installed and are no longer require
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' pkg.autoremove list_only=True
+   ./run.py 'ocds-docs-live' pkg.autoremove list_only=True
 
 It is generally safe to remove these. Run:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' pkg.autoremove purge=True
+   ./run.py 'ocds-docs-live' pkg.autoremove purge=True
 
 You can omit ``purge=True`` to make it easier to restore a package.
 
@@ -101,7 +101,7 @@ To show the packages that were removed but not purged, run:
 
 .. code-block:: bash
 
-   salt-ssh '*' pkg.list_pkgs removed=True
+   ./run.py '*' pkg.list_pkgs removed=True
 
 .. _rescale-server:
 
@@ -112,6 +112,6 @@ To determine the current releases, run:
 
 .. code-block:: bash
 
-   salt-ssh '*' cmd.run 'lsb_release -a'
+   ./run.py '*' cmd.run 'lsb_release -a'
 
 To check the long term support of the releases, consult the `Ubuntu documentation <https://ubuntu.com/about/release-cycle>`__.

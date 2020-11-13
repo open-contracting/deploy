@@ -14,13 +14,13 @@ If the virtual host uses HTTPS, you will need to acquire SSL certificates for th
 
    .. code-block:: bash
 
-      salt-ssh 'ocds-docs-live' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
+      ./run.py 'ocds-docs-live' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
 
 To check for old SSL certificates that were previously not removed, run:
 
 .. code-block:: bash
 
-   salt-ssh '*' cmd.run 'ls /etc/letsencrypt/live'
+   ./run.py '*' cmd.run 'ls /etc/letsencrypt/live'
 
 .. _remove-content:
 
@@ -39,7 +39,7 @@ Delete an authorized key
 
 .. code-block:: bash
 
-   salt-ssh '*' ssh.rm_auth_key root "AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XAt3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/EnmZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbxNrRFi9wrf+M7Q=="
+   ./run.py '*' ssh.rm_auth_key root "AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XAt3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/EnmZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbxNrRFi9wrf+M7Q=="
 
 .. The key is from https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key
 
@@ -50,7 +50,7 @@ Run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' file.remove /path/to/file-to-remove
+   ./run.py 'ocds-docs-live' file.remove /path/to/file-to-remove
 
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
@@ -68,15 +68,15 @@ To stop and disable the ``icinga2`` service on the ``ocds-docs-live`` target, fo
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' service.stop icinga2
-   salt-ssh 'ocds-docs-live' service.disable icinga2
+   ./run.py 'ocds-docs-live' service.stop icinga2
+   ./run.py 'ocds-docs-live' service.disable icinga2
 
 If you deleted the ``uwsgi`` service, also run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-available/cove.ini
-   salt-ssh 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-enabled/cove.ini
+   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-available/cove.ini
+   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-enabled/cove.ini
 
 Delete a package
 ~~~~~~~~~~~~~~~~
@@ -87,9 +87,9 @@ To scrub Icinga-related packages from the ``ocds-docs-live`` target, for example
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
-   salt-ssh 'ocds-docs-live' pkg.autoremove list_only=True
-   salt-ssh 'ocds-docs-live' pkg.autoremove purge=True
+   ./run.py 'ocds-docs-live' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
+   ./run.py 'ocds-docs-live' pkg.autoremove list_only=True
+   ./run.py 'ocds-docs-live' pkg.autoremove purge=True
 
 Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
@@ -114,7 +114,7 @@ Delete an Apache module
 
    .. code-block:: bash
 
-      salt-ssh 'toucan' state.apply
+      ./run.py 'toucan' state.apply
 
 #. Remove the temporary state
 
@@ -125,9 +125,9 @@ Run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-enabled/cove.conf
-   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf
-   salt-ssh 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
+   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
 
@@ -151,7 +151,7 @@ Delete a PostgreSQL user
 
    .. code-block:: bash
 
-      salt-ssh 'kingfisher-process*' state.sls_id ocdskfpguest ocdskingfisherprocess
+      ./run.py 'kingfisher-process*' state.sls_id ocdskfpguest ocdskingfisherprocess
 
 #. Remove the temporary state
 

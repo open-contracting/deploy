@@ -8,7 +8,7 @@ Increase verbosity
 
 .. code-block:: bash
 
-   salt-ssh -v all TARGET FUNCTION
+   ./run.py -v all TARGET FUNCTION
 
 Salt hangs inexplicably
 -----------------------

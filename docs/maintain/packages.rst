@@ -12,7 +12,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
 .. code-block:: bash
 
-   salt-ssh '*' pkg.list_upgrades
+   ./run.py '*' pkg.list_upgrades
 
 Consider whether any upgrades are backwards-incompatible or have post-installation steps.
 
@@ -21,7 +21,7 @@ Consider whether any upgrades are backwards-incompatible or have post-installati
 
 .. code-block:: bash
 
-    salt-ssh '*' pkg.upgrade dist_upgrade=True
+    ./run.py '*' pkg.upgrade dist_upgrade=True
 
 Monitor the output for relevant messages.
 
@@ -32,13 +32,13 @@ Monitor the output for relevant messages.
 
    .. code-block:: bash
 
-      salt-ssh '*' file.file_exists /var/run/reboot-required
+      ./run.py '*' file.file_exists /var/run/reboot-required
 
 #. Reboot the servers that need to be rebooted. For example:
 
    .. code-block:: bash
 
-      salt-ssh -L server-one,server-two system.reboot
+      ./run.py -L server-one,server-two system.reboot
 
    Sometimes, this command hangs, waiting for a response from a server that is already shutting down. Simply wait 30 seconds and stop the command.
 
@@ -46,6 +46,6 @@ Monitor the output for relevant messages.
 
    .. code-block:: bash
 
-      salt-ssh '*' file.file_exists /var/run/reboot-required
+      ./run.py '*' file.file_exists /var/run/reboot-required
 
    All servers should respond with ``False``.

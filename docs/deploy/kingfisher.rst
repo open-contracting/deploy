@@ -10,7 +10,7 @@ If you changed the ``requirements.txt`` file in Kingfisher Collect, you need to 
 
 .. code-block:: bash
 
-   salt-ssh 'kingfisher-process*' supervisord.restart scrapyd
+   ./run.py 'kingfisher-process*' supervisord.restart scrapyd
 
 .. _deploy-kingfisher-process:
 
