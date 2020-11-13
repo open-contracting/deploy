@@ -6,7 +6,7 @@ Specify version
 
 The default version is 11.
 
-To override the version, update the server's pillar file:
+To override the version, update the server's Pillar file:
 
 .. code-block:: yaml
   :emphasize-lines: 2
@@ -19,7 +19,7 @@ Enable public access
 
 By default, PostgreSQL only listens for local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`__).
 
-To enable public access, update the server's pillar file:
+To enable public access, update the server's Pillar file:
 
 .. code-block:: yaml
   :emphasize-lines: 2
@@ -32,7 +32,7 @@ Change default settings
 
 #. Put your configuration file in the `salt/postgres/configs <https://github.com/open-contracting/deploy/tree/master/salt/postgres/configs>`__ directory.
 
-#. Update the server's pillar file:
+#. Update the server's Pillar file:
 
   .. code-block:: yaml
     :emphasize-lines: 2
@@ -51,7 +51,7 @@ You will configure a master server and a replica server.
 
 #. Create configuration files for each server as above, setting ``wal_level = replica``. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
 
-#. Update the master server's pillar file with the replica user's name and the replica's IP addresses:
+#. Update the master server's Pillar file with the replica user's name and the replica's IP addresses:
 
    .. code-block:: yaml
 
@@ -62,7 +62,7 @@ You will configure a master server and a replica server.
           - 198.51.100.0/32
           - 2001:db8::/128
 
-#. Update the master server's private pillar file in the ``pillar/private`` directory with the replica user's password.
+#. Update the master server's private Pillar file in the ``pillar/private`` directory with the replica user's password.
 
    .. code-block:: yaml
 

@@ -33,12 +33,6 @@ base:
     - toucan
     - prometheus-client-apache
 
-  'kingfisher-archive':
-    - ocdskingfisher
-    - ocdskingfisheranalyse
-    - ocdskingfisherarchiveonarchive
-    - prometheus-client-apache
-
   'cove-*':
     - cove
     - prometheus-client-apache
@@ -46,7 +40,7 @@ base:
   'kingfisher-process*':
     - postgres
     - ocdskingfisher
-    #- ocdskingfisherarchiveonprocess
+    - ocdskingfisherarchive
     - ocdskingfishercollect
     - ocdskingfisherprocess
     - ocdskingfisheranalyse
@@ -70,3 +64,6 @@ base:
     - maintenance.postgres_monitoring
     - maintenance.raid_monitoring
     - maintenance.rkhunter
+
+  'covid19-dev':
+    - covid19

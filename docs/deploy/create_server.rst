@@ -85,7 +85,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en#Drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
-         .. code-block:: code
+         .. code-block:: none
 
             DRIVE1 /dev/sdb
             DRIVE2 /dev/sdd

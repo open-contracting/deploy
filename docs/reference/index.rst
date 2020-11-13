@@ -78,7 +78,7 @@ If a developer did not deploy (and was not granted root access) to a server with
 
 If a developer intends to deploy to a server, anyone with root access can grant that developer root access to that server.
 
-Root access should be :doc:`routinely reviewed <../deploy/maintain>`.
+Root access should be :ref:`routinely reviewed<review-root-access>`.
 
 Redash
 ~~~~~~
