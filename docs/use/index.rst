@@ -21,6 +21,7 @@ User Guides
 
 .. toctree::
 
+   ssh.rst
    databases.rst
    kingfisher.rst
    prometheus.rst

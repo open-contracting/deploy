@@ -14,7 +14,7 @@ To deploy a service, indicate the desired target and the ``state.apply`` functio
 
 .. code-block:: bash
 
-    salt-ssh 'ocds-docs-live' state.apply
+    ./run.py 'ocds-docs-live' state.apply
 
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 

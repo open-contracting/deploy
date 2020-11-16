@@ -1,4 +1,7 @@
-{% from 'lib.sls' import apache %}
+{% from 'lib.sls' import apache, configurefirewall %}
+
+{{ configurefirewall("PUBLICHTTPSERVER") }}
+{{ configurefirewall("PUBLICHTTPSSERVER") }}
 
 apache2:
   pkg.installed:

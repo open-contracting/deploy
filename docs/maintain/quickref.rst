@@ -33,7 +33,7 @@ To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/s
 
 .. code-block:: bash
 
-   salt-ssh '*' state.sls_id root_authorized_keys_add core
+   ./run.py '*' state.sls_id root_authorized_keys_add core
 
 .. _restart-service:
 
@@ -44,20 +44,20 @@ To restart a service, run, for example:
 
 .. code-block:: bash
 
-   salt-ssh TARGET service.restart uwsgi
+   ./run.py TARGET service.restart uwsgi
 
 To restart a service managed by `Supervisor <http://supervisord.org>`__, run, for example:
 
 .. code-block:: bash
 
-   salt-ssh TARGET supervisord.restart scrapyd
+   ./run.py TARGET supervisord.restart scrapyd
 
 Reboot a server
 ---------------
 
 .. code-block:: bash
 
-   salt-ssh TARGET system.reboot
+   ./run.py TARGET system.reboot
 
 Rescale a server
 ----------------

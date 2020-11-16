@@ -8,7 +8,7 @@ Increase verbosity
 
 .. code-block:: bash
 
-   salt-ssh -v all TARGET FUNCTION
+   ./run.py -v all TARGET FUNCTION
 
 Salt hangs inexplicably
 -----------------------
@@ -29,6 +29,7 @@ To fix this, simply connect to the server using SSH, then re-run the ``salt-ssh`
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
    ssh root@live.standard.open-contracting.org
 
 .. note::
@@ -52,6 +53,7 @@ If you want to check whether a deployment is simply slow or actually stalled, pe
 
    .. code-block:: bash
 
+      curl --silent --connect-timeout 1 live.docs.opencontracting.uk0.bigv.io:8255 || true
       ssh root@live.docs.opencontracting.uk0.bigv.io
 
 #. Watch the processes on the server:

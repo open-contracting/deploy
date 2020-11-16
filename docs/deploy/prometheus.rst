@@ -6,6 +6,7 @@ Test Alert Manager
 
 .. code-block:: bash
 
+   curl --silent --connect-timeout 1 alertmanager.prometheus.open-contracting.org:8255 || true
    ssh root@alertmanager.prometheus.open-contracting.org
    curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
 

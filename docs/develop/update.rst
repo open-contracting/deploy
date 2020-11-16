@@ -10,13 +10,13 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' state.apply test=True
+   ./run.py 'ocds-docs-live' state.apply test=True
 
 To preview changes to a Pillar file, run, for example:
 
 .. code-block:: bash
 
-   salt-ssh 'ocds-docs-live' pillar.items
+   ./run.py 'ocds-docs-live' pillar.items
 
 To compare Jinja2 output after refactoring but before committing, use ``script/diff`` to compare a full state or one SLS file, for example:
 

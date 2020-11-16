@@ -1,5 +1,9 @@
+{% from 'lib.sls' import configurefirewall %}
+
 include:
   - django
+
+{{ configurefirewall("ELASTICSEARCHSERVER") }}
 
 elasticsearch:
   pkgrepo.managed:

@@ -1,9 +1,16 @@
 #!/bin/bash
 set -e
 
+SALTSSH="./run.py"
+
 if [ -z "$1" ]; then
   echo 'No target provided' 1>&2
   exit 1
+fi
+
+if ! [ -x "${SALTSSH}" ]; then
+  echo "${SALTSSH} is not executable"
+  exit 2
 fi
 
 git stash
@@ -12,9 +19,9 @@ git stash
 cd ../..
 
 if [ -z "$2" ]; then
-  salt-ssh "$1" state.show_highstate > before
+  ${SALTSSH} "$1" state.show_highstate > before
 else
-  salt-ssh "$1" state.show_sls $2 > before
+  ${SALTSSH} "$1" state.show_sls $2 > before
 fi
 
 git stash pop
@@ -23,9 +30,9 @@ git stash pop || true # in case pillar/private was clean
 cd ../..
 
 if [ -z "$2" ]; then
-  salt-ssh "$1" state.show_highstate > after
+  ${SALTSSH} "$1" state.show_highstate > after
 else
-  salt-ssh "$1" state.show_sls $2 > after
+  ${SALTSSH} "$1" state.show_sls $2 > after
 fi
 
 diff -u before after | less
