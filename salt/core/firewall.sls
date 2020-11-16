@@ -36,3 +36,4 @@ Upload firewall script:
   - name: "/home/sysadmin-tools/bin/firewall.sh"
   - onchanges:
     - file: /home/sysadmin-tools/firewall-settings.local
+    - file: Upload firewall script
