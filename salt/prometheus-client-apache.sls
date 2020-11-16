@@ -15,10 +15,10 @@ prometheus-client modules:
 
 ########### Apache Reverse Proxy with password for security
 
-{% if pillar.prometheus.client_port = 80 %}
-{{ configurefirewall("PUBLICHTTPSERVER") }}
-{% elif pillar.prometheus.client_port = 7231 %}
-{{ configurefirewall("PROMETHEUSCLIENTACCESS=yes") }}
+{% if pillar.prometheus.client_port == 80 %}
+{{ configurefirewall("PROMETHEUSCLIENTACCESSPUBLICHTTPSERVER") }}
+{% elif pillar.prometheus.client_port == 7231 %}
+{{ configurefirewall("PROMETHEUSCLIENTACCESS") }}
 {% endif %}
 
 

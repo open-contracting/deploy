@@ -2,7 +2,6 @@
 #
 # THIS FILE IS MANAGED BY SALT - DO NOT EDIT MANUALLY
 #
-
 #
 # This file is managed by Dogsbody Technology Ltd.
 #   https://www.dogsbody.com/
@@ -43,11 +42,13 @@
 #     TINYPROXYSERVER=yes <- Allow public access to Port 8888
 #
 #     PROMETHEUSCLIENTACCESS=yes <- Allow the prometheus server access to port 7231
+#     PROMETHEUSCLIENTACCESSPUBLICHTTPSERVER=yes <- Alternative name for PUBLICHTTPSERVER
 #
 #     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
 #     
 #     Other settings below can also be overridden in firewall-settings.local
 #
+
 set -eu
 VERBOSEMODE=true
 
@@ -203,7 +204,7 @@ if [ "$DHCPV6" == "yes" ]; then
     $IP6TABLES -A INPUT -d fe80::/64 -p udp -m udp --dport 546 -m state --state NEW -j ACCEPT
 fi
 
-if [ "$PUBLICHTTPSERVER" == "yes" ]; then
+if [ "$PUBLICHTTPSERVER" == "yes" ] || [ "$PROMETHEUSCLIENTACCESSPUBLICHTTPSERVER" == "yes" ]; then
     echo_interactive "Public HTTP Webservers"
     $IPTABLES -A INPUT -p tcp --dport 80 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 80 -j ACCEPT
