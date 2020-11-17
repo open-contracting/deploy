@@ -22,6 +22,10 @@ ocdskingfishercollect-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
 
+{{ scrapyddir }}requirements.txt-expire:
+  file.not_cached:
+    - name: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
+
 {{ scrapyddir }}requirements.txt:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
