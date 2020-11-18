@@ -11,3 +11,5 @@ django:
   compilemessages: False
   env:
     ALLOWED_HOSTS: standard-search.open-contracting.org,www.live.standard-search.opencontracting.uk0.bigv.io
+uwsgi:
+  workers: 4
