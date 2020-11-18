@@ -11,7 +11,7 @@ include:
 zip:
   pkg.installed
 
-ocds-docs-live modules:
+docs modules:
   apache_module.enabled:
     - names:
       - headers

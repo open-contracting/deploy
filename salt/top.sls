@@ -15,7 +15,7 @@ base:
     - core.swap
     - core.systemd
 
-  'ocds-docs-live':
+  'docs':
     - ocds-docs-live
     - ocds-legacy
     - tinyproxy
@@ -25,7 +25,7 @@ base:
     - standard-search
     - prometheus-client-apache
 
-  'redash2':
+  'redash':
     - redash
     - prometheus-client-apache
 
@@ -46,7 +46,7 @@ base:
     - ocdskingfisheranalyse
     - prometheus-client-apache
 
-  'kingfisher-process1':
+  'kingfisher-process':
     - postgres.replica_master
 
   'kingfisher-replica*':

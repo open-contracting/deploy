@@ -6,10 +6,10 @@ base:
     - private.common
     - private.prometheus
 
-  'ocds-docs-live':
-    - ocds_docs_live
+  'docs':
+    - docs
     - tinyproxy
-    - ocds_docs_live_maintenance
+    - maintenance_simple
 
   'standard-search':
     - django
@@ -21,37 +21,37 @@ base:
     - django
     - toucan
     - private.toucan
-    - toucan_maintenance
+    - maintenance_simple
 
-  'cove-live-oc4ids':
+  'cove-oc4ids':
     - django
     - cove
-    - cove_oc4ids_live
-    - private.cove_oc4ids_live
-    - cove_oc4ids_live_maintenance
+    - cove_oc4ids
+    - private.cove_oc4ids
+    - maintenance_simple
 
-  'cove-live-ocds-3':
+  'cove-ocds':
     - django
     - cove
-    - cove_ocds_live3
-    - private.cove_ocds_live
-    - cove_ocds_live3_maintenance
+    - cove_ocds
+    - private.cove_ocds
+    - maintenance_simple
 
   'kingfisher-process*':
-    - ocdskingfisher_live
-    - private.ocdskingfisher_live
+    - kingfisher
+    - private.kingfisher
     - tinyproxy
 
-  'kingfisher-process1':
-    - kingfisher_process1_maintenance
+  'kingfisher-process':
+    - kingfisher_process_maintenance
 
   'kingfisher-replica*':
-    - ocdskingfisher_replica_live
-    - ocdskingfisher_replica1_maintenance
+    - kingfisher_replica
+    - kingfisher_replica_maintenance
 
   'prometheus':
-    - prometheus_maintenance
+    - maintenance_simple
 
-  'redash2':
+  'redash':
     - redash
-    - redash2_maintenance
+    - maintenance_simple

@@ -10,20 +10,20 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' state.apply test=True
+   ./run.py 'docs' state.apply test=True
 
 To preview changes to a Pillar file, run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' pillar.items
+   ./run.py 'docs' pillar.items
 
 To compare Jinja2 output after refactoring but before committing, use ``script/diff`` to compare a full state or one SLS file, for example:
 
 .. code-block:: bash
 
-   ./script/diff ocds-docs-live
-   ./script/diff ocds-docs-live zip
+   ./script/diff docs
+   ./script/diff docs zip
 
 If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
