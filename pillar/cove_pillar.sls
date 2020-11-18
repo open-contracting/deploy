@@ -1,7 +1,7 @@
 user: cove
 name: cove
 apache:
-  https: both
+  https: force
   serveraliases: ['master.{{ grains.fqdn }}'] # should match git.branch
 django:
   env:

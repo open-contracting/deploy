@@ -3,7 +3,7 @@
 # user:
 # name:
 apache:
-  # https: both | force | certonly
+  # https: force | certonly
   # servername:
   serveraliases: []
   assets_base_url: ''

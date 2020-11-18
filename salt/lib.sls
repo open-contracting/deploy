@@ -53,7 +53,7 @@ configure firewall setting {{ setting_name }}:
 {% endif %}
 
 {% if ports == [] %}
-    {% if https == 'both' or https == 'force' %}
+    {% if https == 'force' %}
         {% set ports = [ '80', '443' ] %}
     {% else %} {# https == 'certonly' or turned off #}
         {% set ports = [ '80' ] %}
@@ -92,7 +92,7 @@ configure firewall setting {{ setting_name }}:
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
 
-{% if https == 'both' or https == 'force' or https == 'certonly' %}
+{% if https == 'force' or https == 'certonly' %}
 
 {% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
 
