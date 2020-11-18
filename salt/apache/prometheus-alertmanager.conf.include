@@ -8,8 +8,3 @@
     AuthUserFile /home/{{ user }}/htpasswd
     Require valid-user
 </Location>
-
-<Location "/.well-known/acme-challenge">
-    ProxyPass !
-    Require all granted
-</Location>

@@ -9,10 +9,6 @@ DocumentRoot {{ djangodir }}
     ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/ timeout={{ salt['pillar.get']('uwsgi:harakiri', 900) }}
 </Location>
 
-<Location "/.well-known/acme-challenge">
-    ProxyPass !
-</Location>
-
 # Static content needed by Django
 Alias {{ pillar.apache.assets_base_url }}/static "{{ djangodir }}static/"
 <Location "{{ pillar.apache.assets_base_url }}/static">

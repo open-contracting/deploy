@@ -41,8 +41,8 @@ configure firewall setting {{ setting_name }}:
 {% endmacro %}
 
 
-# It is safe to set `serveraliases=[]`, because the default argument is never mutated.
-{% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='', ports=[]) %}
+# It is safe to use `[]` as a default value, because the default value is never mutated.
+{% macro apache(conffile, name='', servername='', serveraliases=[], https='', extracontext='', ports=[]) %}
 
 {% if name == '' %}
     {% set name = conffile %}
@@ -54,9 +54,9 @@ configure firewall setting {{ setting_name }}:
 
 {% if ports == [] %}
     {% if https == 'force' %}
-        {% set ports = [ '80', '443' ] %}
+        {% set ports = [80, 443] %}
     {% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
-        {% set ports = [ '80' ] %}
+        {% set ports = [80] %}
     {% endif %}
 {% endif %}
 
@@ -79,11 +79,11 @@ configure firewall setting {{ setting_name }}:
     - watch_in:
       - service: apache2
     - context:
-        myportlist: {{ ports|yaml }}
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
+        ports: {{ ports|yaml }}
         {{ extracontext|indent(8) }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
