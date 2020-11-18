@@ -55,13 +55,9 @@ configure firewall setting {{ setting_name }}:
 {% if ports == [] %}
     {% if https == 'force' %}
         {% set ports = [ '80', '443' ] %}
-    {% else %} {# https == 'certonly' or turned off #}
+    {% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
         {% set ports = [ '80' ] %}
     {% endif %}
-    {# Note there is a third https mode, certonly! But it is NOT used in setting myportlist #}
-    {# In this mode we want to setup /.well-known/acme-challenge BUT NOT the actual SSL site #}
-    {# This mode is used when we don't currently have SSL certs but want them. #}
-    {# So we can't enable the SSL site (because no certs) but we do want /.well-known/acme-challenge #}
 {% endif %}
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
