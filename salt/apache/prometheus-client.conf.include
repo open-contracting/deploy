@@ -6,5 +6,5 @@
     AuthName "Open Contracting Partnership Prometheus Node Exporter"
     AuthType Basic
     AuthUserFile /home/{{ user }}/htpasswd
-    require valid-user
+    Require valid-user
 </Location>

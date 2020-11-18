@@ -6,7 +6,7 @@
     AuthName "Open Contracting Partnership Prometheus Monitor"
     AuthType Basic
     AuthUserFile /home/{{ user }}/htpasswd
-    require valid-user
+    Require valid-user
 </Location>
 
 <Location "/.well-known/acme-challenge">

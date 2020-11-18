@@ -8,5 +8,5 @@ DocumentRoot /home/ocdskfs/scrapyd/
     AuthName "Kingfisher Scrapyd"
     AuthType Basic
     AuthUserFile /home/ocdskfs/htpasswd
-    require valid-user
+    Require valid-user
 </Location>
