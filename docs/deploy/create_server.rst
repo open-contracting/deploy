@@ -17,7 +17,7 @@ Bytemark
 #. Click *Servers* and *Add a cloud server*
 
    #. Enter a *Name*
-   #. Select a *Group*
+   #. Select a *Group* indicating the planned envionment (*production* or *development*)
    #. Set *Location* to "York"
    #. Set *Server Resources*
    #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
@@ -95,7 +95,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
          .. code-block:: none
 
-            HOSTNAME example.open-contracting.org
+            HOSTNAME ex01.open-contracting.org
 
       #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
 
@@ -115,7 +115,17 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       reboot
 
-2. Deploy the service
+2. Set up DNS records
+---------------------
+
+#. Create a new hostname DNS entry in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+
+All server hostnames should be in the following format ocpXX.open-contracting.org (e.g. ocp01, ocp02 etc).
+Each server should have a unique hostname so for each new server, increment the counter by one. 
+
+
+
+3. Deploy the service
 ---------------------
 
 #. Setup the server:
@@ -159,7 +169,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
 #. :doc:`Deploy the service<deploy>`
 
-3. Migrate from the old server
+4. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user
@@ -181,11 +191,11 @@ For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
-4. Update external services
+5. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
-#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ (e.g. standard-search.open-contracting.org, postgres.open-contracting.org)
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
 #. Contact Dogsbody Technology Ltd to set up maintenance
