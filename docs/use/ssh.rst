@@ -35,7 +35,7 @@ Static IP address
 
 If you have a static IP address and are connecting in often we can whitelist access to your IP address.
 
-Simply add your IP address to the `admin_ips` list in `salt/private/common_pillar.sls <https://github.com/open-contracting/deploy-pillar-private/blob/master/common_pillar.sls>`_
+Simply add your IP address to the `admin_ips` list in `salt/private/common.sls <https://github.com/open-contracting/deploy-pillar-private/blob/master/common.sls>`_
 As well as a note under `IP Info` identifying which user the IP address is for. 
 
 If you are unsure how to do this, feel free to contact sysadmin@open-contracting.org with your IP address and we can whitelist it for you.

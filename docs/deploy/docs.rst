@@ -61,7 +61,7 @@ To configure a documentation repository to push builds to the server:
 
    #. Click *Add a new secret*
    #. Set *Name* to "SEARCH_SECRET"
-   #. Set *Value* to the value of the ``OCDS_SECRET`` key in ``pillar/private/standard_search_pillar.sls``
+   #. Set *Value* to the value of the ``OCDS_SECRET`` key in ``pillar/private/standard_search.sls``
    #. Click *Add secret*
 
 .. _publish-released-documentation:

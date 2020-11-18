@@ -15,7 +15,7 @@ Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437
 Monitor a service
 -----------------
 
-If the ``prometheus-client-apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/private/prometheus_pillar.sls``), or the port set by the ``prometheus.client_port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
+If the ``prometheus-client-apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/private/prometheus.sls``), or the port set by the ``prometheus.client_port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
 
 #. For a Hetzner server, set the ``prometheus.client_port`` variable in the target's Pillar file to ``7231``, and :doc:`re-deploy<deploy>` the service.
 
@@ -23,7 +23,7 @@ If the ``prometheus-client-apache`` state file applies to the target, `Node Expo
 
    For Apache, open, for example, http://prom-client.live.docs.opencontracting.uk0.bigv.io for a Bytemark server or http://95.217.76.74:7231 for a Hetzner server.
 
-   The username is ``prom``. The password is set by the ``prometheus.client_password`` variable in the ``pillar/private/prometheus_pillar.sls`` file.
+   The username is ``prom``. The password is set by the ``prometheus.client_password`` variable in the ``pillar/private/prometheus.sls`` file.
 
 #. If Node Exporter isn't accessible, edit the ``prometheus.client_port`` and/or ``prometheus.client_fqdn`` variables in the target's Pillar file as needed, and :doc:`re-deploy<deploy>` the service.
 
@@ -40,7 +40,7 @@ If the ``prometheus-client-apache`` state file applies to the target, `Node Expo
 Upgrade Prometheus
 ------------------
 
-We set the version numbers of the Prometheus software in the ``prometheus`` section of the ``pillar/private/prometheus_pillar.sls`` file:
+We set the version numbers of the Prometheus software in the ``prometheus`` section of the ``pillar/private/prometheus.sls`` file:
 
 -  ``server_prometheus_version``
 -  ``server_alertmanager_version``
@@ -60,7 +60,7 @@ Deploy
 
 Once you're ready to upgrade, as with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
-#. Change the version numbers in the ``pillar/private/prometheus_pillar.sls`` file. (To test locally, you can :ref:`use to a virtual machine<using-a-virtual-machine>`.)
+#. Change the version numbers in the ``pillar/private/prometheus.sls`` file. (To test locally, you can :ref:`use to a virtual machine<using-a-virtual-machine>`.)
 
 #. If you're upgrading the server and/or alert manager, deploy the ``prometheus`` target.
 
