@@ -78,9 +78,9 @@ prometheus-alertmanager:
 ########### Apache Reverse Proxy with password for security
 
 {{ apache('prometheus-alertmanager',
-    extracontext='user: ' + user,
     servername=pillar.prometheus.alertmanager_fqdn,
-    https=pillar.prometheus.alertmanager_https) }}
+    https=pillar.prometheus.alertmanager_https,
+    extracontext='user: ' + user) }}
 
 prometheus-alertmanager-apache-password:
   cmd.run:

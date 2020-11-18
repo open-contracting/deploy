@@ -88,9 +88,9 @@ prometheus-server:
 ########### Apache Reverse Proxy with password for security
 
 {{ apache('prometheus-server',
-    extracontext='user: ' + user,
     servername=pillar.prometheus.server_fqdn,
-    https=pillar.prometheus.server_https ) }}
+    https=pillar.prometheus.server_https,
+    extracontext='user: ' + user) }}
 
 prometheus-server-apache-password:
   cmd.run:
