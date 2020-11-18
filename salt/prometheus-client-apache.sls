@@ -23,8 +23,8 @@ prometheus-client modules:
 
 
 {{ apache('prometheus-client',
-    extracontext='user: ' + user,
     servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
+    extracontext='user: ' + user,
     ports=[pillar.prometheus.client_port]) }}
 
 prometheus-client-apache-password:
