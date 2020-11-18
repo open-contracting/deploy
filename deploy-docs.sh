@@ -23,4 +23,4 @@ echo "Copy the built files to the remote server..."
 rsync -avz --delete-after build/ ocds-docs@standard.open-contracting.org:web/staging/$PATH_PREFIX${GITHUB_REF##*/}
 
 echo "Update the search index..."
-curl --fail "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=$(echo staging/$PATH_PREFIX | sed 's/\//%2F/g')${GITHUB_REF##*/}&langs=${LANGS}"
+curl -sS --fail "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=$(echo staging/$PATH_PREFIX | sed 's/\//%2F/g')${GITHUB_REF##*/}&langs=${LANGS}"
