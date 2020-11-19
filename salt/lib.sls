@@ -1,6 +1,6 @@
 # Defines common macros.
 
-{% macro configurefirewall(setting_name,setting_value="yes") %}
+{% macro configurefirewall(setting_name, setting_value="yes") %}
 configure firewall setting {{ setting_name }}:
   file.replace:
     - name:  /home/sysadmin-tools/firewall-settings.local
