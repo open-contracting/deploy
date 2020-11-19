@@ -6,7 +6,7 @@
 # This file is managed by Dogsbody Technology Ltd.
 #   https://www.dogsbody.com/
 #
-# Description:  A script to manage IPTables firewall rules
+# Description:  A script to manage IP Tables firewall rules
 #
 # Usage:  $0 
 #
@@ -14,7 +14,7 @@
 #     The following variables can be set in the /home/sysadmin-tools/firewall-settings.local file
 #     Configuration of this file is done automatically by salt.
 #
-#     # N.B. All arrays are space seperated lists of IP addresses
+#     # N.B. All arrays are space-separated lists of IP addresses
 #     PUBLICHTTPSERVER=ON    # Opens port 80 for the world
 #     PRIVATEHTTPSERVER=ON   # Opens port 80 for trusted IPs
 #
@@ -41,7 +41,7 @@
 #
 #     TINYPROXYSERVER=yes <- Allow public access to Port 8888
 #
-#     PROMETHEUSCLIENTACCESS=yes <- Allow the prometheus server access to port 7231
+#     PROMETHEUSCLIENTSERVER=yes <- Allow the prometheus server access to port 7231
 #
 #     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
 #     
@@ -85,7 +85,7 @@ function echo_interactive {
     [[ $VERBOSEMODE == true ]] && echo "**** $@ ****"
 }
 
-# Docker maintains it's own firewall rules 
+# Docker maintains its own firewall rules
 if [ -x "$(command -v docker)" ]; then
 	echo "Docker is not supported. Please manually maintain IPTables."
 	exit 4
@@ -157,7 +157,7 @@ $IP6TABLES -N log-drop
 $IP6TABLES -A log-drop -j LOG --log-prefix "Packet Dropped:"
 $IP6TABLES -A log-drop -j DROP
 
-echo_interactive "Create a blacklist to add bad people to"
+echo_interactive "Create a deny list to add bad people to"
 $IPTABLES -N blacklist
 $IPTABLES -A blacklist -m recent --name blacklist --set
 $IPTABLES -A blacklist -j log-drop
@@ -204,28 +204,28 @@ if [ "$DHCPV6" == "yes" ]; then
 fi
 
 if [ "$PUBLICHTTPSERVER" == "yes" ]; then
-    echo_interactive "Public HTTP Webservers"
+    echo_interactive "Public HTTP server"
     $IPTABLES -A INPUT -p tcp --dport 80 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 80 -j ACCEPT
 fi
 if [ "$PUBLICHTTPSSERVER" == "yes" ]; then
-    echo_interactive "Public HTTPS Webservers"
+    echo_interactive "Public HTTPS server"
     $IPTABLES -A INPUT -p tcp --dport 443 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 443 -j ACCEPT
 fi
 
 if [ "$PUBLICSMTPSERVER" == "yes" ]; then
-    echo_interactive "Public SMTP Server"
+    echo_interactive "Public SMTP server"
     $IPTABLES -A INPUT -p tcp --dport 25 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 25 -j ACCEPT
 fi
 
 if [ "$PUBLICMAILSERVER" == "yes" ]; then
-    echo_interactive "Public Mail Server"
-    $IPTABLES -A INPUT -p tcp --dport 587 -j ACCEPT
-    $IP6TABLES -A INPUT -p tcp --dport 587 -j ACCEPT
+    echo_interactive "Public IMAPS/SMTPS server"
     $IPTABLES -A INPUT -p tcp --dport 993 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 993 -j ACCEPT
+    $IPTABLES -A INPUT -p tcp --dport 587 -j ACCEPT
+    $IP6TABLES -A INPUT -p tcp --dport 587 -j ACCEPT
     $IPTABLES -A INPUT -p tcp --dport 465 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 465 -j ACCEPT
 fi
@@ -255,7 +255,7 @@ $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 8259 -m recent --
 $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 8260 -m recent --name KNOCK --remove -j DROP
 
 if [ "$PRIVATEHTTPSERVER" == "yes" ]; then
-    echo_interactive "Private HTTP Webservers"
+    echo_interactive "Private HTTP server"
     for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 80 -j ACCEPT
     done
@@ -266,7 +266,7 @@ if [ "$PRIVATEHTTPSERVER" == "yes" ]; then
     $IP6TABLES -A INPUT -p tcp --dport 80 -j monitor
 fi
 if [ "$PRIVATEHTTPSSERVER" == "yes" ]; then
-    echo_interactive "Private HTTPS Webservers"
+    echo_interactive "Private HTTPS server"
     for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 443 -j ACCEPT
     done
@@ -279,7 +279,7 @@ fi
 
 ## SMTP
 if [ "$PRIVATESMTPSERVER" == "yes" ]; then
-    echo_interactive "Private SMTP Server"
+    echo_interactive "Private SMTP server"
     for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 25 -j ACCEPT
     done
@@ -292,10 +292,10 @@ fi
 
 ## SSH
 echo_interactive "Open SSH access to trusted IP's"
-for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS $BEANSTALKIPS; do
+for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS; do
     $IPTABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
 done
-for IP in $LOCAL6IPS $ADMIN6IPS $ADDADMIN6IPS; do
+for IP in $LOCAL6IPS $ADMIN6IPS $ADDADMIN6IPS $SYSTEM6IPS; do
     $IP6TABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
 done
 $IPTABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -m recent --seconds 60 --rcheck --name KNOCK -j log-accept
@@ -304,7 +304,7 @@ $IPTABLES -A INPUT -p tcp --dport 22 -j monitor
 $IP6TABLES -A INPUT -p tcp --dport 22 -j monitor
 
 if [ "$PUBLICSSHSERVER" == "yes" ]; then
-    echo_interactive "Public SSH Server"
+    echo_interactive "Public SSH server"
     # Lock new connections out for 10 minutes if too many are made in 30 seconds
     $IPTABLES -N ssh
     $IPTABLES -A ssh -m recent --update --name blacklist --seconds 600 --hitcount 1 -j DROP
@@ -323,15 +323,15 @@ if [ "$PUBLICSSHSERVER" == "yes" ]; then
     $IP6TABLES -A INPUT -p tcp --dport 22 -j ACCEPT
 fi
 
-## Postgres
+## PostgreSQL
 if [ "$PUBLICPOSTGRESSERVER" == "yes" ]; then
-    echo_interactive "Public Postgres Server"
+    echo_interactive "Public PostgreSQL server"
     $IPTABLES -A INPUT -p tcp --dport 5432 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 5432 -j ACCEPT
 fi
 if [ "$PRIVATEPOSTGRESSERVER" == "yes" ]; then
-    echo_interactive "Private Postgres Server"
-    for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS $DATABASEONLYIPS; do
+    echo_interactive "Private PostgreSQL server"
+    for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 5432 -j ACCEPT
     done
     for IP in $LOCAL6IPS $ADMIN6IPS $ADDADMIN6IPS $SYSTEM6IPS; do
@@ -339,17 +339,17 @@ if [ "$PRIVATEPOSTGRESSERVER" == "yes" ]; then
     done
 fi
 
-## Tiny proxy server
+## Tinyproxy
 if [ "$TINYPROXYSERVER" == "yes" ]; then
-    echo_interactive "Public Tiny proxy access"
+    echo_interactive "Public Tinyproxy server"
     $IPTABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
 fi
 
-## Prometheus Client Access
-if [ "$PROMETHEUSCLIENTACCESS" == "yes" ]; then
-    echo_interactive "Private prometheus client access"
-    for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $PROMETHEUSACCESS; do
+## Prometheus client
+if [ "$PROMETHEUSCLIENTSERVER" == "yes" ]; then
+    echo_interactive "Private Prometheus client server"
+    for IP in $LOCALIPS $ADMINIPS $ADDADMINIPS $SYSTEMIPS $PROMETHEUSACCESS; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
     done
     for IP in $LOCAL6IPS $ADMIN6IPS $ADDADMIN6IPS $SYSTEM6IPS $PROMETHEUS6ACCESS; do
@@ -357,9 +357,9 @@ if [ "$PROMETHEUSCLIENTACCESS" == "yes" ]; then
     done
 fi
 
-## Elastic search server
+## Elasticsearch
 if [ "$ELASTICSEARCHSERVER" == "yes" ]; then
-    echo_interactive "Public Elasticsearch access"
+    echo_interactive "Public Elasticsearch server"
     $IPTABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
     $IPTABLES -A INPUT -p tcp --dport 9300 -j ACCEPT
@@ -379,16 +379,10 @@ $IPTABLES -F monitor
 $IP6TABLES -F monitor
 
 echo_interactive "IPv4 monitor chain"
-for IP in $PINGDOMIPS $APPBEATIPS $RAPIDSWITCHIPS; do
-    $IPTABLES -A monitor -s $IP -j ACCEPT
-done
+$IPTABLES -A monitor -s $APPBEATIPS -j ACCEPT
 
 echo_interactive "IPv6 monitor chain"
-for IP in $PINGDOM6IPS $APPBEAT6IPS $RAPIDSWITCH6IPS; do
-    $IP6TABLES -A monitor -s $IP -j ACCEPT
-done
-
-echo_interactive "Updated monitor chains"
+$IP6TABLES -A monitor -s $APPBEAT6IPS -j ACCEPT
 
 echo_interactive "Getting OS version"
 if [ -f /etc/os-release ]; then
@@ -439,6 +433,4 @@ else
     echo "Warning: The iptables rules were not saved!"
 fi
 
-
 echo_interactive "Script complete"
-

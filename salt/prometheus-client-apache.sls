@@ -18,7 +18,7 @@ prometheus-client modules:
 {% if pillar.prometheus.client_port == 80 %}
 {{ configurefirewall("PUBLICHTTPSERVER") }}
 {% elif pillar.prometheus.client_port == 7231 %}
-{{ configurefirewall("PROMETHEUSCLIENTACCESS") }}
+{{ configurefirewall("PROMETHEUSCLIENTSERVER") }}
 {% endif %}
 
 
