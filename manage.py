@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import os
+import socket
 import subprocess
 from collections import defaultdict
 
@@ -61,6 +63,19 @@ def run(*args):
 def cli():
     pass
 
+@click.command()
+@click.argument('destination')
+def connect(destination):
+    """
+    Port-knocks then connects to a destination using SSH.
+    """
+    user, host = destination.split('@')
+    try:
+        socket.create_connection((host, 8255), 1)
+    except socket.timeout:
+        pass
+    os.execvp('ssh', ('ssh', destination))
+
 
 @click.command()
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
@@ -97,6 +112,7 @@ def autoremove(margin, provider):
     compare(content, lambda line: line.strip()[2:], mode='comm', margin=margin, providers=provider)
 
 
+cli.add_command(connect)
 cli.add_command(services)
 cli.add_command(packages)
 cli.add_command(autoremove)
