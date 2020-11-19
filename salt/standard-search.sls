@@ -13,7 +13,6 @@ elasticsearch:
     - pkgs:
       - apt-transport-https
       - elasticsearch
-      - openjdk-8-jre-headless
   service.running:
     - name: elasticsearch
     - enable: True
