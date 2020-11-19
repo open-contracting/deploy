@@ -1,9 +1,5 @@
 {% from 'lib.sls' import createuser %}
 
-prometheus-client-deps:
-  pkg.installed:
-    - name: curl
-
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
 {{ createuser(user) }}
@@ -15,7 +11,6 @@ get_prometheus_client:
     - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus_node_exporter.version }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
     - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
     - requires:
-      - pkg.prometheus-client-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus_client:

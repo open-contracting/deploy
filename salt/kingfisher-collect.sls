@@ -8,7 +8,6 @@ kingfisher-collect-prerequisites:
   pkg.installed:
     - pkgs:
       - supervisor
-      - curl
 
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}

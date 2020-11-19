@@ -6,7 +6,6 @@ docker_prepackages:
   pkg.installed:
     - pkgs:
       - ca-certificates
-      - curl
       - gnupg-agent
       - software-properties-common
 

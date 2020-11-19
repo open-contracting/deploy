@@ -4,11 +4,6 @@ include:
   - apache
   - apache-proxy
 
-prometheus-server-deps:
-    pkg.installed:
-      - pkgs:
-        - curl
-
 {% set user = 'prometheus-server' %}
 {{ createuser(user) }}
 
@@ -19,7 +14,6 @@ get_prometheus:
     - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - requires:
-      - pkg.prometheus-server-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus:

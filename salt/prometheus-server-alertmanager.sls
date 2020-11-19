@@ -4,11 +4,6 @@ include:
   - apache
   - apache-proxy
 
-prometheus-alertmanager-deps:
-    pkg.installed:
-      - pkgs:
-        - curl
-
 {% set user = 'prometheus-alertmanager' %}
 {{ createuser(user) }}
 
@@ -19,7 +14,6 @@ get_prometheus_alertmanager:
     - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus_alertmanager.version }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
     - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
     - requires:
-      - pkg.prometheus-alertmanager-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus_alertmanager:
