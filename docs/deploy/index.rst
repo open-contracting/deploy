@@ -26,3 +26,4 @@ Deployment Guides
    :maxdepth: 2
 
    aws.rst
+   google.rst
