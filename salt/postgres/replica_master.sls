@@ -36,8 +36,8 @@
 
 replica_user:
   postgres_user.present:
-    - name: {{ pillar['postgres']['replica_user']['username'] }}
-    - password: {{ pillar['postgres']['replica_user']['password'] }}
+    - name: {{ pillar.postgres.replica_user.username }}
+    - password: {{ pillar.postgres.replica_user.password }}
     - encrypted: True
     - login: True
     - replication: True

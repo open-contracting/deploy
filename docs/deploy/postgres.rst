@@ -38,7 +38,8 @@ Change default settings
     :emphasize-lines: 2
 
     postgres:
-      custom_configuration: salt://postgres/configs/kingfisher-process1-postgres.conf
+      configuration_name: kingfisher-process1
+      configuration_file: salt://postgres/configs/kingfisher-process1-postgres.conf
 
 #. :doc:`Deploy<deploy>`
 

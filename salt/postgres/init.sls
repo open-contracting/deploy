@@ -38,14 +38,14 @@ postgresql:
       - service: postgresql
 
 # Upload custom configuration if defined.
-{% if pillar['postgres']['custom_configuration'] %}
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ grains['id'] }}.conf:
+{% if pillar.postgres.configuration_file %}
+/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration_name }}.conf:
   file.managed:
     - user: postgres
     - group: postgres
     - mode: 640
     - source:
-      - {{ pillar['postgres']['custom_configuration'] }}
+      - {{ pillar.postgres.configuration_file }}
     - watch_in:
       - service: postgresql
 {% endif %}

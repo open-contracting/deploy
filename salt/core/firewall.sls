@@ -17,8 +17,8 @@ iptables-persistent:
 
 
 
-{{ configurefirewall("ADDADMINIPS", ' '.join(pillar['admin_ips']['ipv4']) ) }}
-{{ configurefirewall("ADDADMIN6IPS", ' '.join(pillar['admin_ips']['ipv6']) ) }}
+{{ configurefirewall("ADDADMINIPS", ' '.join(pillar.admin_ips.ipv4) ) }}
+{{ configurefirewall("ADDADMIN6IPS", ' '.join(pillar.admin_ips.ipv6) ) }}
 
 # We are uploading the script and executing server side (rather than running one off using cmd.script).
 # This has the following benefits:

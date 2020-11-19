@@ -12,4 +12,5 @@ postgres:
     - 148.251.183.230/32
     - 2a01:4f8:211:de::2/128
   version: 11
-  custom_configuration: salt://postgres/configs/kingfisher-process1-postgres.conf
+  configuration_name: kingfisher-process1
+  configuration_file: salt://postgres/configs/kingfisher-process1-postgres.conf
