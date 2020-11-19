@@ -3,7 +3,6 @@
 # Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
-
 # PostgreSQL's replication slots prevent a master server from removing WAL segments from `pg_wal` that are still needed
 # by replica servers. As a fallback, and in case replication slots are not configured, we also have a WAL archive. Old
 # archive files are deleted by `/etc/cron.d/replica_monitoring` below.

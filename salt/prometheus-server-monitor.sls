@@ -1,4 +1,3 @@
-
 {% from 'lib.sls' import createuser, apache %}
 
 include:
@@ -13,7 +12,7 @@ prometheus-server-deps:
 {% set user = 'prometheus-server' %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus:
   cmd.run:
@@ -31,7 +30,7 @@ extract_prometheus:
     - requires:
       - cmd.get_prometheus
 
-########### Config
+## Configure
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
@@ -51,7 +50,7 @@ extract_prometheus:
     - requires:
       - user: {{ user }}_user_exists
 
-########### Data
+## Data
 
 /home/{{ user }}/data:
   file.directory:
@@ -61,7 +60,7 @@ extract_prometheus:
     - requires:
       - user: {{ user }}_user_exists
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-server.service:
   file.managed:
@@ -85,7 +84,7 @@ prometheus-server:
       - file: /home/{{ user }}/conf-prometheus-rules.yml
       - file: /etc/systemd/system/prometheus-server.service
 
-########### Apache Reverse Proxy with password for security
+## Apache reverse proxy with password for security
 
 {{ apache('prometheus-server',
     servername=pillar.prometheus.server_fqdn,

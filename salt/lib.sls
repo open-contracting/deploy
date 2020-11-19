@@ -10,6 +10,7 @@ configure firewall setting {{ setting_name }}:
     - backup: ""
 {% endmacro %}
 
+
 # Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
 {% macro createuser(user, auth_keys_files=[]) %}
 

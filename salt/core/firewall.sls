@@ -15,8 +15,6 @@ iptables-persistent:
     - replace: False
     - mode: 640
 
-
-
 {{ configurefirewall("ADDADMINIPS", ' '.join(pillar.admin_ips.ipv4) ) }}
 {{ configurefirewall("ADDADMIN6IPS", ' '.join(pillar.admin_ips.ipv6) ) }}
 

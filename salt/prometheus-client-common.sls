@@ -8,7 +8,7 @@ prometheus-client-deps:
 {% set user = 'prometheus-client' %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus_client:
   cmd.run:
@@ -26,7 +26,7 @@ extract_prometheus_client:
     - requires:
       - cmd.get_prometheus
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-node-exporter.service:
   file.managed:
@@ -47,8 +47,7 @@ prometheus-node-exporter:
     - watch:
       - file: /etc/systemd/system/prometheus-node-exporter.service
 
-
-########### General Textfile Collector
+## Textfile collector
 
 {% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
 /home/{{ user }}/node-exporter-textfile-directory:
@@ -74,8 +73,7 @@ prometheus-node-exporter:
 
 {% endif %}
 
-
-########### SmartMon?
+## SmartMon
 
 {% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
 

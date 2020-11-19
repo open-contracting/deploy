@@ -104,7 +104,10 @@ kfs-apache-password:
     - runas: {{ user }}
     - cwd: {{ userdir }}
 
-{{ apache('kingfisher-collect', name='ocdskingfisherscrape', servername='collect.kingfisher.open-contracting.org') }}
+{{ apache('kingfisher-collect',
+    name='ocdskingfisherscrape',
+    servername='collect.kingfisher.open-contracting.org',
+    extracontext='user: ' + user) }}
 
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:

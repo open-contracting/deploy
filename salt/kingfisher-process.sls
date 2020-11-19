@@ -232,11 +232,9 @@ kfp_postgres_readonlyuser_setup_as_user:
       - kfp_postgres_readonlyuser_setup_as_postgres
       - kfp_postgres_schema_creation
 
-
 {{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
 {{ uwsgi('kingfisher-process', name='ocdskingfisherprocess', port=5001) }}
-
 
 # This is to have eight workers at once.
 cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
@@ -307,7 +305,6 @@ kfp_postgres_set_random_page_cost:
   cmd.run:
     - name: psql -c "ALTER TABLESPACE pg_default SET (random_page_cost = 2)"
     - runas: postgres
-
 
 # https://github.com/open-contracting/deploy/issues/117
 kingfisher_postgres_extensions:

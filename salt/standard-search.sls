@@ -21,7 +21,7 @@ elasticsearch:
     - enable: True
     - watch:
       - file: /etc/elasticsearch/*
-  # Ensure elasticsearch only listens on localhost, doesn't multicast
+  # Only listen on localhost.
   file.append:
     - name: /etc/elasticsearch/elasticsearch.yml
     - text: |

@@ -1,6 +1,4 @@
-
 {% from 'lib.sls' import createuser,  apache %}
-
 
 include:
   - apache
@@ -14,7 +12,7 @@ prometheus-alertmanager-deps:
 {% set user = 'prometheus-alertmanager' %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus_alertmanager:
   cmd.run:
@@ -32,7 +30,7 @@ extract_prometheus_alertmanager:
     - requires:
       - cmd.get_prometheus_alertmanager
 
-########### Config
+## Configure
 
 /home/{{ user }}/conf-alertmanager.yml:
   file.managed:
@@ -43,7 +41,7 @@ extract_prometheus_alertmanager:
     - requires:
       - user: {{ user }}_user_exists
 
-########### Data
+## Data
 
 /home/{{ user }}/data:
   file.directory:
@@ -53,7 +51,7 @@ extract_prometheus_alertmanager:
     - requires:
       - user: {{ user }}_user_exists
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-alertmanager.service:
   file.managed:
@@ -74,8 +72,7 @@ prometheus-alertmanager:
       - file: /home/{{ user }}/conf-alertmanager.yml
       - file: /etc/systemd/system/prometheus-alertmanager.service
 
-
-########### Apache Reverse Proxy with password for security
+## Apache reverse proxy with password for security
 
 {{ apache('prometheus-alertmanager',
     servername=pillar.prometheus.alertmanager_fqdn,
