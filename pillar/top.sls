@@ -37,7 +37,7 @@ base:
     - private.cove_ocds
     - maintenance_simple
 
-  'kingfisher-process*':
+  'kingfisher-process':
     - kingfisher
     - private.kingfisher
     - tinyproxy
@@ -45,7 +45,7 @@ base:
   'kingfisher-process':
     - kingfisher_process_maintenance
 
-  'kingfisher-replica*':
+  'kingfisher-replica':
     - kingfisher_replica
     - kingfisher_replica_maintenance
 

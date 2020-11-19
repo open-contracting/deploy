@@ -4,7 +4,7 @@ OCDS documentation tasks
 Add a new language
 ------------------
 
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the new language in the ``options`` variable.
+#. In ``salt/apache/docs.conf.include``, add the new language in the ``options`` variable.
 #. In ``tests/test_docs.py``, update the ``languages`` variable.
 
 .. _add-new-profile:
@@ -14,7 +14,7 @@ Add a new profile
 
 Below, substitute ``{root}``, ``{latest-branch}``, ``{minor-branch}`` and ``{dev-branch}``. For example: ``ppp``, ``latest`` ``1.0`` and ``1.0-dev``.
 
-#. Edit ``salt/ocds-docs/robots_live.txt``
+#. Edit ``salt/docs/robots.txt``
 #. For Googlebot, add:
 
    .. code-block:: none
@@ -54,7 +54,7 @@ To configure a documentation repository to push builds to the server:
 
    #. Click *Add a new secret*
    #. Set *Name* to "PRIVATE_KEY"
-   #. Set *Value* to the contents of ``salt/private/ocds-docs/ssh_authorized_keys_for_ci_private``
+   #. Set *Value* to the contents of ``salt/private/docs/ssh_authorized_keys_for_ci_private``
    #. Click *Add secret*
 
 #. Set the search secret:
@@ -105,14 +105,14 @@ Copy files from the staging directory to the live directory:
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
-   ssh root@live.standard.open-contracting.org "rsync -avzP /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
+   ssh root@standard.open-contracting.org "rsync -avzP /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
 
 Update the symlink:
 
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
-   ssh root@live.standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
+   ssh root@standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
 
 Rebuild the search index, after setting the ``SEARCH_SECRET`` and ``LANGS`` variables:
 
@@ -134,7 +134,7 @@ Connect to the server:
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
-   ssh root@live.standard.open-contracting.org
+   ssh root@standard.open-contracting.org
 
 Set environment variables, for example:
 
@@ -191,17 +191,17 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 
 If this is the first numbered version of a profile:
 
-#. :ref:`Update salt/ocds-docs/robots_live.txt<add-new-profile>`.
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
+#. :ref:`Update salt/docs/robots.txt<add-new-profile>`.
+#. In ``salt/apache/docs.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
 #. In ``tests/test_docs.py``, update the ``versions``, ``languages`` and ``banner_live`` variables.
-#. Add a ``salt/ocds-docs/includes/version-options-profiles-{root}.html`` file to this repository:
+#. Add a ``salt/docs/includes/version-options-profiles-{root}.html`` file to this repository:
 
    .. code-block:: html
 
       <option>Version</option>
       <option value="{latest-branch}">{version} ({latest-branch})</option>
 
-#. Add a ``salt/ocds-docs/includes/banner_staging_profiles_{root}.html`` file to this repository:
+#. Add a ``salt/docs/includes/banner_staging_profiles_{root}.html`` file to this repository:
 
    .. code-block:: html
 
@@ -211,18 +211,18 @@ If this is the first numbered version of a profile:
 
 Otherwise:
 
-#. In the appropriate ``salt/ocds-docs/includes/version-options*.html`` file, update the version number in the text of the first ``option`` element.
+#. In the appropriate ``salt/docs/includes/version-options*.html`` file, update the version number in the text of the first ``option`` element.
 
 If this is a new major or minor version:
 
-#. In ``salt/ocds-docs/robots_live.txt``, disallow the minor branch and its dev branch, for example:
+#. In ``salt/docs/robots.txt``, disallow the minor branch and its dev branch, for example:
 
    .. code-block:: none
 
       Disallow: /1.2
       Disallow: /1.2-dev
 
-#. In ``salt/apache/ocds-docs-live.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
+#. In ``salt/apache/docs.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
 
    .. code-block:: none
 
@@ -231,8 +231,8 @@ If this is a new major or minor version:
       </Location>
 
 #. In ``tests/test_docs.py``, update the ``versions``, ``banner_live`` and ``banner_old`` variables.
-#. In the appropriate ``salt/ocds-docs/includes/banner_staging*.html`` file and ``salt/ocds-docs/includes/banner_old*.html>`` file (if any), update the minor series.
-#. In the appropriate ``salt/ocds-docs/includes/version-options*.html`` file, add an ``option`` element to the "Live" ``optgroup`` for the previous minor series and previous version number, for example:
+#. In the appropriate ``salt/docs/includes/banner_staging*.html`` file and ``salt/docs/includes/banner_old*.html>`` file (if any), update the minor series.
+#. In the appropriate ``salt/docs/includes/version-options*.html`` file, add an ``option`` element to the "Live" ``optgroup`` for the previous minor series and previous version number, for example:
 
    .. code-block:: html
 

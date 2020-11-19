@@ -75,8 +75,8 @@ If you deleted the ``uwsgi`` service, also run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-available/cove.ini
-   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-enabled/cove.ini
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-available/cove.ini
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-enabled/cove.ini
 
 Delete a package
 ~~~~~~~~~~~~~~~~
@@ -125,9 +125,9 @@ Run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-enabled/cove.conf
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
 
@@ -151,7 +151,7 @@ Delete a PostgreSQL user
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process*' state.sls_id ocdskfpguest ocdskingfisherprocess
+      ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
 
 #. Remove the temporary state
 

@@ -3,24 +3,24 @@
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
 
-{% set giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
-{% set ocdskingfisherdir = userdir + '/ocdskingfisherarchive' %}
-{% set scrapyddir = userdir + '/scrapyd' %}
+{% set archive_giturl = 'https://github.com/open-contracting/kingfisher-archive.git' %}
+{% set archive_dir = userdir + '/ocdskingfisherarchive' %}
+{% set scrapyd_dir = userdir + '/scrapyd' %}
 
-{{ giturl }}{{ ocdskingfisherdir }}:
+{{ archive_giturl }}{{ archive_dir }}:
   git.latest:
-    - name: {{ giturl }}
+    - name: {{ archive_giturl }}
     - user: {{ user }}
     - force_fetch: True
     - force_reset: True
     - branch: master
     - rev: master
-    - target: {{ ocdskingfisherdir }}
+    - target: {{ archive_dir }}
     - require:
       - pkg: git
       - user: {{ user }}_user_exists
 
-{{ ocdskingfisherdir }}/.ve/:
+{{ archive_dir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -28,19 +28,19 @@
     - pip_pkgs:
       - pip-tools
     - require:
-      - git: {{ giturl }}{{ ocdskingfisherdir }}
+      - git: {{ archive_giturl }}{{ archive_dir }}
 
 archive_pip_install_requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync
     - runas: {{ user }}
-    - cwd: {{ ocdskingfisherdir }}
+    - cwd: {{ archive_dir }}
     - require:
-      - virtualenv: {{ ocdskingfisherdir }}/.ve/
+      - virtualenv: {{ archive_dir }}/.ve/
 
-{{ ocdskingfisherdir }}/.env:
+{{ archive_dir }}/.env:
   file.managed:
-    - source: salt://ocdskingfisherarchive/.env
+    - source: salt://kingfisher-archive/.env
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -48,13 +48,13 @@ archive_pip_install_requirements:
     - makedirs: True
     - context:
         userdir: {{ userdir }}
-        scrapyddir: {{ scrapyddir }}
+        scrapyd_dir: {{ scrapyd_dir }}
     - require:
-      - git: {{ giturl }}{{ ocdskingfisherdir }}
+      - git: {{ archive_giturl }}{{ archive_dir }}
 
 {{ userdir }}/.config/ocdskingfisher-archive/logging.json:
   file.managed:
-    - source: salt://ocdskingfisherarchive/logging.json
+    - source: salt://kingfisher-archive/logging.json
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -64,14 +64,14 @@ archive_pip_install_requirements:
 
 /etc/rsyslog.d/92-kingfisher-archive.conf:
   file.managed:
-    - source: salt://ocdskingfisherarchive/rsyslog.conf
+    - source: salt://kingfisher-archive/rsyslog.conf
 
 /etc/logrotate.d/archive:
   file.managed:
-    - source: salt://ocdskingfisherarchive/logrotate
+    - source: salt://kingfisher-archive/logrotate
     - makedirs: True
 
-#cd {{ ocdskingfisherdir }}; source .ve/bin/activate; python manage.py archive:
+#cd {{ archive_dir }}; source .ve/bin/activate; python manage.py archive:
 #  cron.present:
 #    - identifier: OCDS_KINGFISHER_ARCHIVE_RUN
 #    - user: {{ user }}

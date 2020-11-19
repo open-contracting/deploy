@@ -8,7 +8,7 @@ include:
   - apache
   - uwsgi
 
-ocdskingfisherprocess-prerequisites:
+kingfisher-process-prerequisites:
   apache_module.enabled:
     - names:
       - proxy
@@ -84,7 +84,7 @@ pip_install_requirements:
 postgres_user_and_db:
   postgres_user.present:
     - name: ocdskfp
-    - password: {{ pillar.ocdskingfisherprocess.postgres.ocdskfp.password }}
+    - password: {{ pillar.kingfisher_process.postgres.ocdskfp.password }}
 
   postgres_database.present:
     - name: ocdskingfisherprocess
@@ -103,11 +103,11 @@ postgres_user_and_db:
 kfp_postgres_readonlyuser_create:
   postgres_user.present:
     - name: ocdskfpreadonly
-    - password: {{ pillar.ocdskingfisherprocess.postgres.ocdskfpreadonly.password }}
+    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
 
 {{ userdir }}/.pgpass:
   file.managed:
-    - source: salt://postgres/ocdskingfisher_process_.pgpass
+    - source: salt://postgres/kingfisher-process.pgpass
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -115,11 +115,11 @@ kfp_postgres_readonlyuser_create:
 
 {{ process_dir }}/wsgi.py:
   file.managed:
-    - source: salt://wsgi/ocdskingfisherprocess.py
+    - source: salt://wsgi/kingfisher-process.py
 
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
-    - source: salt://ocdskingfisherprocess/config.ini
+    - source: salt://kingfisher-process/config.ini
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -127,40 +127,40 @@ kfp_postgres_readonlyuser_create:
 
 {{ summarize_dir }}/.env:
   file.managed:
-    - source: salt://ocdskingfishersummarize/.env
+    - source: salt://kingfisher-summarize/.env
     - user: {{ user }}
     - group: {{ user }}
     - mode: 0400
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
-    - source: salt://ocdskingfisherprocess/logging.json
+    - source: salt://kingfisher-process/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
 
 {{ userdir }}/.config/kingfisher-summarize/logging.json:
   file.managed:
-    - source: salt://ocdskingfishersummarize/logging.json
+    - source: salt://kingfisher-summarize/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
 
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
-    - source: salt://ocdskingfisherprocess/rsyslog.conf
+    - source: salt://kingfisher-process/rsyslog.conf
 
 /etc/rsyslog.d/91-kingfisher-views.conf:
   file.managed:
-    - source: salt://ocdskingfishersummarize/rsyslog.conf
+    - source: salt://kingfisher-summarize/rsyslog.conf
 
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
-    - source: salt://ocdskingfisherprocess/logrotate.conf
+    - source: salt://kingfisher-process/logrotate.conf
 
 /etc/logrotate.d/kingfisher-views.conf:
   file.managed:
-    - source: salt://ocdskingfishersummarize/logrotate.conf
+    - source: salt://kingfisher-summarize/logrotate.conf
 
 restart-syslog:
   cmd.run:
@@ -233,9 +233,9 @@ kfp_postgres_readonlyuser_setup_as_user:
       - kfp_postgres_schema_creation
 
 
-{{ apache('ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
+{{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
-{{ uwsgi('ocdskingfisherprocess', port=5001) }}
+{{ uwsgi('kingfisher-process', name='ocdskingfisherprocess', port=5001) }}
 
 
 # This is to have eight workers at once.
@@ -282,14 +282,14 @@ reload_uwsgi_service:
     - name: sleep 10; /etc/init.d/uwsgi reload
     - order: last
 
-ocdskingfisherprocess-pipinstall:
+kingfisher-process-pipinstall:
   pip.installed:
     - upgrade: True
     - user: {{ user }}
-    - requirements: salt://ocdskingfisherprocess/pipinstall.txt
+    - requirements: salt://kingfisher-process/pipinstall.txt
     - bin_env: /usr/bin/pip3
 
-ocdskingfisherprocess-pip-path:
+kingfisher-process-pip-path:
   file.append:
     - name: {{ userdir }}/.bashrc
     - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""

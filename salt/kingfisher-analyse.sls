@@ -2,7 +2,7 @@
 
 # Set up the things people need to be able to make use of the powerful server for analysis work
 
-ocdskingfisheranalyse-prerequisites:
+kingfisher-analyse-prerequisites:
   pkg.installed:
     - pkgs:
       - jq
@@ -12,14 +12,14 @@ ocdskingfisheranalyse-prerequisites:
 {% set user = 'analysis' %}
 {{ createuser(user, auth_keys_files=['kingfisher']) }}
 
-ocdskingfisheranalyse-pipinstall:
+kingfisher-analyse-pipinstall:
   pip.installed:
     - upgrade: True
     - user: {{ user }}
-    - requirements: salt://ocdskingfisheranalyse/pipinstall.txt
+    - requirements: salt://kingfisher-analyse/pipinstall.txt
     - bin_env: /usr/bin/pip3
 
-ocdskingfisheranalyse-pip-path:
+kingfisher-analyse-pip-path:
   file.append:
     - name: /home/{{ user }}/.bashrc
     - text: "export PATH=\"/home/{{ user }}/.local/bin/:$PATH\""

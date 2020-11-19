@@ -16,8 +16,8 @@ base:
     - core.systemd
 
   'docs':
-    - ocds-docs-live
-    - ocds-legacy
+    - docs
+    - docs-legacy
     - tinyproxy
     - prometheus-client-apache
 
@@ -37,19 +37,19 @@ base:
     - cove
     - prometheus-client-apache
 
-  'kingfisher-process*':
+  'kingfisher-process':
     - postgres
-    - ocdskingfisher
-    - ocdskingfisherarchive
-    - ocdskingfishercollect
-    - ocdskingfisherprocess
-    - ocdskingfisheranalyse
+    - kingfisher
+    - kingfisher-collect
+    - kingfisher-process
+    - kingfisher-analyse
+    - kingfisher-archive
     - prometheus-client-apache
 
   'kingfisher-process':
     - postgres.replica_master
 
-  'kingfisher-replica*':
+  'kingfisher-replica':
     - postgres
     - prometheus-client-apache
 

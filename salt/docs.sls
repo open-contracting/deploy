@@ -31,12 +31,12 @@ docs modules:
 
 /home/ocds-docs/web/robots.txt:
   file.managed:
-    - source: salt://ocds-docs/robots_live.txt
+    - source: salt://docs/robots.txt
     - user: ocds-docs
 
 /home/ocds-docs/web/includes/:
   file.recurse:
-    - source: salt://ocds-docs/includes
+    - source: salt://docs/includes
     - user: ocds-docs
 
 # These will be served the same as files that were copied into place.
@@ -50,18 +50,19 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
 
 add-key-for-continuous-integration:
   ssh_auth.present:
-      - source: salt://private/ocds-docs/ssh_authorized_keys_for_ci
+      - source: salt://private/docs/ssh_authorized_keys_for_ci
       - user: ocds-docs
 
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
 
-{{ apache('ocds-docs-live',
+{{ apache('docs',
+    name='ocds-docs-live',
     servername='standard.open-contracting.org',
     https=pillar.apache.https,
     extracontext='testing: False') }}
 
-{{ apache('ocds-docs-live',
+{{ apache('docs',
     name='ocds-docs-live-testing',
     servername='testing.live.standard.open-contracting.org',
     https=pillar.apache.https,

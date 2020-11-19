@@ -1,4 +1,4 @@
-ocdskingfisherprocess:
+kingfisher_process:
   web:
     host: process.kingfisher.open-contracting.org
 prometheus:

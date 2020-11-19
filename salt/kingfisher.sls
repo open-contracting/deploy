@@ -5,4 +5,4 @@ root_kingfisher:
 
 /etc/motd:
   file.managed:
-    - source: salt://system/ocdskingfisher_motd
+    - source: salt://system/kingfisher_motd
