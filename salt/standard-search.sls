@@ -11,7 +11,6 @@ elasticsearch:
     - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
   pkg.installed:
     - pkgs:
-      - apt-transport-https
       - elasticsearch
   service.running:
     - name: elasticsearch
