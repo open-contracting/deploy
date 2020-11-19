@@ -1,12 +1,12 @@
 # Defines the potential targets of the salt-ssh command.
 
-docs:                live.docs.opencontracting.uk0.bigv.io
-standard-search:     live.standard-search.opencontracting.uk0.bigv.io
-redash:              live2.redash.opencontracting.uk0.bigv.io
-toucan:              live.toucan.opencontracting.uk0.bigv.io
-cove-ocds:           live3.cove.opencontracting.uk0.bigv.io
 cove-oc4ids:         cove-live.oc4ids.opencontracting.uk0.bigv.io
+cove-ocds:           live3.cove.opencontracting.uk0.bigv.io
+covid19-dev:         covid19.development.opencontracting.uk0.bigv.io
+docs:                live.docs.opencontracting.uk0.bigv.io
 kingfisher-process:  process1.kingfisher.open-contracting.org
 kingfisher-replica:  replica1.kingfisher.open-contracting.org
 prometheus:          prometheus.default.opencontracting.uk0.bigv.io
-covid19-dev:         covid19.development.opencontracting.uk0.bigv.io
+redash:              live2.redash.opencontracting.uk0.bigv.io
+standard-search:     live.standard-search.opencontracting.uk0.bigv.io
+toucan:              live.toucan.opencontracting.uk0.bigv.io

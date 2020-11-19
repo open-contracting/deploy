@@ -6,23 +6,6 @@ base:
     - private.common
     - private.prometheus
 
-  'docs':
-    - docs
-    - tinyproxy
-    - maintenance_simple
-
-  'standard-search':
-    - django
-    - standard_search
-    - private.standard_search
-    - standard_search_maintenance
-
-  'toucan':
-    - django
-    - toucan
-    - private.toucan
-    - maintenance_simple
-
   'cove-oc4ids':
     - django
     - cove
@@ -35,6 +18,11 @@ base:
     - cove
     - cove_ocds
     - private.cove_ocds
+    - maintenance_simple
+
+  'docs':
+    - docs
+    - tinyproxy
     - maintenance_simple
 
   'kingfisher-process':
@@ -52,4 +40,16 @@ base:
 
   'redash':
     - redash
+    - maintenance_simple
+
+  'standard-search':
+    - django
+    - standard_search
+    - private.standard_search
+    - standard_search_maintenance
+
+  'toucan':
+    - django
+    - toucan
+    - private.toucan
     - maintenance_simple
