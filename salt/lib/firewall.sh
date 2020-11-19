@@ -42,6 +42,7 @@
 #     TINYPROXYSERVER=yes <- Allow public access to Port 8888
 #
 #     PROMETHEUSCLIENTSERVER=yes <- Allow the prometheus server access to port 7231
+#     PROMETHEUSCLIENTSERVER80=yes <- Alternative name for PUBLICHTTPSERVER, to avoid conflicting SLS IDs
 #
 #     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
 #     
@@ -203,7 +204,7 @@ if [ "$DHCPV6" == "yes" ]; then
     $IP6TABLES -A INPUT -d fe80::/64 -p udp -m udp --dport 546 -m state --state NEW -j ACCEPT
 fi
 
-if [ "$PUBLICHTTPSERVER" == "yes" ]; then
+if [ "$PUBLICHTTPSERVER" == "yes" ] || [ "$PROMETHEUSCLIENTSERVER80" == "yes" ]; then
     echo_interactive "Public HTTP server"
     $IPTABLES -A INPUT -p tcp --dport 80 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 80 -j ACCEPT
