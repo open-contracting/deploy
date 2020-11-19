@@ -73,7 +73,7 @@ kingfisher-process-prerequisites:
     - require:
       - git: {{ process_giturl }}{{ process_dir }}
 
-pip_install_requirements:
+{{ process_dir }}-requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync -q
     - runas: {{ user }}

@@ -30,9 +30,9 @@
     - require:
       - git: {{ archive_giturl }}{{ archive_dir }}
 
-archive_pip_install_requirements:
+{{ archive_dir }}-requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync
+    - name: . .ve/bin/activate; pip-sync -q
     - runas: {{ user }}
     - cwd: {{ archive_dir }}
     - require:
