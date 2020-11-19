@@ -17,11 +17,6 @@ elasticsearch:
     - enable: True
     - watch:
       - file: /etc/elasticsearch/*
-  # Only listen on localhost.
-  file.append:
-    - name: /etc/elasticsearch/elasticsearch.yml
-    - text: |
-        network.host: 127.0.0.1
 
 /etc/default/elasticsearch:
   file.managed:
