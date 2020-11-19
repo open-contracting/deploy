@@ -18,10 +18,6 @@ python-apt:
 debconf-utils:
   pkg.installed
 
-# Allow https apt sources
-apt-transport-https:
-  pkg.installed
-
 ## Remove pre-installed software we don't want.
 rpcbind:
    pkg.purged

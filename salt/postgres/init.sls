@@ -1,10 +1,6 @@
 # Install postgres from the official repositories as they offer newer versions than os repos.
 {% from 'lib.sls' import configurefirewall %}
 
-# To ensure apt-transport-https is installed.
-include:
- - core
-
 # Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
@@ -18,8 +14,6 @@ postgresql:
     - dist: {{ grains['oscodename'] }}-pgdg
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    - require:
-      - pkg: apt-transport-https
   pkg.installed:
     - name: postgresql-{{ pg_version }}
   service.running:

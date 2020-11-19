@@ -5,7 +5,6 @@
 docker_prepackages:
   pkg.installed:
     - pkgs:
-      - apt-transport-https
       - ca-certificates
       - curl
       - gnupg-agent
