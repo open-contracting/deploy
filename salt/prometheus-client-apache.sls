@@ -13,22 +13,21 @@ prometheus-client modules:
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
 
-{% if pillar.prometheus.client_port == 80 %}
+{% if pillar.prometheus_client.port == 80 %}
 {{ configurefirewall("PUBLICHTTPSERVER") }}
-{% elif pillar.prometheus.client_port == 7231 %}
+{% elif pillar.prometheus_client.port == 7231 %}
 {{ configurefirewall("PROMETHEUSCLIENTSERVER") }}
 {% endif %}
 
 ## Apache reverse proxy with password for security
 
-{{ apache('prometheus-client',
-    servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
-    extracontext='user: ' + user,
-    ports=[pillar.prometheus.client_port]) }}
-
-prometheus-client-apache-password:
+{{ user }}-apache-password:
   cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.client_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_client.password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
 
+{{ apache('prometheus-client',
+    servername=pillar.prometheus_client.fqdn if pillar.prometheus_client.fqdn else 'prom-client.' + grains.fqdn,
+    extracontext='user: ' + user,
+    ports=[pillar.prometheus_client.port]) }}

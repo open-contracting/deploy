@@ -16,16 +16,16 @@ prometheus-alertmanager-deps:
 
 get_prometheus_alertmanager:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus.server_alertmanager_version }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus_alertmanager.version }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
     - requires:
       - pkg.prometheus-alertmanager-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus_alertmanager:
   cmd.run:
-    - name: tar xvzf alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.linux-amd64/alertmanager
+    - name: tar xvzf alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64/alertmanager
     - cwd: /home/{{ user }}/
     - requires:
       - cmd.get_prometheus_alertmanager
@@ -74,13 +74,13 @@ prometheus-alertmanager:
 
 ## Apache reverse proxy with password for security
 
-{{ apache('prometheus-alertmanager',
-    servername=pillar.prometheus.alertmanager_fqdn,
-    https=pillar.prometheus.alertmanager_https,
-    extracontext='user: ' + user) }}
-
-prometheus-alertmanager-apache-password:
+{{ user }}-apache-password:
   cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.alertmanager_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_alertmanager.password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
+
+{{ apache('prometheus-alertmanager',
+    servername=pillar.prometheus_alertmanager.fqdn,
+    https=pillar.prometheus_alertmanager.https,
+    extracontext='user: ' + user) }}

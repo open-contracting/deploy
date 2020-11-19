@@ -12,16 +12,16 @@ prometheus-client-deps:
 
 get_prometheus_client:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus.node_exporter_version }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus_node_exporter.version }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
     - requires:
       - pkg.prometheus-client-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus_client:
   cmd.run:
-    - name: tar xvzf node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.linux-amd64/node_exporter
+    - name: tar xvzf node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter
     - cwd: /home/{{ user }}/
     - requires:
       - cmd.get_prometheus
@@ -47,9 +47,13 @@ prometheus-node-exporter:
     - watch:
       - file: /etc/systemd/system/prometheus-node-exporter.service
 
-## Textfile collector
+## Smartmontools
 
-{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
+{% if pillar.prometheus_node_exporter.smartmon %}
+smartmontools:
+  pkg.installed:
+    - name: smartmontools
+
 /home/{{ user }}/node-exporter-textfile-directory:
   file.directory:
     - user: {{ user }}
@@ -70,16 +74,6 @@ prometheus-node-exporter:
     - require:
       - pkg: git
       - user: {{ user }}_user_exists
-
-{% endif %}
-
-## SmartMon
-
-{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
-
-smartmontools:
-  pkg.installed:
-    - name: smartmontools
 
 /home/prometheus-client/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
   cron.present:

@@ -16,16 +16,16 @@ prometheus-server-deps:
 
 get_prometheus:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus.server_prometheus_version }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - requires:
       - pkg.prometheus-server-deps
       - user: {{ user }}_user_exists
 
 extract_prometheus:
   cmd.run:
-    - name: tar xvzf prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.linux-amd64/prometheus
+    - name: tar xvzf prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus
     - cwd: /home/{{ user }}/
     - requires:
       - cmd.get_prometheus
@@ -86,13 +86,13 @@ prometheus-server:
 
 ## Apache reverse proxy with password for security
 
-{{ apache('prometheus-server',
-    servername=pillar.prometheus.server_fqdn,
-    https=pillar.prometheus.server_https,
-    extracontext='user: ' + user) }}
-
-prometheus-server-apache-password:
+{{ user }}-apache-password:
   cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.server_password }}
+    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_server.password }}
     - runas: {{ user }}
     - cwd: /home/{{ user }}
+
+{{ apache('prometheus-server',
+    servername=pillar.prometheus_server.fqdn,
+    https=pillar.prometheus_server.https,
+    extracontext='user: ' + user) }}

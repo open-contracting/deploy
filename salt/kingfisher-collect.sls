@@ -98,7 +98,7 @@ supervisor:
     - enable: True
     - reload: True
 
-kfs-apache-password:
+{{ user }}-apache-password:
   cmd.run:
     - name: htpasswd -b -c {{ userdir }}/htpasswd scrape {{ pillar.kingfisher_collect.web.password }}
     - runas: {{ user }}
