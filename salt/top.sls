@@ -45,8 +45,6 @@ base:
     - kingfisher-analyse
     - kingfisher-archive
     - prometheus-client-apache
-
-  'kingfisher-process':
     - postgres.replica_master
 
   'kingfisher-replica':

@@ -15,7 +15,7 @@ base:
     - django
     - standard_search
     - private.standard_search
-    - standard-search_maintenance
+    - standard_search_maintenance
 
   'toucan':
     - django
@@ -41,8 +41,6 @@ base:
     - kingfisher
     - private.kingfisher
     - tinyproxy
-
-  'kingfisher-process':
     - kingfisher_process_maintenance
 
   'kingfisher-replica':
