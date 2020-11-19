@@ -13,7 +13,7 @@ Increase verbosity
 Salt hangs inexplicably
 -----------------------
 
-If you haven't previously connected to a server using SSH, then ``salt-ssh`` will log a ``TRACE``-level message like:
+If you haven't previously connected to a server using SSH, then ``./run.py`` will log a ``TRACE``-level message like:
 
 .. code-block:: none
 
@@ -23,14 +23,16 @@ If you haven't previously connected to a server using SSH, then ``salt-ssh`` wil
 
 You can also experience this issue if anyone changes the hostnames in the ``salt-config/roster`` file.
 
-Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``salt-ssh`` will appear to hang.
+Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``./run.py`` will appear to hang.
 
-To fix this, simply connect to the server using SSH, then re-run the ``salt-ssh`` command, for example:
+To fix this, simply connect to the server using SSH, for example:
 
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
    ssh root@standard.open-contracting.org
+
+Then, re-run the ``./run.py`` command.
 
 .. note::
 
