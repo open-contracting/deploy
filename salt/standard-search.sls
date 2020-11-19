@@ -3,8 +3,6 @@
 include:
   - django
 
-{{ configurefirewall("ELASTICSEARCHSERVER") }}
-
 elasticsearch:
   pkgrepo.managed:
     - humanname: Elasticsearch
