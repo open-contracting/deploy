@@ -380,10 +380,14 @@ $IPTABLES -F monitor
 $IP6TABLES -F monitor
 
 echo_interactive "IPv4 monitor chain"
-$IPTABLES -A monitor -s $APPBEATIPS -j ACCEPT
+for IP in $APPBEATIPS; do
+    $IPTABLES -A monitor -s $IP -j ACCEPT
+done
 
 echo_interactive "IPv6 monitor chain"
-$IP6TABLES -A monitor -s $APPBEAT6IPS -j ACCEPT
+for IP in $APPBEAT6IPS; do
+    $IP6TABLES -A monitor -s $IP -j ACCEPT
+done
 
 echo_interactive "Getting OS version"
 if [ -f /etc/os-release ]; then
