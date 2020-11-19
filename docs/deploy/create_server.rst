@@ -120,7 +120,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
 #. Setup the server:
 
-   #. Connect to the server over SSH
+   #. Connect to the server using SSH
    #. Change the password of the root user, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
    .. note::

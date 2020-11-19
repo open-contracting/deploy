@@ -1,5 +1,5 @@
-Connecting to servers with SSH
-==============================
+Connect to servers using SSH
+============================
 
 .. admonition:: One-time setup
 
@@ -16,11 +16,11 @@ To open the SSH port for 30 seconds, send traffic to port 8255, replacing ``exam
 
    curl --silent --connect-timeout 1 example.open-contracting.org:8255 || true
 
-You can then use ``ssh`` as usual. Once you're connected, the server will close the port but not your connection.
+You can then use ``ssh`` as usual. Once you're connected, the server will close the port, but not your connection.
 
 .. note::
 
-   Port 8255 returns no data. Without ``--connect-timeout 1``, curl would wait forever for a response.
+   Port 8255 returns no data. Without ``--connect-timeout 1``, curl waits forever for a response.
 
 Static IP: Allow list
 ---------------------
