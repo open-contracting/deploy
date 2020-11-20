@@ -1,3 +1,7 @@
+{{ configurefirewall("PUBLICSSHSERVER") }}
+{{ configurefirewall("PUBLICHTTPSERVER") }}
+{{ configurefirewall("PUBLICHTTPSSERVER") }}
+
 root_covid19:
   ssh_auth.present:
     - user: root
