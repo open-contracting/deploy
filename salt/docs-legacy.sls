@@ -6,7 +6,7 @@
 {% set user = 'opencontracting' %}
 {{ createuser(user) }}
 
-https://github.com/OpenDataServices/opendatacomparison-archive.git:
+https://github.com/open-contracting/opendatacomparison-archive.git:
   git.latest:
     - rev: live
     - target: /home/{{ user }}/opendatacomparison-archive/
