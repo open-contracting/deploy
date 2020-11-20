@@ -1,3 +1,5 @@
+{% from 'lib.sls' import apache, configurefirewall %}
+
 {{ configurefirewall("PUBLICSSHSERVER") }}
 {{ configurefirewall("PUBLICHTTPSERVER") }}
 {{ configurefirewall("PUBLICHTTPSSERVER") }}
