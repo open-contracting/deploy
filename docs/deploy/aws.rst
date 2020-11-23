@@ -171,9 +171,9 @@ Debug delivery issues
 
 Bounces and complaints are sent to the subscribed address. The relevant properties of the notification message are:
 
--  ``complaintSubType``
--  ``bounceSubType``
--  ``diagnosticCode``
+-  `complaintSubType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object>`__
+-  `bounceType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounce-types>`__ and ``bounceSubType``
+-  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounced-recipients>`__
 
 Reference: `Amazon SNS notification contents for Amazon SES <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html>`__
 
