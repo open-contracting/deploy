@@ -55,6 +55,8 @@ Under "Configuration advice", address "HIGH" and "MEDIUM" recommendations.
 
 Reference: `Tuning Your PostgreSQL Server <https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server>`__
 
+Reference: `Slow Query Questions <https://wiki.postgresql.org/wiki/Slow_Query_Questions>`__
+
 Explore database
 ----------------
 
