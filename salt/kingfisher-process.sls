@@ -81,14 +81,22 @@ kingfisher-process-prerequisites:
     - require:
       - virtualenv: {{ process_dir }}/.ve/
 
-postgres_user_and_db:
+user_ocdskfp:
   postgres_user.present:
     - name: ocdskfp
     - password: {{ pillar.kingfisher_process.postgres.ocdskfp.password }}
 
+user_ocdskfpreadonly:
+  postgres_user.present:
+    - name: ocdskfpreadonly
+    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
+
+db_ocdskingfisherprocess:
   postgres_database.present:
     - name: ocdskingfisherprocess
     - owner: ocdskfp
+    - require:
+      - user_ocdskfp
 
 {{ summarize_dir }}/.ve/:
   virtualenv.managed:
@@ -99,11 +107,6 @@ postgres_user_and_db:
     - requirements: {{ summarize_dir }}/requirements.txt
     - require:
       - git: {{ summarize_giturl }}{{ summarize_dir }}
-
-kfp_postgres_readonlyuser_create:
-  postgres_user.present:
-    - name: ocdskfpreadonly
-    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
 
 {{ userdir }}/.pgpass:
   file.managed:
@@ -292,15 +295,16 @@ kingfisher-process-pip-path:
     - name: {{ userdir }}/.bashrc
     - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""
 
+# https://github.com/jfcoz/postgresqltuner (WARN)
+pg_stat_statements:
+  postgres_extension.present:
+    - maintenance_db: template1
+    - if_not_exists: True
+
 # https://github.com/open-contracting/deploy/issues/117
-kingfisher_postgres_extensions:
-  cmd.run:
-    - name: >
-          psql
-          -c "
-          CREATE EXTENSION IF NOT EXISTS tablefunc;
-          "
-          ocdskingfisherprocess
-    - runas: postgres
+tablefunc:
+  postgres_extension.present:
+    - maintenance_db: ocdskingfisherprocess
+    - if_not_exists: True
     - require:
-      - postgres_user_and_db
+      - db_ocdskingfisherprocess
