@@ -151,13 +151,13 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       salt-ssh TARGET pkg.upgrade dist_upgrade=True
 
+#. :doc:`Deploy the service<deploy>`
+
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
 
       salt-ssh TARGET system.reboot
-
-#. :doc:`Deploy the service<deploy>`
 
 3. Migrate from the old server
 ------------------------------
