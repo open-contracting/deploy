@@ -106,7 +106,7 @@ You will configure a master server and a replica server.
       .. code-block:: bash
 
          exit
-         service postgres start
+         service postgresql start
 
    #. Double-check that the service started:
 

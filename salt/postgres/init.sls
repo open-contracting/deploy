@@ -40,6 +40,7 @@ postgresql:
     - mode: 640
     - source:
       - {{ pillar.postgres.configuration_file }}
+    - template: jinja
     - watch_in:
       - service: postgresql
 {% endif %}
@@ -52,7 +53,7 @@ vm.overcommit_memory:
 
 # https://github.com/jfcoz/postgresqltuner (WARN)
 # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-{% if pillar.vm.nr_hugepages %}
+{% if salt['pillar.get']('vm:nr_hugepages') %}
 vm.nr_hugepages:
   sysctl.present:
     - value: {{ pillar.vm.nr_hugepages }}
