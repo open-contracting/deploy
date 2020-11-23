@@ -52,7 +52,7 @@ Set up replication
 
 You will configure a master server and a replica server.
 
-#. Create configuration files for each server as above, setting ``wal_level = replica``. For reference, see the files for ``kingfisher-process`` and ``kingfisher-replica``.
+#. Create configuration files for each server as above. For reference, see the files for ``kingfisher-process`` and ``kingfisher-replica``.
 
 #. Update the master server's Pillar file with the replica user's name and the replica's IP addresses:
 
