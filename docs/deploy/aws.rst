@@ -171,15 +171,10 @@ Debug delivery issues
 
 Bounces and complaints are sent to the subscribed address. The relevant properties of the notification message are:
 
--  `complaintSubType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object>`__
+-  `complaintSubType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object>`__ (`Viewing a list of addresses that are on the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-view-entries>`__, `Removing an email address from the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-manual-delete>`__)
+
 -  `bounceType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounce-types>`__ and ``bounceSubType``
 -  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounced-recipients>`__
-
-Reference: `Amazon SNS notification contents for Amazon SES <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html>`__
-
-Reference: `Viewing a list of addresses that are on the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-view-entries>`__
-
-Reference: `Removing an email address from the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-manual-delete>`__
 
 Reference: `DNS Blackhole List (DNSBL) FAQs <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/faqs-dnsbls.html>`__
 
