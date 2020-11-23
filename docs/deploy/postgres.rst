@@ -32,7 +32,7 @@ Change default settings
 
 #. Put your configuration file in the `salt/postgres/configs <https://github.com/open-contracting/deploy/tree/master/salt/postgres/configs>`__ directory.
 
-#. Update the server's Pillar file:
+#. Update the server's Pillar file. `Follow PostgreSQL's instructions <https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES>`__ for setting ``vm.nr_hugepages``:
 
   .. code-block:: yaml
     :emphasize-lines: 2
@@ -40,6 +40,8 @@ Change default settings
     postgres:
       configuration_name: kingfisher-process1
       configuration_file: salt://postgres/configs/kingfisher-process1-postgres.conf
+    vm:
+      nr_hugepages: 1234
 
 #. :doc:`Deploy<deploy>`
 

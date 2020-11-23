@@ -292,20 +292,6 @@ kingfisher-process-pip-path:
     - name: {{ userdir }}/.bashrc
     - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""
 
-# We decrease `random_page_cost`, so that the system prefers index scans to sequential scans. If we again notice slow
-# queries due to sequential scans, we can decrease it further to, for example, 1.5.
-#
-# `random_page_cost` is 4.0 by default. When the database is smaller than the total server memory, and when solid-state
-# drives are used, it is appropriate to decrease `random_page_cost`.
-#
-# https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-RANDOM-PAGE-COST
-# https://github.com/open-contracting/kingfisher-summarize/issues/92
-# https://stackoverflow.com/a/52833441/244258
-kfp_postgres_set_random_page_cost:
-  cmd.run:
-    - name: psql -c "ALTER TABLESPACE pg_default SET (random_page_cost = 2)"
-    - runas: postgres
-
 # https://github.com/open-contracting/deploy/issues/117
 kingfisher_postgres_extensions:
   cmd.run:

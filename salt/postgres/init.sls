@@ -43,3 +43,17 @@ postgresql:
     - watch_in:
       - service: postgresql
 {% endif %}
+
+# https://github.com/jfcoz/postgresqltuner (BAD)
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+vm.overcommit_memory:
+  sysctl.present:
+    - value: 2
+
+# https://github.com/jfcoz/postgresqltuner (WARN)
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+{% if pillar.vm.nr_hugepages %}
+vm.nr_hugepages:
+  sysctl.present:
+    - value: {{ pillar.vm.nr_hugepages }}
+{% endif %}
