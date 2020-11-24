@@ -45,14 +45,14 @@ postgresql:
       - service: postgresql
 {% endif %}
 
-# https://github.com/jfcoz/postgresqltuner (BAD)
 # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+# https://github.com/jfcoz/postgresqltuner
 vm.overcommit_memory:
   sysctl.present:
     - value: 2
 
-# https://github.com/jfcoz/postgresqltuner (WARN)
 # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+# https://github.com/jfcoz/postgresqltuner
 {% if salt['pillar.get']('vm:nr_hugepages') %}
 vm.nr_hugepages:
   sysctl.present:
