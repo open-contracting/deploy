@@ -39,6 +39,10 @@ kingfisher-process-prerequisites:
 {% set process_dir = userdir + '/ocdskingfisherprocess' %}
 {% set summarize_dir = userdir + '/ocdskingfisherviews' %}
 
+####################
+# Git repositories
+####################
+
 {{ process_giturl }}{{ process_dir }}:
   git.latest:
     - name: {{ process_giturl }}
@@ -63,6 +67,10 @@ kingfisher-process-prerequisites:
     - require:
       - pkg: git
 
+####################
+# Python packages
+####################
+
 {{ process_dir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
@@ -73,6 +81,16 @@ kingfisher-process-prerequisites:
     - require:
       - git: {{ process_giturl }}{{ process_dir }}
 
+{{ summarize_dir }}/.ve/:
+  virtualenv.managed:
+    - python: /usr/bin/python3
+    - user: {{ user }}
+    - system_site_packages: False
+    - pip_pkgs:
+      - pip-tools
+    - require:
+      - git: {{ summarize_giturl }}{{ summarize_dir }}
+
 {{ process_dir }}-requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync -q
@@ -81,32 +99,17 @@ kingfisher-process-prerequisites:
     - require:
       - virtualenv: {{ process_dir }}/.ve/
 
-user_ocdskfp:
-  postgres_user.present:
-    - name: ocdskfp
-    - password: {{ pillar.kingfisher_process.postgres.ocdskfp.password }}
-
-user_ocdskfpreadonly:
-  postgres_user.present:
-    - name: ocdskfpreadonly
-    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
-
-db_ocdskingfisherprocess:
-  postgres_database.present:
-    - name: ocdskingfisherprocess
-    - owner: ocdskfp
-    - require:
-      - user_ocdskfp
-
-{{ summarize_dir }}/.ve/:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
+{{ summarize_dir }}-requirements:
+  cmd.run:
+    - name: . .ve/bin/activate; pip-sync -q
+    - runas: {{ user }}
     - cwd: {{ summarize_dir }}
-    - requirements: {{ summarize_dir }}/requirements.txt
     - require:
-      - git: {{ summarize_giturl }}{{ summarize_dir }}
+      - virtualenv: {{ summarize_dir }}/.ve/
+
+####################
+# Configuration
+####################
 
 {{ userdir }}/.pgpass:
   file.managed:
@@ -116,10 +119,6 @@ db_ocdskingfisherprocess:
     - group: {{ user }}
     - mode: 0400
 
-{{ process_dir }}/wsgi.py:
-  file.managed:
-    - source: salt://wsgi/kingfisher-process.py
-
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
     - source: salt://kingfisher-process/config.ini
@@ -127,13 +126,6 @@ db_ocdskingfisherprocess:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-
-{{ summarize_dir }}/.env:
-  file.managed:
-    - source: salt://kingfisher-summarize/.env
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 0400
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
@@ -148,6 +140,27 @@ db_ocdskingfisherprocess:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
+
+{{ process_dir }}/wsgi.py:
+  file.managed:
+    - source: salt://wsgi/kingfisher-process.py
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - git: {{ process_giturl }}{{ process_dir }}
+
+{{ summarize_dir }}/.env:
+  file.managed:
+    - source: salt://kingfisher-summarize/.env
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 0400
+    - require:
+      - git: {{ summarize_giturl }}{{ summarize_dir }}
+
+####################
+# Logging
+####################
 
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
@@ -171,24 +184,68 @@ restart-syslog:
       - runas: root
       - require:
         - file: /etc/rsyslog.d/90-kingfisher.conf
+        - file: /etc/rsyslog.d/91-kingfisher-views.conf
 
-createdatabase-{{ process_dir }}:
+####################
+# PostgreSQL
+####################
+
+# https://github.com/jfcoz/postgresqltuner
+pg_stat_statements:
+  postgres_extension.present:
+    - maintenance_db: template1
+    - if_not_exists: True
+
+user_ocdskfp:
+  postgres_user.present:
+    - name: ocdskfp
+    - password: {{ pillar.kingfisher_process.postgres.ocdskfp.password }}
+
+user_ocdskfpreadonly:
+  postgres_user.present:
+    - name: ocdskfpreadonly
+    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
+
+db_ocdskingfisherprocess:
+  postgres_database.present:
+    - name: ocdskingfisherprocess
+    - owner: ocdskfp
+    - require:
+      - user_ocdskfp
+
+# https://github.com/open-contracting/deploy/issues/117
+tablefunc:
+  postgres_extension.present:
+    - maintenance_db: ocdskingfisherprocess
+    - if_not_exists: True
+    - require:
+      - db_ocdskingfisherprocess
+
+####################
+# App installation
+####################
+
+{{ process_dir }}-install:
   cmd.run:
     - name: . .ve/bin/activate; python ocdskingfisher-process-cli upgrade-database
     - runas: {{ user }}
     - cwd: {{ process_dir }}
     - require:
-      - virtualenv: {{ process_dir }}/.ve/
-      - {{ userdir }}/.config/ocdskingfisher-process/config.ini
+      - cmd: {{ process_dir }}-requirements
+      - file: {{ userdir }}/.pgpass
+      - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
+      - db_ocdskingfisherprocess
 
-createdatabase-{{ summarize_dir }}:
+{{ summarize_dir }}-install:
   cmd.run:
     - name: . .ve/bin/activate; ./manage.py install
     - runas: {{ user }}
     - cwd: {{ summarize_dir }}
     - require:
-      - virtualenv: {{ summarize_dir }}/.ve/
-      - {{ summarize_dir }}/.env
+      - cmd: {{ summarize_dir }}-requirements
+      - file: {{ userdir }}/.pgpass
+      - file: {{ summarize_dir }}/.env
+      - db_ocdskingfisherprocess
 
 correctuserpermissions-{{ summarize_dir }}:
   cmd.run:
@@ -196,48 +253,38 @@ correctuserpermissions-{{ summarize_dir }}:
     - runas: {{ user }}
     - cwd: {{ summarize_dir }}
     - require:
-      - cmd: createdatabase-{{ summarize_dir }}
-
-kfp_postgres_schema_creation:
-  postgres_schema.present:
-    - dbname: ocdskingfisherprocess
-    - names:
-      - views
+      - cmd: {{ summarize_dir }}-install
 
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:
     - name: >
-          psql
-          -c "
+          psql -c "
           REVOKE ALL ON SCHEMA public, views FROM public;
           GRANT ALL ON SCHEMA public, views TO ocdskfp;
           GRANT USAGE ON SCHEMA public, views TO ocdskfpreadonly;
           GRANT SELECT ON ALL TABLES IN SCHEMA public, views TO ocdskfpreadonly;
+          ALTER DEFAULT PRIVILEGES IN SCHEMA public, views GRANT SELECT ON TABLES TO ocdskfpreadonly;
           "
           ocdskingfisherprocess
     - runas: postgres
-    - cwd: {{ process_dir }}
     - require:
-      - {{ userdir }}/.pgpass
-      - kfp_postgres_readonlyuser_create
-      - {{ process_dir }}/.ve/
-      - kfp_postgres_schema_creation
-
-kfp_postgres_readonlyuser_setup_as_user:
-  cmd.run:
-    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public, views GRANT SELECT ON TABLES TO ocdskfpreadonly;" ocdskingfisherprocess
-    - runas: {{ user }}
-    - cwd: {{ process_dir }}
-    - require:
-      - {{ userdir }}/.pgpass
-      - kfp_postgres_readonlyuser_create
-      - {{ process_dir }}/.ve/
-      - kfp_postgres_readonlyuser_setup_as_postgres
-      - kfp_postgres_schema_creation
+      - {{ process_dir }}-install
+      - {{ summarize_dir }}-install
+      - user_ocdskfpreadonly
 
 {{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
 {{ uwsgi('kingfisher-process', name='ocdskingfisherprocess', port=5001) }}
+
+# Need to manually reload this service - the library code should really do this for us
+reload_uwsgi_service:
+  cmd.run:
+    - name: sleep 10; /etc/init.d/uwsgi reload
+    - order: last
+
+####################
+# Cron jobs
+####################
 
 # This is to have eight workers at once.
 cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
@@ -277,11 +324,9 @@ cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --qu
     - hour: 2
     - dayweek: 5
 
-# Need to manually reload this service - the library code should really do this for us
-reload_uwsgi_service:
-  cmd.run:
-    - name: sleep 10; /etc/init.d/uwsgi reload
-    - order: last
+####################
+# Utilities
+####################
 
 kingfisher-process-pipinstall:
   pip.installed:
@@ -294,17 +339,3 @@ kingfisher-process-pip-path:
   file.append:
     - name: {{ userdir }}/.bashrc
     - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""
-
-# https://github.com/jfcoz/postgresqltuner (WARN)
-pg_stat_statements:
-  postgres_extension.present:
-    - maintenance_db: template1
-    - if_not_exists: True
-
-# https://github.com/open-contracting/deploy/issues/117
-tablefunc:
-  postgres_extension.present:
-    - maintenance_db: ocdskingfisherprocess
-    - if_not_exists: True
-    - require:
-      - db_ocdskingfisherprocess
