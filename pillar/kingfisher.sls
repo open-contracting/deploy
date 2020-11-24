@@ -3,7 +3,7 @@ prometheus_client:
 prometheus_node_exporter:
   smartmon: True
 vm:
-  nr_hugepages: 16454
+  nr_hugepages: 16544
 postgres:
   public_access: True
   version: 11
