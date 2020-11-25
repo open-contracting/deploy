@@ -16,7 +16,9 @@ Kingfisher Process writes log messages to the ``/var/log/kingfisher.log`` file. 
 
 The log files can be read by the ``ocdskfs`` and ``ocdskfp`` users, after :ref:`connecting to the server<connect-process-server>`.
 
-Log messages are formatted as::
+Log messages are formatted as:
+
+.. code-block:: none
 
     [date] [hostname] %(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s
 
@@ -37,7 +39,7 @@ Load local data
 
 #. Change into the ``local-load`` directory:
 
-   .. code:: bash
+   .. code-block:: bash
 
       cd ~/local-load
 
@@ -58,7 +60,7 @@ Load local data
 
 To find directories containing data created more than 90 days ago, run:
 
-.. code:: bash
+.. code-block:: bash
 
     find -maxdepth 1 -type d ! -name archive -exec bash -c 'if [[ -n $(find {} -ctime +90) ]]; then echo {}; fi' \; | sort
 
