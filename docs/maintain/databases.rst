@@ -1,4 +1,4 @@
-Maintain a database
+Maintain PostgreSQL
 ===================
 
 Troubleshoot
