@@ -30,4 +30,5 @@ To be responsible for servers, you should:
    general.rst
    packages.rst
    databases.rst
+   elasticsearch.rst
    quickref.rst
