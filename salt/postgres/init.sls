@@ -1,12 +1,10 @@
-# Install postgres from the official repositories as they offer newer versions than os repos.
 {% from 'lib.sls' import configurefirewall %}
 
-# Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
 {{ configurefirewall("PUBLICPOSTGRESSERVER") }}
 
-# Install and start postgres.
+# Install PostgreSQL from the official repository, as it offers newer versions than the Ubuntu repository.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
