@@ -1,5 +1,5 @@
 click
 requests
-salt-ssh<3002
+salt-ssh
 pip-tools
 pytest
