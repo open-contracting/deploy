@@ -25,6 +25,7 @@ base:
   'docs':
     - docs
     - docs-legacy
+    - elasticsearch
     - tinyproxy
     - prometheus-client-apache
 
@@ -48,10 +49,6 @@ base:
 
   'redash':
     - redash
-    - prometheus-client-apache
-
-  'standard-search':
-    - standard-search
     - prometheus-client-apache
 
   'toucan':

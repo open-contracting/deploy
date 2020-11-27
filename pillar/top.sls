@@ -23,7 +23,7 @@ base:
   'docs':
     - docs
     - tinyproxy
-    - maintenance_simple
+    - docs_maintenance
 
   'kingfisher-process':
     - kingfisher
@@ -41,12 +41,6 @@ base:
   'redash':
     - redash
     - maintenance_simple
-
-  'standard-search':
-    - django
-    - standard_search
-    - private.standard_search
-    - standard_search_maintenance
 
   'toucan':
     - django
