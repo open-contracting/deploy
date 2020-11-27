@@ -1,6 +1,3 @@
-#
-# THIS FILE IS MANAGED BY SALT - DO NOT EDIT MANUALLY
-#
 # Docs:
 # - https://www.elastic.co/guide/en/elasticsearch/reference/current/jvm-options.html
 # - https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings

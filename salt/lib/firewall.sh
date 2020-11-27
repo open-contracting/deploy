@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 #
-# THIS FILE IS MANAGED BY SALT - DO NOT EDIT MANUALLY
-#
-#
 # This file is managed by Dogsbody Technology Ltd.
 #   https://www.dogsbody.com/
 #
