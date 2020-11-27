@@ -44,9 +44,9 @@
 #     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
 #     
 #     Other settings below can also be overridden in firewall-settings.local
-#
 
-set -eu
+set -euo pipefail
+
 VERBOSEMODE=true
 
 # Allow slightly more open access to these IP addresses

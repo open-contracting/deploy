@@ -10,8 +10,7 @@
 # Future Improvements:
 #   - Leaves the root directory because the delete is updating the timestamp.
 
-set -e
-set -u
+set -euo pipefail
 
 function cleanup {
     local LC="${BASH_COMMAND}" RC="${?}"

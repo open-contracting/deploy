@@ -3,7 +3,7 @@
 
 # curl -o setup-redash.sh https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
 
-set -eu
+set -euo pipefail
 
 REDASH_BASE_PATH=/opt/redash
 

@@ -1,5 +1,4 @@
 # This state file initialises the required files for the firewall script.
-# 
 
 {% from 'lib.sls' import configurefirewall %}
 
