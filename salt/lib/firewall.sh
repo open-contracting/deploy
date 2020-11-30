@@ -41,7 +41,7 @@
 #     PROMETHEUSCLIENTSERVER=yes <- Allow the prometheus server access to port 7231
 #     PROMETHEUSCLIENTSERVER80=yes <- Alternative name for PUBLICHTTPSERVER, to avoid conflicting SLS IDs
 #
-#     ELASTICSEARCHSERVER=yes <- Allow access to ports 9200 and 9300
+#     ELASTICSEARCHSERVER=yes <- Allow access to Port 9200
 #     
 #     Other settings below can also be overridden in firewall-settings.local
 
@@ -360,8 +360,6 @@ if [ "$ELASTICSEARCHSERVER" == "yes" ]; then
     echo_interactive "Public Elasticsearch server"
     $IPTABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
-    $IPTABLES -A INPUT -p tcp --dport 9300 -j ACCEPT
-    $IP6TABLES -A INPUT -p tcp --dport 9300 -j ACCEPT
 fi
 
 echo_interactive "Updating monitoring IPs"
