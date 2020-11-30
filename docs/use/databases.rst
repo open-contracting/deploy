@@ -10,7 +10,7 @@ Connect to a database
 
 .. note::
 
-   If you connect to the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql` and/or :ref:`pgadmin` to use it.
+   If you connect to the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
 
 OCP has a master database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the other server. Please always use the replica database. If that server goes down, use the master database until the server is restored.
 
@@ -44,6 +44,25 @@ Then, set the permissions of the ``~/.pgpass`` file:
 .. code-block:: bash
 
    chmod 600 ~/.pgpass
+
+.. _beekeeeper:
+
+Beekeeper Studio
+~~~~~~~~~~~~~~~~
+
+`Beekeeper Studio <https://www.beekeeperstudio.io>`__ is a cross-platform app for querying databases.
+
+For security, remember to check *Enable SSL*.
+
+#. Select "Postgres" from *Connection Type*
+#. Set the *Host*, e.g. "postgres-readonly.kingfisher.open-contracting.org"
+#. Check *Enable SSL*
+#. Set the *User*
+#. Set the *Password*
+#. Set the *Default Database*, e.g. "ocdskingfisherprocess"
+#. Click the *Test* button
+
+Then, either click the *Connect* button or set the *Connection Name* and click *Save*.
 
 .. _pgadmin:
 
