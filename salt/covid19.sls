@@ -1,8 +1,8 @@
-{% from 'lib.sls' import apache, configurefirewall %}
+{% from 'lib.sls' import apache, set_firewall %}
 
-{{ configurefirewall("PUBLIC_HTTP") }}
-{{ configurefirewall("PUBLIC_HTTPS") }}
-{{ configurefirewall("PUBLIC_SSH") }}
+{{ set_firewall("PUBLIC_HTTP") }}
+{{ set_firewall("PUBLIC_HTTPS") }}
+{{ set_firewall("PUBLIC_SSH") }}
 
 root_covid19:
   ssh_auth.present:

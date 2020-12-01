@@ -100,12 +100,35 @@ Then, login to the server and check for and delete any remaining packages, files
    ls /etc/icinga2
    ls /usr/lib/nagios
 
+Delete a firewall setting
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Import the ``unset_firewall`` macro:
+
+   .. code-block:: jinja
+
+      {% from 'lib.sls' import unset_firewall %}
+
+#. Add a temporary macro call, for example:
+
+   .. code-block:: jinja
+
+      {{ unset_firewall("PUBLIC_POSTGRESQL") }}
+
+#. Deploy the relevant service, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.apply
+
+#. Remove the temporary macro call
+
 Delete an Apache module
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add a temporary state, for example:
 
-   .. code-block:: none
+   .. code-block:: yaml
 
       headers:
         apache_module.disabled
@@ -142,7 +165,7 @@ Delete a PostgreSQL user
 
 #. Add a temporary state, for example:
 
-   .. code-block:: none
+   .. code-block:: yaml
 
       ocdskfpguest:
         postgres_user.absent

@@ -61,11 +61,10 @@ You will configure a main server and a replica server.
       postgres:
         replica_user:
           username: example_username
-        replica_ips:
-          ipv4:
-            - 198.51.100.0/32
-          ipv6:
-            - 2001:db8::/128
+        replica_ipv4:
+          - 148.251.183.230
+        replica_ipv6:
+          - 2a01:4f8:211:de::2
 
 #. Update the main server's private Pillar file in the ``pillar/private`` directory with the replica user's password.
 

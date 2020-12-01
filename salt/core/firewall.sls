@@ -7,11 +7,14 @@ iptables-persistent:
   file.directory:
     - makedirs: True
 
+# To avoid updating iptables on each deploy, this sets `replace: False`. If the source file is changed, you must delete
+# the remote file from all servers, then re-deploy.
 /home/sysadmin-tools/firewall-settings.local:
   file.managed:
     - source: salt://lib/firewall-settings.local
     - mode: 640
     - template: jinja
+    - replace: False
 
 /home/sysadmin-tools/bin/firewall.sh:
   file.managed:

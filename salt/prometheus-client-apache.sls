@@ -1,9 +1,9 @@
-{% from 'lib.sls' import createuser, apache, configurefirewall %}
+{% from 'lib.sls' import createuser, apache, set_firewall %}
 
 {% if pillar.prometheus_client.port == 80 %}
-{{ configurefirewall("PUBLIC_PROMETHEUS_CLIENT") }}
+{{ set_firewall("PUBLIC_PROMETHEUS_CLIENT") }}
 {% elif pillar.prometheus_client.port == 7231 %}
-{{ configurefirewall("PRIVATE_PROMETHEUS_CLIENT") }}
+{{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
 {% endif %}
 
 include:

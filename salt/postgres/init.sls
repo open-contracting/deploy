@@ -1,14 +1,16 @@
-{% from 'lib.sls' import configurefirewall %}
+{% from 'lib.sls' import set_firewall %}
 
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
 {%- if salt['pillar.get']('postgres:public_access') %}
-{{ configurefirewall("PUBLIC_POSTGRESQL") }}
+{{ set_firewall("PUBLIC_POSTGRESQL") }}
 {%- else %}
-{{ configurefirewall("PRIVATE_POSTGRESQL") }}
-  {%- if salt['pillar.get']('postgres:replica_ips') %}
-{{ configurefirewall("ALLOW_IPV4", pillar.postgres.replica_ips.ipv4|join(' ')) }}
-{{ configurefirewall("ALLOW_IPV6", pillar.postgres.replica_ips.ipv6|join(' ')) }}
+{{ set_firewall("PRIVATE_POSTGRESQL") }}
+  {%- if salt['pillar.get']('postgres:replica_ipv4') %}
+{{ set_firewall("ALLOW_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
+  {%- endif %}
+  {%- if salt['pillar.get']('postgres:replica_ipv6') %}
+{{ set_firewall("ALLOW_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
   {%- endif %}
 {%- endif %}
 

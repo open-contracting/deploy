@@ -1,7 +1,7 @@
-{% from 'lib.sls' import apache, configurefirewall %}
+{% from 'lib.sls' import apache, set_firewall %}
 
-{{ configurefirewall("PUBLIC_HTTP") }}
-{{ configurefirewall("PUBLIC_HTTPS") }}
+{{ set_firewall("PUBLIC_HTTP") }}
+{{ set_firewall("PUBLIC_HTTPS") }}
 
 apache2:
   pkg.installed:

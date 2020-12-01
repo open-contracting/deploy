@@ -1,6 +1,6 @@
-{% from 'lib.sls' import configurefirewall %}
+{% from 'lib.sls' import set_firewall %}
 
-{{ configurefirewall("PUBLIC_TINYPROXY") }}
+{{ set_firewall("PUBLIC_TINYPROXY") }}
 
 tinyproxy:
   pkg.installed:
