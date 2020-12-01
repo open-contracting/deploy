@@ -5,7 +5,10 @@
 
 apache2:
   pkg.installed:
-    - name: apache2
+    - pkgs:
+      - apache2
+      # http://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
+      - apache2-utils
   service.running:
     - name: apache2
     - enable: True
@@ -14,16 +17,6 @@ apache2:
 letsencrypt:
   pkg.installed:
     - name: letsencrypt
-
-# Use the system default locale for Apache
-# This affects how python behaves under mod_wsgi
-# see https://code.djangoproject.com/wiki/django_apache_and_mod_wsgi#AdditionalTweaking
-/etc/apache2/envvars:
-  file.uncomment:
-    # Note due to https://github.com/saltstack/salt/issues/24907 you may need to apply this change manually.
-    - regex: \. /etc/default/locale
-    - require:
-      - pkg: apache2
 
 /etc/apache2/mods-enabled/ssl.load:
   file.symlink:
