@@ -1,7 +1,7 @@
 # Defines common macros.
 
 {% macro set_firewall(setting_name, setting_value="yes") %}
-set firewall {{ setting_name }}:
+set {{ setting_name }} firewall setting:
   file.replace:
     - name:  /home/sysadmin-tools/firewall-settings.local
     - pattern: "{{ setting_name }}=.*"
@@ -11,7 +11,7 @@ set firewall {{ setting_name }}:
 {% endmacro %}
 
 {% macro unset_firewall(setting_name) %}
-unset firewall {{ setting_name }}:
+unset {{ setting_name }} firewall setting:
   file.replace:
     - name:  /home/sysadmin-tools/firewall-settings.local
     - pattern: "{{ setting_name }}=.*\n"

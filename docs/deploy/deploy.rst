@@ -46,8 +46,6 @@ Common changed states are:
 
 Function: service.running, ID: apache2
   Apache was reloaded
-Function: cmd.run, ID: prometheus-client-apache-password
-  This change is a false positive
 
 For a Django app, common changed states are:
 
@@ -55,9 +53,11 @@ Function: git.latest
   A new commit was deployed
 Function: virtualenv.managed
   This change is a false positive
-Function: cmd.run, Name: . .ve/bin/activate; python manage.py migrate --noinput
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py migrate --noinput
   Django migrations were applied
-Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --noinput
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py compilemessages
+  Message catalogs were compiled
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py collectstatic --noinput
   Static files were copied
 Function: service.running, ID: uwsgi
   uWSGI was reloaded

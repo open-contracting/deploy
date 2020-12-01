@@ -97,11 +97,12 @@ supervisor:
     - enable: True
     - reload: True
 
-{{ user }}-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c {{ userdir }}/htpasswd scrape {{ pillar.kingfisher_collect.web.password }}
+htpasswd-{{ user }}:
+  htpasswd.user_exists:
+    - name: scrape
+    - password: {{ pillar.kingfisher_collect.web.password }}
+    - htpasswd_file: {{ userdir }}/htpasswd
     - runas: {{ user }}
-    - cwd: {{ userdir }}
 
 {{ apache('kingfisher-collect',
     name='ocdskingfisherscrape',

@@ -5,6 +5,7 @@ include:
   - apache-proxy
 
 {% set user = 'prometheus-alertmanager' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user) }}
 
 ## Get binary
@@ -68,11 +69,12 @@ prometheus-alertmanager:
 
 ## Apache reverse proxy with password for security
 
-{{ user }}-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_alertmanager.password }}
+htpasswd-{{ user }}:
+  htpasswd.user_exists:
+    - name: prom
+    - password: {{ pillar.prometheus_alertmanager.password }}
+    - htpasswd_file: {{ userdir }}/htpasswd
     - runas: {{ user }}
-    - cwd: /home/{{ user }}
 
 {{ apache('prometheus-alertmanager',
     servername=pillar.prometheus_alertmanager.fqdn,

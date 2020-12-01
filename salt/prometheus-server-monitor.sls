@@ -5,6 +5,7 @@ include:
   - apache-proxy
 
 {% set user = 'prometheus-server' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user) }}
 
 ## Get binary
@@ -80,11 +81,12 @@ prometheus-server:
 
 ## Apache reverse proxy with password for security
 
-{{ user }}-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_server.password }}
+htpasswd-{{ user }}:
+  htpasswd.user_exists:
+    - name: prom
+    - password: {{ pillar.prometheus_server.password }}
+    - htpasswd_file: {{ userdir }}/htpasswd
     - runas: {{ user }}
-    - cwd: /home/{{ user }}
 
 {{ apache('prometheus-server',
     servername=pillar.prometheus_server.fqdn,

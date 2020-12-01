@@ -18,14 +18,16 @@ prometheus-client modules:
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
+{% set userdir = '/home/' + user %}
 
 ## Apache reverse proxy with password for security
 
-{{ user }}-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus_client.password }}
+htpasswd-{{ user }}:
+  htpasswd.user_exists:
+    - name: prom
+    - password: {{ pillar.prometheus_client.password }}
+    - htpasswd_file: {{ userdir }}/htpasswd
     - runas: {{ user }}
-    - cwd: /home/{{ user }}
 
 {{ apache('prometheus-client',
     servername=pillar.prometheus_client.fqdn if pillar.prometheus_client.fqdn else 'prom-client.' + grains.fqdn,
