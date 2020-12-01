@@ -17,7 +17,7 @@ To override the version, update the server's Pillar file:
 Enable public access
 --------------------
 
-By default, PostgreSQL only listens for local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`__).
+By default, PostgreSQL only allows local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`__).
 
 To enable public access, update the server's Pillar file:
 
@@ -50,11 +50,11 @@ The configuration file should appear in ``/etc/postgresql/11/main/conf.d/`` on t
 Set up replication
 ------------------
 
-You will configure a master server and a replica server.
+You will configure a main server and a replica server.
 
 #. Create configuration files for each server as above. For reference, see the files for ``kingfisher-process`` and ``kingfisher-replica``.
 
-#. Update the master server's Pillar file with the replica user's name and the replica's IP addresses:
+#. Update the main server's Pillar file with the replica user's name and the replica's IP addresses:
 
    .. code-block:: yaml
 
@@ -62,10 +62,12 @@ You will configure a master server and a replica server.
         replica_user:
           username: example_username
         replica_ips:
-          - 198.51.100.0/32
-          - 2001:db8::/128
+          ipv4:
+            - 198.51.100.0/32
+          ipv6:
+            - 2001:db8::/128
 
-#. Update the master server's private Pillar file in the ``pillar/private`` directory with the replica user's password.
+#. Update the main server's private Pillar file in the ``pillar/private`` directory with the replica user's password.
 
    .. code-block:: yaml
 
@@ -73,7 +75,7 @@ You will configure a master server and a replica server.
         replica_user:
           password: example_password
 
-#. Add the ``postgres.replica_master`` state file to the master server's target in the ``salt/top.sls`` file.
+#. Add the ``postgres.replica_master`` state file to the main server's target in the ``salt/top.sls`` file.
 
 #. :doc:`Deploy<deploy>` both servers
 
@@ -93,7 +95,7 @@ You will configure a master server and a replica server.
       .. code-block:: bash
 
          su - postgres
-         pg_basebackup -h ${master_server_hostname} -D /var/lib/postgresql/11/main -U ${replica_username} -v -P -Fp -Xs -R
+         pg_basebackup -h ${main_host} -D /var/lib/postgresql/11/main -U ${replica_user} -v -P -Fp -Xs -R
 
       For example, for ``kingfisher-replica``:
 
@@ -123,7 +125,7 @@ You will configure a master server and a replica server.
          echo "primary_slot_name = 'example_unique_identifier'" >> /var/lib/postgresql/11/main/recovery.conf
          service postgresql restart
 
-   #. On the master server:
+   #. On the main server:
 
       .. code-block:: bash
 

@@ -12,7 +12,7 @@ Connect to a database
 
    If you connect to the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
 
-OCP has a master database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the other server. Please always use the replica database. If that server goes down, use the master database until the server is restored.
+OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the other server. Please always use the replica database. If that server goes down, use the main database until the server is restored.
 
 .. _psql:
 

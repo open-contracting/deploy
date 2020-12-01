@@ -39,7 +39,7 @@ Allow: /review$
 Allow: /review/$
 Allow: /infrastructure/review$
 Allow: /infrastructure/review/$
-# Allow the master branches of draft profiles.
+# Allow the main branches of draft profiles.
 # Disallow anything else.
 Disallow: /
 
