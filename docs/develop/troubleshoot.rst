@@ -83,7 +83,7 @@ Avoid Pillar gotchas
 -  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
 -  Below, if ``a`` is equal to an empty string, then ``b`` will be ``None``:
 
-   .. code-block:: none
+   .. code-block:: jinja
 
       {% set extracontext %}
       b: {{ a }}
@@ -91,7 +91,7 @@ Avoid Pillar gotchas
 
    Instead, surround it in quotes:
 
-   .. code-block:: none
+   .. code-block:: jinja
 
       {% set extracontext %}
       b: "{{ a }}"

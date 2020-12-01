@@ -76,7 +76,7 @@ Follow the OCDS Development Handbook's `deployment guide <https://ocds-standard-
 
 If this is the first numbered version of a profile, in its ``docs/_templates/layout.html``, add (substituting ``{root}`` with ``ppp``, for example):
 
-.. code-block:: none
+.. code-block:: jinja
 
    {% block version_options %}
    <!--#include virtual="/includes/version-options-profiles-{root}.html" -->
@@ -224,7 +224,7 @@ If this is a new major or minor version:
 
 #. In ``salt/apache/docs.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
 
-   .. code-block:: none
+   .. code-block:: apache
 
       <Location /1.1/>
           SetEnv BANNER /includes/banner_old.html

@@ -46,7 +46,7 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
 
 You should see a response like:
 
-.. code-block:: none
+.. code-block:: json
 
    {"node_name": "process1", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
@@ -58,7 +58,7 @@ To cancel a crawl, replace ``JOBID`` with the job ID from the response or from S
 
 You should see a response like:
 
-.. code-block:: none
+.. code-block:: json
 
    {"node_name": "process1", "status": "ok", "prevstate": "running"}
 
@@ -157,6 +157,6 @@ To test your configuration, run:
 
 You should see a response like:
 
-.. code-block:: none
+.. code-block:: json
 
    {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}
