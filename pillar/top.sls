@@ -1,4 +1,4 @@
-# Defines which pillars should be used for each target. Each target has a public and private pillar.
+# Defines which pillars should be used for each target.
 
 base:
   '*':
