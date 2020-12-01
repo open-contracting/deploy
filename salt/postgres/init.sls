@@ -2,7 +2,15 @@
 
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
-{{ configurefirewall("PUBLICPOSTGRESSERVER") }}
+{%- if salt['pillar.get']('postgres:public_access') %}
+{{ configurefirewall("PUBLIC_POSTGRESQL") }}
+{%- else %}
+{{ configurefirewall("PRIVATE_POSTGRESQL") }}
+  {%- if salt['pillar.get']('postgres:replica_ips') %}
+{{ configurefirewall("ALLOW_IPV4", pillar.postgres.replica_ips.ipv4|join(' ')) }}
+{{ configurefirewall("ALLOW_IPV6", pillar.postgres.replica_ips.ipv6|join(' ')) }}
+  {%- endif %}
+{%- endif %}
 
 # Install PostgreSQL from the official repository, as it offers newer versions than the Ubuntu repository.
 postgresql:

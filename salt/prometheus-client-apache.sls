@@ -1,5 +1,11 @@
 {% from 'lib.sls' import createuser, apache, configurefirewall %}
 
+{% if pillar.prometheus_client.port == 80 %}
+{{ configurefirewall("PUBLIC_PROMETHEUS_CLIENT") }}
+{% elif pillar.prometheus_client.port == 7231 %}
+{{ configurefirewall("PRIVATE_PROMETHEUS_CLIENT") }}
+{% endif %}
+
 include:
   - prometheus-client-common
   - apache
@@ -12,12 +18,6 @@ prometheus-client modules:
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
-
-{% if pillar.prometheus_client.port == 80 %}
-{{ configurefirewall("PROMETHEUSCLIENTSERVER80") }}
-{% elif pillar.prometheus_client.port == 7231 %}
-{{ configurefirewall("PROMETHEUSCLIENTSERVER") }}
-{% endif %}
 
 ## Apache reverse proxy with password for security
 

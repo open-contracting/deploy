@@ -1,6 +1,6 @@
 {% from 'lib.sls' import configurefirewall %}
 
-{{ configurefirewall("ELASTICSEARCHSERVER") }}
+{{ configurefirewall("PUBLIC_ELASTICSEARCH") }}
 
 elasticsearch:
   pkgrepo.managed:
