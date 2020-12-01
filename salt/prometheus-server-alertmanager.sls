@@ -70,11 +70,12 @@ prometheus-alertmanager:
 ## Apache reverse proxy with password for security
 
 htpasswd-{{ user }}:
-  htpasswd.user_exists:
+  webutil.user_exists:
     - name: prom
     - password: {{ pillar.prometheus_alertmanager.password }}
     - htpasswd_file: {{ userdir }}/htpasswd
     - runas: {{ user }}
+    - update: True
 
 {{ apache('prometheus-alertmanager',
     servername=pillar.prometheus_alertmanager.fqdn,
