@@ -3,10 +3,6 @@
 iptables-persistent:
   pkg.installed
 
-/home/sysadmin-tools/bin:
-  file.directory:
-    - makedirs: True
-
 # To avoid updating iptables on each deploy, this sets `replace: False`. If the source file is changed, you must delete
 # the remote file from all servers, then re-deploy. (Or, temporarily set `replace: True`.)
 /home/sysadmin-tools/firewall-settings.local:
@@ -20,6 +16,8 @@ iptables-persistent:
   file.managed:
     - source: salt://lib/firewall.sh
     - mode: 750
+  require:
+    - file: /home/sysadmin-tools/bin
 
 # We upload the script and execute it on the server (rather than using cmd.script). This has the following benefits:
 # - Users on the system can regenerate the firewall without re-deploying (for example, to block an IP temporarily)

@@ -23,3 +23,8 @@ root_authorized_keys:
   ssh_auth.manage:
     - user: root
     - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []))|yaml }}
+
+# Several states add scripts to this directory.
+/home/sysadmin-tools/bin:
+  file.directory:
+    - makedirs: True

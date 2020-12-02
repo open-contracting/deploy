@@ -16,14 +16,12 @@
       - user
       - group
 
-/home/sysadmin-tools/bin/:
-  file.directory:
-    - makedirs: True
-
 /home/sysadmin-tools/bin/delete-after-x-days.sh:
   file.managed:
     - mode: 755
     - source: salt://lib/delete-after-x-days.sh
+  require:
+    - file: /home/sysadmin-tools/bin
 
 # Using file.append rather than the salt cron module.
 # Because system crons are easier to find if they are all stored in /etc.
@@ -32,6 +30,8 @@
     - text: |
         MAILTO=root
         15 10 * * * postgres /home/sysadmin-tools/bin/delete-after-x-days.sh 7 /var/lib/postgresql/{{ pg_version }}/main/archive/
+  require:
+    - file: /home/sysadmin-tools/bin/delete-after-x-days.sh
 
 replica_user:
   postgres_user.present:
