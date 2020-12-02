@@ -84,6 +84,20 @@ else
     exit 7
 fi
 
+if [ "$MONITOR_APPBEAT" == "yes" ]; then
+    echo_verbose "Get AppBeat IP addresses"
+    # Account for DOS line endings.
+    APPBEAT_IPV4=`curl -s -S https://www.appbeat.io/probes/ipv4 | tr -d '\r'`
+    APPBEAT_IPV6=`curl -s -S https://www.appbeat.io/probes/ipv6 | tr -d '\r'`
+else
+    APPBEAT_IPV4=""
+    APPBEAT_IPV6=""
+fi
+
+# We want to continue even if a command fails, because if, for example, a command fails after flushing tables but
+# before allowing collections to port 22, recovery becomes much harder.
+set +eu
+
 echo_verbose "Flush and delete any tables"
 $IPTABLES -F
 $IPTABLES -t nat -F
@@ -279,16 +293,6 @@ if [ "$PUBLIC_ELASTICSEARCH" == "yes" ]; then
     echo_verbose "Public Elasticsearch server"
     $IPTABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
-fi
-
-if [ "$MONITOR_APPBEAT" == "yes" ]; then
-    echo_verbose "Get AppBeat IP addresses"
-    # Account for DOS line endings.
-    APPBEAT_IPV4=`curl -s -S https://www.appbeat.io/probes/ipv4 | tr -d '\r'`
-    APPBEAT_IPV6=`curl -s -S https://www.appbeat.io/probes/ipv6 | tr -d '\r'`
-else
-    APPBEAT_IPV4=""
-    APPBEAT_IPV6=""
 fi
 
 echo_verbose "Flush monitor chain"
