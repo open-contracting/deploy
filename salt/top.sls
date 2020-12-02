@@ -23,7 +23,6 @@ base:
 
   'docs':
     - docs
-    - docs-legacy
     - elasticsearch
     - tinyproxy
 

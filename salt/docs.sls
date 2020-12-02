@@ -65,3 +65,21 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
     servername='testing.live.standard.open-contracting.org',
     https=pillar.apache.https,
     extracontext='testing: True') }}
+
+# This sets up redirects and an archived opendatacomparison static site for ocds.open-contracting.org,
+# which has been replaced by standard.open-contracting.org
+
+{% set legacy = 'opencontracting' %}
+{{ createuser(legacy) }}
+
+https://github.com/open-contracting/opendatacomparison-archive.git:
+  git.latest:
+    - rev: live
+    - target: /home/{{ legacy }}/opendatacomparison-archive/
+    - user: {{ legacy }}
+    - require:
+      - pkg: git
+    - watch_in:
+      - service: apache2
+
+{{ apache('docs-legacy', name='ocds-legacy', servername='ocds.open-contracting.org') }}
