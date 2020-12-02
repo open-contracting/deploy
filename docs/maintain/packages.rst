@@ -1,7 +1,7 @@
 Manage server packages
 ======================
 
-All servers use the `unattended-upgrades package <https://help.ubuntu.com/lts/serverguide/automatic-updates.html>`__ for `security updates <https://usn.ubuntu.com/>`__. On development/staging servers, the package is configured to automatically reboot the server, according to the ``automatic_reboot`` variable in Pillar. For other servers, administrators perform the steps below on a weekly basis.
+If ``maintenance.patching`` is not set to ``manual`` in a target's Pillar file, then the `unattended-upgrades package <https://help.ubuntu.com/lts/serverguide/automatic-updates.html>`__ is installed and configured.
 
 The commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern, like ``'cove-*'``, or with a comma-separated list using the ``-L`` flag, like ``-L kingfisher-process,kingfisher-replica``.
 
