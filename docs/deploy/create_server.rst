@@ -134,15 +134,17 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
 
       The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
-#. Add a target to the ``salt-config/roster`` file in this repository, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
+#. Add a target to the ``salt-config/roster`` file in this repository, using a logical target name matching the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
-#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__:
+#. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
-   .. code-block:: bash
+  This state file ensures that the system is patched, configures the system hostname and applies the core salt configs.
 
-      salt-ssh TARGET pkg.upgrade dist_upgrade=True
+  Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
 
-#. :doc:`Deploy the service<deploy>`, which applies the ``core`` state files.
+  .. code-block:: bash
+
+     salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -153,13 +155,10 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
 4. Deploy the service
 ---------------------
 
-#. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
+   .. note::
 
-  Replacing ocpXX with the hostname you configured earlier.
+      See docs here on how to :doc:`deploy services<deploy>`.
 
-  .. code-block:: bash
-
-     salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 #. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
 
    .. note::
@@ -167,6 +166,7 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
       If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-*'`` matches ``cove-oc4ids``.
 
 #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
+
 
 5. Migrate from the old server
 ------------------------------
