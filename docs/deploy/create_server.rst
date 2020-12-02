@@ -143,13 +143,13 @@ If you couldn't select Ubuntu above, follow these additional steps:
 3. Deploy the service
 ---------------------
 
-#. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
+#. If the service is being introduced, add the target to the ``salt/top.sls`` file, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
 
    .. note::
 
       If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-*'`` matches ``cove-oc4ids``.
 
-#. If the service is being introduced, add the target to ``pillar/top.sls``, and include any new Pillar files you authored for the service.
+#. If the service is being introduced, add the target to the ``pillar/top.sls`` file, and include any new Pillar files you authored for the service.
 
    .. note::
 

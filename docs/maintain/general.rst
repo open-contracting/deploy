@@ -23,7 +23,7 @@ Review root access
 ------------------
 
 #. Read the :ref:`root access policy<root-access-policy>`
-#. Review the ``salt/private/authorized_keys`` directory
+#. Review the ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file
 #. Run:
 
    .. code-block:: bash

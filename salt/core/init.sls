@@ -18,8 +18,8 @@ python-apt:
 debconf-utils:
   pkg.installed
 
-# Upload SSH keys for users with access to all servers.
-root_authorized_keys_add:
-  ssh_auth.present:
+# Manage authorized keys for users with root access to all servers.
+root_authorized_keys:
+  ssh_auth.manage:
     - user: root
-    - source: salt://private/authorized_keys/root_to_add
+    - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []))|yaml }}

@@ -54,7 +54,7 @@ To configure a documentation repository to push builds to the server:
 
    #. Click *Add a new secret*
    #. Set *Name* to "PRIVATE_KEY"
-   #. Set *Value* to the contents of ``salt/private/docs/ssh_authorized_keys_for_ci_private``
+   #. Set *Value* to the contents of ``pillar/private/keys/docs_ci``
    #. Click *Add secret*
 
 #. Set the search secret:

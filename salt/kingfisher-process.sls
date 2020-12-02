@@ -23,7 +23,7 @@ kingfisher-process-prerequisites:
 
 {% set user = 'ocdskfp' %}
 {% set userdir = '/home/' + user %}
-{{ createuser(user, auth_keys_files=['kingfisher']) }}
+{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 {% set process_giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
 {% set summarize_giturl = 'https://github.com/open-contracting/kingfisher-summarize.git' %}

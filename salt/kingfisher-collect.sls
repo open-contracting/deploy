@@ -11,7 +11,7 @@ kingfisher-collect-prerequisites:
 
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
-{{ createuser(user, auth_keys_files=['kingfisher']) }}
+{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 {% set scrapyd_dir = userdir + '/scrapyd/' %}
 

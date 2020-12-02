@@ -6,11 +6,6 @@ toucan-deps:
 include:
   - django
 
-root_toucan:
-  ssh_auth.present:
-    - user: root
-    - source: salt://private/authorized_keys/root_to_add_toucan
-
 /home/{{ pillar.user }}/{{ pillar.name }}/googleapi_credentials.json:
   file.managed:
     - source: salt://lib/googleapi_credentials.json

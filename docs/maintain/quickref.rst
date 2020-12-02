@@ -33,7 +33,7 @@ To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/s
 
 .. code-block:: bash
 
-   ./run.py '*' state.sls_id root_authorized_keys_add core
+   ./run.py '*' state.sls_id root_authorized_keys core
 
 .. _restart-service:
 

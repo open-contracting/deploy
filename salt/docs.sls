@@ -5,7 +5,7 @@ include:
   - apache.modules.proxy_http
 
 {% set user = 'ocds-docs' %}
-{{ createuser(user) }}
+{{ createuser(user, authorized_keys=pillar.ssh.docs) }}
 
 # Needed to create a ZIP file of the schema and codelists.
 # https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
@@ -50,11 +50,6 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
     - user: ocds-docs
     - force_fetch: True
     - force_reset: True
-
-add-key-for-continuous-integration:
-  ssh_auth.present:
-      - source: salt://private/docs/ssh_authorized_keys_for_ci
-      - user: ocds-docs
 
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host

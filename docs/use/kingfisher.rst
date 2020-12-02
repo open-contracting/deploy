@@ -28,7 +28,7 @@ Connect to servers
 
 .. admonition:: One-time setup
 
-   Ask a colleague to add your SSH key to ``salt/private/authorized_keys/kingfisher_to_add``
+   Ask a colleague to add your SSH key to the ``ssh.kingfisher`` list in the ``pillar/kingfisher.sls`` file.
 
 The servers have different users for different roles.
 

@@ -28,7 +28,6 @@ You must first have access to three private repositories. Contact an owner of th
 .. code-block:: bash
 
     git clone git@github.com:open-contracting/deploy.git
-    git clone git@github.com:open-contracting/deploy-salt-private.git deploy/salt/private
     git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
     git clone git@github.com:open-contracting/dogsbody-maintenance.git deploy/salt/maintenance
 
@@ -37,19 +36,19 @@ You must first have access to three private repositories. Contact an owner of th
 3. Add public key to remote servers
 -----------------------------------
 
-Add your public key to the relevant file in the ``salt/private/authorized_keys`` directory, e.g.:
+Add your public key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/commons.sls`` file if you require root access to all servers. For example:
 
 .. code-block:: bash
 
-    cat ~/.ssh/id_rsa.pub >> salt/private/authorized_keys/root_to_add
-    git commit salt/private/authorized_keys/root_to_add -m "Add public key"
+    vi pillar/toucan.sls
+    git commit pillar/toucan.sls -m "ssh: Add public key for Jane Doe"
     git push origin master
 
 Then, ask a colleague to deploy your public key to the relevant servers. For example:
 
 .. code-block:: bash
 
-    ./run.py '*' state.sls_id root_authorized_keys_add core
+    ./run.py '*' state.sls_id root_authorized_keys core
 
 4. Configure Salt for non-root user
 -----------------------------------

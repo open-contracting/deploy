@@ -31,18 +31,6 @@ If you delete a file, service, package, user, authorized key, Apache module, or 
 
 .. _delete-authorized-key:
 
-Delete an authorized key
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-#. Delete it from the relevant file in the ``salt/private/authorized_keys`` directory
-#. Run, for example:
-
-.. code-block:: bash
-
-   ./run.py '*' ssh.rm_auth_key root "AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XAt3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/EnmZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbxNrRFi9wrf+M7Q=="
-
-.. The key is from https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key
-
 Delete a file
 ~~~~~~~~~~~~~
 

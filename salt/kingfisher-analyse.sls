@@ -10,7 +10,7 @@ kingfisher-analyse-prerequisites:
       - unzip
 
 {% set user = 'analysis' %}
-{{ createuser(user, auth_keys_files=['kingfisher']) }}
+{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 kingfisher-analyse-pipinstall:
   pip.installed:

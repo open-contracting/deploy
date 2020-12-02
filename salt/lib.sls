@@ -22,7 +22,7 @@ unset {{ setting_name }} firewall setting:
 
 
 # Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
-{% macro createuser(user, auth_keys_files=[]) %}
+{% macro createuser(user, authorized_keys=[]) %}
 
 {{ user }}_user_exists:
   user.present:
@@ -31,21 +31,12 @@ unset {{ setting_name }} firewall setting:
     - order: 1
     - shell: /bin/bash
 
-{{ user }}_root_authorized_keys_add:
-  ssh_auth.present:
+{{ user }}_authorized_keys:
+  ssh_auth.manage:
     - user: {{ user }}
-    - source: salt://private/authorized_keys/root_to_add
+    - ssh_keys: {{ (pillar.ssh.admin + authorized_keys)|yaml }}
     - require:
       - user: {{ user }}_user_exists
-
-{% for auth_keys_file in auth_keys_files %}
-{{ user }}_{{ auth_keys_file }}_authorized_keys_add:
-  ssh_auth.present:
-    - user: {{ user }}
-    - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
-    - require:
-      - user: {{ user }}_user_exists
-{% endfor %}
 
 {% endmacro %}
 
