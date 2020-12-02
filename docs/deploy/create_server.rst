@@ -130,20 +130,20 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
 
 #. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
-   .. note::
+.. note::
 
-      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
+   The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
 #. Add a target to the ``salt-config/roster`` file in this repository, using a logical target name matching the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
 #. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
-  This state file ensures that the system is patched, configures the system hostname and applies the core salt configs.
+This state file ensures that the system is patched, configures the system hostname and applies the core salt configs.
 
-  Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
+Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
 
   .. code-block:: bash
-
+     
      salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
