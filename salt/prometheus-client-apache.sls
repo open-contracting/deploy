@@ -1,8 +1,8 @@
 {% from 'lib.sls' import createuser, apache, set_firewall %}
 
-{% if pillar.prometheus_client.port == 80 %}
+{% if pillar.prometheus_node_exporter.port == 80 %}
 {{ set_firewall("PUBLIC_PROMETHEUS_CLIENT") }}
-{% elif pillar.prometheus_client.port == 7231 %}
+{% elif pillar.prometheus_node_exporter.port == 7231 %}
 {{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
 {% endif %}
 
@@ -15,6 +15,6 @@ include:
 {% set user = 'prometheus-client' %}
 
 {{ apache('prometheus-client',
-    servername=pillar.prometheus_client.fqdn if pillar.prometheus_client.fqdn else 'prom-client.' + grains.fqdn,
+    servername=pillar.prometheus_node_exporter.fqdn if pillar.prometheus_node_exporter.fqdn else 'prom-client.' + grains.fqdn,
     extracontext='user: ' + user,
-    ports=[pillar.prometheus_client.port]) }}
+    ports=[pillar.prometheus_node_exporter.port]) }}

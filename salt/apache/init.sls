@@ -21,6 +21,7 @@ htpasswd-{{ entry.user }}:
     - htpasswd_file: /home/{{ entry.user }}/htpasswd
     - runas: {{ entry.user }}
     - update: True
-    - require: {{ user }}_user_exists
+    - require:
+      - user: {{ entry.user }}_user_exists
 {% endfor %}
 {% endif %}

@@ -1,4 +1,4 @@
-{% from 'lib.sls' import set_firewall %}
+{% from 'lib.sls' import apache, set_firewall %}
 
 include:
   - apache.letsencrypt
