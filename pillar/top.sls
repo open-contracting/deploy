@@ -20,6 +20,9 @@ base:
     - private.cove_ocds
     - maintenance
 
+  'covid19-dev':
+    - covid19
+
   'docs':
     - docs
     - tinyproxy

@@ -17,7 +17,6 @@ base:
 
   'cove-*':
     - cove
-    - prometheus-client-apache
 
   'covid19-dev':
     - covid19
@@ -27,7 +26,6 @@ base:
     - docs-legacy
     - elasticsearch
     - tinyproxy
-    - prometheus-client-apache
 
   'kingfisher-process':
     - postgres
@@ -36,23 +34,22 @@ base:
     - kingfisher-process
     - kingfisher-analyse
     - kingfisher-archive
-    - prometheus-client-apache
     - postgres.replica_master
 
   'kingfisher-replica':
     - postgres
-    - prometheus-client-apache
 
   'prometheus':
     - prometheus-server
-    - prometheus-client-apache
 
   'redash':
     - redash
-    - prometheus-client-apache
 
   'toucan':
     - toucan
+
+  'prometheus_node_exporter:enabled:true':
+    - match: pillar
     - prometheus-client-apache
 
   'maintenance:enabled:true':
