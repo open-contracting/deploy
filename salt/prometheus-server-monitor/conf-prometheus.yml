@@ -1,0 +1,67 @@
+global:
+  scrape_interval: 60s
+  scrape_timeout: 30s
+
+scrape_configs:
+  - job_name: 'prometheus-server-software'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['localhost:9057']
+    scheme: http
+  - job_name: 'prometheus-server-node'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['localhost:9157']
+    scheme: http
+
+  # The Prometheus client on Bytemark servers using Apache.
+{% for server in ['live2.redash', 'live.docs', 'live.standard-search', 'live.toucan', 'live3.cove', 'cove-live.oc4ids'] %}
+  - job_name: 'ocds-{{ server }}'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['prom-client.{{ server }}.opencontracting.uk0.bigv.io']
+    scheme: http
+    basic_auth:
+      username: prom
+      password: {{ pillar.apache.htpasswd.prometheus_client.password }}
+{% endfor %}
+
+  # The Prometheus client on Hetzner servers.
+  - job_name: 'ocds-kingfisher2'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['95.217.76.74:7231']
+    scheme: http
+    basic_auth:
+      username: prom
+      password: {{ pillar.apache.htpasswd.prometheus_client.password }}
+  - job_name: 'ocds-kingfisher-replica'
+    scrape_interval: 60s
+    static_configs:
+      - targets: ['replica1.kingfisher.open-contracting.org:7231']
+    scheme: http
+    basic_auth:
+      username: prom
+      password: {{ pillar.apache.htpasswd.prometheus_client.password }}
+
+
+
+  # The custom endpoint in Kingfisher Process, which adds new metrics prefixed by `kingfisher_process_`.
+  - job_name: 'ocds-kingfisher2-process'
+    scrape_interval: 300s
+    metrics_path: /prometheus/metrics
+    static_configs:
+      - targets: ['process.kingfisher.open-contracting.org']
+    scheme: http
+    basic_auth:
+      username: prom
+      password: {{ pillar.apache.htpasswd.prometheus_client.password }}
+
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - 'localhost:9095'
+
+rule_files:
+  - /home/{{ user }}/conf-prometheus-rules.yml

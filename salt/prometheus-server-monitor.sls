@@ -29,7 +29,7 @@ extract_prometheus:
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
-    - source: salt://private/prometheus-server-monitor/conf-prometheus.yml
+    - source: salt://prometheus-server-monitor/conf-prometheus.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -38,7 +38,7 @@ extract_prometheus:
 
 /home/{{ user }}/conf-prometheus-rules.yml:
   file.managed:
-    - source: salt://private/prometheus-server-monitor/conf-prometheus-rules.yml
+    - source: salt://prometheus-server-monitor/conf-prometheus-rules.yml
     - template: jinja
     - context:
         user: {{ user }}

@@ -27,7 +27,7 @@ If the ``prometheus-client-apache`` state file applies to the target, `Node Expo
 
 #. If Node Exporter isn't accessible, edit the ``prometheus_node_exporter.port`` and/or ``prometheus_node_exporter.fqdn`` variables in the target's Pillar file as needed, and :doc:`re-deploy<deploy>` the service.
 
-#. Add a job to ``salt/private/prometheus-server-monitor/conf-prometheus.yml``, following the same pattern as other jobs.
+#. Add a job to ``salt/prometheus-server-monitor/conf-prometheus.yml``, following the same pattern as other jobs.
 
 #. :doc:`Deploy<deploy>` the Prometheus service.
 

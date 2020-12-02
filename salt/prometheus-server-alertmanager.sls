@@ -29,7 +29,7 @@ extract_prometheus_alertmanager:
 
 /home/{{ user }}/conf-alertmanager.yml:
   file.managed:
-    - source: salt://private/prometheus-server-alertmanager/conf-alertmanager.yml
+    - source: salt://prometheus-server-alertmanager/conf-alertmanager.yml
     - template: jinja
     - context:
         user: {{ user }}
