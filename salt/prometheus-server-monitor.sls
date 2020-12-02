@@ -14,7 +14,7 @@ get_prometheus:
   cmd.run:
     - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus:
@@ -22,8 +22,8 @@ extract_prometheus:
     - name: tar xvzf prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus
+    - require:
+      - cmd: get_prometheus
 
 ## Configure
 
@@ -33,7 +33,7 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 /home/{{ user }}/conf-prometheus-rules.yml:
@@ -42,7 +42,7 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 ## Data
@@ -52,7 +52,7 @@ extract_prometheus:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 ## Start service
@@ -63,14 +63,14 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-server:
   service.running:
     - enable: True
     - reload: True
-    - requires:
+    - require:
       - cmd: extract_prometheus
       - file: /home/{{ user }}/data
     # Make sure service restarts if any config changes

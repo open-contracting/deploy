@@ -14,7 +14,7 @@ get_prometheus_alertmanager:
   cmd.run:
     - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus_alertmanager.version }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
     - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_alertmanager:
@@ -22,8 +22,8 @@ extract_prometheus_alertmanager:
     - name: tar xvzf alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
     - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64/alertmanager
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus_alertmanager
+    - require:
+      - cmd: get_prometheus_alertmanager
 
 ## Configure
 
@@ -33,7 +33,7 @@ extract_prometheus_alertmanager:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 ## Data
@@ -43,7 +43,7 @@ extract_prometheus_alertmanager:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 ## Start service
@@ -54,13 +54,13 @@ extract_prometheus_alertmanager:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-alertmanager:
   service.running:
     - enable: True
-    - requires:
+    - require:
       - cmd: extract_prometheus_alertmanager
     # Make sure service restarts if any config changes
     - watch:

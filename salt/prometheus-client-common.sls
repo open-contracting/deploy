@@ -10,7 +10,7 @@ get_prometheus_client:
   cmd.run:
     - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus_node_exporter.version }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
     - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_client:
@@ -18,8 +18,8 @@ extract_prometheus_client:
     - name: tar xvzf node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
     - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus
+    - require:
+      - cmd: get_prometheus_client
 
 ## Start service
 
@@ -29,13 +29,13 @@ extract_prometheus_client:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-node-exporter:
   service.running:
     - enable: True
-    - requires:
+    - require:
       - file: /etc/systemd/system/prometheus-node-exporter.service
       - cmd: extract_prometheus_client
     # Make sure service restarts if any config changes
@@ -54,7 +54,7 @@ smartmontools:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 /home/{{ user }}/node-exporter-textfile-collector-scripts:
@@ -75,5 +75,4 @@ smartmontools:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
     # This must run as root not user cos non-root users can't access these stats
     - user: root
-
 {% endif %}
