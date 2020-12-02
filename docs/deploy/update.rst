@@ -133,11 +133,11 @@ Delete an Apache module
       headers:
         apache_module.disabled
 
-#. Deploy the relevant service, for example:
+#. Run the temporary state, for example:
 
    .. code-block:: bash
 
-      ./run.py 'toucan' state.apply
+      ./run.py 'toucan' state.sls_id headers core
 
 #. Remove the temporary state
 
