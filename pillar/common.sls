@@ -5,6 +5,8 @@ prometheus_node_exporter:
 
 maintenance:
   enabled: false
+  # Set safe default.
+  patching: automatic
 
 system_contacts:
   # For system notifications.

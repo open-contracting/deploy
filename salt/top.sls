@@ -52,10 +52,17 @@ base:
     - match: pillar
     - prometheus-client-apache
 
+  'maintenance:patching:automatic':
+    - match: pillar
+    - maintenance.patching
+
+  'maintenance:patching:manual':
+    - match: pillar
+    - maintenance.patching.absent
+
   'maintenance:enabled:true':
     - match: pillar
     - maintenance.hardware_sensors
-    - maintenance.patching
     - maintenance.postgres_monitoring
     - maintenance.raid_monitoring
     - maintenance.rkhunter
