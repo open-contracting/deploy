@@ -18,8 +18,6 @@ root_toucan:
     - mode: 600
     - source: salt://private/toucan/googleapi_credentials.json
 
-{% from 'lib.sls' import apache %}
-
 find /home/ocdskit-web/ocdskit-web/media -mindepth 2 -mtime +1 -delete:
   cron.present:
     - identifier: OCDS_TOUCAN_CLEAR_MEDIA_1
