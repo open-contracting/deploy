@@ -7,10 +7,10 @@ After=network-online.target
 User={{ user }}
 Group={{ user }}
 Type=simple
-ExecStart=/home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.linux-amd64/prometheus \
+ExecStart=/home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus \
     --config.file /home/{{ user }}/conf-prometheus.yml \
     --storage.tsdb.path /home/{{ user }}/data \
-    --storage.tsdb.retention.time {{ pillar.prometheus.server_local_storage_retention }} \
+    --storage.tsdb.retention.time {{ pillar.prometheus_server.local_storage_retention }} \
     --web.listen-address 127.0.0.1:9057 \
     --log.level=debug
 

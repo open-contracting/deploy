@@ -1,15 +1,11 @@
-
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
 #
-# This assumes you are installing on Ubuntu Bionic
-#
+# This assumes you are installing on Ubuntu Bionic.
 
 docker_prepackages:
   pkg.installed:
     - pkgs:
-      - apt-transport-https
       - ca-certificates
-      - curl
       - gnupg-agent
       - software-properties-common
 

@@ -15,7 +15,7 @@ Create a Django app
       include:
         - django
 
-#. In your app's Pillar file, set the variables that are commented out in the `django_pillar <https://github.com/open-contracting/deploy/blob/pillar/django_pillar.sls>`__ Pillar file.
+#. In your app's Pillar file, set the variables that are commented out in the `django <https://github.com/open-contracting/deploy/blob/pillar/django.sls>`__ Pillar file.
 
 All Django apps use the `uwsgi/configs/django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/configs/django.ini>`__ configuration template.
 

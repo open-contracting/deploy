@@ -1,16 +1,20 @@
-# Install postgres from the official repositories as they offer newer versions than os repos.
-{% from 'lib.sls' import configurefirewall %}
+{% from 'lib.sls' import set_firewall %}
 
-# To ensure apt-transport-https is installed.
-include:
- - core
-
-# Default to postgres version 11, if not defined in pillar.
 {% set pg_version = salt['pillar.get']('postgres:version', '11') %}
 
-{{ configurefirewall("PUBLICPOSTGRESSERVER") }}
+{% if salt['pillar.get']('postgres:public_access') %}
+{{ set_firewall("PUBLIC_POSTGRESQL") }}
+{% else %}
+{{ set_firewall("PRIVATE_POSTGRESQL") }}
+  {% if salt['pillar.get']('postgres:replica_ipv4') %}
+{{ set_firewall("ALLOW_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
+  {% endif %}
+  {% if salt['pillar.get']('postgres:replica_ipv6') %}
+{{ set_firewall("ALLOW_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
+  {% endif %}
+{% endif %}
 
-# Install and start postgres.
+# Install PostgreSQL from the official repository, as it offers newer versions than the Ubuntu repository.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -18,8 +22,6 @@ postgresql:
     - dist: {{ grains['oscodename'] }}-pgdg
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
-    - require:
-      - pkg: apt-transport-https
   pkg.installed:
     - name: postgresql-{{ pg_version }}
   service.running:
@@ -28,24 +30,37 @@ postgresql:
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
+    - source: salt://postgres/configs/pg_hba.conf
+    - template: jinja
     - user: postgres
     - group: postgres
     - mode: 640
-    - source:
-      - salt://postgres/configs/pg_hba.conf
-    - template: jinja
     - watch_in:
       - service: postgresql
 
 # Upload custom configuration if defined.
-{% if pillar['postgres']['custom_configuration'] %}
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ grains['id'] }}.conf:
+{% if pillar.postgres.configuration_file %}
+/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration_name }}.conf:
   file.managed:
+    - source: {{ pillar.postgres.configuration_file }}
+    - template: jinja
     - user: postgres
     - group: postgres
     - mode: 640
-    - source:
-      - {{ pillar['postgres']['custom_configuration'] }}
     - watch_in:
       - service: postgresql
+{% endif %}
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+# https://github.com/jfcoz/postgresqltuner
+vm.overcommit_memory:
+  sysctl.present:
+    - value: 2
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+# https://github.com/jfcoz/postgresqltuner
+{% if salt['pillar.get']('vm:nr_hugepages') %}
+vm.nr_hugepages:
+  sysctl.present:
+    - value: {{ pillar.vm.nr_hugepages }}
 {% endif %}

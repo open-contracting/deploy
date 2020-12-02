@@ -1,0 +1,5 @@
+# vi: ft=apache
+
+<Location "/">
+    ProxyPass http://localhost:9090/
+</Location>

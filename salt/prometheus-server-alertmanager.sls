@@ -1,38 +1,31 @@
-
 {% from 'lib.sls' import createuser,  apache %}
 
-
 include:
-  - apache
-  - apache-proxy
-
-prometheus-alertmanager-deps:
-    pkg.installed:
-      - pkgs:
-        - curl
+  - apache.public
+  - apache.modules.proxy_http
 
 {% set user = 'prometheus-alertmanager' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus_alertmanager:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus.server_alertmanager_version }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
-    - requires:
-      - pkg.prometheus-alertmanager-deps
+    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus_alertmanager.version }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_alertmanager:
   cmd.run:
-    - name: tar xvzf alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.server_alertmanager_version }}.linux-amd64/alertmanager
+    - name: tar xvzf alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64/alertmanager
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus_alertmanager
+    - require:
+      - cmd: get_prometheus_alertmanager
 
-########### Config
+## Configure
 
 /home/{{ user }}/conf-alertmanager.yml:
   file.managed:
@@ -40,20 +33,20 @@ extract_prometheus_alertmanager:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
-########### Data
+## Data
 
 /home/{{ user }}/data:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-alertmanager.service:
   file.managed:
@@ -61,29 +54,20 @@ extract_prometheus_alertmanager:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-alertmanager:
   service.running:
     - enable: True
-    - requires:
+    - require:
       - cmd: extract_prometheus_alertmanager
     # Make sure service restarts if any config changes
     - watch:
       - file: /home/{{ user }}/conf-alertmanager.yml
       - file: /etc/systemd/system/prometheus-alertmanager.service
 
-
-########### Apache Reverse Proxy with password for security
-
 {{ apache('prometheus-alertmanager',
-    extracontext='user: ' + user,
-    servername=pillar.prometheus.alertmanager_fqdn,
-    https=pillar.prometheus.alertmanager_https) }}
-
-prometheus-alertmanager-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.alertmanager_password }}
-    - runas: {{ user }}
-    - cwd: /home/{{ user }}
+    servername=pillar.prometheus_alertmanager.fqdn,
+    https=pillar.prometheus_alertmanager.https,
+    extracontext='user: ' + user) }}

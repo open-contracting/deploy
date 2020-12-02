@@ -4,7 +4,7 @@ Prometheus
 Monitor
 -------
 
-Access the `monitoring service <http://monitor.prometheus.open-contracting.org>`__. The username is ``prom``. The password is set by the ``prometheus.server_password`` variable in the ``pillar/private/prometheus_pillar.sls`` file.
+Access the `monitoring service <http://monitor.prometheus.open-contracting.org>`__. The username is ``prom``. The password is set by the ``apache.htpasswd.prometheus_server.password`` variable in the ``pillar/private/prometheus_server.sls`` file.
 
 The landing page lets you query the collected data. For example:
 
@@ -32,7 +32,7 @@ Read `Prometheus' documentation <https://prometheus.io/docs/introduction/overvie
 Alert manager
 -------------
 
-Access the `alerting service <http://alertmanager.prometheus.open-contracting.org>`__.  The username is ``prom``. The password is set by the ``prometheus.alertmanager_password`` variable in the ``pillar/private/prometheus_pillar.sls`` file.
+Access the `alerting service <http://alertmanager.prometheus.open-contracting.org>`__.  The username is ``prom``. The password is set by the ``apache.htpasswd.prometheus_alertmanager.password`` variable in the ``pillar/private/prometheus_server.sls`` file.
 
 Whereas the monitoring service configures alerts, the alerting service sends alerts. Alerts are sent to the recipients set in ``salt/private/prometheus-server-alertmanager/conf-alertmanager.yml``.
 

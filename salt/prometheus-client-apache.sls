@@ -1,35 +1,20 @@
-{% from 'lib.sls' import createuser, apache, configurefirewall %}
+{% from 'lib.sls' import createuser, apache, set_firewall %}
+
+{% if pillar.prometheus_node_exporter.port == 80 %}
+{{ set_firewall("PUBLIC_PROMETHEUS_CLIENT") }}
+{% elif pillar.prometheus_node_exporter.port == 7231 %}
+{{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
+{% endif %}
 
 include:
+  - apache.public
+  - apache.modules.proxy_http
   - prometheus-client-common
-  - apache
-
-prometheus-client modules:
-  apache_module.enabled:
-    - names:
-      - proxy
-      - proxy_http
 
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
 
-########### Apache Reverse Proxy with password for security
-
-{% if pillar.prometheus.client_port == 80 %}
-{{ configurefirewall("PROMETHEUSCLIENTACCESSPUBLICHTTPSERVER") }}
-{% elif pillar.prometheus.client_port == 7231 %}
-{{ configurefirewall("PROMETHEUSCLIENTACCESS") }}
-{% endif %}
-
-
 {{ apache('prometheus-client',
+    servername=pillar.prometheus_node_exporter.fqdn if pillar.prometheus_node_exporter.fqdn else 'prom-client.' + grains.fqdn,
     extracontext='user: ' + user,
-    servername=pillar.prometheus.client_fqdn if pillar.prometheus.client_fqdn else 'prom-client.' + grains.fqdn,
-    ports=[pillar.prometheus.client_port]) }}
-
-prometheus-client-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.client_password }}
-    - runas: {{ user }}
-    - cwd: /home/{{ user }}
-
+    ports=[pillar.prometheus_node_exporter.port]) }}

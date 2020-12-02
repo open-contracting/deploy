@@ -9,12 +9,12 @@ If the virtual host uses HTTPS, you will need to acquire SSL certificates for th
 #. Change the ``ServerName``
 #. In the relevant Pillar file, change ``https`` to ``certonly``
 #. :doc:`Deploy the service<deploy>`
-#. In the relevant Pillar file, change ``https`` to ``force`` or ``both``
+#. In the relevant Pillar file, change ``https`` to ``force``
 #. Remove the old SSL certificates, for example:
 
    .. code-block:: bash
 
-      ./run.py 'ocds-docs-live' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
+      ./run.py 'docs' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
 
 To check for old SSL certificates that were previously not removed, run:
 
@@ -50,7 +50,7 @@ Run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' file.remove /path/to/file-to-remove
+   ./run.py 'docs' file.remove /path/to/file-to-remove
 
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
@@ -64,32 +64,32 @@ Delete a service
 
 `Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
 
-To stop and disable the ``icinga2`` service on the ``ocds-docs-live`` target, for example:
+To stop and disable the ``icinga2`` service on the ``docs`` target, for example:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' service.stop icinga2
-   ./run.py 'ocds-docs-live' service.disable icinga2
+   ./run.py 'docs' service.stop icinga2
+   ./run.py 'docs' service.disable icinga2
 
 If you deleted the ``uwsgi`` service, also run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-available/cove.ini
-   ./run.py 'cove-live-ocds-3' file.remove /etc/uwsgi/apps-enabled/cove.ini
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-available/cove.ini
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-enabled/cove.ini
 
 Delete a package
 ~~~~~~~~~~~~~~~~
 
 `Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
 
-To scrub Icinga-related packages from the ``ocds-docs-live`` target, for example:
+To scrub Icinga-related packages from the ``docs`` target, for example:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
-   ./run.py 'ocds-docs-live' pkg.autoremove list_only=True
-   ./run.py 'ocds-docs-live' pkg.autoremove purge=True
+   ./run.py 'docs' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
+   ./run.py 'docs' pkg.autoremove list_only=True
+   ./run.py 'docs' pkg.autoremove purge=True
 
 Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
@@ -100,21 +100,44 @@ Then, login to the server and check for and delete any remaining packages, files
    ls /etc/icinga2
    ls /usr/lib/nagios
 
-Delete an Apache module
-~~~~~~~~~~~~~~~~~~~~~~~
+Delete a firewall setting
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Add a temporary state, for example:
+#. Import the ``unset_firewall`` macro:
 
-   .. code-block:: none
+   .. code-block:: jinja
 
-      headers:
-        apache_module.disabled
+      {% from 'lib.sls' import unset_firewall %}
+
+#. Add a temporary macro call, for example:
+
+   .. code-block:: jinja
+
+      {{ unset_firewall("PUBLIC_POSTGRESQL") }}
 
 #. Deploy the relevant service, for example:
 
    .. code-block:: bash
 
-      ./run.py 'toucan' state.apply
+      ./run.py 'kingfisher-process' state.apply
+
+#. Remove the temporary macro call
+
+Delete an Apache module
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      headers:
+        apache_module.disabled
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'toucan' state.sls_id headers core
 
 #. Remove the temporary state
 
@@ -125,9 +148,9 @@ Run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-enabled/cove.conf
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf
-   ./run.py 'cove-ocds-live-2' file.remove /etc/apache2/sites-available/cove.conf.include
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
 
 You might also delete the SSL certificates as when :ref:`changing server name<change-server-name>`.
 
@@ -142,7 +165,7 @@ Delete a PostgreSQL user
 
 #. Add a temporary state, for example:
 
-   .. code-block:: none
+   .. code-block:: yaml
 
       ocdskfpguest:
         postgres_user.absent
@@ -151,7 +174,7 @@ Delete a PostgreSQL user
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process*' state.sls_id ocdskfpguest ocdskingfisherprocess
+      ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
 
 #. Remove the temporary state
 

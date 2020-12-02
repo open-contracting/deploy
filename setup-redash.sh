@@ -3,7 +3,7 @@
 
 # curl -o setup-redash.sh https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
 
-set -eu
+set -euo pipefail
 
 REDASH_BASE_PATH=/opt/redash
 
@@ -12,7 +12,7 @@ install_docker(){
     export DEBIAN_FRONTEND=noninteractive
     sudo apt-get -qqy update
     DEBIAN_FRONTEND=noninteractive sudo -E apt-get -qqy -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade
-    sudo apt-get -yy install apt-transport-https ca-certificates curl software-properties-common wget pwgen
+    sudo apt-get -yy install ca-certificates software-properties-common wget pwgen
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
     sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
     sudo apt-get update && sudo apt-get -y install docker-ce

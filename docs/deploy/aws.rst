@@ -61,7 +61,7 @@ Verify an email address
    #. Check the rule set's box
    #. Click *Set as Active Rule Set*
 
-#. Go to SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__:
+#. Go to SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__:
 
    #. Click *Verify a New Email Address*
    #. Enter the email address in *Email Address:*
@@ -75,7 +75,7 @@ Verify an email address
    #. Copy the URL in the downloaded file
    #. Open the URL in a web browser
 
-#. Check that the email address's verification status is "verified" on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__
+#. Check that the email address's verification status is "verified" on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__
 
 #. If an MX record didn't exist, cleanup:
 
@@ -92,7 +92,7 @@ Create SMTP credentials
 
    You only need to do this once per AWS region.
 
-#. Go to SES' `SMTP Settings <https://console.aws.amazon.com/ses/home?region=us-east-1#smtp-settings:>`__
+#. Go to SES' `SMTP Settings <https://console.aws.amazon.com/ses/home?region=us-east-1#smtp-settings:>`__:
 
    #. Click *Create My SMTP Credentials*
    #. Enter a user name in *IAM User Name:*
@@ -110,6 +110,73 @@ Move out of sandbox
    You only need to do this once per AWS account.
 
 Reference: `Moving Out of the Amazon SES Sandbox <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html>`__
+
+Set up MAIL FROM domain
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   This optional step improves email deliverability.
+
+Reference: `Setting up a custom MAIL FROM domain <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html>`__
+
+Disable account-level suppression list
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   This optional step can negatively affect sender reputation.
+
+Reference: `Disabling the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-disabling>`__
+
+Set up notifications
+~~~~~~~~~~~~~~~~~~~~
+
+#. Go to SNS' `Topics <https://console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics>`__:
+
+   #. Click *Create topic*
+   #. Set *Type* to *Standard*
+   #. Enter a hyphenated address in *Name* (``data-open-contracting-org``, for example)
+   #. Click *Create topic*
+
+#. Click *Create subscription*:
+
+   #. Select "Email" from the *Protocol* dropdown
+   #. Enter an email address in *Endpoint*
+   #. Click *Create subscription*
+
+#. Click the email address on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__:
+
+   #. Expand *Notifications*
+   #. Click *Edit configuration*
+   #. Select the created topic from the *Bounces:* dropdown
+   #. Check the *Include original headers* box
+   #. Select the created topic from the *Complaints:* dropdown
+   #. Check the *Include original headers* box
+   #. Click *Save Config*
+
+Reference: `Configuring Amazon SNS notifications for Amazon SES <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-sns-notifications.html>`__
+
+Check DMARC compliance
+~~~~~~~~~~~~~~~~~~~~~~
+
+:ref:`check-dmarc-compliance`, sending the email using SES.
+
+.. note::
+
+   `SES adds two DKIM signatures <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). This signature's domain is not aligned, but according to `RFC 7489 <https://tools.ietf.org/html/rfc7489#page-10>`, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC "pass" if any DKIM signature is aligned and verifies."
+
+Debug delivery issues
+~~~~~~~~~~~~~~~~~~~~~
+
+Bounces and complaints are sent to the subscribed address. The relevant properties of the notification message are:
+
+-  `complaintSubType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object>`__ (`Viewing a list of addresses that are on the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-view-entries>`__, `Removing an email address from the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-manual-delete>`__)
+
+-  `bounceType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounce-types>`__ and ``bounceSubType``
+-  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounced-recipients>`__
+
+Reference: `DNS Blackhole List (DNSBL) FAQs <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/faqs-dnsbls.html>`__
 
 Aurora Serverless
 -----------------

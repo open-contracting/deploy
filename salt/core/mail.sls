@@ -30,7 +30,7 @@ mailutils:
 # Configure /etc/aliases.
 root:
   alias.present:
-    - target: {{ pillar['system_contacts']['root'] }}
+    - target: {{ pillar.system_contacts.root }}
 admin:
   alias.present:
     - target: root
@@ -42,5 +42,5 @@ postmaster:
 MAILTO_root:
   cron.env_present:
     - name: MAILTO
-    - value: {{ pillar['system_contacts']['cron_admin'] }}
+    - value: {{ pillar.system_contacts.cron_admin }}
     - user: root

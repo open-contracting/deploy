@@ -88,13 +88,13 @@ To show the packages that were automatically installed and are no longer require
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' pkg.autoremove list_only=True
+   ./run.py 'docs' pkg.autoremove list_only=True
 
 It is generally safe to remove these. Run:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' pkg.autoremove purge=True
+   ./run.py 'docs' pkg.autoremove purge=True
 
 You can omit ``purge=True`` to make it easier to restore a package.
 

@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
 #
-# THIS FILE IS MANAGED BY SALT - DO NOT EDIT MANUALLY
-#
-
-
-#
 # This file is managed by Dogsbody Technology Ltd.
 #   https://www.dogsbody.com/
 #
@@ -14,10 +9,8 @@
 #
 # Future Improvements:
 #   - Leaves the root directory because the delete is updating the timestamp.
-#
 
-set -e
-set -u
+set -euo pipefail
 
 function cleanup {
     local LC="${BASH_COMMAND}" RC="${?}"

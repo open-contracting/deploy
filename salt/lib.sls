@@ -1,14 +1,25 @@
 # Defines common macros.
 
-{% macro configurefirewall(setting_name,setting_value="yes") %}
-configure firewall setting {{ setting_name }}:
+{% macro set_firewall(setting_name, setting_value="yes") %}
+set {{ setting_name }} firewall setting:
   file.replace:
     - name:  /home/sysadmin-tools/firewall-settings.local
     - pattern: "{{ setting_name }}=.*"
-    - repl: "{{ setting_name }}=\"{{setting_value}}\""
+    - repl: "{{ setting_name }}=\"{{ setting_value }}\""
     - append_if_not_found: True
     - backup: ""
 {% endmacro %}
+
+{% macro unset_firewall(setting_name) %}
+unset {{ setting_name }} firewall setting:
+  file.replace:
+    - name:  /home/sysadmin-tools/firewall-settings.local
+    - pattern: "{{ setting_name }}=.*"
+    - repl: "{{ setting_name }}=\"\""
+    - ignore_if_missing: True
+    - backup: ""
+{% endmacro %}
+
 
 # Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
 {% macro createuser(user, auth_keys_files=[]) %}
@@ -28,21 +39,19 @@ configure firewall setting {{ setting_name }}:
       - user: {{ user }}_user_exists
 
 {% for auth_keys_file in auth_keys_files %}
-
 {{ user }}_{{ auth_keys_file }}_authorized_keys_add:
   ssh_auth.present:
     - user: {{ user }}
     - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
     - require:
       - user: {{ user }}_user_exists
-
 {% endfor %}
 
 {% endmacro %}
 
 
-# It is safe to set `serveraliases=[]`, because the default argument is never mutated.
-{% macro apache(conffile, name='', extracontext='', servername='', serveraliases=[], https='', ports=[]) %}
+# It is safe to use `[]` as a default value, because the default value is never mutated.
+{% macro apache(conffile, name='', servername='', serveraliases=[], https='', extracontext='', ports=[]) %}
 
 {% if name == '' %}
     {% set name = conffile %}
@@ -53,20 +62,16 @@ configure firewall setting {{ setting_name }}:
 {% endif %}
 
 {% if ports == [] %}
-    {% if https == 'both' or https == 'force' %}
-        {% set ports = [ '80', '443' ] %}
-    {% else %} {# https == 'certonly' or turned off #}
-        {% set ports = [ '80' ] %}
+    {% if https == 'force' %}
+        {% set ports = [80, 443] %}
+    {% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
+        {% set ports = [80] %}
     {% endif %}
-    {# Note there is a third https mode, certonly! But it is NOT used in setting myportlist #}
-    {# In this mode we want to setup /.well-known/acme-challenge BUT NOT the actual SSL site #}
-    {# This mode is used when we don't currently have SSL certs but want them. #}
-    {# So we can't enable the SSL site (because no certs) but we do want /.well-known/acme-challenge #}
 {% endif %}
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/{{ conffile }}.conf.include
+    - source: salt://apache/configs/{{ conffile }}.conf.include
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -77,22 +82,22 @@ configure firewall setting {{ setting_name }}:
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/_common.conf
+    - source: salt://apache/configs/_common.conf
     - template: jinja
     - makedirs: True
     - watch_in:
       - service: apache2
     - context:
-        myportlist: {{ ports|yaml }}
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
+        ports: {{ ports|yaml }}
         {{ extracontext|indent(8) }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
 
-{% if https == 'both' or https == 'force' or https == 'certonly' %}
+{% if https == 'force' or https == 'certonly' %}
 
 {% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
 

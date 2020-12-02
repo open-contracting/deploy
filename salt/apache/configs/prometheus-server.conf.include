@@ -1,0 +1,10 @@
+# vi: ft=apache
+
+<Location "/">
+    ProxyPass http://localhost:9057/
+
+    AuthName "Open Contracting Partnership Prometheus Monitor"
+    AuthType Basic
+    AuthUserFile /home/{{ user }}/htpasswd
+    Require valid-user
+</Location>

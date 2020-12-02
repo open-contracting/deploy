@@ -14,7 +14,7 @@ To deploy a service, indicate the desired target and the ``state.apply`` functio
 
 .. code-block:: bash
 
-    ./run.py 'ocds-docs-live' state.apply
+    ./run.py 'docs' state.apply
 
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 
@@ -31,7 +31,7 @@ Look for these lines at the end of the output in the primary terminal:
 
 .. code-block:: none
 
-    Summary for ocds-docs-live
+    Summary for docs
     -------------
     Succeeded: ## (changed=#)
     Failed:     0
@@ -46,8 +46,6 @@ Common changed states are:
 
 Function: service.running, ID: apache2
   Apache was reloaded
-Function: cmd.run, ID: prometheus-client-apache-password
-  This change is a false positive
 
 For a Django app, common changed states are:
 
@@ -55,9 +53,11 @@ Function: git.latest
   A new commit was deployed
 Function: virtualenv.managed
   This change is a false positive
-Function: cmd.run, Name: . .ve/bin/activate; python manage.py migrate --noinput
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py migrate --noinput
   Django migrations were applied
-Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --noinput
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py compilemessages
+  Message catalogs were compiled
+Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py collectstatic --noinput
   Static files were copied
 Function: service.running, ID: uwsgi
   uWSGI was reloaded

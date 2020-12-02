@@ -125,35 +125,33 @@ Each server should have a unique hostname so for each new server, increment the 
 To see which hostnames are currently in use `refer to the salt roster config <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>__`.
 
 
-3. Deploy the service
+3. Apply core changes
 ---------------------
 
-#. Setup the server:
-
-   #. Connect to the server over SSH
-   #. Change the password of the root user, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
+#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
    .. note::
 
       The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
-#. Update this repository:
+#. Add a target to the ``salt-config/roster`` file in this repository, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
-   #. Add a target to ``salt-config/roster``, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-live-``.
+#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__:
 
-   #. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
+   .. code-block:: bash
 
-      .. note::
+      salt-ssh TARGET pkg.upgrade dist_upgrade=True
 
-         If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-live*'`` matches ``cove-live-oc4ids``.
+#. :doc:`Deploy the service<deploy>`, which applies the ``core`` state files.
 
-   #. If the service is being introduced, add the target to ``pillar/top.sls``, and include any new Pillar files you authored for the service.
+#. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
-      .. note::
+   .. code-block:: bash
 
-         If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-live*'`` matches ``cove-live-oc4ids``.
+      salt-ssh TARGET system.reboot
 
-   #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
+4. Deploy the service
+---------------------
 
 #. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
@@ -162,16 +160,15 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
   .. code-block:: bash
 
      salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
+#. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
 
-#. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
+   .. note::
 
-   .. code-block:: bash
+      If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-*'`` matches ``cove-oc4ids``.
 
-      salt-ssh TARGET system.reboot
+#. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
 
-#. :doc:`Deploy the service<deploy>`
-
-4. Migrate from the old server
+5. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user
@@ -187,13 +184,14 @@ For Django application servers:
 For OCDS documentation servers:
 
 #. Copy the ``/home/ocds-docs/web`` directory
+#. Update the IP addresses in the ``salt/apache/includes/cove.jinja`` file
 #. Optionally, copy the Apache log files
 
 For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
-5. Update external services
+6. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`

@@ -1,0 +1,47 @@
+User-agent: *
+# Use /latest as the canonical URL for the latest version.
+Disallow: /1.1
+Disallow: /infrastructure/0.9
+Disallow: /profiles/ppp/1.0
+# Disallow old versions.
+Disallow: /1.0
+Disallow: /legacy
+Disallow: /infrastructure/alpha-2
+Disallow: /profiles/ppp/master
+# Disallow protected development branches.
+Disallow: /1.1-dev
+Disallow: /1.0-dev
+Disallow: /infrastructure/0.9-dev
+Disallow: /profiles/ppp/1.0-dev
+Disallow: /review/data
+Disallow: /infrastructure/review/data
+
+# Googlebot supports Allow, so we can disallow all development branches.
+User-agent: Googlebot
+Allow: /$
+# Allow latest versions.
+Allow: /latest
+Allow: /infrastructure/latest
+Allow: /profiles/ppp/latest
+Allow: /profiles/gpa/master
+Allow: /profiles/eu/master
+# Allow schema directories.
+Allow: /schema
+Allow: /infrastructure/schema
+Allow: /profiles/ppp/schema
+Allow: /profiles/ppp/extension
+Allow: /profiles/gpa/schema
+Allow: /profiles/gpa/extension
+Allow: /profiles/eu/schema
+Allow: /profiles/eu/extension
+# Allow Data Review Tools.
+Allow: /review$
+Allow: /review/$
+Allow: /infrastructure/review$
+Allow: /infrastructure/review/$
+# Allow the main branches of draft profiles.
+# Disallow anything else.
+Disallow: /
+
+User-Agent: LinkChecker
+Allow: /

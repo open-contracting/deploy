@@ -1,32 +1,27 @@
 {% from 'lib.sls' import createuser %}
 
-prometheus-client-deps:
-  pkg.installed:
-    - name: curl
-
 # Note user variable is set in other prometheus-client-*.sls files too!
 {% set user = 'prometheus-client' %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus_client:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus.node_exporter_version }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
-    - requires:
-      - pkg.prometheus-client-deps
+    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus_node_exporter.version }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_client:
   cmd.run:
-    - name: tar xvzf node_exporter-{{ pillar.prometheus.node_exporter_version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter_version }}.linux-amd64/node_exporter
+    - name: tar xvzf node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus
+    - require:
+      - cmd: get_prometheus_client
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-node-exporter.service:
   file.managed:
@@ -34,29 +29,31 @@ extract_prometheus_client:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-node-exporter:
   service.running:
     - enable: True
-    - requires:
+    - require:
       - file: /etc/systemd/system/prometheus-node-exporter.service
       - cmd: extract_prometheus_client
     # Make sure service restarts if any config changes
     - watch:
       - file: /etc/systemd/system/prometheus-node-exporter.service
 
+## Smartmontools
 
-########### General Textfile Collector
+{% if pillar.prometheus_node_exporter.smartmon %}
+smartmontools:
+  pkg.installed
 
-{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
 /home/{{ user }}/node-exporter-textfile-directory:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 /home/{{ user }}/node-exporter-textfile-collector-scripts:
@@ -72,21 +69,9 @@ prometheus-node-exporter:
       - pkg: git
       - user: {{ user }}_user_exists
 
-{% endif %}
-
-
-########### SmartMon?
-
-{% if pillar.prometheus.client_node_exporter_textfile_collector_smartmon %}
-
-smartmontools:
-  pkg.installed:
-    - name: smartmontools
-
 /home/prometheus-client/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
     # This must run as root not user cos non-root users can't access these stats
     - user: root
-
 {% endif %}

@@ -1,5 +1,6 @@
 include:
   - django
+  - apache.modules.remoteip
 
 root_cove:
   ssh_auth.present:
@@ -9,12 +10,6 @@ root_cove:
 {% from 'django.sls' import djangodir %}
 
 # See https://cove.readthedocs.io/en/latest/deployment/
-
-remoteip:
-  apache_module.enabled:
-    - name: remoteip
-    - watch_in:
-      - service: apache2
 
 cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.app }}.settings SECRET_KEY="{{ pillar.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
   cron.present:

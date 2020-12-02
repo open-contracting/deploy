@@ -1,25 +1,21 @@
 #!/bin/bash
-set -e
-
 # Ensures all repositories are on master and up-to-date.
 
-echo "------------------- deploy"
+set -xeuo pipefail
+
 git checkout master
 git pull --rebase origin master
 
-echo "------------------- deploy/pillar/private"
 cd pillar/private
 git checkout master
 git pull --rebase origin master
 cd ../..
 
-echo "------------------- deploy/salt/private"
 cd salt/private
 git checkout master
 git pull --rebase origin master
 cd ../..
 
-echo "------------------- deploy/salt/maintenance"
 cd salt/maintenance
 git checkout master
 git pull --rebase origin master

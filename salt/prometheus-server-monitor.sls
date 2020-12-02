@@ -1,37 +1,31 @@
-
 {% from 'lib.sls' import createuser, apache %}
 
 include:
-  - apache
-  - apache-proxy
-
-prometheus-server-deps:
-    pkg.installed:
-      - pkgs:
-        - curl
+  - apache.public
+  - apache.modules.proxy_http
 
 {% set user = 'prometheus-server' %}
+{% set userdir = '/home/' + user %}
 {{ createuser(user) }}
 
-########### Get binary
+## Get binary
 
 get_prometheus:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus.server_prometheus_version }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
-    - requires:
-      - pkg.prometheus-server-deps
+    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus:
   cmd.run:
-    - name: tar xvzf prometheus-{{ pillar.prometheus.server_prometheus_version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server_prometheus_version }}.linux-amd64/prometheus
+    - name: tar xvzf prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus
     - cwd: /home/{{ user }}/
-    - requires:
-      - cmd.get_prometheus
+    - require:
+      - cmd: get_prometheus
 
-########### Config
+## Configure
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
@@ -39,7 +33,7 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 /home/{{ user }}/conf-prometheus-rules.yml:
@@ -48,20 +42,20 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
-########### Data
+## Data
 
 /home/{{ user }}/data:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
-########### Service
+## Start service
 
 /etc/systemd/system/prometheus-server.service:
   file.managed:
@@ -69,14 +63,14 @@ extract_prometheus:
     - template: jinja
     - context:
         user: {{ user }}
-    - requires:
+    - require:
       - user: {{ user }}_user_exists
 
 prometheus-server:
   service.running:
     - enable: True
     - reload: True
-    - requires:
+    - require:
       - cmd: extract_prometheus
       - file: /home/{{ user }}/data
     # Make sure service restarts if any config changes
@@ -85,15 +79,7 @@ prometheus-server:
       - file: /home/{{ user }}/conf-prometheus-rules.yml
       - file: /etc/systemd/system/prometheus-server.service
 
-########### Apache Reverse Proxy with password for security
-
 {{ apache('prometheus-server',
-    extracontext='user: ' + user,
-    servername=pillar.prometheus.server_fqdn,
-    https=pillar.prometheus.server_https ) }}
-
-prometheus-server-apache-password:
-  cmd.run:
-    - name: htpasswd -b -c /home/{{ user }}/htpasswd prom {{ pillar.prometheus.server_password }}
-    - runas: {{ user }}
-    - cwd: /home/{{ user }}
+    servername=pillar.prometheus_server.fqdn,
+    https=pillar.prometheus_server.https,
+    extracontext='user: ' + user) }}

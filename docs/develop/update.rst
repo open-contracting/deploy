@@ -10,20 +10,20 @@ To preview what is going to change, use `test=True <https://docs.saltstack.com/e
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' state.apply test=True
+   ./run.py 'docs' state.apply test=True
 
 To preview changes to a Pillar file, run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'ocds-docs-live' pillar.items
+   ./run.py 'docs' pillar.items
 
 To compare Jinja2 output after refactoring but before committing, use ``script/diff`` to compare a full state or one SLS file, for example:
 
 .. code-block:: bash
 
-   ./script/diff ocds-docs-live
-   ./script/diff ocds-docs-live zip
+   ./script/diff docs
+   ./script/diff docs zip
 
 If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
@@ -35,7 +35,7 @@ To test changes to the Apache files for the :doc:`../reference/docs` (for exampl
 #. Make changes inside ``{% if testing %}`` blocks in the config files
 #. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
 #. To test manually, visit the `testing version <http://testing.live.standard.open-contracting.org/>`__
-#. To test automatically, run (using the fish shell):
+#. To test automatically, run:
 
 .. code-block:: bash
 
@@ -91,10 +91,10 @@ The files in this repository were originally in the `opendataservices-deploy <ht
 
    git clone git@github.com:OpenDataServices/opendataservices-deploy.git
    cd opendataservices-deploy
-   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls salt-config/master salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
+   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls salt-config/master salt/apache-proxy.sls salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-alertmanager.conf salt/apache/prometheus-alertmanager.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/prometheus-server.conf salt/apache/prometheus-server.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/elasticsearch.sls salt/elasticsearch7.sls salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/prometheus-server-alertmanager.sls salt/prometheus-server-alertmanager/prometheus-alertmanager.service salt/prometheus-server-server.sls salt/prometheus-server-server/prometheus-server.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
 
 -  ``setup_for_non_root.sh`` corresponds to ``script/setup``
 -  ``updateToMaster.sh`` corresponds to ``script/update``
 -  ``salt-config/roster``, ``pillar/top.sls`` and ``salt/top.sls`` are common files, but are unlikely to contain improvements
 
-This repository has all improvements up to September 30, 2019.
+This repository has all improvements up to July 1, 2020.

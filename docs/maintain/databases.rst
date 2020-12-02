@@ -1,4 +1,4 @@
-Maintain a database
+Maintain PostgreSQL
 ===================
 
 Troubleshoot
@@ -18,6 +18,44 @@ Each service should have its own user, including:
 -  Kingfisher Summarize
 -  Pelican
 -  Redash
+
+Tune settings
+-------------
+
+-  :doc:`Connect to the server<../use/ssh>`
+-  Change to the ``postgres`` user:
+
+   .. code-block:: bash
+
+      su - postgres
+
+Install postgresqltuner.sql
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+-  Download the ``postgresqltuner.sql`` file:
+
+   .. code-block:: bash
+
+      curl -O https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl
+
+-  Make the ``postgresqltuner.sql`` file executable:
+
+   .. code-block:: bash
+
+      chmod ug+x postgresqltuner.pl
+
+Run postgresqltuner.sql
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   ./postgresqltuner.sql --ssd
+
+Under "Configuration advice", address "HIGH" and "MEDIUM" recommendations.
+
+Reference: `Tuning Your PostgreSQL Server <https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server>`__
+
+Reference: `Slow Query Questions <https://wiki.postgresql.org/wiki/Slow_Query_Questions>`__
 
 Explore database
 ----------------

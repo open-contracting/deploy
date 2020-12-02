@@ -45,7 +45,7 @@ Add your public key to the relevant file in the ``salt/private/authorized_keys``
     git commit salt/private/authorized_keys/root_to_add -m "Add public key"
     git push origin master
 
-Then, add this public key to the relevant servers. For example:
+Then, ask a colleague to deploy your public key to the relevant servers. For example:
 
 .. code-block:: bash
 

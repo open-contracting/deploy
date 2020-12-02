@@ -13,7 +13,7 @@ Increase verbosity
 Salt hangs inexplicably
 -----------------------
 
-If you haven't previously connected to a server using SSH, then ``salt-ssh`` will log a ``TRACE``-level message like:
+If you haven't previously connected to a server using SSH, then ``./run.py`` will log a ``TRACE``-level message like:
 
 .. code-block:: none
 
@@ -23,14 +23,16 @@ If you haven't previously connected to a server using SSH, then ``salt-ssh`` wil
 
 You can also experience this issue if anyone changes the hostnames in the ``salt-config/roster`` file.
 
-Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``salt-ssh`` will appear to hang.
+Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``./run.py`` will appear to hang.
 
-To fix this, simply connect to the server using SSH, then re-run the ``salt-ssh`` command, for example:
+To fix this, simply connect to the server using SSH, for example:
 
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
-   ssh root@live.standard.open-contracting.org
+   ssh root@standard.open-contracting.org
+
+Then, re-run the ``./run.py`` command.
 
 .. note::
 
@@ -53,8 +55,8 @@ If you want to check whether a deployment is simply slow or actually stalled, pe
 
    .. code-block:: bash
 
-      curl --silent --connect-timeout 1 live.docs.opencontracting.uk0.bigv.io:8255 || true
-      ssh root@live.docs.opencontracting.uk0.bigv.io
+      curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+      ssh root@standard.open-contracting.org
 
 #. Watch the processes on the server:
 
@@ -81,7 +83,7 @@ Avoid Pillar gotchas
 -  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
 -  Below, if ``a`` is equal to an empty string, then ``b`` will be ``None``:
 
-   .. code-block:: none
+   .. code-block:: jinja
 
       {% set extracontext %}
       b: {{ a }}
@@ -89,7 +91,7 @@ Avoid Pillar gotchas
 
    Instead, surround it in quotes:
 
-   .. code-block:: none
+   .. code-block:: jinja
 
       {% set extracontext %}
       b: "{{ a }}"

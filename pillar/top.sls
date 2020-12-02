@@ -1,57 +1,59 @@
-# Defines which pillars should be used for each target. Each target has a public and private pillar.
+# Defines which pillars should be used for each target.
 
 base:
   '*':
-    - common_pillar
-    - private.common_pillar
-    - private.prometheus_pillar
+    - common
+    - private.common
 
-  'ocds-docs-live':
-    - ocds_docs_live_pillar
-    - tinyproxy_pillar
-    - ocds_docs_live_maintenance
+  'cove-oc4ids':
+    - django
+    - cove
+    - cove_oc4ids
+    - private.cove_oc4ids
+    - maintenance
 
-  'standard-search':
-    - django_pillar
-    - standard_search_pillar
-    - private.standard_search_pillar
-    - standard-search_maintenance
+  'cove-ocds':
+    - django
+    - cove
+    - cove_ocds
+    - private.cove_ocds
+    - maintenance
 
-  'toucan':
-    - django_pillar
-    - toucan_pillar
-    - private.toucan_pillar
-    - toucan_maintenance
+  'covid19-dev':
+    - covid19
 
-  'cove-live-oc4ids':
-    - django_pillar
-    - cove_pillar
-    - cove_oc4ids_live_pillar
-    - private.cove_oc4ids_live_pillar
-    - cove_oc4ids_live_maintenance
+  'docs':
+    - docs
+    - tinyproxy
+    - docs_maintenance
 
-  'cove-live-ocds-3':
-    - django_pillar
-    - cove_pillar
-    - cove_ocds_live3_pillar
-    - private.cove_ocds_live_pillar
-    - cove_ocds_live3_maintenance
+  'kingfisher-process':
+    - kingfisher
+    - private.kingfisher
+    - tinyproxy
+    - kingfisher_process_maintenance
 
-  'kingfisher-process*':
-    - ocdskingfisher_live_pillar
-    - private.ocdskingfisher_live_pillar
-    - tinyproxy_pillar
-
-  'kingfisher-process1':
-    - kingfisher_process1_maintenance
-
-  'kingfisher-replica*':
-    - ocdskingfisher_replica_live_pillar
-    - ocdskingfisher_replica1_maintenance
+  'kingfisher-replica':
+    - kingfisher_replica
+    - kingfisher_replica_maintenance
 
   'prometheus':
-    - prometheus_maintenance
+    - prometheus_server
+    - private.prometheus_server
+    - maintenance
 
-  'redash2':
+  'redash':
     - redash
-    - redash2_maintenance
+    - maintenance
+
+  'toucan':
+    - django
+    - toucan
+    - private.toucan
+    - maintenance
+
+  # This avoids having to repeat these states for all but one target.
+  'id:^(?!covid19-dev)':
+    - match: grain_pcre
+    - prometheus_client
+    - private.prometheus_client

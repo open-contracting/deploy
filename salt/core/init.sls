@@ -18,14 +18,6 @@ python-apt:
 debconf-utils:
   pkg.installed
 
-# Allow https apt sources
-apt-transport-https:
-  pkg.installed
-
-## Remove pre-installed software we don't want.
-rpcbind:
-   pkg.purged
-
 # Upload SSH keys for users with access to all servers.
 root_authorized_keys_add:
   ssh_auth.present:
