@@ -190,12 +190,12 @@ pg_stat_statements:
 user_ocdskfp:
   postgres_user.present:
     - name: ocdskfp
-    - password: {{ pillar.kingfisher_process.postgres.ocdskfp.password }}
+    - password: {{ pillar.postgres.ocdskfp.password }}
 
 user_ocdskfpreadonly:
   postgres_user.present:
     - name: ocdskfpreadonly
-    - password: {{ pillar.kingfisher_process.postgres.ocdskfpreadonly.password }}
+    - password: {{ pillar.postgres.ocdskfpreadonly.password }}
 
 db_ocdskingfisherprocess:
   postgres_database.present:
