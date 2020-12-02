@@ -1,8 +1,8 @@
 {% from 'lib.sls' import createuser, apache %}
 
 include:
-  - apache
-  - apache-proxy
+  - apache.public
+  - apache.modules.proxy_http
 
 kingfisher-collect-prerequisites:
   pkg.installed:
@@ -96,14 +96,6 @@ supervisor:
     - name: supervisor
     - enable: True
     - reload: True
-
-htpasswd-{{ user }}:
-  webutil.user_exists:
-    - name: scrape
-    - password: {{ pillar.kingfisher_collect.web.password }}
-    - htpasswd_file: {{ userdir }}/htpasswd
-    - runas: {{ user }}
-    - update: True
 
 {{ apache('kingfisher-collect',
     name='ocdskingfisherscrape',

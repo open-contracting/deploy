@@ -1,7 +1,8 @@
 {% from 'lib.sls' import createuser, apache %}
 
 include:
-  - apache
+  - apache.public
+  - apache.modules.proxy_http
 
 {% set user = 'ocds-docs' %}
 {{ createuser(user) }}
@@ -16,12 +17,14 @@ docs modules:
     - names:
       - headers
       - include
-      - proxy
-      - proxy_http
       - rewrite
       - substitute
     - watch_in:
       - service: apache2
+
+/var/www/html/robots.txt:
+  file.managed:
+    - source: salt://apache/configs/robots_disallow.txt
 
 /home/{{ user }}/web/:
   file.directory:

@@ -1,8 +1,8 @@
 {% from 'lib.sls' import createuser,  apache %}
 
 include:
-  - apache
-  - apache-proxy
+  - apache.public
+  - apache.modules.proxy_http
 
 {% set user = 'prometheus-alertmanager' %}
 {% set userdir = '/home/' + user %}
@@ -66,16 +66,6 @@ prometheus-alertmanager:
     - watch:
       - file: /home/{{ user }}/conf-alertmanager.yml
       - file: /etc/systemd/system/prometheus-alertmanager.service
-
-## Apache reverse proxy with password for security
-
-htpasswd-{{ user }}:
-  webutil.user_exists:
-    - name: prom
-    - password: {{ pillar.prometheus_alertmanager.password }}
-    - htpasswd_file: {{ userdir }}/htpasswd
-    - runas: {{ user }}
-    - update: True
 
 {{ apache('prometheus-alertmanager',
     servername=pillar.prometheus_alertmanager.fqdn,

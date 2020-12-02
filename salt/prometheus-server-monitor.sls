@@ -1,8 +1,8 @@
 {% from 'lib.sls' import createuser, apache %}
 
 include:
-  - apache
-  - apache-proxy
+  - apache.public
+  - apache.modules.proxy_http
 
 {% set user = 'prometheus-server' %}
 {% set userdir = '/home/' + user %}
@@ -78,16 +78,6 @@ prometheus-server:
       - file: /home/{{ user }}/conf-prometheus.yml
       - file: /home/{{ user }}/conf-prometheus-rules.yml
       - file: /etc/systemd/system/prometheus-server.service
-
-## Apache reverse proxy with password for security
-
-htpasswd-{{ user }}:
-  webutil.user_exists:
-    - name: prom
-    - password: {{ pillar.prometheus_server.password }}
-    - htpasswd_file: {{ userdir }}/htpasswd
-    - runas: {{ user }}
-    - update: True
 
 {{ apache('prometheus-server',
     servername=pillar.prometheus_server.fqdn,

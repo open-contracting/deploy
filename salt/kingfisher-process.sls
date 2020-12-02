@@ -1,26 +1,17 @@
 {% from 'lib.sls' import createuser, uwsgi, apache %}
 
-# Set up the server
-# ... these bits are in ocdskingfisher.sls
-# ... /etc/motd:
-
 include:
-  - apache
+  - apache.public
+  - apache.modules.proxy_http
+  - apache.modules.proxy_uwsgi
   - uwsgi
 
 kingfisher-process-prerequisites:
-  apache_module.enabled:
-    - names:
-      - proxy
-      - proxy_uwsgi
-    - watch_in:
-      - service: apache2
   pkg.installed:
     - pkgs:
       - python-pip
       - python3-pip
       - python3-virtualenv
-      - libapache2-mod-proxy-uwsgi
       - uwsgi-plugin-python3
       - virtualenv
       - tmux

@@ -71,7 +71,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/{{ conffile }}.conf.include
+    - source: salt://apache/configs/{{ conffile }}.conf.include
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -82,7 +82,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/_common.conf
+    - source: salt://apache/configs/_common.conf
     - template: jinja
     - makedirs: True
     - watch_in:

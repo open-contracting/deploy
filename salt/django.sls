@@ -12,20 +12,14 @@
 {{ createuser(pillar.user) }}
 
 include:
-  - apache
+  - apache.public
+  - apache.modules.proxy_http
+  - apache.modules.proxy_uwsgi
   - uwsgi
 
 django-deps:
-  apache_module.enabled:
-    - names:
-      - proxy
-      - proxy_http
-      - proxy_uwsgi
-    - watch_in:
-      - service: apache2
   pkg.installed:
     - pkgs:
-      - libapache2-mod-proxy-uwsgi
       - python-virtualenv
       - uwsgi-plugin-python3
       {% if pillar.django.compilemessages %}

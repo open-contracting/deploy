@@ -1,8 +1,9 @@
 {% from 'lib.sls' import apache %}
 
 include:
+  - apache.public
+  - apache.modules.proxy_http
   - docker
-  - apache-proxy
 
 # =================================================================================================
 # See https://ocdsdeploy.readthedocs.io/en/latest/deploy/redash.html for installation instructions.

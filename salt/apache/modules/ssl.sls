@@ -1,11 +1,10 @@
+# Add SSL directives.
+# https://httpd.apache.org/docs/current/mod/mod_ssl.html
+
 include:
   - apache
 
-apache-proxy modules:
+ssl:
   apache_module.enabled:
-    - names:
-      - proxy
-      - proxy_http
-      - headers
     - watch_in:
       - service: apache2
