@@ -52,16 +52,20 @@ base:
   'I@prometheus_node_exporter:enabled:true':
     - prometheus-client-apache
 
+  'I@maintenance:enabled:true':
+    - maintenance.rkhunter
+
+  'I@maintenance:enabled:true and I@maintenance:hardware_sensors:true':
+    - maintenance.hardware_sensors
+
   'I@maintenance:enabled:true and I@maintenance:patching:automatic':
     - maintenance.patching
 
   'I@maintenance:enabled:true and I@maintenance:patching:manual':
     - maintenance.patching.absent
 
-  'I@maintenance:enabled:true and I@maintenance:hardware_sensors:true':
-    - maintenance.hardware_sensors
-
-  'I@maintenance:enabled:true':
+  'I@maintenance:enabled:true and I@postgres:replica_user':
     - maintenance.postgres_monitoring
+
+  'I@maintenance:enabled:true and I@maintenance:raid_monitoring_script':
     - maintenance.raid_monitoring
-    - maintenance.rkhunter
