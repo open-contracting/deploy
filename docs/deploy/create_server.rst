@@ -176,6 +176,10 @@ For OCDS documentation servers:
 #. Update the IP addresses in the ``salt/apache/includes/cove.jinja`` file
 #. Optionally, copy the Apache log files
 
+For Kingfisher Collect servers (instructions are incomplete):
+
+#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file
+
 For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
