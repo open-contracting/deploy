@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser,  apache %}
+{% from 'lib.sls' import createuser, apache %}
 
 include:
   - apache.public
@@ -29,7 +29,7 @@ extract_prometheus_alertmanager:
 
 /home/{{ user }}/conf-alertmanager.yml:
   file.managed:
-    - source: salt://prometheus-server-alertmanager/conf-alertmanager.yml
+    - source: salt://prometheus/files/alertmanager/conf-alertmanager.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -50,7 +50,7 @@ extract_prometheus_alertmanager:
 
 /etc/systemd/system/prometheus-alertmanager.service:
   file.managed:
-    - source: salt://prometheus-server-alertmanager/prometheus-alertmanager.service
+    - source: salt://prometheus/files/alertmanager/prometheus-alertmanager.service
     - template: jinja
     - context:
         user: {{ user }}
@@ -62,6 +62,7 @@ prometheus-alertmanager:
     - enable: True
     - require:
       - cmd: extract_prometheus_alertmanager
+      - file: /home/{{ user }}/data
     # Make sure service restarts if any config changes
     - watch:
       - file: /home/{{ user }}/conf-alertmanager.yml

@@ -39,7 +39,8 @@ base:
     - postgres
 
   'prometheus':
-    - prometheus-server
+    - prometheus.server
+    - prometheus.alertmanager
 
   'redash':
     - redash

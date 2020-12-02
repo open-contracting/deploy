@@ -10,26 +10,26 @@ include:
 
 ## Get binary
 
-get_prometheus:
+get_prometheus_server:
   cmd.run:
     - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - require:
       - user: {{ user }}_user_exists
 
-extract_prometheus:
+extract_prometheus_server:
   cmd.run:
     - name: tar xvzf prometheus-{{ pillar.prometheus_server.version }}.tar.gz
     - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus
     - cwd: /home/{{ user }}/
     - require:
-      - cmd: get_prometheus
+      - cmd: get_prometheus_server
 
 ## Configure
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
-    - source: salt://prometheus-server-monitor/conf-prometheus.yml
+    - source: salt://prometheus/files/server/conf-prometheus.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -38,7 +38,7 @@ extract_prometheus:
 
 /home/{{ user }}/conf-prometheus-rules.yml:
   file.managed:
-    - source: salt://prometheus-server-monitor/conf-prometheus-rules.yml
+    - source: salt://prometheus/files/server/conf-prometheus-rules.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -59,7 +59,7 @@ extract_prometheus:
 
 /etc/systemd/system/prometheus-server.service:
   file.managed:
-    - source: salt://prometheus-server-monitor/prometheus-server.service
+    - source: salt://prometheus/files/server/prometheus-server.service
     - template: jinja
     - context:
         user: {{ user }}
@@ -71,7 +71,7 @@ prometheus-server:
     - enable: True
     - reload: True
     - require:
-      - cmd: extract_prometheus
+      - cmd: extract_prometheus_server
       - file: /home/{{ user }}/data
     # Make sure service restarts if any config changes
     - watch:
