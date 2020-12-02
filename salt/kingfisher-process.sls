@@ -104,7 +104,7 @@ kingfisher-process-prerequisites:
 
 {{ userdir }}/.pgpass:
   file.managed:
-    - source: salt://postgres/kingfisher-process.pgpass
+    - source: salt://postgres/files/kingfisher-process.pgpass
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
