@@ -62,7 +62,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/configs/{{ conffile }}.conf.include
+    - source: salt://apache/files/{{ conffile }}.conf.include
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -73,7 +73,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/configs/_common.conf
+    - source: salt://apache/files/_common.conf
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -125,7 +125,7 @@ unset {{ setting_name }} firewall setting:
 
 
 {% macro uwsgi(service, name='', port='', appdir='') %}
-# Service indicates which config file to use from salt/uwsgi/configs.
+# Service indicates which config file to use from salt/uwsgi/files.
 
 {% if name == '' %}
     {% set name = service %}
@@ -133,7 +133,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/uwsgi/apps-available/{{ name }}.ini:
   file.managed:
-    - source: salt://uwsgi/configs/{{ service }}.ini
+    - source: salt://uwsgi/files/{{ service }}.ini
     - template: jinja
     - makedirs: True
     - watch_in:

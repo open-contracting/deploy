@@ -24,7 +24,7 @@ docs modules:
 
 /var/www/html/robots.txt:
   file.managed:
-    - source: salt://apache/configs/robots_disallow.txt
+    - source: salt://apache/files/robots_disallow.txt
 
 /home/{{ user }}/web/:
   file.directory:

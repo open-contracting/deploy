@@ -30,7 +30,7 @@ postgresql:
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
-    - source: salt://postgres/configs/pg_hba.conf
+    - source: salt://postgres/files/pg_hba.conf
     - template: jinja
     - user: postgres
     - group: postgres
