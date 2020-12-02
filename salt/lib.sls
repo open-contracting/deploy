@@ -34,7 +34,7 @@ unset {{ setting_name }} firewall setting:
 {{ user }}_authorized_keys:
   ssh_auth.manage:
     - user: {{ user }}
-    - ssh_keys: {{ (pillar.ssh.admin + authorized_keys)|yaml }}
+    - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []) + authorized_keys)|yaml }}
     - require:
       - user: {{ user }}_user_exists
 
