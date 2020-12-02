@@ -14,8 +14,8 @@ set {{ setting_name }} firewall setting:
 unset {{ setting_name }} firewall setting:
   file.replace:
     - name:  /home/sysadmin-tools/firewall-settings.local
-    - pattern: "{{ setting_name }}=.*\n"
-    - repl: ""
+    - pattern: "{{ setting_name }}=.*"
+    - repl: "{{ setting_name }}=\"\""
     - ignore_if_missing: True
     - backup: ""
 {% endmacro %}
@@ -39,14 +39,12 @@ unset {{ setting_name }} firewall setting:
       - user: {{ user }}_user_exists
 
 {% for auth_keys_file in auth_keys_files %}
-
 {{ user }}_{{ auth_keys_file }}_authorized_keys_add:
   ssh_auth.present:
     - user: {{ user }}
     - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
     - require:
       - user: {{ user }}_user_exists
-
 {% endfor %}
 
 {% endmacro %}
