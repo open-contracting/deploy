@@ -12,10 +12,8 @@ tinyproxy:
 
 /etc/tinyproxy/tinyproxy.conf:
   file.managed:
-    - source: salt://tinyproxy/tinyproxy.conf
+    - source: salt://tinyproxy/files/tinyproxy.conf
     - template: jinja
     - makedirs: True
-    - context:
-        ipallows: {{ pillar.tinyproxy.ipallows|yaml }}
     - watch_in:
       - service: tinyproxy
