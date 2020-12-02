@@ -202,7 +202,7 @@ db_ocdskingfisherprocess:
     - name: ocdskingfisherprocess
     - owner: ocdskfp
     - require:
-      - user_ocdskfp
+      - postgres_user: user_ocdskfp
 
 # https://github.com/open-contracting/deploy/issues/117
 tablefunc:
@@ -210,7 +210,7 @@ tablefunc:
     - maintenance_db: ocdskingfisherprocess
     - if_not_exists: True
     - require:
-      - db_ocdskingfisherprocess
+      - postgres_database: db_ocdskingfisherprocess
 
 ####################
 # App installation
@@ -225,7 +225,7 @@ tablefunc:
       - cmd: {{ process_dir }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
-      - db_ocdskingfisherprocess
+      - postgres_database: db_ocdskingfisherprocess
 
 {{ summarize_dir }}-install:
   cmd.run:
@@ -236,7 +236,7 @@ tablefunc:
       - cmd: {{ summarize_dir }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ summarize_dir }}/.env
-      - db_ocdskingfisherprocess
+      - postgres_database: db_ocdskingfisherprocess
 
 correctuserpermissions-{{ summarize_dir }}:
   cmd.run:
@@ -259,9 +259,9 @@ kfp_postgres_readonlyuser_setup_as_postgres:
           ocdskingfisherprocess
     - runas: postgres
     - require:
-      - {{ process_dir }}-install
-      - {{ summarize_dir }}-install
-      - user_ocdskfpreadonly
+      - cmd: {{ process_dir }}-install
+      - cmd: {{ summarize_dir }}-install
+      - postgres_user: user_ocdskfpreadonly
 
 {{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
 
