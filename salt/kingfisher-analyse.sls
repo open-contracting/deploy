@@ -16,7 +16,7 @@ kingfisher-analyse-pipinstall:
   pip.installed:
     - upgrade: True
     - user: {{ user }}
-    - requirements: salt://kingfisher-analyse/pipinstall.txt
+    - requirements: salt://kingfisher/pipinstall.txt
     - bin_env: /usr/bin/pip3
 
 kingfisher-analyse-pip-path:
