@@ -53,7 +53,6 @@ base:
     - maintenance
 
   # This avoids having to repeat these states for all but one target.
-  'id:^(?!covid19-dev)':
-    - match: grain_pcre
+  '* and not G@id:covid19-dev':
     - prometheus_client
     - private.prometheus_client
