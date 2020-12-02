@@ -112,7 +112,7 @@ kingfisher-process-prerequisites:
 
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
-    - source: salt://kingfisher-process/config.ini
+    - source: salt://kingfisher/files/process/config.ini
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -120,21 +120,21 @@ kingfisher-process-prerequisites:
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
-    - source: salt://kingfisher-process/logging.json
+    - source: salt://kingfisher/files/process/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
 
 {{ userdir }}/.config/kingfisher-summarize/logging.json:
   file.managed:
-    - source: salt://kingfisher-summarize/logging.json
+    - source: salt://kingfisher/files/summarize/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
 
 {{ process_dir }}/wsgi.py:
   file.managed:
-    - source: salt://kingfisher-process/kingfisher-process.py
+    - source: salt://kingfisher/files/process/wsgi.py
     - user: {{ user }}
     - group: {{ user }}
     - require:
@@ -142,7 +142,7 @@ kingfisher-process-prerequisites:
 
 {{ summarize_dir }}/.env:
   file.managed:
-    - source: salt://kingfisher-summarize/.env
+    - source: salt://kingfisher/files/summarize/.env
     - user: {{ user }}
     - group: {{ user }}
     - mode: 0400
@@ -155,19 +155,19 @@ kingfisher-process-prerequisites:
 
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
-    - source: salt://kingfisher-process/rsyslog.conf
+    - source: salt://kingfisher/files/process/rsyslog.conf
 
 /etc/rsyslog.d/91-kingfisher-views.conf:
   file.managed:
-    - source: salt://kingfisher-summarize/rsyslog.conf
+    - source: salt://kingfisher/files/summarize/rsyslog.conf
 
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
-    - source: salt://kingfisher-process/logrotate.conf
+    - source: salt://kingfisher/files/process/logrotate.conf
 
 /etc/logrotate.d/kingfisher-views.conf:
   file.managed:
-    - source: salt://kingfisher-summarize/logrotate.conf
+    - source: salt://kingfisher/files/summarize/logrotate.conf
 
 restart-syslog:
   cmd.run:
@@ -323,7 +323,7 @@ kingfisher-process-pipinstall:
   pip.installed:
     - upgrade: True
     - user: {{ user }}
-    - requirements: salt://kingfisher/pipinstall.txt
+    - requirements: salt://kingfisher/files/pipinstall.txt
     - bin_env: /usr/bin/pip3
 
 kingfisher-process-pip-path:

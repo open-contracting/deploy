@@ -75,14 +75,14 @@ kingfisher-collect-prerequisites:
 
 {{ userdir }}/.scrapyd.conf:
   file.managed:
-    - source: salt://kingfisher-collect/scrapyd.ini
+    - source: salt://kingfisher/files/collect/scrapyd.ini
     - template: jinja
     - context:
         scrapyd_dir: {{ scrapyd_dir }}
 
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
-    - source: salt://kingfisher-collect/supervisor.conf
+    - source: salt://kingfisher/files/collect/supervisor.conf
     - template: jinja
     - context:
         scrapyd_dir: {{ scrapyd_dir }}

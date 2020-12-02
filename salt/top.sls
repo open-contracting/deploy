@@ -29,10 +29,10 @@ base:
   'kingfisher-process':
     - postgres
     - kingfisher
-    - kingfisher-collect
-    - kingfisher-process
-    - kingfisher-analyse
-    - kingfisher-archive
+    - kingfisher.collect
+    - kingfisher.process
+    - kingfisher.analyse
+    - kingfisher.archive
     - postgres.main
 
   'kingfisher-replica':
