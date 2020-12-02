@@ -24,7 +24,7 @@ docs modules:
 
 /var/www/html/robots.txt:
   file.managed:
-    - source: salt://apache/files/robots_disallow.txt
+    - source: salt://apache/files/docs/robots_disallow.txt
 
 /home/{{ user }}/web/:
   file.directory:
@@ -34,12 +34,12 @@ docs modules:
 
 /home/ocds-docs/web/robots.txt:
   file.managed:
-    - source: salt://docs/robots.txt
+    - source: salt://apache/files/docs/robots.txt
     - user: ocds-docs
 
 /home/ocds-docs/web/includes/:
   file.recurse:
-    - source: salt://docs/includes
+    - source: salt://apache/files/docs/includes
     - user: ocds-docs
 
 # These will be served the same as files that were copied into place.
