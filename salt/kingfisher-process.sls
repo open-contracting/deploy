@@ -171,11 +171,11 @@ kingfisher-process-prerequisites:
 
 restart-syslog:
   cmd.run:
-      - name: service rsyslog restart
-      - runas: root
-      - require:
-        - file: /etc/rsyslog.d/90-kingfisher.conf
-        - file: /etc/rsyslog.d/91-kingfisher-views.conf
+    - name: service rsyslog restart
+    - runas: root
+    - require:
+      - file: /etc/rsyslog.d/90-kingfisher.conf
+      - file: /etc/rsyslog.d/91-kingfisher-views.conf
 
 ####################
 # PostgreSQL
