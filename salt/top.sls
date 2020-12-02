@@ -34,7 +34,7 @@ base:
     - kingfisher-process
     - kingfisher-analyse
     - kingfisher-archive
-    - postgres.replica_master
+    - postgres.main
 
   'kingfisher-replica':
     - postgres

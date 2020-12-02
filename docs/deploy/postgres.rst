@@ -74,7 +74,7 @@ You will configure a main server and a replica server.
         replica_user:
           password: example_password
 
-#. Add the ``postgres.replica_master`` state file to the main server's target in the ``salt/top.sls`` file.
+#. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 
 #. :doc:`Deploy<deploy>` both servers
 
