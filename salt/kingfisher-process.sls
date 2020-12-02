@@ -134,7 +134,7 @@ kingfisher-process-prerequisites:
 
 {{ process_dir }}/wsgi.py:
   file.managed:
-    - source: salt://wsgi/kingfisher-process.py
+    - source: salt://kingfisher-process/kingfisher-process.py
     - user: {{ user }}
     - group: {{ user }}
     - require:
