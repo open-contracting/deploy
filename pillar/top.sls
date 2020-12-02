@@ -4,7 +4,6 @@ base:
   '*':
     - common
     - private.common
-    - private.prometheus
 
   'cove-oc4ids':
     - django
@@ -39,6 +38,8 @@ base:
     - kingfisher_replica_maintenance
 
   'prometheus':
+    - prometheus_server
+    - private.prometheus_server
     - maintenance
 
   'redash':
@@ -50,3 +51,9 @@ base:
     - toucan
     - private.toucan
     - maintenance
+
+  # This avoids having to repeat these states for all but one target.
+  'id:^(?!covid19-dev)':
+    - match: grain_pcre
+    - prometheus_client
+    - private.prometheus_client
