@@ -46,8 +46,7 @@ prometheus-node-exporter:
 
 {% if pillar.prometheus_node_exporter.smartmon %}
 smartmontools:
-  pkg.installed:
-    - name: smartmontools
+  pkg.installed
 
 /home/{{ user }}/node-exporter-textfile-directory:
   file.directory:
