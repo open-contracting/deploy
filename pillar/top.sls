@@ -11,14 +11,14 @@ base:
     - cove
     - cove_oc4ids
     - private.cove_oc4ids
-    - maintenance_simple
+    - maintenance
 
   'cove-ocds':
     - django
     - cove
     - cove_ocds
     - private.cove_ocds
-    - maintenance_simple
+    - maintenance
 
   'docs':
     - docs
@@ -36,14 +36,14 @@ base:
     - kingfisher_replica_maintenance
 
   'prometheus':
-    - maintenance_simple
+    - maintenance
 
   'redash':
     - redash
-    - maintenance_simple
+    - maintenance
 
   'toucan':
     - django
     - toucan
     - private.toucan
-    - maintenance_simple
+    - maintenance
