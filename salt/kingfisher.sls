@@ -1,3 +1,3 @@
 /etc/motd:
   file.managed:
-    - source: salt://system/kingfisher_motd
+    - source: salt://kingfisher/kingfisher_motd
