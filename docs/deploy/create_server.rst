@@ -122,7 +122,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
 All server hostnames should be in the following format ocpXX.open-contracting.org (e.g. ocp01, ocp02 etc).
 Each server should have a unique hostname so for each new server, increment the counter by one. 
-
+To see which hostnames are currently in use `refer to the salt roster config <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>__`.
 
 
 3. Deploy the service
@@ -155,11 +155,13 @@ Each server should have a unique hostname so for each new server, increment the 
 
    #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
 
-#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__:
+#. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
-   .. code-block:: bash
+  Replacing ocpXX with the hostname you configured earlier.
 
-      salt-ssh TARGET pkg.upgrade dist_upgrade=True
+  .. code-block:: bash
+
+     salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
