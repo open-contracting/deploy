@@ -68,7 +68,7 @@
 
 /etc/logrotate.d/archive:
   file.managed:
-    - source: salt://kingfisher-archive/logrotate
+    - source: salt://kingfisher-archive/logrotate.conf
     - makedirs: True
 
 #cd {{ archive_dir }}; source .ve/bin/activate; python manage.py archive:
