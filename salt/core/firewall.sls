@@ -12,8 +12,8 @@ iptables-persistent:
 /home/sysadmin-tools/firewall-settings.local:
   file.managed:
     - source: salt://lib/firewall-settings.local
-    - mode: 640
     - template: jinja
+    - mode: 640
     - replace: False
 
 /home/sysadmin-tools/bin/firewall.sh:

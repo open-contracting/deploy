@@ -30,12 +30,11 @@ postgresql:
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
+    - source: salt://postgres/configs/pg_hba.conf
+    - template: jinja
     - user: postgres
     - group: postgres
     - mode: 640
-    - source:
-      - salt://postgres/configs/pg_hba.conf
-    - template: jinja
     - watch_in:
       - service: postgresql
 
@@ -43,12 +42,11 @@ postgresql:
 {% if pillar.postgres.configuration_file %}
 /etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration_name }}.conf:
   file.managed:
+    - source: {{ pillar.postgres.configuration_file }}
+    - template: jinja
     - user: postgres
     - group: postgres
     - mode: 640
-    - source:
-      - {{ pillar.postgres.configuration_file }}
-    - template: jinja
     - watch_in:
       - service: postgresql
 {% endif %}
