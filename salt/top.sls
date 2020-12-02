@@ -48,21 +48,20 @@ base:
   'toucan':
     - toucan
 
-  'prometheus_node_exporter:enabled:true':
-    - match: pillar
+  # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
+  'I@prometheus_node_exporter:enabled:true':
     - prometheus-client-apache
 
-  'maintenance:patching:automatic':
-    - match: pillar
+  'I@maintenance:enabled:true and I@maintenance:patching:automatic':
     - maintenance.patching
 
-  'maintenance:patching:manual':
-    - match: pillar
+  'I@maintenance:enabled:true and I@maintenance:patching:manual':
     - maintenance.patching.absent
 
-  'maintenance:enabled:true':
-    - match: pillar
+  'I@maintenance:enabled:true and I@maintenance:hardware_sensors:true':
     - maintenance.hardware_sensors
+
+  'I@maintenance:enabled:true':
     - maintenance.postgres_monitoring
     - maintenance.raid_monitoring
     - maintenance.rkhunter
