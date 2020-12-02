@@ -31,3 +31,16 @@ root_authorized_keys_add:
   ssh_auth.present:
     - user: root
     - source: salt://private/authorized_keys/root_to_add
+
+include:
+    - core.apt
+    - core.customization
+    - core.fail2ban
+    - core.firewall
+    - core.locale
+    - core.mail
+    - core.motd
+    - core.ntp
+    - core.sshd
+    - core.swap
+    - core.systemd
