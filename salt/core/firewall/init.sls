@@ -7,14 +7,14 @@ iptables-persistent:
 # the remote file from all servers, then re-deploy. (Or, temporarily set `replace: True`.)
 /home/sysadmin-tools/firewall-settings.local:
   file.managed:
-    - source: salt://lib/firewall-settings.local
+    - source: salt://core/firewall/files/firewall-settings.local
     - template: jinja
     - mode: 640
     - replace: False
 
 /home/sysadmin-tools/bin/firewall.sh:
   file.managed:
-    - source: salt://lib/firewall.sh
+    - source: salt://core/firewall/files/firewall.sh
     - mode: 750
   require:
     - file: /home/sysadmin-tools/bin
