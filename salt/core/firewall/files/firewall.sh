@@ -31,11 +31,11 @@ if [ $LOGNAME != "root" ]; then
 fi
 
 echo_verbose "Get local IP addresses"
-if [ ! -z $IPCMD ] && test -f $IPCMD; then
+if [ -n $IPCMD ] && test -f $IPCMD; then
     echo_verbose "  ... using the $IPCMD command"
     LOCAL_IPV4=`$IPCMD addr | grep "inet " | cut -f 6 -d" " | cut -f 1 -d"/"`
     LOCAL_IPV6=`$IPCMD addr | grep "inet6 " | cut -f 6 -d" " | cut -f 1 -d"/"`
-elif [ ! -z $IFCONFIG ] && test -f $IFCONFIG; then
+elif [ -n $IFCONFIG ] && test -f $IFCONFIG; then
     echo_verbose "  ... using the $IFCONFIG command"
     LOCAL_IPV4=`$IFCONFIG | grep "inet addr" | cut -f 2 -d":" | cut -f 1 -d" "`
     LOCAL_IPV6=`$IFCONFIG | grep "inet6 addr" | cut -f 13 -d" " | cut -f 1 -d"/"`
@@ -159,21 +159,25 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 $IP6TABLES -A INPUT -i lo -j ACCEPT
 $IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
-echo_verbose "Allow ANY connection from given IP addresses"
-for IP in $ALLOWALL_IPV4;do
-    $IPTABLES -A INPUT -s $IP -j ACCEPT
-done
-for IP in $ALLOWALL_IPV6;do
-    $IP6TABLES -A INPUT -s $IP -j ACCEPT
-done
+if [ -n $ALLOWALL_IPV4 ] || [ -n $ALLOWALL_IPV6 ]; then
+    echo_verbose "Allow ANY connection from given IP addresses"
+    for IP in $ALLOWALL_IPV4;do
+        $IPTABLES -A INPUT -s $IP -j ACCEPT
+    done
+    for IP in $ALLOWALL_IPV6;do
+        $IP6TABLES -A INPUT -s $IP -j ACCEPT
+    done
+fi
 
-echo_verbose "Deny ANY connection from given IP addresses"
-for IP in $DENYALL_IPV4;do
-    $IPTABLES -A INPUT -s $IP -j DROP
-done
-for IP in $DENYALL_IPV6;do
-    $IP6TABLES -A INPUT -s $IP -j DROP
-done
+if [ -n $DENYALL_IPV4 ] || [ -n $DENYALL_IPV6 ]; then
+    echo_verbose "Deny ANY connection from given IP addresses"
+    for IP in $DENYALL_IPV4;do
+        $IPTABLES -A INPUT -s $IP -j DROP
+    done
+    for IP in $DENYALL_IPV6;do
+        $IP6TABLES -A INPUT -s $IP -j DROP
+    done
+fi
 
 echo_verbose "Allow traffic using the ICMP protocol"
 $IPTABLES -A INPUT -p icmp -j ACCEPT
@@ -299,15 +303,15 @@ echo_verbose "Flush monitor chain"
 $IPTABLES -F monitor
 $IP6TABLES -F monitor
 
-echo_verbose "IPv4 monitor chain"
-for IP in $APPBEAT_IPV4; do
-    $IPTABLES -A monitor -s $IP -j ACCEPT
-done
-
-echo_verbose "IPv6 monitor chain"
-for IP in $APPBEAT_IPV6; do
-    $IP6TABLES -A monitor -s $IP -j ACCEPT
-done
+if [ -n $APPBEAT_IPV4 ] || [ -n $APPBEAT_IPV6 ]; then
+    echo_verbose "Set monitor chain"
+    for IP in $APPBEAT_IPV4; do
+        $IPTABLES -A monitor -s $IP -j ACCEPT
+    done
+    for IP in $APPBEAT_IPV6; do
+        $IP6TABLES -A monitor -s $IP -j ACCEPT
+    done
+fi
 
 echo_verbose "Save iptables to $IPTABLESSAVLOC and $IP6TABLESSAVLOC"
 iptables-save > $IPTABLESSAVLOC
