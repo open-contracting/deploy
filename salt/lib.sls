@@ -64,20 +64,17 @@ unset {{ setting_name }} firewall setting:
   file.managed:
     - source: salt://apache/files/{{ conffile }}.conf.include
     - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: apache2
     - context:
         https: "{{ https }}"
         {{ extracontext|indent(8) }}
+    - makedirs: True
+    - watch_in:
+      - service: apache2
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
     - source: salt://apache/files/_common.conf
     - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: apache2
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ servername }}
@@ -85,8 +82,11 @@ unset {{ setting_name }} firewall setting:
         https: "{{ https }}"
         ports: {{ ports|yaml }}
         {{ extracontext|indent(8) }}
+    - makedirs: True
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
+    - watch_in:
+      - service: apache2
 
 {% if https == 'force' or https == 'certonly' %}
 
@@ -114,9 +114,9 @@ unset {{ setting_name }} firewall setting:
 /etc/apache2/sites-enabled/{{ name }}.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/{{ name }}.conf
+    - makedirs: True
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf
-    - makedirs: True
     - watch_in:
       - service: apache2
 
@@ -134,19 +134,19 @@ unset {{ setting_name }} firewall setting:
   file.managed:
     - source: salt://uwsgi/files/{{ service }}.ini
     - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: uwsgi
     - context:
         port: {{ port }}
         appdir: {{ appdir }}
+    - makedirs: True
+    - watch_in:
+      - service: uwsgi
 
 /etc/uwsgi/apps-enabled/{{ name }}.ini:
   file.symlink:
     - target: /etc/uwsgi/apps-available/{{ name }}.ini
+    - makedirs: True
     - require:
       - file: /etc/uwsgi/apps-available/{{ name }}.ini
-    - makedirs: True
     - watch_in:
       - service: uwsgi
 

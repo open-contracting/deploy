@@ -42,13 +42,13 @@
   file.managed:
     - source: salt://kingfisher/files/archive/.env
     - template: jinja
+    - context:
+        userdir: {{ userdir }}
+        scrapyd_dir: {{ scrapyd_dir }}
     - user: {{ user }}
     - group: {{ user }}
     - mode: 400
     - makedirs: True
-    - context:
-        userdir: {{ userdir }}
-        scrapyd_dir: {{ scrapyd_dir }}
     - require:
       - git: {{ archive_giturl }}{{ archive_dir }}
 
@@ -56,11 +56,11 @@
   file.managed:
     - source: salt://kingfisher/files/archive/logging.json
     - template: jinja
+    - context:
+        userdir: {{ userdir }}
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-    - context:
-        userdir: {{ userdir }}
 
 /etc/rsyslog.d/92-kingfisher-archive.conf:
   file.managed:
