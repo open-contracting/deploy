@@ -42,6 +42,15 @@ Run, for example:
 
    ./run.py 'docs' file.remove /path/to/file-to-remove
 
+Delete a line from a file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'docs' cmd.run "sed --in-place '/text to match/d' /path/to/file"
+
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
 
