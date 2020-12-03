@@ -137,7 +137,6 @@ If you couldn't select Ubuntu above, follow these additional steps:
    * Points to: IPv6 address
    * TTL: 1 day
 
-
 3. Apply core changes
 ---------------------
 
