@@ -73,7 +73,6 @@ django-deps:
     - require:
       - pkg: django-deps
       - git: {{ pillar.git.url }}{{ djangodir }}
-      - file: set_lc_all # required to avoid unicode errors for the "schema" library
 
 pip_install_requirements:
   cmd.run:
