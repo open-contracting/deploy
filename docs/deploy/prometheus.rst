@@ -17,12 +17,6 @@ Monitor a service
 
 If the ``prometheus_node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate.
 
-#. Check that Node Exporter is accessible and that its "Metrics" page displays metrics. For example, replace ``PASSWORD`` with the value of the ``prometheus_node_exporter.password`` variable in the ``pillar/private/prometheus_client.sls`` file:
-
-   .. code-block:: bash
-
-      curl -k https://prom:PASSWORD@live.docs.opencontracting.uk0.bigv.io:7231
-
 #. Add a job to ``salt/prometheus/files/server/conf-prometheus.yml``, following the same pattern as other jobs.
 
 #. :doc:`Deploy<deploy>` the Prometheus service.
