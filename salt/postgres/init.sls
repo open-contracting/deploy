@@ -25,6 +25,7 @@ postgresql:
   pkg.installed:
     - name: postgresql-{{ pg_version }}
   service.running:
+    - name: postgresql
     - enable: True
 
 # Upload access configuration for postgres.

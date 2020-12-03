@@ -1,8 +1,9 @@
 # Install and configure email software.
 postfix:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: postfix
   service.running:
+    - name: postfix
     - enable: True
     - require:
       - pkg: postfix

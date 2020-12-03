@@ -11,6 +11,7 @@ elasticsearch:
   pkg.installed:
     - name: elasticsearch
   service.running:
+    - name: elasticsearch
     - enable: True
 
 # If we run Elasticsearch on a server with less than (or more than) 2GB RAM, we need to configure Xms and Xmx in
