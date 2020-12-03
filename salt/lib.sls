@@ -105,7 +105,6 @@ unset {{ setting_name }} firewall setting:
       - file: /etc/apache2/sites-available/{{ name }}.conf
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
       - file: /etc/apache2/sites-enabled/{{ name }}.conf
-      # The next line refers to something in salt/letsencrypt.sls
       - file: /var/www/html/.well-known/acme-challenge
     - watch_in:
       - service: apache2
