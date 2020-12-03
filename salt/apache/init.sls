@@ -1,5 +1,3 @@
-{% from 'lib.sls' import apache %}
-
 apache2:
   pkg.installed:
     - name: apache2
