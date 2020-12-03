@@ -17,7 +17,7 @@ Bytemark
 #. Click *Servers* and *Add a cloud server*
 
    #. Enter a *Name*
-   #. Select a *Group* indicating the planned envionment (*production* or *development*)
+   #. Select a *Group* indicating the environment (*production* or *development*)
    #. Set *Location* to "York"
    #. Set *Server Resources*
    #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
@@ -95,7 +95,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
          .. code-block:: none
 
-            HOSTNAME ex01.open-contracting.org
+            HOSTNAME ocp##.open-contracting.org
 
       #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
 
@@ -115,14 +115,12 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       reboot
 
-2. Set up DNS records
+2. Create DNS records
 ---------------------
 
 #. Create a new hostname DNS entry in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 
-All server hostnames should be in the following format ocpXX.open-contracting.org (e.g. ocp01, ocp02 etc).
-Each server should have a unique hostname so for each new server, increment the counter by one. 
-To see which hostnames are currently in use `refer to the salt roster config <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>__`.
+Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy or the `salt-config/roster <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>`__ file.
 
 
 3. Apply core changes
@@ -134,7 +132,7 @@ To see which hostnames are currently in use `refer to the salt roster config <ht
 
    The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
-#. Add a target to the ``salt-config/roster`` file in this repository, using a logical target name matching the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
+#. Add a target to the ``salt-config/roster`` file in this repository, naming the target after the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
 #. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
@@ -166,7 +164,6 @@ Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
       If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-*'`` matches ``cove-oc4ids``.
 
 #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
-
 
 5. Migrate from the old server
 ------------------------------
