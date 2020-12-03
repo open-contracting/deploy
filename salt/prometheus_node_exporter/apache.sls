@@ -9,9 +9,9 @@
 include:
   - apache.public
   - apache.modules.proxy_http
-  - prometheus-client-common
+  - prometheus_node_exporter
 
-# Note user variable is set in other prometheus-client-*.sls files too!
+# Note user variable is set in other prometheus_node_exporter State file, too!
 {% set user = 'prometheus-client' %}
 
 {{ apache('prometheus-client',

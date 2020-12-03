@@ -15,7 +15,7 @@ Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437
 Monitor a service
 -----------------
 
-If the ``prometheus-client-apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/prometheus_client.sls``), or the port set by the ``prometheus_node_exporter.port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus-client-apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
+If the ``prometheus_node_exporter.apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/prometheus_client.sls``), or the port set by the ``prometheus_node_exporter.port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus_node_exporter/apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
 
 #. For a Hetzner server, set the ``prometheus_node_exporter.port`` variable in the target's Pillar file to ``7231``, and :doc:`re-deploy<deploy>` the service.
 

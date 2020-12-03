@@ -50,7 +50,7 @@ base:
 
   # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
   'I@prometheus_node_exporter:enabled:true':
-    - prometheus-client-apache
+    - prometheus_node_exporter.apache
 
   'I@maintenance:enabled:true':
     - maintenance.rkhunter

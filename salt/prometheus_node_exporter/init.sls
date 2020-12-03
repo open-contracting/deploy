@@ -1,6 +1,6 @@
 {% from 'lib.sls' import createuser %}
 
-# Note user variable is set in other prometheus-client-*.sls files too!
+# Note user variable is set in other prometheus_node_exporter State file, too!
 {% set user = 'prometheus-client' %}
 {{ createuser(user) }}
 
