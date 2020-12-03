@@ -156,10 +156,14 @@ kingfisher-process-prerequisites:
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
     - source: salt://kingfisher/files/process/rsyslog.conf
+    - watch_in:
+      - service: rsyslog
 
 /etc/rsyslog.d/91-kingfisher-views.conf:
   file.managed:
     - source: salt://kingfisher/files/summarize/rsyslog.conf
+    - watch_in:
+      - service: rsyslog
 
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
@@ -168,14 +172,6 @@ kingfisher-process-prerequisites:
 /etc/logrotate.d/kingfisher-views.conf:
   file.managed:
     - source: salt://kingfisher/files/summarize/logrotate.conf
-
-restart-syslog:
-  cmd.run:
-    - name: service rsyslog restart
-    - runas: root
-    - require:
-      - file: /etc/rsyslog.d/90-kingfisher.conf
-      - file: /etc/rsyslog.d/91-kingfisher-views.conf
 
 ####################
 # PostgreSQL

@@ -65,6 +65,8 @@
 /etc/rsyslog.d/92-kingfisher-archive.conf:
   file.managed:
     - source: salt://kingfisher/files/archive/rsyslog.conf
+    - watch_in:
+      - service: rsyslog
 
 /etc/logrotate.d/archive:
   file.managed:

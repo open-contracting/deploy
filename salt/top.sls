@@ -11,6 +11,7 @@ base:
     - core.mail
     - core.motd
     - core.ntp
+    - core.rsyslog
     - core.sshd
     - core.swap
     - core.systemd
