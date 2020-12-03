@@ -28,3 +28,9 @@ ssh_service:
     - reload: True
     - listen:
       - file: /etc/ssh/sshd_config
+
+# Manage authorized keys for users with root access to all servers.
+root_authorized_keys:
+  ssh_auth.manage:
+    - user: root
+    - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []))|yaml }}

@@ -48,7 +48,7 @@ Then, ask a colleague to deploy your public key to the relevant servers. For exa
 
 .. code-block:: bash
 
-    ./run.py '*' state.sls_id root_authorized_keys core
+    ./run.py '*' state.sls_id root_authorized_keys core.sshd
 
 4. Configure Salt for non-root user
 -----------------------------------
