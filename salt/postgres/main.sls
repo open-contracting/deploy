@@ -19,7 +19,7 @@
 /home/sysadmin-tools/bin/delete-after-x-days.sh:
   file.managed:
     - mode: 755
-    - source: salt://lib/delete-after-x-days.sh
+    - source: salt://files/delete-after-x-days.sh
   require:
     - file: /home/sysadmin-tools/bin
 

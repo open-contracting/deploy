@@ -8,7 +8,7 @@ include:
 
 /home/{{ pillar.user }}/{{ pillar.name }}/googleapi_credentials.json:
   file.managed:
-    - source: salt://lib/googleapi_credentials.json
+    - source: salt://files/googleapi_credentials.json
     - template: jinja
     - user: {{ pillar.user }}
     - group: {{ pillar.user }}
