@@ -267,12 +267,6 @@ kfp_postgres_readonlyuser_setup_as_postgres:
 
 {{ uwsgi('kingfisher-process', name='ocdskingfisherprocess', port=5001) }}
 
-# Need to manually reload this service - the library code should really do this for us
-reload_uwsgi_service:
-  cmd.run:
-    - name: sleep 10; /etc/init.d/uwsgi reload
-    - order: last
-
 ####################
 # Cron jobs
 ####################
