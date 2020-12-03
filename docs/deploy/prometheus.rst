@@ -15,7 +15,7 @@ Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437
 Monitor a service
 -----------------
 
-If the ``prometheus_node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate.
+If the ``prometheus_node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate. Only connections from the Prometheus server are allowed.
 
 #. Add a job to ``salt/prometheus/files/server/conf-prometheus.yml``, following the same pattern as other jobs.
 
