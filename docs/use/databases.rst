@@ -114,7 +114,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
 .. note::
 
-   There is an `open issue <https://trello.com/c/uopUu4aj/225-refactor-kf-colab-notebooks-to-use-a-form-to-populate-db-creds-to-save-in-a-particular-instance-of-the-notebook>`__ to use `Colaboratory Forms <https://colab.research.google.com/notebooks/forms.ipynb>`__ to store credentials.
+   There is an open issue to use `Colaboratory Forms <https://colab.research.google.com/notebooks/forms.ipynb>`__ to store credentials.
 
 Python
 ~~~~~~
