@@ -1,4 +1,4 @@
-# This state file initialises the required files for the firewall script.
+{% from 'lib.sls' import set_firewall %}
 
 iptables-persistent:
   pkg.installed
@@ -8,9 +8,16 @@ iptables-persistent:
 /home/sysadmin-tools/firewall-settings.local:
   file.managed:
     - source: salt://core/firewall/files/firewall-settings.local
-    - template: jinja
     - mode: 640
     - replace: False
+  require:
+    - file: /home/sysadmin-tools/bin
+
+# These must be set with file.replace, because the ID that creates the file uses file.managed with `replace: False`.
+{{ set_firewall("ADMIN_IPV4", pillar.firewall.admin_ipv4|join(' ')) }}
+{{ set_firewall("ADMIN_IPV6", pillar.firewall.admin_ipv6|join(' ')) }}
+{{ set_firewall("PROMETHEUS_IPV4", pillar.firewall.prometheus_ipv4) }}
+{{ set_firewall("PROMETHEUS_IPV6", pillar.firewall.prometheus_ipv6) }}
 
 /home/sysadmin-tools/bin/firewall.sh:
   file.managed:
