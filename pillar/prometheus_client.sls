@@ -3,7 +3,4 @@ firewall:
   prometheus_ipv6: 2001:41c8:51:7db::219
 
 prometheus_node_exporter:
-  fqdn:
-  port: 80
-  smartmon: False
   version: 1.0.1

@@ -1,7 +1,5 @@
-prometheus_client:
-  port: 7231
-
 prometheus_node_exporter:
+  port: 7231
   smartmon: True
 
 vm:
