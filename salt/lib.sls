@@ -49,7 +49,7 @@ unset {{ setting_name }} firewall setting:
 {% endif %}
 
 {% if servername == '' %}
-    {% set servername = grains.fqdn %}
+    {% set servername = grains['fqdn'] %}
 {% endif %}
 
 {% if ports == [] %}

@@ -15,6 +15,6 @@ include:
 {% set user = 'prometheus-client' %}
 
 {{ apache('prometheus-client',
-    servername=pillar.prometheus_node_exporter.fqdn if pillar.prometheus_node_exporter.fqdn else 'prom-client.' + grains.fqdn,
+    servername=pillar.prometheus_node_exporter.fqdn if pillar.prometheus_node_exporter.fqdn else 'prom-client.' + grains['fqdn'],
     extracontext='user: ' + user,
     ports=[pillar.prometheus_node_exporter.port]) }}

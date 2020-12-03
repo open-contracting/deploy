@@ -10,7 +10,7 @@ ssh:
 
 apache:
   https: force
-  serveraliases: ['master.{{ grains.fqdn }}'] # should match git.branch
+  serveraliases: ['master.{{ grains["fqdn"] }}'] # should match git.branch
 
 django:
   env:
