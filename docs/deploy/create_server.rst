@@ -204,7 +204,7 @@ If the server runs a database like PostgreSQL or Elasticsearch, copy the databas
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
-#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ (e.g. standard-search.open-contracting.org, postgres.open-contracting.org)
+#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ (e.g. standard.open-contracting.org, toucan.open-contracting.org)
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
 #. Contact Dogsbody Technology Ltd to set up maintenance
