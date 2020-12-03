@@ -1,6 +1,8 @@
 Update server configurations
 ============================
 
+.. _change-server-name:
+
 Change server name
 ------------------
 
