@@ -25,7 +25,7 @@ extract_prometheus_client:
 
 /etc/systemd/system/prometheus-node-exporter.service:
   file.managed:
-    - source: salt://prometheus-client/prometheus-node-exporter.service
+    - source: salt://prometheus_node_exporter/files/prometheus-node-exporter.service
     - template: jinja
     - context:
         user: {{ user }}
