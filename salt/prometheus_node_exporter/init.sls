@@ -1,7 +1,6 @@
-{% from 'lib.sls' import createuser, set_firewall, unset_firewall %}
+{% from 'lib.sls' import createuser, set_firewall %}
 # https://developpaper.com/add-authentication-to-prometheus-node-exporter/
 
-{{ unset_firewall("PUBLIC_PROMETHEUS_CLIENT") }}
 {{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
 {{ set_firewall("PROMETHEUS_IPV4", pillar.firewall.prometheus_ipv4) }}
 {{ set_firewall("PROMETHEUS_IPV6", pillar.firewall.prometheus_ipv6) }}
