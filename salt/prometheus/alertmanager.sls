@@ -60,6 +60,7 @@ extract_prometheus_alertmanager:
 prometheus-alertmanager:
   service.running:
     - enable: True
+    - restart: True
     - require:
       - cmd: extract_prometheus_alertmanager
       - file: /home/{{ user }}/data

@@ -78,6 +78,7 @@ extract_prometheus_client:
 prometheus-node-exporter:
   service.running:
     - enable: True
+    - restart: True
     - require:
       - file: /etc/systemd/system/prometheus-node-exporter.service
       - cmd: extract_prometheus_client
