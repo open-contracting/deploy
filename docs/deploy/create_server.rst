@@ -118,9 +118,24 @@ If you couldn't select Ubuntu above, follow these additional steps:
 2. Create DNS records
 ---------------------
 
-#. Create a new hostname DNS entry in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+#. Log into `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ and open DNS for open-contracting.org. 
 
-Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy or the `salt-config/roster <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>`__ file.
+   Server hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy or the `salt-config/roster <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>`__ file.
+
+
+#. Add a new A record pointing at the server hostname.
+
+   * Type: A 
+   * Host: ocp##
+   * Points to: IPv4 address
+   * TTL: 1 day
+
+#. If the server has IPv6, add a new AAAA record pointing at the server hostname.
+
+   * Type: AAAA
+   * Host: ocp##
+   * Points to: IPv6 address
+   * TTL: 1 day
 
 
 3. Apply core changes
@@ -128,21 +143,19 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
 #. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
-.. note::
+   .. note::
 
-   The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
+      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
 #. Add a target to the ``salt-config/roster`` file in this repository, naming the target after the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
 #. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
 
-This state file ensures that the system is patched, configures the system hostname and applies the core salt configs.
+   This state file ensures that the system is patched, configures the system hostname and applies the core salt configs. Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
 
-Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
-
-  .. code-block:: bash
+   .. code-block:: bash
      
-     salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
+      salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
