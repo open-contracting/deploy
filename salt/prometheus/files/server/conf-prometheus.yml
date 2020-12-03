@@ -11,14 +11,14 @@ scrape_configs:
 
   # Node Exporter.
 {% for job_name, host in {
-    'prometheus-server-node': 'monitor.prometheus.open-contracting.org',
     'ocds-cove-live.oc4ids': 'ocp01.open-contracting.org',
+    'ocds-kingfisher-replica': 'ocp05.open-contracting.org',
+    'ocds-kingfisher2': 'ocp04.open-contracting.org',
     'ocds-live.docs': 'standard.open-contracting.org',
     'ocds-live.toucan': 'toucan.open-contracting.org',
     'ocds-live2.redash': 'redash.open-contracting.org',
     'ocds-live3.cove': 'ocp02.open-contracting.org',
-    'ocds-kingfisher2': 'process1.kingfisher.open-contracting.org',
-    'ocds-kingfisher-replica': 'replica1.kingfisher.open-contracting.org',
+    'prometheus-server-node': 'ocp03.open-contracting.org',
 }.items() %}
   - job_name: '{{ job_name }}'
     scrape_interval: 60s
