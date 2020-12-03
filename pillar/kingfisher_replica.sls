@@ -1,6 +1,5 @@
 prometheus_node_exporter:
-  port: 7231
-  smartmon: True
+  smartmon: true
 
 vm:
   nr_hugepages: 8325

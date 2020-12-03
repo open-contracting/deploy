@@ -25,6 +25,16 @@ extract_prometheus_server:
     - require:
       - cmd: get_prometheus_server
 
+## TLS configuration
+
+/home/{{ user }}/node_exporter.pem:
+  file.managed:
+    - source: salt://private/keys/node_exporter.pem
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
+
 ## Configure
 
 /home/{{ user }}/conf-prometheus.yml:
@@ -74,6 +84,7 @@ prometheus-server:
       - file: /home/{{ user }}/data
     # Make sure service restarts if any config changes
     - watch:
+      - file: /home/{{ user }}/node_exporter.pem
       - file: /home/{{ user }}/conf-prometheus.yml
       - file: /home/{{ user }}/conf-prometheus-rules.yml
       - file: /etc/systemd/system/prometheus-server.service

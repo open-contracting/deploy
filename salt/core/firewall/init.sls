@@ -16,8 +16,6 @@ iptables-persistent:
 # These must be set with file.replace, because the ID that creates the file uses file.managed with `replace: False`.
 {{ set_firewall("ADMIN_IPV4", pillar.firewall.admin_ipv4|join(' ')) }}
 {{ set_firewall("ADMIN_IPV6", pillar.firewall.admin_ipv6|join(' ')) }}
-{{ set_firewall("PROMETHEUS_IPV4", pillar.firewall.prometheus_ipv4) }}
-{{ set_firewall("PROMETHEUS_IPV6", pillar.firewall.prometheus_ipv6) }}
 
 /home/sysadmin-tools/bin/firewall.sh:
   file.managed:

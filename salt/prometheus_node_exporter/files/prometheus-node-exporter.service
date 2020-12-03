@@ -7,7 +7,7 @@ After=network-online.target
 User={{ user }}
 Group={{ user }}
 Type=simple
-ExecStart=/home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter --web.listen-address=localhost:9157 {% if pillar.prometheus_node_exporter.smartmon %} --collector.textfile.directory  /home/{{ user }}/node-exporter-textfile-directory{% endif %}
+ExecStart=/home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter --web.listen-address=:7231 --web.config=/home/{{ user }}/config.yaml{% if salt['pillar.get']('prometheus_node_exporter:smartmon') %} --collector.textfile.directory /home/{{ user }}/node-exporter-textfile-directory{% endif %}
 
 [Install]
 WantedBy=multi-user.target

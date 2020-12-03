@@ -1,10 +1,16 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import createuser, set_firewall, unset_firewall %}
+# https://developpaper.com/add-authentication-to-prometheus-node-exporter/
 
-# Note user variable is set in other prometheus_node_exporter State file, too!
+{{ unset_firewall("PUBLIC_PROMETHEUS_CLIENT") }}
+{{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
+{{ set_firewall("PROMETHEUS_IPV4", pillar.firewall.prometheus_ipv4) }}
+{{ set_firewall("PROMETHEUS_IPV6", pillar.firewall.prometheus_ipv6) }}
+
 {% set user = 'prometheus-client' %}
 {{ createuser(user) }}
 
 ## Get binary
+# Note: This does not clean up old versions.
 
 get_prometheus_client:
   cmd.run:
@@ -21,7 +27,45 @@ extract_prometheus_client:
     - require:
       - cmd: get_prometheus_client
 
+## TLS configuration
+# Note: The same self-signed certificate is used on multiple machines. Since it's only for Node Exporter, that's OK.
+
+# The private key and certificate request were created with:
+# openssl req -nodes -x509 -days 3650 -out node_exporter.pem -newkey rsa:2048 -keyout node_exporter.key -subj "/CN=*.open-contracting.org"
+# To re-generate the certificate request:
+# openssl req -nodes -x509 -days 3650 -out node_exporter.pem -new -key node_exporter.key -subj "/CN=*.open-contracting.org"
+# https://www.openssl.org/docs/manmaster/man1/openssl-req.html
+/home/{{ user }}/node_exporter.key:
+  file.managed:
+    - source: salt://private/keys/node_exporter.key
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 600
+    - require:
+      - user: {{ user }}_user_exists
+
+/home/{{ user }}/node_exporter.pem:
+  file.managed:
+    - source: salt://private/keys/node_exporter.pem
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
+
+# https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md
+/home/{{ user }}/config.yaml:
+  file.managed:
+    - source: salt://prometheus_node_exporter/files/config.yaml
+    - template: jinja
+    - context:
+        user: {{ user }}
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
+
 ## Start service
+# https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 
 /etc/systemd/system/prometheus-node-exporter.service:
   file.managed:
@@ -40,11 +84,14 @@ prometheus-node-exporter:
       - cmd: extract_prometheus_client
     # Make sure service restarts if any config changes
     - watch:
+      - file: /home/{{ user }}/node_exporter.key
+      - file: /home/{{ user }}/node_exporter.pem
+      - file: /home/{{ user }}/config.yaml
       - file: /etc/systemd/system/prometheus-node-exporter.service
 
 ## Smartmontools
 
-{% if pillar.prometheus_node_exporter.smartmon %}
+{% if salt['pillar.get']('prometheus_node_exporter:smartmon') %}
 smartmontools:
   pkg.installed
 

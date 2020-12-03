@@ -15,27 +15,19 @@ Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437
 Monitor a service
 -----------------
 
-If the ``prometheus_node_exporter.apache`` state file applies to the target, `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served from port 80 (see ``pillar/prometheus_client.sls``), or the port set by the ``prometheus_node_exporter.port`` variable in the target's Pillar file. It is served from the domain configured in the server's ``/etc/apache2/sites-enabled/prometheus-client.conf`` file (see ``salt/prometheus_node_exporter/apache.sls``), and/or from the server's FQDN or IP address if the port isn't 80.
+If the ``prometheus_node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate.
 
-#. For a Hetzner server, set the ``prometheus_node_exporter.port`` variable in the target's Pillar file to ``7231``, and :doc:`re-deploy<deploy>` the service.
+#. Check that Node Exporter is accessible and that its "Metrics" page displays metrics. For example, replace ``PASSWORD`` with the value of the ``prometheus_node_exporter.password`` variable in the ``pillar/private/prometheus_client.sls`` file:
 
-#. Check that Node Exporter is accessible and that its "Metrics" page displays metrics.
+   .. code-block:: bash
 
-   For Apache, open, for example, http://prom-client.live.docs.opencontracting.uk0.bigv.io for a Bytemark server or http://95.217.76.74:7231 for a Hetzner server.
-
-   The username is ``prom``. The password is set by the ``apache.htpasswd.prometheus_client.password`` variable in the ``pillar/private/prometheus_client.sls`` file.
-
-#. If Node Exporter isn't accessible, edit the ``prometheus_node_exporter.port`` and/or ``prometheus_node_exporter.fqdn`` variables in the target's Pillar file as needed, and :doc:`re-deploy<deploy>` the service.
+      curl -k https://prom:PASSWORD@live.docs.opencontracting.uk0.bigv.io:7231
 
 #. Add a job to ``salt/prometheus/files/server/conf-prometheus.yml``, following the same pattern as other jobs.
 
 #. :doc:`Deploy<deploy>` the Prometheus service.
 
 #. Check that the job is "UP" on Prometheus' `Targets <https://monitor.prometheus.open-contracting.org/targets>`__ page.
-
-.. note::
-
-   Bytemark assigns hostnames like ``<server>.<group>.opencontracting.uk0.bigv.io`` to its servers, and implements wildcard DNS for any subdomains. By default, Node Exporter is served from ``prom-client.<hostname>`` on port 80, which works for Bytemark servers without additional configuration. For Hetzner servers, additional configuration is needed. Instead of adding a DNS entry and setting the ``prometheus_node_exporter.fqdn`` variable, we simply set the ``prometheus_node_exporter.port`` variable and access Node Exporter by the server's IP address.
 
 Upgrade Prometheus
 ------------------

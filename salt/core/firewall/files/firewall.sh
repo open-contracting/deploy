@@ -31,11 +31,11 @@ if [ $LOGNAME != "root" ]; then
 fi
 
 echo_verbose "Get local IP addresses"
-if [ -n $IPCMD ] && test -f $IPCMD; then
+if [ ! -z $IPCMD ] && test -f $IPCMD; then
     echo_verbose "  ... using the $IPCMD command"
     LOCAL_IPV4=`$IPCMD addr | grep "inet " | cut -f 6 -d" " | cut -f 1 -d"/"`
     LOCAL_IPV6=`$IPCMD addr | grep "inet6 " | cut -f 6 -d" " | cut -f 1 -d"/"`
-elif [ -n $IFCONFIG ] && test -f $IFCONFIG; then
+elif [ ! -z $IFCONFIG ] && test -f $IFCONFIG; then
     echo_verbose "  ... using the $IFCONFIG command"
     LOCAL_IPV4=`$IFCONFIG | grep "inet addr" | cut -f 2 -d":" | cut -f 1 -d" "`
     LOCAL_IPV6=`$IFCONFIG | grep "inet6 addr" | cut -f 13 -d" " | cut -f 1 -d"/"`
@@ -159,7 +159,7 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 $IP6TABLES -A INPUT -i lo -j ACCEPT
 $IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
-if [ -n $ALLOWALL_IPV4 ] || [ -n $ALLOWALL_IPV6 ]; then
+if [ ! -z $ALLOWALL_IPV4 ] || [ ! -z $ALLOWALL_IPV6 ]; then
     echo_verbose "Allow ANY connection from given IP addresses"
     for IP in $ALLOWALL_IPV4;do
         $IPTABLES -A INPUT -s $IP -j ACCEPT
@@ -169,7 +169,7 @@ if [ -n $ALLOWALL_IPV4 ] || [ -n $ALLOWALL_IPV6 ]; then
     done
 fi
 
-if [ -n $DENYALL_IPV4 ] || [ -n $DENYALL_IPV6 ]; then
+if [ ! -z $DENYALL_IPV4 ] || [ ! -z $DENYALL_IPV6 ]; then
     echo_verbose "Deny ANY connection from given IP addresses"
     for IP in $DENYALL_IPV4;do
         $IPTABLES -A INPUT -s $IP -j DROP
@@ -190,7 +190,7 @@ echo_verbose "Allow traffic from established connections"
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 $IP6TABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-if [ "$PUBLIC_HTTP" == "yes" ] || [ "$PUBLIC_PROMETHEUS_CLIENT" == "yes" ]; then
+if [ "$PUBLIC_HTTP" == "yes" ]; then
     echo_verbose "Public HTTP server"
     $IPTABLES -A INPUT -p tcp --dport 80 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -285,10 +285,10 @@ fi
 
 if [ "$PRIVATE_PROMETHEUS_CLIENT" == "yes" ]; then
     echo_verbose "Private Prometheus client server"
-    for IP in $LOCAL_IPV4 $ADMIN_IPV4 $ALLOW_IPV4 $PROMETHEUS_IPV4; do
+    for IP in $LOCAL_IPV4 $ADMIN_IPV4 $PROMETHEUS_IPV4; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
     done
-    for IP in $LOCAL_IPV6 $ADMIN_IPV6 $ALLOW_IPV6 $PROMETHEUS_IPV6; do
+    for IP in $LOCAL_IPV6 $ADMIN_IPV6 $PROMETHEUS_IPV6; do
         $IP6TABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
     done
 fi
@@ -303,7 +303,7 @@ echo_verbose "Flush monitor chain"
 $IPTABLES -F monitor
 $IP6TABLES -F monitor
 
-if [ -n $APPBEAT_IPV4 ] || [ -n $APPBEAT_IPV6 ]; then
+if [ ! -z $APPBEAT_IPV4 ] || [ ! -z $APPBEAT_IPV6 ]; then
     echo_verbose "Set monitor chain"
     for IP in $APPBEAT_IPV4; do
         $IPTABLES -A monitor -s $IP -j ACCEPT

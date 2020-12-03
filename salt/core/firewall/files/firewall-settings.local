@@ -43,7 +43,5 @@ PUBLIC_ELASTICSEARCH=""
 PUBLIC_POSTGRESQL=""
 PRIVATE_POSTGRESQL=""
 
-# Alternative name for PUBLIC_HTTP, to avoid conflicting SLS IDs.
-PUBLIC_PROMETHEUS_CLIENT=""
 # Allows connections from the Prometheus server on port 7231.
 PRIVATE_PROMETHEUS_CLIENT=""
