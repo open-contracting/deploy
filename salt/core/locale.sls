@@ -1,3 +1,4 @@
+# The default locale is en_GB rather than en_US for accidental, historical reasons.
 en_gb_locale:
   locale.present:
     - name: en_GB.UTF-8
