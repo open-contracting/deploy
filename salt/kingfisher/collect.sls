@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser, apache %}
+{% from 'lib.sls' import apache, createuser %}
 
 include:
   - apache.public
