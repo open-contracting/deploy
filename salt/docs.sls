@@ -30,7 +30,6 @@ docs modules:
   file.directory:
     - user: {{ user }}
     - makedirs: True
-    - mode: 755
 
 /home/ocds-docs/web/robots.txt:
   file.managed:

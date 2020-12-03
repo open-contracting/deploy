@@ -31,7 +31,7 @@ kingfisher-collect-prerequisites:
     - skip_verify: True
     - user: {{ user }}
     - group: {{ user }}
-    - mode: 0444
+    - mode: 444
     - require:
       - file: {{ scrapyd_dir }}
 

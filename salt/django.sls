@@ -120,19 +120,18 @@ collectstatic:
 
 {{ djangodir }}static/:
   file.directory:
-    - file_mode: 644
+    - user: {{ pillar.user }}
+    - group: {{ pillar.user }}
     - dir_mode: 755
+    - file_mode: 644
     - recurse:
       - mode
     - require:
       - cmd: collectstatic
-    - user: {{ pillar.user }}
-    - group: {{ pillar.user }}
 
 {{ djangodir }}:
   file.directory:
-    - dir_mode: 755
-    - require:
-      - cmd: collectstatic
     - user: {{ pillar.user }}
     - group: {{ pillar.user }}
+    - require:
+      - cmd: collectstatic

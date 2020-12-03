@@ -108,7 +108,7 @@ kingfisher-process-prerequisites:
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
-    - mode: 0400
+    - mode: 400
 
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
@@ -145,7 +145,7 @@ kingfisher-process-prerequisites:
     - source: salt://kingfisher/files/summarize/.env
     - user: {{ user }}
     - group: {{ user }}
-    - mode: 0400
+    - mode: 400
     - require:
       - git: {{ summarize_giturl }}{{ summarize_dir }}
 

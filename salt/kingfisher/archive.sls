@@ -44,7 +44,7 @@
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
-    - mode: 0400
+    - mode: 400
     - makedirs: True
     - context:
         userdir: {{ userdir }}
