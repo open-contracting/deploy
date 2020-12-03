@@ -38,8 +38,7 @@ postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True
   version: 11
-  configuration_name: kingfisher-process1
-  configuration_file: salt://postgres/files/kingfisher-process1-postgres.conf
+  configuration: kingfisher-process1
   replica_user:
     username: replica
   replica_ipv4:

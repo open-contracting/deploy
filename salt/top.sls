@@ -28,12 +28,12 @@ base:
 
   'kingfisher-process':
     - postgres
+    - postgres.main
     - kingfisher
     - kingfisher.collect
     - kingfisher.process
     - kingfisher.analyse
     - kingfisher.archive
-    - postgres.main
 
   'kingfisher-replica':
     - postgres

@@ -7,5 +7,4 @@ vm:
 postgres:
   public_access: True
   version: 11
-  configuration_name: kingfisher-replica1
-  configuration_file: salt://postgres/files/kingfisher-replica1-postgres.conf
+  configuration: kingfisher-replica1

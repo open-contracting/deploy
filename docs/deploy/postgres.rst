@@ -38,8 +38,7 @@ Change default settings
     :emphasize-lines: 2
 
     postgres:
-      configuration_name: kingfisher-process1
-      configuration_file: salt://postgres/files/kingfisher-process1-postgres.conf
+      configuration: kingfisher-process1
     vm:
       nr_hugepages: 1234
 

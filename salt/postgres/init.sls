@@ -39,10 +39,10 @@ postgresql:
       - service: postgresql
 
 # Upload custom configuration if defined.
-{% if pillar.postgres.configuration_file %}
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration_name }}.conf:
+{% if pillar.postgres.configuration %}
+/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
   file.managed:
-    - source: {{ pillar.postgres.configuration_file }}
+    - source: salt://postgres/files/{{ pillar.postgres.configuration }}.conf
     - template: jinja
     - user: postgres
     - group: postgres
