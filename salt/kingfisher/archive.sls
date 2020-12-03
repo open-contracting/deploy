@@ -71,7 +71,7 @@
     - source: salt://kingfisher/files/archive/logrotate.conf
     - makedirs: True
 
-#cd {{ archive_dir }}; source .ve/bin/activate; python manage.py archive:
+#cd {{ archive_dir }}; . .ve/bin/activate; python manage.py archive:
 #  cron.present:
 #    - identifier: OCDS_KINGFISHER_ARCHIVE_RUN
 #    - user: {{ user }}

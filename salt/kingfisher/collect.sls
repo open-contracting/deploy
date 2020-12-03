@@ -48,7 +48,7 @@ kingfisher-collect-prerequisites:
 
 {{ scrapyd_dir }}-requirements:
   cmd.run:
-    - name: source .ve/bin/activate; pip-sync -q
+    - name: . .ve/bin/activate; pip-sync -q
     - runas: {{ user }}
     - cwd: {{ scrapyd_dir }}
     - require:
