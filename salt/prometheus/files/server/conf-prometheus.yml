@@ -11,7 +11,7 @@ scrape_configs:
   - job_name: 'prometheus-server-node'
     scrape_interval: 60s
     static_configs:
-      - targets: ['localhost:9157']
+      - targets: ['localhost:7231']
     scheme: http
 
   # Node Exporter.
