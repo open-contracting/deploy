@@ -11,6 +11,11 @@ git checkout master
 git pull --rebase origin master
 cd ../..
 
+cd salt/private
+git checkout master
+git pull --rebase origin master
+cd ../..
+
 cd salt/maintenance
 git checkout master
 git pull --rebase origin master
