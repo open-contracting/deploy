@@ -4,11 +4,11 @@
 # Calculate swap size based on RAM.
 # If RAM is more than 32 GB, swap size should be a quarter of the RAM.
 {% if grains["mem_total"] > 32768 %}
-{% set swap_size = grains["mem_total"]/4 %}
+{% set swap_size = grains["mem_total"] // 4 %}
 
 # If RAM is more than 2 GB, swap size should be half of the RAM.
 {% elif grains["mem_total"] > 2048 %}
-{% set swap_size = grains["mem_total"]/2 %}
+{% set swap_size = grains["mem_total"] // 2 %}
 
 # If RAM is less than 2 GB, swap size should be equal to the RAM.
 {% else %}
