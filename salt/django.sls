@@ -53,33 +53,6 @@ django-deps:
       - pkg: git
       - user: {{ pillar.user }}_user_exists
 
-{{ djangodir }}:
-  file.directory:
-    - user: {{ pillar.user }}
-    - group: {{ pillar.user }}
-
-# We have seen different permissions on different servers, and we have seen bugs arise as a result.
-# (This won't ensure permissions are correct on new files, but it will fix any existing problems.)
-{{ djangodir }}media:
-  file.directory:
-    - user: {{ pillar.user }}
-    - dir_mode: 755
-    - file_mode: 644
-    - recurse:
-      - user
-      - mode
-
-{{ djangodir }}static:
-  file.directory:
-    - user: {{ pillar.user }}
-    - group: {{ pillar.user }}
-    - dir_mode: 755
-    - file_mode: 644
-    - recurse:
-      - mode
-    - require:
-      - cmd: collectstatic
-
 {{ djangodir }}.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
