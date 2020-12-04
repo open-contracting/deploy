@@ -42,7 +42,7 @@
 
 {{ archive_dir }}/.env:
   file.managed:
-    - source: salt://kingfisher/files/archive/.env
+    - source: salt://kingfisher/archive/files/.env
     - template: jinja
     - context:
         userdir: {{ userdir }}
@@ -56,7 +56,7 @@
 
 {{ userdir }}/.config/ocdskingfisher-archive/logging.json:
   file.managed:
-    - source: salt://kingfisher/files/archive/logging.json
+    - source: salt://kingfisher/archive/files/logging.json
     - template: jinja
     - context:
         userdir: {{ userdir }}
@@ -66,13 +66,13 @@
 
 /etc/rsyslog.d/92-kingfisher-archive.conf:
   file.managed:
-    - source: salt://kingfisher/files/archive/rsyslog.conf
+    - source: salt://kingfisher/archive/files/rsyslog.conf
     - watch_in:
       - service: rsyslog
 
 /etc/logrotate.d/archive:
   file.managed:
-    - source: salt://kingfisher/files/archive/logrotate.conf
+    - source: salt://kingfisher/archive/files/logrotate.conf
     - makedirs: True
 
 #cd {{ archive_dir }}; . .ve/bin/activate; python manage.py archive:

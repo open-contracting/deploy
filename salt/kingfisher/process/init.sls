@@ -86,7 +86,7 @@ kingfisher-process-prerequisites:
 
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
-    - source: salt://kingfisher/files/process/config.ini
+    - source: salt://kingfisher/process/files/config.ini
     - template: jinja
     - user: {{ user }}
     - group: {{ user }}
@@ -96,7 +96,7 @@ kingfisher-process-prerequisites:
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
-    - source: salt://kingfisher/files/process/logging.json
+    - source: salt://kingfisher/process/files/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
@@ -105,7 +105,7 @@ kingfisher-process-prerequisites:
 
 {{ process_dir }}/wsgi.py:
   file.managed:
-    - source: salt://kingfisher/files/process/wsgi.py
+    - source: salt://kingfisher/process/files/wsgi.py
     - user: {{ user }}
     - group: {{ user }}
     - require:
@@ -117,13 +117,13 @@ kingfisher-process-prerequisites:
 
 /etc/rsyslog.d/90-kingfisher.conf:
   file.managed:
-    - source: salt://kingfisher/files/process/rsyslog.conf
+    - source: salt://kingfisher/process/files/rsyslog.conf
     - watch_in:
       - service: rsyslog
 
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
-    - source: salt://kingfisher/files/process/logrotate.conf
+    - source: salt://kingfisher/process/files/logrotate.conf
 
 ####################
 # PostgreSQL

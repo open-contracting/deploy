@@ -52,7 +52,7 @@
 
 {{ userdir }}/.config/kingfisher-summarize/logging.json:
   file.managed:
-    - source: salt://kingfisher/files/summarize/logging.json
+    - source: salt://kingfisher/summarize/files/logging.json
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
@@ -61,7 +61,7 @@
 
 {{ summarize_dir }}/.env:
   file.managed:
-    - source: salt://kingfisher/files/summarize/.env
+    - source: salt://kingfisher/summarize/files/.env
     - user: {{ user }}
     - group: {{ user }}
     - mode: 400
@@ -74,13 +74,13 @@
 
 /etc/rsyslog.d/91-kingfisher-views.conf:
   file.managed:
-    - source: salt://kingfisher/files/summarize/rsyslog.conf
+    - source: salt://kingfisher/summarize/files/rsyslog.conf
     - watch_in:
       - service: rsyslog
 
 /etc/logrotate.d/kingfisher-views.conf:
   file.managed:
-    - source: salt://kingfisher/files/summarize/logrotate.conf
+    - source: salt://kingfisher/summarize/files/logrotate.conf
 
 ####################
 # App installation
