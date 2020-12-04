@@ -15,9 +15,9 @@ Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437
 Monitor a service
 -----------------
 
-If the ``prometheus_node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate. Only connections from the Prometheus server are allowed.
+If the ``prometheus.node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate. Only connections from the Prometheus server are allowed.
 
-#. Add a job to ``salt/prometheus/files/server/conf-prometheus.yml``, following the same pattern as other jobs.
+#. Add a job to ``salt/prometheus/server/files/conf-prometheus.yml``, following the same pattern as other jobs.
 
 #. :doc:`Deploy<deploy>` the Prometheus service.
 
@@ -25,7 +25,7 @@ If the ``prometheus_node_exporter`` state file applies to the target, then `Node
 
 .. note::
 
-   To test the Node Exporter endpoint from the Prometheus server, replace ``SUBDOMAIN`` with the target's subdomain, and ``PASSWORD`` with the URL-encoded value of the ``prometheus_node_exporter.password`` variable in the ``pillar/private/prometheus_client.sls`` file:
+   To test the Node Exporter endpoint from the Prometheus server, replace ``SUBDOMAIN`` with the target's subdomain, and ``PASSWORD`` with the URL-encoded value of the ``prometheus.node_exporter.password`` variable in the ``pillar/private/prometheus_client.sls`` file:
 
    .. code-block:: bash
 
@@ -37,9 +37,9 @@ Upgrade Prometheus
 
 We set the version numbers of the Prometheus software in the ``pillar/prometheus_client.sls`` and ``pillar/prometheus_server.sls`` files:
 
--  ``prometheus_server.version``
--  ``prometheus_alertmanager.version``
--  ``prometheus_node_exporter.version``
+-  ``prometheus.server.version``
+-  ``prometheus.alertmanager.version``
+-  ``prometheus.node_exporter.version``
 
 Our practice is to upgrade annually. We can upgrade sooner if there is a release with a bugfix or feature that we want.
 

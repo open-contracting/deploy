@@ -28,8 +28,8 @@ scrape_configs:
     tls_config:
       ca_file: /home/{{ user }}/node_exporter.pem
     basic_auth:
-      username: {{ pillar.prometheus_node_exporter.username }}
-      password: {{ pillar.prometheus_node_exporter.password }}
+      username: {{ pillar.prometheus.node_exporter.username }}
+      password: {{ pillar.prometheus.node_exporter.password }}
 {% endfor %}
 
   # The custom endpoint in Kingfisher Process, which adds new metrics prefixed by `kingfisher_process_`.

@@ -12,15 +12,15 @@ include:
 
 get_prometheus_server:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus_server.version }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/prometheus/releases/download/v{{ pillar.prometheus.server.version }}/prometheus-{{ pillar.prometheus.server.version }}.linux-amd64.tar.gz -o /home/{{ user }}/prometheus-{{ pillar.prometheus.server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server.version }}.tar.gz
     - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_server:
   cmd.run:
-    - name: tar xvzf prometheus-{{ pillar.prometheus_server.version }}.tar.gz
-    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus_server.version }}.linux-amd64/prometheus
+    - name: tar xvzf prometheus-{{ pillar.prometheus.server.version }}.tar.gz
+    - creates: /home/{{ user }}/prometheus-{{ pillar.prometheus.server.version }}.linux-amd64/prometheus
     - cwd: /home/{{ user }}/
     - require:
       - cmd: get_prometheus_server
@@ -39,7 +39,7 @@ extract_prometheus_server:
 
 /home/{{ user }}/conf-prometheus.yml:
   file.managed:
-    - source: salt://prometheus/files/server/conf-prometheus.yml
+    - source: salt://prometheus/server/files/conf-prometheus.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -48,7 +48,7 @@ extract_prometheus_server:
 
 /home/{{ user }}/conf-prometheus-rules.yml:
   file.managed:
-    - source: salt://prometheus/files/server/conf-prometheus-rules.yml
+    - source: salt://prometheus/server/files/conf-prometheus-rules.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -69,7 +69,7 @@ extract_prometheus_server:
 
 /etc/systemd/system/prometheus-server.service:
   file.managed:
-    - source: salt://prometheus/files/server/prometheus-server.service
+    - source: salt://prometheus/server/files/prometheus-server.service
     - template: jinja
     - context:
         user: {{ user }}
@@ -91,6 +91,6 @@ prometheus-server:
       - file: /etc/systemd/system/prometheus-server.service
 
 {{ apache('prometheus-server',
-    servername=pillar.prometheus_server.fqdn,
-    https=pillar.prometheus_server.https,
+    servername=pillar.prometheus.server.fqdn,
+    https=pillar.prometheus.server.https,
     extracontext='user: ' + user) }}

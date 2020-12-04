@@ -1,5 +1,6 @@
-prometheus_node_exporter:
-  enabled: false
+prometheus:
+  node_exporter:
+    enabled: false
 
 ssh:
   root:

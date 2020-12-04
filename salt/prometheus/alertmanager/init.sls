@@ -12,15 +12,15 @@ include:
 
 get_prometheus_alertmanager:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus_alertmanager.version }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/alertmanager/releases/download/v{{ pillar.prometheus.alertmanager.version }}/alertmanager-{{ pillar.prometheus.alertmanager.version }}.linux-amd64.tar.gz -o /home/{{ user }}/alertmanager-{{ pillar.prometheus.alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.alertmanager.version }}.tar.gz
     - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_alertmanager:
   cmd.run:
-    - name: tar xvzf alertmanager-{{ pillar.prometheus_alertmanager.version }}.tar.gz
-    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64/alertmanager
+    - name: tar xvzf alertmanager-{{ pillar.prometheus.alertmanager.version }}.tar.gz
+    - creates: /home/{{ user }}/alertmanager-{{ pillar.prometheus.alertmanager.version }}.linux-amd64/alertmanager
     - cwd: /home/{{ user }}/
     - require:
       - cmd: get_prometheus_alertmanager
@@ -29,7 +29,7 @@ extract_prometheus_alertmanager:
 
 /home/{{ user }}/conf-alertmanager.yml:
   file.managed:
-    - source: salt://prometheus/files/alertmanager/conf-alertmanager.yml
+    - source: salt://prometheus/alertmanager/files/conf-alertmanager.yml
     - template: jinja
     - context:
         user: {{ user }}
@@ -50,7 +50,7 @@ extract_prometheus_alertmanager:
 
 /etc/systemd/system/prometheus-alertmanager.service:
   file.managed:
-    - source: salt://prometheus/files/alertmanager/prometheus-alertmanager.service
+    - source: salt://prometheus/alertmanager/files/prometheus-alertmanager.service
     - template: jinja
     - context:
         user: {{ user }}
@@ -70,6 +70,6 @@ prometheus-alertmanager:
       - file: /etc/systemd/system/prometheus-alertmanager.service
 
 {{ apache('prometheus-alertmanager',
-    servername=pillar.prometheus_alertmanager.fqdn,
-    https=pillar.prometheus_alertmanager.https,
+    servername=pillar.prometheus.alertmanager.fqdn,
+    https=pillar.prometheus.alertmanager.https,
     extracontext='user: ' + user) }}

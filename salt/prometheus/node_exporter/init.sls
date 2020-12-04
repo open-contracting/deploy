@@ -13,15 +13,15 @@
 
 get_prometheus_client:
   cmd.run:
-    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus_node_exporter.version }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
+    - name: curl -L https://github.com/prometheus/node_exporter/releases/download/v{{ pillar.prometheus.node_exporter.version }}/node_exporter-{{ pillar.prometheus.node_exporter.version }}.linux-amd64.tar.gz -o /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter.version }}.tar.gz
     - require:
       - user: {{ user }}_user_exists
 
 extract_prometheus_client:
   cmd.run:
-    - name: tar xvzf node_exporter-{{ pillar.prometheus_node_exporter.version }}.tar.gz
-    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus_node_exporter.version }}.linux-amd64/node_exporter
+    - name: tar xvzf node_exporter-{{ pillar.prometheus.node_exporter.version }}.tar.gz
+    - creates: /home/{{ user }}/node_exporter-{{ pillar.prometheus.node_exporter.version }}.linux-amd64/node_exporter
     - cwd: /home/{{ user }}/
     - require:
       - cmd: get_prometheus_client
@@ -54,7 +54,7 @@ extract_prometheus_client:
 # https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md
 /home/{{ user }}/config.yaml:
   file.managed:
-    - source: salt://prometheus_node_exporter/files/config.yaml
+    - source: salt://prometheus/node_exporter/files/config.yaml
     - template: jinja
     - context:
         user: {{ user }}
@@ -68,7 +68,7 @@ extract_prometheus_client:
 
 /etc/systemd/system/prometheus-node-exporter.service:
   file.managed:
-    - source: salt://prometheus_node_exporter/files/prometheus-node-exporter.service
+    - source: salt://prometheus/node_exporter/files/prometheus-node-exporter.service
     - template: jinja
     - context:
         user: {{ user }}
@@ -91,7 +91,7 @@ prometheus-node-exporter:
 
 ## Smartmontools
 
-{% if salt['pillar.get']('prometheus_node_exporter:smartmon') %}
+{% if salt['pillar.get']('prometheus:node_exporter:smartmon') %}
 smartmontools:
   pkg.installed
 

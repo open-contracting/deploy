@@ -1,7 +1,8 @@
 # Values used on all servers. These may be overwritten.
 
-prometheus_node_exporter:
-  enabled: true
+prometheus:
+  node_exporter:
+    enabled: true
 
 maintenance:
   enabled: false

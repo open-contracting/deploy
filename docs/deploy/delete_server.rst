@@ -6,7 +6,7 @@ A server is deleted either when a service is moving to a new server (:doc:`creat
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
 #. If appropriate, notify relevant users of the change
-#. Remove the server from ``salt/prometheus/files/server/conf-prometheus.yml``
+#. Remove the server from ``salt/prometheus/server/files/conf-prometheus.yml``
 #. :doc:`Deploy<deploy>` the Prometheus service
 #. Shutdown the server via the :ref:`host<hosting>`'s interface
 #. Remove all occurrences of the server's FQDN and IP address from this repository

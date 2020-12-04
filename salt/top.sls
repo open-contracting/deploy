@@ -50,8 +50,8 @@ base:
     - toucan
 
   # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
-  'I@prometheus_node_exporter:enabled:true':
-    - prometheus_node_exporter
+  'I@prometheus:node_exporter:enabled:true':
+    - prometheus.node_exporter
 
   'I@maintenance:enabled:true':
     - maintenance.rkhunter
