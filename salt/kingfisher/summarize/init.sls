@@ -1,3 +1,6 @@
+include:
+  - kingfisher.process
+
 # This should be the same as process.sls, where the user is created.
 {% set user = 'ocdskfp' %}
 {% set userdir = '/home/' + user %}

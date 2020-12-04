@@ -25,21 +25,29 @@ docs modules:
 /var/www/html/robots.txt:
   file.managed:
     - source: salt://apache/files/docs/robots_disallow.txt
+    - require:
+      - pkg: apache2
 
-/home/{{ user }}/web/:
+/home/{{ user }}/web:
   file.directory:
     - user: {{ user }}
     - makedirs: True
+    - require:
+      - user: {{ user }}_user_exists
 
 /home/{{ user }}/web/robots.txt:
   file.managed:
     - source: salt://apache/files/docs/robots.txt
     - user: {{ user }}
+    - require:
+      - file: /home/{{ user }}/web
 
-/home/{{ user }}/web/includes/:
+/home/{{ user }}/web/includes:
   file.recurse:
     - source: salt://apache/files/docs/includes
     - user: {{ user }}
+    - require:
+      - file: /home/{{ user }}/web
 
 # These will be served the same as files that were copied into place.
 https://github.com/open-contracting/standard-legacy-staticsites.git:
@@ -52,7 +60,7 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
     - target: /home/{{ user }}/web/legacy/
     - require:
       - pkg: git
-      - user: {{ user }}_user_exists
+      - file: /home/{{ user }}/web
 
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
