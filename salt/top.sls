@@ -8,6 +8,7 @@ base:
     - core.fail2ban
     - core.firewall
     - core.locale
+    - core.logrotate
     - core.mail
     - core.motd
     - core.ntp

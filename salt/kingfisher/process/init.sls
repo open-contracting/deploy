@@ -26,6 +26,7 @@ kingfisher-process-prerequisites:
 
 {% set process_giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
 {% set process_dir = userdir + '/ocdskingfisherprocess' %}
+{% set summarize_dir = userdir + '/ocdskingfisherviews' %}
 
 {{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
@@ -110,20 +111,6 @@ kingfisher-process-prerequisites:
     - group: {{ user }}
     - require:
       - git: {{ process_giturl }}{{ process_dir }}
-
-####################
-# Logging
-####################
-
-/etc/rsyslog.d/90-kingfisher.conf:
-  file.managed:
-    - source: salt://kingfisher/process/files/rsyslog.conf
-    - watch_in:
-      - service: rsyslog
-
-/etc/logrotate.d/kingfisher.conf:
-  file.managed:
-    - source: salt://kingfisher/process/files/logrotate.conf
 
 ####################
 # PostgreSQL

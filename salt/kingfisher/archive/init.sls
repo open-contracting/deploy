@@ -64,17 +64,6 @@
     - group: {{ user }}
     - makedirs: True
 
-/etc/rsyslog.d/92-kingfisher-archive.conf:
-  file.managed:
-    - source: salt://kingfisher/archive/files/rsyslog.conf
-    - watch_in:
-      - service: rsyslog
-
-/etc/logrotate.d/archive:
-  file.managed:
-    - source: salt://kingfisher/archive/files/logrotate.conf
-    - makedirs: True
-
 #cd {{ archive_dir }}; . .ve/bin/activate; python manage.py archive:
 #  cron.present:
 #    - identifier: OCDS_KINGFISHER_ARCHIVE_RUN

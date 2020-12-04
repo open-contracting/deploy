@@ -32,6 +32,18 @@ ssh:
     # Rachel
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC8VRLRwHk2qjF/68XQcxabz6whVbkZQKG4mP5KUUnMPWdC1/xF8cgbWaQc34s/9yaoeV03bzbQJU7DCvOZwIWnUnLbPvlAuzsHVbzYPooYbvIGg2CK9LK6AuWli7bCgTJ31FxNbt0yRmF1dEsWLr2M2XiL/rRuF25kA+XyWsRKSmcuggUlY5H+kC1v8TcNOYJFw5SKy7pq6Wa5MrErbGzyWsm2Rq0NhYMQecvTdcN5d7/wsZUXOMwmMddsf1C3gtHCawIR7h8787g+AywC2ggEvR47Mv4Ed1je8Vc1En1tFpznmE93gZ154am/eDFkK3oRWQFPqyBZg0azk+570WiJnHPCe9qJ74c4bygH+B3bQ0XQKiEJOmEyK1lIW8ze/0DrknbBIRY14836eepbu7Xa/JVK+HOZk51tT4Zo2Zb0xRo5BwE3RfRwMAHNEA3/L3bDD4lpn3y379ryW5MstVU2yy4mZEep+RQOj0kRFjiYV5zzmOQbBUKeQt4FFjgXZQdVTQAqbXGB9CAnpJ69L78fgQwD0rSmJUsK+2kCPClAhtCQx50mXelhUJnIwsP/LyqtQAu73M9PhPpnrHRz1DNCobVO31rqLM0kag9GjNYAtizn1Jviozs03k0FK40vMU1pGSkiuCYl3hyv+GtU5wbSUjOoH8uD3MaJphZJzOUS/w==
 
+rsyslog:
+  conf:
+    90-kingfisher.conf: kingfisher-process.conf
+    91-kingfisher-views.conf: kingfisher-summarize.conf
+    92-kingfisher-archive.conf: kingfisher-archive.conf
+
+logrotate:
+  conf:
+    kingfisher.conf: kingfisher-process
+    kingfisher-views.conf: kingfisher-summarize
+    archive: kingfisher-archive
+
 postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True

@@ -72,20 +72,6 @@ include:
       - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 ####################
-# Logging
-####################
-
-/etc/rsyslog.d/91-kingfisher-views.conf:
-  file.managed:
-    - source: salt://kingfisher/summarize/files/rsyslog.conf
-    - watch_in:
-      - service: rsyslog
-
-/etc/logrotate.d/kingfisher-views.conf:
-  file.managed:
-    - source: salt://kingfisher/summarize/files/logrotate.conf
-
-####################
 # App installation
 ####################
 
