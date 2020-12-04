@@ -21,6 +21,5 @@ django:
     VALIDATION_ERROR_LOCATIONS_LENGTH: 100
 
 uwsgi:
-  larger_limits: True
-  limit_as: 6000 # 6 GB
+  limit-as: 6000 # 6 GB
   harakiri: 1800 # 30 min
