@@ -64,6 +64,7 @@ Function: service.running, ID: uwsgi
 
 States that always report changes:
 
+-  `cmd.run <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.cmd.html>`__, unless ``onchanges`` is specified
 -  `pip.installed <https://github.com/saltstack/salt/issues/24216>`__
 
 3. Manual cleanup
