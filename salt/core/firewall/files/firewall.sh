@@ -228,10 +228,10 @@ $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 8259 -m recent --
 $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 8260 -m recent --name KNOCK --remove -j DROP
 
 echo_verbose "Allow SSH connections from given IP addresses"
-for IP in $LOCAL_IPV4 $ADMIN_IPV4 $ALLOW_IPV4; do
+for IP in $LOCAL_IPV4 $ADMIN_IPV4; do
     $IPTABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
 done
-for IP in $LOCAL_IPV6 $ADMIN_IPV6 $ALLOW_IPV6; do
+for IP in $LOCAL_IPV6 $ADMIN_IPV6; do
     $IP6TABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
 done
 
