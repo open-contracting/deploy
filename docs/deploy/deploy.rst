@@ -16,6 +16,10 @@ To deploy a service, indicate the desired target and the ``state.apply`` functio
 
     ./run.py 'docs' state.apply
 
+To limit the output to changes and failures, add a ``--state-output=changes option``, for example:
+
+    ./run.py --state-output=changes option 'docs' state.apply
+
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 
 .. code-block:: bash
