@@ -8,10 +8,10 @@ User={{ user }}
 Group={{ user }}
 Type=simple
 ExecStart=/home/{{ user }}/alertmanager-{{ pillar.prometheus_alertmanager.version }}.linux-amd64/alertmanager \
-    --storage.path /home/{{ user }}/data \
+    --web.listen-address 127.0.0.1:9095 \
     --config.file /home/{{ user }}/conf-alertmanager.yml \
-    --web.external-url=https://{{ pillar.prometheus_alertmanager.fqdn }}/ \
-    --web.listen-address=127.0.0.1:9095
+    --storage.path /home/{{ user }}/data \
+    --web.external-url https://{{ pillar.prometheus_alertmanager.fqdn }}/
 
 [Install]
 WantedBy=multi-user.target
