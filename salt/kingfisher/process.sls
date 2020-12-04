@@ -23,12 +23,11 @@ kingfisher-process-prerequisites:
 
 {% set user = 'ocdskfp' %}
 {% set userdir = '/home/' + user %}
-{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 {% set process_giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
-{% set summarize_giturl = 'https://github.com/open-contracting/kingfisher-summarize.git' %}
 {% set process_dir = userdir + '/ocdskingfisherprocess' %}
-{% set summarize_dir = userdir + '/ocdskingfisherviews' %}
+
+{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 ####################
 # Git repositories
@@ -45,18 +44,7 @@ kingfisher-process-prerequisites:
     - target: {{ process_dir }}
     - require:
       - pkg: git
-
-{{ summarize_giturl }}{{ summarize_dir }}:
-  git.latest:
-    - name: {{ summarize_giturl }}
-    - user: {{ user }}
-    - force_fetch: True
-    - force_reset: True
-    - branch: master
-    - rev: master
-    - target: {{ summarize_dir }}
-    - require:
-      - pkg: git
+      - user: {{ user }}_user_exists
 
 ####################
 # Python packages
@@ -72,16 +60,6 @@ kingfisher-process-prerequisites:
     - require:
       - git: {{ process_giturl }}{{ process_dir }}
 
-{{ summarize_dir }}/.ve/:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
-    - require:
-      - git: {{ summarize_giturl }}{{ summarize_dir }}
-
 {{ process_dir }}-requirements:
   cmd.run:
     - name: . .ve/bin/activate; pip-sync -q
@@ -91,16 +69,6 @@ kingfisher-process-prerequisites:
       - virtualenv: {{ process_dir }}/.ve/
     - onchanges:
       - git: {{ process_giturl }}{{ process_dir }}
-
-{{ summarize_dir }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q
-    - runas: {{ user }}
-    - cwd: {{ summarize_dir }}
-    - require:
-      - virtualenv: {{ summarize_dir }}/.ve/
-    - onchanges:
-      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 ####################
 # Configuration
@@ -113,6 +81,8 @@ kingfisher-process-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
     - mode: 400
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ userdir }}/.config/ocdskingfisher-process/config.ini:
   file.managed:
@@ -121,6 +91,8 @@ kingfisher-process-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ userdir }}/.config/ocdskingfisher-process/logging.json:
   file.managed:
@@ -128,13 +100,8 @@ kingfisher-process-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True
-
-{{ userdir }}/.config/kingfisher-summarize/logging.json:
-  file.managed:
-    - source: salt://kingfisher/files/summarize/logging.json
-    - user: {{ user }}
-    - group: {{ user }}
-    - makedirs: True
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ process_dir }}/wsgi.py:
   file.managed:
@@ -143,15 +110,6 @@ kingfisher-process-prerequisites:
     - group: {{ user }}
     - require:
       - git: {{ process_giturl }}{{ process_dir }}
-
-{{ summarize_dir }}/.env:
-  file.managed:
-    - source: salt://kingfisher/files/summarize/.env
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 400
-    - require:
-      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 ####################
 # Logging
@@ -163,19 +121,9 @@ kingfisher-process-prerequisites:
     - watch_in:
       - service: rsyslog
 
-/etc/rsyslog.d/91-kingfisher-views.conf:
-  file.managed:
-    - source: salt://kingfisher/files/summarize/rsyslog.conf
-    - watch_in:
-      - service: rsyslog
-
 /etc/logrotate.d/kingfisher.conf:
   file.managed:
     - source: salt://kingfisher/files/process/logrotate.conf
-
-/etc/logrotate.d/kingfisher-views.conf:
-  file.managed:
-    - source: salt://kingfisher/files/summarize/logrotate.conf
 
 ####################
 # PostgreSQL
@@ -228,19 +176,6 @@ tablefunc:
       - postgres_database: db_ocdskingfisherprocess
     - onchanges:
       - git: {{ process_giturl }}{{ process_dir }}
-
-{{ summarize_dir }}-install:
-  cmd.run:
-    - name: . .ve/bin/activate; ./manage.py install
-    - runas: {{ user }}
-    - cwd: {{ summarize_dir }}
-    - require:
-      - cmd: {{ summarize_dir }}-requirements
-      - file: {{ userdir }}/.pgpass
-      - file: {{ summarize_dir }}/.env
-      - postgres_database: db_ocdskingfisherprocess
-    - onchanges:
-      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:

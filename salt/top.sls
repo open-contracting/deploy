@@ -33,6 +33,7 @@ base:
     - kingfisher
     - kingfisher.collect
     - kingfisher.process
+    - kingfisher.summarize
     - kingfisher.analyse
     - kingfisher.archive
 
