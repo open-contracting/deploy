@@ -5,6 +5,16 @@ include:
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
   - uwsgi
+  - python_apps
+
+{% set entry = pillar.python_apps.kingfisher_process %}
+{% set userdir = '/home/' + entry.user %}
+{% set directory = userdir + '/' + entry.git.target %}
+
+{% set summarize = pillar.python_apps.kingfisher_summarize %}
+{% set summarize_directory = '/home/' + summarize.user + '/' + summarize.git.target %}
+
+{{ createuser(entry.user, authorized_keys=pillar.ssh.kingfisher) }}
 
 kingfisher-process-prerequisites:
   pkg.installed:
@@ -21,56 +31,6 @@ kingfisher-process-prerequisites:
       - libpq-dev
       - libyajl-dev # OCDS Kit performance
 
-{% set user = 'ocdskfp' %}
-{% set userdir = '/home/' + user %}
-
-{% set process_giturl = 'https://github.com/open-contracting/kingfisher-process.git' %}
-{% set process_dir = userdir + '/ocdskingfisherprocess' %}
-{% set summarize_dir = userdir + '/ocdskingfisherviews' %}
-
-{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
-
-####################
-# Git repositories
-####################
-
-{{ process_giturl }}{{ process_dir }}:
-  git.latest:
-    - name: {{ process_giturl }}
-    - user: {{ user }}
-    - force_fetch: True
-    - force_reset: True
-    - branch: master
-    - rev: master
-    - target: {{ process_dir }}
-    - require:
-      - pkg: git
-      - user: {{ user }}_user_exists
-
-####################
-# Python packages
-####################
-
-{{ process_dir }}/.ve/:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
-    - require:
-      - git: {{ process_giturl }}{{ process_dir }}
-
-{{ process_dir }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q
-    - runas: {{ user }}
-    - cwd: {{ process_dir }}
-    - require:
-      - virtualenv: {{ process_dir }}/.ve/
-    - onchanges:
-      - git: {{ process_giturl }}{{ process_dir }}
-
 ####################
 # Configuration
 ####################
@@ -79,38 +39,19 @@ kingfisher-process-prerequisites:
   file.managed:
     - source: salt://postgres/files/kingfisher-process.pgpass
     - template: jinja
-    - user: {{ user }}
-    - group: {{ user }}
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
     - mode: 400
     - require:
-      - user: {{ user }}_user_exists
+      - user: {{ entry.user }}_user_exists
 
-{{ userdir }}/.config/ocdskingfisher-process/config.ini:
-  file.managed:
-    - source: salt://kingfisher/process/files/config.ini
-    - template: jinja
-    - user: {{ user }}
-    - group: {{ user }}
-    - makedirs: True
-    - require:
-      - user: {{ user }}_user_exists
-
-{{ userdir }}/.config/ocdskingfisher-process/logging.json:
-  file.managed:
-    - source: salt://kingfisher/process/files/logging.json
-    - user: {{ user }}
-    - group: {{ user }}
-    - makedirs: True
-    - require:
-      - user: {{ user }}_user_exists
-
-{{ process_dir }}/wsgi.py:
+{{ directory }}/wsgi.py:
   file.managed:
     - source: salt://kingfisher/process/files/wsgi.py
-    - user: {{ user }}
-    - group: {{ user }}
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
     - require:
-      - git: {{ process_giturl }}{{ process_dir }}
+      - git: {{ pillar.python_apps.kingfisher_process.git.url }}
 
 ####################
 # PostgreSQL
@@ -151,18 +92,18 @@ tablefunc:
 # App installation
 ####################
 
-{{ process_dir }}-install:
+{{ directory }}-install:
   cmd.run:
     - name: . .ve/bin/activate; python ocdskingfisher-process-cli upgrade-database
-    - runas: {{ user }}
-    - cwd: {{ process_dir }}
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
     - require:
-      - cmd: {{ process_dir }}-requirements
+      - cmd: {{ directory }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
       - postgres_database: db_ocdskingfisherprocess
     - onchanges:
-      - git: {{ process_giturl }}{{ process_dir }}
+      - git: {{ pillar.python_apps.kingfisher_process.git.url }}
 
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:
@@ -177,8 +118,8 @@ kfp_postgres_readonlyuser_setup_as_postgres:
           ocdskingfisherprocess
     - runas: postgres
     - require:
-      - cmd: {{ process_dir }}-install
-      - cmd: {{ summarize_dir }}-install
+      - cmd: {{ directory }}-install
+      - cmd: {{ summarize_directory }}-install
       - postgres_user: user_ocdskfpreadonly
 
 {{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
@@ -190,39 +131,39 @@ kfp_postgres_readonlyuser_setup_as_postgres:
 ####################
 
 # This is to have eight workers at once.
-cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
+cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - minute: 0,5,15,20,30,35,45,50
 
-cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
+cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE_COLLECTION_STORE_FINISHED
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - minute: 0
 
 # This process is a backup; this work should be done by workers on the Redis que.
 # So run it once per night. It also takes a while to check all processes, so run for 8 hours.
-cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet check-collections --runforseconds 28800:
+cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet check-collections --runforseconds 28800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_CHECK_COLLECTIONS
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - minute: 0
     - hour: 1
 
 # It takes just under 2 hours to do a full run at the moment, so run for 3 hours.
-cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
+cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_TRANSFORM_COLLECTIONS
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - hour: 0,3,6,9,12,15,18,21
     - minute: 30
 
-cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
+cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_DELETE_COLLECTIONS
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - minute: 0
     - hour: 2
     - dayweek: 5
@@ -234,7 +175,7 @@ cd {{ process_dir }}; . .ve/bin/activate; python ocdskingfisher-process-cli --qu
 kingfisher-process-pipinstall:
   pip.installed:
     - upgrade: True
-    - user: {{ user }}
+    - user: {{ entry.user }}
     - requirements: salt://kingfisher/files/pipinstall.txt
     - bin_env: /usr/bin/pip3
 

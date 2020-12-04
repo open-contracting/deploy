@@ -13,7 +13,7 @@ kingfisher-collect-prerequisites:
 {% set userdir = '/home/' + user %}
 {{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
-{% set scrapyd_dir = userdir + '/scrapyd/' %}
+{% set scrapyd_dir = userdir + '/scrapyd' %}
 
 {{ scrapyd_dir }}:
   file.directory:
@@ -21,11 +21,11 @@ kingfisher-collect-prerequisites:
     - user: {{ user }}
     - group: {{ user }}
 
-{{ scrapyd_dir }}requirements.txt-expire:
+{{ scrapyd_dir }}/requirements.txt-expire:
   file.not_cached:
     - name: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
 
-{{ scrapyd_dir }}requirements.txt:
+{{ scrapyd_dir }}/requirements.txt:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
     - skip_verify: True
@@ -35,7 +35,7 @@ kingfisher-collect-prerequisites:
     - require:
       - file: {{ scrapyd_dir }}
 
-{{ scrapyd_dir }}.ve/:
+{{ scrapyd_dir }}/.ve/:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -52,23 +52,23 @@ kingfisher-collect-prerequisites:
     - runas: {{ user }}
     - cwd: {{ scrapyd_dir }}
     - require:
-      - virtualenv: {{ scrapyd_dir }}.ve/
+      - virtualenv: {{ scrapyd_dir }}/.ve/
     - onchanges:
-      - file: {{ scrapyd_dir }}requirements.txt
+      - file: {{ scrapyd_dir }}/requirements.txt
 
-{{ scrapyd_dir }}dbs:
+{{ scrapyd_dir }}/dbs:
   file.directory:
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
 
-{{ scrapyd_dir }}eggs:
+{{ scrapyd_dir }}/eggs:
   file.directory:
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
 
-{{ scrapyd_dir }}logs:
+{{ scrapyd_dir }}/logs:
   file.directory:
     - makedirs: True
     - user: {{ user }}

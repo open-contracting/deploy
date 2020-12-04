@@ -44,6 +44,33 @@ logrotate:
     kingfisher-views.conf: kingfisher-summarize
     archive: kingfisher-archive
 
+python_apps:
+  kingfisher_process:
+    user: ocdskfp
+    git:
+      url: https://github.com/open-contracting/kingfisher-process.git
+      branch: master
+      target: ocdskingfisherprocess
+    config:
+      ocdskingfisher-process/logging.json: salt://kingfisher/process/files/logging.json
+      ocdskingfisher-process/config.ini: salt://kingfisher/process/files/config.ini
+  kingfisher_summarize:
+    user: ocdskfp
+    git:
+      url: https://github.com/open-contracting/kingfisher-summarize.git
+      branch: master
+      target: ocdskingfisherviews
+    config:
+      kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
+  kingfisher_archive:
+    user: ocdskfs
+    git:
+      url: https://github.com/open-contracting/kingfisher-archive.git
+      branch: master
+      target: ocdskingfisherarchive
+    config:
+      ocdskingfisher-archive/logging.json: salt://kingfisher/archive/files/logging.json
+
 postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True
