@@ -53,6 +53,7 @@ kingfisher-collect-prerequisites:
     - cwd: {{ scrapyd_dir }}
     - require:
       - virtualenv: {{ scrapyd_dir }}.ve/
+    - onchanges:
       - file: {{ scrapyd_dir }}requirements.txt
 
 {{ scrapyd_dir }}dbs:

@@ -62,6 +62,10 @@ Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python m
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 
+States that always report changes:
+
+-  `pip.installed <https://github.com/saltstack/salt/issues/24216>`__
+
 3. Manual cleanup
 -----------------
 

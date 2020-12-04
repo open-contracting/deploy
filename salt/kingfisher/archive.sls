@@ -37,6 +37,8 @@
     - cwd: {{ archive_dir }}
     - require:
       - virtualenv: {{ archive_dir }}/.ve/
+    - onchanges:
+      - git: {{ archive_giturl }}{{ archive_dir }}
 
 {{ archive_dir }}/.env:
   file.managed:

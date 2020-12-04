@@ -89,6 +89,8 @@ kingfisher-process-prerequisites:
     - cwd: {{ process_dir }}
     - require:
       - virtualenv: {{ process_dir }}/.ve/
+    - onchanges:
+      - git: {{ process_giturl }}{{ process_dir }}
 
 {{ summarize_dir }}-requirements:
   cmd.run:
@@ -97,6 +99,8 @@ kingfisher-process-prerequisites:
     - cwd: {{ summarize_dir }}
     - require:
       - virtualenv: {{ summarize_dir }}/.ve/
+    - onchanges:
+      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 ####################
 # Configuration
@@ -222,6 +226,8 @@ tablefunc:
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
       - postgres_database: db_ocdskingfisherprocess
+    - onchanges:
+      - git: {{ process_giturl }}{{ process_dir }}
 
 {{ summarize_dir }}-install:
   cmd.run:
@@ -233,6 +239,8 @@ tablefunc:
       - file: {{ userdir }}/.pgpass
       - file: {{ summarize_dir }}/.env
       - postgres_database: db_ocdskingfisherprocess
+    - onchanges:
+      - git: {{ summarize_giturl }}{{ summarize_dir }}
 
 correctuserpermissions-{{ summarize_dir }}:
   cmd.run:
