@@ -242,14 +242,6 @@ tablefunc:
     - onchanges:
       - git: {{ summarize_giturl }}{{ summarize_dir }}
 
-correctuserpermissions-{{ summarize_dir }}:
-  cmd.run:
-    - name: . .ve/bin/activate; ./manage.py correct-user-permissions
-    - runas: {{ user }}
-    - cwd: {{ summarize_dir }}
-    - require:
-      - cmd: {{ summarize_dir }}-install
-
 kfp_postgres_readonlyuser_setup_as_postgres:
   cmd.run:
     - name: >
