@@ -43,13 +43,15 @@ django-deps:
 {{ pillar.git.url }}{{ djangodir }}:
   git.latest:
     - name: {{ pillar.git.url }}
-    - rev: {{ pillar.git.branch }}
-    - target: {{ djangodir }}
     - user: {{ pillar.user }}
     - force_fetch: True
     - force_reset: True
+    - branch: {{ pillar.git.branch }}
+    - rev: {{ pillar.git.branch }}
+    - target: {{ djangodir }}
     - require:
       - pkg: git
+      - user: {{ pillar.user }}_user_exists
 
 # We have seen different permissions on different servers, and we have seen bugs arise as a result.
 # (This won't ensure permissions are correct on new files, but it will fix any existing problems.)

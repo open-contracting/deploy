@@ -31,24 +31,28 @@ docs modules:
     - user: {{ user }}
     - makedirs: True
 
-/home/ocds-docs/web/robots.txt:
+/home/{{ user }}/web/robots.txt:
   file.managed:
     - source: salt://apache/files/docs/robots.txt
-    - user: ocds-docs
+    - user: {{ user }}
 
-/home/ocds-docs/web/includes/:
+/home/{{ user }}/web/includes/:
   file.recurse:
     - source: salt://apache/files/docs/includes
-    - user: ocds-docs
+    - user: {{ user }}
 
 # These will be served the same as files that were copied into place.
 https://github.com/open-contracting/standard-legacy-staticsites.git:
   git.latest:
-    - rev: master
-    - target: /home/ocds-docs/web/legacy/
-    - user: ocds-docs
+    - user: {{ user }}
     - force_fetch: True
     - force_reset: True
+    - branch: master
+    - rev: master
+    - target: /home/{{ user }}/web/legacy/
+    - require:
+      - pkg: git
+      - user: {{ user }}_user_exists
 
 # For information on the testing virtual host, see:
 # https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
@@ -73,12 +77,14 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
 
 https://github.com/open-contracting/opendatacomparison-archive.git:
   git.latest:
+    - user: {{ legacy }}
+    - force_fetch: True
+    - force_reset: True
+    - branch: live
     - rev: live
     - target: /home/{{ legacy }}/opendatacomparison-archive/
-    - user: {{ legacy }}
     - require:
       - pkg: git
-    - watch_in:
-      - service: apache2
+      - user: {{ legacy }}_user_exists
 
 {{ apache('docs-legacy', name='ocds-legacy', servername='ocds.open-contracting.org') }}
