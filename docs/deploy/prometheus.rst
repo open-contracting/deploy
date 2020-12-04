@@ -23,6 +23,15 @@ If the ``prometheus_node_exporter`` state file applies to the target, then `Node
 
 #. Check that the job is "UP" on Prometheus' `Targets <https://monitor.prometheus.open-contracting.org/targets>`__ page.
 
+.. note::
+
+   To test the Node Exporter endpoint from the Prometheus server, replace ``SUBDOMAIN`` with the target's subdomain, and ``PASSWORD`` with the URL-encoded value of the ``prometheus_node_exporter.password`` variable in the ``pillar/private/prometheus_client.sls`` file:
+
+   .. code-block:: bash
+
+      cd ~prometheus-client
+      curl -v --cacert node_exporter.pem https://prom:PASSWORD@SUBDOMAIN.open-contracting.org:7231/metrics
+
 Upgrade Prometheus
 ------------------
 
