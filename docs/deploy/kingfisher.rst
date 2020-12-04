@@ -21,7 +21,7 @@ Deploy Kingfisher Process without losing Scrapy requests
 
    If :ref:`spiders are running<check-if-kingfisher-is-busy>`, use this process. Otherwise, :doc:`deploy as usual<deploy>`.
 
-This should match ``salt/kingfisher/process.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/kingfisher/process.sls`` to see if there have been any relevant changes, and update this page accordingly.
+This should match ``salt/kingfisher/process/init.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/kingfisher/process/init.sls`` to see if there have been any relevant changes, and update this page accordingly.
 
 This assumes that there have been no changes to ``requirements.txt``. If you are adding an index, altering a column, updating many rows, or performing another operation that locks tables or rows for longer than uWSGI's ``harakiri`` setting, this might interfere with an ongoing collection (until queues are fully implemented).
 
