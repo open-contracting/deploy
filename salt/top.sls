@@ -20,6 +20,9 @@ base:
   'cove-*':
     - cove
 
+  'cove-oc4ids':
+    - memcached
+
   'covid19-dev':
     - covid19
 
