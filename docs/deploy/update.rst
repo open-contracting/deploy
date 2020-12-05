@@ -1,6 +1,46 @@
 Update server configurations
 ============================
 
+Avoid Pillar gotchas
+--------------------
+
+-  If unquoted, ``yes``, ``no``, ``true`` and ``false`` are parsed as booleans. Use quotes to parse as strings.
+-  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
+-  Below, if ``a`` is equal to an empty string, then ``b`` will be ``None``:
+
+   .. code-block:: jinja
+
+      {% set extracontext %}
+      b: {{ a }}
+      {% endset %}
+
+   Instead, surround it in quotes:
+
+   .. code-block:: jinja
+
+      {% set extracontext %}
+      b: "{{ a }}"
+      {% endset %}
+
+Review packages
+---------------
+
+If you don't know whether a package is still required, you can connect to the server and:
+
+-  Show what files the package installs:
+
+   .. code-block:: bash
+
+      dpkg -L PACKAGE
+
+-  Show what packages the package depends on:
+
+   .. code-block:: bash
+
+      apt show PACKAGE
+
+For example, the above commands show that ``redis`` is a metapackage (installing only documentation) that depends on ``redis-server``, and that ``python3-virtualenv`` provides library files whereas ``virtualenv`` provides a binary file.
+
 .. _change-server-name:
 
 Change server name
@@ -30,8 +70,6 @@ Remove content
 --------------
 
 If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
-
-.. _delete-authorized-key:
 
 Delete a file
 ~~~~~~~~~~~~~
@@ -220,3 +258,10 @@ If the state fails with "User ocdskfpguest failed to be removed":
       REASSIGN OWNED BY ocdskfpguest TO anotheruser;
       DROP OWNED BY ocdskfpguest;
       DROP ROLE ocdskfpguest;
+
+Check history
+-------------
+
+If you don't understand why a configuration exists, it's useful to check its history.
+
+The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the switchover (August 5, 2019). That repository was itself re-organized at different times. You can browse `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__ (June 5, 2019).

@@ -3,7 +3,12 @@ Make changes
 
 Most changes are deployed when :doc:`deploying a service<../deploy/deploy>`. However, some changes require :doc:`additional steps<../deploy/update>`.
 
-1. Test changes
+1. Read documentation
+---------------------
+
+The :doc:`../deploy/index` describe common operations like configuring Python applications or PostgreSQL databases.
+
+2. Test changes
 ---------------
 
 To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
@@ -67,7 +72,7 @@ Using a virtual machine
 
 Note that Python errors that occur on the virtual machine might still be reported to Sentry. The ``server_name`` tag in any error reports is expected to be different, but the error reports might still confuse other developers who don't know to check that tag.
 
-2. Review code
+3. Review code
 --------------
 
 For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.

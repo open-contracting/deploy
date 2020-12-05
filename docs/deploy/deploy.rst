@@ -1,11 +1,7 @@
 Deploy a service
 ================
 
-As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
-
-.. note::
-
-   If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
+As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below. If you run into trouble, read the :doc:`troubleshoot` guide.
 
 1. Run Salt function
 --------------------
@@ -27,6 +23,10 @@ If the output has an error of ``Unable to detect Python-2 version``, you don't h
     pyenv shell system
 
 The ``state.apply`` function often completes within one minute. You can ignore this warning: ``DeprecationWarning: encoding is deprecated, Use raw=False instead``.
+
+.. note::
+
+   If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
 
 2. Check Salt output
 --------------------
