@@ -13,6 +13,8 @@ kingfisher-analyse-prerequisites:
 {{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 kingfisher-analyse-pipinstall:
+  pkg.installed:
+    - name: python3-pip
   pip.installed:
     - upgrade: True
     - user: {{ user }}
