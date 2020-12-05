@@ -36,13 +36,14 @@ kingfisher-collect-prerequisites:
       - file: {{ scrapyd_dir }}
 
 {{ scrapyd_dir }}/.ve/:
+  pkg.installed:
+    - name: python3-virtualenv
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
     - system_site_packages: False
-    - cwd: {{ scrapyd_dir }}
     - pip_pkgs:
-        - pip-tools
+      - pip-tools
     - require:
       - file: {{ scrapyd_dir }}
 
@@ -55,6 +56,8 @@ kingfisher-collect-prerequisites:
       - virtualenv: {{ scrapyd_dir }}/.ve/
     - onchanges:
       - file: {{ scrapyd_dir }}/requirements.txt
+    - watch_in:
+      - service: supervisor
 
 {{ scrapyd_dir }}/dbs:
   file.directory:
@@ -80,6 +83,8 @@ kingfisher-collect-prerequisites:
     - template: jinja
     - context:
         scrapyd_dir: {{ scrapyd_dir }}
+    - watch_in:
+      - service: supervisor
 
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
