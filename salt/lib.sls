@@ -65,7 +65,6 @@ unset {{ setting_name }} firewall setting:
     - source: salt://apache/files/{{ conffile }}.conf.include
     - template: jinja
     - context:
-        https: "{{ https }}"
         {{ extracontext|indent(8) }}
     - makedirs: True
     - watch_in:
@@ -81,7 +80,6 @@ unset {{ setting_name }} firewall setting:
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         ports: {{ ports|yaml }}
-        {{ extracontext|indent(8) }}
     - makedirs: True
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
@@ -119,35 +117,5 @@ unset {{ setting_name }} firewall setting:
       - file: /etc/apache2/sites-available/{{ name }}.conf
     - watch_in:
       - service: apache2
-
-{% endmacro %}
-
-
-{% macro uwsgi(service, name='', port='', appdir='') %}
-# Service indicates which config file to use from salt/uwsgi/files.
-
-{% if name == '' %}
-    {% set name = service %}
-{% endif %}
-
-/etc/uwsgi/apps-available/{{ name }}.ini:
-  file.managed:
-    - source: salt://uwsgi/files/{{ service }}.ini
-    - template: jinja
-    - context:
-        port: {{ port }}
-        appdir: {{ appdir }}
-    - makedirs: True
-    - watch_in:
-      - service: uwsgi
-
-/etc/uwsgi/apps-enabled/{{ name }}.ini:
-  file.symlink:
-    - target: /etc/uwsgi/apps-available/{{ name }}.ini
-    - makedirs: True
-    - require:
-      - file: /etc/uwsgi/apps-available/{{ name }}.ini
-    - watch_in:
-      - service: uwsgi
 
 {% endmacro %}

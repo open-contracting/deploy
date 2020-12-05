@@ -1,17 +1,18 @@
 # vi: ft=apache
 
-{% include 'apache/includes/' + pillar.name + '.jinja' ignore missing %}
+{% include 'apache/includes/' + name + '.jinja' ignore missing %}
+{% set assets_base_url = entry.apache.get('assets_base_url', '') %}
 
-DocumentRoot {{ djangodir }}
+DocumentRoot {{ appdir }}
 
 <Location "/">
     # See https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
-    ProxyPass unix:/run/uwsgi/app/{{ pillar.name }}/socket|uwsgi://{{ pillar.name }}/ timeout={{ salt['pillar.get']('uwsgi:harakiri', 900) }}
+    ProxyPass unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
 </Location>
 
 # Static content needed by Django
-Alias {{ pillar.apache.assets_base_url }}/static "{{ djangodir }}static/"
-<Location "{{ pillar.apache.assets_base_url }}/static">
+Alias {{ assets_base_url }}/static "{{ appdir }}/static/"
+<Location "{{ assets_base_url }}/static">
     ProxyPass !
     Order allow,deny
     Allow from all
@@ -19,8 +20,8 @@ Alias {{ pillar.apache.assets_base_url }}/static "{{ djangodir }}static/"
 </Location>
 
 # Static content uploaded by users
-Alias {{ pillar.apache.assets_base_url }}/media "{{ djangodir }}media/"
-<Location "{{ pillar.apache.assets_base_url }}/media">
+Alias {{ assets_base_url }}/media "{{ appdir }}/media/"
+<Location "{{ assets_base_url }}/media">
     ProxyPass !
     Order allow,deny
     Allow from all
@@ -32,6 +33,6 @@ Alias {{ pillar.apache.assets_base_url }}/media "{{ djangodir }}media/"
     AddType "application/json; charset=utf-8" .json
 </Location>
 
-<Directory {{ djangodir }}>
+<Directory {{ appdir }}>
     Require all granted
 </Directory>

@@ -1,5 +1,22 @@
-user: ocdskit-web
-name: ocdskit-web
+python_apps:
+  toucan:
+    user: ocdskit-web
+    git:
+      url: https://github.com/open-contracting/toucan.git
+      branch: master
+      target: ocdskit-web
+    django:
+      app: ocdstoucan
+      compilemessages: True
+      env:
+        ALLOWED_HOSTS: toucan.open-contracting.org
+        GOOGLE_ANALYTICS_ID: UA-35677147-3
+    apache:
+      configuration: django
+      https: force
+      servername: toucan.open-contracting.org
+    uwsgi:
+      configuration: django
 
 ssh:
   root:
@@ -11,21 +28,3 @@ ssh:
     # Yohanna
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCxyj7m8nAvk0mwZgccYHg7FvINEvLu7l2N8ICgyj/Cf/fRfTftuKMHJBTmp/YDa+alFBSfv8abTxPBY/Y12F2ESmQSIjOBO+EVMxrBmVVlXHRJJ6bb53/sWK6VLhtp9pWz7uoK8QPzgZMq2Vkgh5d0LEWYW+6mOePjfTnfMCd3vaJC2uOoenGQ3+Oomk5KKt9Jsh+sJGYj/PkgBICra9B6sWrnY5qfHvvk190ig3r/m2taalxEGQ6QviIRS0Xd8LK7VNEX9fI+1PUIj2n0EUf3ub6XhA/sDausSW+bX+htIDmoy6zdm9ws/GWWdVLu0IZ4cv7iwrL7amSE7Ucn9PnN/g0xKAbFLL66kuF1iAca3MfZzcnEvkpMaVwtJFqUA0kpbmfuQDhbqmdUhs5Dq8724XDwHrfgmvVrtohu2/oXyUoU0QMittYogB6pOTRlgCanrDlgXPyAp5MKPMBVk2ejeunyMBangfnLBwIATdF6Upt5bWrONbC4TS6NKUG/+8+6LSbeybnctAtvqiztPbwuxUfYAsEKoY0i3TUoJstNhQfZcPDaKaLftlkltSnXJCTk4cbHvDQ5H5WL/WTTpnEXvKtcs/SlBsYs6uDPKpD0iXF79+aSWK8lJFybmzChDo2zIZI01EN5LSzCdD4PGIwf+ygSZBnKw8UJkFck/gjwMQ==
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG8dhMVvgH/tt9+VoyokyUg/iKVcZKMku8pYN6o8RoT8XKoyP/iyrUIl5HxolqIt+PJTpomYkA40eJ/0mN4/kRhr+tctZ+tUdo8/G8H42FG3McklL6XlwOdXRGIYC+NynF8YGws57J8YkM2oL9linkUZYpGpVkNew2aEg916HWWfGZktwuQa7knIwIhFr9FlvxxaZhdcQ7VJjnJOP0fLLr5WCVaiWDGjQ5cHJURcTBL+j+eTRpKFvk9BMKCAQyLkSEluT0QeESDMtR7sRHA54to1LDXRX0ky9cAQ6mxXWgpSpmHCuPVYpzOfoSd7b8aczDLUGBxq9EWOTS3UMUWJBX
-
-apache:
-  https: force
-  servername: toucan.open-contracting.org
-
-git:
-  url: https://github.com/open-contracting/toucan.git
-
-django:
-  app: ocdstoucan
-  env:
-    ALLOWED_HOSTS: toucan.open-contracting.org
-    GOOGLE_ANALYTICS_ID: UA-35677147-3
-
-uwsgi:
-  limit-as: 1536
-  max-requests: 1024
-  reload-on-as: 250

@@ -1,10 +1,6 @@
-{% from 'lib.sls' import apache, createuser, uwsgi %}
+{% from 'lib.sls' import createuser %}
 
 include:
-  - apache.public
-  - apache.modules.proxy_http
-  - apache.modules.proxy_uwsgi
-  - uwsgi
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_process %}
@@ -19,12 +15,6 @@ include:
 kingfisher-process-prerequisites:
   pkg.installed:
     - pkgs:
-      - python-pip
-      - python3-pip
-      - python3-virtualenv
-      - uwsgi-plugin-python3
-      - virtualenv
-      - tmux
       - sqlite3
       - strace
       - redis
@@ -122,10 +112,6 @@ kfp_postgres_readonlyuser_setup_as_postgres:
       - cmd: {{ summarize_directory }}-install
       - postgres_user: user_ocdskfpreadonly
 
-{{ apache('kingfisher-process', name='ocdskingfisherprocess', servername='process.kingfisher.open-contracting.org') }}
-
-{{ uwsgi('kingfisher-process', name='ocdskingfisherprocess', port=5001) }}
-
 ####################
 # Cron jobs
 ####################
@@ -173,6 +159,8 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
 ####################
 
 kingfisher-process-pipinstall:
+  pkg.installed:
+    - name: python3-pip
   pip.installed:
     - upgrade: True
     - user: {{ entry.user }}

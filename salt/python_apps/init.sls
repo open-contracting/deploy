@@ -1,8 +1,23 @@
-{% if salt['pillar.get']('python_apps') %}
-{% for entry in pillar.python_apps.values() %}
+{% from 'lib.sls' import apache, createuser %}
 
+# So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
+# add boolean key to the Pillar data to indicate whether to include these.
+include:
+  - uwsgi
+  - apache.public
+  - apache.modules.proxy_http
+  - apache.modules.proxy_uwsgi
+
+{% for name, entry in pillar.python_apps.items() %}
+
+# A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
+{% set extracontext %}
+name: {{ name }}
+entry: {{ entry|yaml }}
+appdir: {{ directory }}
+{% endset %}
 
 {{ entry.git.url }}:
   git.latest:
@@ -18,6 +33,8 @@
       - user: {{ entry.user }}_user_exists
 
 {{ directory }}/.ve/:
+  pkg.installed:
+    - name: python3-virtualenv
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ entry.user }}
@@ -29,17 +46,21 @@
 
 {{ directory }}-requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q
+    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
     - runas: {{ entry.user }}
     - cwd: {{ directory }}
     - require:
       - virtualenv: {{ directory }}/.ve/
+    # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
     - onchanges:
       - git: {{ entry.git.url }}
+    # https://github.com/open-contracting/deploy/issues/146
+    - watch_in:
+      - service: uwsgi
 
-{% if entry.get('config') %}
-{% for name, source in entry.config.items() %}
-{{ userdir }}/.config/{{ name }}:
+{% if 'config' in entry %}
+{% for filename, source in entry.config.items() %}
+{{ userdir }}/.config/{{ filename }}:
   file.managed:
     - source: {{ source }}
     - template: jinja
@@ -49,7 +70,72 @@
     - require:
       - user: {{ entry.user }}_user_exists
 {% endfor %}
+{% endif %}{# config #}
+
+{% if 'django' in entry %}
+{{ directory }}-migrate:
+  cmd.run:
+    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py migrate --noinput
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+    - require:
+      - cmd: {{ directory }}-requirements
+    - onchanges:
+      - git: {{ entry.git.url }}
+
+{{ directory }}-collectstatic:
+  cmd.run:
+    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py collectstatic --noinput
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+    - require:
+      - cmd: {{ directory }}-requirements
+    - onchanges:
+      - git: {{ entry.git.url }}
+
+{% if 'compilemessages' in entry.django %}
+{{ directory }}-compilemessages:
+  pkg.installed:
+    - name: gettext
+  cmd.run:
+    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py compilemessages
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+    - require:
+      - cmd: {{ directory }}-requirements
+    - onchanges:
+      - git: {{ entry.git.url }}
 {% endif %}
+{% endif %}{# django #}
+
+{% if 'uwsgi' in entry %}
+/etc/uwsgi/apps-available/{{ entry.git.target }}.ini:
+  file.managed:
+    - source: salt://uwsgi/files/{{ entry.uwsgi.configuration }}.ini
+    - template: jinja
+    - context:
+        {{ extracontext|indent(8) }}
+    - makedirs: True
+    - watch_in:
+      - service: uwsgi
+
+/etc/uwsgi/apps-enabled/{{ entry.git.target }}.ini:
+  file.symlink:
+    - target: /etc/uwsgi/apps-available/{{ entry.git.target }}.ini
+    - makedirs: True
+    - require:
+      - file: /etc/uwsgi/apps-available/{{ entry.git.target }}.ini
+    - watch_in:
+      - service: uwsgi
+{% endif %}{# uwsgi #}
+
+{% if 'apache' in entry %}
+{{ apache(entry.apache.configuration,
+    name=entry.git.target,
+    servername=entry.apache.servername,
+    serveraliases=entry.apache.get('serveraliases', []),
+    https=entry.apache.get('https', ''),
+    extracontext=extracontext) }}
+{% endif %}{# apache #}
 
 {% endfor %}
-{% endif %}

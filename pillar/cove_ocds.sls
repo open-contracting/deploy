@@ -1,22 +1,13 @@
-apache:
-  servername: cove.live3.cove.opencontracting.uk0.bigv.io
-
-git:
-  url: https://github.com/open-contracting/cove-ocds.git
-
-django:
-  app: cove_project
-  env:
-    ALLOWED_HOSTS: .standard.open-contracting.org,.cove.opencontracting.uk0.bigv.io
-    PIWIK_SITE_ID: '20'
-    # HOTJAR_ID: 1501232
-    # HOTJAR_SV: 6
-    # HOTJAR_DATE_INFO: "4th March to 30th September 2020"
-
-uwsgi:
-  max-requests: 1024
-  reload-on-as: 250
-  cheaper: 2
-  cheaper-initial: 2
-  workers: 100
-  threads: 1
+python_apps:
+  cove: # adds to cove.sls
+    git:
+      url: https://github.com/open-contracting/cove-ocds.git
+    django:
+      env:
+        ALLOWED_HOSTS: .standard.open-contracting.org,.cove.opencontracting.uk0.bigv.io
+        PIWIK_SITE_ID: '20'
+        # HOTJAR_ID: 1501232
+        # HOTJAR_SV: 6
+        # HOTJAR_DATE_INFO: "4th March to 30th September 2020"
+    apache:
+      servername: cove.live3.cove.opencontracting.uk0.bigv.io

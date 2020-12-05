@@ -54,6 +54,12 @@ python_apps:
     config:
       ocdskingfisher-process/logging.json: salt://kingfisher/process/files/logging.json
       ocdskingfisher-process/config.ini: salt://kingfisher/process/files/config.ini
+    apache:
+      configuration: kingfisher-process
+      servername: process.kingfisher.open-contracting.org
+    uwsgi:
+      configuration: kingfisher-process
+      port: 5001
   kingfisher_summarize:
     user: ocdskfp
     git:
