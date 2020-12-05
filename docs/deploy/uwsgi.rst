@@ -1,5 +1,5 @@
-Configuring uWSGI
-=================
+Configure uWSGI
+===============
 
 We use `uWSGI <https://uwsgi-docs.readthedocs.io/en/latest/>`__ to serve Python apps, mainly Django apps.
 
