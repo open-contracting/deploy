@@ -34,6 +34,7 @@ base:
   'kingfisher-process':
     - postgres
     - postgres.main
+    - redis
     - kingfisher
     - kingfisher.collect
     - kingfisher.process

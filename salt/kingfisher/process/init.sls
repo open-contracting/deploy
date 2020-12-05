@@ -17,7 +17,6 @@ kingfisher-process-prerequisites:
     - pkgs:
       - sqlite3
       - strace
-      - redis
       - libpq-dev
       - libyajl-dev # OCDS Kit performance
 
