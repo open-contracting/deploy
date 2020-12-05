@@ -8,6 +8,12 @@ include:
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
 
+virtualenv:
+  pkg.installed:
+    - pkgs:
+      - python3-virtualenv # the library
+      - virtualenv # the executable
+
 {% for name, entry in pillar.python_apps.items() %}
 
 # A user might run multiple apps, so the user is not created here.
@@ -33,8 +39,6 @@ appdir: {{ directory }}
       - user: {{ entry.user }}_user_exists
 
 {{ directory }}/.ve/:
-  pkg.installed:
-    - name: python3-virtualenv
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ entry.user }}
@@ -42,6 +46,7 @@ appdir: {{ directory }}
     - pip_pkgs:
       - pip-tools
     - require:
+      - pkg: virtualenv
       - git: {{ entry.git.url }}
 
 {{ directory }}-requirements:

@@ -37,7 +37,9 @@ kingfisher-collect-prerequisites:
 
 {{ scrapyd_dir }}/.ve/:
   pkg.installed:
-    - name: python3-virtualenv
+    - pkgs:
+      - python3-virtualenv # the library
+      - virtualenv # the executable
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}
@@ -45,6 +47,7 @@ kingfisher-collect-prerequisites:
     - pip_pkgs:
       - pip-tools
     - require:
+      - pkg: virtualenv
       - file: {{ scrapyd_dir }}
 
 {{ scrapyd_dir }}-requirements:
