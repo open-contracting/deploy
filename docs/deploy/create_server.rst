@@ -32,7 +32,7 @@ Bytemark
 
 .. note::
 
-   The above steps add your public key to ``/root/.ssh/authorized_keys``. Related: :ref:`delete-authorized-key`.
+   The above steps add your public key to ``/root/.ssh/authorized_keys``.
 
 Hetzner
 ~~~~~~~
