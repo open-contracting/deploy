@@ -10,6 +10,13 @@ include:
 
 {{ createuser(entry.user) }}
 
+memcached:
+  pkg.installed:
+    - name: memcached
+  service.running:
+    - name: memcached
+    - enable: True
+
 cd {{ directory }}/; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
@@ -22,10 +29,3 @@ MAILTO:
     - name: MAILTO
     - value: sysadmin@open-contracting.org
     - user: {{ entry.user }}
-
-memcached:
-  pkg.installed:
-    - name: memcached
-  service.running:
-    - name: memcached
-    - enable: True
