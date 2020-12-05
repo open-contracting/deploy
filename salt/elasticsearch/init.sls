@@ -10,9 +10,13 @@ elasticsearch:
     - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
   pkg.installed:
     - name: elasticsearch
+    - require:
+      - pkgrepo: elasticsearch
   service.running:
     - name: elasticsearch
     - enable: True
+    - require:
+      - pkg: elasticsearch
 
 # If we run Elasticsearch on a server with less than (or more than) 2GB RAM, we need to configure Xms and Xmx in
 # /etc/elasticsearch/jvm.options.

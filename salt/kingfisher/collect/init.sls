@@ -105,6 +105,8 @@ supervisor:
     - name: supervisor
     - enable: True
     - reload: True
+    - require:
+      - pkg: supervisor
 
 {{ apache('kingfisher-collect',
     name='ocdskingfisherscrape',

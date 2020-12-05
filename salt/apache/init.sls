@@ -5,6 +5,8 @@ apache2:
     - name: apache2
     - enable: True
     - reload: True
+    - require:
+      - pkg: apache2
 
 {% if salt['pillar.get']('apache:htpasswd') %}
 # To create an htpasswd file, add the following data to a Pillar file:

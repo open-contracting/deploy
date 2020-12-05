@@ -24,9 +24,13 @@ postgresql:
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
   pkg.installed:
     - name: postgresql-{{ pg_version }}
+    - require:
+      - pkgrepo: postgresql
   service.running:
     - name: postgresql
     - enable: True
+    - require:
+      - pkg: postgresql
 
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:

@@ -9,6 +9,8 @@ tinyproxy:
     - name: tinyproxy
     - enable: True
     - restart: True
+    - require:
+      - pkg: tinyproxy
 
 /etc/tinyproxy/tinyproxy.conf:
   file.managed:

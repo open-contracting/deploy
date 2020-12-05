@@ -9,6 +9,8 @@ ntp:
   service.running:
     - name: ntp
     - enable: True
+    - require:
+      - pkg: ntp
     - watch:
       - file: /etc/ntp.conf
 
