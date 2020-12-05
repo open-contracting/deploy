@@ -11,8 +11,7 @@ include:
 
 toucan-deps:
   pkg.installed:
-    - pkgs:
-      - libyajl-dev # OCDS Kit performance
+    - name: libyajl-dev # OCDS Kit performance
 
 {{ directory }}/googleapi_credentials.json:
   file.managed:
