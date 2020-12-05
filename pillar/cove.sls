@@ -20,7 +20,6 @@ python_apps:
     uwsgi:
       configuration: django
       harakiri: 1800 # 30 min
-      limit-as: 6000 # 6 GB
       cheaper: 2
       cheaper-initial: 2
       workers: 100
