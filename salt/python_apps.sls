@@ -14,6 +14,9 @@ virtualenv:
       - python3-virtualenv # the library
       - virtualenv # the executable
 
+# Inspired by the Apache formula, which loops over sites to configure. See example in readme.
+# https://github.com/saltstack-formulas/apache-formula
+# https://github.com/saltstack-formulas/apache-formula/blob/master/apache/config/register_site.sls
 {% for name, entry in pillar.python_apps.items() %}
 
 # A user might run multiple apps, so the user is not created here.
