@@ -9,8 +9,8 @@ include:
 #   conf:
 #     CONF-NAME: SOURCE-NAME
 
-{% for name, source in pillar.logrotate.conf.items() %}
-/etc/logrotate.d/{{ name }}:
+{% for filename, source in pillar.logrotate.conf.items() %}
+/etc/logrotate.d/{{ filename }}:
   file.managed:
     - source: salt://core/logrotate/files/{{ source }}
 {% endfor %}

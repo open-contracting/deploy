@@ -11,8 +11,8 @@ rsyslog:
 #   conf:
 #     CONF-NAME: SOURCE-NAME
 
-{% for name, source in pillar.rsyslog.conf.items() %}
-/etc/rsyslog.d/{{ name }}:
+{% for filename, source in pillar.rsyslog.conf.items() %}
+/etc/rsyslog.d/{{ filename }}:
   file.managed:
     - source: salt://core/rsyslog/files/{{ source }}
     - watch_in:
