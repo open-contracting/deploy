@@ -3,11 +3,7 @@
 include:
   - apache.public
   - apache.modules.proxy_http
-
-kingfisher-collect-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - supervisor
+  - supervisor
 
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
@@ -97,16 +93,6 @@ kingfisher-collect-prerequisites:
         scrapyd_dir: {{ scrapyd_dir }}
     - watch_in:
       - service: supervisor
-
-supervisor:
-  pkg.installed:
-    - name: supervisor
-  service.running:
-    - name: supervisor
-    - enable: True
-    - reload: True
-    - require:
-      - pkg: supervisor
 
 {{ apache('kingfisher-collect',
     name='ocdskingfisherscrape',
