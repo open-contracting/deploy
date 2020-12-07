@@ -39,8 +39,8 @@ Errors are logged in ``/var/log/elasticsearch/elasticsearch.log``, for example:
       appender.rolling.strategy.action.condition.nested_condition.type = IfLastModified
       appender.rolling.strategy.action.condition.nested_condition.age = 7D
 
-Delete documents
-----------------
+Manage data
+-----------
 
 List indices:
 
@@ -48,23 +48,7 @@ List indices:
 
    curl https://standard.open-contracting.org:9200/_cat/indices
 
-Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__:
-
-.. code-block:: bash
-
-   ocdsindex expire https://standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
-
-Explore indices
----------------
-
-Search documents matching a base URL:
-
-.. code-block:: bash
-
-   curl -X GET -H "Content-Type: application/json" "localhost:9200/ocdsindex_en/_search?size=10000" \
-   -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
-
-List base URLs in a given index:
+List base URLs in a given index, for example:
 
 .. code-block:: bash
 
@@ -78,8 +62,20 @@ Delete documents matching a base URL:
    curl -X POST -H 'Content-Type: application/json' "localhost:9200/ocdsindex_en/_delete_by_query" \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
-Explore queries
----------------
+Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__:
+
+.. code-block:: bash
+
+   ocdsindex expire https://standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
+
+Search documents in a given index matching a base URL, for example:
+
+.. code-block:: bash
+
+   curl -X GET -H "Content-Type: application/json" "localhost:9200/ocdsindex_en/_search?size=10000" \
+   -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
+
+List users' queries:
 
 .. code-block:: bash
 
