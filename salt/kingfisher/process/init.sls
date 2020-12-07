@@ -34,14 +34,6 @@ kingfisher-process-prerequisites:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{{ directory }}/wsgi.py:
-  file.managed:
-    - source: salt://kingfisher/process/files/wsgi.py
-    - user: {{ entry.user }}
-    - group: {{ entry.user }}
-    - require:
-      - git: {{ pillar.python_apps.kingfisher_process.git.url }}
-
 ####################
 # PostgreSQL
 ####################
