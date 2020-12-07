@@ -39,6 +39,12 @@ If you don't know whether a package is still required, you can connect to the se
 
       apt show PACKAGE
 
+-  Show what packages depends on this package:
+
+   .. code-block:: bash
+
+      apt rdepends PACKAGE
+
 For example, the above commands show that ``redis`` is a metapackage (installing only documentation) that depends on ``redis-server``, and that ``python3-virtualenv`` provides library files whereas ``virtualenv`` provides a binary file.
 
 .. _change-server-name:
