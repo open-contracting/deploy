@@ -1,6 +1,15 @@
 Periodic tasks
 ==============
 
+.. _review-root-access:
+
+Review root access
+------------------
+
+#. Read the :ref:`root access policy<root-access-policy>`
+#. Update the ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file
+#. :doc:`Deploy<deploy>` the affected services
+
 .. _clean-root-user-directory:
 
 Clean root user directory
@@ -16,15 +25,6 @@ Clean root user directory
 #. Delete any ``index.html*`` files
 
    -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
-
-.. _review-root-access:
-
-Review root access
-------------------
-
-#. Read the :ref:`root access policy<root-access-policy>`
-#. Update the ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file, as needed
-#. :doc:`Deploy<deploy>` the affected services
 
 .. _check-mail:
 

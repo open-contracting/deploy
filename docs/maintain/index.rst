@@ -27,7 +27,7 @@ To be responsible for servers, you should:
 
 .. toctree::
 
-   general.rst
+   periodic.rst
    packages.rst
    databases.rst
    elasticsearch.rst
