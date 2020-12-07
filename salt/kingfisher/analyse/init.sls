@@ -7,7 +7,6 @@ kingfisher-analyse-prerequisites:
     - pkgs:
       - jq
       - unrar
-      - unzip
 
 {% set user = 'analysis' %}
 {{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
@@ -20,6 +19,8 @@ kingfisher-analyse-pipinstall:
     - user: {{ user }}
     - requirements: salt://kingfisher/files/pipinstall.txt
     - bin_env: /usr/bin/pip3
+    - require:
+      - pkg: kingfisher-analyse-pipinstall
 
 kingfisher-analyse-pip-path:
   file.append:
