@@ -2,5 +2,5 @@ ErrorDocument 500 "<h2>Sorry, something went wrong.</h2> <p>Sometimes this happe
 
 RemoteIPHeader X-Forwarded-For
 # Trust docs reverse proxy.
-RemoteIPTrustedProxy 5.28.62.151
-RemoteIPTrustedProxy 2001:41c9:1:41c::151
+RemoteIPTrustedProxy {{ entry.apache.context.docs_ipv4 }}
+RemoteIPTrustedProxy {{ entry.apache.context.docs_ipv6 }}

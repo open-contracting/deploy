@@ -199,7 +199,7 @@ For Django application servers:
 For OCDS documentation servers:
 
 #. Copy the ``/home/ocds-docs/web`` directory
-#. Update the IP addresses in the ``salt/apache/includes/cove.jinja`` file
+#. Update the IP addresses in the ``pillar/cove.sls`` file
 #. Optionally, copy the Apache log files
 
 For Kingfisher Collect servers (instructions are incomplete):
