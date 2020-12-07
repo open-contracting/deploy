@@ -7,10 +7,10 @@
 {% else %}
 {{ set_firewall("PRIVATE_POSTGRESQL") }}
   {% if salt['pillar.get']('postgres:replica_ipv4') %}
-{{ set_firewall("ALLOW_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
+{{ set_firewall("REPLICA_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
   {% endif %}
   {% if salt['pillar.get']('postgres:replica_ipv6') %}
-{{ set_firewall("ALLOW_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
+{{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
   {% endif %}
 {% endif %}
 

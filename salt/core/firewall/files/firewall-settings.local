@@ -9,14 +9,6 @@ IFCONFIG="/sbin/ifconfig"
 IPTABLES="/sbin/iptables"
 IP6TABLES="/sbin/ip6tables"
 
-# IPs to allow on all servers.
-ADMIN_IPV4=""
-ADMIN_IPV6=""
-
-# The IPs of the Prometheus server.
-PROMETHEUS_IPV4=""
-PROMETHEUS_IPV6=""
-
 # IPs from which to allow ANY connection. FOR TESTING ONLY.
 ALLOWALL_IPV4=""
 ALLOWALL_IPV6=""
@@ -25,9 +17,17 @@ ALLOWALL_IPV6=""
 DENYALL_IPV4=""
 DENYALL_IPV6=""
 
-# IPs from which to allow connections to private services.
-ALLOW_IPV4=""
-ALLOW_IPV6=""
+# IPs from which to allow SSH collections.
+SSH_IPV4=""
+SSH_IPV6=""
+
+# The IPs of the Prometheus server.
+PROMETHEUS_IPV4=""
+PROMETHEUS_IPV6=""
+
+# The IPs of replica servers.
+REPLICA_IPV4=""
+REPLICA_IPV6=""
 
 MONITOR_APPBEAT=""
 

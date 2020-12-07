@@ -14,8 +14,8 @@ iptables-persistent:
     - file: /home/sysadmin-tools/bin
 
 # These must be set with file.replace, because the ID that creates the file uses file.managed with `replace: False`.
-{{ set_firewall("ADMIN_IPV4", pillar.firewall.admin_ipv4|join(' ')) }}
-{{ set_firewall("ADMIN_IPV6", pillar.firewall.admin_ipv6|join(' ')) }}
+{{ set_firewall("SSH_IPV4", pillar.firewall.ssh_ipv4|join(' ')) }}
+{{ set_firewall("SSH_IPV6", pillar.firewall.ssh_ipv6|join(' ')) }}
 
 /home/sysadmin-tools/bin/firewall.sh:
   file.managed:

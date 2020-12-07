@@ -31,7 +31,7 @@ If you are working on this repository, you can also run:
 Static IP: Allow list
 ---------------------
 
-#. Add your IP address to the ``firewall.admin_ipv4`` and ``firewall.admin_ipv6`` lists in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/master/common.sls>`__ private Pillar file
+#. Add your IP address to the ``firewall.ssh_ipv4`` and ``firewall.ssh_ipv6`` lists in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/master/common.sls>`__ private Pillar file
 #. Add your full name in a comment
 #. :doc:`Deploy all services<../deploy/deploy>`
 
