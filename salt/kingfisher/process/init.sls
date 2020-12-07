@@ -17,7 +17,7 @@ kingfisher-process-prerequisites:
     - pkgs:
       - sqlite3
       - strace
-      - libpq-dev
+      - libpq-dev # https://www.psycopg.org/install/
       - libyajl-dev # OCDS Kit performance
 
 ####################
@@ -45,12 +45,6 @@ kingfisher-process-prerequisites:
 ####################
 # PostgreSQL
 ####################
-
-# https://github.com/jfcoz/postgresqltuner
-pg_stat_statements:
-  postgres_extension.present:
-    - maintenance_db: template1
-    - if_not_exists: True
 
 user_ocdskfp:
   postgres_user.present:
@@ -165,6 +159,8 @@ kingfisher-process-pipinstall:
     - user: {{ entry.user }}
     - requirements: salt://kingfisher/files/pipinstall.txt
     - bin_env: /usr/bin/pip3
+    - require:
+      - pkg: kingfisher-process-pipinstall
 
 kingfisher-process-pip-path:
   file.append:

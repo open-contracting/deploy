@@ -69,3 +69,9 @@ vm.nr_hugepages:
   sysctl.present:
     - value: {{ pillar.vm.nr_hugepages }}
 {% endif %}
+
+# https://github.com/jfcoz/postgresqltuner
+pg_stat_statements:
+  postgres_extension.present:
+    - maintenance_db: template1
+    - if_not_exists: True
