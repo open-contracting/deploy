@@ -269,10 +269,10 @@ fi
 
 if [ "$PRIVATE_POSTGRESQL" == "yes" ]; then
     echo_verbose "Private PostgreSQL server"
-    for IP in $LOCAL_IPV4 $ADMIN_IPV4 $ALLOW_IPV4; do
+    for IP in $LOCAL_IPV4 $ALLOW_IPV4; do
         $IPTABLES -A INPUT -p tcp -s $IP --dport 5432 -j ACCEPT
     done
-    for IP in $LOCAL_IPV6 $ADMIN_IPV6 $ALLOW_IPV6; do
+    for IP in $LOCAL_IPV6 $ALLOW_IPV6; do
         $IP6TABLES -A INPUT -p tcp -s $IP --dport 5432 -j ACCEPT
     done
 fi
