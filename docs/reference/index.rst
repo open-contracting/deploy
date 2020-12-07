@@ -12,7 +12,10 @@ Monitoring
 Prometheus
 ~~~~~~~~~~
 
-Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to configure Prometheus monitoring on each server, and to set up a Prometheus server to to collect metrics from these servers. `Node Exporter <https://github.com/prometheus/node_exporter>`__ is installed on each server to export hardware and OS metrics like disk space used, memory used, etc.
+Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to:
+
+-  Install a `Node Exporter <https://github.com/prometheus/node_exporter>`__ service on each server, to export hardware and OS metrics like disk space used, memory used, etc.
+-  Set up a Prometheus server to collect metrics from all servers, and to email alerts if metrics are out of bounds
 
 Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 
@@ -64,6 +67,7 @@ The staff of the following organizations can have administrative roles:
 -  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
 -  `Open Data Services Co-operative <http://opendataservices.coop>`__ (ODS)
+-  `Young Innovations <https://younginnovations.com.np>`__
 
 The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
 
