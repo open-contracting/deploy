@@ -1,5 +1,5 @@
-Connect to servers using SSH
-============================
+Connect to a server (SSH)
+=========================
 
 .. admonition:: One-time setup
 
