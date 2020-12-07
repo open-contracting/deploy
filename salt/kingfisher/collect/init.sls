@@ -13,6 +13,10 @@ include:
 
 {{ scrapyd_dir }}:
   file.directory:
+    - names:
+      - {{ scrapyd_dir }}/dbs
+      - {{ scrapyd_dir }}/eggs
+      - {{ scrapyd_dir }}/logs
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
@@ -31,7 +35,7 @@ include:
     - require:
       - file: {{ scrapyd_dir }}
 
-{{ scrapyd_dir }}/.ve/:
+{{ scrapyd_dir }}/.ve:
   pkg.installed:
     - pkgs:
       - python3-virtualenv # the library
@@ -52,29 +56,11 @@ include:
     - runas: {{ user }}
     - cwd: {{ scrapyd_dir }}
     - require:
-      - virtualenv: {{ scrapyd_dir }}/.ve/
+      - virtualenv: {{ scrapyd_dir }}/.ve
     - onchanges:
       - file: {{ scrapyd_dir }}/requirements.txt
     - watch_in:
       - service: supervisor
-
-{{ scrapyd_dir }}/dbs:
-  file.directory:
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
-
-{{ scrapyd_dir }}/eggs:
-  file.directory:
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
-
-{{ scrapyd_dir }}/logs:
-  file.directory:
-    - makedirs: True
-    - user: {{ user }}
-    - group: {{ user }}
 
 {{ userdir }}/.scrapyd.conf:
   file.managed:
