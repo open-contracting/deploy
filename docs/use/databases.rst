@@ -1,4 +1,4 @@
-SQL Databases
+SQL databases
 =============
 
 .. note::
@@ -10,9 +10,11 @@ Connect to a database
 
 .. note::
 
-   If you connect to the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
+   To query the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
 
-OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the other server. Please always use the replica database. If that server goes down, use the main database until the server is restored.
+   For most use cases, you can instead query the database from `Redash <https://redash.open-contracting.org>`__. To request an account, email data@open-contracting.org.
+
+OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the main server. Please always use the replica database. If that server goes down, use the main database until the server is restored.
 
 .. _psql:
 
@@ -33,7 +35,7 @@ For example:
 
    psql "dbname=ocdskingfisherprocess user=jmckinney host=postgres-readonly.kingfisher.open-contracting.org sslmode=require"
 
-Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/11/libpq-pgpass.html>`__:
+Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/11/libpq-pgpass.html>`__, replacing ``USER`` and ``PASS``:
 
 .. code-block:: bash
 
@@ -45,7 +47,7 @@ Then, set the permissions of the ``~/.pgpass`` file:
 
    chmod 600 ~/.pgpass
 
-.. _beekeeeper:
+.. _beekeeper:
 
 Beekeeper Studio
 ~~~~~~~~~~~~~~~~
@@ -69,7 +71,7 @@ Then, either click the *Connect* button or set the *Connection Name* and click *
 pgAdmin
 ~~~~~~~
 
-`pgAdmin <https://www.pgadmin.org>`__ is a locally hosted web interface for querying databases. (You might prefer `Redash <https://redash.open-contracting.org>`__, which is remotely hosted.)
+`pgAdmin <https://www.pgadmin.org>`__ is a locally hosted web interface for querying databases.
 
 For security, remember to set *SSL mode* to "Require".
 
@@ -135,8 +137,3 @@ For security, remember to set ``sslmode`` to ``'require'``.
        password='PASSWORD',
        host='postgres-readonly.kingfisher.open-contracting.org',
        sslmode='require')
-
-Redash
-~~~~~~
-
-`Redash <https://redash.open-contracting.org>`__ connects to the database using a ``redash`` user, which has read-only access to all schema. To request an account, email data@open-contracting.org.
