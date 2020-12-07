@@ -41,7 +41,7 @@ appdir: {{ directory }}
       - pkg: git
       - user: {{ entry.user }}_user_exists
 
-{{ directory }}/.ve/:
+{{ directory }}/.ve:
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ entry.user }}
@@ -58,10 +58,11 @@ appdir: {{ directory }}
     - runas: {{ entry.user }}
     - cwd: {{ directory }}
     - require:
-      - virtualenv: {{ directory }}/.ve/
+      - virtualenv: {{ directory }}/.ve
     # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
     - onchanges:
       - git: {{ entry.git.url }}
+      - virtualenv: {{ directory }}/.ve # if .ve is deleted
     # https://github.com/open-contracting/deploy/issues/146
     - watch_in:
       - service: uwsgi
