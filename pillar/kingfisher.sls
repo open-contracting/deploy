@@ -88,7 +88,3 @@ postgres:
     - 148.251.183.230
   replica_ipv6:
     - 2a01:4f8:211:de::2
-
-kingfisher_process:
-  web:
-    host: process.kingfisher.open-contracting.org
