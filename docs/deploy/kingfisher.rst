@@ -134,7 +134,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
       crontab -e
       pkill -f ocdskingfisher-process-cli
 
-#. Migrate the database (log the time, in case you need to retry). Alembic has no verbose mode for upgrades. To see the current queries, open another terminal, open a PostgreSQL shell, and run ``SELECT pid, state, wait_event_type, query FROM pg_stat_activity;``. If a migration query has a ``wait_event_type`` of ``Lock``, look for queries that block it (for example, long-running DELETE queries). To stop a query, run ``SELECT pg_cancel_backend(PID)``, where ``PID`` is the ``pid`` of the query.
+#. Migrate the database (log the time, in case you need to retry):
 
    .. code-block:: bash
 
@@ -142,6 +142,8 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
       date
       python ocdskingfisher-process-cli upgrade-database
       date
+
+   Alembic has no verbose mode for upgrades. To see the current queries, open another terminal, open a PostgreSQL shell, and run ``SELECT pid, state, wait_event_type, query FROM pg_stat_activity;``. If a migration query has a ``wait_event_type`` of ``Lock``, look for queries that block it (for example, long-running DELETE queries). To stop a query, run ``SELECT pg_cancel_backend(PID)``, where ``PID`` is the ``pid`` of the query.
 
 #. Uncomment the lines that start the workers in the cron table:
 
