@@ -62,7 +62,7 @@ appdir: {{ directory }}
     # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
     - onchanges:
       - git: {{ entry.git.url }}
-      - virtualenv: {{ directory }}/.ve # if .ve is deleted
+      - virtualenv: {{ directory }}/.ve # if .ve was deleted
     # https://github.com/open-contracting/deploy/issues/146
     - watch_in:
       - service: uwsgi

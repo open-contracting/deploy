@@ -7,25 +7,26 @@ include:
 
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
+{% set directory = userdir + '/scrapyd' %}
+
 {{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
 
-{% set scrapyd_dir = userdir + '/scrapyd' %}
-
-{{ scrapyd_dir }}:
+{{ directory }}:
   file.directory:
     - names:
-      - {{ scrapyd_dir }}/dbs
-      - {{ scrapyd_dir }}/eggs
-      - {{ scrapyd_dir }}/logs
+      - {{ directory }}/dbs
+      - {{ directory }}/eggs
+      - {{ directory }}/logs
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
 
-{{ scrapyd_dir }}/requirements.txt-expire:
+# Prevent Salt from caching the requirements.txt file.
+{{ directory }}/requirements.txt-expire:
   file.not_cached:
     - name: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
 
-{{ scrapyd_dir }}/requirements.txt:
+{{ directory }}/requirements.txt:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
     - skip_verify: True
@@ -33,9 +34,12 @@ include:
     - group: {{ user }}
     - mode: 444
     - require:
-      - file: {{ scrapyd_dir }}
+      - file: {{ directory }}
 
-{{ scrapyd_dir }}/.ve:
+# The next states are similar to those in the `python_apps.sls` file, but instead of being based on a git repository,
+# they are based on a requirements.txt file.
+
+{{ directory }}/.ve:
   pkg.installed:
     - pkgs:
       - python3-virtualenv # the library
@@ -48,17 +52,18 @@ include:
       - pip-tools
     - require:
       - pkg: virtualenv
-      - file: {{ scrapyd_dir }}
+      - file: {{ directory }}
 
-{{ scrapyd_dir }}-requirements:
+{{ directory }}-requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q
+    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
     - runas: {{ user }}
-    - cwd: {{ scrapyd_dir }}
+    - cwd: {{ directory }}
     - require:
-      - virtualenv: {{ scrapyd_dir }}/.ve
+      - virtualenv: {{ directory }}/.ve
     - onchanges:
-      - file: {{ scrapyd_dir }}/requirements.txt
+      - file: {{ directory }}/requirements.txt
+      - virtualenv: {{ directory }}/.ve # if .ve was deleted
     - watch_in:
       - service: supervisor
 
@@ -67,7 +72,7 @@ include:
     - source: salt://kingfisher/collect/files/scrapyd.ini
     - template: jinja
     - context:
-        scrapyd_dir: {{ scrapyd_dir }}
+        appdir: {{ directory }}
     - watch_in:
       - service: supervisor
 
@@ -76,7 +81,7 @@ include:
     - source: salt://kingfisher/collect/files/supervisor.conf
     - template: jinja
     - context:
-        scrapyd_dir: {{ scrapyd_dir }}
+        appdir: {{ directory }}
     - watch_in:
       - service: supervisor
 
