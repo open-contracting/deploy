@@ -152,7 +152,7 @@ Add, for example:
          configuration: django
          https: force
          servername: toucan.open-contracting.org
-         serveraliases: ["master.{{ grains["fqdn"] }}"]
+         serveraliases: ["master.{{ grains['fqdn'] }}"]
          assets_base_url: ""
 
 This will:
