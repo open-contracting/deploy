@@ -73,7 +73,7 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
 
 {{ apache('docs',
     name='ocds-docs-live-testing',
-    servername='testing.live.standard.open-contracting.org',
+    servername='testing.standard.open-contracting.org',
     https=pillar.apache.https,
     extracontext='testing: True') }}
 
