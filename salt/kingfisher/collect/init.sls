@@ -67,6 +67,7 @@ include:
     - watch_in:
       - service: supervisor
 
+# https://scrapyd.readthedocs.io/en/stable/config.html
 {{ userdir }}/.scrapyd.conf:
   file.managed:
     - source: salt://kingfisher/collect/files/scrapyd.ini
@@ -76,9 +77,10 @@ include:
     - watch_in:
       - service: supervisor
 
+# We might want the supervisor state file to manage its configuration files.
 /etc/supervisor/conf.d/scrapyd.conf:
   file.managed:
-    - source: salt://kingfisher/collect/files/supervisor.conf
+    - source: salt://supervisor/files/scrapyd.conf
     - template: jinja
     - context:
         appdir: {{ directory }}
