@@ -13,6 +13,8 @@
 
 set -euo pipefail
 
+VERBOSE=true
+
 source /home/sysadmin-tools/firewall-settings.local
 
 function echo_verbose {
