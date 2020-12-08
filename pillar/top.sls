@@ -49,7 +49,7 @@ base:
     - private.toucan
     - maintenance
 
-  # This avoids having to repeat these states for all but one target.
+  # Don't install the Prometheus Node Exporter on development servers.
   '* and not G@id:*-dev':
     - prometheus_client
     - private.prometheus_client

@@ -158,7 +158,12 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
-#. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service. If the service is moving to a new server, you can use the old target's name for the new target, and suffix ``-old`` to the old target's name. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``. Do not include an integer suffix in the target name.
+#. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
+
+   - If the service is moving to a new server, you can use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
+   - If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
+   - If the environment is development, add a ``-dev`` suffix.
+   - Do not include an integer suffix in the target name.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
 
