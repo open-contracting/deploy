@@ -6,6 +6,11 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
+kingfisher-archive-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - sqlite3
+
 {{ directory }}/.env:
   file.managed:
     - source: salt://kingfisher/archive/files/.env

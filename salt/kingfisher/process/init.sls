@@ -15,8 +15,6 @@ include:
 kingfisher-process-prerequisites:
   pkg.installed:
     - pkgs:
-      - sqlite3
-      - strace
       - libpq-dev # https://www.psycopg.org/install/
       - libyajl-dev # OCDS Kit performance
 
