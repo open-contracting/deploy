@@ -33,3 +33,47 @@ If you don't know whether a package is still required, you can connect to the se
 For example, the above commands show that ``redis`` is a metapackage (installing only documentation) that depends on ``redis-server``, and that ``python3-virtualenv`` provides library files whereas ``virtualenv`` provides a binary file (needed by Salt).
 
 The ``./manage.py`` command has ``services`` and ``packages`` sub-commands to identify unusual services and packages, and an ``autoremove`` to list candidates for removal.
+
+List manually installed packages
+--------------------------------
+
+This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works best:
+
+.. code-block:: bash
+
+   comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
+
+..
+   https://unix.stackexchange.com/a/80520 is similar. Instead of `apt-mark showmanual`, it takes the packages that
+   appear in `dpkg-query --show` and not in `apt-mark showauto`. The output includes linux-* packages.
+
+   https://askubuntu.com/a/1279044 uses /var/log/installer/status (unavailable on Ubuntu 18.04).
+
+   https://stackoverflow.com/a/60252818/244258 uses /var/log/installer/syslog (outputs more dependencies).
+
+..
+   Some other dead ends are...
+
+   dpkg includes all dependencies:
+
+      dpkg --get-selections | grep -v deinstall
+      dpkg --list
+      dpkg-query --list
+      dpkg-query --show
+
+   apt includes system packages:
+
+      apt-mark showmanual
+      apt list --manual-installed
+
+   /var/log/apt/history.log has incomplete history.
+
+      zgrep ' install ' /var/log/apt/history.log* | grep -oP '[^ ]+$' | sort
+
+   /var/log/apt/term.log includes some dependencies.
+
+      zgrep -oP 'package \K.+\.' /var/log/apt/term.log* | sed 's/\.$//' | cut -d: -f2 | sort | grep -v linux-
+
+   /var/log/dpkg.log includes some dependencies, and any packages that were later removed.
+
+      zgrep '[0-9] install' /var/log/dpkg.log* | cut -d' ' -f4 | cut -d: -f1 | sort | grep -v linux-
