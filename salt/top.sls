@@ -3,33 +3,51 @@
 base:
   '*':
     - core
+    - core.apt
+    - core.customization
+    - core.fail2ban
+    - core.firewall
+    - core.locale
+    - core.logrotate
+    - core.mail
+    - core.motd
+    - core.ntp
+    - core.rsyslog
+    - core.sshd
+    - core.swap
+    - core.systemd
 
   'cove-*':
     - cove
+
+  'cove-oc4ids':
+    - memcached
 
   'covid19-dev':
     - covid19
 
   'docs':
     - docs
-    - docs-legacy
     - elasticsearch
     - tinyproxy
 
   'kingfisher-process':
     - postgres
+    - postgres.main
+    - redis
     - kingfisher
-    - kingfisher-collect
-    - kingfisher-process
-    - kingfisher-analyse
-    - kingfisher-archive
-    - postgres.replica_master
+    - kingfisher.collect
+    - kingfisher.process
+    - kingfisher.summarize
+    - kingfisher.analyse
+    - kingfisher.archive
 
   'kingfisher-replica':
     - postgres
 
   'prometheus':
-    - prometheus-server
+    - prometheus.server
+    - prometheus.alertmanager
 
   'redash':
     - redash
@@ -37,14 +55,24 @@ base:
   'toucan':
     - toucan
 
-  'prometheus_node_exporter:enabled:true':
-    - match: pillar
-    - prometheus-client-apache
+  # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
+  'I@prometheus:node_exporter:enabled:true':
+    - prometheus.node_exporter
 
-  'maintenance:enabled:true':
-    - match: pillar
-    - maintenance.hardware_sensors
-    - maintenance.patching
-    - maintenance.postgres_monitoring
-    - maintenance.raid_monitoring
+  'I@maintenance:enabled:true':
     - maintenance.rkhunter
+
+  'I@maintenance:enabled:true and I@maintenance:hardware_sensors:true':
+    - maintenance.hardware_sensors
+
+  'I@maintenance:enabled:true and I@maintenance:patching:automatic':
+    - maintenance.patching
+
+  'I@maintenance:enabled:true and I@maintenance:patching:manual':
+    - maintenance.patching.absent
+
+  'I@maintenance:enabled:true and I@postgres:replica_user':
+    - maintenance.postgres_monitoring
+
+  'I@maintenance:enabled:true and I@maintenance:raid_monitoring_script':
+    - maintenance.raid_monitoring

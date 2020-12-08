@@ -3,7 +3,12 @@ Make changes
 
 Most changes are deployed when :doc:`deploying a service<../deploy/deploy>`. However, some changes require :doc:`additional steps<../deploy/update>`.
 
-1. Test changes
+1. Read documentation
+---------------------
+
+The :doc:`../deploy/index` describe common operations like configuring Python applications or PostgreSQL databases.
+
+2. Test changes
 ---------------
 
 To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
@@ -67,7 +72,7 @@ Using a virtual machine
 
 Note that Python errors that occur on the virtual machine might still be reported to Sentry. The ``server_name`` tag in any error reports is expected to be different, but the error reports might still confuse other developers who don't know to check that tag.
 
-2. Review code
+3. Review code
 --------------
 
 For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.
@@ -79,22 +84,3 @@ In such cases, the same process is followed as in other repositories, but withou
 In entirely uncontroversial or time-sensitive cases, work is done on the ``master`` branch, deployed to servers, and committed to the ``master`` branch once successful. In cases where the changes require trial and error, the general approach is discussed in a GitHub issue, and then work is done on the ``master`` branch as above. Developers can always request informal reviews from colleagues.
 
 Take extra care when making larger changes or when making changes to `higher-priority apps <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md>`__.
-
-.. _change-server-name:
-
-Track upstream
---------------
-
-The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. Some common files might have improvements in the original repository. To check for updates, run:
-
-.. code-block:: bash
-
-   git clone git@github.com:OpenDataServices/opendataservices-deploy.git
-   cd opendataservices-deploy
-   git log --name-status setup_for_non_root.sh updateToMaster.sh Saltfile pillar/common_pillar.sls salt-config/master salt/apache-proxy.sls salt/apache.sls salt/apache/000-default.conf salt/apache/000-default.conf.include salt/apache/_common.conf salt/apache/cove.conf salt/apache/cove.conf.include salt/apache/prometheus-alertmanager.conf salt/apache/prometheus-alertmanager.conf.include salt/apache/prometheus-client.conf salt/apache/prometheus-client.conf.include salt/apache/prometheus-server.conf salt/apache/prometheus-server.conf.include salt/apache/robots_dev.txt salt/apt/10periodic salt/apt/50unattended-upgrades salt/core.sls salt/cove.sls salt/elasticsearch.sls salt/elasticsearch7.sls salt/letsencrypt.sls salt/lib.sls salt/nginx/redash salt/prometheus-client-apache.sls salt/prometheus-client/prometheus-node-exporter.service salt/prometheus-server-alertmanager.sls salt/prometheus-server-alertmanager/prometheus-alertmanager.service salt/prometheus-server-server.sls salt/prometheus-server-server/prometheus-server.service salt/system/ocdskingfisher_motd salt/uwsgi.sls salt/uwsgi/cove.ini
-
--  ``setup_for_non_root.sh`` corresponds to ``script/setup``
--  ``updateToMaster.sh`` corresponds to ``script/update``
--  ``salt-config/roster``, ``pillar/top.sls`` and ``salt/top.sls`` are common files, but are unlikely to contain improvements
-
-This repository has all improvements up to July 1, 2020.

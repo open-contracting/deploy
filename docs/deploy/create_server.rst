@@ -32,7 +32,7 @@ Bytemark
 
 .. note::
 
-   The above steps add your public key to ``/root/.ssh/authorized_keys``. Related: :ref:`delete-authorized-key`.
+   The above steps add your public key to ``/root/.ssh/authorized_keys``.
 
 Hetzner
 ~~~~~~~
@@ -165,11 +165,17 @@ If you couldn't select Ubuntu above, follow these additional steps:
 4. Deploy the service
 ---------------------
 
+.. note::
+
+   See how to :doc:`deploy`.
+
+#. If the service is being introduced, add the target to the ``salt/top.sls`` file, and include any new state files you authored for the service.
+
    .. note::
 
-      See docs here on how to :doc:`deploy services<deploy>`.
+      If a target expression (other than ``'*'``) matches the target, then skip this step. For example, ``'cove-*'`` matches ``cove-oc4ids``.
 
-#. If the service is being introduced, add the target to ``salt/top.sls``, and include the ``prometheus-client-apache`` state file and any new state files you authored for the service.
+#. If the service is being introduced, add the target to the ``pillar/top.sls`` file, and include any new Pillar files you authored for the service.
 
    .. note::
 
@@ -195,6 +201,10 @@ For OCDS documentation servers:
 #. Copy the ``/home/ocds-docs/web`` directory
 #. Update the IP addresses in the ``salt/apache/includes/cove.jinja`` file
 #. Optionally, copy the Apache log files
+
+For Kingfisher Collect servers (instructions are incomplete):
+
+#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file
 
 For Redash servers, see :doc:`redash`.
 

@@ -1,20 +1,19 @@
+{% from 'lib.sls' import createuser %}
+
 include:
-  - django
   - apache.modules.remoteip
+  - python_apps
 
-root_cove:
-  ssh_auth.present:
-    - user: root
-    - source: salt://private/authorized_keys/root_to_add_cove
+{% set entry = pillar.python_apps.cove %}
+{% set userdir = '/home/' + entry.user %}
+{% set directory = userdir + '/' + entry.git.target %}
 
-{% from 'django.sls' import djangodir %}
+{{ createuser(entry.user) }}
 
-# See https://cove.readthedocs.io/en/latest/deployment/
-
-cd {{ djangodir }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ pillar.django.app }}.settings SECRET_KEY="{{ pillar.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
+cd {{ directory }}/; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
-    - user: cove
+    - user: {{ entry.user }}
     - minute: random
     - hour: 0
 
@@ -22,11 +21,4 @@ MAILTO:
   cron.env_present:
     - name: MAILTO
     - value: sysadmin@open-contracting.org
-    - user: cove
-
-memcached:
-  pkg.installed:
-    - name: memcached
-  service.running:
-    - name: memcached
-    - enable: True
+    - user: {{ entry.user }}

@@ -33,7 +33,7 @@ To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/s
 
 .. code-block:: bash
 
-   ./run.py '*' state.sls_id root_authorized_keys_add core
+   ./run.py '*' state.sls_id root_authorized_keys core.sshd
 
 .. _restart-service:
 
@@ -65,3 +65,18 @@ Rescale a server
 The Bytemark Panel makes it easy to scale a server (number of cores and GiB of RAM).
 
 If appropriate, update the service's ``limit-as`` uWSGI setting.
+
+Debug network
+-------------
+
+Check if a port is open:
+
+.. code-block:: bash
+
+   telnet host port
+
+List active connections:
+
+.. code-block:: bash
+
+   netstat -tupln

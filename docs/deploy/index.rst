@@ -11,6 +11,7 @@ Deployment Guides
    postgres.rst
    uwsgi.rst
    delete_server.rst
+   troubleshoot.rst
 
 .. toctree::
    :caption: Service-specific tasks

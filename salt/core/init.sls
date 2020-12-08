@@ -18,21 +18,7 @@ python-apt:
 debconf-utils:
   pkg.installed
 
-# Upload SSH keys for users with access to all servers.
-root_authorized_keys_add:
-  ssh_auth.present:
-    - user: root
-    - source: salt://private/authorized_keys/root_to_add
-
-include:
-    - core.apt
-    - core.customization
-    - core.fail2ban
-    - core.firewall
-    - core.locale
-    - core.mail
-    - core.motd
-    - core.ntp
-    - core.sshd
-    - core.swap
-    - core.systemd
+# Several states add scripts to this directory.
+/home/sysadmin-tools/bin:
+  file.directory:
+    - makedirs: True

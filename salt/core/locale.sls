@@ -1,17 +1,16 @@
-add_system_locale_en_gb_utf8:
-  file.replace:
-    - name:  /etc/locale.gen
-    - pattern: "[# ]*en_GB.UTF-8 UTF-8"
-    - repl: "en_GB.UTF-8 UTF-8"
-    - append_if_not_found: True
+# The default locale is en_GB rather than en_US for accidental, historical reasons.
+en_gb_locale:
+  locale.present:
+    - name: en_GB.UTF-8
 
-run_locale_gen:
-  cmd.run:
-    - name: locale-gen
-    - onchanges:
-      - file: add_system_locale_en_gb_utf8
+default_locale:
+  locale.system:
+    - name: en_GB.UTF-8
+    - require:
+      - locale: en_gb_locale
 
-set_lc_all:
+# To avoid error when running "pip-sync -q".
+# https://click.palletsprojects.com/en/7.x/python3/
+/etc/default/locale:
   file.append:
-    - text: 'LC_ALL="en_GB.UTF-8"'
-    - name: /etc/default/locale
+    - text: LC_ALL="en_GB.UTF-8"

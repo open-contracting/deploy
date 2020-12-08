@@ -1,6 +1,54 @@
 Update server configurations
 ============================
 
+Avoid Pillar gotchas
+--------------------
+
+-  If unquoted, ``yes``, ``no``, ``true`` and ``false`` are parsed as booleans. Use quotes to parse as strings.
+-  A blank value is parsed as ``None``. Use the empty string ``''`` to parse as a string.
+-  Below, if ``a`` is equal to an empty string, then ``b`` will be ``None``:
+
+   .. code-block:: jinja
+
+      {% set extracontext %}
+      b: {{ a }}
+      {% endset %}
+
+   Instead, surround it in quotes:
+
+   .. code-block:: jinja
+
+      {% set extracontext %}
+      b: "{{ a }}"
+      {% endset %}
+
+Review packages
+---------------
+
+If you don't know whether a package is still required, you can connect to the server and:
+
+-  Show what files the package installs:
+
+   .. code-block:: bash
+
+      dpkg -L PACKAGE
+
+-  Show what packages the package depends on:
+
+   .. code-block:: bash
+
+      apt show PACKAGE
+
+-  Show what packages depends on this package:
+
+   .. code-block:: bash
+
+      apt rdepends PACKAGE
+
+For example, the above commands show that ``redis`` is a metapackage (installing only documentation) that depends on ``redis-server``, and that ``python3-virtualenv`` provides library files whereas ``virtualenv`` provides a binary file.
+
+.. _change-server-name:
+
 Change server name
 ------------------
 
@@ -29,20 +77,6 @@ Remove content
 
 If you delete a file, service, package, user, authorized key, Apache module, or virtual host from a file, it will not be removed from the server. To remove it, after you :doc:`deploy<deploy>`:
 
-.. _delete-authorized-key:
-
-Delete an authorized key
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-#. Delete it from the relevant file in the ``salt/private/authorized_keys`` directory
-#. Run, for example:
-
-.. code-block:: bash
-
-   ./run.py '*' ssh.rm_auth_key root "AAAAB3NzaC1yc2EAAAABIwAAAQEAklOUpkDHrfHY17SbrmTIpNLTGK9Tjom/BWDSUGPl+nafzlHDTYW7hdI4yZ5ew18JH4JW9jbhUFrviQzM7xlELEVf4h9lFX5QVkbPppSwg0cda3Pbv7kOdJ/MTyBlWXFCR+HAo3FXRitBqxiX1nKhXpHAZsMciLq8V6RjsNAQwdsdMFvSlVK/7XAt3FaoJoAsncM1Q9x5+3V0Ww68/eIFmb1zuUFljQJKprrX88XypNDvjYNby6vw/Pb0rwert/EnmZ+AW4OZPnTPI89ZPmVMLuayrD2cE86Z/il8b+gw3r3+1nKatmIkjn2so1d01QraTlMqVSsbxNrRFi9wrf+M7Q=="
-
-.. The key is from https://git-scm.com/book/en/v2/Git-on-the-Server-Generating-Your-SSH-Public-Key
-
 Delete a file
 ~~~~~~~~~~~~~
 
@@ -51,6 +85,15 @@ Run, for example:
 .. code-block:: bash
 
    ./run.py 'docs' file.remove /path/to/file-to-remove
+
+Delete a line from a file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'docs' cmd.run "sed --in-place '/text to match/d' /path/to/file"
 
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
@@ -221,3 +264,10 @@ If the state fails with "User ocdskfpguest failed to be removed":
       REASSIGN OWNED BY ocdskfpguest TO anotheruser;
       DROP OWNED BY ocdskfpguest;
       DROP ROLE ocdskfpguest;
+
+Check history
+-------------
+
+If you don't understand why a configuration exists, it's useful to check its history.
+
+The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the switchover (August 5, 2019). That repository was itself re-organized at different times. You can browse `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__ (June 5, 2019).

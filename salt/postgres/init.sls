@@ -24,13 +24,18 @@ postgresql:
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
   pkg.installed:
     - name: postgresql-{{ pg_version }}
+    - require:
+      - pkgrepo: postgresql
   service.running:
+    - name: postgresql
     - enable: True
+    - require:
+      - pkg: postgresql
 
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
-    - source: salt://postgres/configs/pg_hba.conf
+    - source: salt://postgres/files/pg_hba.conf
     - template: jinja
     - user: postgres
     - group: postgres
@@ -39,10 +44,10 @@ postgresql:
       - service: postgresql
 
 # Upload custom configuration if defined.
-{% if pillar.postgres.configuration_file %}
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration_name }}.conf:
+{% if pillar.postgres.configuration %}
+/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
   file.managed:
-    - source: {{ pillar.postgres.configuration_file }}
+    - source: salt://postgres/files/{{ pillar.postgres.configuration }}.conf
     - template: jinja
     - user: postgres
     - group: postgres
@@ -64,3 +69,9 @@ vm.nr_hugepages:
   sysctl.present:
     - value: {{ pillar.vm.nr_hugepages }}
 {% endif %}
+
+# https://github.com/jfcoz/postgresqltuner
+pg_stat_statements:
+  postgres_extension.present:
+    - maintenance_db: template1
+    - if_not_exists: True

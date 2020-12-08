@@ -4,10 +4,13 @@ systemd-timesyncd:
     - enable: False
 
 ntp:
-  pkg:
-    - installed
+  pkg.installed:
+    - name: ntp
   service.running:
+    - name: ntp
     - enable: True
+    - require:
+      - pkg: ntp
     - watch:
       - file: /etc/ntp.conf
 

@@ -23,14 +23,8 @@ Review root access
 ------------------
 
 #. Read the :ref:`root access policy<root-access-policy>`
-#. Review the ``salt/private/authorized_keys`` directory
-#. Run:
-
-   .. code-block:: bash
-
-      ./run.py '*' cmd.run 'cat /root/.ssh/authorized_keys | cut -d " " -f 3 | sort'
-
-#. :ref:`Remove authorized keys<delete-authorized-key>`, as needed
+#. Update the ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file, as needed
+#. :doc:`Deploy<deploy>` the affected services
 
 .. _check-mail:
 

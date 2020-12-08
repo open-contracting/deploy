@@ -1,34 +1,38 @@
-toucan-deps:
-  pkg.installed:
-    - pkgs:
-      - libyajl-dev # OCDS Kit performance
+{% from 'lib.sls' import createuser %}
 
 include:
-  - django
+  - python_apps
 
-root_toucan:
-  ssh_auth.present:
-    - user: root
-    - source: salt://private/authorized_keys/root_to_add_toucan
+{% set entry = pillar.python_apps.toucan %}
+{% set userdir = '/home/' + entry.user %}
+{% set directory = userdir + '/' + entry.git.target %}
 
-/home/{{ pillar.user }}/{{ pillar.name }}/googleapi_credentials.json:
+{{ createuser(entry.user) }}
+
+toucan-deps:
+  pkg.installed:
+    - name: libyajl-dev # OCDS Kit performance
+
+{{ directory }}/googleapi_credentials.json:
   file.managed:
-    - source: salt://lib/googleapi_credentials.json
+    - source: salt://files/googleapi_credentials.json
     - template: jinja
-    - user: {{ pillar.user }}
-    - group: {{ pillar.user }}
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
     - mode: 600
+    - require:
+      - git: {{ entry.git.url }}
 
-find /home/ocdskit-web/ocdskit-web/media -mindepth 2 -mtime +1 -delete:
+find {{ directory }}/media -mindepth 2 -mtime +1 -delete:
   cron.present:
     - identifier: OCDS_TOUCAN_CLEAR_MEDIA_1
-    - user: {{ pillar.user }}
+    - user: {{ entry.user }}
     - minute: 0
     - hour: 0
 
-find /home/ocdskit-web/ocdskit-web/media -mindepth 1 -type d -empty -delete:
+find {{ directory }}/media -mindepth 1 -type d -empty -delete:
   cron.present:
     - identifier: OCDS_TOUCAN_CLEAR_MEDIA_2
-    - user: {{ pillar.user }}
+    - user: {{ entry.user }}
     - minute: 0
     - hour: 0

@@ -6,14 +6,12 @@ base:
     - private.common
 
   'cove-oc4ids':
-    - django
     - cove
     - cove_oc4ids
     - private.cove_oc4ids
     - maintenance
 
   'cove-ocds':
-    - django
     - cove
     - cove_ocds
     - private.cove_ocds
@@ -47,13 +45,11 @@ base:
     - maintenance
 
   'toucan':
-    - django
     - toucan
     - private.toucan
     - maintenance
 
   # This avoids having to repeat these states for all but one target.
-  'id:^(?!covid19-dev)':
-    - match: grain_pcre
+  '* and not G@id:covid19-dev':
     - prometheus_client
     - private.prometheus_client

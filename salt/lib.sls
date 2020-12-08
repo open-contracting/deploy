@@ -22,7 +22,7 @@ unset {{ setting_name }} firewall setting:
 
 
 # Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
-{% macro createuser(user, auth_keys_files=[]) %}
+{% macro createuser(user, authorized_keys=[]) %}
 
 {{ user }}_user_exists:
   user.present:
@@ -31,21 +31,12 @@ unset {{ setting_name }} firewall setting:
     - order: 1
     - shell: /bin/bash
 
-{{ user }}_root_authorized_keys_add:
-  ssh_auth.present:
+{{ user }}_authorized_keys:
+  ssh_auth.manage:
     - user: {{ user }}
-    - source: salt://private/authorized_keys/root_to_add
+    - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []) + authorized_keys)|yaml }}
     - require:
       - user: {{ user }}_user_exists
-
-{% for auth_keys_file in auth_keys_files %}
-{{ user }}_{{ auth_keys_file }}_authorized_keys_add:
-  ssh_auth.present:
-    - user: {{ user }}
-    - source: salt://private/authorized_keys/{{ auth_keys_file }}_to_add
-    - require:
-      - user: {{ user }}_user_exists
-{% endfor %}
 
 {% endmacro %}
 
@@ -58,7 +49,7 @@ unset {{ setting_name }} firewall setting:
 {% endif %}
 
 {% if servername == '' %}
-    {% set servername = grains.fqdn %}
+    {% set servername = grains['fqdn'] %}
 {% endif %}
 
 {% if ports == [] %}
@@ -71,31 +62,29 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/configs/{{ conffile }}.conf.include
+    - source: salt://apache/files/{{ conffile }}.conf.include
     - template: jinja
+    - context:
+        {{ extracontext|indent(8) }}
     - makedirs: True
     - watch_in:
       - service: apache2
-    - context:
-        https: "{{ https }}"
-        {{ extracontext|indent(8) }}
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/configs/_common.conf
+    - source: salt://apache/files/_common.conf
     - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: apache2
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         ports: {{ ports|yaml }}
-        {{ extracontext|indent(8) }}
+    - makedirs: True
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
+    - watch_in:
+      - service: apache2
 
 {% if https == 'force' or https == 'certonly' %}
 
@@ -114,7 +103,6 @@ unset {{ setting_name }} firewall setting:
       - file: /etc/apache2/sites-available/{{ name }}.conf
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
       - file: /etc/apache2/sites-enabled/{{ name }}.conf
-      # The next line refers to something in salt/letsencrypt.sls
       - file: /var/www/html/.well-known/acme-challenge
     - watch_in:
       - service: apache2
@@ -124,40 +112,10 @@ unset {{ setting_name }} firewall setting:
 /etc/apache2/sites-enabled/{{ name }}.conf:
   file.symlink:
     - target: /etc/apache2/sites-available/{{ name }}.conf
+    - makedirs: True
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf
-    - makedirs: True
     - watch_in:
       - service: apache2
-
-{% endmacro %}
-
-
-{% macro uwsgi(service, name='', port='', appdir='') %}
-# Service indicates which config file to use from salt/uwsgi/configs.
-
-{% if name == '' %}
-    {% set name = service %}
-{% endif %}
-
-/etc/uwsgi/apps-available/{{ name }}.ini:
-  file.managed:
-    - source: salt://uwsgi/configs/{{ service }}.ini
-    - template: jinja
-    - makedirs: True
-    - watch_in:
-      - service: uwsgi
-    - context:
-        port: {{ port }}
-        appdir: {{ appdir }}
-
-/etc/uwsgi/apps-enabled/{{ name }}.ini:
-  file.symlink:
-    - target: /etc/uwsgi/apps-available/{{ name }}.ini
-    - require:
-      - file: /etc/uwsgi/apps-available/{{ name }}.ini
-    - makedirs: True
-    - watch_in:
-      - service: uwsgi
 
 {% endmacro %}

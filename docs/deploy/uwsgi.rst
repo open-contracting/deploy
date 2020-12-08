@@ -1,5 +1,5 @@
-Configuring uWSGI
-=================
+Configure uWSGI
+===============
 
 We use `uWSGI <https://uwsgi-docs.readthedocs.io/en/latest/>`__ to serve Python apps, mainly Django apps.
 
@@ -17,7 +17,7 @@ Create a Django app
 
 #. In your app's Pillar file, set the variables that are commented out in the `django <https://github.com/open-contracting/deploy/blob/pillar/django.sls>`__ Pillar file.
 
-All Django apps use the `uwsgi/configs/django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/configs/django.ini>`__ configuration template.
+All Django apps use the `uwsgi/files/django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/files/django.ini>`__ configuration template.
 
 Example
 ~~~~~~~
@@ -64,7 +64,7 @@ Use the ``uwsgi`` macro defined in the `lib.sls <https://github.com/open-contrac
 
    uwsgi(service, name='', port='', appdir='')
 
--  The ``service`` argument selects the uWSGI `configuration template <https://github.com/open-contracting/deploy/tree/master/salt/uwsgi/configs/>`__. If this is a new service, you might need to create a new one.
+-  The ``service`` argument selects the uWSGI `configuration template <https://github.com/open-contracting/deploy/tree/master/salt/uwsgi/files/>`__. If this is a new service, you might need to create a new one.
 -  The ``name`` argument defaults to the ``service`` argument, and controls the name of the application in ``/etc/uwsgi/apps-available/`` and ``/etc/uwsgi/apps-enabled/``.
 -  The ``port`` and ``appdir`` arguments are passed through as context variables to render the configuration template (which might or might not use the variables).
 

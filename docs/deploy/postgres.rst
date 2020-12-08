@@ -1,5 +1,5 @@
-Configuring PostgreSQL
-======================
+Configure PostgreSQL
+====================
 
 Specify version
 ---------------
@@ -17,7 +17,7 @@ To override the version, update the server's Pillar file:
 Enable public access
 --------------------
 
-By default, PostgreSQL only allows local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/configs/pg_hba.conf>`__).
+By default, PostgreSQL only allows local connections (`see the template for the pg_bha.conf configuration file <https://github.com/open-contracting/deploy/blob/master/salt/postgres/files/pg_hba.conf>`__).
 
 To enable public access, update the server's Pillar file:
 
@@ -30,7 +30,7 @@ To enable public access, update the server's Pillar file:
 Change default settings
 -----------------------
 
-#. Put your configuration file in the `salt/postgres/configs <https://github.com/open-contracting/deploy/tree/master/salt/postgres/configs>`__ directory.
+#. Put your configuration file in the `salt/postgres/files <https://github.com/open-contracting/deploy/tree/master/salt/postgres/files>`__ directory.
 
 #. Update the server's Pillar file. `Follow PostgreSQL's instructions <https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES>`__ for setting ``vm.nr_hugepages``:
 
@@ -38,8 +38,7 @@ Change default settings
     :emphasize-lines: 2
 
     postgres:
-      configuration_name: kingfisher-process1
-      configuration_file: salt://postgres/configs/kingfisher-process1-postgres.conf
+      configuration: kingfisher-process1
     vm:
       nr_hugepages: 1234
 
@@ -74,7 +73,7 @@ You will configure a main server and a replica server.
         replica_user:
           password: example_password
 
-#. Add the ``postgres.replica_master`` state file to the main server's target in the ``salt/top.sls`` file.
+#. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 
 #. :doc:`Deploy<deploy>` both servers
 
