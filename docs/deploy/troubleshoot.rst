@@ -29,7 +29,7 @@ To fix this, simply connect to the server using SSH, for example:
 
 .. code-block:: bash
 
-   curl --silent --connect-timeout 1 live.standard.open-contracting.org:8255 || true
+   curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
    ssh root@standard.open-contracting.org
 
 Then, re-run the ``./run.py`` command.

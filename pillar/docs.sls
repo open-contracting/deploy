@@ -5,6 +5,6 @@ ssh:
 
 apache:
   https: force
-  ocds_cove_backend: https://cove.live3.cove.opencontracting.uk0.bigv.io
-  oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
+  ocds_cove_backend: https://ocp02.open-contracting.org
+  oc4ids_cove_backend: https://ocp01.open-contracting.org
   timeout: 1830  # 30 sec longer than cove's uwsgi.harakiri

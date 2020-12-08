@@ -62,7 +62,7 @@ def test_force_https(url):
 
 
 def test_robots_txt():
-    r = get('https://testing.live.standard.open-contracting.org/robots.txt')
+    r = get('https://testing.standard.open-contracting.org/robots.txt')
 
     assert r.status_code == 200
     assert r.text == 'User-agent: *\nDisallow: /\n'
