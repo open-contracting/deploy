@@ -1,7 +1,3 @@
-prometheus:
-  node_exporter:
-    enabled: false
-
 ssh:
   root:
     # Young Innovations
