@@ -1,15 +1,15 @@
-# Salt script for onboarding new servers.
+# Expects an additional argument defining the server hostname. Example:
 #
-# The below salt states are ordered to ensure they are executed before the other core install states.
+#   salt-ssh 'example' state.apply 'onboarding,core*' pillar='{"host_id":"ocpXX"}'
 #
-# Expects an additional argument defining the server hostname.
-# Example:  salt-ssh 'example' state.apply onboarding pillar='{"host_id":"ocpXX"}'
+# `order` is used, to ensure these states run before any core states.
 
-Update all packages:
+
+update all packages:
   pkg.uptodate:
+    - order: 1
     - refresh: True
     - dist_upgrade: True
-    - order: 1
 
 /etc/hosts:
   file.append:
@@ -24,20 +24,16 @@ Update all packages:
 
 /etc/mailname:
   file.managed:
-    - contents: "{{ pillar['host_id'] }}.open-contracting.org"
     - order: 3
+    - contents: "{{ pillar['host_id'] }}.open-contracting.org"
 
 /etc/hostname:
   file.managed:
-    - contents: {{ pillar['host_id'] }}
-    - order: 3
+    - order: 4
+    - contents: "{{ pillar['host_id'] }}"
 
 hostname -F /etc/hostname:
   cmd.run:
+    - order: 5
     - onchanges:
       - file: /etc/hostname
-    - order: 4
-
-include:
-  - core
-
