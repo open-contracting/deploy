@@ -37,11 +37,17 @@ The ``./manage.py`` command has ``services`` and ``packages`` sub-commands to id
 List manually installed packages
 --------------------------------
 
-This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works best:
+This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works best. On Bytemark servers:
 
 .. code-block:: bash
 
    comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
+
+On Hetzner servers, the ``/var/log/installer`` directory is missing. The Ubuntu manifest can be used as an approximation:
+
+.. code-block:: bash
+
+   comm -23 <(apt-mark showmanual | sort -u) <(curl -sS http://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.manifest | cut -f1 | cut -d: -f1 | sort -u)
 
 ..
    https://unix.stackexchange.com/a/80520 is similar. Instead of `apt-mark showmanual`, it takes the packages that
