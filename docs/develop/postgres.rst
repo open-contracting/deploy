@@ -49,9 +49,9 @@ The configuration file should appear in ``/etc/postgresql/11/main/conf.d/`` on t
 Set up replication
 ------------------
 
-You will configure a main server and a replica server.
+To configure a main server and a replica server:
 
-#. Create configuration files for each server as above. For reference, see the files for ``kingfisher-process`` and ``kingfisher-replica``.
+#. Create configuration files for each server, as above. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
 
 #. Update the main server's Pillar file with the replica user's name and the replica's IP addresses:
 
@@ -86,7 +86,7 @@ You will configure a main server and a replica server.
       .. code-block:: bash
 
          service postgresql stop
-         rm -rf /var/lib/postgresql/11/main # (for PostgreSQL version 11)
+         rm -rf /var/lib/postgresql/11/main # for PostgreSQL version 11
 
    #. Switch to the ``postgres`` user and transfer data.
 

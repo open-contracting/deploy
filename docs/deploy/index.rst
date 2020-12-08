@@ -7,7 +7,6 @@ Deployment Guides
    setup.rst
    create_server.rst
    deploy.rst
-   postgres.rst
    uwsgi.rst
    delete_server.rst
    troubleshoot.rst
