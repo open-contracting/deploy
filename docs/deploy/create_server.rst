@@ -17,7 +17,7 @@ Bytemark
 #. Click *Servers* and *Add a cloud server*
 
    #. Enter a *Name*
-   #. Select a *Group*
+   #. Select a *Group* indicating the environment (*production* or *development*)
    #. Set *Location* to "York"
    #. Set *Server Resources*
    #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
@@ -95,7 +95,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
          .. code-block:: none
 
-            HOSTNAME example.open-contracting.org
+            HOSTNAME ocp##.open-contracting.org
 
       #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
 
@@ -115,7 +115,29 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       reboot
 
-2. Apply core changes
+2. Create DNS records
+---------------------
+
+#. Log into `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ and open DNS for open-contracting.org. 
+
+   Server hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy or the `salt-config/roster <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>`__ file.
+
+
+#. Add a new A record pointing at the server hostname.
+
+   * Type: A 
+   * Host: ocp##
+   * Points to: IPv4 address
+   * TTL: 1 day
+
+#. If the server has IPv6, add a new AAAA record pointing at the server hostname.
+
+   * Type: AAAA
+   * Host: ocp##
+   * Points to: IPv6 address
+   * TTL: 1 day
+
+3. Apply core changes
 ---------------------
 
 #. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
@@ -124,15 +146,15 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
 
-#. Add a target to the ``salt-config/roster`` file in this repository, using the hostname from above. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
+#. Add a target to the ``salt-config/roster`` file in this repository, naming the target after the service. If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, choose a target name starting with ``cove-``.
 
-#. `Upgrade packages <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.upgrade>`__:
+#. `Run the onboarding state file <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>__`
+
+   This state file ensures that the system is patched, configures the system hostname and applies the core salt configs. Replace "ocpXX" with the hostname you set up in GoDaddy earlier.
 
    .. code-block:: bash
-
-      salt-ssh TARGET pkg.upgrade dist_upgrade=True
-
-#. :doc:`Deploy the service<deploy>`, which applies the ``core`` state files.
+     
+      salt-ssh TARGET state.apply onboarding pillar='{"host_id": "ocpXX"}'
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -140,8 +162,12 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
       salt-ssh TARGET system.reboot
 
-3. Deploy the service
+4. Deploy the service
 ---------------------
+
+.. note::
+
+   See how to :doc:`deploy`.
 
 #. If the service is being introduced, add the target to the ``salt/top.sls`` file, and include any new state files you authored for the service.
 
@@ -157,7 +183,7 @@ If you couldn't select Ubuntu above, follow these additional steps:
 
 #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address.
 
-4. Migrate from the old server
+5. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user
@@ -184,11 +210,11 @@ For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
-5. Update external services
+6. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
-#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ (e.g. standard.open-contracting.org, toucan.open-contracting.org)
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
 #. Contact Dogsbody Technology Ltd to set up maintenance
