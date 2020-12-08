@@ -1,17 +1,6 @@
 Prometheus tasks
 ================
 
-Test Alert Manager
-------------------
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 alertmanager.prometheus.open-contracting.org:8255 || true
-   ssh root@alertmanager.prometheus.open-contracting.org
-   curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
-
-Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
-
 Monitor a service
 -----------------
 
@@ -31,6 +20,17 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 
       cd ~prometheus-client
       curl -v --cacert node_exporter.pem https://prom:PASSWORD@SUBDOMAIN.open-contracting.org:7231/metrics
+
+Test Alert Manager
+------------------
+
+.. code-block:: bash
+
+   curl --silent --connect-timeout 1 alertmanager.prometheus.open-contracting.org:8255 || true
+   ssh root@alertmanager.prometheus.open-contracting.org
+   curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
+
+Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
 
 Upgrade Prometheus
 ------------------
