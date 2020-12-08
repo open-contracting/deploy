@@ -35,7 +35,7 @@ An example app's Pillar file, with custom uWSGI settings:
 
    apache:
      https: force
-     servername: ex1.open-contracting.org
+     servername: example.open-contracting.org
 
    git:
      url: https://github.com/open-contracting/example_django_app.git

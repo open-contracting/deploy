@@ -6,8 +6,7 @@ This page serves as an orientation to how different components of the OCDS docum
 Servers
 -------
 
--  ``live.docs.opencontracting.uk0.bigv.io`` serves OCDS documentation (e.g. `1.1 <https://standard.open-contracting.org/1.1/>`__) and its profiles (e.g. `Public Private Partnerships <https://standard.open-contracting.org/profiles/ppp/latest/en/>`__). It is a reverse proxy to draft documentation (below), the `OCDS Data Review Tool <https://standard.open-contracting.org/review/>`__, and the `OC4IDS Data Review Tool <https://standard.open-contracting.org/infrastructure/review/>`__.
--  ``live.standard-search.opencontracting.uk0.bigv.io`` serves the Search API, whose base URL is http://standard-search.open-contracting.org/v1.
+The ``docs`` target serves OCDS documentation (e.g. `1.1 <https://standard.open-contracting.org/1.1/>`__), its profiles (e.g. `Public Private Partnerships <https://standard.open-contracting.org/profiles/ppp/latest/en/>`__) draft documentation (below). It is a reverse proxy to the `OCDS Data Review Tool <https://standard.open-contracting.org/review/>`__ and the `OC4IDS Data Review Tool <https://standard.open-contracting.org/infrastructure/review/>`__. It also serves Elasticsearch.
 
 Version and language switchers
 ------------------------------
