@@ -4,4 +4,5 @@ firewall:
 
 prometheus:
   node_exporter:
+    enabled: true
     version: 1.0.1

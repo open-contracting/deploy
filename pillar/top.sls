@@ -50,6 +50,6 @@ base:
     - maintenance
 
   # This avoids having to repeat these states for all but one target.
-  '* and not G@id:covid19-dev':
+  '* and not G@id:*-dev':
     - prometheus_client
     - private.prometheus_client

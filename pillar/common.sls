@@ -2,7 +2,7 @@
 
 prometheus:
   node_exporter:
-    enabled: true
+    enabled: false
 
 maintenance:
   enabled: false
