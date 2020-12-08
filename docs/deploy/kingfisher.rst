@@ -1,6 +1,74 @@
 Kingfisher tasks
 ================
 
+Delete a PostgreSQL user
+------------------------
+
+#. Connect to the Kingfisher database, and delete the given user from the ``views.read_only_user`` table, for example:
+
+   .. code-block:: sql
+
+      DELETE FROM views.read_only_user WHERE username = 'ocdskfpguest';
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      ocdskfpguest:
+        postgres_user.absent
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
+
+#. Remove the temporary state
+
+If the state fails with "User ocdskfpguest failed to be removed":
+
+#. Connect to the server as the ``root`` user, for example:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
+      ssh root@process.kingfisher.open-contracting.org
+
+#. Attempt to drop the given user as the ``postgres`` user, for example:
+
+   .. code-block:: bash
+
+      su - postgres -c 'psql ocdskingfisherprocess -c "DROP ROLE ocdskfpguest;"'
+
+#. You should see a message like:
+
+   .. code-block:: none
+
+      ERROR:  role "ocdskfpguest" cannot be dropped because some objects depend on it
+      DETAIL:  privileges for table …
+      …
+      and 1234 other objects (see server log for list)
+
+#. Open the server log, and search for the relevant ``DROP ROLE`` statement (after running the command below, press ``/``, type ``DROP ROLE``, press Enter, and press ``n`` until you match the relevant statement):
+
+   .. code-block:: bash
+
+      less /var/log/postgresql/postgresql-11-main.log
+
+#. If all the objects listed after ``DETAIL:`` in the server log can be dropped (press Space to scroll forward), then press ``q`` to quit ``less`` and open a SQL terminal as the ``postgres`` user:
+
+   .. code-block:: bash
+
+      su - postgres -c 'psql ocdskingfisherprocess'
+
+#. Finally, delete the given user:
+
+   .. code-block:: sql
+
+      REASSIGN OWNED BY ocdskfpguest TO anotheruser;
+      DROP OWNED BY ocdskfpguest;
+      DROP ROLE ocdskfpguest;
+
 .. _deploy-kingfisher-process:
 
 Deploy Kingfisher Process without losing Scrapy requests

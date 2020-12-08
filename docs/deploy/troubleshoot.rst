@@ -75,3 +75,20 @@ Then, once the deployment is done:
 
 #. Stop watching the processes, e.g. with ``Ctrl-C``
 #. Disconnect from the server, e.g. with ``Ctrl-D``
+
+.. _restart-service:
+
+Restart a service
+-----------------
+
+Services should restart normally. To manually restart a service, run, for example:
+
+.. code-block:: bash
+
+   ./run.py TARGET service.restart uwsgi
+
+To restart a service managed by `Supervisor <http://supervisord.org>`__, run, for example:
+
+.. code-block:: bash
+
+   ./run.py TARGET supervisord.restart scrapyd

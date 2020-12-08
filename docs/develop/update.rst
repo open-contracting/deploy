@@ -1,86 +1,156 @@
 Make changes
 ============
 
-Most changes are deployed when :doc:`deploying a service<../deploy/deploy>`. However, some changes require :doc:`additional steps<../deploy/update>`.
+.. _change-server-name:
 
-1. Read documentation
----------------------
+Change server name
+------------------
 
-The :doc:`../deploy/index` describe common operations like configuring Python applications or PostgreSQL databases.
+If the virtual host uses HTTPS, you will need to acquire SSL certificates for the new server name and remove the SSL certificates for the old server name.
 
-2. Test changes
----------------
+#. Change the ``ServerName``
+#. In the relevant Pillar file, change ``https`` to ``certonly``
+#. :doc:`Deploy the service<../deploy/deploy>`
+#. In the relevant Pillar file, change ``https`` to ``force``
+#. Remove the old SSL certificates, for example:
 
-To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
+   .. code-block:: bash
 
-.. code-block:: bash
+      ./run.py 'docs' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
 
-   ./run.py 'docs' state.apply test=True
-
-To preview changes to a Pillar file, run, for example:
-
-.. code-block:: bash
-
-   ./run.py 'docs' pillar.items
-
-To compare Jinja2 output after refactoring but before committing, use ``script/diff`` to compare a full state or one SLS file, for example:
+To check for old SSL certificates that were previously not removed, run:
 
 .. code-block:: bash
 
-   ./script/diff docs
-   ./script/diff docs zip
+   ./run.py '*' cmd.run 'ls /etc/letsencrypt/live'
 
-If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
+.. _remove-salt-configuration:
 
-Using a testing virtual host
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Remove Salt configuration
+-------------------------
 
-To test changes to the Apache files for the :doc:`../reference/docs` (for example, to test new redirects or proxy settings):
+If you delete something from a file, it won't be removed from the server, in most cases. To remove it, after you :doc:`deploy<../deploy/deploy>`:
 
-#. Make changes inside ``{% if testing %}`` blocks in the config files
-#. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
-#. To test manually, visit the `testing version <http://testing.live.standard.open-contracting.org/>`__
-#. To test automatically, run:
+Delete a file
+~~~~~~~~~~~~~
+
+Run, for example:
 
 .. code-block:: bash
 
-   pip install -r requirements.txt
-   env FQDN=testing.live.standard.open-contracting.org pytest
+   ./run.py 'docs' file.remove /path/to/file-to-remove
 
-Update the tests if you changed the behavior of the Apache files.
+Delete a line from a file
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Once satisfied, move the changes outside ``{% if testing  %}`` blocks. After deployment, the tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
+Run, for example:
 
-.. _using-a-virtual-machine:
+.. code-block:: bash
 
-Using a virtual machine
+   ./run.py 'docs' cmd.run "sed --in-place '/text to match/d' /path/to/file"
+
+Delete a cron job
+~~~~~~~~~~~~~~~~~
+
+#. Change ``cron.present`` to ``cron.absent`` in the Salt state
+#. :doc:`Deploy the service<../deploy/deploy>`
+#. Delete the Salt state
+
+Delete a service
+~~~~~~~~~~~~~~~~
+
+`Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
+
+To stop and disable the ``icinga2`` service on the ``docs`` target, for example:
+
+.. code-block:: bash
+
+   ./run.py 'docs' service.stop icinga2
+   ./run.py 'docs' service.disable icinga2
+
+If you deleted the ``uwsgi`` service, also run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-available/cove.ini
+   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-enabled/cove.ini
+
+.. note::
+
+   There is an `open issue <https://github.com/open-contracting/deploy/issues/211>`__ to make removing services easier.
+
+Delete a package
+~~~~~~~~~~~~~~~~
+
+`Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
+
+To scrub Icinga-related packages from the ``docs`` target, for example:
+
+.. code-block:: bash
+
+   ./run.py 'docs' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
+   ./run.py 'docs' pkg.autoremove list_only=True
+   ./run.py 'docs' pkg.autoremove purge=True
+
+Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
+
+.. code-block:: bash
+
+   dpkg -l | grep icinga
+   dpkg -l | grep nagios
+   ls /etc/icinga2
+   ls /usr/lib/nagios
+
+Delete a firewall setting
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Import the ``unset_firewall`` macro:
+
+   .. code-block:: jinja
+
+      {% from 'lib.sls' import unset_firewall %}
+
+#. Add a temporary macro call, for example:
+
+   .. code-block:: jinja
+
+      {{ unset_firewall("PUBLIC_POSTGRESQL") }}
+
+#. Deploy the relevant service, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.apply
+
+#. Remove the temporary macro call
+
+Delete an Apache module
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
-#. Get the virtual machine's IP address
+#. Add a temporary state, for example:
 
-   - If using VirtualBox, run (replacing ``VMNAME``):
+   .. code-block:: yaml
 
-     .. code-block:: bash
+      headers:
+        apache_module.disabled
 
-        VBoxManage guestproperty get VMNAME "/VirtualBox/GuestInfo/Net/0/V4/IP"
+#. Run the temporary state, for example:
 
-#. Update the relevant target in ``salt-config/roster`` to point to the virtual machine's IP address
-#. In the relevant Pillar file, change ``https`` to ``no``, if certbot is used to enable HTTPS
-#. Edit ``/etc/hosts`` to map the virtual machine's IP address to the service's hostname
-#. Deploy to the virtual machine and test
+   .. code-block:: bash
 
-Note that Python errors that occur on the virtual machine might still be reported to Sentry. The ``server_name`` tag in any error reports is expected to be different, but the error reports might still confuse other developers who don't know to check that tag.
+      ./run.py 'toucan' state.sls_id headers core
 
-3. Review code
---------------
+#. Remove the temporary state
 
-For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.
+Delete a virtual host
+~~~~~~~~~~~~~~~~~~~~~
 
-However, for this repository, in some cases, it's impossible to test changes to server configurations, for example: if SSL certificates are involved (because certbot can't verify a virtual machine), or if external services are involved. In other cases, it's too much effort to setup a test environment in which to test changes.
+Run, for example:
 
-In such cases, the same process is followed as in other repositories, but without the benefit of tests.
+.. code-block:: bash
 
-In entirely uncontroversial or time-sensitive cases, work is done on the ``master`` branch, deployed to servers, and committed to the ``master`` branch once successful. In cases where the changes require trial and error, the general approach is discussed in a GitHub issue, and then work is done on the ``master`` branch as above. Developers can always request informal reviews from colleagues.
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
 
-Take extra care when making larger changes or when making changes to `higher-priority apps <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md>`__.
+You might also delete the SSL certificates like when :ref:`changing server name<change-server-name>`.

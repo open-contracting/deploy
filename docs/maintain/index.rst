@@ -26,9 +26,9 @@ To be responsible for servers, you should:
 -  :ref:`Check that backups are made<hosting>`, at a regular interval
 
 .. toctree::
+   :caption: Contents
 
    periodic.rst
    packages.rst
    databases.rst
    elasticsearch.rst
-   quickref.rst

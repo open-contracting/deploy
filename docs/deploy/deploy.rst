@@ -14,7 +14,15 @@ To deploy a service, indicate the desired target and the ``state.apply`` functio
 
 To limit the output to changes and failures, add a ``--state-output=changes option``, for example:
 
+.. code-block:: bash
+
     ./run.py --state-output=changes option 'docs' state.apply
+
+To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
+
+.. code-block:: bash
+
+   ./run.py '*' state.sls_id root_authorized_keys core.sshd
 
 If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
 
@@ -55,14 +63,14 @@ For a Django app, common changed states are:
 
 Function: git.latest
   A new commit was deployed
-Function: virtualenv.managed
-  This change is a false positive
+Function: cmd.run, Name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
+  Requirements were installed
 Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py migrate --noinput
   Django migrations were applied
 Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py compilemessages
   Message catalogs were compiled
 Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py collectstatic --noinput
-  Static files were copied
+  Static files were collected
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 
@@ -74,4 +82,4 @@ States that always report changes:
 3. Manual cleanup
 -----------------
 
-If you :ref:`changed the server name<change-server-name>` or :ref:`deleted a service, package, user, file, or authorized key<remove-content>`, follow the linked steps to cleanup manually.
+If you :ref:`changed the server name<change-server-name>` or :ref:`removed a Salt configuration<remove-salt-configuration>`, follow the linked steps to cleanup manually.
