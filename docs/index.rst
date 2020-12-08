@@ -19,7 +19,7 @@ Development Guides
 
 Follow the :doc:`develop/get_started` guide before following any of the :doc:`deploy/index`. If you're new to Salt, :doc:`develop/learn`.
 
-To make changes to the `deploy repository <https://github.com/open-contracting/deploy>`__, read the :doc:`develop/update` guide, and the relevant guides within this section.
+To make changes to the `deploy repository <https://github.com/open-contracting/deploy>`__, read the :doc:`develop/update` and following guides.
 
 .. toctree::
    :maxdepth: 2
@@ -29,7 +29,7 @@ To make changes to the `deploy repository <https://github.com/open-contracting/d
 Deployment Guides
 -----------------
 
-If you need to perform a specific deployment task, follow the relevant how-to guide.
+If you need to perform a specific deployment task, follow the relevant how-to guide. This section focuses on deploying the changes you made in the previous section.
 
 All changes to servers should be made using Salt to ensure that changes are documented and reproducible; changes should not be made manually, which is undocumented and error-prone.
 
