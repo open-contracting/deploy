@@ -25,7 +25,8 @@ docker:
       - pkgrepo: docker
 
 # currently 1.22.0 because this is what is used in https://github.com/getredash/setup/blob/master/setup.sh#L18
-docker-compose:
-  cmd.run:
-    - name: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose; chmod u+x /usr/local/bin/docker-compose
-    - creates: /usr/local/bin/docker-compose
+/usr/local/bin/docker-compose:
+  file.managed:
+    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains['kernel'] }}-{{ grains['cpuarch'] }}
+    - source_hash: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains['kernel'] }}-{{ grains['cpuarch'] }}.sha256
+    - mode: 755
