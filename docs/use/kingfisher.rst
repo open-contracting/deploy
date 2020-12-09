@@ -37,7 +37,7 @@ Collect
 
 The ``ocdskfs`` user owns the deployment of Kingfisher Collect and Kingfisher Archive.
 
-You shouldn't need to connect to the main server as the ``ocdskfs`` user, as its data and log files are readable by the ``ocdskfp`` and ``analyse`` users. Only archival scripts and system administrators should manually delete any data and log files. If you do need to connect:
+You shouldn't need to connect to the main server as the ``ocdskfs`` user, as its data and log files are readable by the ``ocdskfp`` user. Only archival scripts and system administrators should manually delete any data and log files. If you do need to connect:
 
 .. code-block:: bash
 

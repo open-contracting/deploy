@@ -39,7 +39,6 @@ base:
     - kingfisher.collect
     - kingfisher.process
     - kingfisher.summarize
-    - kingfisher.analyse
     - kingfisher.archive
 
   'kingfisher-replica':
