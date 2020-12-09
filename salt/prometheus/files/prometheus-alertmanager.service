@@ -7,7 +7,7 @@ After=network-online.target
 User={{ entry.user }}
 Group={{ entry.user }}
 Type=simple
-ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-amd64/{{ name }} \
+ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-{{ grains['osarch'] }}/{{ name }} \
     --web.listen-address 127.0.0.1:9095 \
     --config.file /home/{{ entry.user }}/conf-alertmanager.yml \
     --storage.path /home/{{ entry.user }}/data \

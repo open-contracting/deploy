@@ -10,7 +10,7 @@ docker_prepackages:
 docker:
   pkgrepo.managed:
     - humanname: Docker Official Repository
-    - name: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ grains['oscodename'] }} stable
+    - name: deb [arch={{ grains['osarch'] }}] https://download.docker.com/linux/ubuntu {{ grains['oscodename'] }} stable
     - dist: {{ grains['oscodename'] }}
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/linux/ubuntu/gpg

@@ -121,6 +121,21 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 
+{#
+  Accepts a `name` parameter, which must match the repository name of a Prometheus component: for example, prometheus.
+
+  The macro reads Pillar data from the `prometheus.{name}` key. The variables below refer to keys in this Pillar data.
+
+  The macro creates states to:
+
+  - Download and extract the specified `version` of the named component to the `user`'s home directory
+  - Create `config`uration files in the user's home directory, if any
+  - Create a systemd `service` file from a `salt/prometheus/files/{service}.service` template,
+    with access to `name`, `user` and `entry` variables
+  - Start the `service`
+  - If the entry has an `apache` key, create a virtual host using a configuration file that has the same name as the
+    `service`, passing the `servername` and `https` variables from the entry's `apache` key, and the `user`.
+#}
 {% macro prometheus_service(name) %}
 
 {% set entry = pillar.prometheus[name] %}
@@ -132,7 +147,7 @@ unset {{ setting_name }} firewall setting:
 extract_{{ name }}:
   archive.extracted:
     - name: {{ userdir }}
-    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-amd64.tar.gz
+    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-{{ grains['osarch'] }}.tar.gz
     - source_hash: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/sha256sums.txt
     - user: {{ entry.user }}
     - group: {{ entry.user }}

@@ -7,7 +7,7 @@ After=network-online.target
 User={{ entry.user }}
 Group={{ entry.user }}
 Type=simple
-ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-amd64/{{ name }} \
+ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-{{ grains['osarch'] }}/{{ name }} \
     --web.listen-address :7231 \
 {%- if salt['pillar.get']('prometheus:node_exporter:smartmon') %}
     --collector.textfile.directory /home/{{ entry.user }}/node-exporter-textfile-directory \
