@@ -58,25 +58,25 @@ else
 fi
 
 echo_verbose "Get iptables location"
-if [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "20.04" ];then
+if [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "20.04" ]; then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "18.04" ];then
+elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "18.04" ]; then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "16.04" ];then
+elif [ "$ID" == "ubuntu" ] && [ "$VERSION_ID" == "16.04" ]; then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "debian" ] && [ "$VERSION_ID" == "8" ];then
+elif [ "$ID" == "debian" ] && [ "$VERSION_ID" == "8" ]; then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "debian" ] && [ "$VERSION_ID" == "7" ];then
+elif [ "$ID" == "debian" ] && [ "$VERSION_ID" == "7" ]; then
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
-elif [ "$ID" == "centos" ] && [ "$VERSION_ID" == "7" ];then
+elif [ "$ID" == "centos" ] && [ "$VERSION_ID" == "7" ]; then
     IPTABLESSAVLOC=/etc/sysconfig/iptables
     IP6TABLESSAVLOC=/etc/sysconfig/ip6tables
-elif [ "$ID" == "redhat-derivative" ];then
+elif [ "$ID" == "redhat-derivative" ]; then
     IPTABLESSAVLOC=/etc/sysconfig/iptables
     IP6TABLESSAVLOC=/etc/sysconfig/ip6tables
 else
