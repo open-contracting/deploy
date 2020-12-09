@@ -1,6 +1,8 @@
 Make changes
 ============
 
+See `salt/maintenance/README.md <https://github.com/open-contracting/dogsbody-maintenance#readme>`__ to configure maintenance.
+
 .. _change-server-name:
 
 Change server name
