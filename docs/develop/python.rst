@@ -177,6 +177,7 @@ The example above uses the `django.conf.include <https://github.com/open-contrac
 -  Sets the ``DocumentRoot`` to the ``target`` directory
 -  Configures Apache to serve Django's static and media files from the ``assets_base_url``, if provided
 -  Configures the reverse proxy to the uWSGI service, using uWSGI's ``harakiri`` setting as the ``timeout`` value
+-  Includes a file matching the app's name from the ``salt/apache/includes`` directory, if any
 
 Alternatively, you can write your own configuration file in ``salt/apache/files``, and reference it from the ``configuration`` variable.
 
