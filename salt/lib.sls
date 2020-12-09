@@ -43,6 +43,8 @@ unset {{ setting_name }} firewall setting:
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.
 {% macro apache(conffile, name='', servername='', serveraliases=[], https='', extracontext='', ports=[]) %}
+# servername = FQDN, main host in Apache.
+
 
 {% if name == '' %}
     {% set name = conffile %}
@@ -92,18 +94,20 @@ unset {{ setting_name }} firewall setting:
 
 {{ servername }}_acquire_certs:
   cmd.run:
-    - name: /etc/init.d/apache2 reload; letsencrypt certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /var/www/html/ {{ domainargs }}
+    - name: apache2ctl -k graceful; /snap/bin/certbot certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /usr/local/share/ocp-letsencrypt/ {{ domainargs }}
     - creates:
       - /etc/letsencrypt/live/{{ servername }}/cert.pem
       - /etc/letsencrypt/live/{{ servername }}/chain.pem
       - /etc/letsencrypt/live/{{ servername }}/fullchain.pem
       - /etc/letsencrypt/live/{{ servername }}/privkey.pem
     - require:
-      - pkg: letsencrypt
+      # Require certbot doesn't work for some reason
+      #- file: /snap/bin/certbot
       - file: /etc/apache2/sites-available/{{ name }}.conf
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
       - file: /etc/apache2/sites-enabled/{{ name }}.conf
-      - file: /var/www/html/.well-known/acme-challenge
+      - file: /etc/apache2/sites-enabled/010-letsencrypt.conf
+      - file: /usr/local/share/ocp-letsencrypt/.well-known/acme-challenge
     - watch_in:
       - service: apache2
 
@@ -118,6 +122,30 @@ unset {{ setting_name }} firewall setting:
     - watch_in:
       - service: apache2
 
+{% endmacro %}
+
+{% macro apache_simple_config(name, alt_name='') %}
+# Upload config to server and enable
+# name = file name in apache/files
+# alt_name = name on server 
+
+{% if alt_name == '' %}
+    {% set alt_name = name %}
+{% endif %}
+
+
+# Enables .well-known authentication for LE SSL certs
+/etc/apache2/sites-available/{{ alt_name }}:
+  file.managed:
+    - source: salt://apache/files/{{ name }}
+
+/etc/apache2/sites-enabled/{{ alt_name }}:
+  file.symlink:
+    - target: /etc/apache2/sites-available/{{ alt_name }}
+    - require:
+      - file: /etc/apache2/sites-available/{{ alt_name }}
+    - watch_in:
+      - service: apache2
 {% endmacro %}
 
 

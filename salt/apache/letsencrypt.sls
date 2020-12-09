@@ -1,21 +1,36 @@
+{% from 'lib.sls' import apache_simple_config %}
+
 include:
   - apache.modules.ssl
 
-/var/www/html/.well-known/acme-challenge:
+/usr/local/share/ocp-letsencrypt/.well-known/acme-challenge:
   file.directory:
     - user: www-data
     - group: www-data
     - makedirs: True
 
-letsencrypt:
-  pkg.installed
+# Enables .well-known authentication for LE SSL certs
+{{ apache_simple_config("letsencrypt.conf", alt_name="010-letsencrypt.conf") }}
+
+# Set up post renew hook to reload Apache for new certs
+/etc/letsencrypt/renewal-hooks/deploy/letsencrypt_deploy_hook_apache.sh:
+  file.managed:
+    - source: salt://apache/files/letsencrypt_deploy_hook_apache.sh
+
+# Waiting for this GH issue to be closed https://github.com/saltstack/salt/issues/58132
+#certbot:
+#  snap.installed
+certbot:
+  cmd.run:
+    - name: snap install --classic certbot
+    - creates: /snap/bin/certbot
 
 cron-letsencrypt-renew:
   cron.present:
     - identifier: letsencrypt-renew
-    - name: letsencrypt renew --no-self-upgrade >/dev/null 2>&1
+    - name: certbot renew -q
     - user: root
     - minute: random
     - hour: 7
   require:
-    - pkg: letsencrypt
+    - sls: certbot
