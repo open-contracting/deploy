@@ -9,6 +9,37 @@ To orient you to the repository: When you run the ``./run.py`` script, it calls 
 
 Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__ before editing this repository.
 
+Jinja style
+-----------
+
+Use dot notation:
+
+.. code-block:: jinja
+
+   {{ pillar.host_id }}
+   {{ grains.kernel }}
+
+**AVOID** bracket notation:
+
+.. code-block:: jinja
+
+   {{ pillar['host_id'] }}  # AVOID
+   {{ grains['kernel'] }}  # AVOID
+
+If a Pillar key might not be set, use ``.get()``:
+
+.. code-block:: jinja
+
+   {{ pillar.parent.get('child') }}
+
+If many parts of a Pillar key might not be set, use ``salt['pillar.get']()``:
+
+.. code-block:: jinja
+
+   {{ salt['pillar.get']('parent:child') }}
+
+Note the colon (``:``) between ``parent`` and ``child``.
+
 cmd functions
 -------------
 
