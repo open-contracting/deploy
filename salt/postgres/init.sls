@@ -14,7 +14,7 @@
   {% endif %}
 {% endif %}
 
-# Install PostgreSQL from the official repository, as it offers newer versions than the Ubuntu repository.
+# Install PostgreSQL from the official repository, as it offers newer versions than the operating system repository.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
