@@ -1,6 +1,3 @@
-# Add SSL directives.
-# https://httpd.apache.org/docs/current/mod/mod_ssl.html
-
 include:
   - apache
 

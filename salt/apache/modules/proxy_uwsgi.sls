@@ -1,6 +1,3 @@
-# Provide support for the uWSGI protocol in ProxyPass directives.
-# https://httpd.apache.org/docs/current/en/mod/mod_proxy_uwsgi.html
-
 include:
   - apache
   - apache.modules.proxy

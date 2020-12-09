@@ -6,6 +6,7 @@ Development Guides
    get_started.rst
    learn.rst
    update.rst
+   apache.rst
    postgres.rst
    python.rst
    logs.rst
