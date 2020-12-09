@@ -37,7 +37,7 @@ Upgrade Prometheus
 
 We set the version numbers of the Prometheus software in the ``pillar/prometheus_client.sls`` and ``pillar/prometheus_server.sls`` files:
 
--  ``prometheus.server.version``
+-  ``prometheus.prometheus.version``
 -  ``prometheus.alertmanager.version``
 -  ``prometheus.node_exporter.version``
 

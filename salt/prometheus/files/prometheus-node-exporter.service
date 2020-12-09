@@ -1,0 +1,18 @@
+[Unit]
+Description=Prometheus Node Exporter
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+User={{ entry.user }}
+Group={{ entry.user }}
+Type=simple
+ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-amd64/{{ name }} \
+    --web.listen-address :7231 \
+{%- if salt['pillar.get']('prometheus:node_exporter:smartmon') %}
+    --collector.textfile.directory /home/{{ entry.user }}/node-exporter-textfile-directory \
+{%- endif %}
+    --web.config /home/{{ entry.user }}/config.yaml
+
+[Install]
+WantedBy=multi-user.target
