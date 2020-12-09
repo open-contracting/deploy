@@ -1,6 +1,24 @@
 Configure Apache
 ================
 
+Setup
+-----
+
+Add to your service's state file:
+
+.. code-block:: yaml
+
+   include:
+     - apache.public
+
+This will:
+
+-  Open ports 80 and 443
+-  Set up a virtual host for the server's hostname
+-  Include the ``apache.letsencrypt`` state file (see :ref:`ssl-certificates`)
+
+.. _ssl-certificates:
+
 Acquire SSL certificates
 ------------------------
 
@@ -11,14 +29,9 @@ Acquire SSL certificates
 Enable Apache modules
 ---------------------
 
-There are state files for common modules, which you can include in your service's state file. For example:
+You might need to enable Apache modules to use non-core directives in your configuration files.
 
-.. code-block:: yaml
-
-   include:
-      - apache.modules.remoteip
-
-The state files are:
+There are state files for common modules:
 
 apache.modules.proxy
   Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/current/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
@@ -32,6 +45,13 @@ apache.modules.ssl
   Adds `SSL directives <https://httpd.apache.org/docs/current/mod/mod_ssl.html>`__. Included by the ``apache.letsencrypt`` state file, which is included by the ``apache.public`` state file, which is included by the ``python_apps`` state file.
 
 If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
+
+To enable a module, include the relevant state file in your service's state file. For example:
+
+.. code-block:: yaml
+
+   include:
+     - apache.modules.remoteip
 
 Add basic authentication
 ------------------------
