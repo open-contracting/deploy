@@ -158,7 +158,7 @@ Add, for example:
 This will:
 
 -  Open ports 80 and 443
--  Add a configuration file to the ``/etc/apache2/sites-available`` directory, using the same name the ``target`` directory, which:
+-  Add a configuration file to the ``/etc/apache2/sites-available`` directory that has the same name as the ``target`` directory, which:
 
    -  Listens on port 80
    -  Listens on port 443, if ``https`` is ``force``

@@ -44,14 +44,14 @@ apache.modules.remoteip
 apache.modules.ssl
   Adds `SSL directives <https://httpd.apache.org/docs/current/mod/mod_ssl.html>`__. Included by the ``apache.letsencrypt`` state file, which is included by the ``apache.public`` state file, which is included by the ``python_apps`` state file.
 
-If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
-
 To enable a module, include the relevant state file in your service's state file. For example:
 
 .. code-block:: yaml
 
    include:
      - apache.modules.remoteip
+
+If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
 
 Add basic authentication
 ------------------------

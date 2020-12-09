@@ -1,6 +1,12 @@
 Make changes
 ============
 
+.. toctree::
+
+   apache.rst
+   postgres.rst
+   python.rst
+
 See `salt/maintenance/README.md <https://github.com/open-contracting/dogsbody-maintenance#readme>`__ to configure maintenance.
 
 .. _change-server-name:
