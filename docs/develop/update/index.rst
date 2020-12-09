@@ -58,6 +58,31 @@ Run, for example:
 
    ./run.py 'docs' cmd.run "sed --in-place '/text to match/d' /path/to/file"
 
+Delete a user
+~~~~~~~~~~~~~
+
+#. Move any files from the user's home directory and change their ownership
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      analysis:
+        user.absent:
+          - purge: true
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.sls_id analysis kingfisher
+
+#. Remove the temporary state
+
+.. note::
+
+   The `purge <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.user.html#salt.states.user.absent>`__ option will delete all of the user's files.
+
 Delete a cron job
 ~~~~~~~~~~~~~~~~~
 
