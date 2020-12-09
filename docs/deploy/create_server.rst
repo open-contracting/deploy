@@ -179,7 +179,11 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
    .. code-block:: bash
      
-      salt-ssh TARGET state.apply 'onboarding,core*' pillar='{"host_id": "ocpXX"}'
+      salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*' pillar='{"host_id": "ocpXX"}'
+
+   .. note::
+
+      This step takes time, so ``--log-level=trace`` is used to show activity.
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
