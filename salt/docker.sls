@@ -24,7 +24,8 @@ docker:
     - require:
       - pkgrepo: docker
 
-# currently 1.22.0 because this is what is used in https://github.com/getredash/setup/blob/master/setup.sh#L18
+# 1.22.0 is used in https://github.com/getredash/setup/blob/cb47626b6823cbafac407b3e8991e97f53121f6e/setup.sh#L18
+# https://docs.docker.com/compose/install/
 /usr/local/bin/docker-compose:
   file.managed:
     - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains['kernel'] }}-{{ grains['cpuarch'] }}
