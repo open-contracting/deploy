@@ -16,7 +16,7 @@ python_apps:
     apache:
       configuration: django
       https: force
-      serveraliases: ['master.{{ grains["fqdn"] }}'] # should match python.cove.git.branch
+      serveraliases: ['master.{{ grains.fqdn }}'] # should match python.cove.git.branch
       context:
         docs_ipv4: 5.28.62.151
         docs_ipv6: 2001:41c9:1:41c::151

@@ -10,8 +10,8 @@ docker_prepackages:
 docker:
   pkgrepo.managed:
     - humanname: Docker Official Repository
-    - name: deb [arch={{ grains['osarch'] }}] https://download.docker.com/linux/ubuntu {{ grains['oscodename'] }} stable
-    - dist: {{ grains['oscodename'] }}
+    - name: deb [arch={{ grains.osarch }}] https://download.docker.com/linux/ubuntu {{ grains.oscodename }} stable
+    - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/linux/ubuntu/gpg
     - require:
@@ -28,6 +28,6 @@ docker:
 # https://docs.docker.com/compose/install/
 /usr/local/bin/docker-compose:
   file.managed:
-    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains['kernel'] }}-{{ grains['cpuarch'] }}
-    - source_hash: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains['kernel'] }}-{{ grains['cpuarch'] }}.sha256
+    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}
+    - source_hash: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}.sha256
     - mode: 755
