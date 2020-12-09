@@ -28,7 +28,7 @@ Bytemark
 
       .. note::
 
-      This adds your public key to ``/root/.ssh/authorized_keys``.
+         This adds your public key to ``/root/.ssh/authorized_keys``.
 
    #. Click *Add this server*
 
