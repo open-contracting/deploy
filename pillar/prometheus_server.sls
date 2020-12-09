@@ -3,7 +3,6 @@ prometheus:
     user: prometheus-server
     service: prometheus-server
     version: 2.20.1
-    data_directory: true
     local_storage_retention: 120d
     config:
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml
@@ -16,7 +15,6 @@ prometheus:
     user: prometheus-alertmanager
     service: prometheus-alertmanager
     version: 0.21.0
-    data_directory: true
     config:
       conf-alertmanager.yml: salt://prometheus/files/conf-alertmanager.yml
     apache:

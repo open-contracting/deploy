@@ -128,26 +128,16 @@ unset {{ setting_name }} firewall setting:
 
 {{ createuser(entry.user) }}
 
-## Get binary
 # Note: This does not clean up old versions.
-
-get_{{ name }}:
-  cmd.run:
-    - name: curl -L https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-amd64.tar.gz -o {{ userdir }}/{{ name }}-{{ entry.version }}.tar.gz
-    - creates: {{ userdir }}/{{ name }}-{{ entry.version }}.tar.gz
+extract_{{ name }}:
+  archive.extracted:
+    - name: {{ userdir }}
+    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-amd64.tar.gz
+    - source_hash: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/sha256sums.txt
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
     - require:
       - user: {{ entry.user }}_user_exists
-
-extract_{{ name }}:
-  cmd.run:
-    - name: tar xvzf {{ name }}-{{ entry.version }}.tar.gz
-    - cwd: {{ userdir }}
-    - creates: {{ userdir }}/{{ name }}-{{ entry.version }}.linux-amd64/{{ name }}
-    - require:
-      - cmd: get_{{ name }}
-
-## Configure
-# https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 
 {% for filename, source in entry.config.items() %}
 {{ userdir }}/{{ filename }}:
@@ -160,26 +150,12 @@ extract_{{ name }}:
     - group: {{ entry.user }}
     - require:
       - user: {{ entry.user }}_user_exists
+    # Make sure the service restarts if a configuration file changes.
     - watch_in:
       - service: {{ entry.service }}
 {% endfor %}
 
-## Data directory
-
-{% if entry.get('data_directory') %}
-{{ userdir }}/data:
-  file.directory:
-    - user: {{ entry.user }}
-    - group: {{ entry.user }}
-    - makedirs: True
-    - require:
-      - user: {{ entry.user }}_user_exists
-    - require_in:
-      - service: {{ entry.service }}
-{% endif %}
-
-## Start service
-
+# https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 /etc/systemd/system/{{ entry.service }}.service:
   file.managed:
     - source: salt://prometheus/files/{{ entry.service }}.service
@@ -188,22 +164,19 @@ extract_{{ name }}:
         name: {{ name }}
         user: {{ entry.user }}
         entry: {{ entry|yaml }}
-    - require:
-      - user: {{ entry.user }}_user_exists
+    - watch_in:
+      - service: {{ entry.service }}
 
 {{ entry.service }}:
   service.running:
     - enable: True
     - restart: True
     - require:
-      - cmd: extract_{{ name }}
-      - file: /etc/systemd/system/{{ entry.service }}.service
-    # Make sure service restarts if any config changes
-    - watch:
+      - archive: extract_{{ name }}
       - file: /etc/systemd/system/{{ entry.service }}.service
 
 {% if 'apache' in entry %}
-{{ apache(entry.user,
+{{ apache(entry.service,
     servername=entry.apache.servername,
     https=entry.apache.https,
     extracontext='user: ' + entry.user) }}
