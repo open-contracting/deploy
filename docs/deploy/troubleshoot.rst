@@ -8,7 +8,7 @@ Increase verbosity
 
 .. code-block:: bash
 
-   ./run.py -v all TARGET FUNCTION
+   ./run.py --log-level=all TARGET FUNCTION
 
 Salt hangs inexplicably
 -----------------------

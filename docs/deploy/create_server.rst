@@ -192,7 +192,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
 #. If the service is being introduced, add the target to the ``salt/top.sls`` and ``pillar/top.sls`` files, and include any new state or Pillar files you authored for the service.
 
-#. If the service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you will need to deploy the related services.)
+#. If the service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
 
 #. :doc:`Deploy the service<deploy>`.
 
