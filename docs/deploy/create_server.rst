@@ -47,7 +47,12 @@ Hetzner
 #. Click the *Order* button for the chosen server
 
    #. Set *Server Location* (no issues to date with the lowest price option)
-   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal"
+   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal".
+
+      .. note::
+
+         If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps.
+
    #. Set *Drives* as needed
    #. Click the *Order Now* button
    #. In the *Server Login Details* panel, set *Type* to "Public key" and enter your public SSH key
@@ -64,7 +69,12 @@ Hetzner
 
 #. Wait to be notified via email that the server is ready.
 
-If Ubuntu was not an option above, follow these steps:
+.. _install-ubuntu:
+
+Install Ubuntu
+^^^^^^^^^^^^^^
+
+If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
 #. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
 #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
