@@ -3,6 +3,7 @@ Make changes
 
 .. toctree::
 
+   firewall.rst
    apache.rst
    postgres.rst
    python.rst
@@ -108,6 +109,8 @@ Then, login to the server and check for and delete any remaining packages, files
    dpkg -l | grep nagios
    ls /etc/icinga2
    ls /usr/lib/nagios
+
+.. _delete-firewall-setting:
 
 Delete a firewall setting
 ~~~~~~~~~~~~~~~~~~~~~~~~~
