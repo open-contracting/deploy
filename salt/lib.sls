@@ -147,7 +147,7 @@ unset {{ setting_name }} firewall setting:
 extract_{{ name }}:
   archive.extracted:
     - name: {{ userdir }}
-    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-{{ grains.osarch }}.tar.gz
+    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}.tar.gz
     - source_hash: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/sha256sums.txt
     - user: {{ entry.user }}
     - group: {{ entry.user }}

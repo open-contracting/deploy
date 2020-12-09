@@ -75,9 +75,9 @@ To make states more reusable, use `Grains <https://docs.saltstack.com/en/latest/
 cpuarch
   ``x86_64``
 kernel
-  ``Linux``
+  ``Linux`` (capitalized)
 os
-  ``Ubuntu``
+  ``Ubuntu`` (capitalized)
 osarch
   ``amd64``
 oscodename
