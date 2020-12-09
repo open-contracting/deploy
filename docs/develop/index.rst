@@ -5,7 +5,7 @@ Development Guides
 
    get_started.rst
    learn.rst
-   update.rst
+   update/index.rst
    logs.rst
    troubleshoot.rst
    commit.rst
