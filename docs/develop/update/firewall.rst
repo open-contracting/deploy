@@ -12,11 +12,11 @@ PUBLIC_HTTP
 PUBLIC_HTTPS
   Opens port 443. Set by the ``apache`` state.
 PUBLIC_POSTGRESQL
-  Opens port 5432. Set by the ``postgres`` state, if ``postgres.public_access`` is ``true`` in Pillar.
+  Opens port 5432. Set by the ``postgres`` state, if ``postgres.public_access`` is ``True`` in Pillar.
 PRIVATE_POSTGRESQL
-  Opens port 5432 to the replica servers. Set by the ``postgres`` state, if ``postgres.public_access`` isn't ``true`` in Pillar.
+  Opens port 5432 to the replica servers. Set by the ``postgres`` state, if ``postgres.public_access`` isn't ``True`` in Pillar.
 REPLICA_IPV4 and REPLICA_IPV6
-  The IPs of replica servers. Set by the ``postgres`` state using Pillar data, if ``postgres.public_access`` isn't ``true`` in Pillar.
+  The IPs of replica servers. Set by the ``postgres`` state using Pillar data, if ``postgres.public_access`` isn't ``True`` in Pillar.
 PUBLIC_ELASTICSEARCH
   Opens port 9200. Set by the ``elasticsearch`` state.
 PUBLIC_TINYPROXY
