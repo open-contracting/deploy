@@ -1,6 +1,5 @@
 include:
   - apache
-  - apache.modules.ssl
 
 # mod_md 2.2 is in at least Apache 2.4.42.
 # mod_watchdog is part of the server and not a module.

@@ -1,6 +1,8 @@
 include:
   - apache
+  - apache.modules.http2
   - apache.modules.md
+  - apache.modules.ssl
 
 /etc/apache2/conf-available/letsencrypt.conf:
   file.managed:
