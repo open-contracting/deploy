@@ -59,7 +59,7 @@ Using a virtual machine
         VBoxManage guestproperty get VMNAME "/VirtualBox/GuestInfo/Net/0/V4/IP"
 
 #. Update the relevant target in ``salt-config/roster`` to point to the virtual machine's IP address
-#. In the relevant Pillar file, change ``https`` to ``''``
+#. In the relevant Pillar file, change ``https`` to ``False``
 #. Edit ``/etc/hosts`` to map the virtual machine's IP address to the service's hostname
 #. Deploy to the virtual machine and test
 

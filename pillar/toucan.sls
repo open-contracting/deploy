@@ -17,7 +17,7 @@ python_apps:
     apache:
       configuration: django
       servername: toucan.open-contracting.org
-      https: force
+      https: True
     uwsgi:
       configuration: django
 

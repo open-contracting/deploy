@@ -68,7 +68,7 @@ unset {{ setting_name }} firewall setting:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ entry.servername }}
         serveraliases: {{ entry.get('serveraliases', [])|yaml }}
-        https: "{{ entry.get('https', '') }}"
+        https: {{ entry.get('https', False) }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:

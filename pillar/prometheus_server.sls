@@ -21,8 +21,8 @@ apache:
     prometheus-server:
       configuration: prometheus-server
       servername: monitor.prometheus.open-contracting.org
-      https: force
+      https: True
     prometheus-alertmanager:
       configuration: prometheus-alertmanager
       servername: alertmanager.prometheus.open-contracting.org
-      https: force
+      https: True

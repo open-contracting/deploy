@@ -39,7 +39,7 @@ Add to your service's Pillar file:
          configuration: docs
          servername: standard.open-contracting.org
          serveraliases: ['live.standard.open-contracting.org']
-         https: force
+         https: True
          context:
            testing: False
            ocds_cove_backend: https://cove.live3.cove.opencontracting.uk0.bigv.io
@@ -50,7 +50,7 @@ This will:
 
 -  Create a ``/etc/apache2/sites-available/{site}.conf`` file that includes a ``/etc/apache2/sites-available/{site}.conf.include`` file, which, together:
 
-   -  If ``apache.public_access`` is ``true`` and ``https`` is ``force``:
+   -  If ``apache.public_access`` and ``https`` are ``True``:
 
       -  :ref:`ssl-certificates`
       -  Configure a HTTP/HTTPS permanent redirect
@@ -73,7 +73,7 @@ The example above uses the `docs <https://github.com/open-contracting/deploy/blo
 Acquire SSL certificates
 ------------------------
 
-If ``apache.public_access`` is ``true`` and ``https`` is ``force``, `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ is used to acquire SSL certificates from Let's Encrypt. If the server name is new, you must:
+If ``apache.public_access`` and ``https`` are ``True``, `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ is used to acquire SSL certificates from Let's Encrypt. If the server name is new, you must:
 
 -  :doc:`Deploy the service<deploy>` with the new server name, if not done already.
 -  ``mod_md`` will request a certificate from Let's Encrypt.
