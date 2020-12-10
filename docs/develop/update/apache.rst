@@ -13,7 +13,12 @@ Add to your service's Pillar file:
    apache:
      public_access: true
 
-This will open ports 80 (HTTP) and 443 (HTTPS), as long as either an :ref:`apache.sites key<apache-sites>` is set (next section), or the :doc:`python_apps state file<python>` is included.
+This will:
+
+-  Open ports 80 (HTTP) and 443 (HTTPS)
+-  Install the Apache service
+-  Enable the :ref:`mod_http2, mod_md and mod_ssl<apache-modules>` Apache modules
+-  Enable an Apache configuration for acquiring Let's Encrypt certificates
 
 If you are only using Apache to serve Python apps, continue from :doc:`python`.
 
@@ -43,17 +48,22 @@ Add to your service's Pillar file:
 
 This will:
 
--  Install the Apache service
 -  Create a ``/etc/apache2/sites-available/{site}.conf`` file that includes a ``/etc/apache2/sites-available/{site}.conf.include`` file, which, together:
 
-   -  Listen on port 80
-   -  Listen on port 443, if ``apache.public_access`` is ``true`` and ``https`` is ``force``
-   -  Create a virtual host
-   -  Set the ``servername`` and ``serveraliases``, if any
-   -  Set up an HTTP/HTTPS redirect, if ``apache.public_access`` is ``true`` and ``https`` is ``force``
+   -  If ``apache.public_access`` is ``true`` and ``https`` is ``force``:
+
+      -  :ref:`ssl-certificates`
+      -  Configure an HTTP/HTTPS redirect
+      -  Create a virtual host serving port 443
+
+   -  Otherwise:
+
+      -  Create a virtual host serving port 80
+
+   -  Set the virtual host's ``servername`` and ``serveraliases``, if any
 
 -  Symlink the new files from the ``etc/apache2/sites-enabled`` directory
--  Restart the Apache service if the configuration changed
+-  Reload the Apache service if the configuration changed
 
 The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/sites/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
 
@@ -105,6 +115,8 @@ You might need to enable Apache modules to use non-core directives in your confi
 
 There are state files for common modules:
 
+apache.modules.https
+  Provides support for the `HTTP/2 protocol <https://httpd.apache.org/docs/2.4/mod/mod_http2.html>`__.
 apache.modules.md
   Acquires `SSL certificates from Let's Encrypt <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__.
 apache.modules.proxy
