@@ -1,6 +1,6 @@
 prometheus:
   node_exporter:
-    smartmon: true
+    smartmon: True
 
 vm:
   nr_hugepages: 16545
@@ -48,7 +48,7 @@ logrotate:
     archive: kingfisher-archive
 
 apache:
-  public_access: true
+  public_access: True
   sites:
     ocdskingfisherscrape:
       configuration: kingfisher-collect

@@ -1,6 +1,6 @@
 prometheus:
   node_exporter:
-    smartmon: true
+    smartmon: True
 
 vm:
   nr_hugepages: 8325

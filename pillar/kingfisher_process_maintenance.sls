@@ -1,8 +1,8 @@
 maintenance:
-  enabled: true
+  enabled: True
   patching: manual
   rkhunter_customisation: |
     ALLOWDEVFILE=/dev/shm/PostgreSQL.*
-  hardware_sensors: true
+  hardware_sensors: True
   custom_sensors:
     - coretemp

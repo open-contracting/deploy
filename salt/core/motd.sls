@@ -11,4 +11,4 @@ disable default motds:
   file.replace:
     - pattern: "^ENABLED=.*"
     - repl: ENABLED=0
-    - ignore_if_missing: true
+    - ignore_if_missing: True

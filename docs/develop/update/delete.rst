@@ -32,7 +32,7 @@ Delete a user
 
       analysis:
         user.absent:
-          - purge: true
+          - purge: True
 
 #. Run the temporary state, for example:
 

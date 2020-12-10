@@ -2,10 +2,10 @@
 
 prometheus:
   node_exporter:
-    enabled: false
+    enabled: False
 
 maintenance:
-  enabled: false
+  enabled: False
   # Set safe default.
   patching: automatic
 

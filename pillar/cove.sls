@@ -1,5 +1,5 @@
 apache:
-  public_access: true
+  public_access: True
 
 python_apps:
   cove:

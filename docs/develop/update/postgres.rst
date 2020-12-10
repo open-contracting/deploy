@@ -25,7 +25,7 @@ To enable public access, update the server's Pillar file:
   :emphasize-lines: 2
 
   postgres:
-    public_access: true
+    public_access: True
 
 Add your configuration
 ----------------------

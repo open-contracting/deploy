@@ -16,7 +16,7 @@ prometheus:
       conf-alertmanager.yml: salt://prometheus/files/config/conf-alertmanager.yml
 
 apache:
-  public_access: true
+  public_access: True
   sites:
     prometheus-server:
       configuration: prometheus-server

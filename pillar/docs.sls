@@ -9,14 +9,14 @@ shared-context: &shared-context
   timeout: 1830  # 30 sec longer than cove's uwsgi.harakiri
 
 apache:
-  public_access: true
+  public_access: True
   sites:
     ocds-docs-live:
       configuration: docs
       servername: standard.open-contracting.org
       https: force
       context:
-        testing: false
+        testing: False
         <<: *shared-context
     # For information on the testing virtual host, see:
     # https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
@@ -25,7 +25,7 @@ apache:
       servername: testing.live.standard.open-contracting.org
       https: force
       context:
-        testing: true
+        testing: True
         <<: *shared-context
     ocds-legacy:
       configuration: docs-legacy

@@ -9,9 +9,9 @@ route:
     group_wait: 30s
     group_interval: 5m
     repeat_interval: 1d
-    continue: true
+    continue: True
   - receiver: dogsbody-webhook
-    continue: true
+    continue: True
 
 receivers:
 - name: 'email.planio.servers'
@@ -22,8 +22,8 @@ receivers:
       auth_username: {{ pillar.smtp.username }}
       auth_password: {{ pillar.smtp.password }}
       require_tls: yes
-      send_resolved: true
+      send_resolved: True
 - name: 'dogsbody-webhook'
   webhook_configs:
-    - send_resolved: true
+    - send_resolved: True
       url: https://webhook01.dogsbodytechnology.com/v1/prometheus

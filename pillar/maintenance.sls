@@ -1,3 +1,3 @@
 maintenance:
-  enabled: true
+  enabled: True
   patching: manual

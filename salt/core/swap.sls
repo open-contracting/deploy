@@ -27,7 +27,7 @@
         mkswap {{ swap_path }}
     - creates: {{ swap_path }}
   mount.swap:
-    - persist: true
+    - persist: True
 
 # Set swappiness so that it is only used when memory is full.
 vm.swappiness:

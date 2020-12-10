@@ -11,7 +11,7 @@ Add to your service's Pillar file:
 .. code-block:: yaml
 
    apache:
-     public_access: true
+     public_access: True
 
 This will:
 
@@ -33,7 +33,7 @@ Add to your service's Pillar file:
    :emphasize-lines: 3,4,5,6,7,8,9
 
    apache:
-     public_access: true
+     public_access: True
      sites:
        ocds-docs-live:
          configuration: docs
@@ -41,7 +41,7 @@ Add to your service's Pillar file:
          serveraliases: ['live.standard.open-contracting.org']
          https: force
          context:
-           testing: false
+           testing: False
            ocds_cove_backend: https://cove.live3.cove.opencontracting.uk0.bigv.io
            oc4ids_cove_backend: https://cove-live.oc4ids.opencontracting.uk0.bigv.io
            timeout: 1830  # 30 sec longer than cove's uwsgi.harakiri
