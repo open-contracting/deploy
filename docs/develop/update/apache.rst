@@ -53,7 +53,8 @@ This will:
    -  If ``apache.public_access`` is ``true`` and ``https`` is ``force``:
 
       -  :ref:`ssl-certificates`
-      -  Configure an HTTP/HTTPS redirect
+      -  Configure a HTTP/HTTPS permanent redirect
+      -  Add a ``Strict-Transport-Security`` header
       -  Create a virtual host serving port 443
 
    -  Otherwise:
