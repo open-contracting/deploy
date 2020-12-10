@@ -59,7 +59,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/files/{{ entry.configuration }}.conf.include
+    - source: salt://apache/files/config/{{ entry.configuration }}.conf.include
     - template: jinja
     - context: {{ context|yaml }}
     - makedirs: True
@@ -126,7 +126,7 @@ unset {{ setting_name }} firewall setting:
 
   - Download and extract the specified `version` of the named component to the `user`'s home directory
   - Create `config`uration files in the user's home directory, if any
-  - Create a systemd `service` file from a `salt/prometheus/files/{service}.service` template,
+  - Create a systemd `service` file from a `salt/prometheus/files/systemd/{service}.service` template,
     with access to `name`, `user` and `entry` variables
   - Start the `service`
 #}
