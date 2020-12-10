@@ -134,7 +134,7 @@ virtualenv:
 {% endif %}{# uwsgi #}
 
 {% if 'apache' in entry %}
-{{ apache(entry.git.target, entry.apache, context=dict(context, **entry.apache.context)) }}
+{{ apache(entry.git.target, entry.apache, context=dict(context, **entry.apache.get('context', {}))) }}
 {% endif %}{# apache #}
 
 {% endfor %}
