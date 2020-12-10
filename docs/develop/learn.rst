@@ -26,6 +26,18 @@ Use dot notation:
    {{ pillar['host_id'] }}  # AVOID
    {{ grains['kernel'] }}  # AVOID
 
+To test whether a mapping key is present, use the ``in`` operator:
+
+.. code-block:: jinja
+
+   {% if 'child' in pillar.parent %}
+
+To test whether an optional boolean is true, use the ``.get()`` method:
+
+.. code-block:: jinja
+
+   {% if pillar.parent.get('enabled') %}
+
 If a Pillar key might not be set, use ``.get()``:
 
 .. code-block:: jinja
