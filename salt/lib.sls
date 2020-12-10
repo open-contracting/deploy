@@ -130,7 +130,7 @@ extract_{{ name }}:
       - user: {{ entry.user }}_user_exists
     # Make sure the service restarts if a configuration file changes.
     - watch_in:
-      - service: {{ entry.service }}
+      - module: {{ entry.service }}-reload
 {% endfor %}
 
 # https://github.com/prometheus/node_exporter/tree/master/examples/systemd
@@ -148,9 +148,13 @@ extract_{{ name }}:
 {{ entry.service }}:
   service.running:
     - enable: True
-    - restart: True
     - require:
       - archive: extract_{{ name }}
       - file: /etc/systemd/system/{{ entry.service }}.service
+
+{{ entry.service }}-reload:
+  module.wait:
+    - name: service.reload
+    - m_name: {{ entry.service }}
 
 {% endmacro %}

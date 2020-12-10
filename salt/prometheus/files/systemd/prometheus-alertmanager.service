@@ -7,6 +7,7 @@ After=network-online.target
 User={{ entry.user }}
 Group={{ entry.user }}
 Type=simple
+ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ name }} \
     --web.listen-address 127.0.0.1:9095 \
     --config.file /home/{{ entry.user }}/conf-alertmanager.yml \

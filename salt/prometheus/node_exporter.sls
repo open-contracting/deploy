@@ -27,7 +27,7 @@
     - require:
       - user: {{ user }}_user_exists
     - watch_in:
-      - service: prometheus-node-exporter
+      - module: prometheus-node-exporter
 
 {{ prometheus_service('node_exporter') }}
 

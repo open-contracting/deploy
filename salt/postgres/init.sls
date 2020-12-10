@@ -36,6 +36,11 @@ postgresql:
     - require:
       - pkg: postgresql
 
+postgresql-reload:
+  module.wait:
+    - name: service.reload
+    - m_name: postgresql
+
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
   file.managed:
@@ -45,7 +50,7 @@ postgresql:
     - group: postgres
     - mode: 640
     - watch_in:
-      - service: postgresql
+      - module: postgresql-reload
 
 # Upload custom configuration if defined.
 {% if pillar.postgres.configuration %}
