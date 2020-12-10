@@ -55,7 +55,7 @@ This will:
 -  Symlink the new files from the ``etc/apache2/sites-enabled`` directory
 -  Restart the Apache service if the configuration changed
 
-The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/config/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
+The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/sites/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
 
 .. _ssl-certificates:
 

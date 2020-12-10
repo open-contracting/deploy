@@ -52,7 +52,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/files/config/{{ entry.configuration }}.conf.include
+    - source: salt://apache/files/sites/{{ entry.configuration }}.conf.include
     - template: jinja
     - context: {{ dict(context, **entry.get('context', {}))|yaml }}
     - require:
@@ -62,7 +62,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/files/_common.conf
+    - source: salt://apache/files/sites/_common.conf
     - template: jinja
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include

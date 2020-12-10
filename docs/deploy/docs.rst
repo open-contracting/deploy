@@ -4,7 +4,7 @@ OCDS documentation tasks
 Add a new language
 ------------------
 
-#. In ``salt/apache/files/config/docs.conf.include``, add the new language in the ``options`` variable.
+#. In ``salt/apache/files/sites/docs.conf.include``, add the new language in the ``options`` variable.
 #. In ``tests/test_docs.py``, update the ``languages`` variable.
 
 .. _add-new-profile:
@@ -192,7 +192,7 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 If this is the first numbered version of a profile:
 
 #. :ref:`Update salt/docs/robots.txt<add-new-profile>`.
-#. In ``salt/apache/files/config/docs.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
+#. In ``salt/apache/files/sites/docs.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
 #. In ``tests/test_docs.py``, update the ``versions``, ``languages`` and ``banner_live`` variables.
 #. Add a ``salt/docs/includes/version-options-profiles-{root}.html`` file to this repository:
 
@@ -222,7 +222,7 @@ If this is a new major or minor version:
       Disallow: /1.2
       Disallow: /1.2-dev
 
-#. In ``salt/apache/files/config/docs.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
+#. In ``salt/apache/files/sites/docs.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
 
    .. code-block:: apache
 
