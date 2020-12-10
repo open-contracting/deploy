@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, createuser %}
+{% from 'lib.sls' import apache_stie_config, createuser %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.
@@ -134,7 +134,7 @@ virtualenv:
 {% endif %}{# uwsgi #}
 
 {% if 'apache' in entry %}
-{{ apache(entry.git.target, entry.apache, context=dict(context, **entry.apache.context)) }}
+{{ apache_site_config(entry.git.target, entry.apache, context=dict(context, **entry.apache.context)) }}
 {% endif %}{# apache #}
 
 {% endfor %}
