@@ -167,7 +167,7 @@ extract_{{ name }}:
 # https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 /etc/systemd/system/{{ entry.service }}.service:
   file.managed:
-    - source: salt://prometheus/files/{{ entry.service }}.service
+    - source: salt://prometheus/files/systemd/{{ entry.service }}.service
     - template: jinja
     - context:
         name: {{ name }}
