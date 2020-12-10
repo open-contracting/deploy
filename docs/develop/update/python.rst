@@ -12,9 +12,9 @@ If you already have an ``include`` state, add ``python_apps`` to its list.
 
 This will:
 
+-  Install the Apache service
 -  Install the uWSGI service
 -  Enable the :ref:`mod_proxy, mod_proxy_http and mod_proxy_uwsgi<apache-modules>` Apache modules
--  Restart the Apache service
 
 To make the Python app publicly accessible, :ref:`allow HTTP/HTTPS traffic<allow-http>`.
 

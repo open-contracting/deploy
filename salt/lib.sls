@@ -41,30 +41,24 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 
+{#
+  Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
+  `context` object, whose keys are made available as variables in the configuration template.
+
+  See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/apache.html
+#}
 # It is safe to use `{}` as a default value, because the default value is never mutated.
 {% macro apache(name, entry, context={}) %}
-
-{% set https = entry.get('https', '') %}
-{% set serveraliases = entry.get('serveraliases', []) %}
-
-{% if not context %}
-  {% set context = entry.get('context', {}) %}
-{% endif %}
-
-{% if https == 'force' %}
-  {% set ports = [80, 443] %}
-{% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
-  {% set ports = [80] %}
-{% endif %}
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
     - source: salt://apache/files/config/{{ entry.configuration }}.conf.include
     - template: jinja
-    - context: {{ context|yaml }}
-    - makedirs: True
+    - context: {{ dict(context, **entry.get('context', {}))|yaml }}
+    - require:
+      - pkg: apache2
     - watch_in:
-      - service: apache2
+      - module: apache2-reload
 
 /etc/apache2/sites-available/{{ name }}.conf:
   file.managed:
@@ -73,46 +67,20 @@ unset {{ setting_name }} firewall setting:
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ entry.servername }}
-        serveraliases: {{ serveraliases|yaml }}
-        https: "{{ https }}"
-        ports: {{ ports|yaml }}
-    - makedirs: True
+        serveraliases: {{ entry.get('serveraliases', [])|yaml }}
+        https: "{{ entry.get('https', '') }}"
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:
-      - service: apache2
+      - module: apache2-reload
 
-{% if https == 'force' or https == 'certonly' %}
-
-{% set domainargs = "-d " + " -d ".join([entry.servername] + serveraliases) %}
-
-{{ entry.servername }}_acquire_certs:
-  cmd.run:
-    - name: /etc/init.d/apache2 reload; letsencrypt certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /var/www/html/ {{ domainargs }}
-    - creates:
-      - /etc/letsencrypt/live/{{ entry.servername }}/cert.pem
-      - /etc/letsencrypt/live/{{ entry.servername }}/chain.pem
-      - /etc/letsencrypt/live/{{ entry.servername }}/fullchain.pem
-      - /etc/letsencrypt/live/{{ entry.servername }}/privkey.pem
-    - require:
-      - pkg: letsencrypt
-      - file: /etc/apache2/sites-available/{{ name }}.conf
-      - file: /etc/apache2/sites-available/{{ name }}.conf.include
-      - file: /etc/apache2/sites-enabled/{{ name }}.conf
-      - file: /var/www/html/.well-known/acme-challenge
-    - watch_in:
-      - service: apache2
-
-{% endif %}
-
-/etc/apache2/sites-enabled/{{ name }}.conf:
-  file.symlink:
-    - target: /etc/apache2/sites-available/{{ name }}.conf
-    - makedirs: True
+enable-{{ name }}-site:
+  apache_site.enabled:
+    - name: {{ name }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf
     - watch_in:
-      - service: apache2
+      - module: apache2-reload
 
 {% endmacro %}
 
@@ -120,10 +88,11 @@ unset {{ setting_name }} firewall setting:
 {#
   Accepts a `name` parameter, which must match the repository name of a Prometheus component: for example, prometheus.
 
-  The macro reads Pillar data from the `prometheus.{name}` key. The variables below refer to keys in this Pillar data.
+  The macro reads Pillar data from the `prometheus.{name}` key. The backticks below refer to keys in this Pillar data.
 
   The macro creates states to:
 
+  - Create a `user`
   - Download and extract the specified `version` of the named component to the `user`'s home directory
   - Create `config`uration files in the user's home directory, if any
   - Create a systemd `service` file from a `salt/prometheus/files/systemd/{service}.service` template,

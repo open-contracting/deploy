@@ -52,13 +52,17 @@ base:
 
   # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
 
-  'I@apache:htpasswd':
-    - apache.htpasswd
-
   'I@apache:sites':
-    - apache.public
+    - apache
     # So far, all servers with sites configure a reverse proxy.
     - apache.modules.proxy_http
+
+  # All public web servers should use SSL certificates.
+  'I@apache:public_access:true':
+    - apache.letsencrypt
+
+  'I@apache:htpasswd':
+    - apache.htpasswd
 
   'I@postgres:configuration':
     - postgres

@@ -9,6 +9,11 @@
 {% endif %}
 
 apache2:
+  pkgrepo.managed:
+    # The comments about `python-software-properties` and `python-pycurl` in the SaltStack documentation seem to be for
+    # old versions of Ubuntu. (`software-properties-common` replaced `python-software-properties`.)
+    # https://docs.saltstack.com/en/latest/ref/states/all/salt.states.pkgrepo.html
+    - ppa: ondrej/apache2
   pkg.installed:
     - name: apache2
   service.running:
@@ -16,6 +21,11 @@ apache2:
     - enable: True
     - require:
       - pkg: apache2
+
+apache2-reload:
+  module.wait:
+    - service.reload:
+      - name: apache2
 
 {% if salt['pillar.get']('apache:sites') %}
 {% for name, entry in pillar.apache.sites.items() %}

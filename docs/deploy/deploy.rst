@@ -82,4 +82,6 @@ States that always report changes:
 3. Manual cleanup
 -----------------
 
-If you :ref:`changed the server name<change-server-name>` or :ref:`removed a Salt configuration<remove-salt-configuration>`, follow the linked steps to cleanup manually.
+If you changed the server name of a virtual host that uses HTTPS, you will need to :ref:`ssl-certificates` for the new server name.
+
+If you :ref:`removed a Salt configuration<remove-salt-configuration>`, follow the linked steps to cleanup manually.

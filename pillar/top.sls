@@ -49,7 +49,7 @@ base:
     - private.toucan
     - maintenance
 
-  # Don't install the Prometheus Node Exporter on development servers.
-  '* and not G@id:*-dev':
+  # Don't install the Prometheus Node Exporter on development or test servers.
+  '* and not G@id:*-dev and not G@id:*-test':
     - prometheus_client
     - private.prometheus_client

@@ -1,21 +1,19 @@
 include:
-  - apache.modules.ssl
+  - apache
+  - apache.modules.md
 
-/var/www/html/.well-known/acme-challenge:
-  file.directory:
-    - user: www-data
-    - group: www-data
-    - makedirs: True
+/etc/apache2/conf-available/letsencrypt.conf:
+  file.managed:
+    - source: salt://apache/files/letsencrypt.conf
+    - require:
+      - pkg: apache2
+    - watch_in:
+      - module: apache2-reload
 
-letsencrypt:
-  pkg.installed
-
-cron-letsencrypt-renew:
-  cron.present:
-    - identifier: letsencrypt-renew
-    - name: letsencrypt renew --no-self-upgrade >/dev/null 2>&1
-    - user: root
-    - minute: random
-    - hour: 7
-  require:
-    - pkg: letsencrypt
+enable-letsencrypt-conf:
+  apache_conf.enabled:
+    - name: letsencrypt
+    - require:
+      - file: /etc/apache2/conf-available/letsencrypt.conf
+    - watch_in:
+      - module: apache2-reload

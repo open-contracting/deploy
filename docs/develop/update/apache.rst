@@ -47,14 +47,12 @@ This will:
 -  Create a ``/etc/apache2/sites-available/{site}.conf`` file that includes a ``/etc/apache2/sites-available/{site}.conf.include`` file, which, together:
 
    -  Listen on port 80
-   -  Listen on port 443, if ``https`` is ``force``
+   -  Listen on port 443, if ``apache.public_access`` is ``true`` and ``https`` is ``force``
    -  Create a virtual host
    -  Set the ``servername`` and ``serveraliases``, if any
-   -  Set up an HTTP/HTTPS redirect, if ``https`` is ``force``
-   -  Set up an `HTTP-01 challenge <https://letsencrypt.org/docs/challenge-types/>`__, if ``https`` is ``certonly``
+   -  Set up an HTTP/HTTPS redirect, if ``apache.public_access`` is ``true`` and ``https`` is ``force``
 
 -  Symlink the new files from the ``etc/apache2/sites-enabled`` directory
--  Acquire SSL certificates if ``https`` is ``force`` or ``certonly``
 -  Restart the Apache service if the configuration changed
 
 The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/config/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
@@ -64,9 +62,39 @@ The example above uses the `docs <https://github.com/open-contracting/deploy/blo
 Acquire SSL certificates
 ------------------------
 
-.. note::
+If ``apache.public_access`` is ``true`` and ``https`` is ``force``, `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ is used to acquire SSL certificates from Let's Encrypt. If the server name is new, you must:
 
-   This section is pending the `switch to certbot <https://github.com/open-contracting/deploy/issues/66>`__.
+-  :doc:`Deploy the service<deploy>` with the new server name, if not done already.
+-  ``mod_md`` will request a certificate from Let's Encrypt.
+-  Wait for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
+
+   .. code-block:: bash
+
+      ./run.py TARGET cmd.run 'grep "Managed Domain" /var/log/apache2/error.log'
+
+   For example:
+
+   .. code-block:: none
+
+      AH10059: The Managed Domain ssl-test.open-contracting.org has been setup and changes will be activated on next (graceful) server restart.
+
+-  Reload the Apache service, replacing ``TARGET``:
+
+   .. code-block:: bash
+
+      ./run.py TARGET service.reload apache2
+
+The service should now be available at its ``https://`` web address.
+
+At any time, you can check the status of the certificates, replacing ``SERVERNAME``:
+
+.. code-block:: bash
+
+   curl http://SERVERNAME/.httpd/certificate-status
+
+In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__. If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__. ``mod_md`` also offers several `monitoring options <https://github.com/icing/mod_md#monitoring>`__.
+
+You can test the SSL configuration using `SSL Labs <https://www.ssllabs.com/ssltest/>`__.
 
 .. _apache-modules:
 
@@ -77,16 +105,20 @@ You might need to enable Apache modules to use non-core directives in your confi
 
 There are state files for common modules:
 
+apache.modules.md
+  Acquires `SSL certificates from Let's Encrypt <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__.
 apache.modules.proxy
-  Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/current/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
+  Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
 apache.modules.proxy_http
-  Provides support for `HTTP/HTTPS requests in ProxyPass directives <https://httpd.apache.org/docs/current/en/mod/mod_proxy_http.html>`__. Included by the ``python_apps`` state file.
+  Provides support for `HTTP/HTTPS requests in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_http.html>`__. Included by the ``python_apps`` state file.
 apache.modules.proxy_uwsgi
-  Provides supports for the `uWSGI protocol in ProxyPass directives <https://httpd.apache.org/docs/current/en/mod/mod_proxy_uwsgi.html>`__. Included by the ``python_apps`` state file.
+  Provides supports for the `uWSGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_uwsgi.html>`__. Included by the ``python_apps`` state file.
 apache.modules.remoteip
-  Adds `RemoteIPHeader, RemoteIPTrustedProxy and other directives <https://httpd.apache.org/docs/current/en/mod/mod_remoteip.html>`__.
+  Adds `RemoteIPHeader, RemoteIPTrustedProxy and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_remoteip.html>`__.
 apache.modules.ssl
-  Adds `SSL directives <https://httpd.apache.org/docs/current/mod/mod_ssl.html>`__. Included by the ``apache.letsencrypt`` state file, which is included by the ``apache.public`` state file, which is included by the ``python_apps`` state file.
+  Included and required by ``apache.modules.md``.
+apache.modules.watchdog
+  Included and required by ``apache.modules.md``.
 
 To enable a module, include the relevant state file in your service's state file. For example:
 

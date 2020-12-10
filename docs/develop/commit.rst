@@ -59,7 +59,7 @@ Using a virtual machine
         VBoxManage guestproperty get VMNAME "/VirtualBox/GuestInfo/Net/0/V4/IP"
 
 #. Update the relevant target in ``salt-config/roster`` to point to the virtual machine's IP address
-#. In the relevant Pillar file, change ``https`` to ``no``, if certbot is used to enable HTTPS
+#. In the relevant Pillar file, change ``https`` to ``''``
 #. Edit ``/etc/hosts`` to map the virtual machine's IP address to the service's hostname
 #. Deploy to the virtual machine and test
 
@@ -70,7 +70,7 @@ Review code
 
 For context, for other repositories, work is done on a branch and tested on a local machine before a pull request is made, which is then tested on continuous integration, reviewed and approved before merging.
 
-However, for this repository, in some cases, it's impossible to test changes to server configurations, for example: if SSL certificates are involved (because certbot can't verify a virtual machine), or if external services are involved. In other cases, it's too much effort to setup a test environment in which to test changes.
+However, for this repository, in some cases, it's impossible to test changes to server configurations, for example: if SSL certificates are involved (without `additional configuration <https://github.com/icing/mod_md#ports-ports-ports>`__), or if external services are involved. In other cases, it's too much effort to setup a test environment in which to test changes.
 
 In such cases, the same process is followed as in other repositories, but without the benefit of tests.
 

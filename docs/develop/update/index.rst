@@ -11,29 +11,6 @@ Make changes
 
 See `salt/maintenance/README.md <https://github.com/open-contracting/dogsbody-maintenance#readme>`__ to configure maintenance.
 
-.. _change-server-name:
-
-Change server name
-------------------
-
-If the virtual host uses HTTPS, you will need to acquire SSL certificates for the new server name and remove the SSL certificates for the old server name.
-
-#. Change the ``ServerName``
-#. In the relevant Pillar file, change ``https`` to ``certonly``
-#. :doc:`Deploy the service<../deploy/deploy>`
-#. In the relevant Pillar file, change ``https`` to ``force``
-#. Remove the old SSL certificates, for example:
-
-   .. code-block:: bash
-
-      ./run.py 'docs' file.remove /etc/letsencrypt/live/dev.standard.open-contracting.org
-
-To check for old SSL certificates that were previously not removed, run:
-
-.. code-block:: bash
-
-   ./run.py '*' cmd.run 'ls /etc/letsencrypt/live'
-
 .. _remove-salt-configuration:
 
 Remove Salt configuration
@@ -189,5 +166,3 @@ Run, for example:
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
-
-You might also delete the SSL certificates like when :ref:`changing server name<change-server-name>`.

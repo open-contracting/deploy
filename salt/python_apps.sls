@@ -4,7 +4,7 @@
 # add boolean key to the Pillar data to indicate whether to include these.
 include:
   - uwsgi
-  - apache.public
+  - apache
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
 
@@ -134,7 +134,7 @@ virtualenv:
 {% endif %}{# uwsgi #}
 
 {% if 'apache' in entry %}
-{{ apache(entry.git.target, entry.apache, context=dict(context, **entry.apache.get('context', {}))) }}
+{{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}{# apache #}
 
 {% endfor %}
