@@ -198,7 +198,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
    .. code-block:: bash
 
-      salt-ssh TARGET system.reboot
+      ./run.py TARGET system.reboot
 
 4. Deploy the service
 ---------------------
