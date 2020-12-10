@@ -23,7 +23,7 @@ Bytemark
 
       .. note::
 
-         If you drag the slider to the minimum, the disc size will be changed to 5 GiB, which is too small.
+         If you drag the slider to the minimum, the disc size will be changed to 5 GiB, which is too little.
 
    #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
    #. Check *Enable backups*
@@ -179,6 +179,10 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    - If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
    - If the environment is development, add a ``-dev`` suffix.
    - Do not include an integer suffix in the target name.
+
+   .. note::
+
+      If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
 
