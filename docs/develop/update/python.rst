@@ -1,7 +1,7 @@
 Configure Python apps
 =====================
 
-The ``python_apps`` state performs common operations for Python apps. In your app's state file, include it with:
+The ``python_apps`` state file performs common operations for Python apps. In your app's state file, include it with:
 
 .. code-block:: yaml
 
@@ -9,6 +9,14 @@ The ``python_apps`` state performs common operations for Python apps. In your ap
      - python_apps
 
 If you already have an ``include`` state, add ``python_apps`` to its list.
+
+This will:
+
+-  Install the uWSGI service
+-  Enable the :ref:`mod_proxy, mod_proxy_http and mod_proxy_uwsgi<apache-modules>` Apache modules
+-  Restart the Apache service
+
+To make the Python app publicly accessible, :ref:`allow HTTP/HTTPS traffic<allow-http>`.
 
 Add basic configuration
 -----------------------
@@ -99,11 +107,11 @@ Add, for example:
 
 This will:
 
--  Add a configuration file to the ``/etc/uwsgi/apps-available`` directory, using the same name the ``target`` directory
--  Symlink the configuration file from the ``etc/uwsgi/apps-enabled`` directory
+-  Create a ``/etc/uwsgi/apps-available/{target}.ini`` file
+-  Symlink the new file from the ``etc/uwsgi/apps-enabled`` directory
 -  Reload the uWSGI service if the configuration changed 
 
-The example above uses the `django.ini <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/files/django.ini>`__ configuration file, which:
+The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/files/django.ini>`__ configuration, which:
 
 -  Sets the uWSGI ``module`` to ``{app}.wsgi:application``
 -  Sets some environment variables, and any ``env`` variables from the service's Pillar file
@@ -150,32 +158,18 @@ Add, for example:
        # ...
        apache:
          configuration: django
-         https: force
          servername: toucan.open-contracting.org
-         serveraliases: ["master.{{ grains.fqdn }}"]
-         assets_base_url: ""
+         serveraliases: ['master.{{ grains.fqdn }}']
+         https: force
+         context:
+           assets_base_url: ''
 
-This will:
+This will perform similar steps as :ref:`adding an Apache site<apache-sites>`, but creating files named ``/etc/apache2/sites-available/{target}.conf`` and ``/etc/apache2/sites-available/{target}.conf.include``.
 
--  Open ports 80 and 443
--  Add a configuration file to the ``/etc/apache2/sites-available`` directory that has the same name as the ``target`` directory, which:
-
-   -  Listens on port 80
-   -  Listens on port 443, if ``https`` is ``force``
-   -  Creates a virtual host
-   -  Sets the ``servername`` and ``serveraliases``, if any
-   -  Sets up an HTTP/HTTPS redirect, if ``https`` is ``force``
-   -  Sets up an `HTTP-01 challenge <https://letsencrypt.org/docs/challenge-types/>`__, if ``https`` is ``certonly``
-   -  Includes the ``configuration`` file (see below)
-
--  Symlink the configuration file from the ``etc/apache2/sites-enabled`` directory
--  Acquire SSL certificates if ``https`` is ``force`` or ``certonly``
--  Reload the Apache service if the configuration changed
-
-The example above uses the `django.conf.include <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/django.conf.include>`__ configuration file, which:
+The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/django.conf.include>`__ configuration, which:
 
 -  Sets the ``DocumentRoot`` to the ``target`` directory
--  Configures Apache to serve Django's static and media files from the ``assets_base_url``, if provided
+-  Configures Apache to serve Django's static and media files, from the ``assets_base_url`` if provided
 -  Configures the reverse proxy to the uWSGI service, using uWSGI's ``harakiri`` setting as the ``timeout`` value
 -  Includes a file matching the app's name from the ``salt/apache/includes`` directory, if any
 

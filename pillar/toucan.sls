@@ -1,3 +1,6 @@
+apache:
+  public_access: true
+
 python_apps:
   toucan:
     user: ocdskit-web
@@ -13,8 +16,8 @@ python_apps:
         GOOGLE_ANALYTICS_ID: UA-35677147-3
     apache:
       configuration: django
-      https: force
       servername: toucan.open-contracting.org
+      https: force
     uwsgi:
       configuration: django
 

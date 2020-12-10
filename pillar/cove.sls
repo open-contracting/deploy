@@ -1,3 +1,6 @@
+apache:
+  public_access: true
+
 python_apps:
   cove:
     user: cove

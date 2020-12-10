@@ -22,13 +22,13 @@
             'versions': ['latest', '0.9'],
             'languages': ['en'],
             'redirect_excludes': ['schema'],
-            'cove_backend': pillar.apache.oc4ids_cove_backend,
+            'cove_backend': oc4ids_cove_backend,
         },
         '': {
             'versions': ['latest', '1.1', '1.0'],
             'languages': ['en', 'es', 'fr', 'it'],
             'redirect_excludes': ['staging', 'schema', 'profiles', 'legacy', 'favicon.ico', 'robots.txt'],
-            'cove_backend': pillar.apache.ocds_cove_backend,
+            'cove_backend': ocds_cove_backend,
             'stable_sitemap': [['latest', '1.1', '1.0']],
         },
     }
@@ -169,7 +169,7 @@ SetEnv proxy-nokeepalive 1
 
     {% if 'cove_backend' in opts %}
         # Proxy to the Data Review Tool, if configured. /media contains user-submitted content.
-        ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ pillar.apache.timeout }}
+        ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ timeout }}
         ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
         ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
     {% endif %}

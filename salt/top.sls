@@ -32,7 +32,6 @@ base:
     - tinyproxy
 
   'kingfisher-process':
-    - postgres
     - postgres.main
     - redis
     - kingfisher
@@ -40,9 +39,6 @@ base:
     - kingfisher.process
     - kingfisher.summarize
     - kingfisher.archive
-
-  'kingfisher-replica':
-    - postgres
 
   'prometheus':
     - prometheus.server
@@ -55,6 +51,18 @@ base:
     - toucan
 
   # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
+
+  'I@apache:htpasswd':
+    - apache.htpasswd
+
+  'I@apache:sites':
+    - apache.public
+    # So far, all servers with sites configure a reverse proxy.
+    - apache.modules.proxy_http
+
+  'I@postgres:configuration':
+    - postgres
+
   'I@prometheus:node_exporter:enabled:true':
     - prometheus.node_exporter
 

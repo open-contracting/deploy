@@ -1,7 +1,10 @@
 # vi: ft=apache
 
 {% include 'apache/includes/' + name + '.jinja' ignore missing %}
-{% set assets_base_url = entry.apache.get('assets_base_url', '') %}
+
+{%- if assets_base_url is not defined %}
+    {%- set assets_base_url = '' %}
+{%- endif %}
 
 DocumentRoot {{ appdir }}
 

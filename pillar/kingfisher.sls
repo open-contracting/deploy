@@ -44,6 +44,13 @@ logrotate:
     kingfisher-views.conf: kingfisher-summarize
     archive: kingfisher-archive
 
+apache:
+  public_access: true
+  sites:
+    ocdskingfisherscrape:
+      configuration: kingfisher-collect
+      servername: collect.kingfisher.open-contracting.org
+
 python_apps:
   kingfisher_process:
     user: ocdskfp

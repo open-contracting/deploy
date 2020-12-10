@@ -41,31 +41,27 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 
-# It is safe to use `[]` as a default value, because the default value is never mutated.
-{% macro apache(conffile, name='', servername='', serveraliases=[], https='', extracontext='', ports=[]) %}
+# It is safe to use `{}` as a default value, because the default value is never mutated.
+{% macro apache(name, entry, context={}) %}
 
-{% if name == '' %}
-    {% set name = conffile %}
+{% set https = entry.get('https', '') %}
+{% set serveraliases = entry.get('serveraliases', []) %}
+
+{% if not context %}
+  {% set context = entry.get('context', {}) %}
 {% endif %}
 
-{% if servername == '' %}
-    {% set servername = grains.fqdn %}
-{% endif %}
-
-{% if ports == [] %}
-    {% if https == 'force' %}
-        {% set ports = [80, 443] %}
-    {% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
-        {% set ports = [80] %}
-    {% endif %}
+{% if https == 'force' %}
+  {% set ports = [80, 443] %}
+{% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
+  {% set ports = [80] %}
 {% endif %}
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/files/{{ conffile }}.conf.include
+    - source: salt://apache/files/{{ entry.configuration }}.conf.include
     - template: jinja
-    - context:
-        {{ extracontext|indent(8) }}
+    - context: {{ context|yaml }}
     - makedirs: True
     - watch_in:
       - service: apache2
@@ -76,7 +72,7 @@ unset {{ setting_name }} firewall setting:
     - template: jinja
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
-        servername: {{ servername }}
+        servername: {{ entry.servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         ports: {{ ports|yaml }}
@@ -88,16 +84,16 @@ unset {{ setting_name }} firewall setting:
 
 {% if https == 'force' or https == 'certonly' %}
 
-{% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
+{% set domainargs = "-d " + " -d ".join([entry.servername] + serveraliases) %}
 
-{{ servername }}_acquire_certs:
+{{ entry.servername }}_acquire_certs:
   cmd.run:
     - name: /etc/init.d/apache2 reload; letsencrypt certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /var/www/html/ {{ domainargs }}
     - creates:
-      - /etc/letsencrypt/live/{{ servername }}/cert.pem
-      - /etc/letsencrypt/live/{{ servername }}/chain.pem
-      - /etc/letsencrypt/live/{{ servername }}/fullchain.pem
-      - /etc/letsencrypt/live/{{ servername }}/privkey.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/cert.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/chain.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/fullchain.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/privkey.pem
     - require:
       - pkg: letsencrypt
       - file: /etc/apache2/sites-available/{{ name }}.conf
@@ -133,8 +129,6 @@ unset {{ setting_name }} firewall setting:
   - Create a systemd `service` file from a `salt/prometheus/files/{service}.service` template,
     with access to `name`, `user` and `entry` variables
   - Start the `service`
-  - If the entry has an `apache` key, create a virtual host using a configuration file that has the same name as the
-    `service`, passing the `servername` and `https` variables from the entry's `apache` key, and the `user`.
 #}
 {% macro prometheus_service(name) %}
 
@@ -189,12 +183,5 @@ extract_{{ name }}:
     - require:
       - archive: extract_{{ name }}
       - file: /etc/systemd/system/{{ entry.service }}.service
-
-{% if 'apache' in entry %}
-{{ apache(entry.service,
-    servername=entry.apache.servername,
-    https=entry.apache.https,
-    extracontext='user: ' + entry.user) }}
-{% endif %}
 
 {% endmacro %}
