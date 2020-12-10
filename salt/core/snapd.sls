@@ -1,0 +1,2 @@
+snapd:
+  pkg.installed

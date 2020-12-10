@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, set_firewall, unset_firewall %}
+{% from 'lib.sls' import apache_site_config, set_firewall, unset_firewall %}
 
 {% if salt['pillar.get']('apache:public_access') %}
   {{ set_firewall("PUBLIC_HTTP") }}
@@ -19,6 +19,6 @@ apache2:
 
 {% if salt['pillar.get']('apache:sites') %}
 {% for name, entry in pillar.apache.sites.items() %}
-{{ apache(name, entry) }}
+{{ apache_site_config(name, entry) }}
 {% endfor %}
 {% endif %}

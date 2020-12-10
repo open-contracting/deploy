@@ -42,7 +42,7 @@ unset {{ setting_name }} firewall setting:
 
 
 # It is safe to use `{}` as a default value, because the default value is never mutated.
-{% macro apache(name, entry, context={}) %}
+{% macro apache_site_config(name, entry, context={}) %}
 
 {% set https = entry.get('https', '') %}
 {% set serveraliases = entry.get('serveraliases', []) %}
@@ -59,7 +59,7 @@ unset {{ setting_name }} firewall setting:
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/files/config/{{ entry.configuration }}.conf.include
+    - source: salt://apache/files/site-configs/{{ entry.configuration }}.conf.include
     - template: jinja
     - context: {{ context|yaml }}
     - makedirs: True
@@ -107,39 +107,22 @@ unset {{ setting_name }} firewall setting:
 
 {% endif %}
 
-/etc/apache2/sites-enabled/{{ name }}.conf:
-  file.symlink:
-    - target: /etc/apache2/sites-available/{{ name }}.conf
-    - makedirs: True
-    - require:
-      - file: /etc/apache2/sites-available/{{ name }}.conf
-    - watch_in:
-      - service: apache2
+enable {{ name }} site:
+  apache_site.enabled:
+    - name: {{ name }}
 
 {% endmacro %}
 
-{% macro apache_simple_config(name, alt_name='') %}
-# Upload config to server and enable
-# name = file name in apache/files
-# alt_name = name on server 
+{% macro apache_conf(name) %}
 
-{% if alt_name == '' %}
-    {% set alt_name = name %}
-{% endif %}
-
-
-# Enables .well-known authentication for LE SSL certs
-/etc/apache2/sites-available/{{ alt_name }}:
+/etc/apache2/conf-available/{{ name }}.conf:
   file.managed:
-    - source: salt://apache/files/{{ name }}
+    - source: salt://apache/files/apache-configs/{{ name }}.conf
 
-/etc/apache2/sites-enabled/{{ alt_name }}:
-  file.symlink:
-    - target: /etc/apache2/sites-available/{{ alt_name }}
-    - require:
-      - file: /etc/apache2/sites-available/{{ alt_name }}
-    - watch_in:
-      - service: apache2
+enable {{ name }} conf:
+  apache_conf.enabled:
+    - name: {{ name }}
+
 {% endmacro %}
 
 

@@ -1,7 +1,7 @@
 # Add SSL directives.
 # https://httpd.apache.org/docs/current/mod/mod_ssl.html
 
-{% from 'lib.sls' import apache_simple_config %}
+{% from 'lib.sls' import apache_conf %}
 
 include:
   - apache
@@ -16,5 +16,5 @@ http2:
     - watch_in:
       - service: apache2
 
-{{ apache_simple_config("ssl-intermediate.conf", alt_name="020-ssl-intermediate.conf") }}
+{{ apache_conf("ssl-intermediate") }}
 
