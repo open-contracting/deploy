@@ -6,7 +6,7 @@ Monitor a service
 
 If the ``prometheus.node_exporter`` state file applies to the target, then `Node Exporter <https://github.com/prometheus/node_exporter>`__ is served on port 7231 using the HTTPS scheme and a self-signed certificate. Only connections from the Prometheus server are allowed.
 
-#. Add a job to ``salt/prometheus/server/files/conf-prometheus.yml``.
+#. Add a job to ``salt/prometheus/server/files/config/conf-prometheus.yml``.
 
 #. :doc:`Deploy<deploy>` the Prometheus service.
 

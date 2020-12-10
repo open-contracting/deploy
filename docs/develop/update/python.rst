@@ -166,14 +166,14 @@ Add, for example:
 
 This will perform similar steps as :ref:`adding an Apache site<apache-sites>`, but creating files named ``/etc/apache2/sites-available/{target}.conf`` and ``/etc/apache2/sites-available/{target}.conf.include``.
 
-The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/django.conf.include>`__ configuration, which:
+The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/config/django.conf.include>`__ configuration, which:
 
 -  Sets the ``DocumentRoot`` to the ``target`` directory
 -  Configures Apache to serve Django's static and media files, from the ``assets_base_url`` if provided
 -  Configures the reverse proxy to the uWSGI service, using uWSGI's ``harakiri`` setting as the ``timeout`` value
 -  Includes a file matching the app's name from the ``salt/apache/includes`` directory, if any
 
-Alternatively, you can write your own configuration file in ``salt/apache/files``, and reference it from the ``configuration`` variable.
+Alternatively, you can write your own configuration file in ``salt/apache/files/config``, and reference it from the ``configuration`` variable.
 
 .. note::
 
