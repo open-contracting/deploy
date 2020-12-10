@@ -20,6 +20,11 @@ Bytemark
    #. Select a *Group* indicating the environment (*production* or *development*)
    #. Set *Location* to "York"
    #. Set *Server Resources*
+
+      .. note::
+
+         If you drag the slider to the minimum, the disc size will be changed to 5 GiB, which is too small.
+
    #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
    #. Check *Enable backups*
    #. Set *Take a backup every* to 7 days
