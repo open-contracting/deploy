@@ -10,10 +10,10 @@ docker_prepackages:
 docker:
   pkgrepo.managed:
     - humanname: Docker Official Repository
-    - name: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ grains['oscodename'] }} stable
-    - dist: {{ grains['oscodename'] }}
+    - name: deb [arch={{ grains.osarch }}] https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }} {{ grains.oscodename }} stable
+    - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/docker.list
-    - key_url: https://download.docker.com/linux/ubuntu/gpg
+    - key_url: https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }}/gpg
     - require:
       - pkg: docker_prepackages
   pkg.installed:
@@ -24,8 +24,10 @@ docker:
     - require:
       - pkgrepo: docker
 
-# currently 1.22.0 because this is what is used in https://github.com/getredash/setup/blob/master/setup.sh#L18
-docker-compose:
-  cmd.run:
-    - name: curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose; chmod u+x /usr/local/bin/docker-compose
-    - creates: /usr/local/bin/docker-compose
+# 1.22.0 is used in https://github.com/getredash/setup/blob/cb47626b6823cbafac407b3e8991e97f53121f6e/setup.sh#L18
+# https://docs.docker.com/compose/install/
+/usr/local/bin/docker-compose:
+  file.managed:
+    - source: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}
+    - source_hash: https://github.com/docker/compose/releases/download/1.22.0/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}.sha256
+    - mode: 755

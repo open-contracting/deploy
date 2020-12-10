@@ -41,33 +41,27 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 
-# It is safe to use `[]` as a default value, because the default value is never mutated.
-{% macro apache(conffile, name='', servername='', serveraliases=[], https='', extracontext='', ports=[]) %}
-# servername = FQDN, main host in Apache.
+# It is safe to use `{}` as a default value, because the default value is never mutated.
+{% macro apache(name, entry, context={}) %}
 
+{% set https = entry.get('https', '') %}
+{% set serveraliases = entry.get('serveraliases', []) %}
 
-{% if name == '' %}
-    {% set name = conffile %}
+{% if not context %}
+  {% set context = entry.get('context', {}) %}
 {% endif %}
 
-{% if servername == '' %}
-    {% set servername = grains['fqdn'] %}
-{% endif %}
-
-{% if ports == [] %}
-    {% if https == 'force' %}
-        {% set ports = [80, 443] %}
-    {% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
-        {% set ports = [80] %}
-    {% endif %}
+{% if https == 'force' %}
+  {% set ports = [80, 443] %}
+{% else %} {# https == 'certonly', used to serve /.well-known/acme-challenge over HTTP, or turned off #}
+  {% set ports = [80] %}
 {% endif %}
 
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
-    - source: salt://apache/files/{{ conffile }}.conf.include
+    - source: salt://apache/files/config/{{ entry.configuration }}.conf.include
     - template: jinja
-    - context:
-        {{ extracontext|indent(8) }}
+    - context: {{ context|yaml }}
     - makedirs: True
     - watch_in:
       - service: apache2
@@ -78,7 +72,7 @@ unset {{ setting_name }} firewall setting:
     - template: jinja
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
-        servername: {{ servername }}
+        servername: {{ entry.servername }}
         serveraliases: {{ serveraliases|yaml }}
         https: "{{ https }}"
         ports: {{ ports|yaml }}
@@ -90,16 +84,16 @@ unset {{ setting_name }} firewall setting:
 
 {% if https == 'force' or https == 'certonly' %}
 
-{% set domainargs = "-d " + " -d ".join([servername] + serveraliases) %}
+{% set domainargs = "-d " + " -d ".join([entry.servername] + serveraliases) %}
 
-{{ servername }}_acquire_certs:
+{{ entry.servername }}_acquire_certs:
   cmd.run:
     - name: apache2ctl -k graceful; /snap/bin/certbot certonly --non-interactive --no-self-upgrade --expand --email sysadmin@open-contracting.org --agree-tos --webroot --webroot-path /usr/local/share/ocp-letsencrypt/ {{ domainargs }}
     - creates:
-      - /etc/letsencrypt/live/{{ servername }}/cert.pem
-      - /etc/letsencrypt/live/{{ servername }}/chain.pem
-      - /etc/letsencrypt/live/{{ servername }}/fullchain.pem
-      - /etc/letsencrypt/live/{{ servername }}/privkey.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/cert.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/chain.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/fullchain.pem
+      - /etc/letsencrypt/live/{{ entry.servername }}/privkey.pem
     - require:
       # Require certbot doesn't work for some reason
       #- file: /snap/bin/certbot
@@ -149,6 +143,19 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 
+{#
+  Accepts a `name` parameter, which must match the repository name of a Prometheus component: for example, prometheus.
+
+  The macro reads Pillar data from the `prometheus.{name}` key. The variables below refer to keys in this Pillar data.
+
+  The macro creates states to:
+
+  - Download and extract the specified `version` of the named component to the `user`'s home directory
+  - Create `config`uration files in the user's home directory, if any
+  - Create a systemd `service` file from a `salt/prometheus/files/systemd/{service}.service` template,
+    with access to `name`, `user` and `entry` variables
+  - Start the `service`
+#}
 {% macro prometheus_service(name) %}
 
 {% set entry = pillar.prometheus[name] %}
@@ -160,7 +167,7 @@ unset {{ setting_name }} firewall setting:
 extract_{{ name }}:
   archive.extracted:
     - name: {{ userdir }}
-    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.linux-amd64.tar.gz
+    - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}.tar.gz
     - source_hash: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/sha256sums.txt
     - user: {{ entry.user }}
     - group: {{ entry.user }}
@@ -186,7 +193,7 @@ extract_{{ name }}:
 # https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 /etc/systemd/system/{{ entry.service }}.service:
   file.managed:
-    - source: salt://prometheus/files/{{ entry.service }}.service
+    - source: salt://prometheus/files/systemd/{{ entry.service }}.service
     - template: jinja
     - context:
         name: {{ name }}
@@ -202,12 +209,5 @@ extract_{{ name }}:
     - require:
       - archive: extract_{{ name }}
       - file: /etc/systemd/system/{{ entry.service }}.service
-
-{% if 'apache' in entry %}
-{{ apache(entry.service,
-    servername=entry.apache.servername,
-    https=entry.apache.https,
-    extracontext='user: ' + entry.user) }}
-{% endif %}
 
 {% endmacro %}

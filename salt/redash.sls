@@ -1,8 +1,4 @@
-{% from 'lib.sls' import apache %}
-
 include:
-  - apache.public
-  - apache.modules.proxy_http
   - docker
 
 # =================================================================================================
@@ -20,5 +16,3 @@ redash_prepackages:
     - user: root
     - group: root
     - makedirs: True
-
-{{ apache('redash', servername=pillar.apache.servername, https=pillar.apache.https) }}

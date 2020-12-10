@@ -17,6 +17,9 @@ kingfisher-process-prerequisites:
     - pkgs:
       - libpq-dev # https://www.psycopg.org/install/
       - libyajl-dev # OCDS Kit performance
+      # To assist analysts with manual loads.
+      - jq
+      - unrar
 
 ####################
 # Configuration

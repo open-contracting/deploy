@@ -1,25 +1,29 @@
-{% from 'lib.sls' import set_firewall %}
+{% from 'lib.sls' import set_firewall, unset_firewall %}
 
-{% set pg_version = salt['pillar.get']('postgres:version', '11') %}
+{% set pg_version = pillar.postgres.get('version', '11') %}
 
-{% if salt['pillar.get']('postgres:public_access') %}
-{{ set_firewall("PUBLIC_POSTGRESQL") }}
+{% if pillar.postgres.get('public_access') %}
+  {{ set_firewall("PUBLIC_POSTGRESQL") }}
+  {{ unset_firewall("PRIVATE_POSTGRESQL") }}
+  {{ unset_firewall("REPLICA_IPV4") }}
+  {{ unset_firewall("REPLICA_IPV6") }}
 {% else %}
-{{ set_firewall("PRIVATE_POSTGRESQL") }}
-  {% if salt['pillar.get']('postgres:replica_ipv4') %}
-{{ set_firewall("REPLICA_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
+  {{ unset_firewall("PUBLIC_POSTGRESQL") }}
+  {{ set_firewall("PRIVATE_POSTGRESQL") }}
+  {% if pillar.postgres.get('replica_ipv4') %}
+    {{ set_firewall("REPLICA_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
   {% endif %}
-  {% if salt['pillar.get']('postgres:replica_ipv6') %}
-{{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
+  {% if pillar.postgres.get('replica_ipv6') %}
+    {{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
   {% endif %}
 {% endif %}
 
-# Install PostgreSQL from the official repository, as it offers newer versions than the Ubuntu repository.
+# Install PostgreSQL from the official repository, as it offers newer versions than the operating system repository.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
-    - name: deb https://apt.postgresql.org/pub/repos/apt/ {{ grains['oscodename'] }}-pgdg main
-    - dist: {{ grains['oscodename'] }}-pgdg
+    - name: deb https://apt.postgresql.org/pub/repos/apt/ {{ grains.oscodename }}-pgdg main
+    - dist: {{ grains.oscodename }}-pgdg
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
   pkg.installed:

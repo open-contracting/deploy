@@ -1,8 +1,7 @@
-{% from 'lib.sls' import apache, createuser %}
+{% from 'lib.sls' import createuser %}
 
 include:
-  - apache.public
-  - apache.modules.proxy_http
+  - apache
 
 {% set user = 'ocds-docs' %}
 {{ createuser(user, authorized_keys=pillar.ssh.docs) }}
@@ -62,21 +61,6 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
       - pkg: git
       - file: /home/{{ user }}/web
 
-# For information on the testing virtual host, see:
-# https://ocdsdeploy.readthedocs.io/en/latest/develop/update.html#using-a-testing-virtual-host
-
-{{ apache('docs',
-    name='ocds-docs-live',
-    servername='standard.open-contracting.org',
-    https=pillar.apache.https,
-    extracontext='testing: False') }}
-
-{{ apache('docs',
-    name='ocds-docs-live-testing',
-    servername='testing.live.standard.open-contracting.org',
-    https=pillar.apache.https,
-    extracontext='testing: True') }}
-
 # This sets up redirects and an archived opendatacomparison static site for ocds.open-contracting.org,
 # which has been replaced by standard.open-contracting.org
 
@@ -94,5 +78,3 @@ https://github.com/open-contracting/opendatacomparison-archive.git:
     - require:
       - pkg: git
       - user: {{ legacy }}_user_exists
-
-{{ apache('docs-legacy', name='ocds-legacy', servername='ocds.open-contracting.org') }}

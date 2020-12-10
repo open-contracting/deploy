@@ -33,7 +33,7 @@
 
 ## Smartmontools
 
-{% if salt['pillar.get']('prometheus:node_exporter:smartmon') %}
+{% if pillar.prometheus.node_exporter.get('smartmon') %}
 smartmontools:
   pkg.installed
 

@@ -5,6 +5,6 @@
 
     AuthName "Open Contracting Partnership Prometheus Alert Manager"
     AuthType Basic
-    AuthUserFile /home/{{ user }}/htpasswd
+    AuthUserFile /home/prometheus-alertmanager/htpasswd
     Require valid-user
 </Location>

@@ -22,11 +22,7 @@ virtualenv:
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
-{% set extracontext %}
-name: {{ name }}
-entry: {{ entry|yaml }}
-appdir: {{ directory }}
-{% endset %}
+{% set context = {'name': name, 'entry': entry, 'appdir': directory} %}
 
 {{ entry.git.url }}:
   git.latest:
@@ -122,8 +118,7 @@ appdir: {{ directory }}
   file.managed:
     - source: salt://uwsgi/files/{{ entry.uwsgi.configuration }}.ini
     - template: jinja
-    - context:
-        {{ extracontext|indent(8) }}
+    - context: {{ context|yaml }}
     - makedirs: True
     - watch_in:
       - service: uwsgi
@@ -139,12 +134,7 @@ appdir: {{ directory }}
 {% endif %}{# uwsgi #}
 
 {% if 'apache' in entry %}
-{{ apache(entry.apache.configuration,
-    name=entry.git.target,
-    servername=entry.apache.servername,
-    serveraliases=entry.apache.get('serveraliases', []),
-    https=entry.apache.get('https', ''),
-    extracontext=extracontext) }}
+{{ apache(entry.git.target, entry.apache, context=dict(context, **entry.apache.context)) }}
 {% endif %}{# apache #}
 
 {% endfor %}

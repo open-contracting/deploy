@@ -1,8 +1,8 @@
 Configure PostgreSQL
 ====================
 
-Specify version
----------------
+Specify the version
+-------------------
 
 The default version is 11.
 
@@ -25,10 +25,10 @@ To enable public access, update the server's Pillar file:
   :emphasize-lines: 2
 
   postgres:
-    public_access: True
+    public_access: true
 
-Change default settings
------------------------
+Add your configuration
+----------------------
 
 #. Put your configuration file in the `salt/postgres/files <https://github.com/open-contracting/deploy/tree/master/salt/postgres/files>`__ directory.
 
@@ -44,7 +44,7 @@ Change default settings
 
 #. :doc:`Deploy<deploy>`
 
-The configuration file should appear in ``/etc/postgresql/11/main/conf.d/`` on the server (for PostgreSQL version 11).
+The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
 Set up replication
 ------------------
@@ -75,7 +75,7 @@ To configure a main server and a replica server:
 
    .. note::
 
-      If the replica user's name or password are changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server.
+      If the replica user's name or password are changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 
@@ -88,7 +88,7 @@ To configure a main server and a replica server:
       su - postgres
       psql -c "SELECT * FROM pg_create_physical_replication_slot('SLOT');"
 
-#. Transfer data and start replication.
+#. Transfer data and start replication (all commands are for PostgreSQL version 11).
 
    #. Connect to the replica server as the ``root`` user.
 
@@ -97,7 +97,7 @@ To configure a main server and a replica server:
       .. code-block:: bash
 
          service postgresql stop
-         rm -rf /var/lib/postgresql/11/main # for PostgreSQL version 11
+         rm -rf /var/lib/postgresql/11/main
 
    #. Switch to the ``postgres`` user and transfer data:
 
@@ -137,7 +137,7 @@ To configure a main server and a replica server:
 
          pg_lsclusters
 
-Once you're done, the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server should look something like this:
+Once you're done, the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server will look like:
 
 .. code-block:: none
 

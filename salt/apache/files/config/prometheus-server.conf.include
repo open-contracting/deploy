@@ -5,6 +5,6 @@
 
     AuthName "Open Contracting Partnership Prometheus Monitor"
     AuthType Basic
-    AuthUserFile /home/{{ user }}/htpasswd
+    AuthUserFile /home/prometheus-server/htpasswd
     Require valid-user
 </Location>

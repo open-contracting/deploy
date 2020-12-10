@@ -1,12 +1,3 @@
-# To create an htpasswd file, add the following data to a Pillar file:
-#
-# apache:
-#   htpasswd:
-#     SYSTEM-USER:
-#       name: NAME
-#       password: PASSWORD
-
-{% if salt['pillar.get']('apache:htpasswd') %}
 # http://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
 apache2-utils:
   pkg.installed
@@ -22,4 +13,3 @@ htpasswd-{{ user }}:
     - require:
       - user: {{ user }}_user_exists
 {% endfor %}
-{% endif %}

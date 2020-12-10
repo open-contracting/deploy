@@ -1,8 +1,6 @@
-{% from 'lib.sls' import apache, createuser %}
+{% from 'lib.sls' import createuser %}
 
 include:
-  - apache.public
-  - apache.modules.proxy_http
   - supervisor
 
 {% set user = 'ocdskfs' %}
@@ -86,11 +84,6 @@ include:
         appdir: {{ directory }}
     - watch_in:
       - service: supervisor
-
-{{ apache('kingfisher-collect',
-    name='ocdskingfisherscrape',
-    servername='collect.kingfisher.open-contracting.org',
-    extracontext='user: ' + user) }}
 
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:

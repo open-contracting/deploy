@@ -8,4 +8,5 @@ python_apps:
         PIWIK_SITE_ID: '22'
     apache:
       servername: cove-live.oc4ids.opencontracting.uk0.bigv.io
-      assets_base_url: /infrastructure
+      context:
+        assets_base_url: /infrastructure

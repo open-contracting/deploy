@@ -7,7 +7,7 @@ After=network-online.target
 User={{ entry.user }}
 Group={{ entry.user }}
 Type=simple
-ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.linux-amd64/{{ name }} \
+ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ name }} \
     --web.listen-address 127.0.0.1:9057 \
     --config.file /home/{{ entry.user }}/conf-prometheus.yml \
     --storage.tsdb.path /home/{{ entry.user }}/data \

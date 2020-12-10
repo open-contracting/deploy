@@ -14,22 +14,22 @@ update all packages:
   file.append:
     - order: 2
     - text: |
-{%- if grains['fqdn_ip4'] is defined %}
-        {{ grains['fqdn_ip4'][0] }} {{ pillar['host_id'] }} {{ pillar['host_id'] }}.open-contracting.org
+{%- if grains.fqdn_ip4 is defined %}
+        {{ grains.fqdn_ip4[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org
 {%- endif %}
-{%- if grains['fqdn_ip6'] is defined %}
-        {{ grains['fqdn_ip6'][0] }} {{ pillar['host_id'] }} {{ pillar['host_id'] }}.open-contracting.org 
+{%- if grains.fqdn_ip6 is defined %}
+        {{ grains.fqdn_ip6[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org 
 {%- endif %}
 
 /etc/mailname:
   file.managed:
     - order: 3
-    - contents: "{{ pillar['host_id'] }}.open-contracting.org"
+    - contents: "{{ pillar.host_id }}.open-contracting.org"
 
 /etc/hostname:
   file.managed:
     - order: 4
-    - contents: "{{ pillar['host_id'] }}"
+    - contents: "{{ pillar.host_id }}"
 
 hostname -F /etc/hostname:
   cmd.run:
