@@ -103,7 +103,13 @@ At any time, you can check the status of the certificates, replacing ``SERVERNAM
 
    curl http://SERVERNAME/.httpd/certificate-status
 
-In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__. If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__. ``mod_md`` also offers several `monitoring options <https://github.com/icing/mod_md#monitoring>`__.
+After connecting to the server as any user, `md-status <https://github.com/icing/mod_md#monitoring>`__ provides more detail:
+
+.. code-block:: bash
+
+   curl http://localhost/md-status
+
+In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__. If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__.
 
 You can test the SSL configuration using `SSL Labs <https://www.ssllabs.com/ssltest/>`__.
 
