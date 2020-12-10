@@ -52,6 +52,16 @@ If many parts of a Pillar key might not be set, use ``salt['pillar.get']()``:
 
 Note the colon (``:``) between ``parent`` and ``child``.
 
+Pillar keys
+-----------
+
+To allow the use of dot notation in Jinja templates, prefer underscores to hyphens in Pillar keys.
+
+State IDs
+---------
+
+While state IDs with spaces are easier to read, they are also easier to mistype: for example, in ``watch_in`` arguments. As such, prefer hyphens to spaces in state IDs.
+
 cmd functions
 -------------
 
