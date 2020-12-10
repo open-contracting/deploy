@@ -192,7 +192,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
    .. note::
 
-      This step takes time, so ``--log-level=trace`` is used to show activity.
+      This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
 
 #. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -208,6 +208,20 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 #. If the service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
 
 #. :doc:`Deploy the service<deploy>`.
+
+Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/156>`__):
+
+-  ``uwsgi``, using the ``service.running`` function. If so, run:
+
+   .. code-block:: bash
+
+      ./run.py TARGET service.restart uwsgi
+
+-  ``apache2-reload``, using the ``module.wait`` function. If so, run:
+
+   .. code-block:: bash
+
+      ./run.py TARGET service.reload apache2
 
 5. Migrate from the old server
 ------------------------------
