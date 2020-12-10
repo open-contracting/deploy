@@ -22,10 +22,12 @@ apache2:
     - require:
       - pkg: apache2
 
+# This uses the old style. It's not clear how to opt-in to the new style when using Agentless Salt.
+# https://docs.saltstack.com/en/latest/ref/states/all/salt.states.module.html
 apache2-reload:
   module.wait:
-    - service.reload:
-      - name: apache2
+    - name: service.reload
+    - m_name: apache2
 
 {% if salt['pillar.get']('apache:sites') %}
 {% for name, entry in pillar.apache.sites.items() %}

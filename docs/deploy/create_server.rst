@@ -217,12 +217,6 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
       ./run.py TARGET service.restart uwsgi
 
--  ``apache2-reload``, using the ``module.wait`` function. If so, run:
-
-   .. code-block:: bash
-
-      ./run.py TARGET service.reload apache2
-
 5. Migrate from the old server
 ------------------------------
 
