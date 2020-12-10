@@ -8,9 +8,9 @@ Most variables are set by state files:
 SSH_IPV4 and SSH_IPV6
   IPs from which to allow SSH collections. Set by the ``firewall`` state using Pillar data. See :doc:`../../use/ssh`.
 PUBLIC_HTTP
-  Opens port 80. Set by the ``apache.public`` state.
+  Opens port 80. Set by the ``apache`` state.
 PUBLIC_HTTPS
-  Opens port 443. Set by the ``apache.public`` state.
+  Opens port 443. Set by the ``apache`` state.
 PUBLIC_POSTGRESQL
   Opens port 5432. Set by the ``postgres`` state, if ``postgres.public_access`` is ``true`` in Pillar.
 PRIVATE_POSTGRESQL
