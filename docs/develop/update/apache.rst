@@ -101,13 +101,15 @@ At any time, you can check the status of the certificates, replacing ``SERVERNAM
 
 .. code-block:: bash
 
-   curl http://SERVERNAME/.httpd/certificate-status
+   curl https://SERVERNAME/.httpd/certificate-status
 
-After connecting to the server as any user, `md-status <https://github.com/icing/mod_md#monitoring>`__ provides more detail:
+For more information, connect to the server as any user, and check the `md-status <https://github.com/icing/mod_md#monitoring>`__ page:
 
 .. code-block:: bash
 
    curl http://localhost/md-status
+
+Notably, if OCSP Stapling is enabled, ``"status"`` should be ``"good"``.
 
 In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__. If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__.
 
