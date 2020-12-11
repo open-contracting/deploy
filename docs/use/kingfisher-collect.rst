@@ -38,7 +38,7 @@ Collect data with Kingfisher Collect
 
 First, `read this section <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Collect documentation.
 
-To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run:
+To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, from your computer:
 
 .. code-block:: bash
 
@@ -133,7 +133,7 @@ If you are frequently running the above, `create an issue <https://github.com/op
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to connect to it as described below, using the same username (``scrape``) and password (ask a colleague) as to access https://collect.kingfisher.open-contracting.org in a web browser.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username (``scrape``) and password (ask a colleague) as to access https://collect.kingfisher.open-contracting.org in a web browser.
 
 Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
@@ -146,6 +146,13 @@ You must change the file's permissions to be readable only by the owner:
 .. code-block:: bash
 
    chmod 600 ~/.netrc
+
+To check the permissions:
+
+.. code-block:: shell-session
+
+   $ stat -f "%Sp" ~/.netrc
+   -rw-------
 
 If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, you must correct the file in a text editor.
 
