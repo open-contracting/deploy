@@ -74,6 +74,8 @@ def connect(destination):
         socket.create_connection((host, 8255), 1)
     except socket.timeout:
         pass
+    except ConnectionRefusedError:
+        print('port 8255 closed')
     os.execvp('ssh', ('ssh', destination))
 
 
