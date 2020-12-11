@@ -47,7 +47,7 @@ Add configuration files
 To create configuration files within the user's ``.config`` directory, add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 8,9
+   :emphasize-lines: 8-9
 
    python_apps:
      kingfisher_summarize:
@@ -67,7 +67,7 @@ Configure Django
 If the Python app uses the Django framework, add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 8,9,10,11,12,13
+   :emphasize-lines: 8-13
 
    python_apps:
      toucan:
@@ -97,7 +97,7 @@ Configure uWSGI
 Add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 4,5
+   :emphasize-lines: 4-5
 
    python_apps:
      toucan:
@@ -152,6 +152,7 @@ Apache is used as a reverse proxy to uWSGI.
 Add, for example:
 
 .. code-block:: yaml
+   :emphasize-lines: 4-10
 
    python_apps:
      toucan:

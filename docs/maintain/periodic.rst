@@ -8,7 +8,7 @@ Review root access
 
 #. Read the :ref:`root access policy<root-access-policy>`
 #. Update the ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file
-#. :doc:`Deploy<deploy>` the affected services
+#. :doc:`Deploy<../deploy/deploy>` the affected services
 
 .. _clean-root-user-directory:
 

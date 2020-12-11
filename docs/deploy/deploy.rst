@@ -84,4 +84,4 @@ States that always report changes:
 
 If you changed the server name of a virtual host that uses HTTPS, you will need to :ref:`ssl-certificates` for the new server name.
 
-If you :doc:`removed a Salt configuration<remove-salt-configuration>`, follow the linked steps to cleanup manually.
+If you :doc:`removed a Salt configuration<../develop/update/delete>`, follow the linked steps to cleanup manually.

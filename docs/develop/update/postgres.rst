@@ -42,7 +42,7 @@ Add your configuration
     vm:
       nr_hugepages: 1234
 
-#. :doc:`Deploy<deploy>`
+#. :doc:`Deploy<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
@@ -79,7 +79,7 @@ To configure a main server and a replica server:
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 
-#. :doc:`Deploy<deploy>` both servers
+#. :doc:`Deploy<../../deploy/deploy>` both servers
 
 #. Connect to the main server as the ``root`` user, and create a replication slot, replacing ``SLOT``:
 

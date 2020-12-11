@@ -30,7 +30,7 @@ Add sites
 Add to your service's Pillar file:
 
 .. code-block:: yaml
-   :emphasize-lines: 3,4,5,6,7,8,9
+   :emphasize-lines: 3-13
 
    apache:
      public_access: True
@@ -75,7 +75,7 @@ Acquire SSL certificates
 
 If ``apache.public_access`` and ``https`` are ``True``, `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ is used to acquire SSL certificates from Let's Encrypt. If the server name is new, you must:
 
--  :doc:`Deploy the service<deploy>` with the new server name, if not done already.
+-  :doc:`Deploy the service<../../deploy/deploy>` with the new server name, if not done already.
 -  ``mod_md`` will request a certificate from Let's Encrypt.
 -  Wait for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
 

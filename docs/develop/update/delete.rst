@@ -1,7 +1,7 @@
 Remove Salt configuration
 =========================
 
-If you delete something from a file, it won't be removed from the server, in most cases. To remove it, after you :doc:`deploy<../deploy/deploy>`:
+If you delete something from a file, it won't be removed from the server, in most cases. To remove it, after you :doc:`deploy<../../deploy/deploy>`:
 
 Delete a file
 -------------
@@ -50,7 +50,7 @@ Delete a cron job
 -----------------
 
 #. Change ``cron.present`` to ``cron.absent`` in the Salt state
-#. :doc:`Deploy the service<../deploy/deploy>`
+#. :doc:`Deploy the service<../../deploy/deploy>`
 #. Delete the Salt state
 
 Delete a service
