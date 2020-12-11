@@ -18,7 +18,6 @@ python_apps:
         VALIDATION_ERROR_LOCATIONS_LENGTH: 100
     apache:
       configuration: django
-      https: True
       serveraliases: ['master.{{ grains.fqdn }}'] # should match python.cove.git.branch
       context:
         docs_ipv4: 5.28.62.151

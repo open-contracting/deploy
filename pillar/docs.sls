@@ -14,7 +14,6 @@ apache:
     ocds-docs-live:
       configuration: docs
       servername: standard.open-contracting.org
-      https: True
       context:
         testing: False
         <<: *shared-context
@@ -23,7 +22,6 @@ apache:
     ocds-docs-live-testing:
       configuration: docs
       servername: testing.live.standard.open-contracting.org
-      https: True
       context:
         testing: True
         <<: *shared-context

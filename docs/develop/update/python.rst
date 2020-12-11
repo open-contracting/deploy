@@ -161,7 +161,6 @@ Add, for example:
          configuration: django
          servername: toucan.open-contracting.org
          serveraliases: ['master.{{ grains.fqdn }}']
-         https: True
          context:
            assets_base_url: ''
 
