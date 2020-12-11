@@ -1,5 +1,5 @@
 # "Executable scripts in /etc/update-motd.d/* are executed by pam_motd(8) as the root user at each login."
-# http://manpages.ubuntu.com/manpages/hirsute/en/man5/update-motd.5.html
+# https://manpages.ubuntu.com/manpages/hirsute/en/man5/update-motd.5.html
 disable default motds:
   file.managed:
     - names:

@@ -1,4 +1,4 @@
-# http://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
+# https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
 apache2-utils:
   pkg.installed
 

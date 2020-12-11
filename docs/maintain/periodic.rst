@@ -58,7 +58,7 @@ Open the mailbox:
 
 You might see a lot of repeat messages.
 
-Here are common `commands <http://www.johnkerl.org/doc/mail-how-to.html>`__:
+Here are common `commands <https://www.johnkerl.org/doc/mail-how-to.html>`__:
 
 -  number: open that message
 -  ``h``: show a screen of messages

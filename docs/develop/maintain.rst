@@ -47,7 +47,7 @@ On Hetzner servers, the ``/var/log/installer`` directory is missing. The Ubuntu 
 
 .. code-block:: bash
 
-   comm -23 <(apt-mark showmanual | sort -u) <(curl -sS http://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.manifest | cut -f1 | cut -d: -f1 | sort -u)
+   comm -23 <(apt-mark showmanual | sort -u) <(curl -sS https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.manifest | cut -f1 | cut -d: -f1 | sort -u)
 
 ..
    https://unix.stackexchange.com/a/80520 is similar. Instead of `apt-mark showmanual`, it takes the packages that

@@ -66,7 +66,7 @@ The staff of the following organizations can have administrative roles:
 -  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
 -  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
--  `Open Data Services Co-operative <http://opendataservices.coop>`__ (ODS)
+-  `Open Data Services Co-operative <https://opendataservices.coop>`__ (ODS)
 -  `Young Innovations <https://younginnovations.com.np>`__
 
 The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.

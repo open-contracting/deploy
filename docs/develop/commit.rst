@@ -32,7 +32,7 @@ To test changes to the Apache files for the :doc:`../reference/docs` (for exampl
 
 #. Make changes inside ``{% if testing %}`` blocks in the config files
 #. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
-#. To test manually, visit the `testing version <http://testing.live.standard.open-contracting.org/>`__
+#. To test manually, visit the `testing version <https://testing.live.standard.open-contracting.org/>`__
 #. To test automatically, run:
 
 .. code-block:: bash
@@ -59,7 +59,7 @@ Using a virtual machine
         VBoxManage guestproperty get VMNAME "/VirtualBox/GuestInfo/Net/0/V4/IP"
 
 #. Update the relevant target in ``salt-config/roster`` to point to the virtual machine's IP address
-#. In the relevant Pillar file, change ``https`` to ``False``
+#. In the relevant Pillar file, set ``https`` to ``False``
 #. Edit ``/etc/hosts`` to map the virtual machine's IP address to the service's hostname
 #. Deploy to the virtual machine and test
 
