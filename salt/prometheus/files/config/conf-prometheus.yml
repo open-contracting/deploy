@@ -38,7 +38,7 @@ scrape_configs:
     metrics_path: /prometheus/metrics
     static_configs:
       - targets: ['process.kingfisher.open-contracting.org']
-    scheme: http
+    scheme: https
 
 alerting:
   alertmanagers:
