@@ -1,6 +1,8 @@
 Salt style guide
 ================
 
+Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__.
+
 State functions
 ---------------
 
