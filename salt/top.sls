@@ -41,8 +41,7 @@ base:
     - kingfisher.archive
 
   'prometheus':
-    - prometheus.server
-    - prometheus.alertmanager
+    - prometheus
 
   'redash':
     - redash

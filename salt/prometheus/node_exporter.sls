@@ -1,4 +1,7 @@
-{% from 'lib.sls' import prometheus_service, set_firewall %}
+{% from 'lib.sls' import set_firewall %}
+
+include:
+  - prometheus
 
 {% set user = pillar.prometheus.node_exporter.user %}
 
@@ -27,9 +30,7 @@
     - require:
       - user: {{ user }}_user_exists
     - watch_in:
-      - module: prometheus-node-exporter
-
-{{ prometheus_service('node_exporter') }}
+      - module: prometheus-node-exporter-service
 
 ## Smartmontools
 
