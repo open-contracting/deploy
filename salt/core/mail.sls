@@ -2,6 +2,8 @@
 postfix:
   pkg.installed:
     - name: postfix
+    - require:
+      - debconf: postfix
   service.running:
     - name: postfix
     - enable: True
@@ -15,8 +17,6 @@ postfix:
         'postfix/main_mailer_type': { 'type' : 'select', 'value' : 'Internet Site' }
     - require:
       - pkg: debconf-utils
-    - require_in:
-      - pkg: postfix
   cmd.run:
     - name: dpkg-reconfigure -f noninteractive postfix
     - require:
