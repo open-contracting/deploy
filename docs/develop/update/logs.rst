@@ -6,8 +6,8 @@ rsyslog
 
 To add an rsyslog configuration file:
 
--  Add a configuration file to ``salt/core/rsyslog/files``
--  Add a mapping to the service's Pillar file
+#. Add a configuration file to ``salt/core/rsyslog/files``
+#. Add a mapping to the service's Pillar file
 
 For example:
 
@@ -22,8 +22,8 @@ The ``kingfisher-archive.conf`` file in ``salt/core/rsyslog/files`` will be writ
 logrotate
 ---------
 
--  Add a configuration file to ``salt/core/logrotate/files``
--  Add a mapping to the service's Pillar file
+#. Add a configuration file to ``salt/core/logrotate/files``
+#. Add a mapping to the service's Pillar file
 
 For example:
 
