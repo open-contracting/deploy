@@ -82,7 +82,7 @@ add-{{ name }}-htpasswd:
   webutil.user_exists:
     - name: {{ entry.htpasswd.name }}
     - password: {{ entry.htpasswd.password }}
-    - htpasswd_file: /etc/apache2/.htpasswd
+    - htpasswd_file: /etc/apache2/.htpasswd-{{ name }}
     - update: True
     - require:
       - pkg: apache2
