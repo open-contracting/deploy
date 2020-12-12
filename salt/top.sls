@@ -66,7 +66,7 @@ base:
   'I@postgres:configuration':
     - postgres
 
-  'I@prometheus:node_exporter:enabled:true':
+  'I@prometheus:node_exporter':
     - prometheus.node_exporter
 
   'I@maintenance:enabled:true':

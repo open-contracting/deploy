@@ -1,9 +1,5 @@
 # Values used on all servers. These may be overwritten.
 
-prometheus:
-  node_exporter:
-    enabled: False
-
 maintenance:
   enabled: False
   # Set safe default.

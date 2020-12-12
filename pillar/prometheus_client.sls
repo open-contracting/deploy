@@ -4,7 +4,6 @@ firewall:
 
 prometheus:
   node_exporter:
-    enabled: True
     user: prometheus-client
     service: prometheus-node-exporter
     version: 1.0.1
