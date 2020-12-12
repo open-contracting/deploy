@@ -30,7 +30,7 @@ include:
     - require:
       - user: {{ user }}_user_exists
     - watch_in:
-      - module: prometheus-node-exporter-service
+      - module: prometheus-node-exporter-reload
 
 ## Smartmontools
 
