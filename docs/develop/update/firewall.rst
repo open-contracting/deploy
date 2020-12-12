@@ -48,3 +48,20 @@ Close a port
 ------------
 
 Use the :ref:`unset_firewall macro<delete-firewall-setting>` if a ``set_firewall`` call is removed from a service's state, whether directly or indirectly.
+
+Debug network issues
+--------------------
+
+When making changes to firewall settings or port assignments, you might want to:
+
+-  Check if a port is open:
+
+   .. code-block:: bash
+
+      telnet host port
+
+-  List active connections:
+
+   .. code-block:: bash
+
+      netstat -tupln

@@ -22,20 +22,3 @@ Instead, surround it in quotes:
    {% set extracontext %}
    b: "{{ a }}"
    {% endset %}
-
-Debug network issues
---------------------
-
-When making changes to firewall settings or port assignments, you might want to:
-
--  Check if a port is open:
-
-   .. code-block:: bash
-
-      telnet host port
-
--  List active connections:
-
-   .. code-block:: bash
-
-      netstat -tupln
