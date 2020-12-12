@@ -14,10 +14,10 @@ update all packages:
   file.append:
     - order: 2
     - text: |
-{%- if grains.fqdn_ip4 is defined %}
+{%- if 'fqdn_ip4' in grains %}
         {{ grains.fqdn_ip4[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org
 {%- endif %}
-{%- if grains.fqdn_ip6 is defined %}
+{%- if 'fqdn_ip6' in grains %}
         {{ grains.fqdn_ip6[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org 
 {%- endif %}
 
