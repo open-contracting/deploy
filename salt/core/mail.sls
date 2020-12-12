@@ -17,11 +17,11 @@ postfix:
       - pkg: debconf-utils
     - require_in:
       - pkg: postfix
-  cmd.wait:
+  cmd.run:
     - name: dpkg-reconfigure -f noninteractive postfix
     - require:
       - pkg: postfix
-    - watch:
+    - onchanges:
       - debconf: postfix
 
 # Install commands for users to interact with mail.
