@@ -18,6 +18,10 @@ Use dot notation:
    {{ pillar['host_id'] }}  # AVOID
    {{ grains['kernel'] }}  # AVOID
 
+.. note::
+
+   To allow the use of dot notation in Jinja, prefer underscores to hyphens in Pillar keys.
+
 To test whether a mapping key is present, use the ``in`` operator:
 
 .. code-block:: jinja
@@ -47,12 +51,7 @@ Note the colon (``:``) between ``parent`` and ``child``.
 YAML data-serialization language
 --------------------------------
 
-Pillar keys
-  To allow the use of dot notation in Jinja templates, prefer underscores to hyphens in Pillar keys.
-State IDs
-  While state IDs with spaces are easier to read, they are also easier to mistype: for example, in ``watch_in`` arguments. As such, prefer hyphens to spaces in state IDs.
-Booleans
-  Capitalize ``True`` and ``False``, for consistency.
+Capitalize the ``True`` and ``False`` booleans, for consistency.
 
 Avoid gotchas
 ~~~~~~~~~~~~~

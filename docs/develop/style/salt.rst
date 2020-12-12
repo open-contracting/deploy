@@ -3,6 +3,11 @@ Salt style guide
 
 Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__.
 
+State IDs
+---------
+
+While state IDs with spaces are easier to read, they are also easier to mistype: for example, in ``require`` arguments. As such, prefer hyphens to spaces in state IDs.
+
 State functions
 ---------------
 
