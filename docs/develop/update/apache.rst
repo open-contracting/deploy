@@ -65,6 +65,10 @@ This will:
 
 The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/sites/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
 
+.. note::
+
+   To delete a virtual host, :ref:`follow these instructions<delete-virtual-host>`.
+
 Add basic authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -207,3 +211,7 @@ To enable a module, include the relevant state file in your service's state file
      - apache.modules.remoteip
 
 If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
+
+.. note::
+
+   To disable an Apache module, :ref:`follow these instructions<delete-apache-module>`.

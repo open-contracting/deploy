@@ -123,6 +123,8 @@ Delete a firewall setting
 
 #. Remove the temporary macro call
 
+.. _delete-apache-module:
+
 Delete an Apache module
 -----------------------
 
@@ -141,6 +143,8 @@ Delete an Apache module
 
 #. Remove the temporary state
 
+.. _delete-virtual-host:
+
 Delete a virtual host
 ---------------------
 
@@ -151,3 +155,5 @@ Run, for example:
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
+
+A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
