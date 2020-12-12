@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - python_apps
@@ -10,7 +10,7 @@ include:
 {% set summarize = pillar.python_apps.kingfisher_summarize %}
 {% set summarize_directory = '/home/' + summarize.user + '/' + summarize.git.target %}
 
-{{ createuser(entry.user, authorized_keys=pillar.ssh.kingfisher) }}
+{{ create_user(entry.user, authorized_keys=pillar.ssh.kingfisher) }}
 
 kingfisher-process-prerequisites:
   pkg.installed:

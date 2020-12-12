@@ -20,10 +20,8 @@ unset {{ setting_name }} firewall setting:
     - backup: ""
 {% endmacro %}
 
-
-# Our policy is to run as much as possible as unprivileged users. Therefore, most states start by creating a user.
-{% macro createuser(user, authorized_keys=[]) %}
-
+# It is safe to use `[]` as a default value, because the default value is never mutated.
+{% macro create_user(user, authorized_keys=[]) %}
 {{ user }}_user_exists:
   user.present:
     - name: {{ user }}
@@ -37,9 +35,7 @@ unset {{ setting_name }} firewall setting:
     - ssh_keys: {{ (pillar.ssh.admin + salt['pillar.get']('ssh:root', []) + authorized_keys)|yaml }}
     - require:
       - user: {{ user }}_user_exists
-
 {% endmacro %}
-
 
 {#
   Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
@@ -49,7 +45,6 @@ unset {{ setting_name }} firewall setting:
 #}
 # It is safe to use `{}` as a default value, because the default value is never mutated.
 {% macro apache(name, entry, context={}) %}
-
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
     - source: salt://apache/files/sites/{{ entry.configuration }}.conf.include
@@ -92,5 +87,4 @@ add-{{ name }}-htpasswd:
     - require:
       - pkg: apache2
 {% endif %}
-
 {% endmacro %}

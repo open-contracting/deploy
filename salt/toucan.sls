@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - python_apps
@@ -7,7 +7,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ createuser(entry.user) }}
+{{ create_user(entry.user) }}
 
 toucan-deps:
   pkg.installed:

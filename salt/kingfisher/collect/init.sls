@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - supervisor
@@ -7,7 +7,7 @@ include:
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
-{{ createuser(user, authorized_keys=pillar.ssh.kingfisher) }}
+{{ create_user(user, authorized_keys=pillar.ssh.kingfisher) }}
 
 {{ directory }}:
   file.directory:

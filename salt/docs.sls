@@ -1,10 +1,10 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - apache
 
 {% set user = 'ocds-docs' %}
-{{ createuser(user, authorized_keys=pillar.ssh.docs) }}
+{{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
 # Needed to create a ZIP file of the schema and codelists.
 # https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
@@ -65,7 +65,7 @@ https://github.com/open-contracting/standard-legacy-staticsites.git:
 # which has been replaced by standard.open-contracting.org
 
 {% set legacy = 'opencontracting' %}
-{{ createuser(legacy) }}
+{{ create_user(legacy) }}
 
 https://github.com/open-contracting/opendatacomparison-archive.git:
   git.latest:

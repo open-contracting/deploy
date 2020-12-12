@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - apache.modules.remoteip
@@ -8,7 +8,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ createuser(entry.user) }}
+{{ create_user(entry.user) }}
 
 cd {{ directory }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
   cron.present:

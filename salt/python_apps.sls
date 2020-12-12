@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, createuser %}
+{% from 'lib.sls' import apache, create_user %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.

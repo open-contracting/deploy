@@ -1,4 +1,4 @@
-{% from 'lib.sls' import createuser %}
+{% from 'lib.sls' import create_user %}
 
 {#
   The `name` key must match the repository name of a Prometheus component: for example, prometheus.
@@ -16,7 +16,7 @@
 
 {% set userdir = '/home/' + entry.user %}
 
-{{ createuser(entry.user) }}
+{{ create_user(entry.user) }}
 
 # Note: This does not clean up old versions.
 extract_{{ name }}:
