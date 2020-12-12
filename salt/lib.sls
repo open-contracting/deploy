@@ -54,7 +54,7 @@ unset {{ setting_name }} firewall setting:
   file.managed:
     - source: salt://apache/files/sites/{{ entry.configuration }}.conf.include
     - template: jinja
-    - context: {{ dict(context, **entry.get('context', {}))|yaml }}
+    - context: {{ dict(context, name=name, **entry.get('context', {}))|yaml }}
     - require:
       - pkg: apache2
     - watch_in:
@@ -81,5 +81,16 @@ enable-{{ name }}-site:
       - file: /etc/apache2/sites-available/{{ name }}.conf
     - watch_in:
       - module: apache2-reload
+
+{% if 'htpasswd' in entry %}
+add-{{ name }}-htpasswd:
+  webutil.user_exists:
+    - name: {{ entry.htpasswd.name }}
+    - password: {{ entry.htpasswd.password }}
+    - htpasswd_file: /etc/apache2/.htpasswd
+    - update: True
+    - require:
+      - pkg: apache2
+{% endif %}
 
 {% endmacro %}

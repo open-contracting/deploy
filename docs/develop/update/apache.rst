@@ -65,6 +65,39 @@ This will:
 
 The example above uses the `docs <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/sites/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
 
+Add basic authentication
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Add, in a private Pillar file:
+
+   .. code-block:: yaml
+
+      apache:
+        sites:
+          SITE:
+            htpasswd:
+              name: NAME
+              password: PASSWORD
+
+   This will add the user to the ``/etc/apache2/.htpasswd-SITE`` file.
+
+#. Reference the htpasswd file from an Apache configuration file. For example:
+
+   .. code-block:: apache
+
+      <Location "/">
+          ProxyPass http://localhost:6789/
+
+          AuthName "My Site"
+          AuthType Basic
+          AuthUserFile /etc/apache2/.htpasswd-my-site
+          Require valid-user
+      </Location>
+
+.. note::
+
+   Only one htpasswd user is permitted per site, but this can be changed.
+
 .. _ssl-certificates:
 
 Acquire SSL certificates
@@ -174,39 +207,3 @@ To enable a module, include the relevant state file in your service's state file
      - apache.modules.remoteip
 
 If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
-
-Add basic authentication
-------------------------
-
-#. Create an htpasswd file in a user's home directory, by adding the following data to a Pillar file:
-
-   .. code-block:: yaml
-
-      apache:
-        htpasswd:
-          SYSTEM-USER:
-            name: NAME
-            password: PASSWORD
-
-   For example:
-
-   .. code-block:: yaml
-
-      apache:
-        htpasswd:
-          prometheus-server:
-            name: prom
-            password: secret
-
-#. Reference the htpasswd file from an Apache configuration file. For example:
-
-   .. code-block:: apache
-
-      <Location "/">
-          ProxyPass http://localhost:6789/
-
-          AuthName "Open Contracting Partnership Prometheus Monitor"
-          AuthType Basic
-          AuthUserFile /home/prometheus-server/htpasswd
-          Require valid-user
-      </Location>

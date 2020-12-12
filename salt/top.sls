@@ -60,9 +60,6 @@ base:
   'I@apache:public_access:true':
     - apache.letsencrypt
 
-  'I@apache:htpasswd':
-    - apache.htpasswd
-
   'I@postgres:configuration':
     - postgres
 

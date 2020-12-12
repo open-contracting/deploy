@@ -19,8 +19,14 @@ apache:
   public_access: True
   sites:
     prometheus-server:
-      configuration: prometheus-server
+      configuration: proxy
       servername: monitor.prometheus.open-contracting.org
+      context:
+        proxypass: http://localhost:9057/
+        authname: Open Contracting Partnership Prometheus Server
     prometheus-alertmanager:
-      configuration: prometheus-alertmanager
+      configuration: proxy
       servername: alertmanager.prometheus.open-contracting.org
+      context:
+        proxypass: http://localhost:9095/
+        authname: Open Contracting Partnership Prometheus Alert Manager

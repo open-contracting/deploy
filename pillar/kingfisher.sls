@@ -51,8 +51,12 @@ apache:
   public_access: True
   sites:
     ocdskingfisherscrape:
-      configuration: kingfisher-collect
+      configuration: proxy
       servername: collect.kingfisher.open-contracting.org
+      context:
+        documentroot: /home/ocdskfs/scrapyd
+        proxypass: http://localhost:6800/
+        authname: Kingfisher Scrapyd
 
 python_apps:
   kingfisher_process:
