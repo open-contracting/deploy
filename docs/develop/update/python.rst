@@ -178,21 +178,3 @@ Alternatively, you can write your own configuration file in ``salt/apache/files/
 .. note::
 
    At present, an Apache service is always configured if ``python_apps`` is set, even if no app sets an ``apache`` key.
-
-Writing configuration files
----------------------------
-
--  As much as possible, use values from Pillar data, instead of hardcoding values.
--  Set sensible defaults, for example:
-
-   .. code-block:: jinja
-
-      {{ entry.uwsgi.get('max-requests', 1024) }}
-
--  Make values optional, for example:
-
-   .. code-block:: jinja
-
-      {%- if 'cheaper' in entry.uwsgi %}
-      cheaper = {{ entry.uwsgi.cheaper }}
-      {%- endif %}

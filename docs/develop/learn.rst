@@ -154,8 +154,8 @@ Instead of relying on `ordering <https://docs.saltstack.com/en/getstarted/config
 
 -  `require <https://docs.saltstack.com/en/latest/ref/states/requisites.html#require>`__ is easier to reason about than ``require_in``, because code typically declares its own dependencies.
 -  `watch_in <https://docs.saltstack.com/en/latest/ref/states/requisites.html#watch>`__  is easier to reason about than ``watch``, because it follows the direction of causation: if *this* state changes, then :ref:`restart or reload<service-functions>` *that* service.
--  `onchanges <https://docs.saltstack.com/en/latest/ref/states/requisites.html#onchanges>`__ makes a state only apply if the require state generates changes, and is used exclusively with the ``cmd.run`` function (which otherwise always applies).
--  `listen <https://docs.saltstack.com/en/latest/ref/states/requisites.html#requisites-listen>` is used once, where multiple IDs modify a file that is required by a service.
+-  `onchanges <https://docs.saltstack.com/en/latest/ref/states/requisites.html#onchanges>`__ makes the state apply only if its required state generates changes, and is used exclusively with the ``cmd.run`` function (which otherwise always applies).
+-  `listen <https://docs.saltstack.com/en/latest/ref/states/requisites.html#requisites-listen>`__ is used once, where multiple IDs modify a file that is required by a service.
 
 Macros
 ------
@@ -179,7 +179,27 @@ A few state files loop over Pillar data:
 -  :doc:`python_apps<update/python>`, included by the state files of specific services
 -  ``prometheus``, included by the state file of the ``prometheus`` service, and by non-development targets in the top file
 
-This pattern allows configuration to live in Pillar, rather than in Salt.
+This pattern allows service-specific configuration values to live in Pillar, rather than in Salt.
+
+Writing a configuration file
+----------------------------
+
+To make a configuration file more reusable:
+
+-  Use values from Pillar data, instead of hardcoding values.
+-  Set sensible defaults, for example:
+
+   .. code-block:: jinja
+
+      {{ entry.uwsgi.get('max-requests', 1024) }}
+
+-  Make values optional, for example:
+
+   .. code-block:: jinja
+
+      {%- if 'cheaper' in entry.uwsgi %}
+      cheaper = {{ entry.uwsgi.cheaper }}
+      {%- endif %}
 
 grains
 ------
