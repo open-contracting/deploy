@@ -10,8 +10,8 @@ iptables-persistent:
     - source: salt://core/firewall/files/firewall-settings.local
     - mode: 640
     - replace: False
-  require:
-    - file: /home/sysadmin-tools/bin
+    - require:
+      - file: /home/sysadmin-tools/bin
 
 # These must be set with file.replace, because the ID that creates the file uses file.managed with `replace: False`.
 {{ set_firewall("SSH_IPV4", pillar.firewall.ssh_ipv4|join(' ')) }}
@@ -21,8 +21,8 @@ iptables-persistent:
   file.managed:
     - source: salt://core/firewall/files/firewall.sh
     - mode: 750
-  require:
-    - file: /home/sysadmin-tools/bin
+    - require:
+      - file: /home/sysadmin-tools/bin
 
 # We upload the script and execute it on the server (rather than using cmd.script). This has the following benefits:
 # - Users on the system can regenerate the firewall without re-deploying (for example, to block an IP temporarily)

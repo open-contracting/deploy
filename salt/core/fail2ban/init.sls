@@ -10,10 +10,9 @@ fail2ban:
     - reload: True
     - require:
       - pkg: fail2ban
-  require:
-    - sls: core.mail
-  watch:
-    - file: /etc/fail2ban/jail.local
+      - sls: core.mail
+    - watch:
+      - file: /etc/fail2ban/jail.local
 
 /etc/fail2ban/jail.local:
   file.managed:

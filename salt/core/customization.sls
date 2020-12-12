@@ -17,8 +17,8 @@ useful commands:
 editor:
   alternatives.set:
     - path: /usr/bin/vim.basic
-  require:
-    - pkg: vim
+    - require:
+      - pkg: vim
 
 /etc/profile.d/99-history-timeformat.sh:
   file.append:

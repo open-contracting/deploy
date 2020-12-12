@@ -18,8 +18,8 @@ ntp:
   file.replace:
     - pattern: "ubuntu.pool.ntp.org"
     - repl: "uk.pool.ntp.org"
-  require:
-    - pkg: ntp
+    - require:
+      - pkg: ntp
 
 # Set timezone to UTC.
 UTC:
