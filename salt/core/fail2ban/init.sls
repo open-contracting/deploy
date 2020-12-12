@@ -11,9 +11,9 @@ fail2ban:
     - require:
       - pkg: fail2ban
       - sls: core.mail
-    - watch:
-      - file: /etc/fail2ban/jail.local
 
 /etc/fail2ban/jail.local:
   file.managed:
     - source: salt://core/fail2ban/files/jail.local
+    - watch_in:
+      - service: fail2ban

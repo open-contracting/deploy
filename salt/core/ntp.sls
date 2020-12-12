@@ -11,8 +11,6 @@ ntp:
     - enable: True
     - require:
       - pkg: ntp
-    - watch:
-      - file: /etc/ntp.conf
 
 /etc/ntp.conf:
   file.replace:
@@ -20,6 +18,8 @@ ntp:
     - repl: "uk.pool.ntp.org"
     - require:
       - pkg: ntp
+    - watch_in:
+      - service: ntp
 
 # Set timezone to UTC.
 UTC:
