@@ -47,7 +47,7 @@ This sets ``PUBLIC_SSH="yes"`` in the ``firewall-settings.local`` file.
 Close a port
 ------------
 
-Use the :ref:`unset_firewall macro<delete-firewall-setting>` if a ``set_firewall`` call is removed from a service's state, whether directly or indirectly.
+Use the :ref:`unset_firewall macro<delete-firewall-setting>` if a ``set_firewall`` call is removed from a service's state, whether directly (by deleting a ``set_firewall`` call) or indirectly (by un-including a state file with ``set_firewall`` calls).
 
 Debug network issues
 --------------------
