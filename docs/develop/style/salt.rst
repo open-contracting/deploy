@@ -113,7 +113,8 @@ As the Salt documentation `states <https://docs.saltstack.com/en/latest/topics/d
 All macros are defined in `lib.sls <https://github.com/open-contracting/deploy/blob/master/salt/lib.sls>`__.
 
 -  :doc:`set_firewall() and unset_firewall()<update/firewall>` make sense as macros, because different state files might want to open or close different ports based on Pillar data. For example, the ``apache`` file opens or closes ports 80 and 443 based on the ``apache.public_access`` value.
--  ``apache()`` makes sense as a macro, because it is called from two different contexts: when processing ``apache.sites`` data in the ``apache`` file, and ``python_apps`` data in the ``python`` file. See `#80 <https://github.com/open-contracting/deploy/issues/80#issuecomment-739122716>`__.
+-  ``create_user()`` makes sense as a macro, because users are created in many different contexts, and it is simpler to couple the user's creation to that context, than to synchronize user creation and service configuration in separate places.
+-  ``apache()`` makes sense as a macro, because sites are created in two different contexts: when processing ``apache.sites`` data in the ``apache`` file, and ``python_apps`` data in the ``python`` file. See `#80 <https://github.com/open-contracting/deploy/issues/80#issuecomment-739122716>`__.
 
 Looping over Pillar data
 ------------------------
