@@ -11,7 +11,9 @@ useful commands:
       - psmisc # provides killall
       - tmux
       - unzip
-      - vim
+
+vim:
+  pkg.installed
 
 # Set vim as the default editor now that we've installed it.
 editor:
