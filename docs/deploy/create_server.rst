@@ -200,6 +200,16 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       ./run.py TARGET system.reboot
 
+.. note::
+
+   The hostname configured in this step and the DNS records created in the previous step are relevant to:
+
+   -  verify that an email message has a legitimate source (for example, from cron jobs)
+   -  communicate between servers (for example, for database replication)
+   -  identify servers in human-readable way
+
+   As such, DNS records that match the hostname must be maintained, until the server is decommissioned.
+
 4. Deploy the service
 ---------------------
 
