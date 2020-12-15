@@ -35,3 +35,7 @@ open-contracting.org's DMARC policy sends reports to `DMARC Analyzer <https://ap
 DMARC compliance should be over 95%, DKIM verification should be over 90% aligned, and SPF verification should be over 80% aligned. Failures should be 2% or less.
 
 When filtering per result, sending domains with volumes of less than 10 can be ignored, and SPF misalignment with ``calendar-server.bounces.google.com`` `can be ignored <https://dmarcian.com/google-calendar-invites-dmarc/>`__.
+
+.. note::
+
+   Mailchimp is `not SPF aligned <https://dmarc.io/source/mailchimp/>`__. It `sends mail from <https://mailchimp.com/help/my-campaign-from-name-shows-mcsvnet/>`__ ``mcsv.net``, ``mcdlv.net``, ``mailchimpapp.net`` and ``rsgsv.net``.
