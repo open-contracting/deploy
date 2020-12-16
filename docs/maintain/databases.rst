@@ -178,7 +178,7 @@ There are two parts to this, mitigating the downtime and fixing replication.
 
 Mitigating downtime:
 
-# Enable public access to postgres on kingfisher-process1
+#. Enable public access to postgres on kingfisher-process1
 
    Modify ``pillar/kingfisher.sls`` setting the following pillar value
 
@@ -187,12 +187,12 @@ Mitigating downtime:
       postgres:
         public_access: True
 
-# Deploy changes to kingfisher-process1
+#. Deploy changes to kingfisher-process1
 
-# Update DNS
+#. Update DNS
 
-   Log into GoDaddy
-
+   Log into `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+   
    Point the postgres-readonly DNS endpoint at kingfisher-process1
 
    Wait for the DNS updates to complete. This will depend on the records TTL value.
@@ -202,7 +202,7 @@ Done.
 
 Fixing replication:
 
-# Copy over source replica log archives
+#. Copy over source replica log archives
 
   .. code-block:: bash
 
@@ -212,7 +212,7 @@ Fixing replication:
      exit
      service postgres start
 
-# Monitor the replica logs, you'll see it recovering from the WAL files.
+#. Monitor the replica logs, you'll see it recovering from the WAL files.
 
   .. code-block:: bash
 
