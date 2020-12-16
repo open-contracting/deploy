@@ -99,13 +99,11 @@ Google Colaboratory
 
 `Google Colaboratory <https://colab.research.google.com/notebooks/welcome.ipynb>`__ is an executable document to write, run and share code in Google Drive, similar to `Jupyter Notebook <https://jupyter.org>`__.
 
-Install the `ocdskingfishercolab <https://pypi.org/project/ocdskingfishercolab/>`__ Python package, which pulls in `ipython-sql <https://pypi.org/project/ipython-sql/>`__.
+Install the `ocdskingfishercolab <https://pypi.org/project/ocdskingfishercolab/>`__ Python package, which installs the `ipython-sql <https://pypi.org/project/ipython-sql/>`__ Python package.
 
 For security, remember to set ``sslmode`` to ``'require'``.
 
-To connect:
-
-.. code-block::
+.. code-block:: none
 
    %sql postgresql://USER:PASSWORD@postgres-readonly.kingfisher.open-contracting.org/ocdskingfisherprocess?sslmode=require
 
