@@ -46,6 +46,8 @@ Add your configuration
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
+.. _pg-setup-replication:
+
 Set up replication
 ------------------
 

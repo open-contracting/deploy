@@ -167,3 +167,56 @@ To get the table related to a ``pg_toast_*`` table, take the number after ``pg_t
 .. code-block:: sql
 
    SELECT '16712'::regclass;
+
+
+
+Recovering the replica
+----------------------
+
+In the case that replication breaks or the replica server goes offline these are the steps to recover.
+There are two parts to this, mitigating the downtime and fixing replication.
+
+Mitigating downtime:
+
+# Enable public access to postgres on kingfisher-process1
+
+   Modify ``pillar/kingfisher.sls`` setting the following pillar value
+
+   .. code-block:: yaml
+
+      postgres:
+        public_access: True
+
+# Deploy changes to kingfisher-process1
+
+# Update DNS
+
+   Log into GoDaddy
+
+   Point the postgres-readonly DNS endpoint at kingfisher-process1
+
+   Wait for the DNS updates to complete. This will depend on the records TTL value.
+
+Done.
+
+
+Fixing replication:
+
+# Copy over source replica log archives
+
+  .. code-block:: bash
+
+     service postgres stop
+     sudo su - postgres
+     rsync -avz postgres@process1.kingfisher.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
+     exit
+     service postgres start
+
+# Monitor the replica logs, you'll see it recovering from the WAL files.
+
+  .. code-block:: bash
+
+     tail -f /var/log/postgresql/postgresql-11-main.log
+
+
+If everything goes wrong and you can fall back to rebuilding the replica from source, see :ref:`postgres setup docs<pg-setup-replication>`.
