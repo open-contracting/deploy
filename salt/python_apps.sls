@@ -82,6 +82,7 @@ virtualenv:
   cmd.run:
     - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py migrate --noinput
     - runas: {{ entry.user }}
+    - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
     - require:
       - cmd: {{ directory }}-requirements
@@ -92,11 +93,19 @@ virtualenv:
   cmd.run:
     - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py collectstatic --noinput
     - runas: {{ entry.user }}
+    - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
     - require:
       - cmd: {{ directory }}-requirements
     - onchanges:
       - git: {{ entry.git.url }}
+
+django-custom-command:
+  cmd.run:
+    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python {{ salt['pillar.get']('custom_command:script') }}
+    - runas: {{ entry.user }}
+    - env: {{ entry.django.env|yaml }}
+    - cwd: {{ directory }}
 
 {% if 'compilemessages' in entry.django %}
 {{ directory }}-compilemessages:
@@ -105,6 +114,7 @@ virtualenv:
   cmd.run:
     - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py compilemessages
     - runas: {{ entry.user }}
+    - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
     - require:
       - cmd: {{ directory }}-requirements

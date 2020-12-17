@@ -19,6 +19,7 @@ base:
 
   'covid19-dev':
     - covid19
+    - private.covid19
 
   'docs':
     - docs
