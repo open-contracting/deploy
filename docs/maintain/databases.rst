@@ -185,25 +185,20 @@ Mitigate downtime
       postgres:
         public_access: True
 
-#. Deploy changes to the target via salt.
+#. :doc:`Deploy the main server<../../deploy/deploy>`
+#. Update DNS records:
 
-#. Update DNS
-
-   Log into `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
-
-   Update the postgres service DNS record and point it at the source server.
-
-   For example on kingfisher-replica1, update the ``postgres-readonly.kingfisher`` DNS endpoint to point at ``kingfisher-process1``
-
-   Wait for the DNS updates to complete. This will depend on the records TTL value.
-
-Done.
+   #. Login to `GoDaddy <https://sso.godaddy.com>`__
+   #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
+   #. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
+   #. Update the replica's CNAME record to point to the main server's A record: for example, point ``postgres-readonly`` to ``kingfisher-process1``
+   #. Wait for the changes to propagate, which depends on the original TTL value
 
 
 Fix replication
 ---------------
 
-#. Copy over source replica log archives
+#. Copy WAL archives from the main server to the replica server. 
 
    Replace ``example.open-contracting.org`` below with the postgres source server hostname.
 
