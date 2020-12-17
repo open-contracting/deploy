@@ -176,7 +176,7 @@ If replication breaks or the replica server goes offline, you must recover the r
 Mitigate downtime
 ~~~~~~~~~~~~~~~~~
 
-#. Enable public access to postgres on kingfisher-process1
+#. Enable public access for to postgres on the source server.
 
    For example, for the ``kingfisher-process`` target, modify the ``pillar/kingfisher.sls`` file.
 
@@ -185,13 +185,15 @@ Mitigate downtime
       postgres:
         public_access: True
 
-#. Deploy changes to kingfisher-process1
+#. Deploy changes to the target via salt.
 
 #. Update DNS
 
    Log into `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
-   
-   Point the postgres-readonly DNS endpoint at kingfisher-process1
+
+   Update the postgres service DNS record and point it at the source server.
+
+   For example on kingfisher-replica1, update the ``postgres-readonly.kingfisher`` DNS endpoint to point at ``kingfisher-process1``
 
    Wait for the DNS updates to complete. This will depend on the records TTL value.
 
@@ -203,18 +205,22 @@ Fix replication
 
 #. Copy over source replica log archives
 
-  .. code-block:: bash
+   Replace ``example.open-contracting.org`` below with the postgres source server hostname.
 
-     service postgres stop
-     sudo su - postgres
-     rsync -avz postgres@process1.kingfisher.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
-     exit
-     service postgres start
+   .. code-block:: bash
+
+      service postgres stop
+      sudo su - postgres
+      # Copy the SSH key for the postgres user to the postgres user on example.open-contracting.org
+      timeout 1 ssh postgres@example.open-contracting.org -p 8255
+      rsync -avz postgres@example.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
+      exit
+      service postgres start
 
 #. Monitor the replica logs, you'll see it recovering from the WAL files.
 
-  .. code-block:: bash
+   .. code-block:: bash
 
-     tail -f /var/log/postgresql/postgresql-11-main.log
+      tail -f /var/log/postgresql/postgresql-11-main.log
 
 If all else fails, then you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.
