@@ -29,6 +29,7 @@ base:
   'docs':
     - docs
     - elasticsearch
+    - elasticsearch.plugins.readonlyrest
     - tinyproxy
 
   'kingfisher-process':

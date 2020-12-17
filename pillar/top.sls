@@ -22,6 +22,7 @@ base:
 
   'docs':
     - docs
+    - private.docs
     - tinyproxy
     - docs_maintenance
 

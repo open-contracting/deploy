@@ -21,5 +21,5 @@ elasticsearch:
 # If we run Elasticsearch on a server with less than (or more than) 2GB RAM, we need to configure Xms and Xmx in
 # /etc/elasticsearch/jvm.options.
 #
-# https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings
-# https://www.elastic.co/guide/en/elasticsearch/reference/current/jvm-options.html
+# https://www.elastic.co/guide/en/elasticsearch/reference/7.10/important-settings.html#heap-size-settings
+# https://www.elastic.co/guide/en/elasticsearch/reference/7.10/jvm-options.html
