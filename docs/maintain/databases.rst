@@ -168,19 +168,17 @@ To get the table related to a ``pg_toast_*`` table, take the number after ``pg_t
 
    SELECT '16712'::regclass;
 
+Recover the replica
+-------------------
 
+If replication breaks or the replica server goes offline, you must recover the replica, in two stages: mitigate the downtime, and fix the replication.
 
-Recovering the replica
-----------------------
-
-In the case that replication breaks or the replica server goes offline these are the steps to recover.
-There are two parts to this, mitigating the downtime and fixing replication.
-
-Mitigating downtime:
+Mitigate downtime
+~~~~~~~~~~~~~~~~~
 
 #. Enable public access to postgres on kingfisher-process1
 
-   Modify ``pillar/kingfisher.sls`` setting the following pillar value
+   For example, for the ``kingfisher-process`` target, modify the ``pillar/kingfisher.sls`` file.
 
    .. code-block:: yaml
 
@@ -200,7 +198,8 @@ Mitigating downtime:
 Done.
 
 
-Fixing replication:
+Fix replication
+---------------
 
 #. Copy over source replica log archives
 
@@ -218,5 +217,4 @@ Fixing replication:
 
      tail -f /var/log/postgresql/postgresql-11-main.log
 
-
-If everything goes wrong and you can fall back to rebuilding the replica from source, see :ref:`postgres setup docs<pg-setup-replication>`.
+If all else fails, then you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.
