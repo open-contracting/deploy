@@ -46,20 +46,19 @@ smartmontools:
     - require:
       - user: {{ user }}_user_exists
 
-/home/{{ user }}/node-exporter-textfile-collector-scripts:
+/opt/node-exporter-textfile-collector-scripts:
   git.latest:
     - name: https://github.com/prometheus-community/node-exporter-textfile-collector-scripts
-    - user: {{ user }}
+    - user: root
     - force_fetch: True
     - force_reset: True
     - branch: master
     - rev: master
-    - target: /home/{{ user }}/node-exporter-textfile-collector-scripts
+    - target: /opt/node-exporter-textfile-collector-scripts
     - require:
       - pkg: git
-      - user: {{ user }}_user_exists
 
-/home/prometheus-client/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
+/opt/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
     # This must run as root not user cos non-root users can't access these stats
