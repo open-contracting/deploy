@@ -199,11 +199,11 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. Copy WAL archives from the main server to the replica server, replacing ``example.open-contracting.org`` below with the main server's hostname. For this step to work, the ``postgres`` user on the replica server must have an SSH key pair, and its public key must be an authorized key of the ``postgres`` user on the main server:
+#. Copy WAL archives from the main server to the replica server, replacing ``example.open-contracting.org`` below with the main server's hostname:
 
    .. note::
 
-      This requires SSH keys set up for the postgres user, see :ref:`SSH key setup steps here<pg-ssh-key-setup>`.
+      The ``postgres`` user on the replica server must have an SSH key pair, and its public key must be an authorized key of the ``postgres`` user on the main server. See :ref:`pg-ssh-key-setup`.
 
    .. code-block:: bash
 
