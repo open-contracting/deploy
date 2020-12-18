@@ -168,6 +168,8 @@ To get the table related to a ``pg_toast_*`` table, take the number after ``pg_t
 
    SELECT '16712'::regclass;
 
+.. _pg-recover-replica:
+
 Recover the replica
 -------------------
 
@@ -198,6 +200,10 @@ Fix replication
 ~~~~~~~~~~~~~~~
 
 #. Copy WAL archives from the main server to the replica server, replacing ``example.open-contracting.org`` below with the main server's hostname. For this step to work, the ``postgres`` user on the replica server must have an SSH key pair, and its public key must be an authorized key of the ``postgres`` user on the main server:
+
+   .. note::
+
+      This requires SSH keys set up for the postgres user, see :ref:`SSH key setup steps here<pg-ssh-key-setup>`.
 
    .. code-block:: bash
 

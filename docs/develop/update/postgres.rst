@@ -149,3 +149,50 @@ Once you're done, the ``/var/lib/postgresql/11/main/recovery.conf`` file on the 
   primary_conninfo = 'user=replica password=redacted host=process1.kingfisher.open-contracting.org port=5432 sslmode=prefer sslcompression=0 gssencmode=prefer krbsrvname=postgres target_session_attrs=any'
   primary_slot_name = 'replica1'
   restore_command = 'cp /var/lib/postgresql/11/main/archive/%f %p'
+
+.. _pg-ssh-key-setup:
+
+Create SSH keys for replica recovery
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to access the WAL archive for recovery, we need to set up SSH keys this enables communication between the replica server and the main source server.
+
+.. note::
+
+   You can find the :ref:`recovery steps here<pg-recover-replica>`.
+
+#. Log into your replica server
+#. Swap to the postgres user
+
+   .. code-block:: bash
+
+      su - postgres
+
+#. Generate new SSH keys
+
+   .. code-block:: bash
+
+      ssh-keygen -t rsa -b 4096
+
+   This creates both a public (`~/.ssh/id_rsa.pub`) and private key (`~/.ssh/id_rsa`)
+
+#. Add these new keys in deploy pillar
+
+   #. Add the public key to `authorized_keys` on the main server
+
+      .. code-block:: yaml
+
+         ssh:
+           postgres:
+             - ssh-rsa AAAB3N...
+
+   #. Add the private key to `deploy-pillar-private <https://github.com/open-contracting/deploy-pillar-private>`__.
+
+      .. code-block:: yaml
+
+         postgres:
+           ssh_key: |
+             -----BEGIN RSA PRIVATE KEY-----
+             ...
+
+   #. :doc:`Deploy<../../deploy/deploy>`
