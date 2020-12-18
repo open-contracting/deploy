@@ -56,7 +56,7 @@ postgresql-reload:
 {% if pillar.postgres.configuration %}
 /etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
   file.managed:
-    - source: salt://postgres/files/{{ pillar.postgres.configuration }}.conf
+    - source: salt://postgres/files/conf/{{ pillar.postgres.configuration }}.conf
     - template: jinja
     - user: postgres
     - group: postgres
