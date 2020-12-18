@@ -38,7 +38,6 @@ ssh:
     # postgres@replica1.kingfisher.open-contracting.org
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDDNn6x0P4ZBrZeTTugOqGWo9EFZWuFVxi0oRQkpbd4g92Yu6EgKj3xJlFcgn14oi58/3w6nHSytj/V4vCXNLPkOla3/7XGpbop5hllsdJftAZJgbuHjgcKjIXVlw8QVrvt39PgQVqyXLIyHK0lpn8QUCUMfRH2axOfWscvtmhZpKCR3DYKjGknCuRhxgjhCblVEEbzoXJaxFhQxfTj4GmGzEcK/3H/SaNDXnvDlRrcjQZ2PjJ41cNGfV/hxX9GIANRm151PqJ3ftESv78c8N1KmK3dA9SRDDImFXGIy/6KPRtzQ+CWgEZkYey0O7vcuytyy8z7FionbGyLW4qBmlD9
 
-
 rsyslog:
   conf:
     90-kingfisher.conf: kingfisher-process.conf
