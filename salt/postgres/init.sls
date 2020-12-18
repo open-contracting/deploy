@@ -84,3 +84,15 @@ pg_stat_statements:
   postgres_extension.present:
     - maintenance_db: template1
     - if_not_exists: True
+
+{% if pillar.postgres.ssh_key %}
+/var/lib/postgresql/.ssh:
+  file.directory:
+    - makedirs: True
+    - mode: 700
+
+/var/lib/postgresql/.ssh/id_rsa:
+  file.managed:
+    - contents_pillar: postgres:ssh_key
+    - mode: 600
+{% endif %}
