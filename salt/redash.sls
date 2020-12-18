@@ -13,6 +13,4 @@ redash_prepackages:
 
 /opt/redash:
   file.directory:
-    - user: root
-    - group: root
     - makedirs: True
