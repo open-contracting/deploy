@@ -1,6 +1,10 @@
 {% from 'lib.sls' import set_firewall %}
 
-{{ set_firewall("PUBLIC_ELASTICSEARCH") }}
+{% if pillar.elasticsearch.get('public_access') %}
+  {{ set_firewall("PUBLIC_ELASTICSEARCH") }}
+{% else %}
+  {{ unset_firewall("PUBLIC_ELASTICSEARCH") }}
+{% endif %}
 
 elasticsearch:
   pkgrepo.managed:

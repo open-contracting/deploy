@@ -28,3 +28,6 @@ apache:
     ocds-legacy:
       configuration: docs-legacy
       servername: ocds.open-contracting.org
+
+elasticsearch:
+  public_access: True
