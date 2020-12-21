@@ -13,22 +13,22 @@
 set -euo pipefail
 
 function cleanup {
-    local LC="${BASH_COMMAND}" RC="${?}"
-    [[ "${RC}" != "0" ]] && echo "Command [${LC}] exited with code [${RC}]"
+    local LC="$BASH_COMMAND" RC=$?
+    [ "$RC" != 0 ] && echo "Command [$LC] exited with code [$RC]"
 }
 trap cleanup EXIT
 
-DAYSTOKEEP="${1}"
-RMPATH="${2}"
+DAYSTOKEEP=$1
+RMPATH=$2
 
 # Don't want to remove the base directory.
-touch ${RMPATH}
+touch "$RMPATH"
 
 # Using xargs because it passes the files as arguments to one single rm, alternatively "-exec rm {} \;" runs rm multiple times.
-find ${RMPATH} -mtime +${DAYSTOKEEP} -type f | xargs --no-run-if-empty rm
+find "$RMPATH" -mtime +"$DAYSTOKEEP" -type f -delete
 
 # Find empty old directories
-find ${RMPATH} -mtime +${DAYSTOKEEP} -type d -empty | xargs --no-run-if-empty rmdir
+find "$RMPATH" -mtime +"$DAYSTOKEEP" -type d -empty -delete
 
 # Overwrite cleanup function because it is called by the script finishing.
 function cleanup {

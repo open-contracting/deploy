@@ -13,10 +13,11 @@
 
 set -euo pipefail
 
+# shellcheck disable=SC1091
 source /home/sysadmin-tools/firewall-settings.local
 
 function echo_verbose {
-    [[ $VERBOSE == "true" ]] && echo "**** $@ ****"
+    [ "$VERBOSE" == "true" ] && echo "**** $* ****"
 }
 
 if [ -x "$(command -v docker)" ]; then
@@ -25,20 +26,20 @@ if [ -x "$(command -v docker)" ]; then
 fi
 
 echo_verbose "Check user is root"
-if [ $LOGNAME != "root" ]; then
+if [ "$LOGNAME" != "root" ]; then
     echo "User is not root!"
     exit 4
 fi
 
 echo_verbose "Get local IP addresses"
-if [ ! -z $IPCMD ] && test -f $IPCMD; then
+if [ -n "$IPCMD" ] && [ -f "$IPCMD" ]; then
     echo_verbose "  ... using the $IPCMD command"
-    LOCAL_IPV4=`$IPCMD addr | grep "inet " | cut -f 6 -d" " | cut -f 1 -d"/"`
-    LOCAL_IPV6=`$IPCMD addr | grep "inet6 " | cut -f 6 -d" " | cut -f 1 -d"/"`
-elif [ ! -z $IFCONFIG ] && test -f $IFCONFIG; then
+    LOCAL_IPV4=$($IPCMD addr | grep "inet " | cut -f 6 -d" " | cut -f 1 -d"/")
+    LOCAL_IPV6=$($IPCMD addr | grep "inet6 " | cut -f 6 -d" " | cut -f 1 -d"/")
+elif [ -n "$IFCONFIG" ] && [ -f "$IFCONFIG" ]; then
     echo_verbose "  ... using the $IFCONFIG command"
-    LOCAL_IPV4=`$IFCONFIG | grep "inet addr" | cut -f 2 -d":" | cut -f 1 -d" "`
-    LOCAL_IPV6=`$IFCONFIG | grep "inet6 addr" | cut -f 13 -d" " | cut -f 1 -d"/"`
+    LOCAL_IPV4=$($IFCONFIG | grep "inet addr" | cut -f 2 -d":" | cut -f 1 -d" ")
+    LOCAL_IPV6=$($IFCONFIG | grep "inet6 addr" | cut -f 13 -d" " | cut -f 1 -d"/")
 else
     echo "Failed to get local IP addresses!"
     exit 5
@@ -46,8 +47,10 @@ fi
 
 echo_verbose "Get OS version"
 if [ -f /etc/os-release ]; then
+    # shellcheck disable=SC1091
     source /etc/os-release
 elif [ -f /etc/lsb-release ]; then
+    # shellcheck disable=SC1091
     source /etc/lsb-release
 elif [ -f /etc/redhat-release ]; then
     ID="redhat-derivative"
@@ -87,8 +90,8 @@ fi
 if [ "$MONITOR_APPBEAT" == "yes" ]; then
     echo_verbose "Get AppBeat IP addresses"
     # Account for DOS line endings.
-    APPBEAT_IPV4=`curl -s -S https://www.appbeat.io/probes/ipv4 | tr -d '\r'`
-    APPBEAT_IPV6=`curl -s -S https://www.appbeat.io/probes/ipv6 | tr -d '\r'`
+    APPBEAT_IPV4=$(curl -s -S https://www.appbeat.io/probes/ipv4 | tr -d '\r')
+    APPBEAT_IPV6=$(curl -s -S https://www.appbeat.io/probes/ipv6 | tr -d '\r')
 else
     APPBEAT_IPV4=""
     APPBEAT_IPV6=""
@@ -159,23 +162,23 @@ $IPTABLES -A OUTPUT -o lo -j ACCEPT
 $IP6TABLES -A INPUT -i lo -j ACCEPT
 $IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
-if [ ! -z $ALLOWALL_IPV4 ] || [ ! -z $ALLOWALL_IPV6 ]; then
+if [ -n "$ALLOWALL_IPV4" ] || [ -n "$ALLOWALL_IPV6" ]; then
     echo_verbose "Allow ANY connection from given IP addresses"
     for IP in $ALLOWALL_IPV4;do
-        $IPTABLES -A INPUT -s $IP -j ACCEPT
+        $IPTABLES -A INPUT -s "$IP" -j ACCEPT
     done
     for IP in $ALLOWALL_IPV6;do
-        $IP6TABLES -A INPUT -s $IP -j ACCEPT
+        $IP6TABLES -A INPUT -s "$IP" -j ACCEPT
     done
 fi
 
-if [ ! -z $DENYALL_IPV4 ] || [ ! -z $DENYALL_IPV6 ]; then
+if [ -n "$DENYALL_IPV4" ] || [ -n "$DENYALL_IPV6" ]; then
     echo_verbose "Deny ANY connection from given IP addresses"
     for IP in $DENYALL_IPV4;do
-        $IPTABLES -A INPUT -s $IP -j DROP
+        $IPTABLES -A INPUT -s "$IP" -j DROP
     done
     for IP in $DENYALL_IPV6;do
-        $IP6TABLES -A INPUT -s $IP -j DROP
+        $IP6TABLES -A INPUT -s "$IP" -j DROP
     done
 fi
 
@@ -229,10 +232,10 @@ $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 8260 -m recent --
 
 echo_verbose "Allow SSH connections from given IP addresses"
 for IP in $LOCAL_IPV4 $SSH_IPV4; do
-    $IPTABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
+    $IPTABLES -A INPUT -p tcp -s "$IP" --dport 22 -j ACCEPT
 done
 for IP in $LOCAL_IPV6 $SSH_IPV6; do
-    $IP6TABLES -A INPUT -p tcp -s $IP --dport 22 -j ACCEPT
+    $IP6TABLES -A INPUT -p tcp -s "$IP" --dport 22 -j ACCEPT
 done
 
 $IPTABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -m recent --seconds 60 --rcheck --name KNOCK -j log-accept
@@ -270,10 +273,10 @@ fi
 if [ "$PRIVATE_POSTGRESQL" == "yes" ]; then
     echo_verbose "Private PostgreSQL server"
     for IP in $LOCAL_IPV4 $REPLICA_IPV4; do
-        $IPTABLES -A INPUT -p tcp -s $IP --dport 5432 -j ACCEPT
+        $IPTABLES -A INPUT -p tcp -s "$IP" --dport 5432 -j ACCEPT
     done
     for IP in $LOCAL_IPV6 $REPLICA_IPV6; do
-        $IP6TABLES -A INPUT -p tcp -s $IP --dport 5432 -j ACCEPT
+        $IP6TABLES -A INPUT -p tcp -s "$IP" --dport 5432 -j ACCEPT
     done
 fi
 
@@ -286,10 +289,10 @@ fi
 if [ "$PRIVATE_PROMETHEUS_CLIENT" == "yes" ]; then
     echo_verbose "Private Prometheus client server"
     for IP in $LOCAL_IPV4 $PROMETHEUS_IPV4; do
-        $IPTABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
+        $IPTABLES -A INPUT -p tcp -s "$IP" --dport 7231 -j ACCEPT
     done
     for IP in $LOCAL_IPV6 $PROMETHEUS_IPV6; do
-        $IP6TABLES -A INPUT -p tcp -s $IP --dport 7231 -j ACCEPT
+        $IP6TABLES -A INPUT -p tcp -s "$IP" --dport 7231 -j ACCEPT
     done
 fi
 
@@ -303,13 +306,13 @@ echo_verbose "Flush monitor chain"
 $IPTABLES -F monitor
 $IP6TABLES -F monitor
 
-if [ ! -z $APPBEAT_IPV4 ] || [ ! -z $APPBEAT_IPV6 ]; then
+if [ -n "$APPBEAT_IPV4" ] || [ -n "$APPBEAT_IPV6" ]; then
     echo_verbose "Set monitor chain"
     for IP in $APPBEAT_IPV4; do
-        $IPTABLES -A monitor -s $IP -j ACCEPT
+        $IPTABLES -A monitor -s "$IP" -j ACCEPT
     done
     for IP in $APPBEAT_IPV6; do
-        $IP6TABLES -A monitor -s $IP -j ACCEPT
+        $IP6TABLES -A monitor -s "$IP" -j ACCEPT
     done
 fi
 
