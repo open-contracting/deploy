@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Ensures all repositories are on master and up-to-date.
 
 set -xeuo pipefail
