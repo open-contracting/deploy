@@ -14,9 +14,11 @@ if ! [ -x "${SALTSSH}" ]; then
 fi
 
 git stash
-cd pillar/private
-git stash
-cd ../..
+
+(
+  cd pillar/private
+  git stash
+)
 
 if [ -z "$2" ]; then
   ${SALTSSH} "$1" state.show_highstate > before
@@ -25,9 +27,11 @@ else
 fi
 
 git stash pop
-cd pillar/private
-git stash pop || true # in case pillar/private was clean
-cd ../..
+
+(
+  cd pillar/private
+  git stash pop || true # in case pillar/private was clean
+)
 
 if [ -z "$2" ]; then
   ${SALTSSH} "$1" state.show_highstate > after
