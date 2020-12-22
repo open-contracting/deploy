@@ -34,6 +34,7 @@ base:
 
   'kingfisher-replica':
     - kingfisher_replica
+    - private.kingfisher_replica
     - kingfisher_replica_maintenance
 
   'prometheus':

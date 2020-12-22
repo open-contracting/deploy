@@ -167,3 +167,57 @@ To get the table related to a ``pg_toast_*`` table, take the number after ``pg_t
 .. code-block:: sql
 
    SELECT '16712'::regclass;
+
+.. _pg-recover-replica:
+
+Recover the replica
+-------------------
+
+If replication breaks or the replica server goes offline, you must recover the replica, in two stages: mitigate the downtime, and fix the replication.
+
+Mitigate downtime
+~~~~~~~~~~~~~~~~~
+
+#. :ref:`Enable public access<postgres-public-access>` to the PostgreSQL service on the main server, by modifying its Pillar file:
+
+   .. code-block:: yaml
+
+      postgres:
+        public_access: True
+
+   For example, for the ``kingfisher-process`` target, modify the ``pillar/kingfisher.sls`` file.
+
+#. :doc:`Deploy the main server<../../deploy/deploy>`
+#. Update DNS records:
+
+   #. Login to `GoDaddy <https://sso.godaddy.com>`__
+   #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
+   #. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
+   #. Update the replica's CNAME record to point to the main server's A record: for example, point ``postgres-readonly`` to ``kingfisher-process1``
+   #. Wait for the changes to propagate, which depends on the original TTL value
+
+Fix replication
+~~~~~~~~~~~~~~~
+
+#. Copy WAL archives from the main server to the replica server, replacing ``example.open-contracting.org`` below with the main server's hostname:
+
+   .. note::
+
+      The ``postgres`` user on the replica server must have an SSH key pair, and its public key must be an authorized key of the ``postgres`` user on the main server. See :ref:`pg-ssh-key-setup`.
+
+   .. code-block:: bash
+
+      service postgres stop
+      sudo su - postgres
+      timeout 1 ssh postgres@example.open-contracting.org -p 8255
+      rsync -avz postgres@example.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
+      exit
+      service postgres start
+
+#. Monitor the replica logs. You should see messages about recovery from WAL files.
+
+   .. code-block:: bash
+
+      tail -f /var/log/postgresql/postgresql-11-main.log
+
+If all else fails, you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.

@@ -40,3 +40,8 @@ replica_user:
     - encrypted: True
     - login: True
     - replication: True
+
+postgres_authorized_keys:
+  ssh_auth.manage:
+    - user: postgres
+    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
