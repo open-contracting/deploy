@@ -85,7 +85,7 @@ pg_stat_statements:
     - maintenance_db: template1
     - if_not_exists: True
 
-{% if pillar.postgres.ssh_key %}
+{% if salt['pillar.get']('postgres:ssh_key') %}
 /var/lib/postgresql/.ssh:
   file.directory:
     - makedirs: True
