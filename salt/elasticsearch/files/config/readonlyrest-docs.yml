@@ -14,9 +14,16 @@ readonlyrest:
       indices:
         patterns: ["ocdsindex_*"]
         must_involve_indices: True
-      actions: ["indices:data/read/search"]
+      actions:
+        - indices:data/read/search
     - name: Allow the manage group to manage indices created by OCDS Index
       groups: ["manage"]
       indices: ["ocdsindex_*"]
-      actions: ["indices:*"]
+      actions:
+        - indices:admin/create
+        - indices:admin/exists
+        - indices:data/read/search
+        - indices:data/write/bulk
+        - indices:data/write/delete/byquery
+        - indices:monitor/settings/get
   users: {{ pillar.elasticsearch.plugins.readonlyrest.users|yaml }}
