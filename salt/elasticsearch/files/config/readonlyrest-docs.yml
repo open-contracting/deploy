@@ -21,7 +21,7 @@ readonlyrest:
       indices: ["ocdsindex_*"]
       actions:
         - indices:admin/create
-        - indices:admin/exists
+        - indices:admin/get
         - indices:data/read/search
         - indices:data/write/bulk
         - indices:data/write/delete/byquery
