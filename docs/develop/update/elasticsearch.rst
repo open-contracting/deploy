@@ -4,33 +4,33 @@ Configure Elasticsearch
 Check system configuration
 --------------------------
 
-Elasticsearch has instructions under `Important System Configuration <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/system-config.html>`__, most of which don't require any changes.
+Elasticsearch has instructions under `Important System Configuration <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/system-config.html>`__, most of which don't require any changes. To check if changes are needed:
 
--  Check `file descriptors <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/file-descriptors.html>`__:
+-  `File descriptors <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/file-descriptors.html>`__:
 
    .. code-block:: bash
 
       ulimit -n
 
--  Check `virtual memory <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/vm-max-map-count.html>`__:
+-  `Virtual memory <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/vm-max-map-count.html>`__:
 
    .. code-block:: bash
 
       sysctl vm.max_map_count
 
--  Check `number of threads <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/max-number-of-threads.html>`__:
+-  `Number of threads <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/max-number-of-threads.html>`__:
 
    .. code-block:: bash
 
       ulimit -u
 
--  Check `JNA temporary directory isn't mounted with noexec <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/executable-jna-tmpdir.html>`__:
+-  `JNA temporary directory isn't mounted with noexec <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/executable-jna-tmpdir.html>`__:
 
    .. code-block:: bash
 
       grep tmp /etc/fstab
 
--  Check `TCP retransmission timeout <>`__:
+-  `TCP retransmission timeout <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/system-config-tcpretries.html>`__:
 
    .. code-block:: bash
 
@@ -39,7 +39,7 @@ Elasticsearch has instructions under `Important System Configuration <https://ww
 Set swappiness value
 --------------------
 
-Add to your service's Pillar file, `as recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/setup-configuration-memory.html#swappiness>`__:
+`As recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/setup-configuration-memory.html#swappiness>`__, add to your service's Pillar file:
 
 .. code-block:: yaml
 
@@ -49,13 +49,13 @@ Add to your service's Pillar file, `as recommended by Elasticsearch <https://www
 Enable public access
 --------------------
 
-The documentation states: `"Do not expose Elasticsearch directly to users" <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html>`__. So, we use the `ReadOnlyREST <https://readonlyrest.com>`__ plugin to control access.
+As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html>`__ For the OCDS documentation, we use the `ReadOnlyREST <https://readonlyrest.com>`__ plugin to control access.
 
-ReadOnlyREST is open source, but only available via web form; therefore, we store its ZIP file in the `deploy-salt-private <https://github.com/open-contracting/deploy-salt-private>`__ repository. ReadOnlyREST's ZIP file should match the installed Elasticsearch version.
+ReadOnlyREST is open source, but only available via web form. We store its ZIP file in the `deploy-salt-private <https://github.com/open-contracting/deploy-salt-private>`__ repository. ReadOnlyREST's ZIP file should match the installed Elasticsearch version.
 
 .. note::
 
-   This setup assumes that :doc:`Apache<apache>` and Elasticsearch serve content from the same domain, and can therefore share an SSL certificate.
+   This setup assumes that :doc:`Apache<apache>` and Elasticsearch serve content from the same domain, and can share an SSL certificate.
 
 #. Add the ``elasticsearch.plugins.readonlyrest`` state file to your service's target in the ``salt/top.sls`` file.
 
@@ -93,16 +93,19 @@ ReadOnlyREST is open source, but only available via web form; therefore, we stor
       elasticsearch:
         key_pass: KEY_PASS
 
-#. Add a basic authentication user. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password):
+#. Add users for public searches and admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml
-      :emphasize-lines: 2-6
+      :emphasize-lines: 2-9
 
       elasticsearch:
         users:
           - auth_key_sha512: AUTH_KEY_SHA512
             username: public
             groups: ["public"]
+          - auth_key_sha512: AUTH_KEY_SHA512
+            username: ocdsindex
+            groups: ["ocdsindex"]
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
 
@@ -117,3 +120,11 @@ ReadOnlyREST is open source, but only available via web form; therefore, we stor
    .. code-block:: bash
 
       ./run.py 'docs' service.restart elasticsearch
+
+#. Test the public user, replacing ``PASSWORD``:
+
+   .. code-block:: bash
+
+      curl -u 'public:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_search' \
+      -H 'Content-Type: application/json' \
+      -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
