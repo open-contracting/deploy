@@ -140,3 +140,9 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
       curl -u 'public:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_search' \
       -H 'Content-Type: application/json' \
       -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
+
+#. Test the admin user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
+
+   .. code-block:: bash
+
+      curl -u 'manage:PASSWORD' https://standard.open-contracting.org:9200/_cat/indices

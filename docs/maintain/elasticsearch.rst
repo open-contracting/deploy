@@ -46,7 +46,7 @@ List indices:
 
 .. code-block:: bash
 
-   curl -u 'ocdsindex:PASSWORD' https://standard.open-contracting.org:9200/_cat/indices
+   curl -u 'manage:PASSWORD' https://standard.open-contracting.org:9200/_cat/indices
 
 List base URLs in a given index, for example:
 
@@ -60,7 +60,7 @@ Delete documents matching a base URL:
 
 .. code-block:: bash
 
-   curl -X POST -u 'ocdsindex:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
+   curl -X POST -u 'manage:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
@@ -68,7 +68,7 @@ Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-ind
 
 .. code-block:: bash
 
-   ocdsindex expire https://ocdsindex:PASSWORD@standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
+   ocdsindex expire https://manage:PASSWORD@standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
 
 Search documents in a given index matching a base URL, for example:
 
