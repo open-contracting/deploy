@@ -4,26 +4,26 @@
 set -xeuo pipefail
 
 function main {
-	git checkout master
-	git pull --rebase origin master
+  git checkout master
+  git pull --rebase origin master
 
-	(
-	  cd pillar/private
-	  git checkout master
-	  git pull --rebase origin master
-	)
+  (
+    cd pillar/private
+    git checkout master
+    git pull --rebase origin master
+  )
 
-	(
-	  cd salt/private
-	  git checkout master
-	  git pull --rebase origin master
-	)
+  (
+    cd salt/private
+    git checkout master
+    git pull --rebase origin master
+  )
 
-	(
-	  cd salt/maintenance
-	  git checkout master
-	  git pull --rebase origin master
-	)
+  (
+    cd salt/maintenance
+    git checkout master
+    git pull --rebase origin master
+  )
 }
 
 main
