@@ -54,13 +54,13 @@ List indices:
 
 .. code-block:: bash
 
-   curl https://standard.open-contracting.org:9200/_cat/indices
+   curl -n https://standard.open-contracting.org:9200/_cat/indices
 
 List base URLs in a given index, for example:
 
 .. code-block:: bash
 
-   curl -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=0&pretty' \
+   curl -n -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=0&pretty' \
    -H 'Content-Type: application/json' \
    -d '{"aggs": {"base_urls": {"terms": {"field": "base_url", "size": 10000}}}}'
 
@@ -68,7 +68,7 @@ Delete documents matching a base URL:
 
 .. code-block:: bash
 
-   curl -X POST 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
+   curl -n -X POST 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
@@ -82,7 +82,7 @@ Search documents in a given index matching a base URL, for example:
 
 .. code-block:: bash
 
-   curl -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=10000' \
+   curl -n -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=10000' \
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
