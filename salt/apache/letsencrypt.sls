@@ -7,6 +7,7 @@ include:
 /etc/apache2/conf-available/letsencrypt.conf:
   file.managed:
     - source: salt://apache/files/conf/letsencrypt.conf
+    - template: jinja
     - require:
       - pkg: apache2
     - watch_in:
