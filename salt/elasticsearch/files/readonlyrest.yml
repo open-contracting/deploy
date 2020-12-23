@@ -1,0 +1,15 @@
+readonlyrest:
+  ssl:
+    keystore_file: keystore.jks
+    keystore_pass: {{ pillar.elasticsearch.key_pass }}
+    key_pass: {{ pillar.elasticsearch.key_pass }}
+  access_control_rules:
+    - name: Allow localhost
+      hosts: ["127.0.0.1"]
+    - name: Allow searching indices created by OCDS Index by the authenticated user
+      groups: ["public"]
+      indices:
+        patterns: ["ocdsindex_*"]
+        must_involve_indices: True
+      actions: ["indices:data/read/search"]
+  users: {{ pillar.elasticsearch.users|yaml }}

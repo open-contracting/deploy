@@ -37,3 +37,45 @@ readonlyrest-install:
       - file: readonlyrest-installer
     - watch_in:
       - service: elasticsearch
+
+pkcs-password:
+  file.managed:
+    - name: /opt/pkcs-password
+    - contents_pillar: elasticsearch:key_pass
+    - mode: 600
+
+pem-to-keystore.sh:
+  pkg.installed:
+    - name: openjdk-11-jre-headless # for keytool command
+  file.managed:
+    - name: /opt/pem-to-keystore.sh
+    - source: salt://elasticsearch/files/pem-to-keystore.sh
+    - mode: 700
+    - require:
+      - pkg: apache2
+      - pkg: elasticsearch
+      - pkg: pem-to-keystore.sh
+      - file: pkcs-password
+
+readonlyrest.yml:
+  file.managed:
+    - name: /etc/elasticsearch/readonlyrest.yml
+    - source: salt://elasticsearch/files/readonlyrest.yml
+    - template: jinja
+    - require:
+      - pkg: elasticsearch
+    - watch_in:
+      - service: elasticsearch
+
+elasticsearch.yml:
+  file.append:
+    - name: /etc/elasticsearch/elasticsearch.yml
+    - text:
+      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#4-disable-x-pack-security-module
+      - "xpack.security.enabled: false"
+      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#external-rest-api
+      - "http.type: ssl_netty4"
+    - require:
+      - pkg: elasticsearch
+    - watch_in:
+      - service: elasticsearch

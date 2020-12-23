@@ -10,6 +10,9 @@ shared-context: &shared-context
 
 apache:
   public_access: True
+  modules:
+    mod_md:
+      MDNotifyCmd: /opt/pem-to-keystore.sh
   sites:
     ocds-docs-live:
       configuration: docs
@@ -31,3 +34,6 @@ apache:
 
 elasticsearch:
   public_access: True
+
+vm:
+  swappiness: 1
