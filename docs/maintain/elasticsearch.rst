@@ -46,33 +46,36 @@ List indices:
 
 .. code-block:: bash
 
-   curl https://standard.open-contracting.org:9200/_cat/indices
+   curl -u 'ocdsindex:PASSWORD' https://standard.open-contracting.org:9200/_cat/indices
 
 List base URLs in a given index, for example:
 
 .. code-block:: bash
 
-   curl -X GET -H "Content-Type: application/json" "localhost:9200/ocdsindex_en/_search?size=0&pretty" \
+   curl -X GET -u 'public:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=0&pretty' \
+   -H 'Content-Type: application/json' \
    -d '{"aggs": {"base_urls": {"terms": {"field": "base_url", "size": 10000}}}}'
 
 Delete documents matching a base URL:
 
 .. code-block:: bash
 
-   curl -X POST -H 'Content-Type: application/json' "localhost:9200/ocdsindex_en/_delete_by_query" \
+   curl -X POST -u 'ocdsindex:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
+   -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
 Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__:
 
 .. code-block:: bash
 
-   ocdsindex expire https://standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
+   ocdsindex expire https://ocdsindex:PASSWORD@standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
 
 Search documents in a given index matching a base URL, for example:
 
 .. code-block:: bash
 
-   curl -X GET -H "Content-Type: application/json" "localhost:9200/ocdsindex_en/_search?size=10000" \
+   curl -X GET -u 'public:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=10000' \
+   -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
 List users' queries:
