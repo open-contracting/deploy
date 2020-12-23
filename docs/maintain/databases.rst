@@ -210,7 +210,7 @@ Fix replication
       service postgres stop
       sudo su - postgres
       timeout 1 ssh postgres@example.open-contracting.org -p 8255
-      rsync -avz postgres@example.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
+      rsync -azv postgres@example.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
       exit
       service postgres start
 
