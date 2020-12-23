@@ -51,15 +51,16 @@ set JVM maximum heap size:
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
       - "search.allow_expensive_queries: false"
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
-      - "script.allowed_types: none"
+      - "script.allowed_types: inline"
       - "script.allowed_contexts: none"
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
       - "discovery.type: single-node"
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
       {% if 'allowed_origins' in pillar.elasticsearch %}
+      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
       - "http.cors.enabled: true"
-      - "http.cors.allow-origin: {{ pillar.elasticsearch.allowed_origins }}"
-      - "http.cors.allow-methods: OPTIONS, GET"
+      - "http.cors.allow-origin: '{{ pillar.elasticsearch.allowed_origins }}'"
+      - "http.cors.allow-methods: OPTIONS, GET, POST"
+      - "http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization"
       {% endif %}
     - watch_in:
       - service: elasticsearch
