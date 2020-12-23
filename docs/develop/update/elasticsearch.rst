@@ -30,6 +30,12 @@ Elasticsearch has instructions under `Important System Configuration <https://ww
 
       grep tmp /etc/fstab
 
+-  Check `TCP retransmission timeout <>`__:
+
+   .. code-block:: bash
+
+      sysctl net.ipv4.tcp_retries2
+
 Set swappiness value
 --------------------
 
