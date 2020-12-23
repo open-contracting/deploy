@@ -34,7 +34,8 @@ apache:
 
 elasticsearch:
   public_access: True
-  allowed_origins: https://standard.open-contracting.org
+  # Allow OCDS documentation and GitHub Actions.
+  allowed_origins: "*"
   plugins:
     readonlyrest:
       configuration: docs
