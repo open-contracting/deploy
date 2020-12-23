@@ -1,22 +1,20 @@
-{% set swap_path = "/swapfile" %}
-{% set swappiness_value = 10 %}
-
-# Calculate swap size based on RAM.
-# If RAM is more than 32 GB, swap size should be a quarter of the RAM.
 {% if grains.mem_total > 32768 %}
-{% set swap_size = grains.mem_total // 4 %}
-
-# If RAM is more than 2 GB, swap size should be half of the RAM.
+  {% set swap_size = grains.mem_total // 4 %}
 {% elif grains.mem_total > 2048 %}
-{% set swap_size = grains.mem_total // 2 %}
-
-# If RAM is less than 2 GB, swap size should be equal to the RAM.
+  {% set swap_size = grains.mem_total // 2 %}
 {% else %}
-{% set swap_size = grains.mem_total %}
-
-# Increase use of swap on a smaller instance.
-{% set swappiness_value = 40 %}
+  {% set swap_size = grains.mem_total %}
 {% endif %}
+
+{% if salt['pillar.get']('vm:swappiness') %}
+  {% set vm_swappiness = pillar.vm.swappiness %}
+{% elif grains.mem_total > 2048 %}
+  {% set vm_swappiness = 10 %}
+{% else %}
+  {% set vm_swappiness = 40 %}
+{% endif %}
+
+{% set swap_path = "/swapfile" %}
 
 # Create swap file and mount.
 {{ swap_path }}:
@@ -33,4 +31,4 @@
 vm.swappiness:
   sysctl.present:
     - config: /etc/sysctl.d/99-swappiness.conf
-    - value: {{ swappiness_value }}
+    - value: {{ vm_swappiness }}
