@@ -75,7 +75,6 @@ set JVM maximum heap size:
   file.comment:
     - name: /etc/elasticsearch/elasticsearch.yml
     - regex: ^network\.bind_host: 0\.0\.0\.0$
-    - backup: False
     - watch_in:
       - service: elasticsearch
 

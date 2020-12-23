@@ -7,7 +7,6 @@ set {{ setting_name }} firewall setting:
     - pattern: "{{ setting_name }}=.*"
     - repl: "{{ setting_name }}=\"{{ setting_value }}\""
     - append_if_not_found: True
-    - backup: ""
 {% endmacro %}
 
 {% macro unset_firewall(setting_name) %}
@@ -17,7 +16,6 @@ unset {{ setting_name }} firewall setting:
     - pattern: "{{ setting_name }}=.*"
     - repl: "{{ setting_name }}=\"\""
     - ignore_if_missing: True
-    - backup: ""
 {% endmacro %}
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.
