@@ -52,16 +52,16 @@ To configure a documentation repository to push builds to the server:
 #. Click *Secrets*
 #. Set the private key:
 
-   #. Click *Add a new secret*
+   #. Click *New repository secret*
    #. Set *Name* to "PRIVATE_KEY"
    #. Set *Value* to the contents of ``salt/private/keys/docs_ci``
    #. Click *Add secret*
 
-#. Set the search secret:
+#. Set the Elasticsearch password:
 
-   #. Click *Add a new secret*
-   #. Set *Name* to "SEARCH_SECRET"
-   #. Set *Value* to the value of the ``OCDS_SECRET`` key in ``pillar/private/standard_search.sls``
+   #. Click *New repository secret*
+   #. Set *Name* to "ELASTICSEARCH_PASSWORD"
+   #. Set *Value* to the password of the ``manage`` user in the ``pillar/private/docs.sls`` file
    #. Click *Add secret*
 
 .. _publish-released-documentation:
@@ -86,6 +86,14 @@ In any case, once the `build passes <https://ocds-standard-development-handbook.
 
 2. Copy the files to the server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. admonition:: One-time setup
+
+   Set the password of the ``manage`` user in a netrc file, replacing ``PASSWORD``:
+
+   .. code-block:: bash
+
+      echo 'machine standard.open-contracting.org login manage password PASSWORD' >> ~/.netrc
 
 The build of the live branch is copied from the staging directory to the live directory, as a build directory named ``branch-date-sequence``, for example: ``1.1-2017-08-08-2``. A symlink named ``branch`` points to the build directory. As such, you can rollback by pointing to another build directory.
 
@@ -114,11 +122,11 @@ Update the symlink:
    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
    ssh root@standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
 
-Rebuild the search index, after setting the ``SEARCH_SECRET`` and ``LANGS`` variables:
+Copy the documents in Elasticsearch from the staging base URL to the production base URL:
 
 .. code-block:: bash
 
-   curl --fail "https://standard-search.open-contracting.org/v1/index_ocds?secret=${SEARCH_SECRET}&version=$(echo $SUBDIR | sed 's/\//%2F/g')${VER}&langs=${LANGS}"
+   ocdsindex copy https://standard.open-contracting.org:9200 https://standard.open-contracting.org/staging/${VER}/ https://standard.open-contracting.org/${VER}/
 
 If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
 
@@ -230,6 +238,7 @@ If this is a new major or minor version:
           SetEnv BANNER /includes/banner_old.html
       </Location>
 
+#. In ``ocdsindex-exclude.txt``, add the base URL of the new version.
 #. In ``tests/test_docs.py``, update the ``versions``, ``banner_live`` and ``banner_old`` variables.
 #. In the appropriate ``salt/docs/includes/banner_staging*.html`` file and ``salt/docs/includes/banner_old*.html>`` file (if any), update the minor series.
 #. In the appropriate ``salt/docs/includes/version-options*.html`` file, add an ``option`` element to the "Live" ``optgroup`` for the previous minor series and previous version number, for example:
