@@ -9,5 +9,6 @@ See `salt/maintenance/README.md <https://github.com/open-contracting/dogsbody-ma
    apache.rst
    postgres.rst
    python.rst
+   elasticsearch.rst
    logs.rst
    delete.rst
