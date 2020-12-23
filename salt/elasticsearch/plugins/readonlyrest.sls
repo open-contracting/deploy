@@ -41,7 +41,7 @@ readonlyrest-install:
 pkcs-password:
   file.managed:
     - name: /opt/pkcs-password
-    - contents_pillar: elasticsearch:key_pass
+    - contents_pillar: elasticsearch:plugins:readonlyrest:key_pass
     - mode: 600
 
 pem-to-keystore.sh:
@@ -60,7 +60,7 @@ pem-to-keystore.sh:
 readonlyrest.yml:
   file.managed:
     - name: /etc/elasticsearch/readonlyrest.yml
-    - source: salt://elasticsearch/files/readonlyrest.yml
+    - source: salt://elasticsearch/files/config/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.configuration }}.yml
     - template: jinja
     - require:
       - pkg: elasticsearch

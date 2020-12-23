@@ -75,6 +75,14 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
       elasticsearch:
         public_access: True
 
+#. Allow cross-origin HTTP requests. Add to your service's Pillar file, for example:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2
+
+      elasticsearch:
+        allowed_origins: https://standard.open-contracting.org
+
 #. Configure Apache to create JKS keystores when renewing SSL certificates:
 
    .. code-block:: yaml
@@ -88,28 +96,32 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 #. Set a JKS keystore password. Add to your service's *private* Pillar file, replacing ``KEY_PASS`` with a `strong password <https://www.lastpass.com/password-generator>`__:
 
    .. code-block:: yaml
-      :emphasize-lines: 2
+      :emphasize-lines: 2-4
 
       elasticsearch:
-        key_pass: KEY_PASS
+        plugins:
+          readonlyrest:
+            key_pass: KEY_PASS
 
 #. Add users for public searches and admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml
-      :emphasize-lines: 2-9
+      :emphasize-lines: 4-10
 
       elasticsearch:
-        users:
-          - auth_key_sha512: AUTH_KEY_SHA512
-            username: public
-            groups: ["public"]
-          - auth_key_sha512: AUTH_KEY_SHA512
-            username: ocdsindex
-            groups: ["ocdsindex"]
+        plugins:
+          readonlyrest:
+            users:
+              - auth_key_sha512: AUTH_KEY_SHA512
+                username: public
+                groups: ["public"]
+              - auth_key_sha512: AUTH_KEY_SHA512
+                username: manage
+                groups: ["manage"]
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
 
-#. Create the JKS keystore:
+#. Create the JKS keystore. For example, for the ``standard.open-contracting.org`` domain:
 
    .. code-block:: bash
 
@@ -121,7 +133,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 
       ./run.py 'docs' service.restart elasticsearch
 
-#. Test the public user, replacing ``PASSWORD``:
+#. Test the public user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
 
    .. code-block:: bash
 

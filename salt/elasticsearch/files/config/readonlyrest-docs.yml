@@ -1,8 +1,8 @@
 readonlyrest:
   ssl:
     keystore_file: keystore.jks
-    keystore_pass: {{ pillar.elasticsearch.key_pass }}
-    key_pass: {{ pillar.elasticsearch.key_pass }}
+    keystore_pass: {{ pillar.elasticsearch.plugins.readonlyrest.key_pass }}
+    key_pass: {{ pillar.elasticsearch.plugins.readonlyrest.key_pass }}
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
     - name: Allow localhost
@@ -13,8 +13,8 @@ readonlyrest:
         patterns: ["ocdsindex_*"]
         must_involve_indices: True
       actions: ["indices:data/read/search"]
-    - name: Allow the ocdsindex group to manage indices created by OCDS Index
-      groups: ["ocdsindex"]
+    - name: Allow the manage group to manage indices created by OCDS Index
+      groups: ["manage"]
       indices: ["ocdsindex_*"]
       actions: ["indices:*"]
-  users: {{ pillar.elasticsearch.users|yaml }}
+  users: {{ pillar.elasticsearch.plugins.readonlyrest.users|yaml }}
