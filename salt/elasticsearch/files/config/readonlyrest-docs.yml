@@ -1,4 +1,6 @@
 readonlyrest:
+  # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#loading-settings-order-of-precedence
+  force_load_from_file: True
   ssl:
     keystore_file: keystore.jks
     keystore_pass: {{ pillar.elasticsearch.plugins.readonlyrest.key_pass }}
