@@ -52,7 +52,7 @@ set JVM maximum heap size:
       - "search.allow_expensive_queries: false"
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
       - "script.allowed_types: inline"
-      - "script.allowed_contexts: none"
+      - "script.allowed_contexts: ingest"
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
       - "discovery.type: single-node"
       {% if 'allowed_origins' in pillar.elasticsearch %}
