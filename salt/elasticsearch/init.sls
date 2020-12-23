@@ -59,7 +59,7 @@ set JVM maximum heap size:
       {% if 'allowed_origins' in pillar.elasticsearch %}
       - "http.cors.enabled: true"
       - "http.cors.allow-origin: {{ pillar.elasticsearch.allowed_origins }}"
-      - "http.cors.allow-methods: OPTIONS GET"
+      - "http.cors.allow-methods: OPTIONS, GET"
       {% endif %}
     - watch_in:
       - service: elasticsearch
