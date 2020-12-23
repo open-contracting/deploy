@@ -29,7 +29,6 @@ groups:
       summary: "Endpoint {{ $labels.instance }} has less than 5% available memory"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 5% available memory."
 
-  # https://trello.com/c/4zh53C21/147-alert-when-kf-process-disk-space-100-gb
   - alert: RootFileSystemLow
     expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.05
     for: 3m
@@ -99,17 +98,8 @@ groups:
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% of disk space."
 
   - alert: CPUHigh80Percent
-    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="ocds-live.standard-search"}[5m])) * 100) >= 80
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) >= 80
     for: 3m
-    labels:
-      severity: critical
-    annotations:
-      summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
-      description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
-
-  - alert: CPUHigh80PercentStandardSearch
-    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="ocds-live.standard-search"}[5m])) * 100) >= 80
-    for: 10m
     labels:
       severity: critical
     annotations:
