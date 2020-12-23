@@ -14,7 +14,7 @@ include:
 # https://developpaper.com/add-authentication-to-prometheus-node-exporter/
 /home/{{ user }}/node_exporter.key:
   file.managed:
-    - pillar_contents: prometheus:node_exporter:ssl:privkey
+    - contents_pillar: prometheus:node_exporter:ssl:privkey
     - user: {{ user }}
     - group: {{ user }}
     - mode: 600

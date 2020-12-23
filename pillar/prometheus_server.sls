@@ -7,7 +7,7 @@ prometheus:
     config:
       conf-prometheus.yml: salt://prometheus/files/config/conf-prometheus.yml
       conf-prometheus-rules.yml: salt://prometheus/files/config/conf-prometheus-rules.yml
-      node_exporter.pem: prometheus:node_exporter:ssl:privkey
+      node_exporter.pem: prometheus:node_exporter:ssl:pubcert
   alertmanager:
     user: prometheus-alertmanager
     service: prometheus-alertmanager

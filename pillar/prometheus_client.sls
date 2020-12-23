@@ -10,4 +10,4 @@ prometheus:
     config:
       # https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md
       config.yaml: salt://prometheus/files/config/config.yaml
-      node_exporter.pem: prometheus:node_exporter:ssl:privkey
+      node_exporter.pem: prometheus:node_exporter:ssl:pubcert
