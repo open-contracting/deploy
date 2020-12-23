@@ -64,9 +64,9 @@ set JVM maximum heap size:
     - watch_in:
       - service: elasticsearch
 
-/etc/elasticsearch/jvm.options.d/bootstrap-checks:
+/etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.managed:
-    - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks
+    - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
     - contents: "-Des.enforce.bootstrap.checks=true"
     - watch_in:
       - service: elasticsearch
@@ -78,9 +78,9 @@ set JVM maximum heap size:
     - watch_in:
       - service: elasticsearch
 
-/etc/elasticsearch/jvm.options.d/bootstrap-checks:
+/etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.absent:
-    - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks
+    - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
     - watch_in:
       - service: elasticsearch
 {% endif %}

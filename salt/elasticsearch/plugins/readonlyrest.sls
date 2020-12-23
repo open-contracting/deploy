@@ -38,13 +38,13 @@ readonlyrest-install:
     - watch_in:
       - service: elasticsearch
 
-pkcs-password:
+/opt/pkcs-password:
   file.managed:
     - name: /opt/pkcs-password
     - contents_pillar: elasticsearch:plugins:readonlyrest:key_pass
     - mode: 600
 
-pem-to-keystore.sh:
+/opt/pem-to-keystore.sh:
   pkg.installed:
     - name: openjdk-11-jre-headless # for keytool command
   file.managed:
@@ -54,10 +54,10 @@ pem-to-keystore.sh:
     - require:
       - pkg: apache2
       - pkg: elasticsearch
-      - pkg: pem-to-keystore.sh
-      - file: pkcs-password
+      - pkg: /opt/pem-to-keystore.sh
+      - file: /opt/pkcs-password
 
-readonlyrest.yml:
+/etc/elasticsearch/readonlyrest.yml:
   file.managed:
     - name: /etc/elasticsearch/readonlyrest.yml
     - source: salt://elasticsearch/files/config/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.configuration }}.yml
@@ -67,7 +67,7 @@ readonlyrest.yml:
     - watch_in:
       - service: elasticsearch
 
-elasticsearch.yml:
+/etc/elasticsearch/elasticsearch.yml-readonlyrest:
   file.append:
     - name: /etc/elasticsearch/elasticsearch.yml
     - text:
@@ -77,5 +77,12 @@ elasticsearch.yml:
       - "http.type: ssl_netty4"
     - require:
       - pkg: elasticsearch
+    - watch_in:
+      - service: elasticsearch
+
+/etc/elasticsearch/jvm.options.d/readonlyrest.options:
+  file.managed:
+    - name: /etc/elasticsearch/jvm.options.d/readonlyrest.options
+    - contents: "-Dcom.readonlyrest.settings.loading.delay=1"
     - watch_in:
       - service: elasticsearch
