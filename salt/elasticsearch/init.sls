@@ -56,9 +56,11 @@ set JVM maximum heap size:
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
       - "discovery.type: single-node"
       # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
+      {% if 'allowed_origins' in pillar.elasticsearch %}
       - "http.cors.enabled: true"
       - "http.cors.allow-origin: {{ pillar.elasticsearch.allowed_origins }}"
       - "http.cors.allow-methods: GET"
+      {% endif %}
     - watch_in:
       - service: elasticsearch
 

@@ -75,7 +75,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
       elasticsearch:
         public_access: True
 
-#. Allow cross-origin HTTP requests. Add to your service's Pillar file, for example:
+#. Allow cross-origin HTTP requests (optional). Add to your service's Pillar file, for example:
 
    .. code-block:: yaml
       :emphasize-lines: 2
@@ -83,7 +83,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
       elasticsearch:
         allowed_origins: https://standard.open-contracting.org
 
-#. Configure Apache to create JKS keystores when renewing SSL certificates:
+#. Configure Apache to create JKS keystores when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
 
    .. code-block:: yaml
       :emphasize-lines: 2-4
@@ -103,7 +103,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
           readonlyrest:
             key_pass: KEY_PASS
 
-#. Add users for public searches and admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password each time):
+#. Add users for public searches and for admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml
       :emphasize-lines: 4-10
