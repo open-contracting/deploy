@@ -32,13 +32,9 @@ update all packages:
     - order: 3
     - contents: "{{ pillar.host_id }}.open-contracting.org"
 
-/etc/hostname:
-  file.managed:
+set hostname:
+  network.system:
     - order: 4
-    - contents: "{{ pillar.host_id }}"
-
-hostname -F /etc/hostname:
-  cmd.run:
-    - order: 5
-    - onchanges:
-      - file: /etc/hostname
+    - enabled: True
+    - hostname: "{{ pillar.host_id }}"
+    - apply_hostname: True
