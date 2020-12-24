@@ -113,7 +113,7 @@ Copy files from the staging directory to the live directory:
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh root@standard.open-contracting.org "rsync -az --progress /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
+   ssh root@standard.open-contracting.org "rsync -az /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
 
 Update the symlink:
 
