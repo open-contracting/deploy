@@ -126,7 +126,7 @@ Copy the documents in Elasticsearch from the staging base URL to the production 
 
 .. code-block:: bash
 
-   ocdsindex copy https://standard.open-contracting.org:9200 https://standard.open-contracting.org/staging/${VER}/ https://standard.open-contracting.org/${VER}/
+   ocdsindex copy https://standard.open-contracting.org:9200 https://standard.open-contracting.org/staging/${SUBDIR}${VER}/ https://standard.open-contracting.org/${SUBDIR}${VER}/
 
 If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
 
