@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e  # This script handles unset variables.
+# No -e, because diff fails. No -u, because this script handles unset variables.
 
 SALTSSH="./run.py"
 
@@ -8,8 +8,8 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
-if ! [ -x "${SALTSSH}" ]; then
-  echo "${SALTSSH} is not executable"
+if ! [ -x "$SALTSSH" ]; then
+  echo "$SALTSSH is not executable"
   exit 2
 fi
 
@@ -21,9 +21,9 @@ git stash
 )
 
 if [ -z "$2" ]; then
-  ${SALTSSH} "$1" state.show_highstate > before
+  $SALTSSH "$1" state.show_highstate > before
 else
-  ${SALTSSH} "$1" state.show_sls $2 > before
+  $SALTSSH "$1" state.show_sls $2 > before
 fi
 
 git stash pop
@@ -34,9 +34,9 @@ git stash pop
 )
 
 if [ -z "$2" ]; then
-  ${SALTSSH} "$1" state.show_highstate > after
+  $SALTSSH "$1" state.show_highstate > after
 else
-  ${SALTSSH} "$1" state.show_sls $2 > after
+  $SALTSSH "$1" state.show_sls $2 > after
 fi
 
 diff -u before after | less
