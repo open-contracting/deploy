@@ -103,7 +103,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
           readonlyrest:
             key_pass: KEY_PASS
 
-#. Add users for public searches and for admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'public:PASSWORD' | shasum -a 512`` (replacing ``PASSWORD`` with a strong password each time):
+#. Add users for public searches and for admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'USERNAME:PASSWORD' | shasum -a 512`` (replacing ``USERNAME`` and ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml
       :emphasize-lines: 4-10
@@ -137,7 +137,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 
    .. code-block:: bash
 
-      curl -u 'public:PASSWORD' 'https://standard.open-contracting.org:9200/ocdsindex_en/_search' \
+      curl -u 'public:PASSWORD' https://standard.open-contracting.org:9200/ocdsindex_en/_search \
       -H 'Content-Type: application/json' \
       -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
@@ -150,7 +150,13 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 Troubleshoot
 ~~~~~~~~~~~~
 
-If a request gets a HTTP 4XX error, connect to the server and run ``tail -f/var/log/elasticsearch/elasticsearch.log``. You will see a message like (newlines are added for readability):
+If a request gets a HTTP 4XX error, connect to the server and run:
+
+.. code-block:: bash
+
+   tail -f /var/log/elasticsearch/elasticsearch.log
+
+You will see a message like (newlines are added for readability):
 
 .. code-block:: none
    :emphasize-lines: 2,6,9,10,13,14,15,17,19-30
