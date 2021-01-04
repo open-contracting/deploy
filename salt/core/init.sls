@@ -6,7 +6,7 @@
 
 # Install required packages.
 
-# Nearly universal dependency.
+# Required for most targets.
 git:
   pkg.installed
 
@@ -14,7 +14,7 @@ git:
 python-apt:
   pkg.installed
 
-# Required for postfix configuration.
+# Required for some targets.
 debconf-utils:
   pkg.installed
 
