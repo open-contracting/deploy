@@ -7,7 +7,7 @@ include:
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
-{{ create_user(user, authorized_keys=pillar.ssh.kingfisher) }}
+{{ create_user(user) }}
 
 {{ directory }}:
   file.directory:

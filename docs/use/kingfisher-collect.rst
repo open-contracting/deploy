@@ -110,7 +110,7 @@ From the command-line, :ref:`connect to the server<connect-collect-server>`, and
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-   ssh ocdskfs@collect.kingfisher.open-contracting.org
+   ssh ocdskfp@collect.kingfisher.open-contracting.org
    cd scrapyd/logs/kingfisher
 
 Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:

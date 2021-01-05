@@ -43,7 +43,7 @@ Check the output in case there are any issues switching to the ``master`` branch
 
    .. code-block:: bash
 
-      for i in root ocdskfs ocdskfp; do echo $i; su $i -c "tmux ls"; done
+      for i in root ocdskfp; do echo $i; su $i -c "tmux ls"; done
 
 #. If the ``postgres`` service would be restarted by the deployment (for example, due to a configuration change or a package upgrade), check if any :ref:`long-running queries<pg-stat-activity>` are running. If there are queries with a ``state`` of ``active`` and a ``time`` greater than an hour, don't deploy without the consent of the helpdesk analysts, who should be identified by the ``usename``, ``client_addr`` or comment at the start of ``query``.
 
