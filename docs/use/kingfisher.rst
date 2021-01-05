@@ -21,6 +21,8 @@ The following pages describe specific tasks for each tool:
    kingfisher-process.rst
    kingfisher-summarize.rst
 
+.. _connect-kingfisher-server:
+
 Connect to servers
 ------------------
 
@@ -28,23 +30,7 @@ Connect to servers
 
    Ask a colleague to add your public SSH key to the ``ssh.kingfisher`` list in the ``pillar/kingfisher.sls`` file.
 
-The servers have different users for different roles.
-
-.. _connect-collect-server:
-
-Collect
-~~~~~~~
-
-The ``ocdskfs`` user owns the deployment of Kingfisher Collect and Kingfisher Archive.
-
-You shouldn't need to connect to the main server as the ``ocdskfs`` user, as its data and log files are readable by the ``ocdskfp`` user. Only archival scripts and system administrators should manually delete any data and log files.
-
-.. _connect-process-server:
-
-Process
-~~~~~~~
-
-The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Summarize.
+The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Summarize, and can read the data and log files of Kingfisher Collect.
 
 Connect to the main server as the ``ocdskfp`` user, to use the command-line tools of `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/cli/>`__ and `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/cli/>`__:
 
@@ -53,37 +39,8 @@ Connect to the main server as the ``ocdskfp`` user, to use the command-line tool
    curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
    ssh ocdskfp@process.kingfisher.open-contracting.org
 
-This user has access to the `flatten-tool <https://flatten-tool.readthedocs.io/en/latest/usage-ocds/>`__ and `ocdskit <https://ocdskit.readthedocs.io/en/latest/>`__ command-line tools.
-
-Analyze
-~~~~~~~
-
-Connect to the main server as the ``analysis`` user, to perform operations that are too taxing for your local computer, like flattening a large OCDS JSON file:
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
-   ssh analysis@process.kingfisher.open-contracting.org
-
 This user has access to the `jq <https://stedolan.github.io/jq/manual/>`__, `flatten-tool <https://flatten-tool.readthedocs.io/en/latest/usage-ocds/>`__ and `ocdskit <https://ocdskit.readthedocs.io/en/latest/>`__ command-line tools.
 
-Please remember to delete your files when done.
+.. note::
 
-
-Share files between users
--------------------------
-
-#. Connect to the server as the user that owns the files or directories.
-#. Change the files to be world-readable:
-
-   .. code-block:: bash
-
-      chmod -R a+r file1.json file2.json directory1/ directory2/
-
-#. Change the files' root directory to be world-readable and world-searchable:
-
-   .. code-block:: bash
-
-      chmod -R a+rX /home/user/path
-
-You can now connect to the server as another user and read and/or copy the files for modification.
+   The ``ocdskfs`` user owns the deployment of Kingfisher Collect and Kingfisher Archive. Only archival scripts and system administrators should manually delete any data and log files.

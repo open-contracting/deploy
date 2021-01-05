@@ -105,7 +105,7 @@ Access Scrapyd's crawl logs
 
 From a browser, click on a "Log" link from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <https://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__.
 
-From the command-line, :ref:`connect to the server<connect-collect-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
+From the command-line, :ref:`connect to the server<connect-kingfisher-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
 
 .. code-block:: bash
 
