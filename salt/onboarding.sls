@@ -10,29 +10,31 @@ update all packages:
     - refresh: True
     - dist_upgrade: True
 
-/etc/hosts:
-  file.append:
-    - order: 2
-    - text: |
 {%- if 'fqdn_ip4' in grains %}
-        {{ grains.fqdn_ip4[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org
-{%- endif %}
+{{ grains.fqdn_ip4[0] }}:
+  host.only:
+    - order: 2
+    - hostnames:
+      - {{ pillar.host_id }}.open-contracting.org
+      - {{ pillar.host_id }}
+{% endif %}
 {%- if 'fqdn_ip6' in grains %}
-        {{ grains.fqdn_ip6[0] }} {{ pillar.host_id }} {{ pillar.host_id }}.open-contracting.org 
-{%- endif %}
+{{ grains.fqdn_ip6[0] }}:
+  host.only:
+    - order: 2
+    - hostnames:
+      - {{ pillar.host_id }}.open-contracting.org
+      - {{ pillar.host_id }}
+{% endif %}
 
 /etc/mailname:
   file.managed:
     - order: 3
     - contents: "{{ pillar.host_id }}.open-contracting.org"
 
-/etc/hostname:
-  file.managed:
+set hostname:
+  network.system:
     - order: 4
-    - contents: "{{ pillar.host_id }}"
-
-hostname -F /etc/hostname:
-  cmd.run:
-    - order: 5
-    - onchanges:
-      - file: /etc/hostname
+    - enabled: True
+    - hostname: "{{ pillar.host_id }}"
+    - apply_hostname: True
