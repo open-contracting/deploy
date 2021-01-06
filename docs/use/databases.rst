@@ -5,6 +5,8 @@ SQL databases
 
    If you need to create temporary tables, use ``CREATE TEMPORARY TABLE``. If you need to create persistent tables, create a new schema first; do not create tables in the ``public`` schema.
 
+For Kingfisher, see also :ref:`add-postgresql-readonly-user` and :ref:`delete-postgresql-user`.
+
 Connect to a database
 ---------------------
 

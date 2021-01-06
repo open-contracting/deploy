@@ -1,6 +1,52 @@
 Kingfisher tasks
 ================
 
+.. _add-postgresql-user:
+
+Add a PostgreSQL user
+---------------------
+
+Create the user, as the ``postgres`` user from the ``postgres`` database.
+
+As root, replace ``password`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``username`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``), and run:
+
+   .. code-block:: sql
+
+      su - postgres -c "psql postgres -c \"CREATE USER username WITH PASSWORD 'password';\""
+
+Grant read-only access to *some* tables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Connect to the ``ocdskingfisherprocess`` database as the ``ocdskfp`` user. For example, as root, run:
+
+   .. code-block:: bash
+
+      su ocdskfp -c "psql ocdskingfisherprocess"
+
+#. To grant access to all tables within a specific schema, run, for example:
+
+   .. code-block:: sql
+
+      GRANT USAGE ON SCHEMA view_data_the_name TO the_username;
+      GRANT SELECT ON ALL TABLES IN SCHEMA view_data_the_name TO the_username;
+
+Grant read-only access to *all* tables
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Insert the username into the ``views.read_only_user`` table, as the ``ocdskfp`` user from the ``ocdskingfisherprocess`` database. As root, replace ``username``, and run:
+
+   .. code-block:: sql
+
+      su - ocdskfp -c "psql ocdskingfisherprocess -c \"INSERT INTO views.read_only_user VALUES ('username');\""
+
+#. Run the :ref:`correct-user-permissions` command to grant the user read-only access to the tables created by Kingfisher Summarize and Kingfisher Process:
+
+   .. code-block:: bash
+
+      ./manage.py correct-user-permissions
+
+.. _delete-postgresql-user:
+
 Delete a PostgreSQL user
 ------------------------
 
