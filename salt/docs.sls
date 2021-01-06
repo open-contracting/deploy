@@ -48,6 +48,18 @@ docs modules:
     - require:
       - file: /home/{{ user }}/web
 
+/home/{{ user}}/1-size.sh:
+  file.managed:
+    - source: salt://files/docs-size.sh
+    - user: {{ user }}
+    - mode: 700
+
+/home/{{ user}}/2-delete.sh:
+  file.managed:
+    - source: salt://files/docs-delete.sh
+    - user: {{ user }}
+    - mode: 700
+
 # These will be served the same as files that were copied into place.
 https://github.com/open-contracting/standard-legacy-staticsites.git:
   git.latest:
