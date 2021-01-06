@@ -64,6 +64,21 @@ tablefunc:
     - require:
       - postgres_database: db_ocdskingfisherprocess
 
+# https://github.com/open-contracting/deploy/issues/237
+fuzzystrmatch:
+  postgres_extension.present:
+    - maintenance_db: ocdskingfisherprocess
+    - if_not_exists: True
+    - require:
+      - postgres_database: db_ocdskingfisherprocess
+
+pg_trgm:
+  postgres_extension.present:
+    - maintenance_db: ocdskingfisherprocess
+    - if_not_exists: True
+    - require:
+      - postgres_database: db_ocdskingfisherprocess
+
 ####################
 # App installation
 ####################
