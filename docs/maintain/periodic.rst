@@ -26,6 +26,13 @@ Clean root user directory
 
    -  These are created when a developer runs ``wget`` commands to e.g. test proxy settings.
 
+.. _check-drive-usage:
+
+Check drive usage
+-----------------
+
+If ``ncdu`` is installed, change to the root directory and run the ``ncdu`` command.
+
 .. _check-mail:
 
 Check mail
