@@ -1,4 +1,4 @@
-DROP TABLE reference.mapping_sheets;
+DROP TABLE IF EXISTS reference.mapping_sheets;
 
 CREATE TABLE reference.mapping_sheets (
     id serial primary key,
@@ -16,17 +16,4 @@ CREATE TABLE reference.mapping_sheets (
     "deprecationNotes" text
 );
 
-COPY reference.mapping_sheets (
-    version,
-    extension,
-    section,
-    path,
-    title,
-    description,
-    type,
-    range,
-    values,
-    links,
-    deprecated,
-    "deprecationNotes"
-) FROM '{{ path }}' DELIMITER ',' CSV HEADER;
+\copy reference.mapping_sheets (version, extension, section, path, title, description, type, range, values, links, deprecated, "deprecationNotes") from '{{ path }}' csv header;
