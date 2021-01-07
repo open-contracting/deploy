@@ -103,12 +103,12 @@ To configure a main server and a replica server:
          service postgresql stop
          rm -rf /var/lib/postgresql/11/main
 
-   #. Switch to the ``postgres`` user and transfer data:
+   #. Switch to the ``postgres`` user and transfer data, replacing ``MAIN_HOST`` and ``REPLICA_USER``:
 
       .. code-block:: bash
 
          su - postgres
-         pg_basebackup -h ${main_host} -U ${replica_user} --slot={slot} \
+         pg_basebackup -h MAIN_HOST -U REPLICA_USER --slot={slot} \
              -D /var/lib/postgresql/11/main --write-recovery-conf --verbose --progress
 
       For example, for ``kingfisher-replica``:
