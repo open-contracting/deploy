@@ -23,7 +23,7 @@ OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` serv
 psql
 ~~~~
 
-If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/current/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
+If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/11/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
 
 For security, remember to set ``sslmode`` to ``require``.
 

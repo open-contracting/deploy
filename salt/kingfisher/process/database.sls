@@ -52,7 +52,7 @@ reference:
       - postgres_database: ocdskingfisherprocess
 
 # REVOKE privileges
-# https://www.postgresql.org/docs/current/sql-revoke.html
+# https://www.postgresql.org/docs/11/sql-revoke.html
 
 revoke public database privileges:
   postgres_privileges.absent:
@@ -77,8 +77,8 @@ revoke public schema privileges:
       - postgres_database: ocdskingfisherprocess
 
 # GRANT privileges
-# https://www.postgresql.org/docs/current/sql-grant.html
-# https://www.postgresql.org/docs/current/ddl-priv.html
+# https://www.postgresql.org/docs/11/sql-grant.html
+# https://www.postgresql.org/docs/11/ddl-priv.html
 
 grant public database privileges:
   postgres_privileges.present:

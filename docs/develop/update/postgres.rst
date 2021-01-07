@@ -34,7 +34,7 @@ Add your configuration
 
 #. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/master/salt/postgres/files/conf>`__ directory.
 
-#. Update the server's Pillar file. `Follow PostgreSQL's instructions <https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES>`__ for setting ``vm.nr_hugepages``:
+#. Update the server's Pillar file. `Follow PostgreSQL's instructions <https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES>`__ for setting ``vm.nr_hugepages``:
 
   .. code-block:: yaml
     :emphasize-lines: 2
