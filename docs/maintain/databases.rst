@@ -16,7 +16,7 @@ Each service should have its own user, including:
 -  Pelican
 -  Redash
 
-Individuals should have their own user. See :doc:`../deploy/kingfisher`.
+Individuals should have their own user. See :ref:`add-postgresql-user`.
 
 Improve performance
 -------------------
