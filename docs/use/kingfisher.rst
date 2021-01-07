@@ -32,7 +32,7 @@ Connect to servers
 
 The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Summarize, and can read the data and log files of Kingfisher Collect.
 
-Connect to the main server as the ``ocdskfp`` user, to use the command-line tools of `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/cli/>`__ and `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/cli/>`__:
+Connect to the main server as the ``ocdskfp`` user, to use the command-line tools of `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/cli/>`__ and `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/cli.html>`__:
 
 .. code-block:: bash
 
