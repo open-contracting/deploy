@@ -2,6 +2,7 @@
 
 include:
   - python_apps
+  - kingfisher.process.database
 
 {% set entry = pillar.python_apps.kingfisher_process %}
 {% set userdir = '/home/' + entry.user %}
@@ -36,50 +37,6 @@ kingfisher-process-prerequisites:
       - user: {{ entry.user }}_user_exists
 
 ####################
-# PostgreSQL
-####################
-
-user_ocdskfp:
-  postgres_user.present:
-    - name: ocdskfp
-    - password: {{ pillar.postgres.ocdskfp.password }}
-
-user_ocdskfpreadonly:
-  postgres_user.present:
-    - name: ocdskfpreadonly
-    - password: {{ pillar.postgres.ocdskfpreadonly.password }}
-
-db_ocdskingfisherprocess:
-  postgres_database.present:
-    - name: ocdskingfisherprocess
-    - owner: ocdskfp
-    - require:
-      - postgres_user: user_ocdskfp
-
-# https://github.com/open-contracting/deploy/issues/117
-tablefunc:
-  postgres_extension.present:
-    - maintenance_db: ocdskingfisherprocess
-    - if_not_exists: True
-    - require:
-      - postgres_database: db_ocdskingfisherprocess
-
-# https://github.com/open-contracting/deploy/issues/237
-fuzzystrmatch:
-  postgres_extension.present:
-    - maintenance_db: ocdskingfisherprocess
-    - if_not_exists: True
-    - require:
-      - postgres_database: db_ocdskingfisherprocess
-
-pg_trgm:
-  postgres_extension.present:
-    - maintenance_db: ocdskingfisherprocess
-    - if_not_exists: True
-    - require:
-      - postgres_database: db_ocdskingfisherprocess
-
-####################
 # App installation
 ####################
 
@@ -92,26 +49,9 @@ pg_trgm:
       - cmd: {{ directory }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
-      - postgres_database: db_ocdskingfisherprocess
+      - postgres_database: ocdskingfisherprocess
     - onchanges:
       - git: {{ pillar.python_apps.kingfisher_process.git.url }}
-
-kfp_postgres_readonlyuser_setup_as_postgres:
-  cmd.run:
-    - name: >
-          psql -c "
-          REVOKE ALL ON SCHEMA public, views FROM public;
-          GRANT ALL ON SCHEMA public, views TO ocdskfp;
-          GRANT USAGE ON SCHEMA public, views TO ocdskfpreadonly;
-          GRANT SELECT ON ALL TABLES IN SCHEMA public, views TO ocdskfpreadonly;
-          ALTER DEFAULT PRIVILEGES IN SCHEMA public, views GRANT SELECT ON TABLES TO ocdskfpreadonly;
-          "
-          ocdskingfisherprocess
-    - runas: postgres
-    - require:
-      - cmd: {{ directory }}-install
-      - cmd: {{ summarize_directory }}-install
-      - postgres_user: user_ocdskfpreadonly
 
 ####################
 # Cron jobs
