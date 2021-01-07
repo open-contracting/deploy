@@ -6,22 +6,26 @@ Kingfisher tasks
 Add a PostgreSQL user
 ---------------------
 
-Create the user, as the ``postgres`` user from the ``postgres`` database.
+#. Create the user, as the ``postgres`` user from the ``postgres`` database.
 
-As root, replace ``password`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``username`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``), and run:
+   As root, replace ``password`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``username`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``), and run:
 
-.. code-block:: sql
+   .. code-block:: sql
 
-   su - postgres -c "psql postgres -c \"CREATE USER username WITH PASSWORD 'password';\""
+      su - postgres -c "psql postgres -c \"CREATE USER username WITH PASSWORD 'password';\""
+
+#. Add the user to `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
 Grant read-only access to public and summary tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Grant the ``readonly`` role to the user, as the ``postgres`` user from the ``postgres`` database. As root, replace ``username``, and run:
+#. Grant the ``readonly`` role to the user, as the ``postgres`` user from the ``postgres`` database. As root, replace ``username``, and run:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   su - postgres -c "psql postgres -c \"GRANT readonly TO username;\""
+      su - postgres -c "psql postgres -c \"GRANT readonly TO username;\""
+
+#. Update the user's group in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
 .. _delete-postgresql-user:
 
@@ -42,6 +46,8 @@ Delete a PostgreSQL user
       ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
 
 #. Remove the temporary state
+
+#. Remove the user from `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
 If the state fails with "User ocdskfpguest failed to be removed":
 

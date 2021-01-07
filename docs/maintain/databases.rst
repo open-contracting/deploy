@@ -9,14 +9,16 @@ Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging
 Control access
 --------------
 
-Each service should have its own user, including:
+Each service should have a service account, including:
 
 -  Kingfisher Process
 -  Kingfisher Summarize
 -  Pelican
 -  Redash
 
-Individuals should have their own user. See :ref:`add-postgresql-user`.
+Each individual should have a personal account. See :ref:`add-postgresql-user`.
+
+All users should be tracked in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
 Improve performance
 -------------------
