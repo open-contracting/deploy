@@ -10,9 +10,9 @@ Create the user, as the ``postgres`` user from the ``postgres`` database.
 
 As root, replace ``password`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``username`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``), and run:
 
-   .. code-block:: sql
+.. code-block:: sql
 
-      su - postgres -c "psql postgres -c \"CREATE USER username WITH PASSWORD 'password';\""
+   su - postgres -c "psql postgres -c \"CREATE USER username WITH PASSWORD 'password';\""
 
 Grant read-only access to public and summary tables
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
