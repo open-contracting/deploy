@@ -123,8 +123,8 @@ grant readonly table privileges in {{ schema }}:
 # https://github.com/saltstack/salt/pull/56808
 alter readonly default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO readonly;" ocdskingfisherprocess
-    - runas: postgres
+    - name: psql -c "ALTER DEFAULT PRIVILEGES FOR ROLE ocdskfp IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO readonly;" ocdskingfisherprocess
+    - runas: ocdskfp
     - require:
       - postgres_group: readonly
       - postgres_database: ocdskingfisherprocess
