@@ -19,15 +19,10 @@ include:
     - user: {{ user }}
     - group: {{ user }}
 
-# Prevent Salt from caching the requirements.txt file.
-{{ directory }}/requirements.txt-expire:
-  file.not_cached:
-    - name: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
-
 {{ directory }}/requirements.txt:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
-    - skip_verify: True
+    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt.sha256
     - user: {{ user }}
     - group: {{ user }}
     - mode: 444
