@@ -21,7 +21,7 @@ Grant the ``readonly`` role to the user, as the ``postgres`` user from the ``pos
 
 .. code-block:: bash
 
-   su - postgres -c "psql postgres -c \"GRANT ROLE readonly TO username;\""
+   su - postgres -c "psql postgres -c \"GRANT readonly TO username;\""
 
 .. _delete-postgresql-user:
 

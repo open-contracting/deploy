@@ -14,7 +14,7 @@ CREATE TABLE reference.mapping_sheets (
     links text,
     deprecated text,
     "deprecationNotes" text
-)
+);
 
 COPY reference.mapping_sheets (
     version,
