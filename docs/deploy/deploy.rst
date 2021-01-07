@@ -77,7 +77,8 @@ Function: service.running, ID: uwsgi
 States that always report changes:
 
 -  `cmd.run <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.cmd.html>`__, unless ``onchanges`` is specified
--  `pip.installed <https://github.com/saltstack/salt/issues/24216>`__
+-  `pip.installed <https://github.com/saltstack/salt/issues/24216>`__, if ``upgrade`` is set
+-  ``postgres_privileges.present``, if ``object_name`` is ``ALL``
 
 3. Manual cleanup
 -----------------
