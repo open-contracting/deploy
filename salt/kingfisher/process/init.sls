@@ -37,6 +37,45 @@ kingfisher-process-prerequisites:
       - user: {{ entry.user }}_user_exists
 
 ####################
+# Reference tables
+####################
+
+# This file can be updated with:
+#
+#   curl -O https://standard.open-contracting.org/schema/1__1__5/release-schema.json
+#   ocdskit mapping-sheet --infer-required release-schema.json > mapping-sheet-orig.csv
+#   awk -F, '!a[$2]++' mapping-sheet-orig.csv > mapping-sheet-uniq.csv
+#   awk 'NR==1 {print "version,extension," $0}; NR>1 {print "1.1,core," $0}' mapping-sheet-uniq.csv > mapping-sheet.csv
+{{ userdir }}/mapping-sheet.csv:
+  file.managed:
+    - source: salt://kingfisher/process/files/mapping-sheet.csv
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
+
+{{ userdir }}/mapping-sheet.sql:
+  file.managed:
+    - source: salt://kingfisher/process/files/mapping-sheet.sql
+    - template: jinja
+    - context:
+        path: {{ userdir }}/mapping-sheet.csv
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
+
+create reference.mapping_sheets table:
+  cmd.run:
+    - name: psql -f {{ userdir }}/mapping-sheet.sql ocdskingfisherprocess
+    - runas: ocdskfp
+    - onchanges:
+      - file: {{ userdir }}/mapping-sheet.csv
+      - file: {{ userdir }}/mapping-sheet.sql
+    - require:
+      - postgres_schema: reference
+
+####################
 # App installation
 ####################
 

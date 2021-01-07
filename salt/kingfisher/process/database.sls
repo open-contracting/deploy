@@ -41,6 +41,16 @@ ocdskingfisherprocess:
       - postgres_database: ocdskingfisherprocess
 {% endfor %}
 
+# Schemas
+
+reference:
+  postgres_schema.present:
+    - name: reference
+    - user: ocdskfp
+    - dbname: ocdskingfisherprocess
+    - require:
+      - postgres_database: ocdskingfisherprocess
+
 # REVOKE privileges
 # https://www.postgresql.org/docs/current/sql-revoke.html
 
@@ -82,36 +92,40 @@ grant public database privileges:
     - require:
       - postgres_privileges: revoke public database privileges
 
-grant readonly schema privileges:
+{% set schemas = ['public', 'reference'] %}
+
+{% for schema in schemas %}
+grant readonly schema privileges in {{ schema }}:
   postgres_privileges.present:
     - name: readonly
     - privileges:
       - USAGE
     - object_type: schema
-    - object_name: public
+    - object_name: {{ schema }}
     - grant_option: False
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_database: ocdskingfisherprocess
 
-grant readonly table privileges:
+grant readonly table privileges in {{ schema }}:
   postgres_privileges.present:
     - name: readonly
     - privileges:
       - SELECT
     - object_type: table
     - object_name: ALL
-    - prepend: public
+    - prepend: {{ schema }}
     - grant_option: False
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_database: ocdskingfisherprocess
 
 # https://github.com/saltstack/salt/pull/56808
-alter readonly default privileges:
+alter readonly default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO readonly;" ocdskingfisherprocess
+    - name: psql -c "ALTER DEFAULT PRIVILEGES IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO readonly;" ocdskingfisherprocess
     - runas: postgres
     - require:
       - postgres_group: readonly
       - postgres_database: ocdskingfisherprocess
+{% endfor %}
