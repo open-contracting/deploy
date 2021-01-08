@@ -25,6 +25,7 @@ Add a user
 
       postgres:
         users:
+          # me@example.com
           USERNAME:
             password: "PASSWORD"
 
@@ -36,17 +37,18 @@ Add a user
      ``SELECT`` on all tables in schema created by Kingfisher Summarize
 
    .. code-block:: yaml
-      :emphasize-lines: 5-7
+      :emphasize-lines: 6-8
 
       postgres:
         users:
+          # me@example.com
           USERNAME:
             password: "PASSWORD"
             groups:
               - read_kingfisher_process
               - read_kingfisher_summarize
 
-#. Add the user to `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+#. :doc:`Deploy the service<../../deploy/deploy>`
 
 Update password
 ~~~~~~~~~~~~~~~
@@ -54,38 +56,22 @@ Update password
 #. Update the private Pillar file, for example:
 
    .. code-block:: yaml
-      :emphasize-lines: 4
+      :emphasize-lines: 5
 
       postgres:
         users:
+          # me@example.com
           USERNAME:
             password: "PASSWORD"
 
-#. Notify the contact in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+#. :doc:`Deploy the service<../../deploy/deploy>`
+
+#. Notify the contact at the email address in the comment
 
 Delete a user
 ~~~~~~~~~~~~~
 
-#. Delete the user from the private Pillar file.
-
-#. Add a temporary state, for example:
-
-   .. code-block:: yaml
-
-      ocdskfpguest:
-        postgres_user.absent
-
-#. Run the temporary state, for example:
-
-   .. code-block:: bash
-
-      ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
-
-#. Remove the temporary state.
-
-#. Remove the user from `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
-
-If the state fails with "User ocdskfpguest failed to be removed":
+#. Delete the user from the private Pillar file
 
 #. Connect to the server as the ``root`` user, for example:
 
@@ -94,13 +80,13 @@ If the state fails with "User ocdskfpguest failed to be removed":
       curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
       ssh root@process.kingfisher.open-contracting.org
 
-#. Attempt to drop the given user as the ``postgres`` user, for example:
+#. Attempt to drop the user as the ``postgres`` user, for example:
 
    .. code-block:: bash
 
       su - postgres -c 'psql ocdskingfisherprocess -c "DROP ROLE ocdskfpguest;"'
 
-#. You should see a message like:
+#. If you see a message like:
 
    .. code-block:: none
 
@@ -121,13 +107,22 @@ If the state fails with "User ocdskfpguest failed to be removed":
 
       su - postgres -c 'psql ocdskingfisherprocess'
 
-#. Finally, delete the given user:
+#. Finally, drop the user:
 
    .. code-block:: sql
 
       REASSIGN OWNED BY ocdskfpguest TO anotheruser;
       DROP OWNED BY ocdskfpguest;
       DROP ROLE ocdskfpguest;
+
+Check privileges
+~~~~~~~~~~~~~~~~
+
+List users and groups:
+
+.. code-block:: none
+
+   \du
 
 Improve performance
 -------------------
