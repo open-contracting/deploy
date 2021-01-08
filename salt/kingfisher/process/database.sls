@@ -112,7 +112,6 @@ grant {{ group }} schema privileges in {{ schema }}:
       - USAGE
     - object_type: schema
     - object_name: {{ schema }}
-    - grant_option: False
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_database: ocdskingfisherprocess
@@ -125,7 +124,6 @@ grant {{ group }} table privileges in {{ schema }}:
     - object_type: table
     - object_name: ALL
     - prepend: {{ schema }}
-    - grant_option: False
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_database: ocdskingfisherprocess
