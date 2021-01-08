@@ -75,6 +75,18 @@ revoke public schema privileges:
 # https://www.postgresql.org/docs/11/sql-grant.html
 # https://www.postgresql.org/docs/11/ddl-priv.html
 
+grant kingfisher_summarize database privileges:
+  postgres_privileges.present:
+    - name: kingfisher_summarize
+    - privileges:
+      - CREATE
+    - object_type: database
+    - object_name: ocdskingfisherprocess
+    - maintenance_db: ocdskingfisherprocess
+    - require:
+      - postgres_user: kingfisher_summarize
+      - postgres_database: ocdskingfisherprocess
+
 {% set schemas = {'public': 'read_kingfisher_process', 'reference': 'read_kingfisher_summarize'} %}
 
 {% for schema, group in schemas.items() %}
