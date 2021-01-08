@@ -38,6 +38,10 @@ Our use is limited to:
 
 Note that unarchiving files (whether local or remote) should use the `archive.extracted function <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.archive.html>`__.
 
+.. warning::
+
+   If ``skip_verify`` is ``True`` and the ``source`` is remote, then the file will `never be updated <https://github.com/saltstack/salt/issues/58961>`__. Use ``source_hash``, instead.
+
 .. _service-functions:
 
 service
