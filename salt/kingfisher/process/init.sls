@@ -89,7 +89,7 @@ create reference.mapping_sheets table:
       - cmd: {{ directory }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
-      - postgres_user: ocdskfp
+      - postgres_user: sql-user-kingfisher_process
       - postgres_database: ocdskingfisherprocess
     - onchanges:
       - git: {{ pillar.python_apps.kingfisher_process.git.url }}

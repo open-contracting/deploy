@@ -11,15 +11,6 @@
       - service: postgresql
 {% endfor %}
 
-# Users
-
-ocdskfp:
-  postgres_user.present:
-    - name: ocdskfp
-    - password: {{ pillar.postgres.ocdskfp.password }}
-    - require:
-      - service: postgresql
-
 # Databases
 
 ocdskingfisherprocess:
@@ -75,16 +66,16 @@ revoke public schema privileges:
 # https://www.postgresql.org/docs/11/ddl-priv.html
 
 # https://kingfisher-process.readthedocs.io/en/latest/requirements-install.html#database
-grant ocdskfp schema privileges:
+grant kingfisher_process schema privileges:
   postgres_privileges.present:
-    - name: ocdskfp
+    - name: kingfisher_process
     - privileges:
       - CREATE
     - object_type: schema
     - object_name: public
     - maintenance_db: ocdskingfisherprocess
     - require:
-      - postgres_user: ocdskfp
+      - postgres_user: sql-user-kingfisher_process
       - postgres_database: ocdskingfisherprocess
 
 # "The database user must have the CREATE privilege on the database used by Kingfisher Process."
@@ -130,14 +121,14 @@ grant {{ group }} table privileges in {{ schema }}:
 /opt/{{ group }}-{{ schema }}.sql:
   file.managed:
     - name: /opt/{{ group }}-{{ schema }}.sql
-    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE ocdskfp IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
+    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE kingfisher_process IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
 
 # Can replace after `postgres_default_privileges` function becomes available.
 # https://github.com/saltstack/salt/pull/56808
 alter {{ group }} default privileges in {{ schema }}:
   cmd.run:
     - name: psql -f /opt/{{ group }}-{{ schema }}.sql ocdskingfisherprocess
-    - runas: ocdskfp
+    - runas: postgres
     - onchanges:
       - file: /opt/{{ group }}-{{ schema }}.sql
     - require:

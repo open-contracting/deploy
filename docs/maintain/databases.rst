@@ -128,7 +128,8 @@ Find unexpected database ``CREATE`` privileges:
    CROSS JOIN pg_database
    WHERE
        usename NOT IN ('postgres') AND
-       has_database_privilege(usename, datname, 'CREATE')
+       has_database_privilege(usename, datname, 'CREATE') AND
+       NOT (usename = 'kingfisher_summarize' AND datname = 'ocdskingfisherprocess')
    GROUP BY usename
    ORDER BY usename;
 
@@ -140,8 +141,10 @@ Find unexpected schema ``CREATE`` privileges:
    FROM pg_user
    CROSS JOIN pg_namespace
    WHERE
-       usename NOT IN ('postgres', 'ocdskfp') AND
-       has_schema_privilege(usename, nspname, 'CREATE')
+       usename NOT IN ('postgres') AND
+       has_schema_privilege(usename, nspname, 'CREATE') AND
+       NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -153,12 +156,12 @@ Find unexpected schema ``USAGE`` privileges:
    FROM pg_user
    CROSS JOIN pg_namespace
    WHERE
-       usename NOT IN ('postgres', 'ocdskfp') AND
+       usename NOT IN ('postgres') AND
+       nspname NOT IN ('information_schema', 'pg_catalog', 'reference') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
-       NOT (nspname IN ('information_schema', 'pg_catalog')) AND
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
-       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname IN (
-            SELECT nspname FROM pg_namespace WHERE has_schema_privilege('kingfisher_summarize_read', nspname, 'USAGE')))
+       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'view_data_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -171,9 +174,12 @@ Find unexpected table non ``SELECT`` privileges:
    CROSS JOIN pg_class c
    JOIN pg_namespace n ON c.relnamespace = n.oid
    WHERE
-       usename NOT IN ('postgres', 'ocdskfp') AND
+       usename NOT IN ('postgres') AND
+       nspname NOT IN ('pg_toast') AND
        relname NOT IN ('pg_settings') AND
-       has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
+       has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') AND
+       NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
    GROUP BY usename, nspname
    ORDER BY usename, nspname;
 
