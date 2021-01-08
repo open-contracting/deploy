@@ -75,6 +75,21 @@ revoke public schema privileges:
 # https://www.postgresql.org/docs/11/sql-grant.html
 # https://www.postgresql.org/docs/11/ddl-priv.html
 
+# https://kingfisher-process.readthedocs.io/en/latest/requirements-install.html#database
+grant ocdskfp schema privileges:
+  postgres_privileges.present:
+    - name: ocdskfp
+    - privileges:
+      - CREATE
+    - object_type: schema
+    - object_name: public
+    - maintenance_db: ocdskingfisherprocess
+    - require:
+      - postgres_user: ocdskfp
+      - postgres_database: ocdskingfisherprocess
+
+# "The database user must have the CREATE privilege on the database used by Kingfisher Process."
+# https://kingfisher-summarize.readthedocs.io/en/latest/get-started.html#database
 grant kingfisher_summarize database privileges:
   postgres_privileges.present:
     - name: kingfisher_summarize
