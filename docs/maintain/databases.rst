@@ -9,16 +9,125 @@ Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging
 Control access
 --------------
 
-Each service should have a service account, including:
+Each individual should have a personal account, and each service should have a service account, including:
 
 -  Kingfisher Process
 -  Kingfisher Summarize
 -  Pelican
 -  Redash
 
-Each individual should have a personal account. See :ref:`add-postgresql-user`.
+Add a user
+~~~~~~~~~~
 
-All users should be tracked in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+#. Add, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``USERNAME`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``):
+
+   .. code-block:: yaml
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+
+#. Add the user to groups. The groups are:
+
+   read_kingfisher_process
+     ``SELECT`` on all tables in schema ``public``
+   read_kingfisher_summarize
+     ``SELECT`` on all tables in schema created by Kingfisher Summarize
+
+   .. code-block:: yaml
+      :emphasize-lines: 5-7
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+            groups:
+              - read_kingfisher_process
+              - read_kingfisher_summarize
+
+#. Add the user to `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+
+Update password
+~~~~~~~~~~~~~~~
+
+#. Update the private Pillar file, for example:
+
+   .. code-block:: yaml
+      :emphasize-lines: 4
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+
+#. Notify the contact in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+
+Delete a user
+~~~~~~~~~~~~~
+
+#. Delete the user from the private Pillar file.
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      ocdskfpguest:
+        postgres_user.absent
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.sls_id ocdskfpguest kingfisher-process
+
+#. Remove the temporary state.
+
+#. Remove the user from `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+
+If the state fails with "User ocdskfpguest failed to be removed":
+
+#. Connect to the server as the ``root`` user, for example:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
+      ssh root@process.kingfisher.open-contracting.org
+
+#. Attempt to drop the given user as the ``postgres`` user, for example:
+
+   .. code-block:: bash
+
+      su - postgres -c 'psql ocdskingfisherprocess -c "DROP ROLE ocdskfpguest;"'
+
+#. You should see a message like:
+
+   .. code-block:: none
+
+      ERROR:  role "ocdskfpguest" cannot be dropped because some objects depend on it
+      DETAIL:  privileges for table …
+      …
+      and 1234 other objects (see server log for list)
+
+#. Open the server log, and search for the relevant ``DROP ROLE`` statement (after running the command below, press ``/``, type ``DROP ROLE``, press Enter, and press ``n`` until you match the relevant statement):
+
+   .. code-block:: bash
+
+      less /var/log/postgresql/postgresql-11-main.log
+
+#. If all the objects listed after ``DETAIL:`` in the server log can be dropped (press Space to scroll forward), then press ``q`` to quit ``less`` and open a SQL terminal as the ``postgres`` user:
+
+   .. code-block:: bash
+
+      su - postgres -c 'psql ocdskingfisherprocess'
+
+#. Finally, delete the given user:
+
+   .. code-block:: sql
+
+      REASSIGN OWNED BY ocdskfpguest TO anotheruser;
+      DROP OWNED BY ocdskfpguest;
+      DROP ROLE ocdskfpguest;
 
 Improve performance
 -------------------
