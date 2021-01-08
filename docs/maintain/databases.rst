@@ -9,12 +9,7 @@ Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging
 Control access
 --------------
 
-Each individual should have a personal account, and each service should have a service account, including:
-
--  Kingfisher Process
--  Kingfisher Summarize
--  Pelican
--  Redash
+Each individual should have a personal account, and each service should have a service account.
 
 Add a user
 ~~~~~~~~~~
