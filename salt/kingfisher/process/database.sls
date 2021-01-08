@@ -27,9 +27,7 @@ ocdskfp:
 ocdskingfisherprocess:
   postgres_database.present:
     - name: ocdskingfisherprocess
-    - owner: ocdskfp
-    - require:
-      - postgres_user: ocdskfp
+    - owner: postgres
 
 # Extensions
 
