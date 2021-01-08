@@ -26,9 +26,9 @@ Add a user
 
 #. Assign the user to groups. For example, the ``kingfisher-process`` target has the groups:
 
-   read_kingfisher_process
+   kingfisher_process_read
      ``SELECT`` on all tables in schema ``public``
-   read_kingfisher_summarize
+   kingfisher_summarize_read
      ``SELECT`` on all tables in schema created by Kingfisher Summarize
 
    .. code-block:: yaml
@@ -40,8 +40,8 @@ Add a user
           USERNAME:
             password: "PASSWORD"
             groups:
-              - read_kingfisher_process
-              - read_kingfisher_summarize
+              - kingfisher_process_read
+              - kingfisher_summarize_read
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
 
@@ -156,9 +156,9 @@ Find unexpected schema ``USAGE`` privileges:
        usename NOT IN ('postgres', 'ocdskfp') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
        NOT (nspname IN ('information_schema', 'pg_catalog')) AND
-       NOT (pg_has_role(usename, 'read_kingfisher_process', 'MEMBER') AND nspname = 'public') AND
-       NOT (pg_has_role(usename, 'read_kingfisher_summarize', 'MEMBER') AND nspname IN (
-            SELECT nspname FROM pg_namespace WHERE has_schema_privilege('read_kingfisher_summarize', nspname, 'USAGE')))
+       NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
+       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname IN (
+            SELECT nspname FROM pg_namespace WHERE has_schema_privilege('kingfisher_summarize_read', nspname, 'USAGE')))
    GROUP BY usename
    ORDER BY usename;
 

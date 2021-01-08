@@ -1,15 +1,15 @@
 # Groups
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-read_kingfisher_process:
+kingfisher_process_read:
   postgres_group.present:
-    - name: read_kingfisher_process
+    - name: kingfisher_process_read
     - require:
       - service: postgresql
 
-read_kingfisher_summarize:
+kingfisher_summarize_read:
   postgres_group.present:
-    - name: read_kingfisher_summarize
+    - name: kingfisher_summarize_read
     - require:
       - service: postgresql
 
@@ -102,7 +102,7 @@ grant kingfisher_summarize database privileges:
       - postgres_user: kingfisher_summarize
       - postgres_database: ocdskingfisherprocess
 
-{% set schemas = {'public': 'read_kingfisher_process', 'reference': 'read_kingfisher_summarize'} %}
+{% set schemas = {'public': 'kingfisher_process_read', 'reference': 'kingfisher_summarize_read'} %}
 
 {% for schema, group in schemas.items() %}
 grant {{ group }} schema privileges in {{ schema }}:
