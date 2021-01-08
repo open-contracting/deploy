@@ -18,7 +18,6 @@
   {% endif %}
 {% endif %}
 
-# Install PostgreSQL from the official repository, as it offers newer versions than the operating system repository.
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -95,4 +94,19 @@ pg_stat_statements:
   file.managed:
     - contents_pillar: postgres:ssh_key
     - mode: 600
+{% endif %}
+
+{% if salt['pillar.get']('postgres:users') %}
+{% for name, entry in pillar.postgres.users.items() %}
+create PostgreSQL user {{ name }}:
+  postgres_user.present:
+    - name: {{ name }}
+    - password: {{ entry.password }}
+{% if 'groups' in entry %}
+    - groups: {{ entry.groups|yaml }}
+{% endif %}
+{% if entry.get('replication') %}
+    - replication: True
+{% endif %}
+{% endfor %}
 {% endif %}
