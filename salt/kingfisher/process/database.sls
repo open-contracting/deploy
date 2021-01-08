@@ -70,7 +70,7 @@ grant kingfisher_process schema privileges:
   postgres_privileges.present:
     - name: kingfisher_process
     - privileges:
-      - CREATE
+      - ALL
     - object_type: schema
     - object_name: public
     - maintenance_db: ocdskingfisherprocess
