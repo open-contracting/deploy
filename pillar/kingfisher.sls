@@ -99,8 +99,6 @@ postgres:
   # public_access: True
   version: 11
   configuration: kingfisher-process1
-  replica_user:
-    username: replica
   replica_ipv4:
     - 148.251.183.230
   replica_ipv6:

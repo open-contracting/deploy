@@ -33,12 +33,6 @@
     - require:
       - file: /home/sysadmin-tools/bin/delete-after-x-days.sh
 
-replica_user:
-  postgres_user.present:
-    - name: {{ pillar.postgres.replica_user.username }}
-    - password: {{ pillar.postgres.replica_user.password }}
-    - replication: True
-
 postgres_authorized_keys:
   ssh_auth.manage:
     - user: postgres

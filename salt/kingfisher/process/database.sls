@@ -92,9 +92,11 @@ grant kingfisher_summarize database privileges:
       - postgres_user: sql-user-kingfisher_summarize
       - postgres_database: ocdskingfisherprocess
 
-{% set schemas = {'public': 'kingfisher_process_read', 'reference': 'public'} %}
+# Kingfisher Summarize grants access to view_data_* schemas to the kingfisher_summarize_read group.
+{% set schema_groups = {'reference': ['public'], 'public': ['kingfisher_process_read']} %}
 
-{% for schema, group in schemas.items() %}
+{% for schema, groups in schema_groups.items() %}
+{% for group in groups %}
 grant {{ group }} schema privileges in {{ schema }}:
   postgres_privileges.present:
     - name: {{ group }}
@@ -133,4 +135,5 @@ alter {{ group }} default privileges in {{ schema }}:
       - file: /opt/{{ group }}-{{ schema }}.sql
     - require:
       - postgres_database: ocdskingfisherprocess
+{% endfor %}
 {% endfor %}

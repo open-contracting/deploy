@@ -57,29 +57,29 @@ To configure a main server and a replica server:
 
 #. Create configuration files for each server, as above. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
 
-#. Update the main server's Pillar file with the replica user's name and the replica's IP addresses:
+#. Add the replica's IP addresses to the main server's Pillar file:
 
    .. code-block:: yaml
 
       postgres:
-        replica_user:
-          username: example_username
         replica_ipv4:
           - 148.251.183.230
         replica_ipv6:
           - 2a01:4f8:211:de::2
 
-#. Update the main server's private Pillar file with the replica user's password:
+#. Add the ``replica`` user to the main server's private Pillar file:
 
    .. code-block:: yaml
 
       postgres:
-        replica_user:
-          password: example_password
+        users:
+          replica:
+            password: example_password
+            replication: True
 
    .. note::
 
-      If the replica user's name or password are changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
+      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 
@@ -103,12 +103,12 @@ To configure a main server and a replica server:
          service postgresql stop
          rm -rf /var/lib/postgresql/11/main
 
-   #. Switch to the ``postgres`` user and transfer data, replacing ``MAIN_HOST`` and ``REPLICA_USER``:
+   #. Switch to the ``postgres`` user and transfer data, replacing ``MAIN_HOST``:
 
       .. code-block:: bash
 
          su - postgres
-         pg_basebackup -h MAIN_HOST -U REPLICA_USER --slot={slot} \
+         pg_basebackup -h MAIN_HOST -U replica --slot={slot} \
              -D /var/lib/postgresql/11/main --write-recovery-conf --verbose --progress
 
       For example, for ``kingfisher-replica``:

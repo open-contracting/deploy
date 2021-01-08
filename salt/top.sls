@@ -79,7 +79,7 @@ base:
   'I@maintenance:enabled:true and I@maintenance:patching:manual':
     - maintenance.patching.absent
 
-  'I@maintenance:enabled:true and I@postgres:replica_user':
+  'I@maintenance:enabled:true and I@postgres:users:replica':
     - maintenance.postgres_monitoring
 
   'I@maintenance:enabled:true and I@maintenance:raid_monitoring_script':
