@@ -60,17 +60,6 @@ reference:
 # REVOKE privileges
 # https://www.postgresql.org/docs/11/sql-revoke.html
 
-revoke public database privileges:
-  postgres_privileges.absent:
-    - name: public
-    - privileges:
-      - ALL
-    - object_type: database
-    - object_name: ocdskingfisherprocess
-    - maintenance_db: ocdskingfisherprocess
-    - require:
-      - postgres_database: ocdskingfisherprocess
-
 revoke public schema privileges:
   postgres_privileges.absent:
     - name: public
@@ -85,18 +74,6 @@ revoke public schema privileges:
 # GRANT privileges
 # https://www.postgresql.org/docs/11/sql-grant.html
 # https://www.postgresql.org/docs/11/ddl-priv.html
-
-grant public database privileges:
-  postgres_privileges.present:
-    - name: public
-    - privileges:
-      - CONNECT
-    - object_type: database
-    - object_name: ocdskingfisherprocess
-    - grant_option: False
-    - maintenance_db: ocdskingfisherprocess
-    - require:
-      - postgres_privileges: revoke public database privileges
 
 {% set schemas = {'public': 'read_kingfisher_process', 'reference': 'read_kingfisher_summarize'} %}
 
