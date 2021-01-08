@@ -46,7 +46,7 @@ kingfisher-process-prerequisites:
 #   ocdskit mapping-sheet --infer-required release-schema.json > mapping-sheet-orig.csv
 #   awk -F, '!a[$2]++' mapping-sheet-orig.csv > mapping-sheet-uniq.csv
 #   awk 'NR==1 {print "version,extension," $0}; NR>1 {print "1.1,core," $0}' mapping-sheet-uniq.csv > mapping-sheet.csv
-{{ userdir }}/mapping-sheet.csv:
+/opt/mapping-sheet.csv:
   file.managed:
     - source: salt://kingfisher/process/files/mapping-sheet.csv
     - user: {{ entry.user }}
@@ -54,12 +54,12 @@ kingfisher-process-prerequisites:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{{ userdir }}/mapping-sheet.sql:
+/opt/mapping-sheet.sql:
   file.managed:
     - source: salt://kingfisher/process/files/mapping-sheet.sql
     - template: jinja
     - context:
-        path: {{ userdir }}/mapping-sheet.csv
+        path: /opt/mapping-sheet.csv
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - require:
@@ -67,11 +67,11 @@ kingfisher-process-prerequisites:
 
 create reference.mapping_sheets table:
   cmd.run:
-    - name: psql -f {{ userdir }}/mapping-sheet.sql ocdskingfisherprocess
+    - name: psql -f /opt/mapping-sheet.sql ocdskingfisherprocess
     - runas: postgres
     - onchanges:
-      - file: {{ userdir }}/mapping-sheet.csv
-      - file: {{ userdir }}/mapping-sheet.sql
+      - file: /opt/mapping-sheet.csv
+      - file: /opt/mapping-sheet.sql
     - require:
       - postgres_group: reference
       - postgres_schema: reference
