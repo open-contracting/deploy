@@ -1,17 +1,15 @@
 # Groups
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-kingfisher_process_read:
-  postgres_group.present:
-    - name: kingfisher_process_read
-    - require:
-      - service: postgresql
+{% set groups = ['reference', 'kingfisher_process_read', 'kingfisher_summarize_read'] %}
 
-kingfisher_summarize_read:
+{% for group in groups %}
+{{ group }}:
   postgres_group.present:
-    - name: kingfisher_summarize_read
+    - name: {{ group }}
     - require:
       - service: postgresql
+{% endfor %}
 
 # Users
 
@@ -28,6 +26,8 @@ ocdskingfisherprocess:
   postgres_database.present:
     - name: ocdskingfisherprocess
     - owner: postgres
+    - require:
+      - service: postgresql
 
 # Extensions
 
@@ -47,12 +47,13 @@ ocdskingfisherprocess:
 
 # Schemas
 
-reference:
+create reference schema:
   postgres_schema.present:
     - name: reference
-    - user: ocdskfp
+    - owner: reference
     - dbname: ocdskingfisherprocess
     - require:
+      - postgres_group: reference
       - postgres_database: ocdskingfisherprocess
 
 # REVOKE privileges
@@ -97,10 +98,10 @@ grant kingfisher_summarize database privileges:
     - object_name: ocdskingfisherprocess
     - maintenance_db: ocdskingfisherprocess
     - require:
-      - postgres_user: kingfisher_summarize
+      - postgres_user: sql-user-kingfisher_summarize
       - postgres_database: ocdskingfisherprocess
 
-{% set schemas = {'public': 'kingfisher_process_read', 'reference': 'kingfisher_summarize_read'} %}
+{% set schemas = {'public': 'kingfisher_process_read', 'reference': 'public'} %}
 
 {% for schema, group in schemas.items() %}
 grant {{ group }} schema privileges in {{ schema }}:
@@ -140,6 +141,5 @@ alter {{ group }} default privileges in {{ schema }}:
     - onchanges:
       - file: /opt/{{ group }}-{{ schema }}.sql
     - require:
-      - postgres_group: {{ group }}
       - postgres_database: ocdskingfisherprocess
 {% endfor %}

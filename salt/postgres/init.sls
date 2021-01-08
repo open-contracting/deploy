@@ -98,10 +98,12 @@ pg_stat_statements:
 
 {% if salt['pillar.get']('postgres:users') %}
 {% for name, entry in pillar.postgres.users.items() %}
-create PostgreSQL user {{ name }}:
+sql-user-{{ name }}:
   postgres_user.present:
     - name: {{ name }}
+{% if 'password' in entry %}
     - password: "{{ entry.password }}"
+{% endif %}
 {% if 'groups' in entry %}
     - groups: {{ entry.groups|yaml }}
 {% endif %}

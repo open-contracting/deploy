@@ -68,11 +68,12 @@ kingfisher-process-prerequisites:
 create reference.mapping_sheets table:
   cmd.run:
     - name: psql -f {{ userdir }}/mapping-sheet.sql ocdskingfisherprocess
-    - runas: ocdskfp
+    - runas: postgres
     - onchanges:
       - file: {{ userdir }}/mapping-sheet.csv
       - file: {{ userdir }}/mapping-sheet.sql
     - require:
+      - postgres_group: reference
       - postgres_schema: reference
 
 ####################
@@ -88,6 +89,7 @@ create reference.mapping_sheets table:
       - cmd: {{ directory }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
+      - postgres_user: ocdskfp
       - postgres_database: ocdskingfisherprocess
     - onchanges:
       - git: {{ pillar.python_apps.kingfisher_process.git.url }}
