@@ -29,7 +29,7 @@ Add a user
           USERNAME:
             password: "PASSWORD"
 
-#. Add the user to groups. The groups are:
+#. Assign the user to groups. For example, the ``kingfisher-process`` target has the groups:
 
    read_kingfisher_process
      ``SELECT`` on all tables in schema ``public``
@@ -123,6 +123,66 @@ List users and groups:
 .. code-block:: none
 
    \du
+
+Find unexpected database ``CREATE`` privileges:
+
+.. code-block:: sql
+
+   SELECT usename, string_agg(datname, ', ' ORDER BY datname)
+   FROM pg_user
+   CROSS JOIN pg_database
+   WHERE
+       usename NOT IN ('postgres') AND
+       has_database_privilege(usename, datname, 'CREATE')
+   GROUP BY usename
+   ORDER BY usename;
+
+Find unexpected schema ``CREATE`` privileges:
+
+.. code-block:: sql
+
+   SELECT usename, string_agg(nspname, ', ' ORDER BY nspname)
+   FROM pg_user
+   CROSS JOIN pg_namespace
+   WHERE
+       usename NOT IN ('postgres', 'ocdskfp') AND
+       has_schema_privilege(usename, nspname, 'CREATE')
+   GROUP BY usename
+   ORDER BY usename;
+
+Find unexpected schema ``USAGE`` privileges:
+
+.. code-block:: sql
+
+   SELECT usename, string_agg(nspname, ', ' ORDER BY nspname)
+   FROM pg_user
+   CROSS JOIN pg_namespace
+   WHERE
+       usename NOT IN ('postgres', 'ocdskfp') AND
+       has_schema_privilege(usename, nspname, 'USAGE') AND
+       NOT (nspname IN ('information_schema', 'pg_catalog')) AND
+       NOT (pg_has_role(usename, 'read_kingfisher_process', 'MEMBER') AND nspname = 'public') AND
+       NOT (pg_has_role(usename, 'read_kingfisher_summarize', 'MEMBER') AND nspname IN (
+            SELECT nspname FROM pg_namespace WHERE has_schema_privilege('read_kingfisher_summarize', nspname, 'USAGE')))
+   GROUP BY usename
+   ORDER BY usename;
+
+Find unexpected table non ``SELECT`` privileges:
+
+.. code-block:: sql
+
+   SELECT usename, nspname, string_agg(relname, ', ' ORDER BY relname)
+   FROM pg_user
+   CROSS JOIN pg_class c
+   JOIN pg_namespace n ON c.relnamespace = n.oid
+   WHERE
+       usename NOT IN ('postgres', 'ocdskfp') AND
+       relname NOT IN ('pg_settings') AND
+       has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER')
+   GROUP BY usename, nspname
+   ORDER BY usename, nspname;
+
+Reference: `System Information Functions <https://www.postgresql.org/docs/current/functions-info.html>`__ for functions like ``has_schema_privilege``
 
 Improve performance
 -------------------
