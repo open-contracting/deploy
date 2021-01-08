@@ -101,12 +101,19 @@ pg_stat_statements:
 create PostgreSQL user {{ name }}:
   postgres_user.present:
     - name: {{ name }}
-    - password: {{ entry.password }}
+    - password: "{{ entry.password }}"
 {% if 'groups' in entry %}
     - groups: {{ entry.groups|yaml }}
 {% endif %}
 {% if entry.get('replication') %}
     - replication: True
+{% endif %}
+    - require:
+      - service: postgresql
+{% if 'groups' in entry %}
+{% for group in entry.groups %}
+      - postgres_group: {{ group }}
+{% endfor %}
 {% endif %}
 {% endfor %}
 {% endif %}
