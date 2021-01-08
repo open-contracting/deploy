@@ -1,9 +1,15 @@
 # Groups
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-readonly:
+read_kingfisher_process:
   postgres_group.present:
-    - name: readonly
+    - name: read_kingfisher_process
+    - require:
+      - service: postgresql
+
+read_kingfisher_summarize:
+  postgres_group.present:
+    - name: read_kingfisher_summarize
     - require:
       - service: postgresql
 
@@ -92,12 +98,12 @@ grant public database privileges:
     - require:
       - postgres_privileges: revoke public database privileges
 
-{% set schemas = ['public', 'reference'] %}
+{% set schemas = {'public': 'read_kingfisher_process', 'reference': 'read_kingfisher_summarize'} %}
 
-{% for schema in schemas %}
-grant readonly schema privileges in {{ schema }}:
+{% for schema, group in schemas.items() %}
+grant {{ group }} schema privileges in {{ schema }}:
   postgres_privileges.present:
-    - name: readonly
+    - name: {{ group }}
     - privileges:
       - USAGE
     - object_type: schema
@@ -107,9 +113,9 @@ grant readonly schema privileges in {{ schema }}:
     - require:
       - postgres_database: ocdskingfisherprocess
 
-grant readonly table privileges in {{ schema }}:
+grant {{ group }} table privileges in {{ schema }}:
   postgres_privileges.present:
-    - name: readonly
+    - name: {{ group }}
     - privileges:
       - SELECT
     - object_type: table
@@ -120,20 +126,20 @@ grant readonly table privileges in {{ schema }}:
     - require:
       - postgres_database: ocdskingfisherprocess
 
-/opt/readonly-{{ schema }}.sql:
+/opt/{{ group }}-{{ schema }}.sql:
   file.managed:
-    - name: /opt/readonly-{{ schema }}.sql
-    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE ocdskfp IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO readonly;"
+    - name: /opt/{{ group }}-{{ schema }}.sql
+    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE ocdskfp IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
 
 # Can replace after `postgres_default_privileges` function becomes available.
 # https://github.com/saltstack/salt/pull/56808
-alter readonly default privileges in {{ schema }}:
+alter {{ group }} default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -f /opt/readonly-{{ schema }}.sql ocdskingfisherprocess
+    - name: psql -f /opt/{{ group }}-{{ schema }}.sql ocdskingfisherprocess
     - runas: ocdskfp
     - onchanges:
-      - file: /opt/readonly-{{ schema }}.sql
+      - file: /opt/{{ group }}-{{ schema }}.sql
     - require:
-      - postgres_group: readonly
+      - postgres_group: {{ group }}
       - postgres_database: ocdskingfisherprocess
 {% endfor %}

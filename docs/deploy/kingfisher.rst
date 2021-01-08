@@ -16,16 +16,23 @@ Add a PostgreSQL user
 
 #. Add the user to `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
-Grant read-only access to public and summary tables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Grant read-only access
+~~~~~~~~~~~~~~~~~~~~~~
 
-#. Grant the ``readonly`` role to the user, as the ``postgres`` user from the ``postgres`` database. As root, replace ``username``, and run:
+Access is controlled by group membership. The available groups are:
+
+read_kingfisher_process
+  ``SELECT`` on all tables in schema ``public``
+read_kingfisher_summarize
+  ``SELECT`` on all tables in schema created by Kingfisher Summarize
+
+#. Add the user to the group, as the ``postgres`` user from the ``postgres`` database. As root, replace ``group`` and ``user``, and run:
 
    .. code-block:: bash
 
-      su - postgres -c "psql postgres -c \"GRANT readonly TO username;\""
+      su - postgres -c "psql postgres -c \"GRANT group TO user;\""
 
-#. Update the user's group in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
+#. Update the user's group(s) in `this spreadsheet <https://docs.google.com/spreadsheets/d/1k5UvY-pMWxDb5-krRny_J3HjN1Y6cpA9sMVAFK7tqsc/edit#gid=0>`__.
 
 .. _delete-postgresql-user:
 
