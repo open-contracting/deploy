@@ -152,7 +152,7 @@ Apache is used as a reverse proxy to uWSGI.
 Add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 4-10
+   :emphasize-lines: 4-9
 
    python_apps:
      toucan:

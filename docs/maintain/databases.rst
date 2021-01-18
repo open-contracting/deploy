@@ -43,7 +43,7 @@ Add a user
               - kingfisher_process_read
               - kingfisher_summarize_read
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the service<../deploy/deploy>`
 
 Update password
 ~~~~~~~~~~~~~~~
@@ -59,7 +59,7 @@ Update password
           USERNAME:
             password: "PASSWORD"
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the service<../deploy/deploy>`
 
 #. Notify the contact at the email address in the comment
 
