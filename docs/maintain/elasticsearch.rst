@@ -120,9 +120,11 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
 #. Uninstall ReadOnlyREST, for example:
 
+   .. code-block:: bash
+
       ./run.py 'docs' cmd.run "/usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest"
 
-#. Update the ``readonlyrest_version`` variable in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
+#. Update ``readonlyrest_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
 
 #. :doc:`Deploy the service<../deploy/deploy>`
 
