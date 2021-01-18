@@ -110,7 +110,7 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
       A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
 
-#. Move the ZIP file to the ``files`` directory in the ``deploy-salt-private`` repository.
+#. Move the ZIP file to the ``salt/private/files`` directory.
 
 #. Stop Elasticsearch, for example:
 
