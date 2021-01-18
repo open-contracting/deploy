@@ -3,8 +3,6 @@
 include:
   - elasticsearch
 
-# Follow these instructions for upgrading:
-# https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin
 {% set readonlyrest_version = '1.25.2_es7.10.1' %}
 
 readonlyrest-download:

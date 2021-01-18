@@ -91,3 +91,24 @@ List users' queries:
 .. code-block:: bash
 
    zgrep -Eoh "q=[^&]+&" /var/log/apache2/* | grep -v '=test&' | grep -v '=tender&' | sort
+
+Upgrade
+-------
+
+If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
+
+#. Stop Elasticsearch, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'docs' service.stop elasticsearch
+
+#. Uninstall ReadOnlyREST, for example:
+
+      ./run.py 'docs' cmd.run "/usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest"
+
+#. Update the ``readonlyrest_version`` variable in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
+
+#. :doc:`Deploy the service<../deploy/deploy>`
+
+Reference: `Upgrading the plugin <https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin>`__
