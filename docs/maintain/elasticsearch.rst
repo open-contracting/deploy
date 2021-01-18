@@ -97,6 +97,21 @@ Upgrade
 
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
+#. Get the ReadOnlyREST plugin's ZIP file:
+
+   #. Open the `download page <https://readonlyrest.com/download/>`__
+   #. Select "Free Elasticsearch plugin" from the *Select Product* dropdown
+   #. Select the Elasticsearch version from the *Elastic Stack Version* dropdown
+   #. Enter your email address in *Send to email*
+   #. Check *Notify me about new versions and security fixes*
+   #. Click the *Get it now* button
+
+   .. note::
+
+      A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
+
+#. Move the ZIP file to the ``files`` directory in the ``deploy-salt-private`` repository.
+
 #. Stop Elasticsearch, for example:
 
    .. code-block:: bash
