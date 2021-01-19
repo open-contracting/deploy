@@ -14,3 +14,4 @@
 # Editor temporary files
 *.swp
 *~
+.idea

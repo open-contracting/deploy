@@ -1,4 +1,6 @@
 {% from 'lib.sls' import apache %}
+{% set tstamp = salt["cmd.run"]("date +%Y-%m-%d_%H:%M:%S") %}
+{% set enable_ver_txt = salt['pillar.get']('ver_txt:enable', False) %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.
@@ -22,6 +24,7 @@ virtualenv:
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
+{% set static_dir = userdir + '/' + entry.git.target + '/static' %}
 {% set context = {'name': name, 'entry': entry, 'appdir': directory} %}
 
 {{ entry.git.url }}:
@@ -100,15 +103,6 @@ virtualenv:
     - onchanges:
       - git: {{ entry.git.url }}
 
-{% if salt['pillar.get']('custom_command:script') %}
-django-custom-command:
-  cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python {{ salt['pillar.get']('custom_command:script') }}
-    - runas: {{ entry.user }}
-    - env: {{ entry.django.env|yaml }}
-    - cwd: {{ directory }}
-{% endif %}
-
 {% if 'compilemessages' in entry.django %}
 {{ directory }}-compilemessages:
   pkg.installed:
@@ -149,5 +143,13 @@ django-custom-command:
 {% if 'apache' in entry %}
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}{# apache #}
+
+{% if enable_ver_txt %}
+
+{{static_dir}}/ver.txt:
+  file.managed:
+    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd '+ directory +' && git rev-parse --verify HEAD') }} || time: {{ tstamp }}"
+
+{% endif %}{# ver txt #}
 
 {% endfor %}

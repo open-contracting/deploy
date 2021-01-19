@@ -30,7 +30,6 @@ python_apps:
     user: covid19admin
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-admin.git
-      branch: main
       target: covid19admin
     django:
       app: covidadmin
@@ -49,7 +48,11 @@ python_apps:
     uwsgi:
       configuration: django
       harakiri: 1800
+      processes: 8
       threads: 4
+      disable-logging: True
+      master: true
+      smart_attach_daemon: celery -A covidadmin worker -l info -Q covid19 -B
     apache:
       configuration: django
       servername: admin.open-contracting.health
@@ -57,9 +60,11 @@ python_apps:
 react_apps:
   covid19public:
     user: covid19
+    env:
+      NODE_ENV: production
+      REACT_APP_API_URL: https://admin.open-contracting.health
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
-      branch: master
       target: covid19
     apache:
       configuration: react
@@ -70,5 +75,11 @@ postgres:
   version: 11
   configuration: False
 
+nodejs:
+  version: 14
+
 vm:
   overcommit_memory: 1
+
+ver_txt:
+  enable: True

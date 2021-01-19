@@ -1,4 +1,6 @@
 {% from 'lib.sls' import apache %}
+{% set tstamp = salt["cmd.run"]("date +%Y-%m-%d_%H:%M:%S") %}
+{% set enable_ver_txt = salt['pillar.get']('ver_txt:enable', False) %}
 
 include:
   - apache
@@ -8,7 +10,10 @@ include:
 
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
+{% set build_asset_base = userdir + '/react-asset'%}
+{% set build_asset_dir = build_asset_base + '/build'%}
 {% set directory = userdir + '/' + entry.git.target %}
+{% set build_dir = userdir + '/' + entry.git.target + '/build' %}
 {% set appdir = userdir + '/web/current' %}
 {% set context = {'name': name, 'entry': entry, 'appdir': appdir} %}
 
@@ -25,9 +30,59 @@ include:
       - pkg: git
       - user: {{ entry.user }}_user_exists
 
+{% if 'apache' in entry %}
+{{ apache(entry.git.target, entry.apache, context=context) }}
+{% endif %}
+
+{{ directory }}/.env:
+  file.copy:
+    - source: {{ directory }}/.env.salt
+
+{{ userdir }}-yarn-install:
+  cmd.run:
+    - name: yarn
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+    - require:
+      - pkg: git
+
+{{ userdir }}-yarn-build:
+  cmd.run:
+    - name: yarn build
+    - env: {{ entry.env|yaml }}
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+    - require:
+      - pkg: git
+
+{% if enable_ver_txt %}
+
+{{ build_dir }}/ver.txt:
+  file.managed:
+    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd '+ directory +' && git rev-parse --verify HEAD') }} || time: {{ tstamp }}"
+
+{% endif %}{# ver txt #}
+
+{{ directory }}/.htaccess:
+  file.managed:
+    - name: {{ build_dir }}/.htaccess
+    - source: {{ directory }}/.htaccess
+
+{{ build_dir }}/.htaccess:
+  file.replace:
+    - name: {{ build_dir }}/.htaccess
+    - pattern: 'PRERENDER_IO_TOKEN'
+    - repl: '{{ entry.prerender_token }}'
+
+{{ build_asset_dir }}-update:
+  cmd.run:
+    - name: rm -rf {{ build_asset_base }} && mkdir -p {{ build_asset_base }} && mv build {{ build_asset_base }}
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
+
 {{ appdir }}:
   file.symlink:
-    - target: {{ directory }}
+    - target: {{ build_asset_base }}
     - makedirs: True
     - runas: {{ entry.user }}
     - require:
@@ -35,29 +90,5 @@ include:
     # The symlink must be created before Apache starts.
     - require_in:
       - service: apache2
-
-{% if 'apache' in entry %}
-{{ apache(entry.git.target, entry.apache, context=context) }}
-{% endif %}
-
-{{ userdir }}-nvm-installer:
-  file.managed:
-    - name: {{ userdir }}/nvm-install.sh
-    - source: https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh
-    # curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | shasum
-    - source_hash: e70e16f272f4ce4cc3e8d98e1e0ead449ab9ae5c
-    - user: {{ entry.user }}
-    - group: {{ entry.user }}
-    - mode: 755
-
-{{ userdir }}-nvm-install:
-  cmd.run:
-    - name: bash {{ userdir }}/nvm-install.sh
-    - runas: {{ entry.user }}
-    - cwd: {{ userdir }}
-    - require:
-      - pkg: git
-    - onchanges:
-      - file: {{ userdir }}-nvm-installer
 
 {% endfor %}

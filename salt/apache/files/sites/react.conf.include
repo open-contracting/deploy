@@ -6,7 +6,7 @@ DocumentRoot {{ appdir }}/build
 
 <Directory {{ appdir }}/build>
     Options -Indexes +FollowSymLinks
-    AllowOverride None
+    AllowOverride All
     Require all granted
 
     RewriteEngine On
