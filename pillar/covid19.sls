@@ -37,7 +37,7 @@ python_apps:
       compilemessages: True
       env:
         DEBUG: False
-        ALLOWED_HOSTS: open-contracting.health,localhost,127.0.0.1
+        ALLOWED_HOSTS: admin.open-contracting.health,localhost,127.0.0.1
         CORS_ORIGIN_WHITELIST: https://open-contracting.health
         CELERY_BROKER_URL: 'pyamqp://guest@localhost/'
         CELERY_TIMEZONE: UTC
