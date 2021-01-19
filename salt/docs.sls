@@ -2,6 +2,7 @@
 
 include:
   - apache
+  - apache.modules.rewrite
 
 {% set user = 'ocds-docs' %}
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
@@ -16,7 +17,6 @@ docs modules:
     - names:
       - headers
       - include
-      - rewrite
       - substitute
     - watch_in:
       - service: apache2

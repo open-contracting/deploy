@@ -2,6 +2,7 @@
 
 include:
   - apache
+  - apache.modules.rewrite
 
 {% for name, entry in pillar.react_apps.items() %}
 

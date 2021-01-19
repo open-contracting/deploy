@@ -61,7 +61,7 @@ react_apps:
       branch: main
       target: covid19
     apache:
-      configuration: react-js
+      configuration: react
       servername: open-contracting.health
 
 postgres:
