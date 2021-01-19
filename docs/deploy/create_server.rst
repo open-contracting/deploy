@@ -187,7 +187,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
 
    .. code-block:: bash
-     
+
       salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*' pillar='{"host_id": "ocpXX"}'
 
    .. note::

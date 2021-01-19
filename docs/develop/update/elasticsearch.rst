@@ -177,7 +177,7 @@ You will see a message like (newlines are added for readability):
        MET:HEAD,
        PTH:/ocdsindex_en,
        CNT:<N/A>,
-       HDR:Accept=*/*, Authorization=<OMITTED>, Host=standard.open-contracting.org:9200, User-Agent=curl/7.64.1, content-length=0, 
+       HDR:Accept=*/*, Authorization=<OMITTED>, Host=standard.open-contracting.org:9200, User-Agent=curl/7.64.1, content-length=0,
        HIS:
          [Allow localhost->
            RULES:[hosts->false],

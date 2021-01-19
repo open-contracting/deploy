@@ -151,7 +151,7 @@ Test the HTTPS response:
    :emphasize-lines: 2,5
 
    $ curl -IL https://SERVERNAME
-   HTTP/2 200 
+   HTTP/2 200
    date: Fri, 11 Dec 2020 04:26:57 GMT
    server: Apache/2.4.46 (Ubuntu)
    strict-transport-security: max-age=15768000

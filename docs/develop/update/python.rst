@@ -109,7 +109,7 @@ This will:
 
 -  Create a ``/etc/uwsgi/apps-available/{target}.ini`` file
 -  Symlink the new file from the ``etc/uwsgi/apps-enabled`` directory
--  Reload the uWSGI service if the configuration changed 
+-  Reload the uWSGI service if the configuration changed
 
 The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/files/django.ini>`__ configuration, which:
 
