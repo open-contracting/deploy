@@ -17,7 +17,7 @@ base:
     - private.cove_ocds
     - maintenance
 
-  'covid19-dev':
+  'covid19*':
     - covid19
 
   'docs':

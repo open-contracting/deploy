@@ -2,6 +2,7 @@
 
 cove-oc4ids:         ocp01.open-contracting.org
 cove-ocds:           ocp02.open-contracting.org
+covid19:             ocp11.open-contracting.org
 covid19-dev:         ocp06.open-contracting.org
 docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org

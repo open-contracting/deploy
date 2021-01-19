@@ -23,7 +23,7 @@ base:
   'cove-oc4ids':
     - memcached
 
-  'covid19-dev':
+  'covid19*':
     - covid19
 
   'docs':
