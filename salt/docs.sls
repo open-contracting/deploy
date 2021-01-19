@@ -30,6 +30,7 @@ docs modules:
 /home/{{ user }}/web:
   file.directory:
     - user: {{ user }}
+    - group: {{ user }}
     - makedirs: True
     - require:
       - user: {{ user }}_user_exists
@@ -38,6 +39,7 @@ docs modules:
   file.managed:
     - source: salt://apache/files/docs/robots.txt
     - user: {{ user }}
+    - group: {{ user }}
     - require:
       - file: /home/{{ user }}/web
 
@@ -45,6 +47,7 @@ docs modules:
   file.recurse:
     - source: salt://apache/files/docs/includes
     - user: {{ user }}
+    - group: {{ user }}
     - require:
       - file: /home/{{ user }}/web
 
@@ -52,12 +55,14 @@ docs modules:
   file.managed:
     - source: salt://files/docs-size.sh
     - user: {{ user }}
+    - group: {{ user }}
     - mode: 700
 
 /home/{{ user}}/2-delete.sh:
   file.managed:
     - source: salt://files/docs-delete.sh
     - user: {{ user }}
+    - group: {{ user }}
     - mode: 700
 
 # These will be served the same as files that were copied into place.
