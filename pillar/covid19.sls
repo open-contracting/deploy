@@ -9,15 +9,13 @@ ssh:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDn9Gw0of6Tc4e0DMRXYXZpg+scj5cefgXzCFoOxpvYtbRwomEWx4OXocHwrm5mbeZCXA6CDvSq15uH8s6vuYeyy+A+YFgBJoxVUtmfygbbHBbjQugJnY5tGu80HWmdYJJmPdFvJpf2g+DJykOtHVy4tiWR+gPhB3S/mJL4DC1FFCqJTU31QooLi/sAo6BLf5kzM49vz5e4uBumh7+SqejFTw0ONXMnDxETmHN+462QjVx2zISH6ycy7EUX8RntG3Mp7ju/i8yYE+6Lgbb+w7ozZ9fmD7GPMR+PQcX+77/I0zwaOq+YieJMgpLvApoVXqs8fUCYuDY55rXByPUir3Mz
     # temp-salt-server
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKnNdGFL8ITQqD/BXNw9sT0SvcicV77Gr7MwiyOyhIVMbVtXXGXY7jRlly7EYc/Ejy0wGmkUtIpEOZXUbbeGyTqQOab0FU1Y1lX/ZiXMN2fYp+gMUzA7u+JMA/IpJ1CuNO7g8GpmLMs3ZqosBqkyW3mBRAQAwiWfI4z0okO0YIbzINLG9Xro+ARZ4FUhRWYe6B5Pga3rSJpQbswVghE3G96qleTqwnI++hIetiOU7w6QIbgXh4fB+EGNjh3XXV//pa69E0HvLf6O1RJXQravCDBu4rT4/KrvWcPSiGAB5dq5xsaNiVqVSqmQm1lBV84KYHzNhPREWvq/AIlKg30e1t
-
   covid19:
     # dhondup
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQD3/6Uc/HjXf+qWpVYrRuNa9anZNdvTi6916XsKRIbq6nKIOfm2OB/csu+tqODQUbuK7oDTB3lmEHqIzhNBtj9YmZrFT5xQmcKEcxHoBm4u5yUnE86L7WvLFz4vPHcIpDXukneO/N9YU28SMlwy/x1J4zLnE9Z9UgOtgjAF3fU0wN5FHEbhgNB6pguFnA5snX+bzP9QL5XU/mwhDoIXTZlf0EDulAq/3C+7aQW1oCIFimgeHtmtYuIi8cN+WLPCkMNcz/LKuzaiSZ+Ud0iSr9E//6KAkwcTGyoosB9BzISl6mxMElDwUUoUENVMlTDuoPIiqWWXUzZLA6oY4uJ7kfqbfS8z4+6N8GyswMjW9X/1ZsPLCQsmPecg5SdFu8BFfoZWSVA8pe8I0nNWkRn7slftkVGiQIwLHDP8VUtB4WcHzpRxhsJqY98T5LWWNPYZJddKpJHm1eI2ZxSQLO7LI1UWdxeknUmLzX2J5bD3UVGO7HdyfOBnDrsQWF3hJPvrRGhNkrVm/txg7qtWEZahYyN3ffRvOwqNh+8TN3RPJ8yI1wTuW7KLJiih0V/hT65xNw9zTH9W2DPCqrP1mbE8Klk218qJKEhJLEh8x8aGN7E+O9PjRWCbEMUkhMfYq6sycgH1MO0HebTXfP3B/HUOkEB9AN8yvnC4RMBdn5b3XVHXYQ==
     # haku deploy bot
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCw+17oatmbCyrG34dUpAVT0q3wAKvEhrwLvKAmaATwWna25LHvHW5BHnBuhdQDKxz3oTdxrN6pI1ugKs4xzV3+aC55WvSXAtURsiWVqvYYrhhcJzZ5Z+eQA0yHvfqv/kR4swKBVDC9x7o4/wrd2UU0DZLp/7fs8ZZsuJrMranfz1h2GMXzLCXrSU9Id8DkuTmZxoieM5+FB47DHm6LLDx6xUWCezQgN38ft5ZbjIDAP8n5FRoKq9hPrSMvqHbbGQ+7MqNNHTMO8GyPZ2dvX+3Oevw+zaCP62jEun7Cb02+O6/y7WzUG3LD2TzydEGuvnGMgowpvBUySKSi3nH5VvnX
- 
   covid19admin:
-    #sonika.baniya
+    # sonika.baniya
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrKztwo2bZz3W9rKgfr0Oh8PH9HeXpvSrVgV45ssuqgkaFpf/qLc9KSgWqerhmY4KvRv/XQWggz945mHEPUJuvE3p191NFVkMGqqlLa8CDq34SUnGeraKOj/m9q1q6A/to4h7n4p9Duai9vQeeHwrGhAJu1yLnPB+aPtcBq7ZmX3wCRlp02DdpLN4UKtyNRLs7PDMlbqn0Atmv3tcLVmgFq4rUSqlxMWRmr0OBJdDR1pdBGZJA1ZOznAMF3kFp+FB+5mndwA2yglU28a5r4s8Lo2Dek+P7vmMjMVc5HvauCmoS5Rlq9g5dnQ34Kk3oahgFGECtDDz1p9B9s600P0FFNmTS5RKU9RWOwZFdhXFRBmX0B+Q0uhsrT2w6Tkf0VdJ3nYuNOYS1qOvSVwlpQ+vbFYrww8nqPdwWZVbiV05GWCS/kGkdhOUvwGhYjpyPPUXZj5hIpIhUYKC5vl+2Yt1nGQ8d64V+vd+4v+FIzvQ2oEBTH6DUlhVpf99vzZigc+TQBbUjsIi2s1oKEAd9FBY2hdmbdDKF2pYFw5U66fEZhP1DFVWiURMiJs2Vw64zN+F19rNCbmCIj1cV/Q1wOGKBHwef4Ef9/Am1z29kEhQljJRr9TsWWvz+StR9fa7qpUeeo3BNb4bMTtKwnqECKev1uSOhSJoExyzMiUtKWyqv7w==
     # rubina
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2LOkTgOZ6cRE9aoZKKHoA4WPhsIeCihMsN9eggn/qwgX6YBVo97k/X8DLTChPc4FjJUc2srn3cSUUoz+zsR12w3i6+AIifybeE9ANoGK9E+9qZpRmUtskge9pxG9UuSUdWWDLyf9UHEgSI5WwElyqqQ2O0VCbTkVA/GwtE2mB1waftU0ZtV1mgt+71TiWomOTD4tHIkU7++X9s3vOlXZxvqjQOAxbju7UehTapl7USRGMERxkZuvMqQvuqCd7iLcNqGwTm1xuCuMWYqxc5PkVm8yybGC3iLoL1kXLirscd+kKXiPWhk5q1i+asZutlhceUPJ5xYsLg3WhtpfEgEnB47W8oxExuo4zvr2gB0kEoMSQ4jGWZHKClFQ1SzBtQjrirthrZD1Ml5nhqkQNAER9vtdcrtKCkH6BwB8SjVsBktboXcFm6/jjPpTfwG2cYu+8WEq1Kswc7PhOXbLjbq5bqhMov8KTGNCCOgHD3zdIZGlnLvw7fMQtfUf7Zok9fJOSD7nVjlrCezcSDJMsFgrikMac7U4BGipZOi3Pk+UcvJz3tOy5w7IO5Nan7zzHDYyOO+qb8HJSbPfeyyrM+hXdK6X1Nz2GmxsQh6v4sBKZy0iq91ttLrTHqy0O6+BmSHO2H91B921vBkkiaPA5gHFwLWB8CGX4HQlir0AktyuGVQ==
@@ -27,9 +25,6 @@ ssh:
 apache:
   public_access: True
 
-vm:
-  overcommit_memory: 1
-
 python_apps:
   covid19admin:
     user: covid19admin
@@ -37,14 +32,13 @@ python_apps:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-admin.git
       branch: main
       target: covid19admin
-    
     django:
       app: covidadmin
       compilemessages: True
       env:
-        DEBUG: off
-        ALLOWED_HOSTS: admin.covid19.development.opencontracting.uk0.bigv.io,covid19.development.opencontracting.uk0.bigv.io,localhost,127.0.0.1
-        CORS_ORIGIN_WHITELIST: https://covid19.development.opencontracting.uk0.bigv.io
+        DEBUG: False
+        ALLOWED_HOSTS: open-contracting.health,localhost,127.0.0.1
+        CORS_ORIGIN_WHITELIST: https://open-contracting.health
         CELERY_BROKER_URL: 'pyamqp://guest@localhost/'
         CELERY_TIMEZONE: UTC
         FORCE_SCRIPT_NAME: /
@@ -52,28 +46,27 @@ python_apps:
         MEDIA_URL: /media/
         FETCH_COVID_DATA_INTERVAL: '10800'
         DB_ENGINE: django.db.backends.postgresql_psycopg2
-
     uwsgi:
       configuration: django
       harakiri: 1800
-    
     apache:
       configuration: django
-      servername: admin.covid19.development.opencontracting.uk0.bigv.io
+      servername: admin.open-contracting.health
 
-
-reactjs_apps:
+react_apps:
   covid19public:
     user: covid19
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
       branch: main
       target: covid19
-
     apache:
       configuration: react-js
-      servername: covid19.development.opencontracting.uk0.bigv.io
+      servername: open-contracting.health
 
 postgres:
   version: 11
   configuration: False
+
+vm:
+  overcommit_memory: 1

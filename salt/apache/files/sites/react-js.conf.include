@@ -1,13 +1,12 @@
 # vi: ft=apache
 
-{% include 'apache/includes/' + name + '.jinja' ignore missing %}
-
 DocumentRoot {{ appdir }}/build
+
 <Directory {{ appdir }}/build>
     Options -Indexes +FollowSymLinks
     AllowOverride None
     Require all granted
-    
+
     RewriteEngine On
     RewriteBase /
     RewriteRule ^index\.html$ - [L]

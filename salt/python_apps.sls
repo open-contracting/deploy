@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, create_user %}
+{% from 'lib.sls' import apache %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.
@@ -100,12 +100,14 @@ virtualenv:
     - onchanges:
       - git: {{ entry.git.url }}
 
+{% if salt['pillar.get']('custom_command:script') %}
 django-custom-command:
   cmd.run:
     - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python {{ salt['pillar.get']('custom_command:script') }}
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
+{% endif %}
 
 {% if 'compilemessages' in entry.django %}
 {{ directory }}-compilemessages:
