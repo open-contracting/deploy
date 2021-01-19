@@ -68,7 +68,7 @@ postgresql-reload:
 # https://github.com/jfcoz/postgresqltuner
 vm.overcommit_memory:
   sysctl.present:
-    - value: 2
+    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
 
 # https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES
 # https://github.com/jfcoz/postgresqltuner

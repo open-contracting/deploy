@@ -24,6 +24,7 @@ base:
     - memcached
 
   'covid19-dev':
+    - postgres
     - covid19
 
   'docs':
