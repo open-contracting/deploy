@@ -53,6 +53,7 @@ include:
 {{ userdir }}-nvm-install:
   cmd.run:
     - name: bash {{ userdir }}/nvm-install.sh
+    - runas: {{ entry.user }}
     - cwd: {{ userdir }}
     - require:
       - pkg: git
