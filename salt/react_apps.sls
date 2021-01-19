@@ -32,17 +32,31 @@ include:
     - runas: {{ entry.user }}
     - require:
       - git: {{ entry.git.url }}
+    # The symlink must be created before Apache starts.
+    - require_in:
+      - service: apache2
 
 {% if 'apache' in entry %}
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}
 
+{{ userdir }}-nvm-installer:
+  file.managed:
+    - name: {{ userdir }}/nvm-install.sh
+    - source: https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh
+    # curl -sS https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | shasum
+    - source_hash: e70e16f272f4ce4cc3e8d98e1e0ead449ab9ae5c
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - mode: 755
+
 {{ userdir }}-nvm-install:
   cmd.run:
-    - name: curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
-    - runas: {{ entry.user }}
+    - name: bash {{ userdir }}/nvm-install.sh
     - cwd: {{ userdir }}
     - require:
       - pkg: git
+    - onchanges:
+      - file: {{ userdir }}-nvm-installer
 
 {% endfor %}
