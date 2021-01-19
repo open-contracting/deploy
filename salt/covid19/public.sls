@@ -1,11 +1,7 @@
 {% from 'lib.sls' import apache, create_user %}
 
-
 include:
   - apache
-
-curl:
-  pkg.installed
 
 {% for name, entry in pillar.reactjs_apps.items() %}
 
