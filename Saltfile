@@ -3,4 +3,4 @@ salt-ssh:
   config_dir: salt-config
   # See https://github.com/saltstack/salt/issues/21370
   extra_filerefs:
-    - salt://apache/includes/cove.jinja
+    - salt://apache/includes/cove.include.jinja

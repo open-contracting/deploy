@@ -1,6 +1,6 @@
 # vi: ft=apache
 
-{% include 'apache/includes/' + name + '.jinja' ignore missing %}
+{% include 'apache/includes/' + name + '.include.jinja' ignore missing %}
 
 {%- if assets_base_url is not defined %}
     {%- set assets_base_url = '' %}

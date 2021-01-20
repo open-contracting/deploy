@@ -1,6 +1,6 @@
 # vi: ft=apache
 
-{% include 'apache/includes/' + name + '.jinja' ignore missing %}
+{% include 'apache/includes/' + name + '.include.jinja' ignore missing %}
 
 DocumentRoot {{ appdir }}/build
 
