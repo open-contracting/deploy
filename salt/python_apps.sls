@@ -118,6 +118,7 @@ django-custom-command:
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
+    - output_loglevel: warning
     - require:
       - cmd: {{ directory }}-requirements
     - onchanges:
