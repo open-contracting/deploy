@@ -36,9 +36,9 @@ python_apps:
       app: covidadmin
       compilemessages: True
       env:
-        DEBUG: False
+        DEBUG: "False"
         ALLOWED_HOSTS: admin.open-contracting.health,localhost,127.0.0.1
-        CORS_ORIGIN_WHITELIST: https://open-contracting.health
+        CORS_ORIGIN_WHITELIST: https://open-contracting.health,https://www.open-contracting.health
         CELERY_BROKER_URL: 'pyamqp://guest@localhost/'
         CELERY_TIMEZONE: UTC
         FORCE_SCRIPT_NAME: /
@@ -63,6 +63,7 @@ react_apps:
     apache:
       configuration: react
       servername: open-contracting.health
+      serveraliases: www.open-contracting.health
 
 postgres:
   version: 11
