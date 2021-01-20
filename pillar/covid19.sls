@@ -49,6 +49,7 @@ python_apps:
     uwsgi:
       configuration: django
       harakiri: 1800
+      threads: 4
     apache:
       configuration: django
       servername: admin.open-contracting.health
@@ -58,12 +59,12 @@ react_apps:
     user: covid19
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
-      branch: main
+      branch: master
       target: covid19
     apache:
       configuration: react
       servername: open-contracting.health
-      serveraliases: www.open-contracting.health
+      serveraliases: ['www.open-contracting.health']
 
 postgres:
   version: 11
