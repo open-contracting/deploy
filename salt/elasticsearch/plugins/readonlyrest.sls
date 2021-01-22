@@ -40,6 +40,13 @@ readonlyrest-install:
       - pkg: /opt/pem-to-keystore.sh
       - file: /opt/pkcs-password
 
+force load from file:
+  file.append:
+    - name: /etc/elasticsearch/elasticsearch.yml
+    - text:
+      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#malformed-in-index-settings
+      - "readonlyrest.force_load_from_file: true"
+
 /etc/elasticsearch/readonlyrest.yml:
   file.managed:
     - name: /etc/elasticsearch/readonlyrest.yml
@@ -60,12 +67,5 @@ readonlyrest-install:
       - "http.type: ssl_netty4"
     - require:
       - pkg: elasticsearch
-    - watch_in:
-      - service: elasticsearch
-
-/etc/elasticsearch/jvm.options.d/readonlyrest.options:
-  file.managed:
-    - name: /etc/elasticsearch/jvm.options.d/readonlyrest.options
-    - contents: "-Dcom.readonlyrest.settings.loading.delay=1"
     - watch_in:
       - service: elasticsearch
