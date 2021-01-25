@@ -18,7 +18,13 @@ To limit the output to changes and failures, add a ``--state-output=changes opti
 
     ./run.py --state-output=changes option 'docs' state.apply
 
-To `run a specific state <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
+To `run a specific state file <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls>`__, run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'docs' state.sls elasticsearch
+
+To `run a specific SLS ID <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
 
 .. code-block:: bash
 

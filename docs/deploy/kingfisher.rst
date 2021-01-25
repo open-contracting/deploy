@@ -8,7 +8,7 @@ Deploy Kingfisher Process without losing Scrapy requests
 
 .. note::
 
-   If :ref:`spiders are running<check-if-kingfisher-is-busy>`, use this process. Otherwise, :doc:`deploy as usual<deploy>`.
+   If :ref:`spiders are running<check-if-kingfisher-is-busy>`, use this process or :doc:`deploy specific state files<deploy>`. Otherwise, :doc:`deploy as usual<deploy>`.
 
 This should match ``salt/kingfisher/process/init.sls`` (up-to-date as of 2019-12-19). You can ``git log salt/kingfisher/process/init.sls`` to see if there have been any relevant changes, and update this page accordingly.
 
