@@ -20,6 +20,7 @@ base:
   'covid19*':
     - covid19
     - private.covid19
+    - covid19_maintenance
 
   'covid19-dev':
     - covid19_dev
