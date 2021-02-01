@@ -41,7 +41,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 -  `Linode <https://cloud.linode.com/>`__ for the `Helpdesk CRM <https://crm.open-contracting.org>`__
 
    -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
-   -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access. The 'opencontracting' user has limited access.
+   -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
    -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
 
 -  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher
@@ -87,12 +87,12 @@ Root access should be :ref:`routinely reviewed<review-root-access>`.
 Redash
 ~~~~~~
 
-There should be at most two users in the `admin <https://redash.open-contracting.org/groups/1>`__ group from each of OCP and ODS.
+There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP, and at most two from CDS and ODS.
 
 Redmine
 ~~~~~~~
 
-There should be at most two users with the `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ role from each of OCP and ODS.
+There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP, and at most two from CDS and ODS.
 
 .. toctree::
    :caption: Service-specific information
