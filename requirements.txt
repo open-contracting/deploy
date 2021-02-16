@@ -6,8 +6,6 @@
 #
 apache-libcloud==2.4.0
     # via salt-ssh
-asn1crypto==1.4.0
-    # via cryptography
 attrs==20.3.0
     # via pytest
 backports.ssl-match-hostname==3.7.0.1
@@ -22,9 +20,13 @@ cffi==1.12.2
     #   cryptography
     #   salt-ssh
 chardet==3.0.4
-    # via requests
+    # via
+    #   requests
+    #   salt-ssh
 cheroot==8.3.0
-    # via cherrypy
+    # via
+    #   cherrypy
+    #   salt-ssh
 cherrypy==17.4.1
     # via salt-ssh
 click==7.0
@@ -32,10 +34,11 @@ click==7.0
     #   -r requirements.in
     #   ocdsindex
     #   pip-tools
-    #   salt-ssh
 contextlib2==0.6.0.post1
-    # via cherrypy
-cryptography==2.6.1
+    # via
+    #   cherrypy
+    #   salt-ssh
+cryptography==3.2
     # via
     #   pyopenssl
     #   salt-ssh
@@ -44,7 +47,9 @@ distro==1.5.0
 elasticsearch==7.10.0
     # via ocdsindex
 gitdb2==2.0.6
-    # via gitpython
+    # via
+    #   gitpython
+    #   salt-ssh
 gitpython==2.1.15
     # via salt-ssh
 idna==2.8
@@ -62,6 +67,7 @@ ipaddress==1.0.22
 jaraco.functools==2.0
     # via
     #   cheroot
+    #   salt-ssh
     #   tempora
 jinja2==2.10.1
     # via salt-ssh
@@ -81,6 +87,7 @@ more-itertools==8.2.0
     #   cheroot
     #   cherrypy
     #   jaraco.functools
+    #   salt-ssh
 msgpack==1.0.0
     # via salt-ssh
 ocdsindex==0.0.2
@@ -92,7 +99,9 @@ pip-tools==5.3.1
 pluggy==0.13.1
     # via pytest
 portend==2.6
-    # via cherrypy
+    # via
+    #   cherrypy
+    #   salt-ssh
 psutil==5.6.7
     # via salt-ssh
 py==1.9.0
@@ -103,7 +112,7 @@ pycparser==2.19
     # via
     #   cffi
     #   salt-ssh
-pycryptodomex==3.9.7
+pycryptodomex==3.9.8
     # via salt-ssh
 pyobjc-core==6.2.2
     # via
@@ -833,7 +842,9 @@ python-dateutil==2.8.0
 python-gnupg==0.4.4
     # via salt-ssh
 pytz==2020.1
-    # via tempora
+    # via
+    #   salt-ssh
+    #   tempora
 pyyaml==5.3.1
     # via salt-ssh
 pyzmq==18.0.1
@@ -844,11 +855,11 @@ requests==2.21.0
     #   apache-libcloud
     #   salt-ssh
     #   vultr
-salt-ssh==3001.4
+salt-ssh==3002.2
     # via -r requirements.in
 setproctitle==1.1.10
     # via salt-ssh
-six==1.14.0
+six==1.15.0
     # via
     #   cheroot
     #   cherrypy
@@ -860,12 +871,18 @@ six==1.14.0
     #   salt-ssh
     #   tempora
 smmap2==3.0.1
-    # via gitdb2
+    # via
+    #   gitdb2
+    #   salt-ssh
 smmap==3.0.2
-    # via smmap2
+    # via
+    #   salt-ssh
+    #   smmap2
 tempora==1.14.1
-    # via portend
-timelib==0.2.4
+    # via
+    #   portend
+    #   salt-ssh
+timelib==0.2.5
     # via salt-ssh
 toml==0.10.2
     # via pytest
@@ -873,10 +890,13 @@ urllib3==1.24.3
     # via
     #   elasticsearch
     #   requests
+    #   salt-ssh
 vultr==1.0.1
     # via salt-ssh
 zc.lockfile==2.0
-    # via cherrypy
+    # via
+    #   cherrypy
+    #   salt-ssh
 zipp==3.4.0
     # via importlib-metadata
 
