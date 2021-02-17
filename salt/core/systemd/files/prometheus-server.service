@@ -4,13 +4,13 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-User={{ entry.user }}
-Group={{ entry.user }}
+User={{ user }}
+Group={{ user }}
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/home/{{ entry.user }}/{{ entry.basename }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ entry.basename }} \
+ExecStart=/home/{{ user }}/{{ entry.basename }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ entry.basename }} \
     --web.listen-address 127.0.0.1:9057 \
-    --config.file /home/{{ entry.user }}/conf-prometheus.yml \
-    --storage.tsdb.path /home/{{ entry.user }}/data \
+    --config.file /home/{{ user }}/conf-prometheus.yml \
+    --storage.tsdb.path /home/{{ user }}/data \
     --storage.tsdb.retention.time {{ entry.local_storage_retention }}
 
 [Install]
