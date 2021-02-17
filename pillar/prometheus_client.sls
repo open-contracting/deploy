@@ -9,5 +9,5 @@ prometheus:
     version: 1.0.1
     config:
       # https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md
-      config.yaml: salt://prometheus/files/config/config.yaml
+      config.yaml: salt://prometheus/files/config.yaml
       node_exporter.pem: prometheus:node_exporter:ssl:pubcert

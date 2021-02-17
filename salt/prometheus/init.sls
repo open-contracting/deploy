@@ -8,7 +8,7 @@
   - Create a `user`
   - Download and extract the specified `version` of the named component to the `user`'s home directory
   - Create `config`uration files in the user's home directory, if any
-  - Create a systemd `service` file from a `salt/prometheus/files/systemd/{service}.service` template,
+  - Create a systemd `service` file from a `salt/core/systemd/files/{service}.service` template,
     with access to `name`, `user` and `entry` variables
   - Start the `service`
 #}
@@ -48,7 +48,7 @@ extract_{{ name }}:
 # https://github.com/prometheus/node_exporter/tree/master/examples/systemd
 /etc/systemd/system/{{ entry.service }}.service:
   file.managed:
-    - source: salt://prometheus/files/systemd/{{ entry.service }}.service
+    - source: salt://core/systemd/files/{{ entry.service }}.service
     - template: jinja
     - context:
         name: {{ name }}
