@@ -6,7 +6,6 @@ After=network-online.target
 [Service]
 User={{ entry.user }}
 Group={{ entry.user }}
-Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/home/{{ entry.user }}/{{ entry.basename }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ entry.basename }} \
     --web.listen-address 127.0.0.1:9095 \
