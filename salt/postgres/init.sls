@@ -30,7 +30,8 @@ postgresql:
     - require:
       - pkgrepo: postgresql
   service.running:
-    - name: postgresql
+    # The service called "postgresql" is a dummy service for this
+    - name: postgresql@{{ pg_version }}-main.service
     - enable: True
     - require:
       - pkg: postgresql
@@ -38,7 +39,7 @@ postgresql:
 postgresql-reload:
   module.wait:
     - name: service.reload
-    - m_name: postgresql
+    - m_name: postgresql@{{ pg_version }}-main.service
 
 # Upload access configuration for postgres.
 /etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
