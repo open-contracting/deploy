@@ -16,7 +16,7 @@
   {% if pillar.postgres.get('replica_ipv6') %}
     {{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
   {% endif %}
-  {% if salt['pillar.get']('maintenance.enabled', True) %}
+  {% if salt['pillar.get']('maintenance:enabled') %}
     {{ set_firewall("MONITOR_APPBEAT") }}
   {% endif %}
 {% endif %}
