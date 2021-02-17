@@ -39,6 +39,7 @@ unset {{ setting_name }} firewall setting:
   Accepts an `entry` object with a `service` key for the name of the service, a `user` key for the user to run the
   service, and any other keys to be passed to the `*.service` template.
 #}
+# https://www.freedesktop.org/software/systemd/man/systemd.directives.html
 {% macro systemd(entry) %}
 /etc/systemd/system/{{ entry.service }}.service:
   file.managed:
