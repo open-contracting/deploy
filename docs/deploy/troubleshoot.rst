@@ -86,9 +86,3 @@ Services should restart normally. To manually restart a service, run, for exampl
 .. code-block:: bash
 
    ./run.py TARGET service.restart uwsgi
-
-To restart a service managed by `Supervisor <http://supervisord.org>`__, run, for example:
-
-.. code-block:: bash
-
-   ./run.py TARGET supervisord.restart scrapyd
