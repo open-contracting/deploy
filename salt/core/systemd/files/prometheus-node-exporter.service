@@ -8,7 +8,7 @@ User={{ entry.user }}
 Group={{ entry.user }}
 Type=simple
 ExecReload=/bin/kill -HUP $MAINPID
-ExecStart=/home/{{ entry.user }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ name }} \
+ExecStart=/home/{{ entry.user }}/{{ entry.basename }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ entry.basename }} \
     --web.listen-address :7231 \
 {%- if pillar.prometheus.node_exporter.get('smartmon') %}
     --collector.textfile.directory /home/{{ entry.user }}/node-exporter-textfile-directory \

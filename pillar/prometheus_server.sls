@@ -1,7 +1,8 @@
 prometheus:
   prometheus:
-    user: prometheus-server
     service: prometheus-server
+    user: prometheus-server
+    basename: prometheus
     version: 2.20.1
     local_storage_retention: 120d
     config:
@@ -9,8 +10,9 @@ prometheus:
       conf-prometheus-rules.yml: salt://prometheus/files/conf-prometheus-rules.yml
       node_exporter.pem: prometheus:node_exporter:ssl:pubcert
   alertmanager:
-    user: prometheus-alertmanager
     service: prometheus-alertmanager
+    user: prometheus-alertmanager
+    basename: alertmanager
     version: 0.21.0
     config:
       conf-alertmanager.yml: salt://prometheus/files/conf-alertmanager.yml

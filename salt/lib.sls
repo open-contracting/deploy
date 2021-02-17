@@ -36,6 +36,33 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 {#
+  Accepts an `entry` object with a `service` key for the name of the service, a `user` key for the user to run the
+  service, and any other keys to be passed to the `*.service` template.
+#}
+{% macro systemd(entry) %}
+/etc/systemd/system/{{ entry.service }}.service:
+  file.managed:
+    - source: salt://core/systemd/files/{{ entry.service }}.service
+    - template: jinja
+    - context:
+        user: {{ entry.user }}
+        entry: {{ entry|yaml }}
+    - watch_in:
+      - service: {{ entry.service }}
+
+{{ entry.service }}:
+  service.running:
+    - enable: True
+    - require:
+      - file: /etc/systemd/system/{{ entry.service }}.service
+
+{{ entry.service }}-reload:
+  module.wait:
+    - name: service.reload
+    - m_name: {{ entry.service }}
+{% endmacro %}
+
+{#
   Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
   `context` object, whose keys are made available as variables in the configuration template.
 

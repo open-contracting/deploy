@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import create_user, systemd %}
 
 {#
   The `name` key must match the repository name of a Prometheus component: for example, prometheus.
@@ -28,6 +28,8 @@ extract_{{ name }}:
     - group: {{ entry.user }}
     - require:
       - user: {{ entry.user }}_user_exists
+    - require_in:
+      - service: {{ entry.service }}
 
 {% for filename, source in entry.config.items() %}
 {{ userdir }}/{{ filename }}:
@@ -46,27 +48,5 @@ extract_{{ name }}:
 {% endfor %}
 
 # https://github.com/prometheus/node_exporter/tree/master/examples/systemd
-/etc/systemd/system/{{ entry.service }}.service:
-  file.managed:
-    - source: salt://core/systemd/files/{{ entry.service }}.service
-    - template: jinja
-    - context:
-        name: {{ name }}
-        user: {{ entry.user }}
-        entry: {{ entry|yaml }}
-    - watch_in:
-      - service: {{ entry.service }}
-
-{{ entry.service }}:
-  service.running:
-    - enable: True
-    - require:
-      - archive: extract_{{ name }}
-      - file: /etc/systemd/system/{{ entry.service }}.service
-
-{{ entry.service }}-reload:
-  module.wait:
-    - name: service.reload
-    - m_name: {{ entry.service }}
-
+{{ systemd(entry) }}
 {% endfor %}

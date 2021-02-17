@@ -4,8 +4,9 @@ firewall:
 
 prometheus:
   node_exporter:
-    user: prometheus-client
     service: prometheus-node-exporter
+    user: prometheus-client
+    basename: node_exporter
     version: 1.0.1
     config:
       # https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md

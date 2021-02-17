@@ -106,6 +106,8 @@ Instead of relying on `ordering <https://docs.saltstack.com/en/getstarted/config
 -  `watch_in <https://docs.saltstack.com/en/latest/ref/states/requisites.html#watch>`__  is easier to reason about than ``watch``, because it follows the direction of causation: if *this* state changes, then :ref:`restart or reload<service-functions>` *that* service.
 -  `onchanges <https://docs.saltstack.com/en/latest/ref/states/requisites.html#onchanges>`__ makes the state apply only if its required state generates changes, and is used exclusively with the ``cmd.run`` function (which otherwise always applies).
 
+We use ``require_in`` in exceptional circumstances: for example, to require a state created by a macro.
+
 Macros
 ------
 
