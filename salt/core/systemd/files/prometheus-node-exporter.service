@@ -1,7 +1,6 @@
 [Unit]
 Description=Prometheus Node Exporter
-Wants=network-online.target
-After=network-online.target
+After=network.target
 
 [Service]
 User={{ entry.user }}
