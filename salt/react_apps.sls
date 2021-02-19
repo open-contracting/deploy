@@ -59,27 +59,35 @@ include:
       - git: {{ entry.git.url }}
 
 {% if salt['pillar.get']('ver_txt:enable') %}
-{{ build_dir }}/ver.txt:
+{{ build_asset_dir }}/ver.txt:
   file.managed:
     - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
+    - onchanges:
+      - cmd: {{ userdir }}-yarn-build
 {% endif %}{# ver txt #}
 
 {{ directory }}/.htaccess:
   file.managed:
-    - name: {{ build_dir }}/.htaccess
+    - name: {{ build_asset_dir }}/.htaccess
     - source: {{ directory }}/.htaccess
+    - onchanges:
+      - cmd: {{ userdir }}-yarn-build
 
-{{ build_dir }}/.htaccess:
+{{ build_asset_dir }}/.htaccess:
   file.replace:
-    - name: {{ build_dir }}/.htaccess
+    - name: {{ build_asset_dir }}/.htaccess
     - pattern: 'PRERENDER_IO_TOKEN'
     - repl: '{{ entry.prerender_token }}'
+    - onchanges:
+      - cmd: {{ userdir }}-yarn-build
 
 {{ build_asset_dir }}-update:
   cmd.run:
     - name: rm -rf {{ build_asset_base }} && mkdir -p {{ build_asset_base }} && mv build {{ build_asset_base }}
     - runas: {{ entry.user }}
     - cwd: {{ directory }}
+    - onchanges:
+      - cmd: {{ userdir }}-yarn-build
 
 {{ appdir }}:
   file.symlink:
