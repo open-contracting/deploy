@@ -4,3 +4,4 @@ salt-ssh:
   # See https://github.com/saltstack/salt/issues/21370
   extra_filerefs:
     - salt://apache/includes/cove.include.jinja
+    - salt://apache/includes/covid19.include.jinja

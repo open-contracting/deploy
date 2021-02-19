@@ -1,6 +1,5 @@
 {% from 'lib.sls' import apache %}
-{% set tstamp = salt["cmd.run"]("date +%Y-%m-%d_%H:%M:%S") %}
-{% set enable_ver_txt = salt['pillar.get']('ver_txt:enable', False) %}
+{% set timestamp = salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') %}
 
 include:
   - apache
@@ -10,8 +9,8 @@ include:
 
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
-{% set build_asset_base = userdir + '/react-asset'%}
-{% set build_asset_dir = build_asset_base + '/build'%}
+{% set build_asset_base = userdir + '/react-asset' %}
+{% set build_asset_dir = build_asset_base + '/build' %}
 {% set directory = userdir + '/' + entry.git.target %}
 {% set build_dir = userdir + '/' + entry.git.target + '/build' %}
 {% set appdir = userdir + '/web/current' %}
@@ -45,6 +44,8 @@ include:
     - cwd: {{ directory }}
     - require:
       - pkg: git
+    - onchanges:
+      - git: {{ entry.git.url }}
 
 {{ userdir }}-yarn-build:
   cmd.run:
@@ -54,13 +55,13 @@ include:
     - cwd: {{ directory }}
     - require:
       - pkg: git
+    - onchanges:
+      - git: {{ entry.git.url }}
 
-{% if enable_ver_txt %}
-
+{% if if salt['pillar.get']('ver_txt:enable'] %}
 {{ build_dir }}/ver.txt:
   file.managed:
-    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd '+ directory +' && git rev-parse --verify HEAD') }} || time: {{ tstamp }}"
-
+    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
 {% endif %}{# ver txt #}
 
 {{ directory }}/.htaccess:
@@ -86,7 +87,7 @@ include:
     - makedirs: True
     - runas: {{ entry.user }}
     - require:
-      - git: {{ entry.git.url }}
+      - cmd: {{ build_asset_dir }}-update
     # The symlink must be created before Apache starts.
     - require_in:
       - service: apache2

@@ -1,6 +1,5 @@
 {% from 'lib.sls' import apache %}
-{% set tstamp = salt["cmd.run"]("date +%Y-%m-%d_%H:%M:%S") %}
-{% set enable_ver_txt = salt['pillar.get']('ver_txt:enable', False) %}
+{% set timestamp = salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.
@@ -144,12 +143,10 @@ virtualenv:
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}{# apache #}
 
-{% if enable_ver_txt %}
-
+{% if if salt['pillar.get']('ver_txt:enable'] %}
 {{static_dir}}/ver.txt:
   file.managed:
-    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd '+ directory +' && git rev-parse --verify HEAD') }} || time: {{ tstamp }}"
-
+    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
 {% endif %}{# ver txt #}
 
 {% endfor %}

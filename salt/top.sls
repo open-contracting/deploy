@@ -24,7 +24,6 @@ base:
     - memcached
 
   'covid19*':
-    - apache.sslproxyengine
     - celery
     - postgres
     - rabbitmq

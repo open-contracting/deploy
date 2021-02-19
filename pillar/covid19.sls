@@ -52,7 +52,7 @@ python_apps:
       threads: 4
       disable-logging: True
       master: true
-      smart_attach_daemon: celery -A covidadmin worker -l info -Q covid19 -B
+      smart-attach-daemon: /tmp/celery.pid {{ appdir }}/.ve/bin/{{ entry.uwsgi.smart_attach_daemon }} --pidfile=/tmp/celery.pid
     apache:
       configuration: django
       servername: admin.open-contracting.health
