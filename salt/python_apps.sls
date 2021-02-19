@@ -143,7 +143,7 @@ virtualenv:
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}{# apache #}
 
-{% if salt['pillar.get']('ver_txt:enable'] %}
+{% if salt['pillar.get']('ver_txt:enable') %}
 {{static_dir}}/ver.txt:
   file.managed:
     - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"

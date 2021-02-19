@@ -2,7 +2,9 @@
 
 {{ set_firewall("PUBLIC_SSH") }}
 
+{% if salt['pillar.get']('python_apps:covid19admin:git:branch') or salt['pillar.get']('react_apps:covid19public:git:branch') %}
 include:
+{% endif %}
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
   - python_apps
 {% endif %}
