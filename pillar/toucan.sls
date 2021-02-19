@@ -6,7 +6,7 @@ python_apps:
     user: ocdskit-web
     git:
       url: https://github.com/open-contracting/toucan.git
-      branch: master
+      branch: main
       target: ocdskit-web
     django:
       app: ocdstoucan

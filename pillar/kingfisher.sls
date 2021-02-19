@@ -63,7 +63,7 @@ python_apps:
     user: ocdskfp
     git:
       url: https://github.com/open-contracting/kingfisher-process.git
-      branch: master
+      branch: main
       target: ocdskingfisherprocess
     config:
       ocdskingfisher-process/logging.json: salt://kingfisher/process/files/logging.json
@@ -78,7 +78,7 @@ python_apps:
     user: ocdskfp
     git:
       url: https://github.com/open-contracting/kingfisher-summarize.git
-      branch: master
+      branch: main
       target: ocdskingfisherviews
     config:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
@@ -86,7 +86,7 @@ python_apps:
     user: ocdskfs
     git:
       url: https://github.com/open-contracting/kingfisher-archive.git
-      branch: master
+      branch: main
       target: ocdskingfisherarchive
     config:
       ocdskingfisher-archive/logging.json: salt://kingfisher/archive/files/logging.json

@@ -18,7 +18,7 @@ Below, the two key operations are reloading uWSGI with the new application code,
 
 It's possible for requests to arrive after uWSGI reloads and before the database migrates. If the new application code is not backwards-compatible with the old database schema, the requests might error. If, on the other hand, your old application code is forwards-compatible with the new database schema, then reload uWSGI after migrating the database, instead of before.
 
-``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the master uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose any requests from Scrapy.
+``service uwsgi reload`` runs ``/etc/init.d/uwsgi reload``, which sends the SIGHUP signal to the main uWSGI process, which causes it to `gracefully reload <https://uwsgi-docs.readthedocs.io/en/latest/Management.html#reloading-the-server>`__ and not lose any requests from Scrapy.
 
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
@@ -36,7 +36,7 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
       git fetch
       # From https://github.com/open-contracting/kingfisher-process
-      #    d8736f4..173dcf2  master                                  -> origin/master
+      #    d8736f4..173dcf2  main                                    -> origin/main
       git log d8736f4..173dcf2
 
 #. Update the code:

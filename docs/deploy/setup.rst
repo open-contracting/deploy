@@ -11,13 +11,13 @@ Setup
 1. Update deploy repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ensure the ``deploy``, ``pillar/private``, ``salt/private`` and ``salt/maintenance`` repositories are on the ``master`` branch and are up-to-date. You can run this convenience script to run the appropriate ``git`` commands:
+Ensure the ``deploy``, ``pillar/private``, ``salt/private`` and ``salt/maintenance`` repositories are on the default branch and are up-to-date. You can run this convenience script to run the appropriate ``git`` commands:
 
 .. code-block:: bash
 
     ./script/update
 
-Check the output in case there are any issues switching to the ``master`` branch or any conflicts pulling from GitHub.
+Check the output in case there are any issues switching to the default branch or any conflicts pulling from GitHub.
 
 .. _check-if-kingfisher-is-busy:
 

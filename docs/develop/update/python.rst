@@ -30,7 +30,7 @@ In the service's Pillar file, add, for example:
        user: ocdskfp
        git:
          url: https://github.com/open-contracting/kingfisher-summarize.git
-         branch: master
+         branch: main
          target: ocdskingfisherviews
 
 This will:
@@ -54,7 +54,7 @@ To create configuration files within the user's ``.config`` directory, add, for 
        user: ocdskfp
        git:
          url: https://github.com/open-contracting/kingfisher-summarize.git
-         branch: master
+         branch: main
          target: ocdskingfisherviews
       config:
         kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
@@ -74,7 +74,7 @@ If the Python app uses the Django framework, add, for example:
        user: ocdskit-web
        git:
          url: https://github.com/open-contracting/toucan.git
-         branch: master
+         branch: main
          target: ocdskit-web
        django:
          app: ocdstoucan
@@ -111,7 +111,7 @@ This will:
 -  Symlink the new file from the ``etc/uwsgi/apps-enabled`` directory
 -  Reload the uWSGI service if the configuration changed
 
-The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/uwsgi/files/django.ini>`__ configuration, which:
+The example above uses the `django <https://github.com/open-contracting/deploy/blob/main/salt/uwsgi/files/django.ini>`__ configuration, which:
 
 -  Sets the uWSGI ``module`` to ``{app}.wsgi:application``
 -  Sets some environment variables, and any ``env`` variables from the service's Pillar file
@@ -160,13 +160,13 @@ Add, for example:
        apache:
          configuration: django
          servername: toucan.open-contracting.org
-         serveraliases: ['master.{{ grains.fqdn }}']
+         serveraliases: ['main.{{ grains.fqdn }}']
          context:
            assets_base_url: ''
 
 This will perform similar steps as :ref:`adding an Apache site<apache-sites>`, but creating files named ``/etc/apache2/sites-available/{target}.conf`` and ``/etc/apache2/sites-available/{target}.conf.include``.
 
-The example above uses the `django <https://github.com/open-contracting/deploy/blob/master/salt/apache/files/sites/django.conf.include>`__ configuration, which:
+The example above uses the `django <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/django.conf.include>`__ configuration, which:
 
 -  Sets the ``DocumentRoot`` to the ``target`` directory
 -  Configures Apache to serve Django's static and media files, from the ``assets_base_url`` if provided

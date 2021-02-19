@@ -1,7 +1,7 @@
 Configure firewall
 ==================
 
-The `firewall.sh script <https://github.com/open-contracting/deploy/blob/master/salt/core/firewall/files/firewall.sh>`__ closes most ports by default. Its behavior is controlled by variables in the `firewall-settings.local file <https://github.com/open-contracting/deploy/blob/master/salt/core/firewall/files/firewall-settings.local>`__.
+The `firewall.sh script <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall.sh>`__ closes most ports by default. Its behavior is controlled by variables in the `firewall-settings.local file <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall-settings.local>`__.
 
 Most variables are set by state files:
 

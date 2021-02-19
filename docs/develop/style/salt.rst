@@ -115,7 +115,7 @@ As the Salt documentation `states <https://docs.saltstack.com/en/latest/topics/d
 
    Jinja macros are useful for one thing and one thing only: creating mini templates that can be reused and rendered on demand.
 
-All macros are defined in `lib.sls <https://github.com/open-contracting/deploy/blob/master/salt/lib.sls>`__.
+All macros are defined in `lib.sls <https://github.com/open-contracting/deploy/blob/main/salt/lib.sls>`__.
 
 -  :doc:`set_firewall() and unset_firewall()<../update/firewall>` make sense as macros, because different state files might want to open or close different ports based on Pillar data. For example, the ``apache`` file opens or closes ports 80 and 443 based on the ``apache.public_access`` value.
 -  ``create_user()`` makes sense as a macro, because users are created in many different contexts, and it is simpler to couple the user's creation to that context, than to synchronize user creation and service configuration in separate places.

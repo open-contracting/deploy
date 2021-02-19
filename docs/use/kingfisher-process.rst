@@ -45,7 +45,7 @@ Load local data
 
 #. Create a data directory following the pattern ``source-YYYY-MM-DD-analyst``. For example: ``moldova-2020-04-07-romina``
 
-   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/master/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
+   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
 
 #. If you need to download an archive file from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 

@@ -79,7 +79,7 @@ Update spiders in Kingfisher Collect
 
    .. code-block:: bash
 
-      git checkout master
+      git checkout main
       git remote update
       git status
 
@@ -87,8 +87,8 @@ Update spiders in Kingfisher Collect
 
    .. code-block:: none
 
-      On branch master
-      Your branch is up to date with 'origin/master'.
+      On branch main
+      Your branch is up to date with 'origin/main'.
 
       nothing to commit, working tree clean
 

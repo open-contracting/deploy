@@ -5,7 +5,7 @@ python_apps:
   cove:
     user: cove
     git:
-      branch: master
+      branch: main
       target: cove
     django:
       app: cove_project
@@ -18,7 +18,7 @@ python_apps:
         VALIDATION_ERROR_LOCATIONS_LENGTH: 100
     apache:
       configuration: django
-      serveraliases: ['master.{{ grains.fqdn }}'] # should match python.cove.git.branch
+      serveraliases: ['main.{{ grains.fqdn }}'] # should match python.cove.git.branch
       context:
         docs_ipv4: 5.28.62.151
         docs_ipv6: 2001:41c9:1:41c::151

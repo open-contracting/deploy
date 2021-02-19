@@ -43,7 +43,7 @@ Add your public key to the ``ssh.root`` list in the target's Pillar file, or to 
 
     vi pillar/toucan.sls
     git commit pillar/toucan.sls -m "ssh: Add public key for Jane Doe"
-    git push origin master
+    git push origin main
 
 Then, ask a colleague to deploy your public key to the relevant servers. For example:
 

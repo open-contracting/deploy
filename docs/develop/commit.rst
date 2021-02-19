@@ -74,6 +74,6 @@ However, for this repository, in some cases, it's impossible to test changes to 
 
 In such cases, the same process is followed as in other repositories, but without the benefit of tests.
 
-In entirely uncontroversial or time-sensitive cases, work is done on the ``master`` branch, deployed to servers, and committed to the ``master`` branch once successful. In cases where the changes require trial and error, the general approach is discussed in a GitHub issue, and then work is done on the ``master`` branch as above. Developers can always request informal reviews from colleagues.
+In entirely uncontroversial or time-sensitive cases, work is done on the default branch, deployed to servers, and committed to the default branch once successful. In cases where the changes require trial and error, the general approach is discussed in a GitHub issue, and then work is done on the default branch as above. Developers can always request informal reviews from colleagues.
 
 Take extra care when making larger changes or when making changes to higher-priority services like the OCDS documentation, Data Review Tool or Kingfisher.

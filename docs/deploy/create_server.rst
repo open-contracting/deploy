@@ -118,7 +118,7 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
             HOSTNAME ocp##.open-contracting.org
 
-      #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/master/salt/core/swap.sls>`__. For example:
+      #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
 
          .. code-block:: none
 
@@ -141,7 +141,7 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 2. Create DNS records
 ---------------------
 
-Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/master/salt-config/roster>`__ file.
+Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file.
 
 #. Login to `GoDaddy <https://sso.godaddy.com>`__
 #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
@@ -184,7 +184,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/master/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
+#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
 
    .. code-block:: bash
 

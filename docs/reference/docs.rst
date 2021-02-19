@@ -18,7 +18,7 @@ Search engine
 
 The `search.js file <https://github.com/open-contracting/standard_theme/blob/open_contracting/standard_theme/static/js/search.js>`__ in the ``standard_theme`` repository queries Elasticsearch indices.
 
-The `documentation deploy script <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository updates Elasticsearch indices.
+The `documentation deploy script <https://github.com/open-contracting/deploy/blob/main/deploy-docs.sh>`__ in this repository updates Elasticsearch indices.
 
 Continuous deployment
 ---------------------
@@ -37,4 +37,4 @@ The repositories for OCDS documentation use continuous integration to push build
 
       https://standard.open-contracting.org/staging/profiles/{root}/{branch}/en/
 
-In detail, continuous integration runs `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/master/deploy-docs.sh>`__ in this repository. For this script to succeed, continuous integration must be :ref:`configured<publish-draft-documentation>` to have access to the server using SSH and to Elasticsearch using basic authentication.
+In detail, continuous integration runs `deploy-docs.sh <https://github.com/open-contracting/deploy/blob/main/deploy-docs.sh>`__ in this repository. For this script to succeed, continuous integration must be :ref:`configured<publish-draft-documentation>` to have access to the server using SSH and to Elasticsearch using basic authentication.

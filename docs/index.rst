@@ -51,7 +51,7 @@ This section describes how to perform tasks that don't involve changes in Salt.
 User Guides
 -----------
 
-This section contains documentation specific to our deployment of a given service. For generic documentation of a given service that we authored, follow the *Docs* links on `this page <https://github.com/open-contracting/standard-maintenance-scripts/blob/master/badges.md#tools>`__.
+This section contains documentation specific to our deployment of a given service. For generic documentation of a given service that we authored, follow the *Docs* links on `this page <https://github.com/open-contracting/standard-maintenance-scripts/blob/main/badges.md#tools>`__.
 
 .. toctree::
    :maxdepth: 2

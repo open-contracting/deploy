@@ -21,8 +21,8 @@ include:
 
 {{ directory }}/requirements.txt:
   file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt
-    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/master/requirements.txt.sha256
+    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt
+    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt.sha256
     - user: {{ user }}
     - group: {{ user }}
     - mode: 444

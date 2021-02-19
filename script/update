@@ -1,28 +1,28 @@
 #!/usr/bin/env bash
-# Ensures all repositories are on master and up-to-date.
+# Ensures all repositories are on default branch and up-to-date.
 
 set -xeuo pipefail
 
 function main {
-  git checkout master
-  git pull --rebase origin master
+  git checkout main
+  git pull --rebase origin main
 
   (
     cd pillar/private
-    git checkout master
-    git pull --rebase origin master
+    git checkout main
+    git pull --rebase origin main
   )
 
   (
     cd salt/private
-    git checkout master
-    git pull --rebase origin master
+    git checkout main
+    git pull --rebase origin main
   )
 
   (
     cd salt/maintenance
-    git checkout master
-    git pull --rebase origin master
+    git checkout main
+    git pull --rebase origin main
   )
 }
 
