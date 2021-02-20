@@ -215,6 +215,10 @@ Redirect /progress /latest/en/support/history_and_development/
 Redirect /recursos /latest/en/support/tools/
 Redirect /resources /latest/en/support/tools/
 
+# Redirect master branches.
+Redirect /profiles/eu/master /profiles/eu/latest
+Redirect /profiles/gpa/master /profiles/gpa/latest
+
 # The Validator was renamed the Data Review Tool.
 Redirect /validator /review
 RedirectMatch ^/validator/(.*)$ /review/$1
