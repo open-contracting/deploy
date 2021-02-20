@@ -4,12 +4,12 @@
 {%
     set options = {
         '/profiles/eu': {
-            'versions': ['master'],
+            'versions': ['latest'],
             'languages': ['en'],
             'redirect_excludes': ['schema', 'extension'],
         },
         '/profiles/gpa': {
-            'versions': ['master'],
+            'versions': ['latest'],
             'languages': ['en'],
             'redirect_excludes': ['schema', 'extension'],
         },

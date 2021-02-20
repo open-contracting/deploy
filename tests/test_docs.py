@@ -11,8 +11,8 @@ base_url = f'https://{fqdn}'
 versions = {
     '': (['latest', '1.0', '1.1-dev'], '/es/schema/release/'),
     '/infrastructure': (['latest', '0.9-dev'], '/en/reference/schema/'),
-    '/profiles/eu': (['master', 'dev'], '/en/reference/'),
-    '/profiles/gpa': (['master', 'dev'], '/en/reference/'),
+    '/profiles/eu': (['latest', 'dev'], '/en/reference/'),
+    '/profiles/gpa': (['latest', 'dev'], '/en/reference/'),
     '/profiles/ppp': (['latest', '1.0-dev'], '/es/reference/schema/'),
 }
 
@@ -27,8 +27,8 @@ languages = {
 banner_live = [
     ('', ['latest', '1.1']),
     ('/infrastructure', ['latest', '0.9']),
-    ('/profiles/eu', ['master']),
-    ('/profiles/gpa', ['master']),
+    ('/profiles/eu', ['latest']),
+    ('/profiles/gpa', ['latest']),
     ('/profiles/ppp', ['latest', '1.0']),
 ]
 banner_old = [
@@ -328,7 +328,7 @@ def test_banner_staging(root, version, latest_version):
 
 
 def test_banner_staging_profiles():
-    r = get(f'{base_url}/staging/profiles/test/master/en/')
+    r = get(f'{base_url}/staging/profiles/test/latest/en/')
 
     assert r.status_code == 200
     assert 'This is an old version of ' not in r.text
