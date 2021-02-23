@@ -81,7 +81,7 @@ If the Python app uses the Django framework, add, for example:
          compilemessages: True
          env:
            ALLOWED_HOSTS: toucan.open-contracting.org
-           GOOGLE_ANALYTICS_ID: UA-35677147-3
+           FATHOM_ANALYTICS_ID: ABCDEFGH
 
 This will activate the virtual environment, set the ``DJANGO_SETTINGS_MODULE`` environment variable to ``{app}.settings``, and run:
 

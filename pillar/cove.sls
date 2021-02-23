@@ -11,6 +11,8 @@ python_apps:
       app: cove_project
       compilemessages: True
       env:
+        FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
+        FATHOM_ANALYTICS_ID: HTWZHRIZ
         GOOGLE_ANALYTICS_ID: UA-35677147-1
         PIWIK_URL: //mon.opendataservices.coop/piwik/
         PIWIK_DIMENSION_MAP: 'file_type=1,page_type=2,form_name=3,language=4,exit_language=5'
