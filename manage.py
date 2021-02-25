@@ -63,7 +63,7 @@ def run(*args):
 def cli():
     pass
 
-@click.command()
+@cli.command()
 @click.argument('destination')
 def connect(destination):
     """
@@ -79,7 +79,7 @@ def connect(destination):
     os.execvp('ssh', ('ssh', destination))
 
 
-@click.command()
+@cli.command()
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def services(provider):
@@ -90,7 +90,7 @@ def services(provider):
     compare(content, lambda line: line.strip()[2:], providers=provider)
 
 
-@click.command()
+@cli.command()
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def packages(provider):
@@ -101,7 +101,7 @@ def packages(provider):
     compare(content, lambda line: line.strip()[:-1], providers=provider)
 
 
-@click.command()
+@cli.command()
 @click.option('--margin', type=int, default=0,
               help='the margin within which packages are considered to be common to all servers')
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
@@ -113,11 +113,6 @@ def autoremove(margin, provider):
     content = run('salt-ssh', '*', 'pkg.autoremove', 'list_only=True')
     compare(content, lambda line: line.strip()[2:], mode='comm', margin=margin, providers=provider)
 
-
-cli.add_command(connect)
-cli.add_command(services)
-cli.add_command(packages)
-cli.add_command(autoremove)
 
 if __name__ == '__main__':
     cli()
