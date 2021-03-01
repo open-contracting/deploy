@@ -5,7 +5,7 @@ python_apps:
     django:
       env:
         ALLOWED_HOSTS: .standard.open-contracting.org,.oc4ids.opencontracting.uk0.bigv.io
-        PIWIK_SITE_ID: '22'
+        FATHOM_ANALYTICS_ID: UHUGOEOK
     apache:
       servername: cove-live.oc4ids.opencontracting.uk0.bigv.io
       context:
