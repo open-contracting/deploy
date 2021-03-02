@@ -33,3 +33,9 @@ To be responsible for servers, you should:
    databases.rst
    elasticsearch.rst
    hosting.rst
+
+.. toctree::
+   :caption: Service-specific tasks
+   :maxdepth: 2
+
+   docs.rst
