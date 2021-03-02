@@ -67,6 +67,14 @@
     - watch_in:
       - service: scrapyd
 
+/var/log/scrapyd:
+  file.directory:
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+    - require_in:
+      - service: scrapyd
+
 {{ systemd({'service': 'scrapyd', 'user': user, 'appdir': directory}) }}
 
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
