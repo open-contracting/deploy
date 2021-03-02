@@ -275,4 +275,4 @@ If the server runs a database like PostgreSQL or Elasticsearch, copy the databas
 If the service is being introduced:
 
 #. Add its error monitor to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
-#. Add the analytics tag for `Google Analytics <https://analytics.google.com>`__, if appropriate
+#. Add the embed code for `Fathom Analytics <https://app.usefathom.com/>`__, if appropriate
