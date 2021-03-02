@@ -278,6 +278,8 @@ if [ "$PRIVATE_POSTGRESQL" == "yes" ]; then
     for IP in $LOCAL_IPV6 $REPLICA_IPV6; do
         $IP6TABLES -A INPUT -p tcp -s "$IP" --dport 5432 -j ACCEPT
     done
+    $IPTABLES -A INPUT -p tcp --dport 5432 -j monitor
+    $IP6TABLES -A INPUT -p tcp --dport 5432 -j monitor
 fi
 
 if [ "$PUBLIC_TINYPROXY" == "yes" ]; then
