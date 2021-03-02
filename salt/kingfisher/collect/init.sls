@@ -1,7 +1,4 @@
-{% from 'lib.sls' import create_user %}
-
-include:
-  - supervisor
+{% from 'lib.sls' import create_user, systemd %}
 
 {% set user = 'ocdskfs' %}
 {% set userdir = '/home/' + user %}
@@ -58,7 +55,7 @@ include:
       - file: {{ directory }}/requirements.txt
       - virtualenv: {{ directory }}/.ve # if .ve was deleted
     - watch_in:
-      - service: supervisor
+      - service: scrapyd
 
 # https://scrapyd.readthedocs.io/en/stable/config.html
 {{ userdir }}/.scrapyd.conf:
@@ -68,17 +65,9 @@ include:
     - context:
         appdir: {{ directory }}
     - watch_in:
-      - service: supervisor
+      - service: scrapyd
 
-# We might want the supervisor state file to manage its configuration files.
-/etc/supervisor/conf.d/scrapyd.conf:
-  file.managed:
-    - source: salt://supervisor/files/scrapyd.conf
-    - template: jinja
-    - context:
-        appdir: {{ directory }}
-    - watch_in:
-      - service: supervisor
+{{ systemd({'service': 'scrapyd', 'user': user, 'appdir': directory}) }}
 
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
