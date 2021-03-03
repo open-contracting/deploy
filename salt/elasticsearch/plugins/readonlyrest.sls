@@ -3,7 +3,7 @@
 include:
   - elasticsearch
 
-{% set readonlyrest_version = '1.25.2_es7.10.1' %}
+{% set readonlyrest_version = '1.27.1_es7.11.1' %}
 
 readonlyrest-download:
   file.managed:
