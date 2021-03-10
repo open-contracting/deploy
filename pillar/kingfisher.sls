@@ -79,10 +79,10 @@ python_apps:
       configuration: kingfisher-process
       port: 5001
       limit-as: 2048 # https://github.com/open-contracting/kingfisher-collect/issues/154
-      cheaper: 2
-      cheaper-initial: 2
-      workers: 100
-      threads: 1
+      workers: 200
+      cheaper: 10
+      cheaper-overload: 30
+      cheaper-busyness-multiplier: 60 # * cheaper-overload = 30mins before stopping workers
   kingfisher_summarize:
     user: ocdskfp
     git:
