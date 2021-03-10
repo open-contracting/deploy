@@ -53,6 +53,9 @@ base:
     - redash
     - maintenance
 
+  'spoonbill-dev':
+    - spoonbill_dev
+
   'toucan':
     - toucan
     - private.toucan
