@@ -8,7 +8,7 @@ To make a configuration file more reusable:
 
    .. code-block:: jinja
 
-      {{ entry.uwsgi.get('max-requests', 1024) }}
+      {{ entry.uwsgi.get('max-requests', 1000) }}
 
 -  Make values optional, for example:
 

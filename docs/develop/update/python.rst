@@ -131,12 +131,16 @@ The default values are:
 
 harakiri
   Timeout in seconds per request. Default: ``900`` (15 minutes).
+max-requests
+  Number of requests before a worker is reloaded. This can help address memory leaks. Default: ``1000``.
+max-worker-lifetime
+  Number of seconds before a worker is reloaded. This can help address memory leaks. Default: ``3600`` (1 hour).
+worker-reload-mercy
+  The maximum time for a worker to reload/shutdown. Default: ``60`` (1 minute).
 limit-as
   Limit uWSGI memory usage, in MB. Default: 3/4 of RAM. This assumes no other process uses significant memory.
-max-requests
-  Number of requests before a worker is restarted. This can help address memory leaks. Default: ``1024``.
-reload-on-as
-  Restart the worker if it finishes processing a request with this or more memory, in MB. Default: ``250``.
+reload-on-rss
+  Reload a worker (after processing a request) if using too much memory, in MB. Default: ``256``.
 
 Alternatively, you can write your own configuration file in ``salt/uwsgi/files``, and reference it from the ``configuration`` variable.
 
