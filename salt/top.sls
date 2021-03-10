@@ -48,6 +48,9 @@ base:
   'redash':
     - redash
 
+  'spoonbill-dev':
+    - spoonbill_dev
+
   'toucan':
     - toucan
 
