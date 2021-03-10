@@ -78,6 +78,11 @@ python_apps:
     uwsgi:
       configuration: kingfisher-process
       port: 5001
+      limit-as: 2048 # https://github.com/open-contracting/kingfisher-collect/issues/154
+      cheaper: 2
+      cheaper-initial: 2
+      workers: 100
+      threads: 1
   kingfisher_summarize:
     user: ocdskfp
     git:
