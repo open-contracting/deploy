@@ -1,3 +1,6 @@
+maintenance:
+  enabled: True
+
 ssh:
   root:
     # Iaroslav Andrusyak
