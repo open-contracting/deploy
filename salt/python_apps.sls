@@ -8,6 +8,7 @@ include:
   - apache
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
+  - celery
 
 virtualenv:
   pkg.installed:
@@ -138,6 +139,12 @@ virtualenv:
     - watch_in:
       - service: uwsgi
 {% endif %}{# uwsgi #}
+
+{{ directory }}-kill-celery:
+  cmd.run:
+    - name: kill -9 `cat /tmp/celery.pid`
+    - runas: {{ entry.user }}
+    - cwd: {{ directory }}
 
 {% if 'apache' in entry %}
 {{ apache(entry.git.target, entry.apache, context=context) }}
