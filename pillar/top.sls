@@ -35,12 +35,16 @@ base:
 
   'kingfisher-process':
     - kingfisher
+    - kingfisher_backups
+    - private.kingfisher_backups
     - private.kingfisher
     - tinyproxy
     - kingfisher_process_maintenance
 
   'kingfisher-replica':
     - kingfisher_replica
+    - kingfisher_backups
+    - private.kingfisher_backups
     - private.kingfisher_replica
     - kingfisher_replica_maintenance
 
