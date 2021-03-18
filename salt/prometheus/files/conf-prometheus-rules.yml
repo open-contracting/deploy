@@ -86,7 +86,7 @@ groups:
       summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
 
-  - alert: LowDiskSpace15Percent
+  - alert: LowDiskSpace10Percent
     expr: node_filesystem_avail_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
       / node_filesystem_size_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
       * 100 <= 10
