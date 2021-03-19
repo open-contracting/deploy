@@ -41,6 +41,10 @@ base:
     - kingfisher.process
     - kingfisher.summarize
     - kingfisher.archive
+    - postgres.backup
+
+  'kingfisher-replica':
+    - postgres.backup
 
   'prometheus':
     - prometheus
