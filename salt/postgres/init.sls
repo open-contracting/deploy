@@ -66,6 +66,10 @@ postgresql-reload:
     - mode: 640
     - watch_in:
       - service: postgresql
+{% if salt['pillar.get']('postgres:backup:identifier') %}
+    - require:
+      - pkg: pgbackrest
+{% endif %}
 {% endif %}
 
 # https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
