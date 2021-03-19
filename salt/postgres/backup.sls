@@ -12,5 +12,5 @@ pgbackrest:
    - makedirs: True
    - user: postgres
    - group: postgres
-   - source: salt://postgres/files/pgbackrest/{{ pillar.pgbackrest_config_name }}.conf
+   - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.config_name }}.conf
    - template: jinja
