@@ -41,10 +41,6 @@ base:
     - kingfisher.process
     - kingfisher.summarize
     - kingfisher.archive
-    - postgres.backup
-
-  'kingfisher-replica':
-    - postgres.backup
 
   'prometheus':
     - prometheus
@@ -71,6 +67,9 @@ base:
 
   'I@postgres:configuration':
     - postgres
+
+  'I@postgres:backup':
+    - postgres.backup
 
   'I@prometheus:node_exporter':
     - prometheus.node_exporter
