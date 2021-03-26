@@ -28,7 +28,7 @@ set JVM minimum heap size:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xms.+
-    - repl: -Xms{{ grains.mem_total * 2 // 5 }}m
+    - repl: -Xms{{ grains.mem_total // 5 * 2}}m
     - watch_in:
       - service: elasticsearch
 
@@ -36,7 +36,7 @@ set JVM maximum heap size:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xmx.+
-    - repl: -Xmx{{ grains.mem_total * 2 // 5 }}m
+    - repl: -Xmx{{ grains.mem_total // 5 * 2}}m
     - watch_in:
       - service: elasticsearch
 
