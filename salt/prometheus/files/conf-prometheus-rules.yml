@@ -86,7 +86,7 @@ groups:
       summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
 
-  - alert: LowDiskSpace15Percent
+  - alert: LowDiskSpace10Percent
     expr: node_filesystem_avail_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
       / node_filesystem_size_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
       * 100 <= 10
@@ -98,8 +98,17 @@ groups:
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% of disk space."
 
   - alert: CPUHigh80Percent
-    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) >= 80
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="covid19"}[5m])) * 100) >= 80
     for: 3m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
+      description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
+
+  - alert: CPUHigh80PercentCovid19
+    expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="covid19"}[5m])) * 100) >= 80
+    for: 4h
     labels:
       severity: critical
     annotations:

@@ -51,14 +51,14 @@ docs modules:
     - require:
       - file: /home/{{ user }}/web
 
-/home/{{ user}}/1-size.sh:
+/home/{{ user }}/1-size.sh:
   file.managed:
     - source: salt://files/docs-size.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
 
-/home/{{ user}}/2-delete.sh:
+/home/{{ user }}/2-delete.sh:
   file.managed:
     - source: salt://files/docs-delete.sh
     - user: {{ user }}
