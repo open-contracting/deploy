@@ -40,10 +40,11 @@ python_apps:
     uwsgi:
       configuration: django
       harakiri: 1800
-      processes: 8
       threads: 4
-      disable-logging: True
-      master: true
+      workers: 20
+      cheaper: 10
+      cheaper-overload: 30
+      cheaper-busyness-multiplier: 60 # * cheaper-overload = 30mins before stopping workers
       smart-attach-daemon: celery -A covidadmin worker -l info -Q covid19 -B
     apache:
       configuration: django
