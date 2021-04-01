@@ -1,7 +1,5 @@
 {% from 'lib.sls' import create_user, set_firewall %}
 
-{{ set_firewall("PUBLIC_SSH") }}
-
 covid19-prerequisites:
   pkg.installed:
     - pkgs:
@@ -11,7 +9,7 @@ covid19-prerequisites:
 #
 # ./run.py 'covid19-dev' state.apply pillar='{"python_apps":{"covid19admin":{"git":{"branch":"BRANCH_NAME"}}},"react_apps":{"covid19public":{"git":{"branch":"BRANCH_NAME"}}}}'
 
-{% if salt['pillar.get']('python_apps:covid19admin:git:branch') or salt['pillar.get']('react_apps:covid19public:git:branch') %}
+{% if 'branch' in pillar.python_apps.covid19admin.git or 'branch' in pillar.react_apps.covid19public.git %}
 include:
 {% endif %}
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
@@ -21,12 +19,10 @@ include:
   - react_apps
 {% endif %}
 
-{% if 'branch' in pillar.react_apps.covid19public.git %}
-  {% set frontend_entry = pillar.react_apps.covid19public %}
-  {{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
-{% endif %}
+{{ set_firewall("PUBLIC_SSH") }}
 
-{% if 'branch' in pillar.python_apps.covid19admin.git %}
-  {% set backend_entry = pillar.python_apps.covid19admin %}
-  {{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
-{% endif %}
+{% set frontend_entry = pillar.react_apps.covid19public %}
+{% set backend_entry = pillar.python_apps.covid19admin %}
+
+{{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
+{{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
