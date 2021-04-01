@@ -35,16 +35,8 @@ python_apps:
       app: covidadmin
       compilemessages: True
       env:
-        DEBUG: "False"
         ALLOWED_HOSTS: admin.open-contracting.health,localhost,127.0.0.1
         CORS_ORIGIN_WHITELIST: https://open-contracting.health,https://www.open-contracting.health
-        CELERY_BROKER_URL: 'pyamqp://guest@localhost/'
-        CELERY_TIMEZONE: UTC
-        FORCE_SCRIPT_NAME: /
-        STATIC_URL: /static/
-        MEDIA_URL: /media/
-        FETCH_COVID_DATA_INTERVAL: '10800'
-        DB_ENGINE: django.db.backends.postgresql_psycopg2
     uwsgi:
       configuration: django
       harakiri: 1800
