@@ -2,6 +2,15 @@
 
 {{ set_firewall("PUBLIC_SSH") }}
 
+covid19-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev # https://www.psycopg.org/install/
+
+# Pillar data does not set branches. Branches must be manually set to deploy apps. To deploy both apps:
+#
+# ./run.py 'covid19-dev' state.apply pillar='{"python_apps":{"covid19admin":{"git":{"branch":"BRANCH_NAME"}}},"react_apps":{"covid19public":{"git":{"branch":"BRANCH_NAME"}}}}'
+
 {% if salt['pillar.get']('python_apps:covid19admin:git:branch') or salt['pillar.get']('react_apps:covid19public:git:branch') %}
 include:
 {% endif %}
