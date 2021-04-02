@@ -2,9 +2,10 @@ name: Lint
 on: [push, pull_request]
 jobs:
   build:
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - run: sudo apt-get install shellcheck
-    # https://github.com/koalaman/shellcheck/wiki/SC1071
-    - run: find . -type f -name '*.sh' -exec shellcheck -e SC1071 {} \;
+      - uses: actions/checkout@v2
+      - run: sudo apt-get install shellcheck
+      # https://github.com/koalaman/shellcheck/wiki/SC1071
+      - run: find . -type f -name '*.sh' -exec shellcheck -e SC1071 {} \;
