@@ -16,27 +16,27 @@ fi
 git stash
 
 (
-    cd pillar/private
+    cd pillar/private || exit
     git stash
 )
 
 if [ -z "$2" ]; then
     $SALTSSH "$1" state.show_highstate > before
 else
-    $SALTSSH "$1" state.show_sls $2 > before
+    $SALTSSH "$1" state.show_sls "$2" > before
 fi
 
 git stash pop
 
 (
-    cd pillar/private
+    cd pillar/private || exit
     git stash pop || true # in case pillar/private was clean
 )
 
 if [ -z "$2" ]; then
     $SALTSSH "$1" state.show_highstate > after
 else
-    $SALTSSH "$1" state.show_sls $2 > after
+    $SALTSSH "$1" state.show_sls "$2" > after
 fi
 
 diff -u before after | less
