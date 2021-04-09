@@ -5,7 +5,8 @@ route:
   receiver: email.planio.servers
   routes:
     - receiver: email.planio.servers
-      group_by: ['alertname']
+      group_by:
+        - alertname
       group_wait: 30s
       group_interval: 5m
       repeat_interval: 1d

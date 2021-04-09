@@ -10,5 +10,5 @@ disable default motds:
 /etc/default/motd-news:
   file.replace:
     - pattern: "^ENABLED=.*"
-    - repl: ENABLED=0
+    - repl: "ENABLED=0"
     - ignore_if_missing: True

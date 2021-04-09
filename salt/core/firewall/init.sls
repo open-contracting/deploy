@@ -30,7 +30,7 @@ iptables-persistent:
 # - We remove any undocumented rules.
 save iptables rules:
   cmd.run:
-    - name: "/home/sysadmin-tools/bin/firewall.sh"
+    - name: /home/sysadmin-tools/bin/firewall.sh
     - onchanges:
       - file: /home/sysadmin-tools/firewall-settings.local
       - file: /home/sysadmin-tools/bin/firewall.sh

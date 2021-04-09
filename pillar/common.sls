@@ -7,9 +7,9 @@ maintenance:
 
 system_contacts:
   # For system notifications.
-  root: "sysadmin@dogsbody.com"
+  root: sysadmin@dogsbody.com
   # For cron jobs.
-  cron_admin: "sysadmin@open-contracting.org,sysadmin@dogsbody.com"
+  cron_admin: sysadmin@open-contracting.org,sysadmin@dogsbody.com
 
 ssh:
   # Public keys of users with root access to all servers.
