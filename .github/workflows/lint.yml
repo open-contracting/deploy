@@ -6,5 +6,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: sudo apt-get install shellcheck
-    # https://github.com/koalaman/shellcheck/wiki/SC1071
-    - run: find . -type f -name '*.sh' -exec shellcheck -e SC1071 {} \;
+    - run: sudo snap install shfmt
+    - run: shellcheck $(shfmt -f .)
+    - run: shfmt -d -i 4 -sr $(shfmt -f .)
