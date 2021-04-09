@@ -142,7 +142,7 @@ virtualenv:
 
 {{ directory }}-kill-celery:
   cmd.run:
-    - name: kill -9 `cat /tmp/celery.pid`
+    - name: pkill celery
     - runas: {{ entry.user }}
     - cwd: {{ directory }}
 

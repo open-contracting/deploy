@@ -4,6 +4,7 @@
 include:
   - apache
   - apache.modules.rewrite
+  - apache.modules.expires
 
 {% for name, entry in pillar.react_apps.items() %}
 
@@ -32,6 +33,10 @@ include:
 {% if 'apache' in entry %}
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}
+
+delete-{{ directory }}/.env:
+  file.absent:
+    - name: {{ directory }}/.env
 
 {{ directory }}/.env:
   file.copy:
