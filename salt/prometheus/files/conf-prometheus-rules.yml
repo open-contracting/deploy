@@ -6,7 +6,7 @@ groups:
     expr: up == 0
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} down"
       description: "{{ $labels.instance }} of job {{ $labels.job }} is down."
@@ -15,7 +15,7 @@ groups:
     expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.2
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} has less than 20% available memory"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 20% available memory."
@@ -24,7 +24,7 @@ groups:
     expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.05
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} has less than 5% available memory"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 5% available memory."
@@ -33,7 +33,7 @@ groups:
     expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.05
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} has less than 5% of disk space"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 5% of disk space."
@@ -42,7 +42,7 @@ groups:
     expr:  smartmon_device_smart_healthy != 1
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} is reporting that a physical hard disk is unhealthy"
       description: "{{ $labels.instance }} of job {{ $labels.job }} is reporting that a physical hard disk is unhealthy."
@@ -51,7 +51,7 @@ groups:
     expr:  smartmon_wear_leveling_count_value < smartmon_wear_leveling_count_threshold
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} is reporting that a physical hard disk has less than 50% expected life left"
       description: "{{ $labels.instance }} of job {{ $labels.job }} is reporting that a physical hard disk has less than 50% expected life left."
@@ -63,7 +63,7 @@ groups:
     expr:  absent(node_textfile_mtime_seconds{file="smartmon.sh.prom",job="ocds-kingfisher2"})
     for: 3m
     labels:
-      severity: "critical"
+      severity: critical
     annotations:
       summary: "Endpoint {{ $labels.instance }} does not have data for Smartmon"
       description: "{{ $labels.instance }} of job {{ $labels.job }} is reporting it does not have data for Smartmon"
@@ -179,5 +179,4 @@ groups:
     annotations:
       summary: "Endpoint {{ $labels.instance }} has less than 10% SMART Runtime Bad Block"
       description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% SMART Runtime Bad Block"
-
 {% endraw %}
