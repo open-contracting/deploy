@@ -4,39 +4,39 @@
 SALTSSH="./run.py"
 
 if [ -z "$1" ]; then
-  echo 'No target provided' 1>&2
-  exit 1
+    echo 'No target provided' 1>&2
+    exit 1
 fi
 
 if ! [ -x "$SALTSSH" ]; then
-  echo "$SALTSSH is not executable"
-  exit 2
+    echo "$SALTSSH is not executable"
+    exit 2
 fi
 
 git stash
 
 (
-  cd pillar/private
-  git stash
+    cd pillar/private
+    git stash
 )
 
 if [ -z "$2" ]; then
-  $SALTSSH "$1" state.show_highstate > before
+    $SALTSSH "$1" state.show_highstate > before
 else
-  $SALTSSH "$1" state.show_sls $2 > before
+    $SALTSSH "$1" state.show_sls $2 > before
 fi
 
 git stash pop
 
 (
-  cd pillar/private
-  git stash pop || true # in case pillar/private was clean
+    cd pillar/private
+    git stash pop || true # in case pillar/private was clean
 )
 
 if [ -z "$2" ]; then
-  $SALTSSH "$1" state.show_highstate > after
+    $SALTSSH "$1" state.show_highstate > after
 else
-  $SALTSSH "$1" state.show_sls $2 > after
+    $SALTSSH "$1" state.show_sls $2 > after
 fi
 
 diff -u before after | less

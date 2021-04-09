@@ -21,8 +21,8 @@ function echo_verbose {
 }
 
 if [ -x "$(command -v docker)" ]; then
-	echo "Docker is not supported. Please configure iptables manually."
-	exit 3
+    echo "Docker is not supported. Please configure iptables manually."
+    exit 3
 fi
 
 echo_verbose "Check user is root"
@@ -164,20 +164,20 @@ $IP6TABLES -A OUTPUT -o lo -j ACCEPT
 
 if [ -n "$ALLOWALL_IPV4" ] || [ -n "$ALLOWALL_IPV6" ]; then
     echo_verbose "Allow ANY connection from given IP addresses"
-    for IP in $ALLOWALL_IPV4;do
+    for IP in $ALLOWALL_IPV4; do
         $IPTABLES -A INPUT -s "$IP" -j ACCEPT
     done
-    for IP in $ALLOWALL_IPV6;do
+    for IP in $ALLOWALL_IPV6; do
         $IP6TABLES -A INPUT -s "$IP" -j ACCEPT
     done
 fi
 
 if [ -n "$DENYALL_IPV4" ] || [ -n "$DENYALL_IPV6" ]; then
     echo_verbose "Deny ANY connection from given IP addresses"
-    for IP in $DENYALL_IPV4;do
+    for IP in $DENYALL_IPV4; do
         $IPTABLES -A INPUT -s "$IP" -j DROP
     done
-    for IP in $DENYALL_IPV6;do
+    for IP in $DENYALL_IPV6; do
         $IP6TABLES -A INPUT -s "$IP" -j DROP
     done
 fi
