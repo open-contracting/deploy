@@ -56,8 +56,7 @@ react_apps:
     env:
       NODE_ENV: production
       REACT_APP_API_URL: https://admin.open-contracting.health
-      REACT_APP_FATHOM_SRC: https://kite.open-contracting.org/script.js
-      REACT_APP_FATHOM_SITE_KEY: LKQYBVCU
+      REACT_APP_FATHOM_ANALYTICS_DOMAIN: cdn.usefathom.com
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
       target: covid19
