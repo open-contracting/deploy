@@ -1,5 +1,4 @@
 {% from 'lib.sls' import apache %}
-{% set timestamp = salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') %}
 
 # So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
 # add boolean key to the Pillar data to indicate whether to include these.
@@ -8,7 +7,6 @@ include:
   - apache
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
-  - celery
 
 virtualenv:
   pkg.installed:
@@ -24,7 +22,6 @@ virtualenv:
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
-{% set static_dir = userdir + '/' + entry.git.target + '/static' %}
 {% set context = {'name': name, 'entry': entry, 'appdir': directory} %}
 
 {{ entry.git.url }}:
@@ -140,20 +137,8 @@ virtualenv:
       - service: uwsgi
 {% endif %}{# uwsgi #}
 
-{{ directory }}-kill-celery:
-  cmd.run:
-    - name: pkill celery
-    - runas: {{ entry.user }}
-    - cwd: {{ directory }}
-
 {% if 'apache' in entry %}
 {{ apache(entry.git.target, entry.apache, context=context) }}
-{% endif %}{# apache #}
-
-{% if salt['pillar.get']('ver_txt:enabled') %}
-{{static_dir}}/ver.txt:
-  file.managed:
-    - contents: "branch: {{ entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
-{% endif %}{# ver txt #}
+{% endif %}
 
 {% endfor %}
