@@ -78,4 +78,4 @@ vm:
   overcommit_memory: 1
 
 ver_txt:
-  enable: True
+  enabled: True
