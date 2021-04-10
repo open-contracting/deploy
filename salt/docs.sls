@@ -31,7 +31,6 @@ docs modules:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
-    - makedirs: True
     - require:
       - user: {{ user }}_user_exists
 

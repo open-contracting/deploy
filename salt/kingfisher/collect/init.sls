@@ -71,7 +71,6 @@
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
-    - makedirs: True
     - require_in:
       - service: scrapyd
 
