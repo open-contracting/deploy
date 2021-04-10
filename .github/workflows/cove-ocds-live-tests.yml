@@ -2,7 +2,7 @@ name: OCDS Data Review Tool live tests
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '0 0 * * *'
+    - cron: "0 0 * * *"
 jobs:
   build:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
@@ -39,10 +39,10 @@ jobs:
           server_port: ${{secrets.MAIL_PORT}}
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: "Github Actions: ${{github.repository}} ${{github.workflow}} failed!"
-          body: "Github Actions: ${{github.repository}} ${{github.workflow}} failed!
+          subject: "GitHub Actions: ${{github.repository}} ${{github.workflow}} failed!"
+          body: |
+            GitHub Actions: ${{github.repository}} ${{github.workflow}} failed!
 
-
-            ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}"
+            ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
           to: inbox+opendataservices+443f+servers@plan.io, sysadmin@open-contracting.org
           from: Github action <noreply@noreply.open-contracting.org>

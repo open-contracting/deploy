@@ -3,7 +3,7 @@ disable password authentication:
   file.replace:
     - name: /etc/ssh/sshd_config
     - pattern: "^#?PasswordAuthentication .*"
-    - repl: PasswordAuthentication no
+    - repl: "PasswordAuthentication no"
 
 # The above "PasswordAuthentication no" technically disables root logins with passwords but we are explicitly setting "PermitRootLogin" as well for two reasons:
 # Firstly it adds an extra layer to the security if PasswordAuthentication is toggled back on.
