@@ -2,6 +2,7 @@
 
 include:
   - apache
+  - apache.modules.headers
   - apache.modules.rewrite
 
 {% set user = 'ocds-docs' %}
@@ -15,7 +16,6 @@ zip:
 docs modules:
   apache_module.enabled:
     - names:
-      - headers
       - include
       - substitute
     - watch_in:
