@@ -24,7 +24,6 @@ base:
     - memcached
 
   'covid19*':
-    - celery
     - postgres
     - rabbitmq
     - nodejs

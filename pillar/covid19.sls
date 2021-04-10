@@ -56,7 +56,7 @@ react_apps:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
       target: covid19
     apache:
-      configuration: react
+      configuration: covid19
 
 postgres:
   version: 11
