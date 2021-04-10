@@ -34,9 +34,6 @@ python_apps:
     django:
       app: covidadmin
       compilemessages: True
-      env:
-        ALLOWED_HOSTS: admin.open-contracting.health,localhost,127.0.0.1
-        CORS_ORIGIN_WHITELIST: https://open-contracting.health,https://www.open-contracting.health
     uwsgi:
       configuration: django
       harakiri: 1800
@@ -48,24 +45,18 @@ python_apps:
       smart-attach-daemon: celery -A covidadmin worker -l info -Q covid19 -B
     apache:
       configuration: django
-      servername: admin.open-contracting.health
 
 react_apps:
   covid19public:
     user: covid19
     env:
       NODE_ENV: production
-      REACT_APP_API_URL: https://admin.open-contracting.health
-      REACT_APP_FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
-      REACT_APP_FATHOM_ANALYTICS_ID: LKQYBVCU
-      REACT_APP_GOOGLE_ANALYTICS_ID: UA-35677147-3
+      GENERATE_SOURCEMAP: "false"
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
       target: covid19
     apache:
       configuration: react
-      servername: open-contracting.health
-      serveraliases: ['www.open-contracting.health']
 
 postgres:
   version: 11
