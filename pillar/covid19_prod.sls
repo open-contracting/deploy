@@ -16,4 +16,3 @@ react_apps:
       REACT_APP_API_URL: https://admin.open-contracting.health
       REACT_APP_FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       REACT_APP_FATHOM_ANALYTICS_ID: LKQYBVCU
-      REACT_APP_GOOGLE_ANALYTICS_ID: UA-35677147-3
