@@ -85,9 +85,9 @@ If the Python app uses the Django framework, add, for example:
 
 This will activate the virtual environment, set the ``DJANGO_SETTINGS_MODULE`` environment variable to ``{app}.settings``, and run:
 
--  The `migrate <https://docs.djangoproject.com/en/2.2/ref/django-admin/#django-admin-migrate>`__ management command
--  The `collectstatic <https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/#collectstatic>`__ management command
--  The `compilemessages <https://docs.djangoproject.com/en/2.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
+-  The `migrate <https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-migrate>`__ management command
+-  The `collectstatic <https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#collectstatic>`__ management command
+-  The `compilemessages <https://docs.djangoproject.com/en/3.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
 
 Configure uWSGI
 ---------------
