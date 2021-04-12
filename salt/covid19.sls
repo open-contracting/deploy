@@ -9,6 +9,7 @@ covid19-prerequisites:
 #
 # ./run.py 'covid19-dev' state.apply pillar='{"python_apps":{"covid19admin":{"git":{"branch":"BRANCH_NAME"}}},"react_apps":{"covid19public":{"git":{"branch":"BRANCH_NAME"}}}}'
 
+# See https://github.com/prerender/prerender-apache
 include:
   - apache.modules.deflate
   - apache.modules.expires
