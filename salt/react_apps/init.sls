@@ -35,7 +35,7 @@ include:
 
 {{ directory }}/.env:
   file.managed:
-    - source: salt://react_apps/files/env
+    - source: salt://react_apps/files/.env
     - template: jinja
     - context: {{ context|yaml }}
     - user: {{ entry.user }}
