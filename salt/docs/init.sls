@@ -52,14 +52,14 @@ docs modules:
 
 /home/{{ user }}/1-size.sh:
   file.managed:
-    - source: salt://files/docs-size.sh
+    - source: salt://docs/files/size.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
 
 /home/{{ user }}/2-delete.sh:
   file.managed:
-    - source: salt://files/docs-delete.sh
+    - source: salt://docs/files/delete.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
