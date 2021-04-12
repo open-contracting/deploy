@@ -11,6 +11,6 @@ react_apps:
   covid19public:
     apache:
       servername: covid19.development.opencontracting.uk0.bigv.io
-      serveraliases: ['www.covid19.development.opencontracting.uk0.bigv.io']
+      serveraliases: [www.covid19.development.opencontracting.uk0.bigv.io]
     env:
       REACT_APP_API_URL: https://admin.covid19.development.opencontracting.uk0.bigv.io
