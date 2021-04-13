@@ -344,7 +344,7 @@ See the `pg_stat_activity <https://www.postgresql.org/docs/11/monitoring-stats.h
 Restore from backup
 -------------------
 
-Postgres is being backed up onto offsite cloud storage, backups and restoration are managed by `pgbackrest <https://pgbackrest.org/>`__.
+PostgreSQL databases are backed up offsite. Backup and restoration are managed by `pgBackRest <https://pgbackrest.org/>`__.
 These are the main commands for working with pgbackrest.
 
 .. note::

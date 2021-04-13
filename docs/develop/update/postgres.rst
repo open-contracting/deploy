@@ -55,8 +55,8 @@ The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` direct
 Set up backups
 --------------
 
-We use pgbackrest to create and manage backups stored in the cloud.
-Salt will install and configure pgbackrest if ``postgres:backup`` is defined in pillar.
+We use `pgBackRest <https://pgbackrest.org>`__ to create and manage offsite backups.
+Salt will install and configure pgBackRest if ``postgres:backup`` is defined in Pillar data.
 
 #. Create pgbackrest pillar config.
 
@@ -86,7 +86,7 @@ Salt will install and configure pgbackrest if ``postgres:backup`` is defined in 
 
    .. note::
 
-      These options support any s3 compatible storage systems including AWS, BackBlaze and more.
+      These options support any S3-compatible storage, including AWS and BackBlaze.
 
    .. note::
 
@@ -94,7 +94,7 @@ Salt will install and configure pgbackrest if ``postgres:backup`` is defined in 
       Full backups are taken weekly, currently this runs on Sunday.
       So if ``total_full_backups`` is set to 4, backups will be stored for four weeks.
 
-#. Create Stanza.
+#. Create stanza.
 
    If this backup stanza has already been created you can skip this step.
 
