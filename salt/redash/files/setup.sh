@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This script setups dockerized Redash on Ubuntu 18.04.
 
-# curl -o setup-redash.sh https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
+# https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
 
 set -euo pipefail
 
