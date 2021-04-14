@@ -71,12 +71,12 @@ Function: git.latest
   A new commit was deployed
 Function: cmd.run, Name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
   Requirements were installed
-Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py migrate --noinput
+Function: cmd.run, Name: . .ve/bin/activate; python manage.py migrate --settings ... --noinput
   Django migrations were applied
-Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py compilemessages
-  Message catalogs were compiled
-Function: cmd.run, Name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE=... python manage.py collectstatic --noinput
+Function: cmd.run, Name: . .ve/bin/activate; python manage.py collectstatic --settings ... --noinput
   Static files were collected
+Function: cmd.run, Name: . .ve/bin/activate; python manage.py compilemessages --settings ... --ignore=.ve
+  Message catalogs were compiled
 Function: service.running, ID: uwsgi
   uWSGI was reloaded
 

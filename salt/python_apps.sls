@@ -80,7 +80,7 @@ virtualenv:
 {% if 'django' in entry %}
 {{ directory }}-migrate:
   cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py migrate --noinput
+    - name: . .ve/bin/activate; python manage.py migrate --settings {{ entry.django.app }}.settings --noinput
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
@@ -91,7 +91,7 @@ virtualenv:
 
 {{ directory }}-collectstatic:
   cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py collectstatic --noinput
+    - name: . .ve/bin/activate; python manage.py collectstatic --settings {{ entry.django.app }}.settings --noinput
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
@@ -105,7 +105,8 @@ virtualenv:
   pkg.installed:
     - name: gettext
   cmd.run:
-    - name: . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings python manage.py compilemessages
+    # Django 3.0 adds --ignore: https://docs.djangoproject.com/en/3.2/releases/3.0/#management-commands
+    - name: . .ve/bin/activate; python manage.py compilemessages --settings {{ entry.django.app }}.settings --ignore=.ve
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
