@@ -13,7 +13,7 @@ We `installed Redash <https://redash.io/help/open-source/setup#docker>`__ using 
 
 #. Add a comment with a link to the version used of the setup script (to make it easier to compare against future scripts).
 #. Comment out the ``install_docker`` function call. (The ``docker`` state file installs Docker, to keep system packages under Salt's management.)
-#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache uses port 80 to serve requests to the :doc:`Prometheus client<prometheus>`, so the port isn't available for Nginx. To serve requests to Redash, Apache proxies requests on port 80 to port 9090.)
+#. Change the ``nginx`` service's `ports <https://docs.docker.com/compose/compose-file/#ports>`__ to ``9090:80`` instead of ``80:80``. (Apache is used to acquire SSL certificates.)
 #. Expose the ``postgres`` service's ports as ``5432:5432`` (to make it easier to load a database dump).
 #. Comment out the database creation and container startup commands (to be run after upgrade).
 
@@ -143,4 +143,23 @@ Run script
 Upgrade the Redash service
 --------------------------
 
-To upgrade Redash without creating a new server, `see the official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__.
+To upgrade Redash without creating a new server, see the `official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__ and `release list <https://github.com/getredash/redash/releases>`__.
+
+.. note::
+
+   Any ``docker-compose up`` commands from Redash's documentation should use the ``-d`` option to run containers in the background.
+
+To compare the ``/root/docker-compose.yml`` file to that in the `getredash/setup <https://github.com/getredash/setup/blob/master/data/docker-compose.yml>`__ repository, run:
+
+.. code-block:: bash
+
+   curl -sS https://raw.githubusercontent.com/getredash/setup/master/data/docker-compose.yml | diff -u - docker-compose.yml
+
+.. note::
+
+   The ``getredash/setup`` repository might not be up-to-date.
+
+To troubleshoot ``docker-compose`` commands:
+
+-  Add ``--verbose``
+-  Set ``-f docker-compose.yml`` to avoid ambiguity
