@@ -33,7 +33,7 @@ python_apps:
       target: covid19admin
     django:
       app: covidadmin
-      compilemessages: True
+      compilemessages: False # re-enable once there are translations
     uwsgi:
       configuration: django
       harakiri: 1800
