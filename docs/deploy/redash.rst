@@ -145,9 +145,10 @@ Upgrade the Redash service
 
 To upgrade Redash without creating a new server, see the `official documentation <https://redash.io/help/open-source/admin-guide/how-to-upgrade>`__ and `release list <https://github.com/getredash/redash/releases>`__.
 
-.. note::
+Any ``docker-compose up`` commands from Redash's documentation should:
 
-   Any ``docker-compose up`` commands from Redash's documentation should use the ``-d`` option to run containers in the background.
+-  Add ``-d`` to run containers in the background
+-  Set ``-f docker-compose.yml`` to avoid ambiguity
 
 To compare the ``/root/docker-compose.yml`` file to that in the `getredash/setup <https://github.com/getredash/setup/blob/master/data/docker-compose.yml>`__ repository, run:
 
@@ -158,6 +159,11 @@ To compare the ``/root/docker-compose.yml`` file to that in the `getredash/setup
 .. note::
 
    The ``getredash/setup`` repository might not be up-to-date.
+
+Finally, check that the new version is running by `accessing Redash <https://redash.open-contracting.org>`__, clicking your name, and reading the *Version*.
+
+Troubleshoot
+~~~~~~~~~~~~
 
 To troubleshoot ``docker-compose`` commands:
 
