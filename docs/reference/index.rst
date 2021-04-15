@@ -29,7 +29,7 @@ Sentry
 
 Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
 
-There should be at most one `member <https://sentry.io/settings/open-contracting-partnership/members/>`__ with the Admin role from each of ODS and CDS, and at least one member with the Owner role from OCP.
+See the Software Development Handbook for `administrative access management <https://ocp-software-handbook.readthedocs.io/en/latest/services/#sentry>`__.
 
 .. _hosting:
 
