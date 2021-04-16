@@ -115,6 +115,11 @@ The example above uses the `django <https://github.com/open-contracting/deploy/b
 
 -  Sets the uWSGI ``module`` to ``{app}.wsgi:application``
 -  Sets some environment variables, and any ``env`` variables from the service's Pillar file
+
+   .. warning::
+
+      During deployment, uWSGI reloads rather than restarts. However, deleted environment variables are not unset during reload. To remove a variable from the environment, you must :ref:`restart uWSGI<restart-service>`.
+
 -  Sets default values for some uWSGI settings, and supports custom values for other uWSGI settings, which you can override or set, for example:
 
    .. code-block:: yaml
