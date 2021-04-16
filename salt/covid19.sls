@@ -45,7 +45,7 @@ pkill celery:
 
 {{static_dir}}/ver.txt:
   file.managed:
-    - contents: "branch: {{ backend_entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
+    - contents: "branch: {{ backend_entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify '+ backend_entry.git.branch ) }} || time: {{ timestamp }}"
   {% endif %}
 
 {% endif %}

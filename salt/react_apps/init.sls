@@ -9,7 +9,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 {% set builddir = userdir + '/releases' %}
-{% set timestamp = salt['cmd.run']('date +%Y%m%d%H%M%S') %}
+{% set timestamp = salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') %}
 {% set appdir = userdir + '/current' %}
 {% set context = {'name': name, 'entry': entry, 'appdir': appdir} %}
 
@@ -86,7 +86,7 @@ include:
 {{ builddir }}/{{ timestamp }}/ver.txt:
   file.managed:
     - contents: |
-        {{ entry.git.branch }} {{ salt['cmd.shell']('cd ' + directory + ' && git rev-parse --verify HEAD') }} {{ salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') }}
+        {{ entry.git.branch }} {{ salt['cmd.shell']('cd ' + directory + ' && git rev-parse --verify ' + entry.git.branch ) }} {{ salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - require:
