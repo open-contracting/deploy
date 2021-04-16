@@ -1,10 +1,5 @@
 {% from 'lib.sls' import create_user, set_firewall %}
 
-covid19-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - libpq-dev # https://www.psycopg.org/install/
-
 # Pillar data does not set branches. Branches must be manually set to deploy apps. To deploy both apps:
 #
 # ./run.py 'covid19-dev' state.apply pillar='{"python_apps":{"covid19admin":{"git":{"branch":"BRANCH_NAME"}}},"react_apps":{"covid19public":{"git":{"branch":"BRANCH_NAME"}}}}'
@@ -27,9 +22,15 @@ include:
 
 {% set backend_entry = pillar.python_apps.covid19admin %}
 {% set frontend_entry = pillar.react_apps.covid19public %}
+{% set directory = '/home/' + backend_entry.user + '/' + backend_entry.git.target %}
 
 {{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
 {{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
+
+covid19-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev # https://www.psycopg.org/install/
 
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
 pkill celery:
@@ -37,9 +38,7 @@ pkill celery:
     - name: pkill celery
     - runas: {{ backend_entry.user }}
 
-{% if pillar.ver_txt.enabled %}
-{% set directory = '/home/' + backend_entry.user + '/' + backend_entry.git.target %}
-
+{% if salt['pillar.get']('ver_txt:enabled') %}
 {{ directory }}/static/ver.txt:
   file.managed:
     - contents: "{{ backend_entry.git.branch }} {{ salt['cmd.shell']('cd ' + directory + ' && git rev-parse --verify ' + backend_entry.git.branch) }} {{ salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') }}"
