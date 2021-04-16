@@ -11,6 +11,7 @@ include:
   - apache.modules.headers
   - apache.modules.proxy_http
   - apache.modules.rewrite
+  - covid19.database
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
   - python_apps
 {% endif %}
