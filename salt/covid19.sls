@@ -27,6 +27,7 @@ include:
 
 {% set backend_entry = pillar.python_apps.covid19admin %}
 {% set frontend_entry = pillar.react_apps.covid19public %}
+{% set timestamp = salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') %}
 
 {{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
 {{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
@@ -36,6 +37,17 @@ pkill celery:
   cmd.run:
     - name: pkill celery
     - runas: {{ backend_entry.user }}
+
+  {% if pillar.ver_txt.enabled %}
+    {% set userdir = '/home/' + backend_entry.user %}
+    {% set static_dir = userdir + '/' + backend_entry.git.target + '/static' %}
+    {% set directory = userdir + '/' + backend_entry.git.target %}
+
+{{static_dir}}/ver.txt:
+  file.managed:
+    - contents: "branch: {{ backend_entry.git.branch }} || commit_hash: {{ salt['cmd.shell']('cd ' + directory + '&& git rev-parse --verify HEAD') }} || time: {{ timestamp }}"
+  {% endif %}
+
 {% endif %}
 
 covid19-pipinstall:
