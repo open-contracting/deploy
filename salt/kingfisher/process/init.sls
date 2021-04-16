@@ -144,9 +144,9 @@ kingfisher-process-pipinstall:
   pkg.installed:
     - name: python3-pip
   pip.installed:
+    - requirements: salt://kingfisher/files/pipinstall.txt
     - upgrade: True
     - user: {{ entry.user }}
-    - requirements: salt://kingfisher/files/pipinstall.txt
     - bin_env: /usr/bin/pip3
     - require:
       - pkg: kingfisher-process-pipinstall

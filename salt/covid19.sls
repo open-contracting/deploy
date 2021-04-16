@@ -37,3 +37,18 @@ pkill celery:
     - name: pkill celery
     - runas: {{ backend_entry.user }}
 {% endif %}
+
+covid19-pipinstall:
+  pkg.installed:
+    - name: python3-pip
+  pip.installed:
+    - name: flower==0.9.5
+    - user: {{ backend_entry.user }}
+    - bin_env: /usr/bin/pip3
+    - require:
+      - pkg: covid19-pipinstall
+
+covid19-pip-path:
+  file.append:
+    - name: /home/{{ backend_entry.user }}/.bashrc
+    - text: "export PATH=\"/home/{{ backend_entry.user }}/.local/bin/:$PATH\""
