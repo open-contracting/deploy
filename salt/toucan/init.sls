@@ -15,7 +15,7 @@ toucan-deps:
 
 {{ directory }}/googleapi_credentials.json:
   file.managed:
-    - source: salt://files/googleapi_credentials.json
+    - source: salt://toucan/files/googleapi_credentials.json
     - template: jinja
     - user: {{ entry.user }}
     - group: {{ entry.user }}

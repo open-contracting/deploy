@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # This script setups dockerized Redash on Ubuntu 18.04.
 
-# curl -o setup-redash.sh https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
+# https://raw.githubusercontent.com/getredash/setup/cb47626/setup.sh
 
 set -euo pipefail
 
 REDASH_BASE_PATH=/opt/redash
 
-install_docker(){
+install_docker() {
     # Install Docker
     export DEBIAN_FRONTEND=noninteractive
     sudo apt-get -qqy update
@@ -60,7 +60,7 @@ create_config() {
 
 setup_compose() {
     REQUESTED_CHANNEL=stable
-    LATEST_VERSION=$(curl -s "https://version.redash.io/api/releases?channel=$REQUESTED_CHANNEL"  | json_pp  | grep "docker_image" | head -n 1 | awk 'BEGIN{FS=":"}{print $3}' | awk 'BEGIN{FS="\""}{print $1}')
+    LATEST_VERSION=$(curl -s "https://version.redash.io/api/releases?channel=$REQUESTED_CHANNEL" | json_pp | grep "docker_image" | head -n 1 | awk 'BEGIN{FS=":"}{print $3}' | awk 'BEGIN{FS="\""}{print $1}')
 
     cd $REDASH_BASE_PATH
     GIT_BRANCH="${REDASH_BRANCH:-master}" # Default branch/version to master if not specified in REDASH_BRANCH env var
@@ -70,7 +70,7 @@ setup_compose() {
     # shellcheck disable=SC1003
     sed -i '/postgresql/a\'$'\n''      - "5432:5432"' /opt/redash/docker-compose.yml
     # shellcheck disable=SC1003
-    sed -i '/postgresql/a\'$'\n''    ports:'  /opt/redash/docker-compose.yml
+    sed -i '/postgresql/a\'$'\n''    ports:' /opt/redash/docker-compose.yml
     echo "export COMPOSE_PROJECT_NAME=redash" >> ~/.profile
     echo "export COMPOSE_FILE=/opt/redash/docker-compose.yml" >> ~/.profile
     export COMPOSE_PROJECT_NAME=redash

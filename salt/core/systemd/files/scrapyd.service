@@ -16,6 +16,7 @@ Environment="KINGFISHER_OPENOPPS_PASSWORD="{{ pillar.kingfisher_collect.tokens.k
 Environment="SENTRY_DSN="{{ pillar.kingfisher_collect.sentry.dsn }}""
 Environment="http_proxy={{ pillar.tinyproxy.url }}"
 Environment="https_proxy={{ pillar.tinyproxy.url }}"
+Environment="no_proxy=sentry.io"
 WorkingDirectory={{ entry.appdir }}
 ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --nodaemon --logfile=/var/log/scrapyd/scrapyd.log
 

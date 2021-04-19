@@ -8,17 +8,23 @@ readonlyrest:
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
     - name: Allow localhost
-      hosts: ["localhost"]
+      hosts:
+        - localhost
     - name: Allow the public group to search indices created by OCDS Index
-      groups: ["public"]
+      groups:
+        - public
       indices:
-        patterns: ["ocdsindex_*"]
+        patterns:
+          - "ocdsindex_*"
         must_involve_indices: True
       actions:
         - indices:data/read/search
     - name: Allow the manage group to manage indices created by OCDS Index
-      groups: ["manage"]
-      indices: ["ocdsindex_*"]
+      groups:
+        - manage
+      indices:
+        patterns:
+          - "ocdsindex_*"
       actions:
         - indices:admin/create
         - indices:admin/get

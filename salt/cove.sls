@@ -10,7 +10,7 @@ include:
 
 {{ create_user(entry.user) }}
 
-cd {{ directory }}; . .ve/bin/activate; DJANGO_SETTINGS_MODULE={{ entry.django.app }}.settings SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files:
+cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
     - user: {{ entry.user }}

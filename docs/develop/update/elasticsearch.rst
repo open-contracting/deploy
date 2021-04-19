@@ -114,10 +114,12 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
             users:
               - auth_key_sha512: AUTH_KEY_SHA512
                 username: public
-                groups: ["public"]
+                groups:
+                  - public
               - auth_key_sha512: AUTH_KEY_SHA512
                 username: manage
-                groups: ["manage"]
+                groups:
+                  - manage
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
 

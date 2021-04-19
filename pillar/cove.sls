@@ -12,7 +12,6 @@ python_apps:
       compilemessages: True
       env:
         FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
-        GOOGLE_ANALYTICS_ID: UA-35677147-1
         VALIDATION_ERROR_LOCATIONS_LENGTH: 100
     apache:
       configuration: django

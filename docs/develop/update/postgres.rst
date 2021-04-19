@@ -29,6 +29,61 @@ To enable public access, update the server's Pillar file:
   postgres:
     public_access: True
 
+Add service accounts
+--------------------
+
+To configure the database for an application:
+
+#. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``USERNAME`` with a recognizable username:
+
+   .. code-block:: yaml
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+
+#. In a new state file, create the database for the application and grant privileges to the application's user. For example, following the example of `salt/covid19/database.sls <https://github.com/open-contracting/deploy/blob/main/salt/covid19/database.sls>`__, replacing ``DB_NAME`` and ``DB_USER``:
+
+   .. code-block:: yaml
+
+      DB_NAME:
+        postgres_database.present:
+          - name: DB_NAME
+          - owner: postgres
+          - require:
+            - service: postgresql
+
+      grant DB_USER schema privileges:
+        postgres_privileges.present:
+          - name: DB_USER
+          - privileges:
+            - ALL
+          - object_type: schema
+          - object_name: public
+          - maintenance_db: DB_NAME
+          - require:
+            - postgres_user: sql-user-DB_USER
+            - postgres_database: DB_NAME
+
+      grant DB_USER table privileges:
+        postgres_privileges.present:
+          - name: DB_USER
+          - privileges:
+            - ALL
+          - object_type: table
+          - object_name: ALL
+          - maintenance_db: DB_NAME
+          - require:
+            - postgres_user: sql-user-DB_USER
+            - postgres_database: DB_NAME
+
+#. Include the new state file from the main state file of the application, and add the private Pillar file to the top file entry for the application.
+
+.. note::
+
+   If this configuration is repeated, we can add a macro to ``salt/lib.sls`` and update this guidance.
+
 .. _postgres-add-configuration:
 
 Add your configuration

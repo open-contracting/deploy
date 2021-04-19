@@ -30,45 +30,43 @@ python_apps:
     user: covid19admin
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-admin.git
-      branch: main
       target: covid19admin
     django:
       app: covidadmin
-      compilemessages: True
-      env:
-        DEBUG: "False"
-        ALLOWED_HOSTS: admin.open-contracting.health,localhost,127.0.0.1
-        CORS_ORIGIN_WHITELIST: https://open-contracting.health,https://www.open-contracting.health
-        CELERY_BROKER_URL: 'pyamqp://guest@localhost/'
-        CELERY_TIMEZONE: UTC
-        FORCE_SCRIPT_NAME: /
-        STATIC_URL: /static/
-        MEDIA_URL: /media/
-        FETCH_COVID_DATA_INTERVAL: '10800'
-        DB_ENGINE: django.db.backends.postgresql_psycopg2
+      compilemessages: False # re-enable once there are translations
     uwsgi:
       configuration: django
       harakiri: 1800
       threads: 4
+      workers: 20
+      cheaper: 10
+      cheaper-overload: 30
+      cheaper-busyness-multiplier: 60 # * cheaper-overload = 30mins before stopping workers
+      smart-attach-daemon: celery -A covidadmin worker -l info -Q covid19 -B
     apache:
       configuration: django
-      servername: admin.open-contracting.health
 
 react_apps:
   covid19public:
     user: covid19
+    env:
+      NODE_ENV: production
+      GENERATE_SOURCEMAP: "false"
     git:
       url: https://github.com/open-contracting/covid-19-procurement-explorer-public.git
-      branch: master
       target: covid19
     apache:
-      configuration: react
-      servername: open-contracting.health
-      serveraliases: ['www.open-contracting.health']
+      configuration: covid19
 
 postgres:
   version: 11
   configuration: False
 
+nodejs:
+  version: 14
+
 vm:
   overcommit_memory: 1
+
+ver_txt:
+  enabled: True

@@ -15,7 +15,6 @@ python_apps:
         ALLOWED_HOSTS: toucan.open-contracting.org
         FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
         FATHOM_ANALYTICS_ID: UECNCPJN
-        GOOGLE_ANALYTICS_ID: UA-35677147-3
     apache:
       configuration: django
       servername: toucan.open-contracting.org

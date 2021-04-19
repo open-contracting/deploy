@@ -2,6 +2,7 @@
 
 include:
   - apache
+  - apache.modules.headers
   - apache.modules.rewrite
 
 {% set user = 'ocds-docs' %}
@@ -15,7 +16,6 @@ zip:
 docs modules:
   apache_module.enabled:
     - names:
-      - headers
       - include
       - substitute
     - watch_in:
@@ -31,7 +31,6 @@ docs modules:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
-    - makedirs: True
     - require:
       - user: {{ user }}_user_exists
 
@@ -51,16 +50,16 @@ docs modules:
     - require:
       - file: /home/{{ user }}/web
 
-/home/{{ user}}/1-size.sh:
+/home/{{ user }}/1-size.sh:
   file.managed:
-    - source: salt://files/docs-size.sh
+    - source: salt://docs/files/size.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
 
-/home/{{ user}}/2-delete.sh:
+/home/{{ user }}/2-delete.sh:
   file.managed:
-    - source: salt://files/docs-delete.sh
+    - source: salt://docs/files/delete.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700

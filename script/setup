@@ -5,7 +5,7 @@ set -euo pipefail
 
 SSH_KEY_PATH=~/.ssh/id_rsa
 SALT_SSH_KEY_DIR=salt-config/pki/ssh
-REPO_DIR=`pwd`
+REPO_DIR=$(pwd)
 
 # Add symlinks to the likely locations of your SSH keys.
 mkdir -p $SALT_SSH_KEY_DIR

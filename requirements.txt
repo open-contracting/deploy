@@ -73,7 +73,7 @@ jinja2==2.10.1
     # via salt-ssh
 linode-python==1.1.1
     # via salt-ssh
-lxml==4.6.2
+lxml==4.6.3
     # via ocdsindex
 mako==1.0.7
     # via salt-ssh
@@ -855,7 +855,7 @@ requests==2.21.0
     #   apache-libcloud
     #   salt-ssh
     #   vultr
-salt-ssh==3002.2
+salt-ssh==3002.5
     # via -r requirements.in
 setproctitle==1.1.10
     # via salt-ssh

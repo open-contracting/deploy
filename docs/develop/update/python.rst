@@ -83,11 +83,11 @@ If the Python app uses the Django framework, add, for example:
            ALLOWED_HOSTS: toucan.open-contracting.org
            FATHOM_ANALYTICS_ID: ABCDEFGH
 
-This will activate the virtual environment, set the ``DJANGO_SETTINGS_MODULE`` environment variable to ``{app}.settings``, and run:
+This will activate the virtual environment, and run, using ``--settings {app}.settings``:
 
--  The `migrate <https://docs.djangoproject.com/en/2.2/ref/django-admin/#django-admin-migrate>`__ management command
--  The `collectstatic <https://docs.djangoproject.com/en/2.2/ref/contrib/staticfiles/#collectstatic>`__ management command
--  The `compilemessages <https://docs.djangoproject.com/en/2.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
+-  The `migrate <https://docs.djangoproject.com/en/3.2/ref/django-admin/#django-admin-migrate>`__ management command
+-  The `collectstatic <https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#collectstatic>`__ management command
+-  The `compilemessages <https://docs.djangoproject.com/en/3.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
 
 Configure uWSGI
 ---------------
@@ -115,6 +115,11 @@ The example above uses the `django <https://github.com/open-contracting/deploy/b
 
 -  Sets the uWSGI ``module`` to ``{app}.wsgi:application``
 -  Sets some environment variables, and any ``env`` variables from the service's Pillar file
+
+   .. warning::
+
+      During deployment, uWSGI reloads rather than restarts. However, deleted environment variables are not unset during reload. To remove a variable from the environment, you must :ref:`restart uWSGI<restart-service>`.
+
 -  Sets default values for some uWSGI settings, and supports custom values for other uWSGI settings, which you can override or set, for example:
 
    .. code-block:: yaml
