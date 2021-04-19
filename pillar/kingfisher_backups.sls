@@ -6,3 +6,4 @@ postgres:
     s3_bucket: ocp-backup
     s3_endpoint: s3.eu-west-1.amazonaws.com
     region: eu-west-1
+    repo_path: /kingfisher
