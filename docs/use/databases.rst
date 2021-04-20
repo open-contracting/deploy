@@ -134,7 +134,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 Improve slow queries
 --------------------
 
-If a query is slow (more than 1 minute), it most likely is not using an appropriate index for its ``JOIN`` and ``WHERE`` clauses. In practice, using indexes can decrease the running time from hours/days to seconds.
+If a query is slow (more than 1 minute), it most likely is not using an index for its ``JOIN`` and ``WHERE`` clauses. In practice, using indexes can decrease the running time from hours/days to seconds.
 
 .. tip::
 
@@ -149,7 +149,7 @@ To see the queries running under your user account, run:
    WHERE query <> ''
    ORDER BY time DESC;
 
-and check the ``usename`` column for your username. The ``time`` column indicates how long the query has run for.
+Find your username in the ``usename`` column. The ``time`` column indicates how long the query has run for. If it is longer than one minute, consider using `EXPLAIN <https://wiki.postgresql.org/wiki/Using_EXPLAIN>`__ to figure out why.
 
 To stop a query, run, replacing ``PID`` with the appropriate value from the ``pid`` column:
 
