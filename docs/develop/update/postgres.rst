@@ -285,7 +285,7 @@ To configure a main server and a replica server:
       .. code-block:: bash
 
          exit
-         systemctl status postgresql
+         systemctl start postgresql
 
    #. Double-check that the service started:
 
