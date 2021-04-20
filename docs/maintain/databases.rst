@@ -382,6 +382,12 @@ Show running queries:
    WHERE query <> ''
    ORDER BY time DESC;
 
+Stop a query, replacing ``PID`` with the query's ``pid``:
+
+.. code-block:: sql
+
+   SELECT pg_cancel_backend(PID)
+
 See the `pg_stat_activity <https://www.postgresql.org/docs/11/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW>`__ table's documentation.
 
 .. _pg-recover-replica:
