@@ -364,32 +364,24 @@ Restore from backup:
 
 .. code-block:: bash
 
-   pgbackrest restore --stanza=example
+   pgbackrest restore --stanza=example --delta
 
 Restore specific backup by timestamp:
 
 .. code-block:: bash
 
-   pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I
+   pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I --delta
 
-If you have data in ``/var/lib/postgresql/11/main`` then it will block the restore command.
+The ``--delta`` flag saves time when restoring by checking file hashes and only restoring the files it needs to.
+If you want to restore every file from the backup, for example if you are restoring to a new server, it may be quicker not using deltas.
 
-You can either remove this data if it is irrelevant:
+You can run a full restore following this process:
 
 .. code-block:: bash
 
-   su - postgres
    rm -rf /var/lib/postgresql/11/main
    mkdir /var/lib/postgresql/11/main
-
-Or if it is related data for instance when you are rolling back following a change or fixing corrupted data.
-In this case you can save time by using the ``--delta`` flag.
-
-This will potentially speed up the recovery by checking the hashes for each file and only restoring files that don't match.
-
-.. code-block:: bash
-
-   pgbackrest restore --stanza=example --delta
+   pgbackrest restore --stanza=example
 
 .. _pg-recover-replica:
 
