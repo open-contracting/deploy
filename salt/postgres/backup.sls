@@ -3,8 +3,9 @@ include:
 
 # Require official PostgreSQL repo as they provide a newer version of pgbackrest.
 pgbackrest:
-  pkg.installed: []
-  require: 
+  pkg.installed:
+    - name: pgbackrest
+  require:
     - sls: postgresql
 
 /etc/pgbackrest/pgbackrest.conf:
