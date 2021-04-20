@@ -84,7 +84,7 @@ To configure the database for an application:
 
    If this configuration is repeated, we can add a macro to ``salt/lib.sls`` and update this guidance.
 
-.. _postgres-add-configuration:
+.. _pg-add-configuration:
 
 Add your configuration
 ----------------------
@@ -216,7 +216,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. Create configuration files for each server, :ref:`as above <postgres-add-configuration>`. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
+#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
 
 #. Add the replica's IP addresses to the main server's Pillar file:
 
