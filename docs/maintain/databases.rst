@@ -372,7 +372,6 @@ Restore specific backup by timestamp:
 
    pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I
 
-
 If you have data in ``/var/lib/postgresql/11/main`` then it will block the restore command.
 
 You can either remove this data if it is irrelevant:
@@ -391,7 +390,6 @@ This will potentially speed up the recovery by checking the hashes for each file
 .. code-block:: bash
 
    pgbackrest restore --stanza=example --delta
-
 
 .. _pg-recover-replica:
 
@@ -444,7 +442,6 @@ Fix replication
    .. note::
 
       See :ref:`pg-recover-backup` for more information on the pgbackrest restore function.
-
 
 #. Start PostgreSQL and monitor
 

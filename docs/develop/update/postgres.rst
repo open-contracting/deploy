@@ -158,7 +158,6 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
       su - postgres
       pgbackrest stanza-create --stanza=example
 
-
 .. note::
 
    For information on using the pgbackrest tool to restore data, see :ref:`pg-recover-backup`.
@@ -207,7 +206,6 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
              ...
 
    #. :doc:`Deploy<../../deploy/deploy>`
-
 
 .. _pg-setup-replication:
 
