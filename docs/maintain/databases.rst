@@ -403,7 +403,7 @@ If replication breaks or the replica server goes offline, you must recover the r
 Mitigate downtime
 ~~~~~~~~~~~~~~~~~
 
-#. :ref:`Enable public access<postgres-public-access>` to the PostgreSQL service on the main server, by modifying its Pillar file:
+#. :ref:`Enable public access<pg-public-access>` to the PostgreSQL service on the main server, by modifying its Pillar file:
 
    .. code-block:: yaml
 

@@ -14,7 +14,7 @@ To override the version, update the server's Pillar file:
   postgres:
     version: 11
 
-.. _postgres-public-access:
+.. _pg-public-access:
 
 Enable public access
 --------------------
