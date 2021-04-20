@@ -6,6 +6,26 @@ Troubleshoot
 
 Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging an unscheduled restart of the ``postgres`` service, for example.
 
+Find slow queries
+~~~~~~~~~~~~~~~~~
+
+Use the `pg_stat_statements <https://www.postgresql.org/docs/11/pgstatstatements.html>`__ extension. For example:
+
+.. code-block:: sql
+
+   SELECT
+       substring(query, 1, 50) AS short_query,
+       round(total_time::numeric, 2) AS total_time,
+       calls,
+       round(mean_time::numeric, 2) AS mean,
+       round((100 * total_time /
+       sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
+   FROM pg_stat_statements
+   ORDER BY total_time DESC
+   LIMIT 20;
+
+Reference: `Tracking down slow queries in PostgreSQL <https://www.cybertec-postgresql.com/en/pg_stat_statements-the-way-i-like-it/>`__
+
 Control access
 --------------
 
