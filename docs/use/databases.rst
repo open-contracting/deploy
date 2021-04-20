@@ -130,3 +130,33 @@ For security, remember to set ``sslmode`` to ``'require'``.
        password='PASSWORD',
        host='postgres-readonly.kingfisher.open-contracting.org',
        sslmode='require')
+
+Improve slow queries
+--------------------
+
+If a query is slow (more than 1 minute), it most likely is not using an appropriate index for its ``JOIN`` and ``WHERE`` clauses. In practice, using indexes can decrease the running time from hours/days to seconds.
+
+.. tip::
+
+   For tables created by `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/database.html#how-tables-are-related>`__, always ``JOIN`` on the ``id`` column, which has an index, and never on the ``ocid`` column, which has *no* index.
+
+To see the queries running under your user account, run:
+
+.. code-block:: sql
+
+   SELECT pid, client_addr, usename, state, wait_event_type, NOW() - query_start AS time, query
+   FROM pg_stat_activity
+   WHERE query <> ''
+   ORDER BY time DESC;
+
+and check the ``usename`` column for your username. The ``time`` column indicates how long the query has run for.
+
+To stop a query, run, replacing ``PID`` with the appropriate value from the ``pid`` column:
+
+.. code-block:: sql
+
+   SELECT pg_cancel_backend(PID)
+
+.. note::
+
+   If you are running a query via Redash, it will not appear in the results.
