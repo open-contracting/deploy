@@ -14,15 +14,40 @@ Use the `pg_stat_statements <https://www.postgresql.org/docs/11/pgstatstatements
 .. code-block:: sql
 
    SELECT
-       substring(query, 1, 50) AS short_query,
+       usename,
+       substring(query, 1, 80) AS short_query,
        round(total_time::numeric, 2) AS total_time,
        calls,
        round(mean_time::numeric, 2) AS mean,
        round((100 * total_time /
        sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
-   FROM pg_stat_statements
+   FROM pg_stat_statements s
+   INNER JOIN pg_user u ON s.userid = u.usesysid
    ORDER BY total_time DESC
    LIMIT 20;
+
+To display the full query, you might prefer to switch to unaligned output mode (``\a``):
+
+.. code-block:: sql
+
+   SELECT
+       usename,
+       query,
+       round(total_time::numeric, 2) AS total_time,
+       calls,
+       round(mean_time::numeric, 2) AS mean,
+       round((100 * total_time /
+       sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
+   FROM pg_stat_statements s
+   INNER JOIN pg_user u ON s.userid = u.usesysid
+   ORDER BY total_time DESC
+   LIMIT 20;
+
+To reset the statistics:
+
+.. code-block:: sql
+
+   SELECT pg_stat_statements_reset();
 
 Reference: `Tracking down slow queries in PostgreSQL <https://www.cybertec-postgresql.com/en/pg_stat_statements-the-way-i-like-it/>`__
 
