@@ -54,9 +54,15 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
    -  **Access**: The 'opendataservices' and 'opencon-tech' users have secondary access to the 'opencontracting' account.
    -  **Backups**: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
 
+Unmanaged services are:
+
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
    -  `Network status <https://www.githubstatus.com>`__
+
+-  Heroku for the `OCP Library <http://ocp-library.herokuapp.com>`__
+
+   -  `Network status <https://status.heroku.com>`__
 
 Administrative access
 ---------------------
