@@ -203,10 +203,8 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
           s3_key_secret: redacted
           # Total full backups to store.
           total_full_backups: 4
-
-   .. note::
-
-      These options support any S3-compatible storage, including AWS and BackBlaze.
+          # Backup directory structure.
+          repo_path=/kingfisher
 
    .. note::
 
