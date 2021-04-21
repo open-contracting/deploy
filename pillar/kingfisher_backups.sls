@@ -1,5 +1,6 @@
 postgres:
   backup:
+    enabled: False
     identifier: kingfisher
     total_full_backups: 4
     process_max: 4
