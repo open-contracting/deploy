@@ -373,7 +373,7 @@ Restore specific backup by timestamp:
    pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I --delta
 
 The ``--delta`` flag saves time when restoring by checking file hashes and only restoring the files it needs to.
-If you want to restore every file from the backup, for example if you are restoring to a new server, it may be quicker not using deltas.
+If you want to restore every file from the backup, for example if you are restoring to a new server, it may be quicker to not use deltas.
 
 You can run a full restore following this process:
 
