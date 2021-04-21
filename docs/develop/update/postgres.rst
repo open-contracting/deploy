@@ -113,6 +113,71 @@ Set up backups
 We use `pgBackRest <https://pgbackrest.org>`__ to create and manage offsite backups.
 Salt will install and configure pgBackRest if ``postgres:backup`` is defined in Pillar data.
 
+#. Create an S3 bucket and API Keys.
+
+   .. note::
+
+      pgBackRest supports any S3-compatible storage, including AWS and BackBlaze.
+
+   If you are using AWS you will need to `create an S3 Bucket<https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__ and `set up an IAM user<https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__.
+
+   This is the IAM permissions policy we are using for Kingfisher backups.
+
+   .. code-block:: json
+
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "s3:ListBucket"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::ocp-backup"
+                  ],
+                  "Condition": {
+                      "StringEquals": {
+                          "s3:prefix": [
+                              "",
+                              "kingfisher"
+                          ],
+                          "s3:delimiter": [
+                              "/"
+                          ]
+                      }
+                  }
+              },
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "s3:ListBucket"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::ocp-backup"
+                  ],
+                  "Condition": {
+                      "StringLike": {
+                          "s3:prefix": [
+                              "kingfisher/*"
+                          ]
+                      }
+                  }
+              },
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "s3:PutObject",
+                      "s3:GetObject",
+                      "s3:DeleteObject"
+                  ],
+                  "Resource": [
+                      "arn:aws:s3:::ocp-backup/kingfisher/*"
+                  ]
+              }
+          ]
+      }
+
 #. Create pgbackrest pillar config.
 
    .. code-block:: yaml
