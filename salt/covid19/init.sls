@@ -55,7 +55,7 @@ pkill celery:
     - source: salt://covid19/files/.env
     - template: jinja
     - context:
-        pillar: {{ backend_entry }}
+        entry: {{ backend_entry }}
     - user: {{ backend_entry.user }}
     - group: {{ backend_entry.user }}
     - mode: 400
