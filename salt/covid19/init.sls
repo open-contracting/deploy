@@ -47,6 +47,7 @@ pkill celery:
     - group: {{ backend_entry.user }}
     - require:
       - cmd: {{ directory }}-collectstatic
+    - order: last
 {% endif %}
 {% endif %}{# covid19admin #}
 
