@@ -49,6 +49,19 @@ pkill celery:
       - cmd: {{ directory }}-collectstatic
     - order: last
 {% endif %}
+
+{{ directory }}/covidadmin/.env:
+  file.managed:
+    - source: salt://covid19/files/.env
+    - template: jinja
+    - context:
+        pillar: {{ backend_entry }}
+    - user: {{ backend_entry.user }}
+    - group: {{ backend_entry.user }}
+    - mode: 400
+    - require:
+      - git: {{ backend_entry.git.url }}
+
 {% endif %}{# covid19admin #}
 
 covid19-pipinstall:
