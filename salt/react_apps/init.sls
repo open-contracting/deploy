@@ -40,6 +40,7 @@ include:
     - context: {{ context|yaml }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
+    - mode: 400
     - require:
       - git: {{ entry.git.url }}
 
