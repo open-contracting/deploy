@@ -90,6 +90,7 @@ include:
     - group: {{ entry.user }}
     - require:
       - cmd: {{ directory }}-yarn-build
+    - order: last
 {% endif %}
 
 {% endfor %}
