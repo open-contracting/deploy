@@ -86,3 +86,18 @@ Services should restart normally. To manually restart a service, run, for exampl
 .. code-block:: bash
 
    ./run.py TARGET service.restart uwsgi
+
+Check git revision
+------------------
+
+To check which branch is deployed, run, for example:
+
+.. code-block:: bash
+
+   ./run.py covid19 git.current_branch /home/covid19admin/covid19admin
+
+To check which commit is deployed, run, for example:
+
+.. code-block:: bash
+
+   ./run.py covid19 git.revision /home/covid19admin/covid19admin
