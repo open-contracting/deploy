@@ -83,15 +83,4 @@ include:
 {{ apache(entry.git.target, entry.apache, context=context) }}
 {% endif %}
 
-{% if salt['pillar.get']('ver_txt:enabled') %}
-{{ builddir }}/{{ timestamp }}/ver.txt:
-  file.managed:
-    - contents: "{{ entry.git.branch }} {{ salt['cmd.shell']('cd ' + directory + ' && git rev-parse --verify ' + entry.git.branch) }} {{ salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') }}"
-    - user: {{ entry.user }}
-    - group: {{ entry.user }}
-    - require:
-      - cmd: {{ directory }}-yarn-build
-    - order: last
-{% endif %}
-
 {% endfor %}

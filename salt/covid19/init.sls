@@ -39,17 +39,6 @@ pkill celery:
     - name: pkill celery
     - runas: {{ backend_entry.user }}
 
-{% if salt['pillar.get']('ver_txt:enabled') %}
-{{ directory }}/static/ver.txt:
-  file.managed:
-    - contents: "{{ backend_entry.git.branch }} {{ salt['cmd.shell']('cd ' + directory + ' && git rev-parse --verify ' + backend_entry.git.branch) }} {{ salt['cmd.run']('date +%Y-%m-%d_%H:%M:%S') }}"
-    - user: {{ backend_entry.user }}
-    - group: {{ backend_entry.user }}
-    - require:
-      - cmd: {{ directory }}-collectstatic
-    - order: last
-{% endif %}
-
 {{ directory }}/covidadmin/.env:
   file.managed:
     - source: salt://covid19/files/.env

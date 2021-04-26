@@ -67,6 +67,3 @@ nodejs:
 
 vm:
   overcommit_memory: 1
-
-ver_txt:
-  enabled: True
