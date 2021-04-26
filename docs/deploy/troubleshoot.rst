@@ -23,7 +23,7 @@ If you haven't previously connected to a server using SSH, then ``./run.py`` wil
 
 You can also experience this issue if anyone changes the hostnames in the ``salt-config/roster`` file.
 
-Unless you :ref`increase verbosity<increase-verbosity>`, you won't see this message, and ``./run.py`` will appear to hang.
+Unless you :ref:`increase verbosity<increase-verbosity>`, you won't see this message, and ``./run.py`` will appear to hang.
 
 To fix this, simply connect to the server using SSH, for example:
 
