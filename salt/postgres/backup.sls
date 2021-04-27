@@ -13,7 +13,7 @@ pgbackrest:
    - makedirs: True
    - user: postgres
    - group: postgres
-   - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.config_name }}.conf
+   - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.configuration }}.conf
    - template: jinja
 
 {%- if salt['pillar.get']('postgres:backup:cron_enabled') %}

@@ -1,9 +1,9 @@
 postgres:
   backup:
     identifier: kingfisher
-    total_full_backups: 4
+    retention_full: 4
     process_max: 4
-    s3_bucket: ocp-backup
-    s3_endpoint: s3.eu-west-1.amazonaws.com
-    region: eu-west-1
+    s3_bucket: ocp-db-backup
+    s3_endpoint: s3.eu-central-1.amazonaws.com
+    s3_region: eu-central-1
     repo_path: /kingfisher

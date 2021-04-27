@@ -10,7 +10,7 @@ postgres:
   version: 11
   configuration: kingfisher-replica1
   backup:
-    config_name: kingfisher-replica1
+    configuration: kingfisher-replica1
 
 ssh:
   postgres:

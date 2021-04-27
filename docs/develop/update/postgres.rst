@@ -130,16 +130,16 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
       postgres:
         backup:
           # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
-          config_name: kingfisher-process1
+          configuration: kingfisher-process1
           # Unique ID to store backups under. pgbackrest also refers to this as the "stanza".
           identifier: kingfisher
           # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
           # Optional.
           process_max: 4
           # Backup bucket region.
-          region: eu-west-1
+          s3_region: eu-central-1
           # Backup bucket name.
-          s3_bucket: ocp-backup
+          s3_bucket: ocp-db-backup
           # s3 endpoint - `AWS S3 endpoints <https://docs.aws.amazon.com/general/latest/gr/s3.html>`__.
           s3_endpoint: s3.eu-west-1.amazonaws.com
           # API Access Key.
