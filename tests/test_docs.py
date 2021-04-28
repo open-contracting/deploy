@@ -17,7 +17,7 @@ versions = {
 }
 
 languages = {
-    '': (['en', 'es', 'fr', 'it'], '/schema/release/'),
+    '': (['en', 'es'], '/schema/release/'),
     '/infrastructure': (['en'], '/reference/schema/'),
     '/profiles/eu': (['en'], '/reference/'),
     '/profiles/gpa': (['en'], '/reference/'),
