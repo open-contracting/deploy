@@ -11,6 +11,8 @@ postgres:
   configuration: kingfisher-replica1
   backup:
     configuration: kingfisher-replica1
+  replication:
+    primary_slot_name: replica1
 
 ssh:
   postgres:

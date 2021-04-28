@@ -104,7 +104,7 @@ pg_stat_statements:
     - mode: 600
 {% endif %}
 
-{% if salt['pillar.get']('postgres:users') %}
+{% if salt['pillar.get']('postgres:users') and not salt['pillar.get']('postgres:replication') %}
 {% for name, entry in pillar.postgres.users.items() %}
 sql-user-{{ name }}:
   postgres_user.present:
