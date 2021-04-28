@@ -108,4 +108,4 @@ postgres:
     - 2a01:4f8:211:de::2
   backup:
     configuration: kingfisher-process1
-    cron_enabled: True
+    # cron_enabled: True # Disabled to test backup timing
