@@ -68,7 +68,7 @@ postgresql-reload:
       - service: postgresql
 {% if salt['pillar.get']('postgres:backup:stanza') %}
     - require:
-      - pkg: pgbackrest
+      - sls: postgres.backup
 {% endif %}
 {% endif %}
 
