@@ -107,7 +107,7 @@ def test_add_language(root, version):
 
 @pytest.mark.parametrize('root, version, lang', [
     (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
-    for version in versions[root][0] if version != '1.0' or lang != 'it'  # OCDS 1.0 isn't available in IT
+    for version in versions[root][0]
 ])
 def test_add_trailing_slash_per_lang(root, version, lang):
     prefix = get_prefix(version)
@@ -233,7 +233,7 @@ def test_language_switcher_with_referer(root, version, lang, path):
 
 @pytest.mark.parametrize('root, version, lang', [
     (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
-    for version in versions[root][0] if version != '1.0' or lang != 'it'  # OCDS 1.0 isn't available in IT
+    for version in versions[root][0]
 ])
 def test_custom_404(root, version, lang):
     prefix = get_prefix(version)
