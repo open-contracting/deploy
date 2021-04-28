@@ -131,8 +131,8 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
         backup:
           # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
           configuration: kingfisher-process1
-          # Unique ID to store backups under. pgbackrest also refers to this as the "stanza".
-          identifier: kingfisher
+          # Unique identifier for backup configuration
+          stanza: kingfisher
           # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
           # Optional.
           process_max: 4

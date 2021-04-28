@@ -66,7 +66,7 @@ postgresql-reload:
     - mode: 640
     - watch_in:
       - service: postgresql
-{% if salt['pillar.get']('postgres:backup:identifier') %}
+{% if salt['pillar.get']('postgres:backup:stanza') %}
     - require:
       - pkg: pgbackrest
 {% endif %}

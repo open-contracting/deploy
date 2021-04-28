@@ -351,7 +351,7 @@ These are the main commands for working with pgbackrest.
 
    For more information on setting up backups, see :ref:`pg-setup-backups`.
 
-The stanza name is defined in pillar ``postgres:backup:identifier``.
+The stanza name is defined in pillar ``postgres:backup:stanza``.
 You can also find it in the pgbackrest config ``/etc/pgbackrest/pgbackrest.conf``.
 
 View current backups:
@@ -424,7 +424,7 @@ Fix replication
 
 #. Download the latest database or a backup from a specific point in time
 
-   In this example I'm restoring ``kingfisher``, to restore a different instance, replace ``kingfisher`` with the value set in pillar ``postgres:backup:identifier``.
+   In this example I'm restoring ``kingfisher``, to restore a different instance, replace ``kingfisher`` with the value set in pillar ``postgres:backup:stanza``.
    pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/recovery.conf``).
 
    .. code-block:: bash

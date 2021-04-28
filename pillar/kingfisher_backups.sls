@@ -1,6 +1,6 @@
 postgres:
   backup:
-    identifier: kingfisher
+    stanza: kingfisher
     retention_full: 4
     process_max: 4
     s3_bucket: ocp-db-backup
