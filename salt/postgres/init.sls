@@ -66,6 +66,10 @@ postgresql-reload:
     - mode: 640
     - watch_in:
       - service: postgresql
+{% if salt['pillar.get']('postgres:backup:stanza') %}
+    - require:
+      - sls: postgres.backup
+{% endif %}
 {% endif %}
 
 # https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
@@ -100,7 +104,7 @@ pg_stat_statements:
     - mode: 600
 {% endif %}
 
-{% if salt['pillar.get']('postgres:users') %}
+{% if salt['pillar.get']('postgres:users') and not salt['pillar.get']('postgres:replication') %}
 {% for name, entry in pillar.postgres.users.items() %}
 sql-user-{{ name }}:
   postgres_user.present:

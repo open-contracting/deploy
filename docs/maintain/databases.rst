@@ -390,6 +390,50 @@ Stop a query, replacing ``PID`` with the query's ``pid``:
 
 See the `pg_stat_activity <https://www.postgresql.org/docs/11/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW>`__ table's documentation.
 
+.. _pg-recover-backup:
+
+Restore from backup
+-------------------
+
+PostgreSQL databases are backed up offsite. Backup and restoration are managed by `pgBackRest <https://pgbackrest.org/>`__.
+These are the main commands for working with pgbackrest.
+
+.. note::
+
+   For more information on setting up backups, see :ref:`pg-setup-backups`.
+
+The stanza name is defined in pillar ``postgres:backup:stanza``.
+You can also find it in the pgbackrest config ``/etc/pgbackrest/pgbackrest.conf``.
+
+View current backups:
+
+.. code-block:: bash
+
+   pgbackrest info --stanza=example
+
+Restore from backup:
+
+.. code-block:: bash
+
+   pgbackrest restore --stanza=example --delta
+
+Restore specific backup by timestamp:
+
+.. code-block:: bash
+
+   pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I --delta
+
+The ``--delta`` flag saves time when restoring by checking file hashes and only restoring the files it needs to.
+If you want to restore every file from the backup, for example if you are restoring to a new server, it may be quicker to not use deltas.
+
+You can run a full restore following this process:
+
+.. code-block:: bash
+
+   rm -rf /var/lib/postgresql/11/main
+   mkdir /var/lib/postgresql/11/main
+   pgbackrest restore --stanza=example
+
 .. _pg-recover-replica:
 
 Recover the replica
@@ -400,7 +444,7 @@ If replication breaks or the replica server goes offline, you must recover the r
 Mitigate downtime
 ~~~~~~~~~~~~~~~~~
 
-#. :ref:`Enable public access<postgres-public-access>` to the PostgreSQL service on the main server, by modifying its Pillar file:
+#. :ref:`Enable public access<pg-public-access>` to the PostgreSQL service on the main server, by modifying its Pillar file:
 
    .. code-block:: yaml
 
@@ -421,25 +465,34 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. Copy WAL archives from the main server to the replica server, replacing ``example.open-contracting.org`` below with the main server's hostname:
+#. Log into the replica server
+
+#. Stop PostgreSQL if it is still running
+
+   .. code-block:: bash
+
+      systemctl stop postgres.service
+
+#. Download the latest database or a backup from a specific point in time
+
+   In this example I'm restoring ``kingfisher``, to restore a different instance, replace ``kingfisher`` with the value set in pillar ``postgres:backup:stanza``.
+   pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/recovery.conf``).
+
+   .. code-block:: bash
+
+      pgbackrest --stanza=kingfisher --type=standby --delta restore
 
    .. note::
 
-      The ``postgres`` user on the replica server must have an SSH key pair, and its public key must be an authorized key of the ``postgres`` user on the main server. See :ref:`pg-ssh-key-setup`.
+      See :ref:`pg-recover-backup` for more information on the pgbackrest restore function.
+
+#. Start PostgreSQL and monitor
+
+   You should see messages about recovering from WAL files in the logs.
 
    .. code-block:: bash
 
-      service postgres stop
-      sudo su - postgres
-      timeout 1 ssh postgres@example.open-contracting.org -p 8255
-      rsync -azv postgres@example.open-contracting.org:/var/lib/postgresql/11/main/archive/ /var/lib/postgresql/11/main/archive/
-      exit
-      service postgres start
-
-#. Monitor the replica logs. You should see messages about recovery from WAL files.
-
-   .. code-block:: bash
-
+      systemctl start postgres.service
       tail -f /var/log/postgresql/postgresql-11-main.log
 
 If all else fails, you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.

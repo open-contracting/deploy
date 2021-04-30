@@ -38,13 +38,16 @@ base:
 
   'kingfisher-process':
     - kingfisher
+    - kingfisher_common
+    - private.kingfisher_common
     - private.kingfisher
     - tinyproxy
     - kingfisher_process_maintenance
 
   'kingfisher-replica':
     - kingfisher_replica
-    - private.kingfisher_replica
+    - kingfisher_common
+    - private.kingfisher_common
     - kingfisher_replica_maintenance
 
   'prometheus':

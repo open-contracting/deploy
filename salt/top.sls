@@ -71,6 +71,9 @@ base:
   'I@postgres:configuration':
     - postgres
 
+  'I@postgres:backup':
+    - postgres.backup
+
   'I@prometheus:node_exporter':
     - prometheus.node_exporter
 
