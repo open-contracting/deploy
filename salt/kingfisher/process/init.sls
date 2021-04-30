@@ -140,16 +140,23 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
 # Utilities
 ####################
 
-kingfisher-process-pipinstall:
+kingfisher-process-pip:
   pkg.installed:
     - name: python3-pip
+  pip.installed:
+    - name: pip
+    - upgrade: True
+    - require:
+      - pkg: kingfisher-process-pip
+
+kingfisher-process-pipinstall:
   pip.installed:
     - requirements: salt://kingfisher/files/pipinstall.txt
     - upgrade: True
     - user: {{ entry.user }}
     - bin_env: /usr/bin/pip3
     - require:
-      - pkg: kingfisher-process-pipinstall
+      - pip: kingfisher-process-pip
 
 kingfisher-process-pip-path:
   file.append:
