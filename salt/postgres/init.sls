@@ -127,3 +127,11 @@ sql-user-{{ name }}:
 {% endif %}
 {% endfor %}
 {% endif %}
+
+# Manage authorized keys for postgres user
+{% if salt['pillar.get']('ssh:postgres') %}
+postgres_authorized_keys:
+  ssh_auth.manage:
+    - user: postgres
+    - ssh_keys: {{ (pillar.ssh.postgres)|yaml }}
+{% endif %}

@@ -23,3 +23,6 @@ firewall:
   additional_ssh_ipv4:
     # Allow kingfisher-process1 connect to take PostgreSQL backups.
     - 95.217.76.74
+  additional_ssh_ipv6:
+    # Allow kingfisher-process1 connect to take PostgreSQL backups.
+    - 2a01:4f9:4a:1bd3::2
