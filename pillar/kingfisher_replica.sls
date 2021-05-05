@@ -11,6 +11,7 @@ postgres:
   configuration: kingfisher-replica1
   backup:
     configuration: kingfisher-replica1
+    process_max: 6
   replication:
     primary_slot_name: replica1
 
