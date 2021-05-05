@@ -19,6 +19,7 @@ If the service is being retired:
 #. Remove its web analytics from `Fathom <https://app.usefathom.com/>`__
 #. Remove its project from Google Cloud Platform, if used
 #. Remove its resources from Amazon Web Services, if used
+#. Archive its repository on `GitHub <https://ocp-software-handbook.readthedocs.io/en/latest/github/index.html#archival>`__
 #. Archive its row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Remove its `managed passwords <https://www.lastpass.com>`__, if appropriate
 
