@@ -16,7 +16,7 @@ If the service is being retired:
 #. Remove its configuration from this repository
 #. Remove its DNS entries from `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 #. Remove its error monitor from `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
-#. Remove its web analytics from `Fathom <https://app.usefathom.com/>`__
+#. Remove its web analytics from `Fathom Analytics <https://app.usefathom.com/>`__
 #. Remove its project from Google Cloud Platform, if used
 #. Remove its resources from Amazon Web Services, if used
 #. Archive its repository on `GitHub <https://ocp-software-handbook.readthedocs.io/en/latest/github/index.html#archival>`__
