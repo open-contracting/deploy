@@ -39,19 +39,6 @@
 
 {% set documentroot = '/home/ocds-docs/web' %}
 
-{% if testing %}
-    {# Add any configuration specific to the testing virtual host here. #}
-
-    {# We want to disallow all in testing only. #}
-    Alias /robots.txt "/var/www/html/robots.txt"
-    <Location /robots.txt>
-        Order allow,deny
-        Allow from all
-    </Location>
-{% else %}
-    {# Add any configuration specific to the live virtual host here. #}
-{% endif %}
-
 DocumentRoot {{ documentroot }}
 RewriteMap unescape int:unescape
 

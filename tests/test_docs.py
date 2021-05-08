@@ -62,11 +62,6 @@ def test_force_https(url):
 
 
 def test_robots_txt():
-    r = get('https://testing.live.standard.open-contracting.org/robots.txt')
-
-    assert r.status_code == 200
-    assert r.text == 'User-agent: *\nDisallow: /\n'
-
     r = get('https://standard.open-contracting.org/robots.txt')
 
     assert r.status_code == 200
@@ -130,21 +125,6 @@ def test_profiles():
 
     assert r.status_code == 200
     assert 'Parent Directory' in r.text
-
-
-def test_version_switcher_legacy():
-    r = get(f'{base_url}/switcher?branch=legacy/r/0__1__0')
-
-    assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}/legacy/r/0__1__0/'
-
-
-def test_version_switcher_legacy_with_referer():
-    r = get(f'{base_url}/switcher?branch=legacy/r/0__1__0',
-            headers={'Referer': f'{base_url}/latest/es/schema/release/'})
-
-    assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}/legacy/r/0__1__0/'
 
 
 # Staging branches are not options in the version switcher.

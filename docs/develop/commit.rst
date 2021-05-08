@@ -25,25 +25,6 @@ To compare Jinja2 output after refactoring but before committing, use ``script/d
 
 If you get the error, ``An Exception occurred while executing state.show_highstate: 'list' object has no attribute 'values'``, run ``state.apply test=True`` as above. You might have conflicting IDs.
 
-Using a testing virtual host
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-To test changes to the Apache files for the :doc:`../reference/docs` (for example, to test new redirects or proxy settings):
-
-#. Make changes inside ``{% if testing %}`` blocks in the config files
-#. :doc:`Deploy<../deploy/deploy>` the OCDS Documentation
-#. To test manually, visit the `testing version <https://testing.live.standard.open-contracting.org/>`__
-#. To test automatically, run:
-
-.. code-block:: bash
-
-   pip install -r requirements.txt
-   env FQDN=testing.live.standard.open-contracting.org pytest
-
-Update the tests if you changed the behavior of the Apache files.
-
-Once satisfied, move the changes outside ``{% if testing  %}`` blocks. After deployment, the tests should pass if ``FQDN`` is omitted or set to standard.open-contracting.org.
-
 .. _using-a-virtual-machine:
 
 Using a virtual machine
