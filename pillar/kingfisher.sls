@@ -108,4 +108,10 @@ postgres:
     - 2a01:4f8:211:de::2
   backup:
     configuration: kingfisher-process1
-    # cron_enabled: True # Disabled to test backup timing
+    process_max: 8
+    cron: |
+        MAILTO=root
+        # Daily incremental backup
+        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
+        # Weekly full backup
+        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full

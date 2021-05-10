@@ -16,17 +16,12 @@ pgbackrest:
    - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.configuration }}.conf
    - template: jinja
 
-{%- if salt['pillar.get']('postgres:backup:cron_enabled') %}
+{%- if salt['pillar.get']('postgres:backup:cron') %}
 # Using file.append rather than the salt cron module.
 # Because system crons are easier to find if they are all stored in /etc.
 /etc/cron.d/postgres_backups:
-  file.append:
-    - text: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 1-6 postgres pgbackrest backup
-        # Weekly full backup
-        15 05 * * 7 postgres pgbackrest backup --type=full
+  file.managed:
+    - contents_pillar: postgres:backup:cron
     - require:
       - pkg: pgbackrest
 {%- endif %}
