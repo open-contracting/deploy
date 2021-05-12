@@ -154,7 +154,6 @@ kingfisher-process-pipinstall:
     - requirements: salt://kingfisher/files/pipinstall.txt
     - upgrade: True
     - user: {{ entry.user }}
-    - bin_env: /usr/bin/pip3
     - require:
       - pip: kingfisher-process-pip
 

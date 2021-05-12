@@ -59,7 +59,6 @@ covid19-pipinstall:
   pip.installed:
     - name: flower==0.9.5
     - user: {{ backend_entry.user }}
-    - bin_env: /usr/bin/pip3
     - require:
       - pkg: covid19-pipinstall
 
