@@ -33,8 +33,6 @@ For more information, read Kingfisher Process' `logging documentation <https://k
 Load local data
 ---------------
 
-**Before** using the `local-load command <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__:
-
 #. :ref:`Connect to the main server as the ocdskfp user<connect-kingfisher-server>`
 
 #. Change into the ``local-load`` directory:
@@ -47,18 +45,8 @@ Load local data
 
    -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
 
-#. If you need to download an archive file from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
-
-   -  After unarchiving its contents, you should remove any unnecessary hierarchy from the unarchived files. For example, if all the files are under ``ocds/json``, move the ``json`` directory to the data directory, then remove the ``ocds`` directory.
-
-#. In principle, you should not make changes to the original files. If you need to make changes, put the original and changed files in distinct directories.
+#. If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
 #. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
 
-#. Delete the data directory once you're satisfied that it loaded correctly – and at most 90 days after its creation.
-
-To find directories containing data created more than 90 days ago, run:
-
-.. code-block:: bash
-
-    find -maxdepth 1 -type d -exec bash -c 'if [[ -n $(find {} -ctime +90) ]]; then echo {}; fi' \; | sort
+#. Delete the data directory once you're satisfied that it loaded correctly.
