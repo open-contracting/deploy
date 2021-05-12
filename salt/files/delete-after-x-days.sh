@@ -21,13 +21,10 @@ trap cleanup EXIT
 DAYSTOKEEP=$1
 RMPATH=$2
 
-# Don't want to remove the base directory.
+# Don't remove the base directory.
 touch "$RMPATH"
 
-# Using xargs because it passes the files as arguments to one single rm, alternatively "-exec rm {} \;" runs rm multiple times.
 find "$RMPATH" -mtime +"$DAYSTOKEEP" -type f -delete
-
-# Find empty old directories
 find "$RMPATH" -mtime +"$DAYSTOKEEP" -type d -empty -delete
 
 # Overwrite cleanup function because it is called by the script finishing.
@@ -35,5 +32,3 @@ function cleanup {
     exit 0
 }
 trap cleanup EXIT
-
-# done
