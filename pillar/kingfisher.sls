@@ -40,13 +40,11 @@ rsyslog:
   conf:
     90-kingfisher.conf: kingfisher-process.conf
     91-kingfisher-views.conf: kingfisher-summarize.conf
-    92-kingfisher-archive.conf: kingfisher-archive.conf
 
 logrotate:
   conf:
     kingfisher.conf: kingfisher-process
     kingfisher-views.conf: kingfisher-summarize
-    archive: kingfisher-archive
 
 apache:
   public_access: True
@@ -88,14 +86,6 @@ python_apps:
       target: ocdskingfisherviews
     config:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
-  kingfisher_archive:
-    user: ocdskfs
-    git:
-      url: https://github.com/open-contracting/kingfisher-archive.git
-      branch: main
-      target: ocdskingfisherarchive
-    config:
-      ocdskingfisher-archive/logging.json: salt://kingfisher/archive/files/logging.json
 
 postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.

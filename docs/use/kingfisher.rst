@@ -43,4 +43,4 @@ This user has access to the `jq <https://stedolan.github.io/jq/manual/>`__, `fla
 
 .. note::
 
-   The ``ocdskfs`` user owns the deployment of Kingfisher Collect and Kingfisher Archive. Only archival scripts and system administrators should manually delete any data and log files.
+   The ``ocdskfs`` user owns the deployment of Kingfisher Collect. Only automated scripts and system administrators should manually delete any data and log files.

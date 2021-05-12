@@ -53,32 +53,12 @@ Load local data
 
 #. In principle, you should not make changes to the original files. If you need to make changes, put the original and changed files in distinct directories.
 
-**After** using the ``local-load`` command, check whether the data meets the :ref:`data retention policy<data-retention-policy>` below.
+#. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
 
-   - If so, move the data directory to the ``archive`` directory within the ``local-load`` directory. Remove any changed files.
-   - If not, delete the data directory once you're satisfied that it loaded correctly – and at most 90 days after its creation.
+#. Delete the data directory once you're satisfied that it loaded correctly – and at most 90 days after its creation.
 
 To find directories containing data created more than 90 days ago, run:
 
 .. code-block:: bash
 
-    find -maxdepth 1 -type d ! -name archive -exec bash -c 'if [[ -n $(find {} -ctime +90) ]]; then echo {}; fi' \; | sort
-
-.. _data-retention-policy:
-
-Data retention policy
-~~~~~~~~~~~~~~~~~~~~~
-
-We want to retain newly collected data that is:
-
--  **Distinct**: The new data is not identical to earlier data.
--  **Complete**: The data is not test data, sample data, or otherwise a subset of the complete dataset.
--  **Clean**: There were few (preferably zero) errors during data collection.
-
-   - Data collection errors include HTTP 500 error responses and Kingfisher Collect exceptions. They don't include errors in the data itself like structural errors.
-
--  **Periodic**: The data was collected at least 30 days after the most recently retained data for the data source. In other words, we retain at most one collection per month per source.
-
-Whenever we retain data for a given source for the first time in each calendar year, we can delete all but the first collection for that source from the prior year.
-
-In other words, for each source, we will retain at most monthly collections in the last year in which the source was available, and yearly collections otherwise.
+    find -maxdepth 1 -type d -exec bash -c 'if [[ -n $(find {} -ctime +90) ]]; then echo {}; fi' \; | sort

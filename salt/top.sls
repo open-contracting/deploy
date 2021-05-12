@@ -43,7 +43,6 @@ base:
     - kingfisher.collect
     - kingfisher.process
     - kingfisher.summarize
-    - kingfisher.archive
 
   'prometheus':
     - prometheus
