@@ -90,8 +90,8 @@ Add a user
 
 #. :doc:`Deploy the service<../deploy/deploy>`
 
-Update password
-~~~~~~~~~~~~~~~
+Update a password
+~~~~~~~~~~~~~~~~~
 
 #. Update the private Pillar file, for example:
 
@@ -389,6 +389,62 @@ Stop a query, replacing ``PID`` with the query's ``pid``:
    SELECT pg_cancel_backend(PID)
 
 See the `pg_stat_activity <https://www.postgresql.org/docs/11/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW>`__ table's documentation.
+
+Find unexpected schema:
+
+.. code-block:: sql
+
+   SELECT nspname
+   FROM pg_namespace
+   WHERE
+       nspname NOT LIKE 'pg_temp_%' AND
+       nspname NOT LIKE 'pg_toast_temp_%' AND
+       nspname NOT LIKE 'view_data_%' AND
+       nspname NOT IN (
+           'information_schema',
+           'pg_catalog',
+           'pg_toast',
+           'public',
+           'reference'
+       );
+
+Find unexpected tables in the public schema:
+
+.. code-block:: sql
+
+   SELECT relname
+   FROM pg_class c
+   JOIN pg_namespace n ON c.relnamespace = n.oid
+   WHERE
+       nspname = 'public' AND
+       -- Ignore sequences and indices
+       relkind NOT IN ('S', 'i') AND
+       relname NOT IN (
+           -- Kingfisher Process tables
+           'collection',
+           'collection_file',
+           'collection_file_item',
+           'collection_note',
+           'compiled_release',
+           'data',
+           'package_data',
+           'record',
+           'record_check',
+           'release',
+           'release_check',
+           -- To be removed in future versions
+           'alembic_version',
+           'record_check_error',
+           'release_check_error',
+           'transform_upgrade_1_0_to_1_1_status_record',
+           'transform_upgrade_1_0_to_1_1_status_release',
+           -- https://www.postgresql.org/docs/current/pgstatstatements.html
+           'pg_stat_statements',
+           -- https://www.postgresql.org/docs/current/tablefunc.html
+           'tablefunc_crosstab_2',
+           'tablefunc_crosstab_3',
+           'tablefunc_crosstab_4'
+       );
 
 .. _pg-recover-backup:
 
