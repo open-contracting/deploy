@@ -4,8 +4,14 @@
 #
 # ./run.py 'covid19-dev' state.apply pillar='{"python_apps":{"covid19admin":{"git":{"branch":"BRANCH_NAME"}}},"react_apps":{"covid19public":{"git":{"branch":"BRANCH_NAME"}}}}'
 
-# See https://github.com/prerender/prerender-apache
+# Must run before python_apps.
+covid19-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev # https://www.psycopg.org/install/
+
 include:
+  # See https://github.com/prerender/prerender-apache
   - apache.modules.deflate
   - apache.modules.expires
   - apache.modules.headers
@@ -27,11 +33,6 @@ include:
 
 {{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
 {{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
-
-covid19-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - libpq-dev # https://www.psycopg.org/install/
 
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
 pkill celery:

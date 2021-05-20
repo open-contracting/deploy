@@ -1,5 +1,15 @@
 {% from 'lib.sls' import create_user %}
 
+# Must run before python_apps.
+kingfisher-process-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev # https://www.psycopg.org/install/
+      - libyajl-dev # OCDS Kit performance
+      # To assist analysts with manual loads.
+      - jq
+      - unrar
+
 include:
   - python_apps
   - kingfisher.process.database
@@ -12,15 +22,6 @@ include:
 {% set summarize_directory = '/home/' + summarize.user + '/' + summarize.git.target %}
 
 {{ create_user(entry.user, authorized_keys=pillar.ssh.kingfisher) }}
-
-kingfisher-process-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - libpq-dev # https://www.psycopg.org/install/
-      - libyajl-dev # OCDS Kit performance
-      # To assist analysts with manual loads.
-      - jq
-      - unrar
 
 ####################
 # Configuration
