@@ -6,6 +6,14 @@
 
 {{ create_user(user) }}
 
+kingfisher-collect-prerequisites:
+  pkg.installed:
+    - pkgs:
+      - libpq-dev # https://www.psycopg.org/install/
+
+include:
+  - kingfisher.collect.database
+
 {{ directory }}:
   file.directory:
     - names:
@@ -51,6 +59,7 @@
     - cwd: {{ directory }}
     - require:
       - virtualenv: {{ directory }}/.ve
+      - pkg: kingfisher-collect-prerequisites
     - onchanges:
       - file: {{ directory }}/requirements.txt
       - virtualenv: {{ directory }}/.ve # if .ve was deleted
