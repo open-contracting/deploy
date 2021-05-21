@@ -167,3 +167,11 @@ You should see a response like:
 .. code-block:: json
 
    {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}
+
+Data retention policy
+---------------------
+
+On the first day of each month, the following are deleted:
+
+-  Crawl logs older than 90 days
+-  Crawl directories containing exclusively files older than 90 days
