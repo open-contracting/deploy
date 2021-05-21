@@ -19,7 +19,7 @@ ocdskingfishercollect:
 
 # REVOKE privileges
 
-revoke public schema privileges:
+revoke public schema privileges on ocdskingfishercollect database:
   postgres_privileges.absent:
     - name: public
     - privileges:

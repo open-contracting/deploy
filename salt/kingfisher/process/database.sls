@@ -50,7 +50,7 @@ create reference schema:
 # REVOKE privileges
 # https://www.postgresql.org/docs/11/sql-revoke.html
 
-revoke public schema privileges:
+revoke public schema privileges on ocdskingfisherprocess database:
   postgres_privileges.absent:
     - name: public
     - privileges:

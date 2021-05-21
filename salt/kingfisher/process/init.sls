@@ -142,7 +142,7 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
   cron.present:
     - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
     - user: {{ entry.user }}
-    - day: 1
+    - daymonth: 1
     - hour: 3
     - minute: 0
 
@@ -151,7 +151,7 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
   cron.present:
     - identifier: KINGFISHER_PROCESS_UNFINISHED_COLLECTIONS
     - user: {{ entry.user }}
-    - day: 1
+    - daymonth: 1
     - hour: 3
     - minute: 15
 
@@ -160,7 +160,7 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
   cron.present:
     - identifier: KINGFISHER_PROCESS_EMPTY_COLLECTIONS
     - user: {{ entry.user }}
-    - day: 1
+    - daymonth: 1
     - hour: 3
     - minute: 30
 
