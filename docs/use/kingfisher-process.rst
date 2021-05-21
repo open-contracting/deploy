@@ -50,3 +50,12 @@ Load local data
 #. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
+
+Data retention policy
+---------------------
+
+On the first day of each month, the following are deleted:
+
+-  Collections that ended over a year ago
+-  Collections that never ended and started over 2 months ago
+-  Collections that ended over 2 months ago and have no data
