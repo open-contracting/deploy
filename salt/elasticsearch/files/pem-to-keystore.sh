@@ -11,3 +11,5 @@ openssl pkcs12 -password file:/opt/pkcs-password -in /etc/apache2/md/domains/"$1
 
 # https://docs.oracle.com/javase/8/docs/technotes/tools/unix/keytool.html#keytool_option_importkeystore
 keytool -importkeystore -noprompt -srckeystore /etc/apache2/md/domains/"$1"/pkcs.p12 -srcstorepass:file /opt/pkcs-password -srcstoretype PKCS12 -srcalias "$1" -destkeystore /etc/elasticsearch/keystore.jks -deststorepass:file /opt/pkcs-password
+
+service elasticsearch restart

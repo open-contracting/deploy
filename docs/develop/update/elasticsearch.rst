@@ -123,17 +123,11 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
 
-#. Create the JKS keystore. For example, for the ``standard.open-contracting.org`` domain:
+#. Create the JKS keystore and restart the Elasticsearch service. For example, for the ``standard.open-contracting.org`` domain:
 
    .. code-block:: bash
 
       ./run.py 'docs' cmd.run '/opt/pem-to-keystore.sh standard.open-contracting.org'
-
-#. Restart the Elasticsearch service:
-
-   .. code-block:: bash
-
-      ./run.py 'docs' service.restart elasticsearch
 
 #. Test the public user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
 
