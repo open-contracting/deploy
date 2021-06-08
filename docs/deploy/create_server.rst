@@ -40,6 +40,10 @@ Bytemark
 #. Wait for the server to boot (a few minutes)
 #. Click *Info* and copy the *Hostname/SSH*
 
+.. note::
+
+   This step creates a ``/root/post.install.log`` file, which logs the packages installed in addition to the operating system.
+
 Hetzner
 ~~~~~~~
 
