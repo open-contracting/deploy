@@ -276,3 +276,8 @@ If the service is being introduced:
 
 #. Add its error monitor to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
 #. Add the embed code for `Fathom Analytics <https://app.usefathom.com/>`__, if appropriate
+
+If the service uses a new domain name:
+
+#. Add the domain to `Google Webmaster Central <https://www.google.com/webmasters/verification/home?hl=en>`__
+#. Add the domain to `Google Search Console <https://search.google.com/search-console>`__
