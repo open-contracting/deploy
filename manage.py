@@ -45,14 +45,14 @@ def compare(content, get_item, mode='diff', margin=0, providers=None):
                 provider_items[provider].add(item)
 
     for target in sorted(target_items):
-        print('{}:'.format(target))
+        print(f'{target}:')
         for item in target_items[target]:
             provider = get_provider(target)
             if provider not in providers:
                 continue
             included = item in provider_items[provider]
             if mode == 'diff' and not included or mode == 'comm' and included:
-                print('  {}'.format(item))
+                print(f'  {item}')
 
 
 def run(*args):
