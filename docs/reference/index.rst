@@ -29,7 +29,7 @@ Sentry
 
 Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
 
-See the Software Development Handbook for `administrative access management <https://ocp-software-handbook.readthedocs.io/en/latest/services/#sentry>`__.
+See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/#sentry>`__ for access to Sentry.
 
 .. _hosting:
 
@@ -67,12 +67,16 @@ Unmanaged services are:
 Administrative access
 ---------------------
 
+See the `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html>`__ for access to third-party services.
+
 The staff of the following organizations can have administrative roles:
 
 -  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
 -  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
+-  `Datlab <https://datlab.eu>`__
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
 -  `Open Data Services Co-operative <https://opendataservices.coop>`__ (ODS)
+-  `Quintagroup <https://quintagroup.com>`__
 -  `Young Innovations <https://younginnovations.com.np>`__
 
 The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
@@ -95,10 +99,14 @@ Redash
 
 There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP, and at most two from CDS and ODS.
 
-Redmine
-~~~~~~~
+Users should belong to a single group. Non-admin staff of OCP, CDS and ODS should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
+
+Redmine CRM
+~~~~~~~~~~~
 
 There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP, and at most two from CDS and ODS.
+
+See the `Helpdesk process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
 
 .. toctree::
    :caption: Service-specific information
