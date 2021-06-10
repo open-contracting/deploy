@@ -113,14 +113,14 @@ Copy files from the staging directory to the live directory:
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh root@standard.open-contracting.org "rsync -az /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
+   ssh ocds-docs@standard.open-contracting.org "rsync -az /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
 
 Update the symlink:
 
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh root@standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
+   ssh ocds-docs@standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
 
 Copy the documents in Elasticsearch from the staging base URL to the production base URL:
 
@@ -142,7 +142,7 @@ Connect to the server:
 .. code-block:: bash
 
    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh root@standard.open-contracting.org
+   ssh ocds-docs@standard.open-contracting.org
 
 Set environment variables, for example:
 
