@@ -6,7 +6,7 @@
 #
 apache-libcloud==2.5.0
     # via salt-ssh
-attrs==20.3.0
+attrs==21.2.0
     # via pytest
 backports.ssl-match-hostname==3.7.0.1
     # via salt-ssh
@@ -29,7 +29,7 @@ cheroot==8.3.0
     #   salt-ssh
 cherrypy==17.4.1
     # via salt-ssh
-click==7.0
+click==8.0.1
     # via
     #   -r requirements.in
     #   ocdsindex
@@ -62,8 +62,10 @@ immutables==0.14
     # via
     #   contextvars
     #   salt-ssh
-importlib-metadata==2.0.0
+importlib-metadata==4.5.0
     # via
+    #   click
+    #   pep517
     #   pluggy
     #   pytest
 iniconfig==1.1.1
@@ -94,11 +96,13 @@ more-itertools==8.2.0
     #   salt-ssh
 msgpack==1.0.2
     # via salt-ssh
-ocdsindex==0.0.2
+ocdsindex==0.0.7
     # via -r requirements.in
-packaging==20.4
+packaging==20.9
     # via pytest
-pip-tools==5.3.1
+pep517==0.10.0
+    # via pip-tools
+pip-tools==6.1.0
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
@@ -622,7 +626,7 @@ pyopenssl==19.0.0
     # via salt-ssh
 pyparsing==2.4.7
     # via packaging
-pytest==6.1.2
+pytest==6.2.4
     # via -r requirements.in
 python-dateutil==2.8.0
     # via salt-ssh
@@ -651,8 +655,6 @@ six==1.15.0
     #   cheroot
     #   cherrypy
     #   cryptography
-    #   packaging
-    #   pip-tools
     #   pyopenssl
     #   python-dateutil
     #   salt-ssh
@@ -668,7 +670,11 @@ tempora==1.14.1
 timelib==0.2.5
     # via salt-ssh
 toml==0.10.2
-    # via pytest
+    # via
+    #   pep517
+    #   pytest
+typing-extensions==3.10.0.0
+    # via importlib-metadata
 urllib3==1.24.3
     # via
     #   elasticsearch
@@ -680,8 +686,10 @@ zc.lockfile==2.0
     # via
     #   cherrypy
     #   salt-ssh
-zipp==3.4.0
-    # via importlib-metadata
+zipp==3.4.1
+    # via
+    #   importlib-metadata
+    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
