@@ -58,6 +58,12 @@ apache:
         authname: Kingfisher Scrapyd
 
 python_apps:
+  kingfisher_collect:
+    user: collect
+    git:
+      url: https://github.com/open-contracting/kingfisher-collect.git
+      branch: main
+      target: ocdskingfishercollect
   kingfisher_process:
     user: ocdskfp
     git:

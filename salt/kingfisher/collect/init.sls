@@ -6,14 +6,6 @@
 
 {{ create_user(user) }}
 
-kingfisher-collect-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - libpq-dev # https://www.psycopg.org/install/
-
-include:
-  - kingfisher.collect.database
-
 {{ directory }}:
   file.directory:
     - names:
