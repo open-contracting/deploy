@@ -15,7 +15,7 @@ fi
 curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
 rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PREFIX""$PATH_PREFIX""${GITHUB_REF##*/}""$SUFFIX"
 
-ocdsindex sphinx build/ https://standard.open-contracting.org/"$INFIX""$PATH_PREFIX""${GITHUB_REF##*/}"/ > documents.json
+ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""${GITHUB_REF##*/}"/ > documents.json
 ocdsindex index https://standard.open-contracting.org:9200 documents.json
 
 if [ "$PRODUCTION" == "true" ]; then
