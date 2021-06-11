@@ -87,48 +87,9 @@ In any case, once the `build passes <https://ocds-standard-development-handbook.
 2. Copy the files to the server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. admonition:: One-time setup
+GitHub Actions deploys the build of any live branch to the live directory, as a build directory named ``branch-timestamp``, for example: ``1.1-1577836800``. A symlink named ``branch`` points to the build directory. As such, you can rollback changes by symlinking to another build directory.
 
-   Set the password of the ``manage`` user in a netrc file, replacing ``PASSWORD``:
-
-   .. code-block:: bash
-
-      echo 'machine standard.open-contracting.org login manage password PASSWORD' >> ~/.netrc
-
-The build of the live branch is copied from the staging directory to the live directory, as a build directory named ``branch-date-sequence``, for example: ``1.1-2017-08-08-2``. A symlink named ``branch`` points to the build directory. As such, you can rollback by pointing to another build directory.
-
-Set environment variables, for example:
-
-.. code-block:: bash
-
-   SUBDIR=          # include a trailing slash (leave empty for OCDS documentation)
-   VER=1.1          # set to the branch to deploy (not to the tag)
-   DATE=$(date +%F) # assuming the build completed today; otherwise, set accordingly
-   SEQ=1            # increment for each deploy on the same day
-
-For a profile, set ``SUBDIR`` to, for example, ``profiles/ppp/``. For OC4IDS, set it to ``infrastructure/``.
-
-Copy files from the staging directory to the live directory:
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh ocds-docs@standard.open-contracting.org "rsync -az /home/ocds-docs/web/staging/${SUBDIR}${VER}/ /home/ocds-docs/web/${SUBDIR}${VER}-${DATE}-${SEQ}"
-
-Update the symlink:
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh ocds-docs@standard.open-contracting.org "ln -nfs ${VER}-${DATE}-${SEQ} /home/ocds-docs/web/${SUBDIR}${VER}"
-
-Copy the documents in Elasticsearch from the staging base URL to the production base URL:
-
-.. code-block:: bash
-
-   ocdsindex copy https://standard.open-contracting.org:9200 https://standard.open-contracting.org/staging/${SUBDIR}${VER}/ https://standard.open-contracting.org/${SUBDIR}${VER}/
-
-If the branch is for the latest version of the documentation, repeat this step with ``VER=latest``.
+The live branches are configured in the last step of the relevant repository's ``ci.yml`` workflow.
 
 3. Copy the schema and ZIP file into place
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
