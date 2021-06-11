@@ -4,7 +4,7 @@ set -xeuo pipefail
 
 TIMESTAMP=$(date +%s)
 
-if [ "$ENVIRONMENT" == "production" ]; then
+if [ "$PRODUCTION" == "true" ]; then
     PREFIX=""
     SUFFIX=-"${TIMESTAMP}"
 else
@@ -15,7 +15,7 @@ fi
 curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
 rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PREFIX""$PATH_PREFIX""${GITHUB_REF##*/}""$SUFFIX"
 
-if [ "$ENVIRONMENT" == "production" ]; then
+if [ "$PRODUCTION" == "true" ]; then
     curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
     ssh ocds-docs@standard.open-contracting.org "ln -nfs ${GITHUB_REF##*/}-${TIMESTAMP} /home/ocds-docs/web/$PATH_PREFIX${GITHUB_REF##*/}"
 fi
