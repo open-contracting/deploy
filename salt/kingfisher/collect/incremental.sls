@@ -54,7 +54,7 @@ change cron shell to bash:
 # - logfile name
 # - add `-a compile_releases=true` if needed
 
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_record_packages -a crawl_time=2021-06-14T00:00:00 --logfile={{ userdir }}/logs/afghanistan_record_packages-$(date +%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_packages -a compile_releases=true -a crawl_time=2021-06-14T00:00:00 --logfile={{ userdir }}/logs/afghanistan_release_packages-$(date +%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_AFGHANISTAN
     - user: {{ entry.user }}
