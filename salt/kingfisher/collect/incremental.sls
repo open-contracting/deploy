@@ -41,6 +41,12 @@ include:
     - require:
       - user: {{ entry.user }}_user_exists
 
+change cron shell to bash:
+  cron.env_present:
+    - name: SHELL
+    - value: bash
+    - user: {{ entry.user }}
+
 # To add additional spiders, change:
 #
 # - spider name
