@@ -41,27 +41,23 @@ include:
     - require:
       - user: {{ entry.user }}_user_exists
 
-change cron shell to bash:
-  cron.env_present:
-    - name: SHELL
-    - value: /bin/bash
-    - user: {{ entry.user }}
-
 # To add additional spiders, change:
 #
 # - spider name
 # - crawl time
 # - logfile name
 # - add `-a compile_releases=true` if needed
+#
+# Note that "%" has special significance in cron, so it must be escaped.
 
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_packages -a compile_releases=true -a crawl_time=2021-06-14T00:00:00 --logfile={{ userdir }}/logs/afghanistan_release_packages-$(date +%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_packages -a compile_releases=true -a crawl_time=2021-06-14T00:00:00 --logfile={{ userdir }}/logs/afghanistan_release_packages-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_AFGHANISTAN
     - user: {{ entry.user }}
     - hour: 0
     - minute: 15
 
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl moldova -a crawl_time=2021-06-11T00:00:00 --logfile={{ userdir }}/logs/moldova-$(date +%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl moldova -a crawl_time=2021-06-11T00:00:00 --logfile={{ userdir }}/logs/moldova-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_MOLDOVA
     - user: {{ entry.user }}
