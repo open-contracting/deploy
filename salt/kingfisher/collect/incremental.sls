@@ -44,7 +44,7 @@ include:
 change cron shell to bash:
   cron.env_present:
     - name: SHELL
-    - value: bash
+    - value: /bin/bash
     - user: {{ entry.user }}
 
 # To add additional spiders, change:
