@@ -59,6 +59,10 @@ base:
     - redash
     - maintenance
 
+  'registry':
+    - registry
+    - maintenance
+
   'spoonbill-dev':
     - spoonbill_dev
 

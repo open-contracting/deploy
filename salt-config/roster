@@ -9,5 +9,8 @@ kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
 prometheus:          ocp03.open-contracting.org
 redash:              ocp08.open-contracting.org
-toucan:              ocp09.open-contracting.org
+registry:
+  host: ocp13.open-contracting.org
+  port: 2223
 spoonbill-dev:       ocp12.open-contracting.org
+toucan:              ocp09.open-contracting.org
