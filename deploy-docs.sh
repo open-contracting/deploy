@@ -6,7 +6,7 @@ TIMESTAMP=$(date +%s)
 
 if [ "$PRODUCTION" == "true" ]; then
     PREFIX=""
-    SUFFIX=-"${TIMESTAMP}"
+    SUFFIX=-"$TIMESTAMP"
 else
     PREFIX="staging/"
     SUFFIX=""
@@ -21,5 +21,5 @@ ocdsindex index https://standard.open-contracting.org:9200 documents.json
 if [ "$PRODUCTION" == "true" ]; then
     curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
     # shellcheck disable=SC2029
-    ssh ocds-docs@standard.open-contracting.org "ln -nfs ${GITHUB_REF##*/}-${TIMESTAMP} /home/ocds-docs/web/$PATH_PREFIX${GITHUB_REF##*/}"
+    ssh ocds-docs@standard.open-contracting.org "ln -nfs ${GITHUB_REF##*/}$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX${GITHUB_REF##*/}"
 fi
