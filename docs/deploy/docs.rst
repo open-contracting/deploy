@@ -91,69 +91,11 @@ GitHub Actions automatically:
 
 -  Deploys the build of any live branch (e.g. ``latest``) to the live directory (``/home/ocds-docs/web``), as a build directory named ``{branch}-{timestamp}`` (e.g. ``latest-1577836800``)
 -  Creates a symlink named after the live branch (e.g. ``latest``) that points to the build directory. As such, you can rollback changes by linking to another build directory.
+-  Deploys the schema files, codelist files and metadata file (if any), if a tag is pushed: for example, under https://standard.open-contracting.org/profiles/ppp/schema/ and https://standard.open-contracting.org/profiles/ppp/extension/.
 
 The live branches are configured in the last step of the relevant repository's ``ci.yml`` workflow.
 
-3. Copy the schema and ZIP file into place
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-
-   You can skip this step if you are not releasing a new major, minor or patch version.
-
-Connect to the server:
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh ocds-docs@standard.open-contracting.org
-
-Set environment variables, for example:
-
-.. code-block:: bash
-
-   SUBDIR=          # include a trailing slash (leave empty for OCDS documentation)
-   VER=1.1          # set to the branch as above
-   RELEASE=1__1__1  # set to the full release tag name
-
-For a profile, set ``SUBDIR`` to, for example, ``profiles/ppp/``. For OC4IDS, set it to ``infrastructure/``.
-
-For the **OCDS** and **OC4IDS** documentation, run:
-
-.. code-block:: bash
-
-   # Create the directory for the release.
-   mkdir /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
-
-   # Copy the schema and codelist files.
-   cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/*.json /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
-   cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/codelists /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
-
-   # Create a ZIP file of the above.
-   cd /home/ocds-docs/web/${SUBDIR}schema/
-   zip -r ${RELEASE}.zip ${RELEASE}
-
-The files are then visible at e.g. https://standard.open-contracting.org/schema/1__1__1/.
-
-For a **profile's** documentation, run:
-
-.. code-block:: bash
-
-   # Create the profile and patched directories for the release.
-   mkdir -p /home/ocds-docs/web/${SUBDIR}extension/${RELEASE}/ /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
-
-   # Copy the profile's schema and codelist files.
-   cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/*.json /home/ocds-docs/web/${SUBDIR}extension/${RELEASE}/
-   cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/codelists /home/ocds-docs/web/${SUBDIR}extension/${RELEASE}/
-
-   # Create a ZIP file of the above.
-   cd /home/ocds-docs/web/${SUBDIR}extension/
-   zip -r ${RELEASE}.zip ${RELEASE}
-
-   # Copy the patched schema and codelist files.
-   cp -r /home/ocds-docs/web/${SUBDIR}${VER}/en/_static/patched/* /home/ocds-docs/web/${SUBDIR}schema/${RELEASE}/
-
-4. Update this repository
+3. Update this repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -211,7 +153,7 @@ If this is a new major or minor version:
 
       <option value="0.9">0.9.2</option>
 
-5. Update other repositories
+4. Update other repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Update the Data Review Tool <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#update-the-data-review-tool>`__ and any other tools per `this spreadsheet <https://docs.google.com/spreadsheets/d/18Pq5Hyyk4bNQ_mIaCRqGqwut4ws2_cIh0UYQNAYKv-A/edit#gid=0>`__. (See `sample CRM issue <https://crm.open-contracting.org/issues/4580>`__.)
