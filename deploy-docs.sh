@@ -41,6 +41,7 @@ if [ "$RELEASE" == "true" ]; then
 
     # Deploy the schema files, codelist files and metadata file (if any).
     curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+    # shellcheck disable=SC2087
     ssh ocds-docs@standard.open-contracting.org /bin/bash <<- EOF
         mkdir -p /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/"$REF"/
         cp -r /home/ocds-docs/web/"$PATH_PREFIX""$VERSION"/en/*.json /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/"$REF"/
