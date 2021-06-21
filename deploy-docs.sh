@@ -2,7 +2,10 @@
 
 set -xeuo pipefail
 
+# The branch or tag, e.g. "latest" or "1__0__0".
 REF="${GITHUB_REF##*/}"
+# The first path component, e.g. "infrastructure" or "profiles".
+COMPONENT="${PATH_PREFIX%%/*}"
 
 # If a git tag or live branch is pushed.
 if [ "$PRODUCTION" == "true" ]; then
@@ -30,7 +33,7 @@ fi
 
 # If a git tag is pushed.
 if [ "$RELEASE" == "true" ]; then
-    if [ "${PATH_PREFIX%%/*}" == "profiles" ]; then
+    if [ "$COMPONENT" == "profiles" ]; then
         DIRECTORY="extension"
     else
         DIRECTORY="schema"
@@ -46,7 +49,7 @@ if [ "$RELEASE" == "true" ]; then
         cd /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/
         zip -r "$REF".zip "$REF"
 
-        if [ "${PATH_PREFIX%%/*}" == "profiles" ]; then
+        if [ "$COMPONENT" == "profiles" ]; then
             # Deploy the patched directory for the profile.
             mkdir -p /home/ocds-docs/web/"$PATH_PREFIX"schema/"$REF"/
             cp -r /home/ocds-docs/web/"$PATH_PREFIX""$VERSION"/en/_static/patched/* /home/ocds-docs/web/"$PATH_PREFIX"schema/"$REF"/
