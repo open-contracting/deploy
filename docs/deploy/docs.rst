@@ -87,7 +87,10 @@ In any case, once the `build passes <https://ocds-standard-development-handbook.
 2. Copy the files to the server
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-GitHub Actions deploys the build of any live branch to the live directory, as a build directory named ``branch-timestamp``, for example: ``1.1-1577836800``. A symlink named ``branch`` points to the build directory. As such, you can rollback changes by symlinking to another build directory.
+GitHub Actions automatically:
+
+-  Deploys the build of any live branch (e.g. ``latest``) to the live directory (``/home/ocds-docs/web``), as a build directory named ``{branch}-{timestamp}`` (e.g. ``latest-1577836800``)
+-  Creates a symlink named after the live branch (e.g. ``latest``) that points to the build directory. As such, you can rollback changes by linking to another build directory.
 
 The live branches are configured in the last step of the relevant repository's ``ci.yml`` workflow.
 
