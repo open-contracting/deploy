@@ -61,7 +61,6 @@ base:
 
   'registry':
     - registry
-    - maintenance
     - registry_maintenance
 
   'spoonbill-dev':
