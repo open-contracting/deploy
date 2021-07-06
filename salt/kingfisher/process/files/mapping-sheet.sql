@@ -3,7 +3,7 @@ SET ROLE reference;
 DROP TABLE IF EXISTS reference.mapping_sheets;
 
 CREATE TABLE reference.mapping_sheets (
-    id serial primary key,
+    id serial PRIMARY KEY,
     version text,
     extension text,
     section text,
@@ -19,5 +19,5 @@ CREATE TABLE reference.mapping_sheets (
 );
 
 \copy reference.mapping_sheets (version, extension, section, path, title, description, type, range, values, links, deprecated, "deprecationNotes") from '{{ path }}' csv header;
-
 SET ROLE NONE;
+
