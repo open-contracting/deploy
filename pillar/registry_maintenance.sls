@@ -8,5 +8,4 @@ maintenance:
     ALLOWDEVFILE=/dev/shm/PostgreSQL.*
   hardware_sensors: True
   custom_sensors:
-    - coretemp
     - nct6775
