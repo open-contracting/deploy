@@ -9,3 +9,4 @@ maintenance:
   hardware_sensors: True
   custom_sensors:
     - nct6775
+    - k10temp
