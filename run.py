@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import socket
+import sys
 
 import salt.cli.ssh
 import salt.client.ssh
