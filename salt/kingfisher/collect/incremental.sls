@@ -5,7 +5,6 @@ kingfisher-collect-prerequisites:
   pkg.installed:
     - pkgs:
       - libpq-dev # https://www.psycopg.org/install/
-      - libyajl-dev # OCDS Kit performance
 
 include:
   - python_apps

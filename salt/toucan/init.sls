@@ -9,10 +9,6 @@ include:
 
 {{ create_user(entry.user) }}
 
-toucan-deps:
-  pkg.installed:
-    - name: libyajl-dev # OCDS Kit performance
-
 {{ directory }}/googleapi_credentials.json:
   file.managed:
     - source: salt://toucan/files/googleapi_credentials.json
