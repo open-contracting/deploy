@@ -144,8 +144,6 @@ If a query is slow (more than 1 minute), it most likely is not using an index fo
 
    For tables created by `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/database.html#how-tables-are-related>`__, always ``JOIN`` on the ``id`` column, which has an index, and never on the ``ocid`` column, which has *no* index.
 
-If you frequently filter on the same columns in ``ON`` or ``WHERE`` clauses, open an issue on GitHub to add an index to the table. (In most cases, this should be a multi-column index, with the most common column as the index's first column.)
-
 To see the queries running under your user account, run:
 
 .. code-block:: sql
@@ -159,7 +157,9 @@ Find your username in the ``usename`` column. The ``time`` column indicates how 
 
 .. note::
 
-   When using a tool like `pgMustard <https://www.pgmustard.com>`__, follow these `instructions <https://www.pgmustard.com/getting-a-query-plan>`__ to get the query plan. For tools other than pgMustard, if you don't know how slow your query is, omit ``ANALYZE`` and ``BUFFERS`` from the ``EXPLAIN`` parameters.
+   When using a tool like `pgMustard <https://www.pgmustard.com>`__ or `Dalibo <https://explain.dalibo.com>`__, follow these `instructions <https://www.pgmustard.com/getting-a-query-plan>`__ to get the query plan. For tools other than pgMustard, if you don't know how slow your query is, omit ``ANALYZE`` and ``BUFFERS`` from the ``EXPLAIN`` parameters.
+
+If you frequently filter on the same columns in ``ON`` or ``WHERE`` clauses, open an issue on GitHub to add an index to the table. (In most cases, this should be a multi-column index, with the most common column as the index's first column.)
 
 To stop a query, run, replacing ``PID`` with the appropriate value from the ``pid`` column:
 
