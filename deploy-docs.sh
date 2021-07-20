@@ -2,7 +2,7 @@
 
 set -xeuo pipefail
 
-# The branch or tag, e.g. "latest" or "1__0__0".
+# The branch or tag, e.g. "1.0-dev" or "1__0__0".
 REF="${GITHUB_REF##*/}"
 # The first path component, e.g. "infrastructure" or "profiles".
 COMPONENT="${PATH_PREFIX%%/*}"
