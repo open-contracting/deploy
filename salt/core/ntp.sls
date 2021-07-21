@@ -42,7 +42,6 @@ ntp:
       - service: ntp
 {% endif %}
 
-
 # Set timezone to UTC.
 UTC:
   timezone.system

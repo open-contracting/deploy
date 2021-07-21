@@ -3,7 +3,7 @@
 /etc/ssh/sshd_config.d/customization.conf:
   file.managed:
     - source: salt://core/sshd/files/customization.conf
-    - watch_in: 
+    - watch_in:
       - service: ssh_service
 
 {% else %}
@@ -12,7 +12,7 @@ disable password authentication:
     - name: /etc/ssh/sshd_config
     - pattern: "^#?PasswordAuthentication .*"
     - repl: "PasswordAuthentication no"
-    - watch_in: 
+    - watch_in:
       - service: ssh_service
 
 # The above "PasswordAuthentication no" technically disables root logins with passwords but we are explicitly setting "PermitRootLogin" as well for two reasons:
@@ -23,7 +23,7 @@ force root ssh keys:
     - name: /etc/ssh/sshd_config
     - pattern: "^#?PermitRootLogin.*"
     - repl: "PermitRootLogin without-password"
-    - watch_in: 
+    - watch_in:
       - service: ssh_service
 
 disable x11forwarding:
@@ -31,7 +31,7 @@ disable x11forwarding:
     - name: /etc/ssh/sshd_config
     - pattern: "^#?X11Forwarding yes"
     - repl: "X11Forwarding no"
-    - watch_in: 
+    - watch_in:
       - service: ssh_service
 {% endif %}
 
