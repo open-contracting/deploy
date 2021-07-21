@@ -1,5 +1,5 @@
 {% if grains.mem_total > 32768 %}
-  {% set swap_size = grains.mem_total // 4 %}
+  {% set swap_size = [grains.mem_total // 4, 16384] | max %}
 {% elif grains.mem_total > 2048 %}
   {% set swap_size = grains.mem_total // 2 %}
 {% else %}
@@ -16,7 +16,10 @@
 
 {% set swap_path = "/swapfile" %}
 
+# Some systems will have swap configured already, if it is sufficent then don't configure more.
+{% if swap_size > grains['swap_total'] %}
 # Create swap file and mount.
+# Only runs if swap_path has not been created
 {{ swap_path }}:
   cmd.run:
     - name: |
@@ -26,6 +29,7 @@
     - creates: {{ swap_path }}
   mount.swap:
     - persist: True
+{% endif %}
 
 # Set swappiness so that it is only used when memory is full.
 vm.swappiness:
