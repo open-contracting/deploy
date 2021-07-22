@@ -1,6 +1,6 @@
 # Stop RemoveIPC killing all processes by a user when they log out.
 {% if grains['osrelease']|float >= 20.04 %}
-/etc/systemd/logind.conf.d/customize.conf:
+/etc/systemd/logind.conf.d/customization.conf:
   file.managed:
     - source: salt://core/systemd/files/logind.conf
     - makedirs: True
@@ -16,4 +16,5 @@
 {% endif %}
 
 systemd-logind:
-  service.running
+  service.running:
+    - name: systemd-logind

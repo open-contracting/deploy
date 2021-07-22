@@ -4,7 +4,10 @@ systemd-timesyncd:
   pkg.installed:
     - name: systemd-timesyncd
   service.running:
+    - name: systemd-timesyncd
     - enable: True
+    - require:
+      - pkg: systemd-timesyncd
 
 /etc/systemd/timesyncd.conf:
   file.replace:
