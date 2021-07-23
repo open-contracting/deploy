@@ -1,5 +1,5 @@
 # We'll only be using SSH key authentication.
-{% if grains['osrelease'] >= "20.04" %}
+{% if grains['osrelease'] >= '20.04' %}
 /etc/ssh/sshd_config.d/customization.conf:
   file.managed:
     - source: salt://core/sshd/files/customization.conf

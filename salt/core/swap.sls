@@ -14,7 +14,7 @@
   {% set vm_swappiness = 40 %}
 {% endif %}
 
-{% set swap_path = "/swapfile" %}
+{% set swap_path = '/swapfile' %}
 
 # Some systems will have swap configured already, if it is sufficent then don't configure more.
 {% if swap_size > grains['swap_total'] %}
