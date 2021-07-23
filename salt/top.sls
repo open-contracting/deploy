@@ -12,11 +12,11 @@ base:
     - core.logrotate
     - core.mail
     - core.motd
-    - core.ntp
     - core.rsyslog
     - core.sshd
     - core.swap
-    - core.systemd
+    - core.systemd.logind
+    - core.systemd.ntp
 
   'cove-*':
     - cove
