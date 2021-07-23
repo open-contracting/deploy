@@ -18,8 +18,7 @@
 
 # Some systems will have swap configured already, if it is sufficent then don't configure more.
 {% if swap_size > grains['swap_total'] %}
-# Create swap file and mount.
-# Only runs if swap_path has not been created
+# Create swap file and mount. Only runs if `swap_path` has not been created.
 {{ swap_path }}:
   cmd.run:
     - name: |
