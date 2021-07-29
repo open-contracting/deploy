@@ -139,7 +139,7 @@ Delete an Apache module
 
    .. code-block:: bash
 
-      ./run.py 'toucan' state.sls_id headers core
+      ./run.py 'kingfisher-process' state.sls_id headers core
 
 #. Remove the temporary state
 
