@@ -47,6 +47,13 @@ create reference schema:
       - postgres_group: reference
       - postgres_database: ocdskingfisherprocess
 
+create summaries schema:
+  postgres_schema.present:
+    - name: summaries
+    - dbname: ocdskingfisherprocess
+    - require:
+      - postgres_database: ocdskingfisherprocess
+
 # REVOKE privileges
 # https://www.postgresql.org/docs/11/sql-revoke.html
 
@@ -93,7 +100,7 @@ grant kingfisher_summarize database privileges:
       - postgres_database: ocdskingfisherprocess
 
 # Kingfisher Summarize grants access to view_data_* schemas to the kingfisher_summarize_read group.
-{% set schema_groups = {'reference': ['public'], 'public': ['kingfisher_process_read']} %}
+{% set schema_groups = {'reference': ['public'], 'summaries': ['kingfisher_summarize_read'], 'public': ['kingfisher_process_read']} %}
 
 {% for schema, groups in schema_groups.items() %}
 {% for group in groups %}
