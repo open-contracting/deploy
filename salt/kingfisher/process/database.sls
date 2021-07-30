@@ -85,6 +85,18 @@ grant kingfisher_process schema privileges:
       - postgres_user: sql-user-kingfisher_process
       - postgres_database: ocdskingfisherprocess
 
+grant kingfisher_summarize schema privileges:
+  postgres_privileges.present:
+    - name: kingfisher_summarize
+    - privileges:
+      - ALL
+    - object_type: schema
+    - object_name: summaries
+    - maintenance_db: ocdskingfisherprocess
+    - require:
+      - postgres_user: sql-user-kingfisher_summarize
+      - postgres_database: ocdskingfisherprocess
+
 # "The database user must have the CREATE privilege on the database used by Kingfisher Process."
 # https://kingfisher-summarize.readthedocs.io/en/latest/get-started.html#database
 grant kingfisher_summarize database privileges:
