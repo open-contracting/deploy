@@ -47,13 +47,6 @@ create reference schema:
       - postgres_group: reference
       - postgres_database: ocdskingfisherprocess
 
-create summaries schema:
-  postgres_schema.present:
-    - name: summaries
-    - dbname: ocdskingfisherprocess
-    - require:
-      - postgres_database: ocdskingfisherprocess
-
 # REVOKE privileges
 # https://www.postgresql.org/docs/11/sql-revoke.html
 
@@ -83,18 +76,6 @@ grant kingfisher_process schema privileges:
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_user: sql-user-kingfisher_process
-      - postgres_database: ocdskingfisherprocess
-
-grant kingfisher_summarize schema privileges:
-  postgres_privileges.present:
-    - name: kingfisher_summarize
-    - privileges:
-      - ALL
-    - object_type: schema
-    - object_name: summaries
-    - maintenance_db: ocdskingfisherprocess
-    - require:
-      - postgres_user: sql-user-kingfisher_summarize
       - postgres_database: ocdskingfisherprocess
 
 # "The database user must have the CREATE privilege on the database used by Kingfisher Process."
