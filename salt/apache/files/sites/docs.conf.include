@@ -214,34 +214,50 @@ RedirectMatch ^/validator/(.*)$ /review/$1
 {% for lang in options[''].languages %}
     {% for version in ['latest', '1.1'] %}
         # Extensions
-        Redirect /{{ version }}/{{ lang }}/extensions/community              https://extensions.open-contracting.org/{{ lang }}/extensions/
-        Redirect /{{ version }}/{{ lang }}/extensions/developing             https://extensions.open-contracting.org/{{ lang }}/extensions/
-        Redirect /{{ version }}/{{ lang }}/extensions/party_details          https://extensions.open-contracting.org/{{ lang }}/extensions/
-        Redirect /{{ version }}/{{ lang }}/extensions/bids                   https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
-        Redirect /{{ version }}/{{ lang }}/extensions/enquiries              https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
-        Redirect /{{ version }}/{{ lang }}/extensions/location               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
-        Redirect /{{ version }}/{{ lang }}/extensions/lots                   https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
-        Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
-        Redirect /{{ version }}/{{ lang }}/extensions/participation_fee      https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
-        Redirect /{{ version }}/{{ lang }}/extensions/process_title          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+        Redirect /{{ version }}/{{ lang }}/extensions/community                 https://extensions.open-contracting.org/{{ lang }}/extensions/
+        Redirect /{{ version }}/{{ lang }}/extensions/developing                https://extensions.open-contracting.org/{{ lang }}/extensions/
+        Redirect /{{ version }}/{{ lang }}/extensions/party_details             https://extensions.open-contracting.org/{{ lang }}/extensions/
+        Redirect /{{ version }}/{{ lang }}/extensions/bids                      https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
+        Redirect /{{ version }}/{{ lang }}/extensions/enquiries                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
+        Redirect /{{ version }}/{{ lang }}/extensions/location                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
+        Redirect /{{ version }}/{{ lang }}/extensions/lots                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
+        Redirect /{{ version }}/{{ lang }}/extensions/milestone_documents       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
+        Redirect /{{ version }}/{{ lang }}/extensions/participation_fee         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
+        Redirect /{{ version }}/{{ lang }}/extensions/process_title             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
 
         # Iterative improvements from OCDS 1.1.4 and up
-        Redirect /{{ version }}/{{ lang }}/extensions                        /{{ version }}/{{ lang }}/guidance/map/extensions/
-        Redirect /{{ version }}/{{ lang }}/implementation/amendments         /{{ version }}/{{ lang }}/guidance/map/amendments/
-        Redirect /{{ version }}/{{ lang }}/implementation/hosting            /{{ version }}/{{ lang }}/guidance/build/hosting/
-        Redirect /{{ version }}/{{ lang }}/implementation/levels             /{{ version }}/{{ lang }}/getting_started/quality/
-        Redirect /{{ version }}/{{ lang }}/implementation/licensing          /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
-        Redirect /{{ version }}/{{ lang }}/implementation/publication_policy /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
-        Redirect /{{ version }}/{{ lang }}/implementation/registration       /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
-        Redirect /{{ version }}/{{ lang }}/implementation/related_processes  /{{ version }}/{{ lang }}/guidance/map/related_processes/
-        Redirect /{{ version }}/{{ lang }}/implementation/serialization      /{{ version }}/{{ lang }}/guidance/build/serialization/
-        Redirect /{{ version }}/{{ lang }}/implementation                    /{{ version }}/{{ lang }}/guidance/
-        Redirect /{{ version }}/{{ lang }}/schema/changelog                  /{{ version }}/{{ lang }}/history/changelog/
-        Redirect /{{ version }}/{{ lang }}/schema/deprecation                /{{ version }}/{{ lang }}/governance/deprecation/
-        Redirect /{{ version }}/{{ lang }}/support/credits                   /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
-        Redirect /{{ version }}/{{ lang }}/support/governance                /{{ version }}/{{ lang }}/governance/
-        Redirect /{{ version }}/{{ lang }}/support/history_and_development   /{{ version }}/{{ lang }}/history/history_and_development/
-        Redirect /{{ version }}/{{ lang }}/support/tools                     /{{ version }}/{{ lang }}/support/#ocds-tools
+        Redirect /{{ version }}/{{ lang }}/getting_started/building_blocks                /{{ version }}/{{ lang }}/primer/how/
+        Redirect /{{ version }}/{{ lang }}/getting_started/contracting_process            /{{ version }}/{{ lang }}/primer/how/
+        Redirect /{{ version }}/{{ lang }}/getting_started/publication_patterns           /{{ version }}/{{ lang }}/guidance/build/hosting/
+        Redirect /{{ version }}/{{ lang }}/getting_started/quality                        /{{ version }}/{{ lang }}/guidance/publish/quality/
+        Redirect /{{ version }}/{{ lang }}/getting_started/releases_and_records           /{{ version }}/{{ lang }}/primer/releases_and_records/
+        Redirect /{{ version }}/{{ lang }}/getting_started/use_cases                      /{{ version }}/{{ lang }}/guidance/design/user_needs/
+        Redirect /{{ version }}/{{ lang }}/getting_started/validation                     /{{ version }}/{{ lang }}/guidance/build/#check-your-data
+        Redirect /{{ version }}/{{ lang }}/getting_started                                /{{ version }}/{{ lang }}/primer/
+        Redirect /{{ version }}/{{ lang }}/guidance/map/awards_contracts_buyers_suppliers /{{ version }}/{{ lang }}/guidance/map/awards_contracts/
+        Redirect /{{ version }}/{{ lang }}/guidance/map/award_notices_decisions           /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-award-notices
+        Redirect /{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
+        Redirect /{{ version }}/{{ lang }}/guidance/map/purchase_orders                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
+        Redirect /{{ version }}/{{ lang }}/guidance/map/consortia                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
+        Redirect /{{ version }}/{{ lang }}/guidance/map/frameworks                        /{{ version }}/{{ lang }}/guidance/map/related_processes/
+        Redirect /{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
+        Redirect /{{ version }}/{{ lang }}/guidance/map/catalogs                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
+        Redirect /{{ version }}/{{ lang }}/extensions                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
+        Redirect /{{ version }}/{{ lang }}/implementation/amendments                      /{{ version }}/{{ lang }}/guidance/map/amendments/
+        Redirect /{{ version }}/{{ lang }}/implementation/hosting                         /{{ version }}/{{ lang }}/guidance/build/hosting/
+        Redirect /{{ version }}/{{ lang }}/implementation/levels                          /{{ version }}/{{ lang }}/guidance/publish/quality/
+        Redirect /{{ version }}/{{ lang }}/implementation/licensing                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
+        Redirect /{{ version }}/{{ lang }}/implementation/publication_policy              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
+        Redirect /{{ version }}/{{ lang }}/implementation/registration                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
+        Redirect /{{ version }}/{{ lang }}/implementation/related_processes               /{{ version }}/{{ lang }}/guidance/map/related_processes/
+        Redirect /{{ version }}/{{ lang }}/implementation/serialization                   /{{ version }}/{{ lang }}/guidance/build/serialization/
+        Redirect /{{ version }}/{{ lang }}/implementation                                 /{{ version }}/{{ lang }}/guidance/
+        Redirect /{{ version }}/{{ lang }}/schema/changelog                               /{{ version }}/{{ lang }}/history/changelog/
+        Redirect /{{ version }}/{{ lang }}/schema/deprecation                             /{{ version }}/{{ lang }}/governance/deprecation/
+        Redirect /{{ version }}/{{ lang }}/support/credits                                /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
+        Redirect /{{ version }}/{{ lang }}/support/governance                             /{{ version }}/{{ lang }}/governance/
+        Redirect /{{ version }}/{{ lang }}/support/history_and_development                /{{ version }}/{{ lang }}/history/history_and_development/
+        Redirect /{{ version }}/{{ lang }}/support/tools                                  /{{ version }}/{{ lang }}/support/#ocds-tools
     {% endfor %}
 {% endfor %}
 
