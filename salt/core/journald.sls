@@ -1,6 +1,6 @@
 /etc/systemd/journald.conf.d/customization.conf:
   file.managed:
-    - contents: | 
+    - contents: |
         [Journal]
         SystemMaxUse=1024M
     - user: root
