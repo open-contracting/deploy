@@ -26,26 +26,23 @@ Linode
    #. Click *Create Linode*
 
 #. Wait for the server to boot (this will take a few minutes)
+#. Select your new server
+#. *Power Off* Linode in order to resize disks
+#. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
+#. Wait for the disk to resize
+#. Resize and rename the swap disk "### MB Swap Image"
 
-#. Configure Instance disks
+   .. note::
 
-   #. Select your new server
-   #. *Power Off* Linode in order to resize disks
-   #. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
-   #. Wait for the disk to resize
-   #. Resize and rename the swap disk "### MB Swap Image"
+      If RAM is less than 2 GB, swap size should be at least the size of RAM.
+      If RAM is less than 32 GB, swap size should be at least half the size of RAM.
+      Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
 
-      .. note::
+      At most swap should be double the size of RAM.
 
-         If RAM is less than 2 GB, swap size should be at least the size of RAM.
-         If RAM is less than 32 GB, swap size should be at least half the size of RAM.
-         Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
+      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
 
-         At most swap should be double the size of RAM.
-
-         If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
-
-   #. Power On Linode
+#. Power On Linode
 
 #. Select your new server and copy the *SSH Access* details
 
