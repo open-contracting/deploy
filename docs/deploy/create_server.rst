@@ -39,11 +39,11 @@ Linode
 
          If RAM is less than 1 GB, swap size should be at least the size of RAM.
          If RAM is less than 2 GB, swap size should be at least half the size of RAM.
-         If RAM is less than 32 GB, swap size should be at least a quater the size of RAM (minimum of 16 GB).
+         If RAM is less than 32 GB, swap size should be at least a quarter the size of RAM (minimum of 16 GB).
 
          At most swap should be double the size of RAM.
 
-         `If swap is not big enough a swap file will be configured as part of the core deployment <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__`.
+         If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
 
    #. Power On Linode
 
