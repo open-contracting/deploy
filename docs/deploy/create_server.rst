@@ -37,9 +37,9 @@ Linode
 
       .. note::
 
-         If RAM is less than 1 GB, swap size should be at least the size of RAM.
-         If RAM is less than 2 GB, swap size should be at least half the size of RAM.
-         If RAM is less than 32 GB, swap size should be at least a quarter the size of RAM (minimum of 16 GB).
+         If RAM is less than 2 GB, swap size should be at least the size of RAM.
+         If RAM is less than 32 GB, swap size should be at least half the size of RAM.
+         Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
 
          At most swap should be double the size of RAM.
 
