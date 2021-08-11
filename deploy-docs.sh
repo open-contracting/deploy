@@ -23,6 +23,10 @@ rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PR
 # Index the build directory.
 ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
 ocdsindex index https://standard.open-contracting.org:9200 documents.json
+if [ "$REF" == "$VERSION" ]; then
+    ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX"latest/ > documents.json
+    ocdsindex index https://standard.open-contracting.org:9200 documents.json
+fi
 
 if [ "$PRODUCTION" == "true" ]; then
     # Symlink the live directory.
