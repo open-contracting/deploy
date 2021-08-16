@@ -77,7 +77,7 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 Hetzner (hardware servers)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Hetzner provide a simple stateless firewall with each server. "Stateless" means that the firewall does not track connections, it simply monitors all inbound and outbound traffic by IP and ports in that moment.
+Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections across time, which is required for use cases like port knocking.
 
 You can configure a Hetzner firewall as follows:
 
@@ -134,7 +134,7 @@ You can configure a Hetzner firewall as follows:
 Linode (VPS servers)
 ~~~~~~~~~~~~~~~~~~~~
 
-Linode provide a stateful Cloud Firewall. Stateful firewalls track connections for you making configuration easier.
+Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/guides/getting-started-with-cloud-firewall/>`__. Stateful firewalls can store information about connections across time, which is required for use cases like port knocking.
 
 You can configure a Linode Cloud Firewall as follows:
 
