@@ -1,9 +1,8 @@
 Configure firewall
 ==================
 
-.. note:::
-
-   The below firewall configuration doesn't work with Docker. :ref:`See below for alternative solutions<Docker Servers>`.
+When not using Docker
+---------------------
 
 The `firewall.sh script <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall.sh>`__ closes most ports by default. Its behavior is controlled by variables in the `firewall-settings.local file <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall-settings.local>`__.
 
@@ -70,25 +69,23 @@ When making changes to firewall settings or port assignments, you might want to:
 
       netstat -tupln
 
-Docker Servers
-==============
+When using Docker
+-----------------
 
-Docker manipulates IPTables to route network traffic to and from containers this interferes with our firewall management script. To prevent errors saltstack and the firewall script identify docker and block the script from running. To work around this on servers hosting Docker we need to implement an alternative firewall solution that is configured external to the instance.
+The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
-Hetzner (Hardware Servers)
+Hetzner (hardware servers)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Hetzner provide a simple stateless firewall with each server. "Stateless" means that the firewall does not track connections, it simply monitors all inbound and outbound traffic by IP and ports in that moment.
 
-You can configure the Hetzner firewall as follows:
+You can configure a Hetzner firewall as follows:
 
 #. `Log into Hetzner <https://robot.your-server.de/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
 #. Enable *Hetzner Services*
-#. Create your firewall rules
-
-   We recommend the following rules as a minimum
+#. Create your firewall rules. The recommended minimum is:
 
    .. list-table::
        :header-rows: 1
@@ -134,11 +131,7 @@ You can configure the Hetzner firewall as follows:
          - ack
          - Accept
 
-.. Note:::
-
-   `More information can be found in the Hetzner documentation.<https://docs.hetzner.com/robot/dedicated-server/firewall/>`__
-
-Linode (VPS Servers)
+Linode (VPS servers)
 ~~~~~~~~~~~~~~~~~~~~
 
 Linode provide a stateful Cloud Firewall. Stateful firewalls track connections for you making configuration easier.
@@ -146,17 +139,15 @@ Linode provide a stateful Cloud Firewall. Stateful firewalls track connections f
 You can configure a Linode Cloud Firewall as follows:
 
 #. `Log into Linode <https://login.linode.com/>`__
-#. Open the `*Firewalls* listing page<https://cloud.linode.com/firewalls>`__
+#. Open the `*Firewalls* listing page <https://cloud.linode.com/firewalls>`__
 #. Click *Create Firewall*
 
    #. Set *Label* to the server name
    #. Assign your Linode instance
 
-#. Select your new Firewall
+#. Select your new firewall
 #. Set *Default inbound policy* to *Drop*
-#. Add an Inbound Rule
-
-   We recommend the following rules as a minimum
+#. Add an inbound rule. The recommended minimum is:
 
    .. list-table::
        :header-rows: 1
@@ -179,6 +170,3 @@ You can configure a Linode Cloud Firewall as follows:
 
 #. Click *Save Changes*
 
-.. Node:::
-
-   `More information can be found in the Linode documentation.<https://www.linode.com/docs/guides/getting-started-with-cloud-firewall/>`__
