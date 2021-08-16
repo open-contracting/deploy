@@ -3,7 +3,7 @@ prometheus:
     service: prometheus-server
     user: prometheus-server
     basename: prometheus
-    version: 2.20.1
+    version: 2.29.1
     local_storage_retention: 120d
     config:
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml
@@ -13,7 +13,7 @@ prometheus:
     service: prometheus-alertmanager
     user: prometheus-alertmanager
     basename: alertmanager
-    version: 0.21.0
+    version: 0.22.2
     config:
       conf-alertmanager.yml: salt://prometheus/files/conf-alertmanager.yml
 
