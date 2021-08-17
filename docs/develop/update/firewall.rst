@@ -1,6 +1,9 @@
 Configure firewall
 ==================
 
+When not using Docker
+---------------------
+
 The `firewall.sh script <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall.sh>`__ closes most ports by default. Its behavior is controlled by variables in the `firewall-settings.local file <https://github.com/open-contracting/deploy/blob/main/salt/core/firewall/files/firewall-settings.local>`__.
 
 Most variables are set by state files:
@@ -65,3 +68,105 @@ When making changes to firewall settings or port assignments, you might want to:
    .. code-block:: bash
 
       netstat -tupln
+
+When using Docker
+-----------------
+
+The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
+
+Hetzner (hardware servers)
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+
+You can configure a Hetzner firewall as follows:
+
+#. `Log into Hetzner <https://robot.your-server.de/server>`__
+#. Select your server and go to the *Firewall* tab
+#. Set *Status* to active
+#. Enable *Hetzner Services*
+#. Create your firewall rules. The recommended minimum is:
+
+   .. list-table::
+       :header-rows: 1
+
+       * - Name
+         - Source IP
+         - Destination IP
+         - Source port
+         - Destination port
+         - Protocol
+         - TCP flags
+         - Action
+       * - Allow SSH
+         - 0.0.0.0/0
+         - 0.0.0.0/0
+         - 0-65535
+         - 22
+         - *
+         -
+         - Accept
+       * - Allow ICMP
+         - 0.0.0.0/0
+         - 0.0.0.0/0
+         - 0-65535
+         - 0-65535
+         - icmp
+         -
+         - Accept
+       * - Allow Prometheus
+         - 213.138.113.219/32
+         - 0.0.0.0/0
+         - 0-65535
+         - 7231
+         - *
+         -
+         - Accept
+       * - Allow Outgoing TCP
+         - 0.0.0.0/0
+         - 0.0.0.0/0
+         - 0-65535
+         - 32768-65535
+         - tcp
+         - ack
+         - Accept
+
+Linode (VPS servers)
+~~~~~~~~~~~~~~~~~~~~
+
+Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/guides/getting-started-with-cloud-firewall/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+
+You can configure a Linode Cloud Firewall as follows:
+
+#. `Log into Linode <https://login.linode.com/>`__
+#. Open the `*Firewalls* listing page <https://cloud.linode.com/firewalls>`__
+#. Click *Create Firewall*
+
+   #. Set *Label* to the server name
+   #. Assign your Linode instance
+
+#. Select your new firewall
+#. Set *Default inbound policy* to *Drop*
+#. Add an inbound rule. The recommended minimum is:
+
+   .. list-table::
+       :header-rows: 1
+
+       * - Label
+         - Protocol
+         - Ports
+         - Sources
+         - Action
+       * - Allow-SSH
+         - TCP
+         - SSH (22)
+         - All IPv4, All IPv6
+         - Accept
+       * - Allow-ICMP
+         - ICMP
+         -
+         - All IPv4, All IPv6
+         - Accept
+
+#. Click *Save Changes*
+
