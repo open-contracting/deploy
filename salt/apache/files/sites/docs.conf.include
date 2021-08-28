@@ -239,7 +239,8 @@ RedirectMatch ^/validator/(.*)$ /review/$1
         RedirectMatch /{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts/?          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
         RedirectMatch /{{ version }}/{{ lang }}/guidance/map/purchase_orders/?                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
         RedirectMatch /{{ version }}/{{ lang }}/guidance/map/consortia/?                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/related_processes/
+        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/related_processes/?                 /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
         RedirectMatch /{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender/?               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
         RedirectMatch /{{ version }}/{{ lang }}/guidance/map/catalogs/?                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
         RedirectMatch /{{ version }}/{{ lang }}/extensions/?                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
@@ -249,7 +250,7 @@ RedirectMatch ^/validator/(.*)$ /review/$1
         RedirectMatch /{{ version }}/{{ lang }}/implementation/licensing/?                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
         RedirectMatch /{{ version }}/{{ lang }}/implementation/publication_policy/?              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
         RedirectMatch /{{ version }}/{{ lang }}/implementation/registration/?                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/related_processes/
+        RedirectMatch /{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
         RedirectMatch /{{ version }}/{{ lang }}/implementation/serialization/?                   /{{ version }}/{{ lang }}/guidance/build/serialization/
         RedirectMatch /{{ version }}/{{ lang }}/implementation/?                                 /{{ version }}/{{ lang }}/guidance/
         RedirectMatch /{{ version }}/{{ lang }}/schema/changelog/?                               /{{ version }}/{{ lang }}/history/changelog/
