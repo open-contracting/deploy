@@ -136,6 +136,10 @@ Improve slow queries
 
 If a query is slow (more than 1 minute), it most likely is not using an index for its ``JOIN`` and ``WHERE`` clauses. In practice, using indexes can decrease the running time from hours/days to seconds.
 
+.. note::
+
+   In a given clause, all columns from the same table must be in the same index. To see a table's indices, run ``\d TABLE_NAME``. A view cannot have indices; you must instead check the tables it queries. To see a view's query, run ``\d+ VIEW_NAME``.
+
 .. tip::
 
    For tables created by `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/database.html#how-tables-are-related>`__, always ``JOIN`` on the ``id`` column, which has an index, and never on the ``ocid`` column, which has *no* index.
@@ -150,6 +154,12 @@ To see the queries running under your user account, run:
    ORDER BY time DESC;
 
 Find your username in the ``usename`` column. The ``time`` column indicates how long the query has run for. If it is longer than one minute, consider using `EXPLAIN <https://wiki.postgresql.org/wiki/Using_EXPLAIN>`__ to figure out why.
+
+.. note::
+
+   When using a tool like `pgMustard <https://www.pgmustard.com>`__ or `Dalibo <https://explain.dalibo.com>`__, follow these `instructions <https://www.pgmustard.com/getting-a-query-plan>`__ to get the query plan. For tools other than pgMustard, if you don't know how slow your query is, omit ``ANALYZE`` and ``BUFFERS`` from the ``EXPLAIN`` parameters.
+
+If you frequently filter on the same columns in ``ON`` or ``WHERE`` clauses, open an issue on GitHub to add an index to the table. (In most cases, this should be a multi-column index, with the most common column as the index's first column.)
 
 To stop a query, run, replacing ``PID`` with the appropriate value from the ``pid`` column:
 

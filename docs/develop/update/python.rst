@@ -70,17 +70,17 @@ If the Python app uses the Django framework, add, for example:
    :emphasize-lines: 8-13
 
    python_apps:
-     toucan:
-       user: ocdskit-web
+     myapp:
+       user: myuser
        git:
-         url: https://github.com/open-contracting/toucan.git
+         url: https://github.com/open-contracting/myrepo.git
          branch: main
-         target: ocdskit-web
+         target: myuser
        django:
-         app: ocdstoucan
+         app: ocdsmyapp
          compilemessages: True
          env:
-           ALLOWED_HOSTS: toucan.open-contracting.org
+           ALLOWED_HOSTS: mysubdomain.open-contracting.org
            FATHOM_ANALYTICS_ID: ABCDEFGH
 
 This will activate the virtual environment, and run, using ``--settings {app}.settings``:
@@ -100,7 +100,7 @@ Add, for example:
    :emphasize-lines: 4-5
 
    python_apps:
-     toucan:
+     myapp:
        # ...
        uwsgi:
          configuration: django
@@ -126,7 +126,7 @@ The example above uses the `django <https://github.com/open-contracting/deploy/b
       :emphasize-lines: 6
 
       python_apps:
-        toucan:
+        myapp:
           # ...
           uwsgi:
             configuration: django
@@ -164,11 +164,11 @@ Add, for example:
    :emphasize-lines: 4-9
 
    python_apps:
-     toucan:
+     myapp:
        # ...
        apache:
          configuration: django
-         servername: toucan.open-contracting.org
+         servername: mysubdomain.open-contracting.org
          serveraliases: ['main.{{ grains.fqdn }}']
          context:
            assets_base_url: ''

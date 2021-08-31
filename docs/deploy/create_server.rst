@@ -10,39 +10,41 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
 Create the server via the :ref:`host<hosting>`'s interface.
 
-Bytemark
-~~~~~~~~
+Linode
+~~~~~~
 
-#. `Login to Bytemark <https://panel.bytemark.co.uk>`__
-#. Click *Servers* and *Add a cloud server*
+#. `Log into Linode <https://login.linode.com/>`__
+#. Click *Create Linode*
 
-   #. Enter a *Name*
-   #. Select a *Group* indicating the environment (*production* or *development*)
-   #. Set *Location* to "York"
-   #. Set *Server Resources*
+   #. Set *Distribution* (Operating System) to the "Ubuntu 20.04 LTS" image
+   #. Set the *Region* to *London UK*
+   #. Set *Linode Plan*
+   #. Set *Linode Label* to the server name
+   #. *Add Tags* indicating the environment (*Production* or *Development*)
+   #. Set *Root Password* to a `strong password <https://www.lastpass.com/password-generator>`__
+   #. Check *Enable Backups*
+   #. Click *Create Linode*
 
-      .. note::
+#. Wait for the server to boot (this will take a few minutes)
+#. Select your new server
+#. *Power Off* Linode in order to resize disks
+#. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
+#. Wait for the disk to resize
+#. Resize and rename the swap disk "### MB Swap Image"
 
-         If you drag the slider to the minimum, the disc size will be changed to 5 GiB, which is too little.
+   .. note::
 
-   #. Set *Operating system* to "Ubuntu 18.04 (LTS)"
-   #. Check *Enable backups*
-   #. Set *Take a backup every* to 7 days
-   #. Set *Starting on* to the following Thursday at a random time before 10:00 UTC
-   #. Set *Root user has* to "SSH key (+ Password)" and enter your public SSH key
+      If RAM is less than 2 GB, swap size should be at least the size of RAM.
+      If RAM is less than 32 GB, swap size should be at least half the size of RAM.
+      Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
 
-      .. note::
+      At most swap should be double the size of RAM.
 
-         This adds your public key to ``/root/.ssh/authorized_keys``.
+      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
 
-   #. Click *Add this server*
+#. Power On Linode
 
-#. Wait for the server to boot (a few minutes)
-#. Click *Info* and copy the *Hostname/SSH*
-
-.. note::
-
-   This step creates a ``/root/post.install.log`` file, which logs the packages installed in addition to the operating system.
+#. Select your new server and copy the *SSH Access* details
 
 Hetzner
 ~~~~~~~

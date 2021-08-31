@@ -69,33 +69,10 @@ To configure a documentation repository to push builds to the server:
 Publish released documentation
 ------------------------------
 
-1. Update the documentation repository
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Follow the OCDS Development Handbook's `deployment guide <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html>`__.
 
-If this is the first numbered version of a profile, in its ``docs/_templates/layout.html``, add (substituting ``{root}`` with ``ppp``, for example):
 
-.. code-block:: jinja
-
-   {% block version_options %}
-   <!--#include virtual="/includes/version-options-profiles-{root}.html" -->
-   {% endblock %}
-
-In any case, once the `build passes <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#build>`__ for the live branch of the documentation:
-
-2. Copy the files to the server
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-GitHub Actions automatically:
-
--  Deploys the build of any live branch (e.g. ``latest``) to the live directory (``/home/ocds-docs/web``), as a build directory named ``{branch}-{timestamp}`` (e.g. ``latest-1577836800``)
--  Creates a symlink named after the live branch (e.g. ``latest``) that points to the build directory. As such, you can rollback changes by linking to another build directory.
--  Deploys the schema files, codelist files and metadata file (if any), if a tag is pushed: for example, under https://standard.open-contracting.org/profiles/ppp/schema/ and https://standard.open-contracting.org/profiles/ppp/extension/.
-
-The live branches are configured in the last step of the relevant repository's ``ci.yml`` workflow.
-
-3. Update this repository
+1. Update this repository
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -153,7 +130,7 @@ If this is a new major or minor version:
 
       <option value="0.9">0.9.2</option>
 
-4. Update other repositories
+2. Update other repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Update the Data Review Tool <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#update-the-data-review-tool>`__ and any other tools per `this spreadsheet <https://docs.google.com/spreadsheets/d/18Pq5Hyyk4bNQ_mIaCRqGqwut4ws2_cIh0UYQNAYKv-A/edit#gid=0>`__. (See `sample CRM issue <https://crm.open-contracting.org/issues/4580>`__.)

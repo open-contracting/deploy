@@ -4,6 +4,8 @@ Google Workspace
 Email
 -----
 
+Use `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
+
 Check DNS configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 

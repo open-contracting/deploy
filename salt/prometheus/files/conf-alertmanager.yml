@@ -19,10 +19,10 @@ receivers:
     email_configs:
       - to: sysadmin@open-contracting.org
         from: noreply@noreply.open-contracting.org
-        smarthost: email-smtp.us-east-1.amazonaws.com:587
+        smarthost: {{ pillar.smtp.host }}:{{ pillar.smtp.port }}
         auth_username: {{ pillar.smtp.username }}
         auth_password: {{ pillar.smtp.password }}
-        require_tls: yes
+        require_tls: {{ pillar.smtp.tls }}
         send_resolved: True
   - name: dogsbody-webhook
     webhook_configs:

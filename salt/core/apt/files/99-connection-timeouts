@@ -1,0 +1,4 @@
+# Resolves timeouts to security.ubuntu.com
+# Tries 15 times, each for 1 minute.
+Acquire::http::Timeout "60";
+Acquire::Retries "15";

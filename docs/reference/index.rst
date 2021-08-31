@@ -24,6 +24,11 @@ DMARC Analyzer
 
 OCP's `DMARC policy <https://support.google.com/a/answer/2466563>`__ (``dig TXT _dmarc.open-contracting.org``) sends aggregate and forensic reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__.
 
+Google Postmaster Tools
+~~~~~~~~~~~~~~~~~~~~~~~
+
+`Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ can be used to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
+
 Sentry
 ~~~~~~
 
@@ -38,17 +43,17 @@ Hosting
 
 All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
 
--  `Linode <https://cloud.linode.com/>`__ for the `Helpdesk CRM <https://crm.open-contracting.org>`__
+-  `Hetzner <https://robot.your-server.de/server>`__ for hardware servers, including Kingfisher and Registry
+
+   -  `Network status <https://www.hetzner-status.de/en.html>`__
+
+-  `Linode <https://cloud.linode.com/>`__ for VPS servers provisioned after August 2021, plus the `Helpdesk CRM <https://crm.open-contracting.org>`__
 
    -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
    -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
 
--  `Hetzner <https://robot.your-server.de/server>`__ for Kingfisher
-
-   -  `Network status <https://www.hetzner-status.de/en.html>`__
-
--  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for all others
+-  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for VPS servers provisioned before August 2021.
 
    -  `Network status <https://status.bytemark.org/>`__
    -  **Access**: The 'opendataservices' and 'opencon-tech' users have secondary access to the 'opencontracting' account.
