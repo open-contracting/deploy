@@ -128,6 +128,15 @@ If you can't wait for the statistics to be extracted, you can connect to the ser
 
 If you are frequently running the above, `create an issue <https://github.com/open-contracting/deploy/issues>`__ to change the schedule.
 
+.. tip::
+
+   The log file is named after the job's ID, like ``7df53218f37a11eb80dd0c9d92c523cb.log``. If a crawl no longer appears on the jobs page, it can be difficult to find the crawl's log file, because its filename is opaque. To address this, Kingfisher Collect writes the job's ID to a ``scrapyd-job.txt`` file in the crawl's directory. So, the log file will be at, for example:
+
+   .. code-block:: bash
+
+      cd /home/ocdskfs/scrapyd
+      less logs/kingfisher/colombia/$(cat data/colombia/20210708_212020/scrapyd-log.txt).log
+
 .. _create-netrc-file:
 
 Create a .netrc file
