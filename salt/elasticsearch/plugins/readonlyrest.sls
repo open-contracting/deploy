@@ -3,13 +3,13 @@
 include:
   - elasticsearch
 
-{% set readonlyrest_version = '1.31.0_es7.13.4' %}
+{% set readonlyrest_version = '1.33.1_es7.14.0' %}
 
 readonlyrest-download:
   file.managed:
     - name: /opt/readonlyrest-{{ readonlyrest_version }}.zip
     - source: https://{{ pillar.github.access_token }}:x-oauth-basic@raw.githubusercontent.com/open-contracting/deploy-salt-private/main/files/readonlyrest-{{ readonlyrest_version }}.zip
-    - source_hash: decb5f02b85d46274b4c207c0cdacfab74adff74
+    - source_hash: 85c836ed54d955d2813504b33279be2a21cbba1e
 
 readonlyrest-install:
   cmd.run:
