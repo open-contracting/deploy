@@ -92,7 +92,7 @@ grant kingfisher_summarize database privileges:
       - postgres_user: sql-user-kingfisher_summarize
       - postgres_database: ocdskingfisherprocess
 
-# Kingfisher Summarize grants access to view_data_* schemas to the kingfisher_summarize_read group.
+# Kingfisher Summarize creates the summaries schema, and grants access to view_data_* schemas to the kingfisher_summarize_read group.
 {% set schema_groups = {'reference': ['public'], 'summaries': ['kingfisher_summarize_read'], 'public': ['kingfisher_process_read']} %}
 
 {% for schema, groups in schema_groups.items() %}
