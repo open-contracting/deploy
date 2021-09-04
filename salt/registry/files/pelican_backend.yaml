@@ -1,0 +1,37 @@
+version: "2.2"
+
+x-shared: &shared
+  image: "ghcr.io/open-contracting/pelican-backend:latest"
+  network_mode: "host"
+  env_file:
+    - env
+  volumes:
+    - /data:/data
+
+x-daemon: &daemon
+  <<: *shared
+  restart: unless-stopped
+
+services:
+  ocds_extractor:
+    <<: *daemon
+    command: "extractor.ocds_kingfisher docker"
+    scale: 4
+  contracting_process:
+    <<: *daemon
+    command: "checker.contracting_process docker"
+    scale: 4
+  dataset:
+    <<: *daemon
+    command: "checker.dataset docker"
+    scale: 4
+  time_variance:
+    <<: *daemon
+    command: "checker.time_variance docker"
+    scale: 4
+  finisher:
+    <<: *daemon
+    command: "core.finisher docker"
+  wiper:
+    <<: *daemon
+    command: "core.wiper docker"

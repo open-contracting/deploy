@@ -52,8 +52,8 @@ base:
 
   'prometheus':
     - prometheus_server
-    - private.prometheus_server
     - private.smtp
+    - private.prometheus_server
     - maintenance
 
   'redash':
@@ -63,6 +63,7 @@ base:
   'registry':
     - registry
     - private.smtp
+    - private.registry
     - registry_maintenance
 
   'spoonbill-dev':
