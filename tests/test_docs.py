@@ -1,6 +1,6 @@
 import os
 from itertools import chain, permutations, product
-from urllib.parse import urlparse
+from urllib.parse import urlsplit
 
 import pytest
 import requests
@@ -58,7 +58,7 @@ def test_force_https(url):
     r = get(url)
 
     assert r.status_code == 302
-    assert r.headers['Location'] == urlparse(url)._replace(scheme='https').geturl()
+    assert r.headers['Location'] == urlsplit(url)._replace(scheme='https').geturl()
 
 
 def test_robots_txt():
