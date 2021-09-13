@@ -4,6 +4,6 @@ Hosting
 Rescale a server
 ----------------
 
-The Bytemark Panel makes it easy to scale a server (number of cores and GiB of RAM).
+The Bytemark Panel makes it easy to scale/resize a server (number of cores and GiB of RAM).
 
-If appropriate, update the service's uWSGI (``limit-as``) or PostgreSQL settings.
+You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elasticsearch, PostgreSQL and/or uWSGI.
