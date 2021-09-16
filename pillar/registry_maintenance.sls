@@ -7,6 +7,7 @@ maintenance:
     SCRIPTWHITELIST=/usr/bin/which
     ALLOWDEVFILE=/dev/shm/PostgreSQL.*
     PORT_PATH_WHITELIST=/usr/local/bin/python3.9:TCP:60922
+    PORT_PATH_WHITELIST=/usr/bin/docker-proxy:TCP:60922
   hardware_sensors: True
   custom_sensors:
     - nct6775

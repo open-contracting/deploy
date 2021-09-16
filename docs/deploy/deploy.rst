@@ -6,17 +6,35 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 1. Run Salt function
 --------------------
 
-To deploy a service, indicate the desired target and the ``state.apply`` function, for example:
+To limit the output to changes and failures, add a ``--state-output=changes`` option to the commands below, for example:
+
+.. code-block:: bash
+
+    ./run.py --state-output=changes 'docs' state.apply
+
+If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your ``PATH``. To fix this, if you use ``pyenv``, run, for example:
+
+.. code-block:: bash
+
+    pyenv shell system
+
+Deploy a service
+~~~~~~~~~~~~~~~~
+
+Indicate the desired target and use the ``state.apply`` function, for example:
 
 .. code-block:: bash
 
     ./run.py 'docs' state.apply
 
-To limit the output to changes and failures, add a ``--state-output=changes option``, for example:
+The ``state.apply`` function often completes within one minute. You can ignore this warning: ``DeprecationWarning: encoding is deprecated, Use raw=False instead``.
 
-.. code-block:: bash
+.. note::
 
-    ./run.py --state-output=changes option 'docs' state.apply
+   If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
+
+Deploy part of a service
+~~~~~~~~~~~~~~~~~~~~~~~~
 
 To `run a specific state file <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls>`__, run, for example:
 
@@ -30,17 +48,13 @@ To `run a specific SLS ID <https://docs.saltstack.com/en/latest/ref/modules/all/
 
    ./run.py '*' state.sls_id root_authorized_keys core.sshd
 
-If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your PATH. To fix this, if you use ``pyenv``, run, for example:
-
-.. code-block:: bash
-
-    pyenv shell system
-
-The ``state.apply`` function often completes within one minute. You can ignore this warning: ``DeprecationWarning: encoding is deprecated, Use raw=False instead``.
-
 .. note::
 
-   If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
+   The requirements of the state file or SLS ID must be met. For example, to only create a PostgreSQL user, run:
+
+   .. code-block:: bash
+
+      ./run.py --state-output=changes 'kingfisher-process' state.sls postgres,postgres.backup,kingfisher.collect.database,kingfisher.process.database
 
 2. Check Salt output
 --------------------
