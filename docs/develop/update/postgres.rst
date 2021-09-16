@@ -43,46 +43,15 @@ To configure the database for an application:
           USERNAME:
             password: "PASSWORD"
 
-#. In a new state file, create the database for the application and grant privileges to the application's user. For example, following the example of `salt/covid19/database.sls <https://github.com/open-contracting/deploy/blob/main/salt/covid19/database.sls>`__, replacing ``DB_NAME`` and ``DB_USER``:
+#. Add the private Pillar file to the top file entry for the application.
+
+#. In the main state file of the application, create the database for the application and grant privileges to the application's user. For example:
 
    .. code-block:: yaml
 
-      DB_NAME:
-        postgres_database.present:
-          - name: DB_NAME
-          - owner: postgres
-          - require:
-            - service: postgresql
+      {% from 'lib.sls' import create_database %}
 
-      grant DB_USER schema privileges:
-        postgres_privileges.present:
-          - name: DB_USER
-          - privileges:
-            - ALL
-          - object_type: schema
-          - object_name: public
-          - maintenance_db: DB_NAME
-          - require:
-            - postgres_user: sql-user-DB_USER
-            - postgres_database: DB_NAME
-
-      grant DB_USER table privileges:
-        postgres_privileges.present:
-          - name: DB_USER
-          - privileges:
-            - ALL
-          - object_type: table
-          - object_name: ALL
-          - maintenance_db: DB_NAME
-          - require:
-            - postgres_user: sql-user-DB_USER
-            - postgres_database: DB_NAME
-
-#. Include the new state file from the main state file of the application, and add the private Pillar file to the top file entry for the application.
-
-.. note::
-
-   If this configuration is repeated, we can add a macro to ``salt/lib.sls`` and update this guidance.
+      {{ create_database('DATABASE_NAME', 'DATABASE_USER') }}
 
 .. _pg-add-configuration:
 

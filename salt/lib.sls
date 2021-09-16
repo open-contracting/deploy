@@ -114,3 +114,43 @@ add-{{ name }}-htpasswd:
       - pkg: apache2
 {% endif %}
 {% endmacro %}
+
+{#
+  Accepts a `database` name and `user` name. Creates the database and grants privileges to the user.
+#}
+{% macro create_database(database, user) %}
+{{ database }}:
+  postgres_database.present:
+    - name: {{ database }}
+    - owner: postgres
+    - require:
+      - service: postgresql
+
+# GRANT privileges
+# https://www.postgresql.org/docs/11/sql-grant.html
+# https://www.postgresql.org/docs/11/ddl-priv.html
+
+grant {{ user }} schema privileges:
+  postgres_privileges.present:
+    - name: {{ user }}
+    - privileges:
+      - ALL
+    - object_type: schema
+    - object_name: public
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_user: sql-user-{{ user }}
+      - postgres_database: {{ database }}
+
+grant {{ user }} table privileges:
+  postgres_privileges.present:
+    - name: {{ user }}
+    - privileges:
+      - ALL
+    - object_type: table
+    - object_name: ALL
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_user: sql-user-{{ user }}
+      - postgres_database: {{ database }}
+{% endmacro %}
