@@ -33,6 +33,7 @@ If possible, avoid `file <https://docs.saltstack.com/en/latest/ref/states/all/sa
 
 Our use is limited to:
 
+-  Adding a system cron job, as these are easier to find in ``/etc/cron.d/``.
 -  Writing a custom file or creating a custom directory that is specific to our services
 -  Updating a system file for which Salt has no relevant function (uncommon)
 

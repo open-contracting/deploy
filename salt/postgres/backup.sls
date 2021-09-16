@@ -17,8 +17,6 @@ pgbackrest:
    - template: jinja
 
 {%- if salt['pillar.get']('postgres:backup:cron') %}
-# Using file.append rather than the salt cron module.
-# Because system crons are easier to find if they are all stored in /etc.
 /etc/cron.d/postgres_backups:
   file.managed:
     - contents_pillar: postgres:backup:cron

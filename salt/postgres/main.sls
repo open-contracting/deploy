@@ -23,9 +23,8 @@
     - require:
       - file: /home/sysadmin-tools/bin
 
-# Uses file.append instead of the Salt cron module, because system crons are easier to find if they are all in /etc.
 /etc/cron.d/postgres_archive_cleanup:
-  file.append:
+  file.managed:
     - text: |
         MAILTO=root
         15 10 * * * postgres /home/sysadmin-tools/bin/delete-after-x-days.sh 7 /var/lib/postgresql/{{ pg_version }}/main/archive/
