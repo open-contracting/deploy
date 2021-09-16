@@ -18,7 +18,7 @@ If you don't know whether a package is still required, you can connect to the se
 
       dpkg -L PACKAGE
 
--  Show what packages the package depends on:
+-  Show what packages the package depends on (after ``Depends:`` and ``Recommends:``):
 
    .. code-block:: bash
 
