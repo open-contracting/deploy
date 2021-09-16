@@ -35,7 +35,7 @@ PUBLIC_SSH
   Opens port 22. Supersedes :doc:`port knocking<../../use/ssh>`.
 
 Open a port
------------
+~~~~~~~~~~~
 
 If no variable corresponds to the port you need to open, update the ``firewall.sh`` script and ``firewall-settings.local`` template.
 
@@ -48,12 +48,12 @@ You might need to set variables if you're working in a development environment. 
 This sets ``PUBLIC_SSH="yes"`` in the ``firewall-settings.local`` file.
 
 Close a port
-------------
+~~~~~~~~~~~~
 
 Use the :ref:`unset_firewall macro<delete-firewall-setting>` if a ``set_firewall`` call is removed from a service's state, whether directly (by deleting a ``set_firewall`` call) or indirectly (by un-including a state file with ``set_firewall`` calls).
 
 Troubleshoot
-------------
+~~~~~~~~~~~~
 
 When making changes to firewall settings or port assignments, you might want to:
 
