@@ -27,8 +27,6 @@ base:
   'covid19*':
     - postgres
     - rabbitmq
-    - nodejs
-    - yarn
     - covid19
 
   'docs':

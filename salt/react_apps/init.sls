@@ -2,6 +2,8 @@
 
 include:
   - apache
+  - nodejs
+  - yarn
 
 {% for name, entry in pillar.react_apps.items() %}
 
@@ -44,6 +46,7 @@ include:
     - require:
       - git: {{ entry.git.url }}
 
+# Any future React apps should consider npm instead.
 {{ directory }}-yarn-install:
   cmd.run:
     - name: yarn
