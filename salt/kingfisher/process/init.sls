@@ -10,8 +10,8 @@ kingfisher-process-prerequisites:
       - unrar
 
 include:
-  - python_apps
   - kingfisher.process.database
+  - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_process %}
 {% set userdir = '/home/' + entry.user %}

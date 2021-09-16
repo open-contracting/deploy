@@ -7,8 +7,8 @@ kingfisher-collect-prerequisites:
       - libpq-dev # https://www.psycopg.org/install/
 
 include:
-  - python_apps
   - kingfisher.collect.database
+  - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_collect %}
 {% set userdir = '/home/' + entry.user %}
