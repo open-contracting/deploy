@@ -23,8 +23,7 @@
     - require:
       - file: /home/sysadmin-tools/bin
 
-# Using file.append rather than the salt cron module.
-# Because system crons are easier to find if they are all stored in /etc.
+# Uses file.append instead of the Salt cron module, because system crons are easier to find if they are all in /etc.
 /etc/cron.d/postgres_archive_cleanup:
   file.append:
     - text: |
