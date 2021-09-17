@@ -10,9 +10,6 @@
 
 apache2:
   pkgrepo.managed:
-    # The comments about `python-software-properties` and `python-pycurl` in the SaltStack documentation seem to be for
-    # old versions of Ubuntu. (`software-properties-common` replaced `python-software-properties`.)
-    # https://docs.saltstack.com/en/latest/ref/states/all/salt.states.pkgrepo.html
     - ppa: ondrej/apache2
   pkg.installed:
     - pkgs:
@@ -22,6 +19,8 @@ apache2:
       # https://github.com/open-contracting/deploy/issues/66#issuecomment-742898193
       - libssl1.1
       - openssl
+    - require:
+      - pkgrepo: apache2
   service.running:
     - name: apache2
     - enable: True
