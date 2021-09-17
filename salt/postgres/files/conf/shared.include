@@ -2,13 +2,26 @@
 # https://pgtune.leopard.in.ua/
 # https://github.com/jberkus/annotated.conf
 
+{%- if 'max_connections' in pillar.postgres %}
+{%- set max_connections = pillar.postgres.max_connections %}
+{%- else %}
+{%- set max_connections = 100 %}
+{%- endif %}
 {%- if pillar.postgres.type == 'dw' %}
 {%- set max_parallel_workers_per_gather = grains.num_cpus // 2 %}
 {%- else %}
 {%- set max_parallel_workers_per_gather = [4, grains.num_cpus // 2] | min %}
 {%- endif %}
 
+##################################
+# Connections and Authentication #
+##################################
+
+# https://www.postgresql.org/docs/11/runtime-config-connection.html#GUC-LISTEN-ADDRESSES
 listen_addresses = '*'
+
+# https://www.postgresql.org/docs/11/runtime-config-connection.html#GUC-MAX-CONNECTIONS
+max_connections = {{ max_connections }}
 
 ########################
 # Resource Consumption #
@@ -26,7 +39,7 @@ shared_buffers = {{ grains.mem_total // 4 }}MB  # 25%
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#work_mem
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L343-L344
 {#- NOTE: Update if max_connections or max_parallel_workers_per_gather is changed. #}
-work_mem = {{ [4, grains.mem_total // (4 * 100 * max_parallel_workers_per_gather)] | max }}MB  # 25%
+work_mem = {{ [4, grains.mem_total // (4 * max_connections * max_parallel_workers_per_gather)] | max }}MB  # 25%
 
 # https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#maintenance_work_mem

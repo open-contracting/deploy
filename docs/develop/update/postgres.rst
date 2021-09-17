@@ -68,15 +68,20 @@ Configure PostgreSQL
       postgres:
         configuration: kingfisher-process1
 
-#. If you use the base configuration, set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive). Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
+#. If you use the base configuration:
+
+   -  Set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive).
+   -  Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
+   -  If you need more connections, set ``max_connections``.
 
    .. code-block:: yaml
-      :emphasize-lines: 3-4
+      :emphasize-lines: 3-5
 
       postgres:
-        configuration: kingfisher-process1
-        storage: ssd
+        configuration: registry
+        storage: hdd
         type: oltp
+        max_connections: 200
 
 #. Set ``vm.nr_hugepages`` in the server's Pillar file, following `PostgreSQL's instructions <https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES>`__:
 
