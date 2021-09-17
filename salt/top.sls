@@ -25,7 +25,6 @@ base:
     - memcached
 
   'covid19*':
-    - postgres
     - rabbitmq
     - covid19
 
@@ -51,6 +50,7 @@ base:
     - redash
 
   'registry':
+    - rabbitmq
     - registry
 
   'spoonbill-dev':
