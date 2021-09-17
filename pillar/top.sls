@@ -62,7 +62,6 @@ base:
 
   'registry':
     - registry
-    - private.smtp
     - private.registry
     - registry_maintenance
 
