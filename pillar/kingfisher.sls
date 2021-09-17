@@ -88,6 +88,7 @@ postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True
   version: 11
+  storage: ssd
   configuration: kingfisher-process1
   replica_ipv4:
     - 148.251.183.230
