@@ -45,13 +45,13 @@ To configure the database for an application:
 
 #. Add the private Pillar file to the top file entry for the application.
 
-#. In the main state file of the application, create the database for the application and grant privileges to the application's user. For example:
+#. In the main state file of the application, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the application's user. For example:
 
    .. code-block:: yaml
 
-      {% from 'lib.sls' import create_database %}
+      {% from 'lib.sls' import create_pg_database %}
 
-      {{ create_database('DATABASE_NAME', 'DATABASE_USER') }}
+      {{ create_pg_database('DATABASE_NAME', 'DATABASE_USER') }}
 
 .. _pg-add-configuration:
 
