@@ -33,7 +33,7 @@ postgresql:
     - require:
       - pkgrepo: postgresql
   service.running:
-    # The service called "postgresql" is a dummy service for this
+    # The "postgresql" service is a dummy service, and causes the service status to be misreported.
     - name: postgresql@{{ pg_version }}-main.service
     - enable: True
     - require:
