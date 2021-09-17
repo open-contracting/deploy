@@ -1,12 +1,4 @@
-# https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
-
-docker_prepackages:
-  pkg.installed:
-    - pkgs:
-      - ca-certificates
-      - gnupg-agent
-      - software-properties-common
-
+# https://docs.docker.com/engine/install/ubuntu/
 docker:
   pkgrepo.managed:
     - humanname: Docker Official Repository
@@ -14,15 +6,15 @@ docker:
     - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }}/gpg
-    - require:
-      - pkg: docker_prepackages
   pkg.installed:
-    - pkgs:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
+    - name: docker-ce
     - require:
       - pkgrepo: docker
+  service.running:
+    - name: docker
+    - enable: True
+    - require:
+      - pkg: docker
 
 # https://docs.docker.com/compose/install/
 /usr/local/bin/docker-compose:
