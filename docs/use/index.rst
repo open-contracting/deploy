@@ -26,3 +26,4 @@ User Guides
    databases.rst
    kingfisher.rst
    prometheus.rst
+   rabbitmq.rst
