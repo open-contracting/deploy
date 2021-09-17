@@ -55,20 +55,36 @@ To configure the database for an application:
 
 .. _pg-add-configuration:
 
-Add your configuration
-----------------------
+Configure PostgreSQL
+--------------------
 
-#. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory.
+#. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. To use the base configuration, insert ``{% include 'postgres/files/conf/shared.include' %}`` at the top of the file.
 
-#. Update the server's Pillar file. `Follow PostgreSQL's instructions <https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES>`__ for setting ``vm.nr_hugepages``:
+#. Set ``postgres.configuration`` in the server's Pillar file:
 
-  .. code-block:: yaml
-    :emphasize-lines: 2
+   .. code-block:: yaml
+      :emphasize-lines: 2
 
-    postgres:
-      configuration: kingfisher-process1
-    vm:
-      nr_hugepages: 1234
+      postgres:
+        configuration: kingfisher-process1
+
+#. If you use the base configuration, set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive). Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
+
+   .. code-block:: yaml
+      :emphasize-lines: 3-4
+
+      postgres:
+        configuration: kingfisher-process1
+        storage: ssd
+        type: oltp
+
+#. Set ``vm.nr_hugepages`` in the server's Pillar file, following `PostgreSQL's instructions <https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES>`__:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2
+
+      vm:
+        nr_hugepages: 1234
 
 #. :doc:`Deploy<../../deploy/deploy>`
 

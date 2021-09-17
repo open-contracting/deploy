@@ -55,8 +55,12 @@ postgresql-reload:
     - watch_in:
       - module: postgresql-reload
 
-# Upload custom configuration if defined.
 {% if pillar.postgres.configuration %}
+# Although we can add ``shared.include`` as a separate file (e.g. looping over configurations, and using `loop.index0`
+# to prefix the files), this makes changes harder to deploy, since re-ordering or removing a configuration will rename
+# the new files, but not remove the old files. Instead, a developer needs to `include` it in the configuration file.
+#
+# (Unfortunately, `file.managed` doesn't have a `sources` option like `file.append`.)
 /etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
   file.managed:
     - source: salt://postgres/files/conf/{{ pillar.postgres.configuration }}.conf

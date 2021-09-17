@@ -9,6 +9,8 @@ postgres:
   public_access: True
   version: 11
   configuration: kingfisher-replica1
+  storage: ssd
+  type: dw
   backup:
     configuration: kingfisher-replica1
     process_max: 6
