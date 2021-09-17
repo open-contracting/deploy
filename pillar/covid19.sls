@@ -18,6 +18,9 @@ ssh:
 apache:
   public_access: True
 
+rabbitmq:
+  guest_enabled: True
+
 python_apps:
   covid19admin:
     user: covid19admin
