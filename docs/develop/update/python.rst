@@ -89,6 +89,12 @@ This will activate the virtual environment, and run, using ``--settings {app}.se
 -  The `collectstatic <https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#collectstatic>`__ management command
 -  The `compilemessages <https://docs.djangoproject.com/en/3.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
 
+To generate the ``SECRET_KEY`` environment variable for the private Pillar file, run, in your Django project:
+
+.. code-block:: bash
+
+   python manage.py shell -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+
 Configure uWSGI
 ---------------
 
