@@ -1,16 +1,16 @@
-Maintain
+Packages
 ========
 
-If you don't understand why a configuration exists, it's useful to check its history.
+We remove unneeded services and packages from this repository, because carrying old configurations forever into the future increases the maintenance burden of this repository. If you don't know whether a package is still required, you can :ref:`inspect the package<inspect-package>`.
 
-The files in this repository were originally in the `opendataservices-deploy <https://github.com/OpenDataServices/opendataservices-deploy>`__ repository. You can `browse <https://github.com/OpenDataServices/opendataservices-deploy/tree/7a5baff013b888c030df8366b3de45aae3e12f9e>`__ that repository from before the switch (August 5, 2019). That repository was itself re-organized at different times. You can browse `before moving content from *.conf to *.conf.include <https://github.com/OpenDataServices/opendataservices-deploy/tree/4dbea5122e1fc01221c8d051efc99836cef98ccb>`__ (June 5, 2019).
+The ``./manage.py`` command has ``services`` and ``packages`` sub-commands to identify unusual services and packages, and an ``autoremove`` sub-command to list candidates for removal.
 
-Remove unneeded services and packages
--------------------------------------
+.. _inspect-package:
 
-We remove unneeded services and packages from this repository, because carrying old configurations forever into the future increases the maintenance burden of this repository.
+Inspect packages
+----------------
 
-If you don't know whether a package is still required, you can connect to the server and:
+Connect to the server and:
 
 -  Show what files the package installs:
 
@@ -31,8 +31,6 @@ If you don't know whether a package is still required, you can connect to the se
       apt rdepends PACKAGE
 
 For example, the above commands show that ``redis`` is a metapackage (installing only documentation) that depends on ``redis-server``, and that ``python3-virtualenv`` provides library files whereas ``virtualenv`` provides a binary file (needed by Salt).
-
-The ``./manage.py`` command has ``services`` and ``packages`` sub-commands to identify unusual services and packages, and an ``autoremove`` to list candidates for removal.
 
 List manually installed packages
 --------------------------------

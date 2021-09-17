@@ -8,4 +8,3 @@ Development Guides
    style/index.rst
    update/index.rst
    commit.rst
-   maintain.rst
