@@ -8,10 +8,11 @@ Group={{ user }}
 {%- for key, value in pillar.kingfisher_collect.env.items() %}
 Environment="{{ key}}={{ value }}"
 {%- endfor %}
-{#- Used if crawl is scheduled with HTTPPROXY_ENABLED=True #}
+{%- if 'tinyproxy' in pillar %}
 Environment="http_proxy={{ pillar.tinyproxy.url }}"
 Environment="https_proxy={{ pillar.tinyproxy.url }}"
 Environment="no_proxy=sentry.io"
+{%- endif %}
 WorkingDirectory={{ entry.appdir }}
 ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --nodaemon --logfile=/var/log/scrapyd/scrapyd.log
 
