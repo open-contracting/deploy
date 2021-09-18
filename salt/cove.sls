@@ -10,7 +10,7 @@ include:
 
 {{ create_user(entry.user) }}
 
-python c extension requirements:
+cove-prerequisites: # for packages with C extensions
   pkg.installed:
     - pkgs:
       - python3-dev
