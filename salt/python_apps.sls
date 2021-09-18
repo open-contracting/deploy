@@ -100,7 +100,7 @@ virtualenv:
     - onchanges:
       - git: {{ entry.git.url }}
 
-{% if 'compilemessages' in entry.django %}
+{% if entry.django.get('compilemessages') %}
 {{ directory }}-compilemessages:
   pkg.installed:
     - name: gettext
