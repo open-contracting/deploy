@@ -1,6 +1,6 @@
 {% from 'lib.sls' import create_user, systemd %}
 
-{% set user = 'ocdskfs' %}
+{% set user = pillar.kingfisher_collect.user %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
@@ -77,12 +77,15 @@
 
 {{ systemd({'service': 'scrapyd', 'user': user, 'appdir': directory}) }}
 
+{% if pillar.kingfisher_collect.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_LOG_STATS
     - user: {{ user }}
     - minute: 0
+{% endif %}
 
+{% if pillar.kingfisher_collect.get('autoremove') %}
 # Delete crawl logs older than 90 days.
 find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/scrapyd/logs/ -type d -empty -delete:
   cron.present:
@@ -100,3 +103,4 @@ find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d -exec bash -c 'if [[ -z $(f
     - daymonth: 1
     - hour: 2
     - minute: 45
+{% endif %}

@@ -69,6 +69,14 @@ postgres:
         # Weekly full backup
         15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full
 
+kingfisher_collect:
+  user: ocdskfs
+  autoremove: True
+  summarystats: True
+  env:
+    KINGFISHER_API_URI: https://process.kingfisher.open-contracting.org
+    KINGFISHER_API_LOCAL_DIRECTORY: /home/ocdskfs/scrapyd/data/
+
 python_apps:
   kingfisher_collect:
     user: collect
