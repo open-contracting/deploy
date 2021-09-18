@@ -8,6 +8,8 @@
   {{ unset_firewall("PUBLIC_HTTPS") }}
 {% endif %}
 
+# ondrej/apache2 is still needed on Ubuntu 20.04 for MDContactEmail.
+# https://github.com/icing/mod_md/issues/203
 apache2:
   pkgrepo.managed:
     - ppa: ondrej/apache2
