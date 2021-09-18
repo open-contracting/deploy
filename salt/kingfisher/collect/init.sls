@@ -51,7 +51,6 @@
     - cwd: {{ directory }}
     - require:
       - virtualenv: {{ directory }}/.ve
-      - pkg: kingfisher-collect-prerequisites
     - onchanges:
       - file: {{ directory }}/requirements.txt
       - virtualenv: {{ directory }}/.ve # if .ve was deleted

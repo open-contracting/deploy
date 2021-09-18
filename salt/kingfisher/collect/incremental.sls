@@ -1,10 +1,5 @@
 {% from 'lib.sls' import create_user %}
-
-# Must run before python_apps.
-kingfisher-collect-prerequisites:
-  pkg.installed:
-    - pkgs:
-      - libpq-dev # https://www.psycopg.org/install/
+{% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
   - kingfisher.collect.database
@@ -15,6 +10,13 @@ include:
 {% set directory = userdir + '/' + entry.git.target %}
 
 {{ create_user(entry.user) }}
+
+kingfisher-collect-prerequisites:
+  pkg.installed:
+    - pkg: libpq-dev # https://www.psycopg.org/install/
+    - require_in:
+      - cmd: {{ directory }}-requirements
+      - cmd: {{ scrapyd_directory }}-requirements
 
 {{ userdir }}/data:
   file.directory:
