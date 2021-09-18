@@ -12,6 +12,7 @@ include:
   - apache.modules.proxy_http
   - apache.modules.rewrite
   - covid19.database
+  - python.psycopg2
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
   - python_apps
 {% endif %}
@@ -27,12 +28,6 @@ include:
 
 {{ create_user(backend_entry.user, authorized_keys=pillar.ssh.covid19admin) }}
 {{ create_user(frontend_entry.user, authorized_keys=pillar.ssh.covid19) }}
-
-covid19-prerequisites:
-  pkg.installed:
-    - pkg: libpq-dev # https://www.psycopg.org/install/
-    - require_in:
-      - cmd: {{ directory }}-requirements
 
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
 pkill celery:

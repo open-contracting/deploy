@@ -2,6 +2,8 @@
 
 include:
   - apache.modules.remoteip
+  # https://github.com/open-contracting/cove-ocds/pull/159
+  - python.extensions  # backports-datetime-fromisoformat
   - python_apps
 
 {% set entry = pillar.python_apps.cove %}
@@ -9,14 +11,6 @@ include:
 {% set directory = userdir + '/' + entry.git.target %}
 
 {{ create_user(entry.user) }}
-
-cove-prerequisites: # for packages with C extensions
-  pkg.installed:
-    - pkgs:
-      - python3-dev
-      - build-essential
-    - require_in:
-      - cmd: {{ directory }}-requirements
 
 cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:

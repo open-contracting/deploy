@@ -2,6 +2,7 @@
 
 include:
   - kingfisher.process.database
+  - python.psycopg2
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_process %}
@@ -12,13 +13,6 @@ include:
 {% set summarize_directory = '/home/' + summarize.user + '/' + summarize.git.target %}
 
 {{ create_user(entry.user, authorized_keys=pillar.ssh.kingfisher) }}
-
-kingfisher-process-prerequisites:
-  pkg.installed:
-    - pkg: libpq-dev # https://www.psycopg.org/install/
-    - require_in:
-      - cmd: {{ directory }}-requirements
-      - cmd: {{ summarize_directory }}-requirements
 
 useful commands for local load:
   pkg.installed:

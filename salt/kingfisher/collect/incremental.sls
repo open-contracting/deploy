@@ -3,6 +3,7 @@
 
 include:
   - kingfisher.collect.database
+  - python.psycopg2
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_collect %}
@@ -10,13 +11,6 @@ include:
 {% set directory = userdir + '/' + entry.git.target %}
 
 {{ create_user(entry.user) }}
-
-kingfisher-collect-prerequisites:
-  pkg.installed:
-    - pkg: libpq-dev # https://www.psycopg.org/install/
-    - require_in:
-      - cmd: {{ directory }}-requirements
-      - cmd: {{ scrapyd_directory }}-requirements
 
 {{ userdir }}/data:
   file.directory:

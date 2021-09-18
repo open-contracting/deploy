@@ -2,6 +2,8 @@
 
 include:
   - python.virtualenv
+  - python.extensions # twisted
+  - python.psycopg2
 
 {% set user = pillar.kingfisher_collect.user %}
 {% set userdir = '/home/' + user %}
