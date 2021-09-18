@@ -2,9 +2,12 @@
 import os
 import socket
 import subprocess
+import sys
 from collections import defaultdict
 
 import click
+import salt.cli.ssh
+import salt.client.ssh
 
 PROVIDERS = (
     'bytemark',
@@ -13,7 +16,7 @@ PROVIDERS = (
 
 
 def get_provider(target):
-    if 'kingfisher' in target:
+    if 'kingfisher' in target or 'registry' in target:
         return 'hetzner'
     else:
         return 'bytemark'
@@ -45,18 +48,30 @@ def compare(content, get_item, mode='diff', margin=0, providers=None):
                 provider_items[provider].add(item)
 
     for target in sorted(target_items):
+        provider = get_provider(target)
+        if provider not in providers:
+            continue
         print(f'{target}:')
         for item in target_items[target]:
-            provider = get_provider(target)
-            if provider not in providers:
-                continue
             included = item in provider_items[provider]
             if mode == 'diff' and not included or mode == 'comm' and included:
                 print(f'  {item}')
 
 
-def run(*args):
-    return subprocess.run(args, check=True, stdout=subprocess.PIPE).stdout.decode()
+def salt_ssh(*args):
+    # See run.py
+    sys.argv = ['salt-ssh', *args]
+    client = salt.cli.ssh.SaltSSH()
+    client.parse_args()
+    ssh = salt.client.ssh.SSH(client.config)
+
+    for target in ssh.targets.values():
+        try:
+            socket.create_connection((target['host'], 8255), 1)
+        except OSError:
+            pass
+
+    return subprocess.run(sys.argv, check=True, stdout=subprocess.PIPE).stdout.decode()
 
 
 @click.group()
@@ -86,7 +101,7 @@ def services(provider):
     """
     List services that are not common to all servers of the same provider.
     """
-    content = run('salt-ssh', '*', 'service.get_all')
+    content = salt_ssh('*', 'service.get_all')
     compare(content, lambda line: line.strip()[2:], providers=provider)
 
 
@@ -97,7 +112,7 @@ def packages(provider):
     """
     List packages that are not common to all servers of the same provider.
     """
-    content = run('salt-ssh', '*', 'pkg.list_pkgs')
+    content = salt_ssh('*', 'pkg.list_pkgs')
     compare(content, lambda line: line.strip()[:-1], providers=provider)
 
 
@@ -110,7 +125,7 @@ def autoremove(margin, provider):
     """
     List packages that can be auto-removed and that are common to all servers of the same provider.
     """
-    content = run('salt-ssh', '*', 'pkg.autoremove', 'list_only=True')
+    content = salt_ssh('*', 'pkg.autoremove', 'list_only=True')
     compare(content, lambda line: line.strip()[2:], mode='comm', margin=margin, providers=provider)
 
 
