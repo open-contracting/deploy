@@ -101,13 +101,27 @@ Add basic authentication
    .. code-block:: apache
 
       <Location "/">
-          ProxyPass http://localhost:6789/
-
           AuthName "My Site"
           AuthType Basic
           AuthUserFile /etc/apache2/.htpasswd-SITE
           Require valid-user
       </Location>
+
+#. Or, use the `proxy <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/proxy.conf.include>`__ configuration in your service's Pillar file:
+
+.. code-block:: yaml
+   :emphasize-lines: 5,7-10
+
+   apache:
+     public_access: True
+     sites:
+       kingfisher-collect:
+         configuration: proxy
+         servername: collect.data.open-contracting.org
+         context:
+           documentroot: /home/collect/scrapyd
+           proxypass: http://localhost:6800/
+           authname: Kingfisher Scrapyd
 
 .. note::
 
