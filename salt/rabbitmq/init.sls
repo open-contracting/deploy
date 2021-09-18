@@ -33,7 +33,7 @@ rabbitmq_management:
     - require:
       - service: rabbitmq-server
 
-{% if not pillar.rabbitmq.get('guest_enabled') %}
+{% if not salt['pillar.get']('rabbitmq:guest_enabled') %}
 # https://www.rabbitmq.com/access-control.html#default-state
 delete guest rabbitmq user:
   rabbitmq_user.absent:
