@@ -1,5 +1,8 @@
 {% from 'lib.sls' import create_user, systemd %}
 
+include:
+  - python.virtualenv
+
 {% set user = pillar.kingfisher_collect.user %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
@@ -30,10 +33,6 @@
 # they are based on a requirements.txt file.
 
 {{ directory }}/.ve:
-  pkg.installed:
-    - pkgs:
-      - python3-virtualenv # the library
-      - virtualenv # the executable
   virtualenv.managed:
     - python: /usr/bin/python3
     - user: {{ user }}

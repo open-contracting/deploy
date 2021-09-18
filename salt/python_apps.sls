@@ -7,12 +7,7 @@ include:
   - apache
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
-
-virtualenv:
-  pkg.installed:
-    - pkgs:
-      - python3-virtualenv # the library
-      - virtualenv # the executable
+  - python.virtualenv
 
 # Inspired by the Apache formula, which loops over sites to configure. See example in readme.
 # https://github.com/saltstack-formulas/apache-formula
