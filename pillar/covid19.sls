@@ -15,11 +15,21 @@ ssh:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC2LOkTgOZ6cRE9aoZKKHoA4WPhsIeCihMsN9eggn/qwgX6YBVo97k/X8DLTChPc4FjJUc2srn3cSUUoz+zsR12w3i6+AIifybeE9ANoGK9E+9qZpRmUtskge9pxG9UuSUdWWDLyf9UHEgSI5WwElyqqQ2O0VCbTkVA/GwtE2mB1waftU0ZtV1mgt+71TiWomOTD4tHIkU7++X9s3vOlXZxvqjQOAxbju7UehTapl7USRGMERxkZuvMqQvuqCd7iLcNqGwTm1xuCuMWYqxc5PkVm8yybGC3iLoL1kXLirscd+kKXiPWhk5q1i+asZutlhceUPJ5xYsLg3WhtpfEgEnB47W8oxExuo4zvr2gB0kEoMSQ4jGWZHKClFQ1SzBtQjrirthrZD1Ml5nhqkQNAER9vtdcrtKCkH6BwB8SjVsBktboXcFm6/jjPpTfwG2cYu+8WEq1Kswc7PhOXbLjbq5bqhMov8KTGNCCOgHD3zdIZGlnLvw7fMQtfUf7Zok9fJOSD7nVjlrCezcSDJMsFgrikMac7U4BGipZOi3Pk+UcvJz3tOy5w7IO5Nan7zzHDYyOO+qb8HJSbPfeyyrM+hXdK6X1Nz2GmxsQh6v4sBKZy0iq91ttLrTHqy0O6+BmSHO2H91B921vBkkiaPA5gHFwLWB8CGX4HQlir0AktyuGVQ== Rubina (YI, Django Developer)
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCjX63ucem3FxGBXWdcuWiOv10+B3VqZ11FOD+VVVCWdjt4qsXDaBRuDxnk90aCjDfGjSDGXQAtvTgo1BJ8aR5L+t1qe47zdPPz7W8Xst5gXDN/geotnMErJ5Dr0ysLvtcYx6Wsk2Mp88DSbuOWfU2j164CjAaBeJdsXCye2qKdDfhb9pxyMgO+nkpCO5dL/33fgpfMEGCkm21WAI7CfcRBQ92odlYbHFHSrJEhvOYPfLM9+esvB9M362h8c6v85RNjUrOxERb7lF8UmSuvpEsxEOKBqMXrPhlAQc0Fp6eIDEqWcwG73rHiptDKJKa2I8sUeEfQopph1ZLvRa+dryAoS6IGzkQ/Y4273Jt8FRiWfRbHjFQWcer2rNHKSnWTZUcuEUvpnXN1eL7fIa2zsZ8unyGO+thaLXLdIsAIBGdK/ryTvTdtT0YwDoFQb3HGg0tSfPUxC5qoL8vox6UE5eZZuyOlBk1UpygjBaqseMaq7dJ4BxByBv9nLa11H3S7otx7mL+szQic8rI5BQYIJL1qNb2iLWmwcOCrJuSwCe/Dany/DX36v5XY/rP0jaOttaPNfAQUxVx9F6imjsCAnXIe38Wk17B+yQ0dImPNke+EDS4Xi//3kxqyqzGgrIzCt5IbPvSbsdOxce1NLvyKLrLKKlevqG7n9wJ0GI4Ap93M2Q== Suyoj (YI, Django Developer) suyoj.tamrakar@yipl.com.np
 
+vm:
+  overcommit_memory: 1
+
 apache:
   public_access: True
 
+postgres:
+  version: 11
+  configuration: False
+
 rabbitmq:
   guest_enabled: True
+
+nodejs:
+  version: 14
 
 python_apps:
   covid19admin:
@@ -53,13 +63,3 @@ react_apps:
       target: covid19
     apache:
       configuration: covid19
-
-postgres:
-  version: 11
-  configuration: False
-
-nodejs:
-  version: 14
-
-vm:
-  overcommit_memory: 1

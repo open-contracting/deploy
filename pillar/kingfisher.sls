@@ -1,10 +1,3 @@
-prometheus:
-  node_exporter:
-    smartmon: True
-
-vm:
-  nr_hugepages: 16545
-
 ssh:
   root:
     # Open Data Services Co-operative
@@ -27,6 +20,13 @@ ssh:
     # Datlab
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6cj4TrLbDLJDY19PRSYd6+zFPaKCL7t4Ek9cO8OsYnVfG65YVT7VWQc4CfPFkxiEP1WBocj0T+03ihK1J8AmEY4k4F1Ngj83+Z2jdA6kqHhBRzf++x77l7lM2Ka6ngblrcn+AcYTJGLp+9Nd1L2XLqjUcQjaZlWokmP73XYog69C0dGN6a4FBofPm7c6NCrJJt5nF4LBXCVIF7q3Un9k3LojYnD3RAq3ZhUZVBtl5wdcp8qZ4BQfU4ns+q6baBmjRJwAEXnB4IOm29mNUMCdjYr29eTmKats7NYneO9/UGbWd5pKTzHFFsS9a+hcyNlV8LYNE6JbMAN4FjadjjVThEQxPHKAD92AIb0o7dDcSJFGR0V91qpqhfM8LIELzImqOcYYlQu5EriWFIq0eb8gwZOMXO0pm+/MfzXcm2kugET5aQHUObW8sImEvxfLR7huU6tek52mH2gXMijIQf+DGtnq/X3aoZ8MDpDryoXrz76/u0YgXcDmakRHqZXsYSpRyq19eBFtZN+yJm8t+NSZ3z6YsqvadmZ+DqPrDAPXj/7d2A+bhNl5CvU/OuJJfaTjoQRd8thdfftYfTdDuI5kksztYNJMA4JiobrAZkt/I2hKRXdlpQYbNrCaES3FV8u987mrjmLz0Tx06y6cAuIII/cyR11ziBl+iGAOwnbjTNQ== Datlab
 
+vm:
+  nr_hugepages: 16545
+
+prometheus:
+  node_exporter:
+    smartmon: True
+
 rsyslog:
   conf:
     90-kingfisher.conf: kingfisher-process.conf
@@ -47,6 +47,27 @@ apache:
         documentroot: /home/ocdskfs/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
+
+postgres:
+  # If the replica becomes unavailable, we can temporarily enable public access.
+  # public_access: True
+  version: 11
+  configuration: kingfisher-process1
+  storage: ssd
+  type: oltp
+  replica_ipv4:
+    - 148.251.183.230
+  replica_ipv6:
+    - 2a01:4f8:211:de::2
+  backup:
+    configuration: kingfisher-process1
+    process_max: 8
+    cron: |
+        MAILTO=root
+        # Daily incremental backup
+        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
+        # Weekly full backup
+        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full
 
 python_apps:
   kingfisher_collect:
@@ -83,24 +104,3 @@ python_apps:
       target: ocdskingfisherviews
     config:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
-
-postgres:
-  # If the replica becomes unavailable, we can temporarily enable public access.
-  # public_access: True
-  version: 11
-  configuration: kingfisher-process1
-  storage: ssd
-  type: oltp
-  replica_ipv4:
-    - 148.251.183.230
-  replica_ipv6:
-    - 2a01:4f8:211:de::2
-  backup:
-    configuration: kingfisher-process1
-    process_max: 8
-    cron: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
-        # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full

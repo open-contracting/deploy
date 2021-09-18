@@ -2,13 +2,6 @@ x-variables:
   SCRAPY_FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
   PELICAN_RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME dqt_data_registry_production
 
-prometheus:
-  node_exporter:
-    smartmon: True
-
-vm:
-  nr_hugepages: 8231
-
 ssh:
   root:
     # Datlab
@@ -16,6 +9,13 @@ ssh:
     # Quintagroup
     - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICiQnzGUHtsokFSkivn6AAYJEqPBaL/bgtlDzYAVtWQv Myroslav (Quintagroup)
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDmf4aYcVVs8M6/jYpoJbZ0MDSodLZDmJDSx6wDbLOrzD4xxLP52hMHaMA3hlgwdu3mQPYBH8tTJ5It9HfgHgfGChOKho0cLIxumfi6gpHwly6AkX9LdeuPS6B+dpNn1REl4+mh3XzrxhiDp3nhwCNQFq6EWi3OdLDY+fZ7F4rRAiqIGJfFRRnLOTZ/UazTK/V6Qhy/Hsax7DgcuGMrVQCIy76zESvjthPj7iS5m+vZrNtUnKe6a0xKIcOMCU0xmR4u9++OoYCXl5UhpkT3h4YcuEFds70UznmRB+DElW9LaUGxDDyP3rTbHjwQRHS1sD21Y6ggN5LvLr7WDnBJGxTS1kCKSavM3EARvRhrP/VHZSaNscs0sR0BK5wLbBhunnZ+IWiU9YJ2oQApJg93ARvvAf1FIvlvnfwf/NqvcNjNoqv5AY5eKHI5fUWoVKA+vC6kqFM49DulrDDDSVYlE3WJHUMKst7lz2GJk6kT8R/upjPrficF02cJULMdAJjBWIE= Anton Shakh (Quintagroup)
+
+vm:
+  nr_hugepages: 8231
+
+prometheus:
+  node_exporter:
+    smartmon: True
 
 postgres:
   version: 12
