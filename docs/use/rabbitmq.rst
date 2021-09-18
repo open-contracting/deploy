@@ -1,6 +1,8 @@
-# RabbitMQ
+RabbitMQ
+========
 
-## Access the management interface
+Access the management interface
+-------------------------------
 
 #. Open an SSH tunnel, replacing ``HOST``:
 
@@ -16,3 +18,8 @@ The Queues tab is the most relevant, to monitor the progress of work. On each qu
 -  See the queue’s message rate to estimate when work will complete
 -  Purge a queue (that is, remove all messages)
 -  Add a message to the queue for debugging
+
+Reference:
+
+-  `Production Checklist <https://www.rabbitmq.com/production-checklist.html>`__
+-  `Currently Supported Release Series <https://www.rabbitmq.com/versions.html>`__
