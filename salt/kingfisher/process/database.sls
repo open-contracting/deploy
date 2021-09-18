@@ -1,23 +1,31 @@
 # https://kingfisher-process.readthedocs.io/en/latest/requirements-install.html#database
-{% from 'lib.sls' import create_pg_database, create_pg_groups, create_pg_privileges %}
+{% from 'lib.sls' import create_pg_database, create_pg_privileges %}
+
+create kingfisher process groups:
+  postgres_group.present:
+    - names:
+      - reference
+      - kingfisher_process_read
+      - kingfisher_summarize_read
+    - require:
+      - service: postgresql
 
 {{ create_pg_database('ocdskingfisherprocess', 'kingfisher_process') }}
-
-{{ create_pg_groups(['reference', 'kingfisher_process_read', 'kingfisher_summarize_read']) }}
 
 # Extensions
 
 # https://github.com/open-contracting/deploy/issues/117 for analysts to create pivot tables.
 # https://github.com/open-contracting/deploy/issues/237 for analysts to match similar strings.
-{% for extension in ['tablefunc', 'fuzzystrmatch', 'pg_trgm'] %}
-{{ extension }}:
+create kingfisher process extensions:
   postgres_extension.present:
-    - name: {{ extension }}
+    - names:
+      - tablefunc
+      - fuzzystrmatch
+      - pg_trgm
     - if_not_exists: True
     - maintenance_db: ocdskingfisherprocess
     - require:
       - postgres_database: ocdskingfisherprocess
-{% endfor %}
 
 # Schemas
 # Kingfisher Summarize will create the `summaries` schema, using the privilege in the next section.

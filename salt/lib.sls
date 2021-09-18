@@ -115,20 +115,11 @@ add .htpasswd-{{ name }}:
 {% endif %}
 {% endmacro %}
 
-# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
-{% macro create_pg_groups(groups) %}
-{% for group in groups %}
-{{ group }}:
-  postgres_group.present:
-    - name: {{ group }}
-    - require:
-      - service: postgresql
-{% endfor %}
-{% endmacro %}
-
 {#
   Creates the database, revokes all schema privileges from the public role, and grants all schema privileges to the user.
 #}
+# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
+
 {% macro create_pg_database(database, user) %}
 {{ database }}:
   postgres_database.present:
