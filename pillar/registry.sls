@@ -1,7 +1,3 @@
-x-variables:
-  SCRAPY_FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
-  PELICAN_RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME dqt_data_registry_production
-
 ssh:
   root:
     # Datlab
@@ -17,6 +13,22 @@ prometheus:
   node_exporter:
     smartmon: True
 
+apache:
+  public_access: True
+  ipv4: 65.21.93.181
+  ipv6: 2a01:4f9:3b:45ca::2
+  sites:
+    # Can use Scrapyd's basic authentication instead once 1.3 is released.
+    # https://github.com/scrapy/scrapyd/issues/364
+    # https://pypi.org/project/scrapyd/#history
+    kingfisher-collect:
+      configuration: proxy
+      servername: collect.data.open-contracting.org
+      context:
+        documentroot: /home/collect/scrapyd
+        proxypass: http://localhost:6800/
+        authname: Kingfisher Scrapyd
+
 postgres:
   version: 12
   configuration: registry
@@ -30,20 +42,18 @@ docker:
   docker_compose:
     version: 1.29.2
 
-# kingfisher_collect:
-#   target: kingfisher-collect
-#   env:
-#     FILES_STORE: *SCRAPY_FILES_STORE
-#     # This needs to correspond to `docker_apps.kingfisher_process.port` below.
-#     KINGFISHER_API2_URL: http://localhost:8000
-#     # This needs to correspond to ENV_NAME and ENV_VERSION below.
-#     RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
-#     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
+kingfisher_collect:
+  user: collect
+  env:
+    FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
+    KINGFISHER_API2_URL: http://localhost:8000
+    # This needs to correspond to ENV_NAME and ENV_VERSION below.
+    RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
+    RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
 
 docker_apps:
   registry:
     target: data-registry
-    # Remember to update `EXPORTER_HOST` below.
     port: 8002
     env:
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
@@ -51,11 +61,8 @@ docker_apps:
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
       EXPORTER_DIR: /data/storage/exporter_dumps
-      # This needs to correspond to `docker_apps.kingfisher_process.port` below.
       PROCESS_HOST: http://localhost:8000/
-      # This needs to correspond to `docker_apps.pelican_frontend.port` below.
       PELICAN_HOST: http://localhost:8001/
-      # This needs to correspond to `docker_apps.registry.port` above.
       EXPORTER_HOST: http://localhost:8002/
       # Kingfisher Collect
       SCRAPY_HOST: http://localhost:6800/
@@ -63,28 +70,23 @@ docker_apps:
       SCRAPY_FILES_STORE: *SCRAPY_FILES_STORE
       # Spoonbill
       FLATTEN_URL: https://flatten.open-contracting.org
-
   kingfisher_process:
     target: kingfisher-process
-    # Remember to update `KINGFISHER_API2_URL` and `PROCESS_HOST` above.
     port: 8000
     env:
       # Kingfisher Process uses a Rabbit exchange named `kingfisher_process_{ENV_NAME}_{ENV_VERSION}`.
       # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` above.
       ENV_NAME: data_registry
       ENV_VERSION: '1.0'
-
   pelican_backend:
     target: pelican-backend
     env:
       DATABASE_SCHEMA: production,public
-      RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME
+      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME dqt_data_registry_production
       LOG_FILENAME: /data/storage/logs/pelican-backend.log
       # SENTRY_SAMPLE_RATE: 1
-
   pelican_frontend:
     target: pelican-frontend
-    # Remember to update `PELICAN_HOST` above.
     port: 8001
     env:
       RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME

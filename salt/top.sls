@@ -51,6 +51,7 @@ base:
 
   'registry':
     - rabbitmq
+    - kingfisher.collect
     - registry
 
   'spoonbill-dev':
