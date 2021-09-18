@@ -10,4 +10,5 @@
       - service: systemd-journald
 
 systemd-journald:
-  service.running
+  service.running:
+    - name: systemd-journald

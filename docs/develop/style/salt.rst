@@ -72,7 +72,7 @@ Some configuration changes require a reload only, while others require a restart
        - watch_in:
          - service: apache2
 
-   enable-letsencrypt-conf:
+   enable conf letsencrypt.conf:
      apache_conf.enabled:
        - name: letsencrypt
        - watch_in:

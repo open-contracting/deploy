@@ -89,7 +89,7 @@ create reference.mapping_sheets table:
       - cmd: {{ directory }}-requirements
       - file: {{ userdir }}/.pgpass
       - file: {{ userdir }}/.config/ocdskingfisher-process/config.ini
-      - postgres_user: sql-user-kingfisher_process
+      - postgres_user: kingfisher_process_sql_user
       - postgres_database: ocdskingfisherprocess
     - onchanges:
       - git: {{ pillar.python_apps.kingfisher_process.git.url }}
@@ -183,8 +183,3 @@ kingfisher-process-pipinstall:
     - user: {{ entry.user }}
     - require:
       - pip: kingfisher-process-pip
-
-kingfisher-process-pip-path:
-  file.append:
-    - name: {{ userdir }}/.bashrc
-    - text: "export PATH=\"{{ userdir }}/.local/bin/:$PATH\""

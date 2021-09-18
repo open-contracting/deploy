@@ -5,7 +5,7 @@ include:
 # See https://ocdsdeploy.readthedocs.io/en/latest/deploy/redash.html for installation instructions.
 # =================================================================================================
 
-redash_prepackages:
+redash requirements:
   pkg.installed:
     - pkgs:
       - pwgen

@@ -36,7 +36,8 @@ apache2-reload:
 
 # https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
 apache2-utils:
-  pkg.installed
+  pkg.installed:
+    - name: apache2-utils
 
 {% if salt['pillar.get']('apache:sites') %}
 {% for name, entry in pillar.apache.sites.items() %}

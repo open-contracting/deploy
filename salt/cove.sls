@@ -10,7 +10,7 @@ include:
 
 {{ create_user(entry.user) }}
 
-pip_binary_compilation:
+python c extension requirements:
   pkg.installed:
     - pkgs:
       - python3-dev
@@ -25,7 +25,7 @@ cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_K
     - minute: random
     - hour: 0
 
-MAILTO:
+set MAILTO environment variable in {{ entry.user }} crontab:
   cron.env_present:
     - name: MAILTO
     - value: sysadmin@open-contracting.org

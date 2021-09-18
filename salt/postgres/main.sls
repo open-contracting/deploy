@@ -10,8 +10,8 @@
   file.directory:
     - user: postgres
     - group: postgres
-    - mode: 700
     - makedirs: True
+    - mode: 700
     - recurse:
       - user
       - group

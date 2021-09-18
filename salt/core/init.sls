@@ -8,15 +8,18 @@
 
 # Required for most targets.
 git:
-  pkg.installed
+  pkg.installed:
+    - name: git
 
 # Required for salt to interact with apt.
 python-apt:
-  pkg.installed
+  pkg.installed:
+    - name: python-apt
 
 # Required for some targets.
 debconf-utils:
-  pkg.installed
+  pkg.installed:
+    - name: debconf-utils
 
 # Several states add scripts to this directory.
 /home/sysadmin-tools/bin:

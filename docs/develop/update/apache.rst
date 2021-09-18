@@ -93,7 +93,7 @@ Add basic authentication
 
           AuthName "My Site"
           AuthType Basic
-          AuthUserFile /etc/apache2/.htpasswd-my-site
+          AuthUserFile /etc/apache2/.htpasswd-SITE
           Require valid-user
       </Location>
 

@@ -24,7 +24,7 @@ elasticsearch:
 
 # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/important-settings.html#heap-size-settings
 # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/jvm-options.html
-set JVM minimum heap size:
+set jvm minimum heap size:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xms.+
@@ -32,7 +32,7 @@ set JVM minimum heap size:
     - watch_in:
       - service: elasticsearch
 
-set JVM maximum heap size:
+set jvm maximum heap size:
   file.replace:
     - name: /etc/elasticsearch/jvm.options
     - pattern: ^-Xmx.+

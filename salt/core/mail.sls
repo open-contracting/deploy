@@ -26,7 +26,8 @@ postfix:
 
 # Install commands for users to interact with mail.
 mailutils:
-  pkg.installed
+  pkg.installed:
+    - name: mailutils
 
 # Configure /etc/aliases.
 root:
@@ -40,7 +41,7 @@ postmaster:
     - target: root
 
 # Set up root crontab email.
-MAILTO_root:
+set MAILTO environment variable in root crontab:
   cron.env_present:
     - name: MAILTO
     - value: {{ pillar.system_contacts.cron_admin }}

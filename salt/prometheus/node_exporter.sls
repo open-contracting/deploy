@@ -27,7 +27,8 @@ include:
 
 {% if pillar.prometheus.node_exporter.get('smartmon') %}
 smartmontools:
-  pkg.installed
+  pkg.installed:
+    - name: smartmontools
 
 /home/{{ user }}/node-exporter-textfile-directory:
   file.directory:

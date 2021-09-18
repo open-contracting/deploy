@@ -32,6 +32,6 @@ ntp:
   service.dead:
     - enable: False
 
-# Set timezone to UTC.
-UTC:
-  timezone.system
+set timezone to utc:
+  timezone.system:
+    - name: UTC

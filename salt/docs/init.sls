@@ -11,7 +11,8 @@ include:
 # Needed to create a ZIP file of the schema and codelists.
 # https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
 zip:
-  pkg.installed
+  pkg.installed:
+    - name: zip
 
 docs modules:
   apache_module.enabled:

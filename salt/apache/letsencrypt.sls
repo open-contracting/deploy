@@ -13,7 +13,7 @@ include:
     - watch_in:
       - module: apache2-reload
 
-enable-letsencrypt-conf:
+enable conf letsencrypt.conf:
   apache_conf.enabled:
     - name: letsencrypt
     - require:

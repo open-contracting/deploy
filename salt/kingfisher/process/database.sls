@@ -45,7 +45,7 @@ grant kingfisher_summarize database privileges:
     - object_name: ocdskingfisherprocess
     - maintenance_db: ocdskingfisherprocess
     - require:
-      - postgres_user: sql-user-kingfisher_summarize
+      - postgres_user: kingfisher_summarize_sql_user
       - postgres_database: ocdskingfisherprocess
 
 {{

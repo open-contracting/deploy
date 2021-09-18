@@ -26,7 +26,7 @@ force root ssh keys:
     - watch_in:
       - service: ssh_service
 
-disable x11forwarding:
+disable x11 forwarding:
   file.replace:
     - name: /etc/ssh/sshd_config
     - pattern: "^#?X11Forwarding yes"

@@ -110,7 +110,7 @@ pg_stat_statements:
 
 {% if salt['pillar.get']('postgres:users') and not salt['pillar.get']('postgres:replication') %}
 {% for name, entry in pillar.postgres.users.items() %}
-sql-user-{{ name }}:
+{{ name }}_sql_user:
   postgres_user.present:
     - name: {{ name }}
 {% if 'password' in entry %}

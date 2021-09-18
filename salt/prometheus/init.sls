@@ -19,7 +19,7 @@
 {{ create_user(entry.user) }}
 
 # Note: This does not clean up old versions.
-extract_{{ name }}:
+extract {{ name }}:
   archive.extracted:
     - name: {{ userdir }}
     - source: https://github.com/prometheus/{{ name }}/releases/download/v{{ entry.version }}/{{ name }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}.tar.gz

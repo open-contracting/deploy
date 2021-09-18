@@ -13,7 +13,8 @@ useful commands:
       - unzip
 
 vim:
-  pkg.installed
+  pkg.installed:
+    - name: vim
 
 # Set vim as the default editor now that we've installed it.
 editor:

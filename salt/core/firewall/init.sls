@@ -1,7 +1,8 @@
 {% from 'lib.sls' import set_firewall %}
 
 iptables-persistent:
-  pkg.installed
+  pkg.installed:
+    - name: iptables-persistent
 
 # To avoid updating iptables on each deploy, this sets `replace: False`. If the source file is changed, you must delete
 # the remote file from all servers, then re-deploy. (Or, temporarily set `replace: True`.)

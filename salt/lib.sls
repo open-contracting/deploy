@@ -95,7 +95,7 @@ unset {{ setting_name }} firewall setting:
     - watch_in:
       - module: apache2-reload
 
-enable-{{ name }}-site:
+enable site {{ name }}.conf:
   apache_site.enabled:
     - name: {{ name }}
     - require:
@@ -104,7 +104,7 @@ enable-{{ name }}-site:
       - module: apache2-reload
 
 {% if 'htpasswd' in entry %}
-add-{{ name }}-htpasswd:
+add .htpasswd-{{ name }}:
   webutil.user_exists:
     - name: {{ entry.htpasswd.name }}
     - password: {{ entry.htpasswd.password }}
@@ -164,7 +164,7 @@ grant {{ user }} schema privileges:
     - object_name: public
     - maintenance_db: {{ database }}
     - require:
-      - postgres_user: sql-user-{{ user }}
+      - postgres_user: {{ user }}_sql_user
       - postgres_database: {{ database }}
 {% endmacro %}
 

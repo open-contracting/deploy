@@ -63,8 +63,3 @@ covid19-pipinstall:
     - user: {{ backend_entry.user }}
     - require:
       - pkg: covid19-pipinstall
-
-covid19-pip-path:
-  file.append:
-    - name: /home/{{ backend_entry.user }}/.bashrc
-    - text: "export PATH=\"/home/{{ backend_entry.user }}/.local/bin/:$PATH\""
