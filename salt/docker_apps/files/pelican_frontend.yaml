@@ -15,4 +15,4 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.pelican_frontend.port }}"
+    command: "./gunicorn_runner.sh {{ pillar.docker_apps.pelican_frontend.port }}"

@@ -15,7 +15,7 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.kingfisher_process.port }}"
+    command: "./gunicorn_runner.sh {{ pillar.docker_apps.kingfisher_process.port }}"
   api_loader:
     <<: *daemon
     command: "python manage.py api_loader --settings ocdskingfisherprocess.settings.docker"

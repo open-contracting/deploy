@@ -15,7 +15,7 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.registry.port }}"
+    command: "./gunicorn_runner.sh {{ pillar.docker_apps.registry.port }}"
   exporter:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
