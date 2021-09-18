@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_pg_database, create_user, set_firewall %}
+{% from 'lib.sls' import create_user, set_firewall %}
 
 # Pillar data does not set branches. Branches must be manually set to deploy apps. To deploy both apps:
 #
@@ -17,6 +17,7 @@ include:
   - apache.modules.headers
   - apache.modules.proxy_http
   - apache.modules.rewrite
+  - covid19.database
 {% if 'branch' in pillar.python_apps.covid19admin.git %}
   - python_apps
 {% endif %}
@@ -25,8 +26,6 @@ include:
 {% endif %}
 
 {{ set_firewall("PUBLIC_SSH") }}
-
-{{ create_pg_database('covid19', 'covid19') }}
 
 {% set backend_entry = pillar.python_apps.covid19admin %}
 {% set frontend_entry = pillar.react_apps.covid19public %}
