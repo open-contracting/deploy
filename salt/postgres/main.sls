@@ -30,8 +30,3 @@
         15 10 * * * postgres /home/sysadmin-tools/bin/delete-after-x-days.sh 7 /var/lib/postgresql/{{ pg_version }}/main/archive/
     - require:
       - file: /home/sysadmin-tools/bin/delete-after-x-days.sh
-
-postgres_authorized_keys:
-  ssh_auth.manage:
-    - user: postgres
-    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
