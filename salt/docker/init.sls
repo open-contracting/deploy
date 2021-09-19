@@ -16,6 +16,16 @@ docker:
     - require:
       - pkg: docker
 
+# https://docs.docker.com/config/containers/logging/configure/
+# https://docs.docker.com/config/containers/logging/local/
+/etc/docker/daemon.json:
+  file.managed:
+    - source: salt://docker/files/daemon.json
+    - require:
+      - pkg: docker
+    - watch_in:
+      - service: docker
+
 # https://docs.docker.com/compose/install/
 /usr/local/bin/docker-compose:
   file.managed:
