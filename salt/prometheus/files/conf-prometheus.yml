@@ -20,6 +20,7 @@ scrape_configs:
     'ocds-live2.redash': 'ocp08.open-contracting.org',
     'ocds-live3.cove': 'ocp02.open-contracting.org',
     'prometheus-server-node': 'ocp03.open-contracting.org',
+    'data-registry': 'ocp13.open-contracting.org',
 }.items() %}
   - job_name: '{{ job_name }}'
     scrape_interval: 60s
