@@ -14,3 +14,5 @@ registry:
   port: 2223
 spoonbill-dev:       ocp12.open-contracting.org
 toucan:              ocp09.open-contracting.org
+
+# ocp10 was archive.kingfisher.open-contracting.org
