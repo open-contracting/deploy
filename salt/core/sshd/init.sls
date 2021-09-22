@@ -7,30 +7,24 @@
       - service: ssh_service
 
 {% else %}
-disable password authentication:
-  file.replace:
+# We set both PermitRootLogin and PasswordAuthentication for two reasons:
+#
+# - PermitRootLogin adds a layer of security in case PasswordAuthentication is toggled on.
+# - While PermitRootLogin is set to "no" or "without-password", we can monitor it with our intrusion detection software.
+harden ssh configuration:
+  file.keyvalue:
     - name: /etc/ssh/sshd_config
-    - pattern: "^#?PasswordAuthentication .*"
-    - repl: "PasswordAuthentication no"
-    - watch_in:
-      - service: ssh_service
-
-# The above "PasswordAuthentication no" technically disables root logins with passwords but we are explicitly setting "PermitRootLogin" as well for two reasons:
-# Firstly it adds an extra layer to the security if PasswordAuthentication is toggled back on.
-# Secondly while PermitRootLogin is set to either "no" or "without-password" we can monitor it with our intrusion detection software.
-force root ssh keys:
-  file.replace:
-    - name: /etc/ssh/sshd_config
-    - pattern: "^#?PermitRootLogin.*"
-    - repl: "PermitRootLogin without-password"
-    - watch_in:
-      - service: ssh_service
-
-disable x11 forwarding:
-  file.replace:
-    - name: /etc/ssh/sshd_config
-    - pattern: "^#?X11Forwarding yes"
-    - repl: "X11Forwarding no"
+    - key_values:
+        # Disable password authentication.
+        PasswordAuthentication: 'no'
+        # Force root logins with SSH keys.
+        PermitRootLogin: without-password
+        # Disable X11 forwarding.
+        X11Forwarding: 'no'
+    - separator: ' '
+    - uncomment: '# '
+    - key_ignore_case: True
+    - append_if_not_found: True
     - watch_in:
       - service: ssh_service
 {% endif %}

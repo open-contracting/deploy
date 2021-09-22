@@ -40,13 +40,6 @@ readonlyrest-install:
       - pkg: /opt/pem-to-keystore.sh
       - file: /opt/pkcs-password
 
-force load from file:
-  file.append:
-    - name: /etc/elasticsearch/elasticsearch.yml
-    - text:
-      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#malformed-in-index-settings
-      - "readonlyrest.force_load_from_file: true"
-
 /etc/elasticsearch/readonlyrest.yml:
   file.managed:
     - name: /etc/elasticsearch/readonlyrest.yml
@@ -57,14 +50,18 @@ force load from file:
     - watch_in:
       - service: elasticsearch
 
-/etc/elasticsearch/elasticsearch.yml-readonlyrest:
-  file.append:
+/etc/elasticsearch/elasticsearch.yml for readonlyrest:
+  file.keyvalue:
     - name: /etc/elasticsearch/elasticsearch.yml
-    - text:
-      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#4-disable-x-pack-security-module
-      - "xpack.security.enabled: false"
-      # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#external-rest-api
-      - "http.type: ssl_netty4"
+    - key_values:
+        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#malformed-in-index-settings
+        readonlyrest.force_load_from_file: 'true'
+        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#4-disable-x-pack-security-module
+        xpack.security.enabled: 'false'
+        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#external-rest-api
+        http.type: ssl_netty4
+    - separator: ': '
+    - append_if_not_found: True
     - require:
       - pkg: elasticsearch
     - watch_in:

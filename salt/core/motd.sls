@@ -8,7 +8,7 @@ disable default motds:
     - mode: 644
 
 /etc/default/motd-news:
-  file.replace:
-    - pattern: "^ENABLED=.*"
-    - repl: "ENABLED=0"
+  file.keyvalue:
+    - key: ENABLED
+    - value: 0
     - ignore_if_missing: True

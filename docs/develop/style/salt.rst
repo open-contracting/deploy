@@ -39,6 +39,10 @@ Our use is limited to:
 
 Note that unarchiving files (whether local or remote) should use the `archive.extracted function <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.archive.html>`__.
 
+.. tip::
+
+   Use `file.keyvalue <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.keyvalue>`__ instead of `file.append <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.append>`__ or `file.replace <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html#salt.states.file.replace>`__, where possible.
+
 .. warning::
 
    If ``skip_verify`` is ``True`` and the ``source`` is remote, then the file will `never be updated <https://github.com/saltstack/salt/issues/58961>`__. Use ``source_hash``, instead.

@@ -2,19 +2,19 @@
 
 {% macro set_firewall(setting_name, setting_value="yes") %}
 set {{ setting_name }} firewall setting:
-  file.replace:
-    - name:  /home/sysadmin-tools/firewall-settings.local
-    - pattern: "{{ setting_name }}=.*"
-    - repl: "{{ setting_name }}=\"{{ setting_value }}\""
+  file.keyvalue:
+    - name: /home/sysadmin-tools/firewall-settings.local
+    - key: {{ setting_name }}
+    - value: '"{{ setting_value }}"'
     - append_if_not_found: True
 {% endmacro %}
 
 {% macro unset_firewall(setting_name) %}
 unset {{ setting_name }} firewall setting:
-  file.replace:
-    - name:  /home/sysadmin-tools/firewall-settings.local
-    - pattern: "{{ setting_name }}=.*"
-    - repl: "{{ setting_name }}=\"\""
+  file.keyvalue:
+    - name: /home/sysadmin-tools/firewall-settings.local
+    - key: {{ setting_name }}
+    - value: '""'
     - ignore_if_missing: True
 {% endmacro %}
 

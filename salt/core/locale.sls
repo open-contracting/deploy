@@ -12,5 +12,7 @@ system_locale:
 # To avoid error when running "pip-sync -q".
 # https://click.palletsprojects.com/en/7.x/python3/
 /etc/default/locale:
-  file.append:
-    - text: LC_ALL="en_GB.UTF-8"
+  file.keyvalue:
+    - key: LC_ALL
+    - value: '"en_GB.UTF-8"'
+    - append_if_not_found: True
