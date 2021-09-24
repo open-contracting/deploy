@@ -6,7 +6,7 @@ Access the management interface
 
 #. Open an SSH tunnel, replacing ``HOST``:
 
-   .. code-bash::
+   .. code-block:: bash
 
       curl --silent --connect-timeout 1 HOST:8255 || true
       ssh -N root@HOST -L 15673:localhost:15672
