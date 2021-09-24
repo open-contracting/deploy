@@ -15,6 +15,10 @@ docker:
     - enable: True
     - require:
       - pkg: docker
+  # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+  group.present:
+    - addusers:
+      - {{ pillar.docker.user }}
 
 # https://docs.docker.com/config/containers/logging/configure/
 # https://docs.docker.com/config/containers/logging/local/
