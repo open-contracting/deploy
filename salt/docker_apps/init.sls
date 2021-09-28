@@ -2,7 +2,7 @@ include:
   - docker
 
 {% for name, entry in pillar.docker_apps.items() %}
-{% if entry.target %}
+{% if 'target' in entry %}
 
 {% set directory = '/data/deploy/' + entry.target %}
 
@@ -16,7 +16,7 @@ include:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-{% if entry.env %}
+{% if 'env' in entry %}
 {{ directory }}/env:
   file.managed:
     - source: salt://docker_apps/files/env
