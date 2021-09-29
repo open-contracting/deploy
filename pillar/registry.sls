@@ -26,9 +26,12 @@ apache:
         documentroot: /home/collect/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
-    data-registry:
+    registry:
       configuration: registry
       servername: data.open-contracting.org
+      context:
+        static_port: 8003
+        port: 8002
 
 postgres:
   version: 12
