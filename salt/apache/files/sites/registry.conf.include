@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^/static/([^/]*)/(.*) /static/$2 [L,PT]
+
+ProxyPass /static/ http://127.0.0.1:{{ static_port }}/static/
+ProxyPass / http://127.0.0.1:{{ port }}/ connectiontimeout=300 timeout=300
