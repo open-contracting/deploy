@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteRule ^/static/([^/]*)/(.*) /static/$2 [L,PT]
+
+ProxyPass /static/ http://localhost:8003/static/
+ProxyPass / http://localhost:8002/ connectiontimeout=300 timeout=300
