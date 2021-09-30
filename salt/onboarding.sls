@@ -10,16 +10,14 @@ update all packages:
     - refresh: True
     - dist_upgrade: True
 
-{%- if 'fqdn_ip4' in grains %}
-{{ grains.fqdn_ip4[0] }}:
+{{ pillar.main_ipv4 }}:
   host.only:
     - order: 2
     - hostnames:
       - {{ pillar.host_id }}.open-contracting.org
       - {{ pillar.host_id }}
-{% endif %}
-{%- if 'fqdn_ip6' in grains %}
-{{ grains.fqdn_ip6[0] }}:
+{%- if 'main_ipv6' in pillar %}
+{{ pillar.main_ipv6 }}:
   host.only:
     - order: 2
     - hostnames:
