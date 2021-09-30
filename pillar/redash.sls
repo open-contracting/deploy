@@ -9,5 +9,26 @@ apache:
 
 docker:
   docker_compose:
-    # 1.22.0 is used in https://github.com/getredash/setup/blob/cb47626b6823cbafac407b3e8991e97f53121f6e/setup.sh#L18
-    version: 1.22.0
+    version: 1.29.2
+
+redash:
+  docker_tag: redash/redash:10.0.0-beta.b49597
+  postgres:
+    username: redash_user
+    hostname: ocp14.open-contracting.org
+    database: redash_db
+  mail:
+    server: email-smtp.us-east-1.amazonaws.com
+    port: 587
+    default_sender: noreply@noreply.open-contracting.org
+  host: https://redash.open-contracting.org
+
+postgres:
+  version: 13
+  # Redash connection to postgres are not sent over the localhost connection.
+  # Postgres access is locked down further in the Linode firewall.
+  public_access: true
+  configuration: redash
+  storage: ssd
+  type: oltp
+  nr_hugepages: 128

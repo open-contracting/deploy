@@ -1,0 +1,14 @@
+PYTHONUNBUFFERED=0
+REDASH_LOG_LEVEL=INFO
+REDASH_REDIS_URL=redis://redis:6379/0
+REDASH_COOKIE_SECRET={{ salt['pillar.get']('redash:cookie_secret') }}
+REDASH_SECRET_KEY={{ salt['pillar.get']('redash:secret_key') }}
+REDASH_DATABASE_URL=postgresql://{{ salt['pillar.get']('redash:postgres:username') }}:{{ salt['pillar.get']('redash:postgres:password') }}@{{ salt['pillar.get']('redash:postgres:hostname') }}/{{ salt['pillar.get']('redash:postgres:database') }}
+REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL=true
+REDASH_MAIL_SERVER={{ salt['pillar.get']('redash:mail:server') }}
+REDASH_MAIL_PORT={{ salt['pillar.get']('redash:mail:port') }}
+REDASH_MAIL_USE_TLS=true
+REDASH_MAIL_USERNAME={{ salt['pillar.get']('redash:mail:username') }}
+REDASH_MAIL_PASSWORD={{ salt['pillar.get']('redash:mail:password') }}
+REDASH_MAIL_DEFAULT_SENDER={{ salt['pillar.get']('redash:mail:default_sender') }}
+REDASH_HOST={{ salt['pillar.get']('redash:host') }}
