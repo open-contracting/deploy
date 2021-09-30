@@ -48,6 +48,7 @@ base:
 
   'redash':
     - redash
+    - postgres
 
   'registry':
     - rabbitmq
