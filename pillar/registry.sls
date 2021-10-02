@@ -88,7 +88,7 @@ docker_apps:
     target: pelican-backend
     env:
       DATABASE_SCHEMA: production,public
-      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME dqt_data_registry_production
+      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
       LOG_FILENAME: /data/storage/logs/pelican-backend.log
       # SENTRY_SAMPLE_RATE: 1
   pelican_frontend:
