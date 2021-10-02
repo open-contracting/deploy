@@ -58,6 +58,16 @@ To configure the database for an application:
 Configure PostgreSQL
 --------------------
 
+.. note::
+
+   Even if you don't need to configure PostgreSQL, you must still set the following, in order for its SLS file to be automatically included:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2
+
+      postgres:
+        configuration: False
+
 #. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. To use the base configuration, insert ``{% include 'postgres/files/conf/shared.include' %}`` at the top of the file.
 
 #. Set ``postgres.configuration`` in the server's Pillar file:
