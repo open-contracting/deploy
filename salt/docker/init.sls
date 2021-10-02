@@ -15,10 +15,13 @@ docker:
     - enable: True
     - require:
       - pkg: docker
+{% if 'user' in pillar.docker %}
   # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
   group.present:
+    - name: docker
     - addusers:
       - {{ pillar.docker.user }}
+{% endif %}
 
 # https://docs.docker.com/config/containers/logging/configure/
 # https://docs.docker.com/config/containers/logging/local/
