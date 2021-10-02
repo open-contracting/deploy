@@ -71,17 +71,6 @@ unset {{ setting_name }} firewall setting:
 #}
 # It is safe to use `{}` as a default value, because the default value is never mutated.
 {% macro apache(name, entry, context={}) %}
-{% if 'ipv4' in pillar.apache %}
-/etc/apache2/ports.conf:
-  file.managed:
-    - source: salt://apache/files/ports.conf
-    - template: jinja
-    - require:
-      - pkg: apache2
-    - watch_in:
-      - service: apache2
-{% endif %}
-
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
     - source: salt://apache/files/sites/{{ entry.configuration }}.conf.include
