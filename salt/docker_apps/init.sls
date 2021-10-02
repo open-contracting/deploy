@@ -2,8 +2,6 @@ include:
   - docker
 
 {% for name, entry in pillar.docker_apps.items() %}
-{% if 'target' in entry %}
-
 {% set directory = '/data/deploy/' + entry.target %}
 
 {{ directory }}/docker-compose.yaml:
@@ -16,7 +14,6 @@ include:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-{% if 'env' in entry %}
 {{ directory }}/env:
   file.managed:
     - source: salt://docker_apps/files/env
@@ -29,7 +26,4 @@ include:
     - mode: 400
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-{% endif %}
-
-{% endif %}
 {% endfor %}
