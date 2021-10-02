@@ -45,7 +45,7 @@ To configure the database for an application:
 
 #. Add the private Pillar file to the top file entry for the application.
 
-#. In the main state file of the application, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the application's user. For example:
+#. In the application's main state file, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. For example:
 
    .. code-block:: yaml
 
