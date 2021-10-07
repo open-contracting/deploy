@@ -70,7 +70,7 @@ Hetzner
 
       .. note::
 
-         This adds your public key to ``/root/.ssh/authorized_keys``.
+         This adds your public SSH key to ``/root/.ssh/authorized_keys``.
 
    #. Click the *Save* button
    #. Review the order and click the *Checkout* button

@@ -1,6 +1,10 @@
 Get started
 ===========
 
+.. note::
+
+   Only follow the Development Guides if you will be configuring or deploying servers. If you are simply using services, read the :doc:`../use/index`.
+
 1. Install Salt
 ---------------
 
@@ -34,10 +38,10 @@ You must first have access to three private repositories. Contact an owner of th
 
 .. _add-public-key:
 
-3. Add public key to remote servers
------------------------------------
+3. Add your public SSH key to remote servers
+--------------------------------------------
 
-Add your public key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/commons.sls`` file if you require root access to all servers. For example:
+Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/commons.sls`` file if you require root access to all servers. For example:
 
 .. code-block:: bash
 
@@ -45,7 +49,7 @@ Add your public key to the ``ssh.root`` list in the target's Pillar file, or to 
     git commit pillar/kingfisher.sls -m "ssh: Add public key for Jane Doe"
     git push origin main
 
-Then, ask a colleague to deploy your public key to the relevant servers. For example:
+Then, ask a colleague to deploy your public SSH key to the relevant servers. For example:
 
 .. code-block:: bash
 

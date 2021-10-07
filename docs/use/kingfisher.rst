@@ -28,7 +28,7 @@ Connect to servers
 
 .. admonition:: One-time setup
 
-   Ask a colleague to add your public SSH key to the ``ssh.kingfisher`` list in the ``pillar/kingfisher.sls`` file.
+   Ask a systems administrator to add your public SSH key to the ``ssh.kingfisher`` list in the ``pillar/kingfisher.sls`` file.
 
 The ``ocdskfp`` user owns the deployments of Kingfisher Process and Kingfisher Summarize, and can read the data and log files of Kingfisher Collect.
 
