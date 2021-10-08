@@ -96,3 +96,6 @@ docker_apps:
     port: 8001
     env:
       RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME
+      # Temporary fix
+      RABBIT_HOST: localhost
+      RABBIT_PORT: 5672
