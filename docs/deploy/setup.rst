@@ -19,9 +19,18 @@ Ensure the ``deploy``, ``pillar/private``, ``salt/private`` and ``salt/maintenan
 
 Check the output in case there are any issues switching to the default branch or any conflicts pulling from GitHub.
 
+2. Update requirements
+~~~~~~~~~~~~~~~~~~~~~~
+
+Ensure you have the correct versions of dependencies. Activate your virtual environment, then run:
+
+.. code-block:: bash
+
+   pip-sync
+
 .. _check-if-kingfisher-is-busy:
 
-2. Check if Kingfisher is busy
+3. Check if Kingfisher is busy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
@@ -49,7 +58,7 @@ Check the output in case there are any issues switching to the default branch or
 
 If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher Process without losing Scrapy requests<deploy-kingfisher-process>`.
 
-3. Get deploy token
+4. Get deploy token
 ~~~~~~~~~~~~~~~~~~~
 
 Only one person should be making changes to a server at once. To implement this rule, the `Deploy token <https://docs.google.com/document/d/1kW2hI1PYYd8KC5QDyys8clPvshBMUZuLpEOO-DvSxqk/edit>`__ document indicates who "holds the deploy token." Whoever holds the deploy token is the only person who can make changes to *any* server, until the deploy token is released. If the document has "Held by: <NAME>", that person holds the token. If it has "Held by: Nobody", then the token is released. To hold the token:
