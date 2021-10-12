@@ -39,3 +39,4 @@ services:
       - env
     volumes:
       - /data:/data
+    restart: unless-stopped
