@@ -36,18 +36,25 @@ include:
     - require:
       - user: {{ entry.user }}_user_exists
 
-# To add additional spiders, change:
-#
-# - spider name
-# - crawl time
-# - logfile name
-# - add `-a compile_releases=true` if needed
-#
+{%
+  set crawls = {
+    'AFGHANISTAN': {
+      'spider': 'afghanistan_release_packages',
+      'start_date': '2021-06-14',
+      'options': '-a compile_releases=true',
+    },
+    'MOLDOVA': {
+      'spider': 'moldova',
+      'start_date': '2021-06-11',
+    },
+  }
+%}
+
 # Note that "%" has special significance in cron, so it must be escaped.
-
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_packages -a compile_releases=true -a crawl_time=2021-06-14T00:00:00 --logfile={{ userdir }}/logs/afghanistan_release_packages-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
+{% for identifier, crawl in crawls.items() %}
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
   cron.present:
-    - identifier: OCDS_KINGFISHER_COLLECT_AFGHANISTAN
+    - identifier: OCDS_KINGFISHER_COLLECT_{{ identifier }}
     - user: {{ entry.user }}
     - hour: 0
     - minute: 15
@@ -55,14 +62,4 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_package
       - virtualenv: {{ directory }}/.ve
       - file: {{ userdir }}/data
       - file: {{ userdir }}/logs
-
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl moldova -a crawl_time=2021-06-11T00:00:00 --logfile={{ userdir }}/logs/moldova-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
-  cron.present:
-    - identifier: OCDS_KINGFISHER_COLLECT_MOLDOVA
-    - user: {{ entry.user }}
-    - hour: 0
-    - minute: 15
-    - require:
-      - virtualenv: {{ directory }}/.ve
-      - file: {{ userdir }}/data
-      - file: {{ userdir }}/logs
+{% endfor %}
