@@ -21,6 +21,8 @@ docker:
     - name: docker
     - addusers:
       - {{ pillar.docker.user }}
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
 {% endif %}
 
 # https://docs.docker.com/config/containers/logging/configure/
