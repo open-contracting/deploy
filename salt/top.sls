@@ -53,7 +53,6 @@ base:
     - rabbitmq
     - kingfisher.collect
     - registry
-    - registry.cbom
 
   'spoonbill-dev':
     - spoonbill_dev
