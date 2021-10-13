@@ -7,7 +7,7 @@ include:
 {% set entry = pillar.docker_apps.registry %}
 {% set directory = docker_apps_directory + entry.target %}
 
-cd {{ directory }}; docker-compose up -d cbom:
+cd {{ directory }}; /usr/local/bin/docker-compose up -d cbom:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}
