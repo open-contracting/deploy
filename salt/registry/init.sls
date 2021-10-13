@@ -1,4 +1,3 @@
-{% from 'lib.sls' import create_user %}
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:

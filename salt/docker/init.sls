@@ -1,3 +1,5 @@
+{% from 'lib.sls' import create_user %}
+
 # https://docs.docker.com/engine/install/ubuntu/
 docker:
   pkgrepo.managed:
