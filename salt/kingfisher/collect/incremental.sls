@@ -51,6 +51,10 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl afghanistan_release_package
     - user: {{ entry.user }}
     - hour: 0
     - minute: 15
+    - require:
+      - virtualenv: {{ directory }}/.ve
+      - file: {{ userdir }}/data
+      - file: {{ userdir }}/logs
 
 cd {{ directory }}; . .ve/bin/activate; scrapy crawl moldova -a crawl_time=2021-06-11T00:00:00 --logfile={{ userdir }}/logs/moldova-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
   cron.present:
@@ -58,3 +62,7 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl moldova -a crawl_time=2021-
     - user: {{ entry.user }}
     - hour: 0
     - minute: 15
+    - require:
+      - virtualenv: {{ directory }}/.ve
+      - file: {{ userdir }}/data
+      - file: {{ userdir }}/logs

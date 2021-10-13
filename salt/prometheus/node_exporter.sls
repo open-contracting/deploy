@@ -49,9 +49,12 @@ smartmontools:
     - require:
       - pkg: git
 
+# This must be run as the root user, because non-root users can't access these statistics.
 /opt/node-exporter-textfile-collector-scripts/smartmon.sh > /home/{{ user }}/node-exporter-textfile-directory/smartmon.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
-    # This must run as root not user cos non-root users can't access these stats
     - user: root
+    - require:
+      - git: /opt/node-exporter-textfile-collector-scripts
+      - file: /home/{{ user }}/node-exporter-textfile-directory
 {% endif %}

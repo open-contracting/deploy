@@ -15,8 +15,12 @@ docker:
     - enable: True
     - require:
       - pkg: docker
+
 {% if 'user' in pillar.docker %}
-  # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+{{ create_user(pillar.docker.user) }}
+
+# https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+add {{ pillar.docker.user }} user to docker group:
   group.present:
     - name: docker
     - addusers:

@@ -16,11 +16,15 @@ cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_K
   cron.present:
     - identifier: COVE_EXPIRE_FILES
     - user: {{ entry.user }}
-    - minute: random
     - hour: 0
+    - minute: random
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 set MAILTO environment variable in {{ entry.user }} crontab:
   cron.env_present:
     - name: MAILTO
     - value: sysadmin@open-contracting.org
     - user: {{ entry.user }}
+    - require:
+      - user: {{ user }}_user_exists

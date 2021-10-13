@@ -23,3 +23,5 @@ cd {{ directory }}; . .ve/bin/activate; python manage.py -q dev stale | xargs -I
     - daymonth: 1
     - hour: 3
     - minute: 45
+    - require:
+      - virtualenv: {{ directory }}/.ve

@@ -3,13 +3,16 @@
 
 include:
 - registry.database
-- docker
 - docker_apps
 
-{{ create_user(pillar.docker.user) }}
+{% set entry = pillar.docker_apps.registry %}
+{% set directory = docker_apps_directory + entry.target %}
 
-cd {{ docker_apps_directory }}{{ pillar.docker_apps.registry.target }}; docker-compose up -d cbom:
+cd {{ directory }}; docker-compose up -d cbom:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}
     - minute: '*/5'
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/env
