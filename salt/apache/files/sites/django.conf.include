@@ -6,11 +6,18 @@
     {%- set assets_base_url = '' %}
 {%- endif %}
 
+ProxyPass {{ assets_base_url }}/robots.txt !
+ProxyPass {{ assets_base_url }}/favicon.ico !
+ProxyPass {{ assets_base_url }}/static/ !
+ProxyPass {{ assets_base_url }}/media/ !
+
+# https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
+ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
+
 # https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/modwsgi/#serving-files
 
 Alias {{ assets_base_url }}/robots.txt {{ appdir }}/static/robots.txt
 Alias {{ assets_base_url }}/favicon.ico {{ appdir }}/static/favicon.ico
-
 Alias {{ assets_base_url }}/static/ {{ appdir }}/static/
 Alias {{ assets_base_url }}/media/ {{ appdir }}/media/
 
@@ -25,11 +32,4 @@ Alias {{ assets_base_url }}/media/ {{ appdir }}/media/
     # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
     # https://bugs.webkit.org/show_bug.cgi?id=197369
     AddType "application/json; charset=utf-8" .json
-</Directory>
-
-# https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
-ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
-
-<Directory {{ appdir }}>
-    Require all granted
 </Directory>
