@@ -80,6 +80,8 @@ The example above uses the `docs <https://github.com/open-contracting/deploy/blo
 
    To delete a virtual host, :ref:`follow these instructions<delete-virtual-host>`.
 
+Reference: `What to use When <https://httpd.apache.org/docs/2.4/sections.html#whichwhen>`__
+
 Add basic authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
