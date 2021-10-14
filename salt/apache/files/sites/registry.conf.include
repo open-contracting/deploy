@@ -1,3 +1,5 @@
+# vi: ft=apache
+
 RewriteEngine on
 RewriteRule ^/static/([^/]*)/(.*) /static/$2 [L,PT]
 

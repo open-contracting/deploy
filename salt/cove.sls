@@ -27,4 +27,4 @@ set MAILTO environment variable in {{ entry.user }} crontab:
     - value: sysadmin@open-contracting.org
     - user: {{ entry.user }}
     - require:
-      - user: {{ user }}_user_exists
+      - user: {{ entry.user }}_user_exists
