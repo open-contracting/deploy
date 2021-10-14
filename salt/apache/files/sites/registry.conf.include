@@ -1,7 +1,9 @@
 # vi: ft=apache
 
+# Remove the path component (STATIC_VERSION) added to the STATIC_URL setting.
+# https://httpd.apache.org/docs/current/rewrite/flags.html#flag_pt
 RewriteEngine on
 RewriteRule ^/static/([^/]*)/(.*) /static/$2 [L,PT]
 
 ProxyPass /static/ http://127.0.0.1:{{ static_port }}/static/
-ProxyPass / http://127.0.0.1:{{ port }}/ connectiontimeout=300 timeout=300
+ProxyPass / http://127.0.0.1:{{ port }}/ timeout=300
