@@ -55,6 +55,7 @@ kingfisher_collect:
     KINGFISHER_API2_URL: http://localhost:8000
     # This needs to correspond to ENV_NAME and ENV_VERSION below.
     RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
+    RABBIT_QUEUE_NAME: kingfisher_process_data_registry_1.0_api_loader
     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
 
 docker_apps:
