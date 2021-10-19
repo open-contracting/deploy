@@ -15,6 +15,6 @@ registry:
 spoonbill-dev:       ocp12.open-contracting.org
 toucan:              ocp09.open-contracting.org
 
-# ocp00 is the Redmine CRM server
-# ocp08 was redash on Ubuntu 18
+# ocp0 is crm.open-contracting.org
+# ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp10 was archive.kingfisher.open-contracting.org
