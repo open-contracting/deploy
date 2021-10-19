@@ -15,7 +15,7 @@ redash:
   docker_tag: redash/redash:10.0.0-beta.b49597
   postgres:
     username: redash_user
-    hostname: ocp14.open-contracting.org
+    hostname: host.docker.internal
     database: redash_db
   mail:
     server: email-smtp.us-east-1.amazonaws.com
