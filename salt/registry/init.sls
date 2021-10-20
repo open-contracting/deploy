@@ -7,7 +7,8 @@ include:
 {% set entry = pillar.docker_apps.registry %}
 {% set directory = docker_apps_directory + entry.target %}
 
-cd {{ directory }}; /usr/local/bin/docker-compose up -d cbom:
+# docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
+cd {{ directory }}; /usr/local/bin/docker-compose up -d cbom 2> /dev/null:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}
