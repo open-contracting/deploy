@@ -3,10 +3,6 @@ version: "2.2"
 x-shared: &shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
   network_mode: "host"
-  env_file:
-    - env
-  volumes:
-    - /data:/data
 
 x-daemon: &daemon
   <<: *shared
@@ -20,6 +16,8 @@ services:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
     scale: 2
+    volumes:
+    - /data/storage:/data/storage
   wiper:
     <<: *daemon
     command: "python manage.py wiper --settings=core.settings.docker"
@@ -34,9 +32,5 @@ services:
   static:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     ports:
-      - "8003:80"
-    env_file:
-      - env
-    volumes:
-      - /data:/data
+      - "8003:8080"
     restart: unless-stopped
