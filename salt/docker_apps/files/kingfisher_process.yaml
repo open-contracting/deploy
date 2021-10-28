@@ -3,8 +3,6 @@ version: "2.2"
 x-shared: &shared
   image: "ghcr.io/open-contracting/kingfisher-process:latest"
   network_mode: "host"
-  env_file:
-    - env
   volumes:
     - /data:/data
 
