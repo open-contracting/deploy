@@ -15,7 +15,8 @@ Environment="no_proxy=sentry.io"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
 ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --nodaemon --logfile=/var/log/scrapyd/scrapyd.log
-LimitNOFILE=512000 # https://github.com/open-contracting/kingfisher-collect/issues/606#issuecomment-953896571
+# https://github.com/open-contracting/kingfisher-collect/issues/606#issuecomment-953896571
+LimitNOFILE=512000 
 
 [Install]
 WantedBy=multi-user.target
