@@ -15,4 +15,4 @@ cd {{ directory }}; /usr/local/bin/docker-compose up -d cbom 2> /dev/null:
     - minute: '*/5'
     - require:
       - file: {{ directory }}/docker-compose.yaml
-      - file: {{ directory }}/env
+      - file: {{ directory }}/.env
