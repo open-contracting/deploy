@@ -87,6 +87,12 @@ Services should restart normally. To manually restart a service, run, for exampl
 
    ./run.py TARGET service.restart uwsgi
 
+If a new configuration isn't taking effect, check the service's status on the server:
+
+.. code-block:: bash
+
+   systemctl status uwsgi
+
 Check git revision
 ------------------
 

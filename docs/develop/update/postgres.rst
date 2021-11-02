@@ -277,7 +277,7 @@ To configure a main server and a replica server:
 
       .. code-block:: bash
 
-         service postgresql stop
+         systemctl stop postgresql
          rm -rf /var/lib/postgresql/11/main
 
    #. Switch to the ``postgres`` user and transfer PostgreSQL data.
