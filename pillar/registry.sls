@@ -50,8 +50,9 @@ docker:
 
 kingfisher_collect:
   user: collect
+  files_store: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
   env:
-    FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
+    FILES_STORE: *SCRAPY_FILES_STORE
     KINGFISHER_API2_URL: http://localhost:8000
     # This needs to correspond to ENV_NAME and ENV_VERSION below.
     RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
