@@ -4,7 +4,7 @@ x-shared: &shared
   image: "ghcr.io/open-contracting/kingfisher-process:latest"
   network_mode: "host"
   volumes:
-    - {{ pillar.kingfisher_collect.files_store }}:{{ pillar.kingfisher_collect.files_store }}
+    - {{ pillar.kingfisher_collect.files_store }}:/data
 
 x-daemon: &daemon
   <<: *shared
