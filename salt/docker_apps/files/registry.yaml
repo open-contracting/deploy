@@ -17,7 +17,7 @@ services:
     command: "python manage.py exporter --settings=core.settings.docker"
     scale: 2
     volumes:
-    - /data/storage:/data/storage
+      - /data/storage/exporter_dumps:/data/exporter_dumps
   wiper:
     <<: *daemon
     command: "python manage.py wiper --settings=core.settings.docker"
@@ -25,6 +25,8 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
+    volumes:
+      - {{ pillar.kingfisher_collect.files_store }}:/data/scrapy
   migrate:
     <<: *shared
     command: "python manage.py migrate --settings=core.settings.docker"

@@ -68,14 +68,12 @@ docker_apps:
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
-      EXPORTER_DIR: /data/storage/exporter_dumps
       PROCESS_HOST: http://localhost:8000/
       PELICAN_HOST: http://localhost:8001/
       EXPORTER_HOST: http://localhost:8002/
       # Kingfisher Collect
       SCRAPY_HOST: http://localhost:6800/
       SCRAPY_PROJECT: kingfisher
-      SCRAPY_FILES_STORE: *SCRAPY_FILES_STORE
       # Spoonbill
       FLATTEN_URL: https://flatten.open-contracting.org
   kingfisher_process:
