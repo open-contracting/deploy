@@ -9,25 +9,25 @@ x-daemon: &daemon
   restart: unless-stopped
 
 services:
-  ocds_extractor:
+  extract:
     <<: *daemon
-    command: "extractor.ocds_kingfisher docker"
+    command: "workers.extract.kingfisher_process"
     scale: 4
-  contracting_process:
+  data_item:
     <<: *daemon
-    command: "checker.contracting_process docker"
+    command: "workers.check.data_item"
     scale: 4
   dataset:
     <<: *daemon
-    command: "checker.dataset docker"
+    command: "workers.check.dataset"
     scale: 4
-  time_variance:
+  time_based:
     <<: *daemon
-    command: "checker.time_variance docker"
+    command: "workers.check.time_based"
     scale: 4
-  finisher:
+  report:
     <<: *daemon
-    command: "core.finisher docker"
-  wiper:
+    command: "workers.report"
+  wipe:
     <<: *daemon
-    command: "core.wiper docker"
+    command: "workers.wipe"
