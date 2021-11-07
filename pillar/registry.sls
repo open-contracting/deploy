@@ -55,7 +55,6 @@ kingfisher_collect:
     KINGFISHER_API2_URL: http://localhost:8000
     # This needs to correspond to ENV_NAME and ENV_VERSION below.
     RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
-    RABBIT_QUEUE_NAME: kingfisher_process_data_registry_1.0_api_loader
     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
 
 docker_apps:
@@ -86,15 +85,11 @@ docker_apps:
   pelican_backend:
     target: pelican-backend
     env:
-      DATABASE_SCHEMA: production,public
       RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
-      LOG_FILENAME: /data/storage/logs/pelican-backend.log
       # SENTRY_SAMPLE_RATE: 1
   pelican_frontend:
     target: pelican-frontend
     port: 8001
     env:
+      LOCAL_ACCESS: 'true'
       RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME
-      # Temporary fix
-      RABBIT_HOST: localhost
-      RABBIT_PORT: 5672
