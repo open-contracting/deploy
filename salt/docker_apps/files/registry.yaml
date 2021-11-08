@@ -28,7 +28,7 @@ services:
     command: "python manage.py cbom --settings=core.settings.docker"
     # The path must match the settings.SCRAPY_FILES_STORE default in data-registry
     volumes:
-      - {{ pillar.kingfisher_collect.files_store }}:/data/scrapy
+      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
   migrate:
     <<: *shared
     command: "python manage.py migrate --settings=core.settings.docker"
