@@ -16,9 +16,9 @@ include:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-{{ directory }}/env:
+{{ directory }}/.env:
   file.managed:
-    - source: salt://docker_apps/files/env
+    - source: salt://docker_apps/files/.env
     - template: jinja
     - context:
         entry: {{ entry|yaml }}

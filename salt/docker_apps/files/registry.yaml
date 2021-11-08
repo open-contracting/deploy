@@ -3,10 +3,6 @@ version: "2.2"
 x-shared: &shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
   network_mode: "host"
-  env_file:
-    - env
-  volumes:
-    - /data:/data
 
 x-daemon: &daemon
   <<: *shared
@@ -20,6 +16,9 @@ services:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
     scale: 2
+    # The path must match the settings.EXPORTER_DIR default in data-registry
+    volumes:
+      - /data/storage/exporter_dumps:/data/exporter_dumps
   wiper:
     <<: *daemon
     command: "python manage.py wiper --settings=core.settings.docker"
@@ -27,6 +26,9 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
+    # The path must match the settings.SCRAPY_FILES_STORE default in data-registry
+    volumes:
+      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
   migrate:
     <<: *shared
     command: "python manage.py migrate --settings=core.settings.docker"
@@ -34,9 +36,5 @@ services:
   static:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     ports:
-      - "8003:80"
-    env_file:
-      - env
-    volumes:
-      - /data:/data
+      - "8003:8080"
     restart: unless-stopped
