@@ -14,7 +14,6 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    # The container port must match the one exposed in the Dockerfile
     ports: 
       - {{ pillar.docker_apps.kingfisher_process.port }}:8000
   api_loader:

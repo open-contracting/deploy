@@ -12,7 +12,6 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    # The container port must match the one exposed in the Dockerfile
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
@@ -29,7 +28,6 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
-    # The path must match the settings.SCRAPY_FILES_STORE default in data-registry
     volumes:
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
   migrate:
