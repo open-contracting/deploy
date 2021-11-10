@@ -2,7 +2,8 @@ version: "2.2"
 
 x-shared: &shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
-  network_mode: "host"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
 
 x-daemon: &daemon
   <<: *shared
@@ -11,7 +12,8 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.docker_apps.registry.port }}"
+    ports: 
+      - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
@@ -26,7 +28,6 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
-    # The path must match the settings.SCRAPY_FILES_STORE default in data-registry
     volumes:
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
   migrate:

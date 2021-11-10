@@ -2,7 +2,8 @@ version: "2.2"
 
 x-shared: &shared
   image: "ghcr.io/open-contracting/kingfisher-process:latest"
-  network_mode: "host"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
   volumes:
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data
 
@@ -13,7 +14,8 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.docker_apps.kingfisher_process.port }}"
+    ports: 
+      - {{ pillar.docker_apps.kingfisher_process.port }}:8000
   api_loader:
     <<: *daemon
     command: "python manage.py api_loader --settings ocdskingfisherprocess.settings.docker"
