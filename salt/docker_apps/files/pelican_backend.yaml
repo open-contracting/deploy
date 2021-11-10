@@ -2,7 +2,8 @@ version: "2.2"
 
 x-shared: &shared
   image: "ghcr.io/open-contracting/pelican-backend:latest"
-  network_mode: "host"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
 
 x-daemon: &daemon
   <<: *shared

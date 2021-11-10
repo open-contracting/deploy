@@ -2,7 +2,8 @@ version: "2.2"
 
 x-shared: &shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
-  network_mode: "host"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
 
 x-daemon: &daemon
   <<: *shared
@@ -11,7 +12,9 @@ x-daemon: &daemon
 services:
   django:
     <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.docker_apps.registry.port }}"
+    # The container port must match the one exposed in the Dockerfile
+    ports: 
+      - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
