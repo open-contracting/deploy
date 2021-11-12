@@ -28,6 +28,12 @@ apache:
         documentroot: /home/collect/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
+    registry:
+      configuration: registry
+      servername: data.open-contracting.org
+      context:
+        port: 8002
+        static_port: 8003
 
 postgres:
   version: 12
@@ -60,14 +66,12 @@ docker_apps:
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
-      EXPORTER_DIR: /data/storage/exporter_dumps
       PROCESS_HOST: http://localhost:8000/
       PELICAN_HOST: http://localhost:8001/
       EXPORTER_HOST: http://localhost:8002/
       # Kingfisher Collect
       SCRAPY_HOST: http://localhost:6800/
       SCRAPY_PROJECT: kingfisher
-      SCRAPY_FILES_STORE: *SCRAPY_FILES_STORE
       # Spoonbill
       FLATTEN_URL: https://flatten.open-contracting.org
   kingfisher_process:
@@ -81,12 +85,11 @@ docker_apps:
   pelican_backend:
     target: pelican-backend
     env:
-      DATABASE_SCHEMA: production,public
-      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME dqt_data_registry_production
-      LOG_FILENAME: /data/storage/logs/pelican-backend.log
+      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
       # SENTRY_SAMPLE_RATE: 1
   pelican_frontend:
     target: pelican-frontend
     port: 8001
     env:
+      LOCAL_ACCESS: 'true'
       RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME

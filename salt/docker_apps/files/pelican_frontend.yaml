@@ -1,18 +1,10 @@
 version: "2.2"
 
-x-shared: &shared
-  image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
-  network_mode: "host"
-  env_file:
-    - env
-  volumes:
-    - /data:/data
-
-x-daemon: &daemon
-  <<: *shared
-  restart: unless-stopped
-
 services:
   django:
-    <<: *daemon
-    command: "./gunicorn_runner.sh {{ pillar.docker_apps.pelican_frontend.port }}"
+    image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - {{ pillar.docker_apps.pelican_frontend.port }}:8000
+    restart: unless-stopped

@@ -90,24 +90,28 @@ create reference.mapping_sheets table:
       - postgres_user: kingfisher_process_sql_user
       - postgres_database: ocdskingfisherprocess
     - onchanges:
-      - git: {{ pillar.python_apps.kingfisher_process.git.url }}
+      - git: {{ entry.git.url }}
 
 ####################
 # Cron jobs
 ####################
 
-# This is to have eight workers at once.
 cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue --runforseconds 3540 > /dev/null:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE
     - user: {{ entry.user }}
+    # This is to have eight workers at once.
     - minute: 0,5,15,20,30,35,45,50
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet process-redis-queue-collection-store-finished --runforseconds 3540:
   cron.present:
     - identifier: OCDS_KINGFISHER_PROCESS_REDIS_QUEUE_COLLECTION_STORE_FINISHED
     - user: {{ entry.user }}
     - minute: 0
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 # This process is a backup; this work should be done by workers on the Redis que.
 # So run it once per night. It also takes a while to check all processes, so run for 8 hours.
@@ -117,6 +121,8 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
     - user: {{ entry.user }}
     - hour: 1
     - minute: 0
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 # It takes just under 2 hours to do a full run at the moment, so run for 3 hours.
 cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet transform-collections --threads 10 --runforseconds 10800:
@@ -125,6 +131,8 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
     - user: {{ entry.user }}
     - hour: 0,3,6,9,12,15,18,21
     - minute: 30
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quiet delete-collections:
   cron.present:
@@ -133,6 +141,8 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
     - dayweek: 5
     - hour: 2
     - minute: 0
+    - require:
+      - virtualenv: {{ directory }}/.ve
 
 # Delete collections that ended over a year ago.
 cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess kingfisher_process -q -c '\t' -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_end_at < date_trunc('day', NOW() - interval '1 year') ORDER BY id DESC" | xargs -I{} python ocdskingfisher-process-cli --quiet delete-collection {}:
@@ -142,6 +152,9 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
     - daymonth: 1
     - hour: 3
     - minute: 0
+    - require:
+      - virtualenv: {{ directory }}/.ve
+      - postgres_database: ocdskingfisherprocess
 
 # Delete collections that never ended and started over 2 months ago.
 cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess kingfisher_process -q -c '\t' -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_start_at < date_trunc('day', NOW() - interval '2 month') AND store_end_at IS NULL ORDER BY id DESC" | xargs -I{} python ocdskingfisher-process-cli --quiet delete-collection {}:
@@ -151,6 +164,9 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
     - daymonth: 1
     - hour: 3
     - minute: 15
+    - require:
+      - virtualenv: {{ directory }}/.ve
+      - postgres_database: ocdskingfisherprocess
 
 # Delete collections that ended over 2 months ago and have no data.
 cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess kingfisher_process -q -c '\t' -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_end_at < date_trunc('day', NOW() - interval '2 month') AND COALESCE(NULLIF(cached_releases_count, 0), NULLIF(cached_records_count, 0), cached_compiled_releases_count) = 0 ORDER BY id DESC" | xargs -I{} python ocdskingfisher-process-cli --quiet delete-collection {}:
@@ -160,6 +176,9 @@ cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess 
     - daymonth: 1
     - hour: 3
     - minute: 30
+    - require:
+      - virtualenv: {{ directory }}/.ve
+      - postgres_database: ocdskingfisherprocess
 
 ####################
 # Utilities

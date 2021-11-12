@@ -41,6 +41,17 @@ apache2-utils:
   pkg.installed:
     - name: apache2-utils
 
+{% if salt['pillar.get']('apache:ipv4') %}
+/etc/apache2/ports.conf:
+  file.managed:
+    - source: salt://apache/files/ports.conf
+    - template: jinja
+    - require:
+      - pkg: apache2
+    - watch_in:
+      - service: apache2
+{% endif %}
+
 {% if salt['pillar.get']('apache:sites') %}
 {% for name, entry in pillar.apache.sites.items() %}
 {{ apache(name, entry) }}

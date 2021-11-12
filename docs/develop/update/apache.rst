@@ -31,8 +31,8 @@ If the server has multiple web servers for different IPs, add to your service's 
    :emphasize-lines: 2-3
 
    apache:
-      ipv4: 65.21.93.181
-      ipv6: 2a01:4f9:3b:45ca::2
+     ipv4: 65.21.93.181
+     ipv6: 2a01:4f9:3b:45ca::2
 
 .. _apache-sites:
 
@@ -79,6 +79,8 @@ The example above uses the `docs <https://github.com/open-contracting/deploy/blo
 .. note::
 
    To delete a virtual host, :ref:`follow these instructions<delete-virtual-host>`.
+
+Reference: `What to use When <https://httpd.apache.org/docs/2.4/sections.html#whichwhen>`__
 
 Add basic authentication
 ~~~~~~~~~~~~~~~~~~~~~~~~

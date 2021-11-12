@@ -6,36 +6,37 @@
     {%- set assets_base_url = '' %}
 {%- endif %}
 
-DocumentRoot {{ appdir }}
+{%-
+    set aliases = {
+        '/robots.txt': '/static/robots.txt',
+        '/favicon.ico': '/static/favicon.ico',
+        '/static/': '/static/',
+        '/media/': '/media/',
+    }
+%}
 
-<Location "/">
-    # See https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
-    ProxyPass unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
-</Location>
+{%- for url_path in aliases %}
+ProxyPass {{ assets_base_url }}{{ url_path }} !
+{%- endfor %}
 
-# Static content needed by Django
-Alias {{ assets_base_url }}/static "{{ appdir }}/static/"
-<Location "{{ assets_base_url }}/static">
-    ProxyPass !
-    Order allow,deny
-    Allow from all
-    SetHandler None
-</Location>
+# https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
+ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
 
-# Static content uploaded by users
-Alias {{ assets_base_url }}/media "{{ appdir }}/media/"
-<Location "{{ assets_base_url }}/media">
-    ProxyPass !
-    Order allow,deny
-    Allow from all
-    SetHandler None
+# https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/modwsgi/#serving-files
+
+{%- for url_path, file_path in aliases.items() %}
+Alias {{ assets_base_url }}{{ url_path }} {{ appdir }}{{ file_path }}
+{%- endfor %}
+
+<Directory {{ appdir }}/static>
+    Require all granted
+</Directory>
+
+<Directory {{ appdir }}/media>
+    Require all granted
 
     # Serve JSON with UTF-8 charset.
     # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
     # https://bugs.webkit.org/show_bug.cgi?id=197369
     AddType "application/json; charset=utf-8" .json
-</Location>
-
-<Directory {{ appdir }}>
-    Require all granted
 </Directory>

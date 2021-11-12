@@ -34,7 +34,7 @@ Add service accounts
 
 To configure the database for an application:
 
-#. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__ and ``USERNAME`` with a recognizable username:
+#. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__ (uncheck *Symbols*) and ``USERNAME`` with a recognizable username:
 
    .. code-block:: yaml
 
@@ -45,7 +45,7 @@ To configure the database for an application:
 
 #. Add the private Pillar file to the top file entry for the application.
 
-#. In the main state file of the application, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the application's user. For example:
+#. In the application's main state file, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. For example:
 
    .. code-block:: yaml
 
@@ -57,6 +57,16 @@ To configure the database for an application:
 
 Configure PostgreSQL
 --------------------
+
+.. note::
+
+   Even if you don't need to configure PostgreSQL, you must still set the following, in order for its SLS file to be automatically included:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2
+
+      postgres:
+        configuration: False
 
 #. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. To use the base configuration, insert ``{% include 'postgres/files/conf/shared.include' %}`` at the top of the file.
 
@@ -267,7 +277,7 @@ To configure a main server and a replica server:
 
       .. code-block:: bash
 
-         service postgresql stop
+         systemctl stop postgresql
          rm -rf /var/lib/postgresql/11/main
 
    #. Switch to the ``postgres`` user and transfer PostgreSQL data.

@@ -1,6 +1,7 @@
 click
 ocdsindex
 requests
-salt-ssh
+# https://github.com/saltstack/salt/issues/60003
+salt-ssh<3003
 pip-tools
 pytest

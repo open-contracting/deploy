@@ -1,10 +1,10 @@
 include:
   - docker
 
-{% for name, entry in pillar.docker_apps.items() %}
-{% if entry.target %}
+{% set docker_apps_directory = '/data/deploy/' %}
 
-{% set directory = '/data/deploy/' + entry.target %}
+{% for name, entry in pillar.docker_apps.items() %}
+{% set directory = docker_apps_directory + entry.target %}
 
 {{ directory }}/docker-compose.yaml:
   file.managed:
@@ -16,10 +16,9 @@ include:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-{% if entry.env %}
-{{ directory }}/env:
+{{ directory }}/.env:
   file.managed:
-    - source: salt://docker_apps/files/env
+    - source: salt://docker_apps/files/.env
     - template: jinja
     - context:
         entry: {{ entry|yaml }}
@@ -29,7 +28,4 @@ include:
     - mode: 400
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-{% endif %}
-
-{% endif %}
 {% endfor %}

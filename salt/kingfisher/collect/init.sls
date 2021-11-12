@@ -20,6 +20,8 @@ include:
     - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ directory }}/requirements.txt:
   file.managed:
@@ -83,6 +85,8 @@ find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}
     - identifier: OCDS_KINGFISHER_SCRAPE_LOG_STATS
     - user: {{ user }}
     - minute: 0
+    - require:
+      - file: {{ directory }}
 {% endif %}
 
 {% if pillar.kingfisher_collect.get('autoremove') %}
@@ -94,6 +98,8 @@ find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/
     - daymonth: 1
     - hour: 2
     - minute: 30
+    - require:
+      - file: {{ directory }}
 
 # Delete crawl directories containing exclusively files older than 90 days.
 find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d -exec bash -c 'if [[ -z $(find {} -ctime -90) ]]; then rm -rf {}; fi' \; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
@@ -103,4 +109,6 @@ find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d -exec bash -c 'if [[ -z $(f
     - daymonth: 1
     - hour: 2
     - minute: 45
+    - require:
+      - file: {{ directory }}
 {% endif %}

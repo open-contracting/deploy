@@ -42,26 +42,28 @@ set jvm maximum heap size:
 
 {% if pillar.elasticsearch.get('public_access') %}
 /etc/elasticsearch/elasticsearch.yml:
-  file.append:
+  file.keyvalue:
     - name: /etc/elasticsearch/elasticsearch.yml
-    - text:
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
-      - "network.bind_host: 0.0.0.0"
-      - "network.publish_host: _local_"
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
-      - "search.allow_expensive_queries: false"
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
-      - "script.allowed_types: inline"
-      - "script.allowed_contexts: ingest"
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
-      - "discovery.type: single-node"
-      {% if 'allowed_origins' in pillar.elasticsearch %}
-      # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
-      - "http.cors.enabled: true"
-      - "http.cors.allow-origin: '{{ pillar.elasticsearch.allowed_origins }}'"
-      - "http.cors.allow-methods: OPTIONS, GET, POST"
-      - "http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization"
-      {% endif %}
+    - key_values:
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
+        network.bind_host: 0.0.0.0
+        network.publish_host: _local_
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
+        search.allow_expensive_queries: 'false'
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
+        script.allowed_types: inline
+        script.allowed_contexts: ingest
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
+        discovery.type: single-node
+        {% if 'allowed_origins' in pillar.elasticsearch %}
+        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
+        http.cors.enabled: 'true'
+        http.cors.allow-origin: "'{{ pillar.elasticsearch.allowed_origins }}'"
+        http.cors.allow-methods: OPTIONS, GET, POST
+        http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization
+        {% endif %}
+    - separator: ': '
+    - append_if_not_found: True
     - watch_in:
       - service: elasticsearch
 

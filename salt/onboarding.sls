@@ -30,6 +30,8 @@ update all packages:
     - order: 3
     - contents: "{{ pillar.host_id }}.open-contracting.org"
 
+# Salt recommends using `retain_settings: True`, but this is only relevant to RedHat.
+# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.network.html#retain-settings
 set hostname:
   network.system:
     - order: 4

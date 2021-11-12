@@ -4,7 +4,7 @@
 #
 #    pip-compile
 #
-apache-libcloud==2.5.0
+apache-libcloud==2.4.0
     # via salt-ssh
 attrs==21.2.0
     # via pytest
@@ -38,9 +38,7 @@ contextlib2==0.6.0.post1
     # via
     #   cherrypy
     #   salt-ssh
-contextvars==2.4
-    # via salt-ssh
-cryptography==3.3.2
+cryptography==3.2
     # via
     #   pyopenssl
     #   salt-ssh
@@ -48,19 +46,15 @@ distro==1.5.0
     # via salt-ssh
 elasticsearch==7.13.1
     # via ocdsindex
-gitdb==4.0.5
+gitdb2==2.0.6
     # via
     #   gitpython
     #   salt-ssh
-gitpython==3.1.12
+gitpython==2.1.15
     # via salt-ssh
 idna==2.8
     # via
     #   requests
-    #   salt-ssh
-immutables==0.14
-    # via
-    #   contextvars
     #   salt-ssh
 importlib-metadata==4.5.0
     # via
@@ -70,6 +64,8 @@ importlib-metadata==4.5.0
     #   pytest
 iniconfig==1.1.1
     # via pytest
+ipaddress==1.0.22
+    # via salt-ssh
 jaraco.functools==2.0
     # via
     #   cheroot
@@ -94,7 +90,7 @@ more-itertools==8.2.0
     #   cherrypy
     #   jaraco.functools
     #   salt-ssh
-msgpack==1.0.2
+msgpack==1.0.0
     # via salt-ssh
 ocdsindex==0.0.7
     # via -r requirements.in
@@ -110,7 +106,7 @@ portend==2.6
     # via
     #   cherrypy
     #   salt-ssh
-psutil==5.8.0
+psutil==5.6.7
     # via salt-ssh
 py==1.10.0
     # via pytest
@@ -212,7 +208,9 @@ pyobjc-core==6.2.2
     #   pyobjc-framework-photos
     #   pyobjc-framework-photosui
     #   pyobjc-framework-preferencepanes
+    #   pyobjc-framework-pubsub
     #   pyobjc-framework-pushkit
+    #   pyobjc-framework-qtkit
     #   pyobjc-framework-quartz
     #   pyobjc-framework-quicklookthumbnailing
     #   pyobjc-framework-safariservices
@@ -237,40 +235,69 @@ pyobjc-core==6.2.2
     #   pyobjc-framework-videotoolbox
     #   pyobjc-framework-vision
     #   pyobjc-framework-webkit
+    #   salt-ssh
 pyobjc-framework-accounts==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-cloudkit
+    #   salt-ssh
 pyobjc-framework-addressbook==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-adsupport==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-applescriptkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-applescriptobjc==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-applicationservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-authenticationservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-automaticassessmentconfiguration==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-automator==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-avfoundation==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-mediaplayer
+    #   salt-ssh
 pyobjc-framework-avkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-businesschat==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-calendarstore==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-cfnetwork==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-cloudkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-cocoa==6.2.2
     # via
     #   pyobjc
@@ -354,7 +381,9 @@ pyobjc-framework-cocoa==6.2.2
     #   pyobjc-framework-photos
     #   pyobjc-framework-photosui
     #   pyobjc-framework-preferencepanes
+    #   pyobjc-framework-pubsub
     #   pyobjc-framework-pushkit
+    #   pyobjc-framework-qtkit
     #   pyobjc-framework-quartz
     #   pyobjc-framework-quicklookthumbnailing
     #   pyobjc-framework-safariservices
@@ -378,178 +407,316 @@ pyobjc-framework-cocoa==6.2.2
     #   pyobjc-framework-videotoolbox
     #   pyobjc-framework-vision
     #   pyobjc-framework-webkit
+    #   salt-ssh
 pyobjc-framework-collaboration==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-colorsync==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-contacts==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-contactsui
+    #   salt-ssh
 pyobjc-framework-contactsui==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-coreaudio==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-coreaudiokit
+    #   salt-ssh
 pyobjc-framework-coreaudiokit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-corebluetooth==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-coredata==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-cloudkit
     #   pyobjc-framework-syncservices
+    #   salt-ssh
 pyobjc-framework-corehaptics==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-corelocation==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-cloudkit
     #   pyobjc-framework-mapkit
+    #   salt-ssh
 pyobjc-framework-coremedia==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-avfoundation
     #   pyobjc-framework-oslog
     #   pyobjc-framework-videotoolbox
+    #   salt-ssh
 pyobjc-framework-coremediaio==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-coreml==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-vision
+    #   salt-ssh
 pyobjc-framework-coremotion==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-coreservices==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-dictionaryservices
     #   pyobjc-framework-launchservices
     #   pyobjc-framework-searchkit
+    #   salt-ssh
 pyobjc-framework-corespotlight==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-coretext==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-corewlan==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-cryptotokenkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-devicecheck==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-dictionaryservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-discrecording==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-discrecordingui
+    #   salt-ssh
 pyobjc-framework-discrecordingui==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-diskarbitration==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-dvdplayback==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-eventkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-exceptionhandling==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-executionpolicy==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-externalaccessory==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-fileprovider==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-fileproviderui
+    #   salt-ssh
 pyobjc-framework-fileproviderui==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-findersync==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-fsevents==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-coreservices
+    #   salt-ssh
 pyobjc-framework-gamecenter==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-gamecontroller==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-gamekit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-gameplaykit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-imagecapturecore==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-imserviceplugin==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-inputmethodkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-installerplugins==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-instantmessage==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-intents==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-iosurface==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-ituneslibrary==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-latentsemanticmapping==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-launchservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-libdispatch==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-linkpresentation==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-localauthentication==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-mapkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-mediaaccessibility==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-medialibrary==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-mediaplayer==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-mediatoolbox==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-metal==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-metalkit
+    #   salt-ssh
 pyobjc-framework-metalkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-modelio==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-multipeerconnectivity==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-naturallanguage==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-netfs==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-network==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-networkextension==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-notificationcenter==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-opendirectory==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-osakit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-oslog==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-pencilkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-photos==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-photosui==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-preferencepanes==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
+pyobjc-framework-pubsub==6.2.2
+    # via salt-ssh
 pyobjc-framework-pushkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
+pyobjc-framework-qtkit==6.2.2
+    # via salt-ssh
 pyobjc-framework-quartz==6.2.2
     # via
     #   pyobjc
@@ -564,62 +731,108 @@ pyobjc-framework-quartz==6.2.2
     #   pyobjc-framework-medialibrary
     #   pyobjc-framework-modelio
     #   pyobjc-framework-oslog
+    #   pyobjc-framework-qtkit
     #   pyobjc-framework-quicklookthumbnailing
     #   pyobjc-framework-scenekit
     #   pyobjc-framework-spritekit
     #   pyobjc-framework-videotoolbox
     #   pyobjc-framework-vision
+    #   salt-ssh
 pyobjc-framework-quicklookthumbnailing==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-safariservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-scenekit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-screensaver==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-scriptingbridge==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-searchkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-security==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-securityfoundation
     #   pyobjc-framework-securityinterface
+    #   salt-ssh
 pyobjc-framework-securityfoundation==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-securityinterface==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-servicemanagement==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-social==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-soundanalysis==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-speech==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-spritekit==6.2.2
     # via
     #   pyobjc
     #   pyobjc-framework-gameplaykit
+    #   salt-ssh
 pyobjc-framework-storekit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-syncservices==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-systemconfiguration==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-systemextensions==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-usernotifications==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-videosubscriberaccount==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-videotoolbox==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-vision==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc-framework-webkit==6.2.2
-    # via pyobjc
+    # via
+    #   pyobjc
+    #   salt-ssh
 pyobjc==6.2.2
     # via salt-ssh
 pyopenssl==19.0.0
@@ -646,11 +859,11 @@ requests==2.21.0
     #   apache-libcloud
     #   salt-ssh
     #   vultr
-salt-ssh==3003
+salt-ssh==3002.7
     # via -r requirements.in
 setproctitle==1.1.10
     # via salt-ssh
-six==1.15.0
+six==1.16.0
     # via
     #   cheroot
     #   cherrypy
@@ -659,10 +872,14 @@ six==1.15.0
     #   python-dateutil
     #   salt-ssh
     #   tempora
+smmap2==3.0.1
+    # via
+    #   gitdb2
+    #   salt-ssh
 smmap==3.0.2
     # via
-    #   gitdb
     #   salt-ssh
+    #   smmap2
 tempora==1.14.1
     # via
     #   portend

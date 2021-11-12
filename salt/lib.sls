@@ -2,19 +2,19 @@
 
 {% macro set_firewall(setting_name, setting_value="yes") %}
 set {{ setting_name }} firewall setting:
-  file.replace:
-    - name:  /home/sysadmin-tools/firewall-settings.local
-    - pattern: "{{ setting_name }}=.*"
-    - repl: "{{ setting_name }}=\"{{ setting_value }}\""
+  file.keyvalue:
+    - name: /home/sysadmin-tools/firewall-settings.local
+    - key: {{ setting_name }}
+    - value: '"{{ setting_value }}"'
     - append_if_not_found: True
 {% endmacro %}
 
 {% macro unset_firewall(setting_name) %}
 unset {{ setting_name }} firewall setting:
-  file.replace:
-    - name:  /home/sysadmin-tools/firewall-settings.local
-    - pattern: "{{ setting_name }}=.*"
-    - repl: "{{ setting_name }}=\"\""
+  file.keyvalue:
+    - name: /home/sysadmin-tools/firewall-settings.local
+    - key: {{ setting_name }}
+    - value: '""'
     - ignore_if_missing: True
 {% endmacro %}
 
@@ -71,17 +71,6 @@ unset {{ setting_name }} firewall setting:
 #}
 # It is safe to use `{}` as a default value, because the default value is never mutated.
 {% macro apache(name, entry, context={}) %}
-{% if 'ipv4' in pillar.apache %}
-/etc/apache2/ports.conf:
-  file.managed:
-    - source: salt://apache/files/ports.conf
-    - template: jinja
-    - require:
-      - pkg: apache2
-    - watch_in:
-      - service: apache2
-{% endif %}
-
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
     - source: salt://apache/files/sites/{{ entry.configuration }}.conf.include

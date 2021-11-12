@@ -16,27 +16,27 @@ else
     SUFFIX=""
 fi
 
-# Deploy the build directory.
-curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PREFIX""$PATH_PREFIX""$REF""$SUFFIX"
-
-# Index the build directory.
-ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
-ocdsindex index https://standard.open-contracting.org:9200 documents.json
-if [ "$REF" == "$VERSION" ]; then
-    ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX"latest/ > documents.json
-    ocdsindex index https://standard.open-contracting.org:9200 documents.json
-fi
-
-if [ "$PRODUCTION" == "true" ]; then
-    # Symlink the live directory.
+# If a git tag isn't pushed, deploy the build directory from the git branch.
+if [ "$RELEASE" != "true" ]; then
     curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-    # shellcheck disable=SC2029
-    ssh ocds-docs@standard.open-contracting.org "ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF"
-fi
+    rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PREFIX""$PATH_PREFIX""$REF""$SUFFIX"
 
-# If a git tag is pushed.
-if [ "$RELEASE" == "true" ]; then
+    # Index the build directory.
+    ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
+    ocdsindex index https://standard.open-contracting.org:9200 documents.json
+    if [ "$REF" == "$VERSION" ]; then
+        ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX"latest/ > documents.json
+        ocdsindex index https://standard.open-contracting.org:9200 documents.json
+    fi
+
+    if [ "$PRODUCTION" == "true" ]; then
+        # Symlink the live directory.
+        curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+        # shellcheck disable=SC2029
+        ssh ocds-docs@standard.open-contracting.org "ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF"
+    fi
+# If a git tag is pushed, create the schema directory and ZIP file.
+else
     if [ "$COMPONENT" == "profiles" ]; then
         DIRECTORY="extension"
     else

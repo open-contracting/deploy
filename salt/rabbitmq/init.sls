@@ -50,9 +50,10 @@ create {{ name }} rabbitmq user:
 {% if 'password' in entry %}
     - password: "{{ entry.password }}"
 {% endif %}
+{% if 'tags' in entry %}
     # https://www.rabbitmq.com/management.html#permissions
-    - tags:
-      - management
+    - tags: {{ entry.tags|yaml }}
+{% endif %}
     # https://www.rabbitmq.com/access-control.html#authorisation
     - perms:
       - '/':

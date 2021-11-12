@@ -10,9 +10,10 @@ Make changes
    firewall.rst
    packages.rst
    apache.rst
-   postgres.rst
-   python.rst
    elasticsearch.rst
+   postgres.rst
+   rabbitmq.rst
+   python.rst
    logs.rst
    delete.rst
 

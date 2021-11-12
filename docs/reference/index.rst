@@ -34,7 +34,7 @@ Sentry
 
 Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
 
-See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/#sentry>`__ for access to Sentry.
+See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry.
 
 .. _hosting:
 
@@ -51,7 +51,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
    -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
-   -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocds-standard-development-handbook.readthedocs.io/en/latest/systems/services.html#cloud-platform>`__.
+   -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloud-platform>`__.
 
 -  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for VPS servers provisioned before August 2021.
 
