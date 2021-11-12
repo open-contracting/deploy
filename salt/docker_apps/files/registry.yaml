@@ -18,9 +18,9 @@ services:
     <<: *daemon
     command: "python manage.py exporter --settings=core.settings.docker"
     scale: 2
-    # The path must match the settings.EXPORTER_DIR default in data-registry
+    # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
     volumes:
-      - /data/storage/exporter_dumps:/data/exporter_dumps
+      - /data/storage/exporter:/data/exporter
   wiper:
     <<: *daemon
     command: "python manage.py wiper --settings=core.settings.docker"
@@ -28,8 +28,9 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
+    # The right-hand path must match the settings.COLLECT_FILES_STORE default value in data-registry.
     volumes:
-      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
+      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   migrate:
     <<: *shared
     command: "python manage.py migrate --settings=core.settings.docker"

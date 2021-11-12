@@ -5,6 +5,7 @@ x-shared: &shared
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
+    # The right-hand path must match the settings.COLLECT_FILES_STORE default value in kingfisher-process.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data
 
 x-daemon: &daemon

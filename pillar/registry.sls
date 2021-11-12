@@ -51,7 +51,7 @@ docker:
 kingfisher_collect:
   user: collect
   env:
-    FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
+    FILES_STORE: /data/storage/kingfisher-collect
     KINGFISHER_API2_URL: http://localhost:8000
     # This needs to correspond to ENV_NAME and ENV_VERSION below.
     RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
@@ -62,31 +62,31 @@ docker_apps:
     target: data-registry
     port: 8002
     env:
-      FEEDBACK_EMAIL: jmckinney@open-contracting.org
+      ALLOWED_HOSTS: data.open-contracting.org
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
+      FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
       PROCESS_HOST: http://localhost:8000/
       PELICAN_HOST: http://localhost:8001/
       EXPORTER_HOST: http://localhost:8002/
       # Kingfisher Collect
-      SCRAPY_HOST: http://localhost:6800/
-      SCRAPY_PROJECT: kingfisher
+      SCRAPYD_URL: http://localhost:6800
       # Spoonbill
       FLATTEN_URL: https://flatten.open-contracting.org
   kingfisher_process:
     target: kingfisher-process
     port: 8000
     env:
+      LOCAL_ACCESS: 'true'
       # Kingfisher Process uses a Rabbit exchange named `kingfisher_process_{ENV_NAME}_{ENV_VERSION}`.
-      # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` above.
+      # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` under `kingfisher_collect`.
       ENV_NAME: data_registry
       ENV_VERSION: '1.0'
   pelican_backend:
     target: pelican-backend
     env:
       RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
-      # SENTRY_SAMPLE_RATE: 1
   pelican_frontend:
     target: pelican-frontend
     port: 8001
