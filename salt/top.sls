@@ -12,6 +12,7 @@ base:
     - core.logrotate
     - core.mail
     - core.motd
+    - core.network
     - core.rsyslog
     - core.sshd
     - core.swap

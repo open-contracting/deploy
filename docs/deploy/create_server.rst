@@ -31,6 +31,7 @@ Linode
 #. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
 #. Wait for the disk to resize
 #. Resize and rename the swap disk "### MB Swap Image"
+#. Under the *Configurations* tab, Edit the server config ("My Ubuntu 20.04 LTS Disk Profile – GRUB 2" or something simular), Disable "Auto-configure networking".
 
    .. note::
 

@@ -10,31 +10,6 @@ update all packages:
     - refresh: True
     - dist_upgrade: True
 
-{{ pillar.main_ipv4 }}:
-  host.only:
-    - order: 2
-    - hostnames:
-      - {{ pillar.host_id }}.open-contracting.org
-      - {{ pillar.host_id }}
-{%- if 'main_ipv6' in pillar %}
-{{ pillar.main_ipv6 }}:
-  host.only:
-    - order: 2
-    - hostnames:
-      - {{ pillar.host_id }}.open-contracting.org
-      - {{ pillar.host_id }}
-{% endif %}
-
-/etc/mailname:
-  file.managed:
-    - order: 3
-    - contents: "{{ pillar.host_id }}.open-contracting.org"
-
-# Salt recommends using `retain_settings: True`, but this is only relevant to RedHat.
-# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.network.html#retain-settings
-set hostname:
-  network.system:
-    - order: 4
-    - enabled: True
-    - hostname: "{{ pillar.host_id }}"
-    - apply_hostname: True
+system.reboot:
+  module.run:
+   - order: last
