@@ -1,0 +1,19 @@
+network: 
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      # Disable automatic network configuration
+      dhcp4: no
+      dhcp6: no
+      accept-ra: no
+      # Statically configure networking
+      addresses:
+        - {{ pillar.network.ipv4.primary_ip }}{{ salt['pillar.get']('network:ipv4:primary_ip_subnet_mask','/32') }}		# Primary IPv4
+        - {{ pillar.network.ipv6.slaac_ip }}		# SLAAC
+        - {{ pillar.network.ipv6.primary_ip }}{{ salt['pillar.get']('network:ipv6:primary_ip_subnet_mask','/128') }}		# Primary IPv6
+      gateway4: {{ pillar.network.ipv4.gateway_ip }}	# Primary IPv4 gateway.
+      gateway6: {{ pillar.network.ipv6.gateway_ip }}	# Primary IPv6 gateway.
+      nameservers:
+        search: [ {{ pillar.network.search_domain }} ]            # Search domain.
+        addresses: {{ pillar.network.ipv4.dns_servers|union(pillar.network.ipv6.dns_servers) }} # DNS Server IP addresses
