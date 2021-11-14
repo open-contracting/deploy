@@ -53,9 +53,9 @@ kingfisher_collect:
   env:
     FILES_STORE: /data/storage/kingfisher-collect
     KINGFISHER_API2_URL: http://localhost:8000
-    # This needs to correspond to ENV_NAME and ENV_VERSION below.
-    RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
-    RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
+    # This needs to correspond to `RABBIT_EXCHANGE_NAME` under `kingfisher_process`.
+    RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_production
+    RABBIT_ROUTING_KEY: kingfisher_process_data_registry_production_api
 
 docker_apps:
   registry:
@@ -79,10 +79,8 @@ docker_apps:
     port: 8000
     env:
       LOCAL_ACCESS: 'true'
-      # Kingfisher Process uses a Rabbit exchange named `kingfisher_process_{ENV_NAME}_{ENV_VERSION}`.
       # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` under `kingfisher_collect`.
-      ENV_NAME: data_registry
-      ENV_VERSION: '1.0'
+      RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_production
   pelican_backend:
     target: pelican-backend
     env:
