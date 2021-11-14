@@ -67,9 +67,9 @@ docker_apps:
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
-      KINGFISHER_PROCESS_HOST: http://localhost:8000/
-      PELICAN_HOST: http://localhost:8001/
-      EXPORTER_HOST: http://localhost:8002/
+      KINGFISHER_PROCESS_URL: http://localhost:8000
+      PELICAN_FRONTEND_URL: http://localhost:8001
+      EXPORTER_URL: http://localhost:8002
       # Kingfisher Collect
       SCRAPYD_URL: http://localhost:6800
       # Spoonbill
