@@ -28,7 +28,7 @@ services:
   cbom:
     <<: *shared
     command: "python manage.py cbom --settings=core.settings.docker"
-    # The right-hand path must match the settings.COLLECT_FILES_STORE default value in data-registry.
+    # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     volumes:
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   migrate:
