@@ -34,6 +34,7 @@ add {{ pillar.docker.user }} user to docker group:
 # https://docs.docker.com/config/containers/logging/configure/
 # https://docs.docker.com/config/containers/logging/local/
 # https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
+# https://docs.docker.com/engine/install/linux-postinstall/#configure-default-logging-driver
 /etc/docker/daemon.json:
   file.managed:
     - source: salt://docker/files/daemon.json
