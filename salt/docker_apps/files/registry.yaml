@@ -16,24 +16,24 @@ services:
       - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
     <<: *daemon
-    command: "python manage.py exporter --settings=core.settings.docker"
+    command: "python manage.py exporter"
     scale: 2
     # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
     volumes:
       - /data/storage/exporter:/data/exporter
   wiper:
     <<: *daemon
-    command: "python manage.py wiper --settings=core.settings.docker"
+    command: "python manage.py wiper"
 
-  cbom:
+  manageprocess:
     <<: *shared
-    command: "python manage.py cbom --settings=core.settings.docker"
+    command: "python manage.py manageprocess"
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     volumes:
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   migrate:
     <<: *shared
-    command: "python manage.py migrate --settings=core.settings.docker"
+    command: "python manage.py migrate"
 
   static:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
