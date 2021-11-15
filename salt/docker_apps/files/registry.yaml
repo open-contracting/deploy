@@ -14,6 +14,9 @@ services:
     <<: *daemon
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
+    # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
+    volumes:
+      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   exporter:
     <<: *daemon
     command: "python manage.py exporter"
@@ -24,16 +27,6 @@ services:
   wiper:
     <<: *daemon
     command: "python manage.py wiper"
-
-  manageprocess:
-    <<: *shared
-    command: "python manage.py manageprocess"
-    # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
-    volumes:
-      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
-  migrate:
-    <<: *shared
-    command: "python manage.py migrate"
 
   static:
     image: "ghcr.io/open-contracting/data-registry-static:latest"

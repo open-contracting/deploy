@@ -48,7 +48,3 @@ services:
   wiper:
     <<: *daemon
     command: "python manage.py wiper"
-
-  migrate:
-    <<: *shared
-    command: "python manage.py migrate"
