@@ -12,23 +12,23 @@ x-daemon: &daemon
 services:
   extract:
     <<: *daemon
-    command: "workers.extract.kingfisher_process"
+    command: "python -m workers.extract.kingfisher_process"
     scale: 4
   data_item:
     <<: *daemon
-    command: "workers.check.data_item"
+    command: "python -m workers.check.data_item"
     scale: 4
   dataset:
     <<: *daemon
-    command: "workers.check.dataset"
+    command: "python -m workers.check.dataset"
     scale: 4
   time_based:
     <<: *daemon
-    command: "workers.check.time_based"
+    command: "python -m workers.check.time_based"
     scale: 4
   report:
     <<: *daemon
-    command: "workers.report"
+    command: "python -m workers.report"
   wipe:
     <<: *daemon
-    command: "workers.wipe"
+    command: "python -m workers.wipe"
