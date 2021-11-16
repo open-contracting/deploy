@@ -31,7 +31,7 @@ set hostname:
     - onchanges:
         - file: /etc/mailname
 
-{%- if 'netplan' in pillar.network %}
+{%- if pillar.network.get('netplan') %}
 # We manually configure networking on Linode servers so that we can use our own IPv6 /64 range.
 # https://www.linode.com/docs/guides/linux-static-ip-configuration/#disable-network-helper
 /etc/systemd/network/05-eth0.network:

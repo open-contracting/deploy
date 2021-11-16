@@ -21,4 +21,4 @@ include:
     - mode: 644
     - template: jinja
 
-{{ create_pg_database( salt['pillar.get']('redash:postgres:database'), salt['pillar.get']('redash:postgres:username') ) }}
+{{ create_pg_database( pillar.redash.postgres.database, pillar.redash.postgres.username ) }}

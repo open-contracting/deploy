@@ -1,7 +1,7 @@
 # Based on: https://github.com/getnewdash/setup/blob/master/data/docker-compose.yml
 version: "2.1"
 x-redash-service: &redash-service
-  image: {{ salt['pillar.get']('redash:docker_tag') }}
+  image: {{ pillar.redash.docker_tag }}
   depends_on:
     redis:
       condition: service_healthy
