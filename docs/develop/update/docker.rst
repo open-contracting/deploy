@@ -127,7 +127,7 @@ This will create files in the ``/data/deploy/mytarget`` directory:
 Reference:
 
 -  `The ".env" file <https://docs.docker.com/compose/environment-variables/#the-env-file>`__
--  `Declare default environment variables in file <https://docs.docker.com/compose/env-file/>`
+-  `Declare default environment variables in file <https://docs.docker.com/compose/env-file/>`__
 
 Use host services
 ~~~~~~~~~~~~~~~~~

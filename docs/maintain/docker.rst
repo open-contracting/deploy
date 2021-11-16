@@ -41,6 +41,8 @@ List dangling objects:
    docker image ls --filter dangling=true
    docker volume ls --filter dangling=true
 
+Prune unused objects:
+
 .. code-block:: bash
 
    docker system prune
