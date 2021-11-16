@@ -41,11 +41,18 @@ Linode
 
       At most swap should be double the size of RAM.
 
-      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
+      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ as part of the core deployment.
 
 #. Power On Linode
 
 #. Select your new server and copy the *SSH Access* details
+
+#. Raise a support ticket with Linode to add the new instance to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
+
+   .. note::
+
+      Linode will take up to a day to process this ticket so proceed with set up.
+      When the new IP is provisioned the pillar ``network`` configuration will need updating.
 
 Hetzner
 ~~~~~~~
@@ -191,11 +198,41 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
+#. Add or update the network configuration in pillar. If you built the server in Linode the below configuration options can be found in their interface under the *Network* tab. Replace all values.
+
+   .. code-block:: yaml
+
+      host_id: ocpXX
+      network:
+        netplan: True
+        ipv4:
+          primary_ip: 203.0.113.114
+          primary_ip_subnet_mask: "/24"
+          gateway_ip: 203.0.113.1
+          dns_servers: [ 178.79.182.5, 176.58.107.5, 176.58.116.5, 176.58.121.5, 151.236.220.5, 212.71.252.5, 212.71.253.5, 109.74.192.20, 109.74.193.20, 109.74.194.20 ]
+        ipv6:
+          primary_ip: 2001:db8::114
+          primary_ip_subnet_mask: "/128"
+          slaac_ip: 2001:db8::1/128
+          gateway_ip: fe80::1
+          dns_servers: [ 2a01:7e00::9, 2a01:7e00::3, 2a01:7e00::c, 2a01:7e00::5, 2a01:7e00::6, 2a01:7e00::8, 2a01:7e00::b, 2a01:7e00::4, 2a01:7e00::7, 2a01:7e00::2 ]
+        search_domain: open-contracting.org
+
+   .. note::
+
+      At minimum, the following fields are required: host_id, network:ipv4:primary_ip
+      This leaves netplan unconfigured.
+
+   .. note::
+
+      If you need greater control over netplan you can parse your own configuration in using the "custom_netplan" pillar item.
+
+
+#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
    .. code-block:: bash
 
-      salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*' pillar='{"host_id": "ocpXX"}'
+      salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*'
 
    .. note::
 
@@ -206,6 +243,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    .. code-block:: bash
 
       ./run.py TARGET system.reboot
+
 
 .. note::
 
