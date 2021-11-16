@@ -1,34 +1,29 @@
-version: "2.2"
-
 x-shared: &shared
   image: "ghcr.io/open-contracting/pelican-backend:latest"
+  restart: unless-stopped
   extra_hosts:
     - "host.docker.internal:host-gateway"
 
-x-daemon: &daemon
-  <<: *shared
-  restart: unless-stopped
-
 services:
   extract:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.extract.kingfisher_process"
     scale: 4
   data_item:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.check.data_item"
     scale: 4
   dataset:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.check.dataset"
     scale: 4
   time_based:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.check.time_based"
     scale: 4
   report:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.report"
   wipe:
-    <<: *daemon
+    <<: *shared
     command: "python -m workers.wipe"

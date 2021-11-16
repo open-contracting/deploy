@@ -1,35 +1,30 @@
-version: "2.2"
-
 x-shared: &shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
+  restart: unless-stopped
   extra_hosts:
     - "host.docker.internal:host-gateway"
-
-x-daemon: &daemon
-  <<: *shared
-  restart: unless-stopped
+  # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
+  volumes:
+    - /data/storage/exporter:/data/exporter
 
 services:
-  django:
-    <<: *daemon
+  web:
+    <<: *shared
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     volumes:
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   exporter:
-    <<: *daemon
+    <<: *shared
     command: "python manage.py exporter"
     scale: 2
-    # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
-    volumes:
-      - /data/storage/exporter:/data/exporter
   wiper:
-    <<: *daemon
+    <<: *shared
     command: "python manage.py wiper"
 
   static:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
-    ports:
-      - "8003:8080"
     restart: unless-stopped
+    ports:
+      - {{ pillar.apache.sites.registry.static_port }}:8080
