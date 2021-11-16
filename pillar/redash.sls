@@ -35,6 +35,7 @@ postgres:
 
 host_id: ocp14
 network:
+  netplan: True
   ipv4:
     primary_ip: 139.162.199.85
     primary_ip_subnet_mask: "/24"
