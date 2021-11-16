@@ -11,10 +11,10 @@ Create a superuser:
 
 .. code-block:: bash
 
-   docker-compose run --rm django python manage.py createsuperuser
+   docker-compose run --rm web python manage.py createsuperuser
 
 Migrate the database:
 
 .. code-block:: bash
 
-   docker-compose run --rm django python manage.py migrate
+   docker-compose run --rm web python manage.py migrate

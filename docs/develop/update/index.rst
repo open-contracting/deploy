@@ -14,6 +14,7 @@ Make changes
    postgres.rst
    rabbitmq.rst
    python.rst
+   docker.rst
    logs.rst
    delete.rst
 
