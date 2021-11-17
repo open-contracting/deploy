@@ -25,6 +25,12 @@ List containers, images, networks and volumes:
    docker network ls
    docker volume ls
 
+Inspect a volume, replacing ``VOLUME``:
+
+.. code-block:: bash
+
+   docker volume inspect VOLUME
+
 List a volume's data, replacing ``VOLUME``:
 
 .. code-block:: bash
