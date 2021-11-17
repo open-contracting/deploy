@@ -6,6 +6,8 @@ x-redash-service: &redash-service
     redis:
       condition: service_healthy
   env_file: /opt/redash/env
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
   restart: always
 services:
   server:
@@ -15,8 +17,6 @@ services:
       - "5000:5000"
     environment:
       REDASH_WEB_WORKERS: 4
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   scheduler:
     <<: *redash-service
     command: scheduler
