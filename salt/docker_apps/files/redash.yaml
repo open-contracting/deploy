@@ -1,11 +1,11 @@
 # Based on: https://github.com/getnewdash/setup/blob/master/data/docker-compose.yml
 version: "2.1"
 x-redash-service: &redash-service
-  image: {{ pillar.redash.docker_tag }}
+  image: redash/redash:10.0.0-beta.b49597
   depends_on:
     redis:
       condition: service_healthy
-  env_file: /opt/redash/env
+  env_file: /data/deploy/redash/.env
   extra_hosts:
     - "host.docker.internal:host-gateway"
   restart: always
