@@ -48,8 +48,8 @@ base:
     - prometheus
 
   'redash':
-    - redash
     - postgres
+    - redash
 
   'registry':
     - rabbitmq

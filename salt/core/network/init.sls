@@ -1,4 +1,4 @@
-# Define order so that these configuration options are ran before everything else.
+# Define order so that these configuration options are run before everything else.
 # Other packages and commands rely on the hostname field being configured.
 
 # Don't run on old/existing servers prior to network configuration.
@@ -23,7 +23,7 @@
     - order: 5
     - contents: "{{ pillar.host_id }}.open-contracting.org"
 
-# The salt system.networking state does not fully support Ubuntu 20.04 yet.
+# The Salt system.networking state does not fully support Ubuntu 20.04 yet so we are using cmd.run instead.
 set hostname:
   cmd.run:
     - order: 10

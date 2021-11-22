@@ -25,7 +25,7 @@ apache:
 
 postgres:
   version: 13
-  # Redash connection to postgres are not sent over the localhost connection.
+  # Redash connections to Postgres are not sent over the localhost connection.
   # Postgres access is locked down further in the Linode firewall.
   public_access: true
   configuration: redash

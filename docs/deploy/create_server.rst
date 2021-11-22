@@ -31,7 +31,7 @@ Linode
 #. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
 #. Wait for the disk to resize
 #. Resize and rename the swap disk "### MB Swap Image"
-#. Under the *Configurations* tab, Edit the server config ("My Ubuntu 20.04 LTS Disk Profile – GRUB 2" or something simular), Disable "Auto-configure networking".
+#. Under the *Configurations* tab, Edit the server config ("My Ubuntu 20.04 LTS Disk Profile – GRUB 2" or something simular), disable "Auto-configure networking".
 
    .. note::
 
@@ -51,7 +51,7 @@ Linode
 
    .. note::
 
-      Linode will take up to a day to process this ticket so proceed with set up.
+      Linode will take up to a day to process this ticket, proceed with the remainder of the server setup.
       When the new IP is provisioned the pillar ``network`` configuration will need updating.
 
 Hetzner
@@ -198,34 +198,14 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. Add or update the network configuration in pillar. If you built the server in Linode the below configuration options can be found in their interface under the *Network* tab. Replace all values.
+#. Add or update the network configuration in pillar. For further IPv4 and IPv6 network configuration see the :doc:`Netplan configuration page<netplan>`.
 
    .. code-block:: yaml
 
       host_id: ocpXX
       network:
-        netplan: True
         ipv4:
           primary_ip: 203.0.113.114
-          primary_ip_subnet_mask: "/24"
-          gateway_ip: 203.0.113.1
-          dns_servers: [ 178.79.182.5, 176.58.107.5, 176.58.116.5, 176.58.121.5, 151.236.220.5, 212.71.252.5, 212.71.253.5, 109.74.192.20, 109.74.193.20, 109.74.194.20 ]
-        ipv6:
-          primary_ip: 2001:db8::114
-          primary_ip_subnet_mask: "/128"
-          slaac_ip: 2001:db8::1/128
-          gateway_ip: fe80::1
-          dns_servers: [ 2a01:7e00::9, 2a01:7e00::3, 2a01:7e00::c, 2a01:7e00::5, 2a01:7e00::6, 2a01:7e00::8, 2a01:7e00::b, 2a01:7e00::4, 2a01:7e00::7, 2a01:7e00::2 ]
-        search_domain: open-contracting.org
-
-   .. note::
-
-      At minimum, the following fields are required: host_id, network:ipv4:primary_ip
-      This leaves netplan unconfigured.
-
-   .. note::
-
-      If you need greater control over netplan you can parse your own configuration in using the "custom_netplan" pillar item.
 
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.

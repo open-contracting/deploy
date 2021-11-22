@@ -20,7 +20,7 @@ The ``redash`` state file installs, configures and sets up everything needed for
 Initialize Redash
 ~~~~~~~~~~~~~~~~~
 
-Before we can start the Redash application we need to import the redash database.
+Before we can start the Redash application we need to import the Redash database.
 
 #. If migrating from an old server.
 
@@ -31,7 +31,7 @@ Before we can start the Redash application we need to import the redash database
          curl --silent --connect-timeout 1 ocp08.open-contracting.org:8255 || true
          ssh root@ocp08.open-contracting.org
 
-   #. Dump the database. You might need to expose ports for the ``postgres`` service if ``postgres`` is still hosted in docker.
+   #. Dump the database. You might need to expose ports for the ``postgres`` service if ``postgres`` is still hosted in Docker.
 
       .. code-block:: bash
 
@@ -61,6 +61,12 @@ Before we can start the Redash application we need to import the redash database
 
       ssh root@ocp14.open-contracting.org
 
+#. If the Redash database user is changing, update the .sql file. For example, to replace the previous database owner ``postgres`` with ``redash_user``:
+
+   .. code-block:: bash
+
+      sed -i 's/OWNER TO postgres/OWNER TO redash_user/g' redash.sql
+
 #. Load the database dump using the PostgreSQL credentials:
 
    .. code-block:: bash
@@ -80,7 +86,7 @@ Upgrade the Redash service
 
 To upgrade Redash to a new version
 
-#. Update the docker-compose configuration in `the salt deploy repository <https://github.com/open-contracting/deploy/blob/main/salt/docker_apps/files/redash.yaml>`__, updating the docker image version to the `latest release <https://github.com/getredash/redash/releases>`__. There may be other changes required in new releases, the official release notes will have more details.
+#. Update the docker-compose configuration in the `salt deploy repository <https://github.com/open-contracting/deploy/blob/main/salt/docker_apps/files/redash.yaml>`__. Update the Docker image version to the latest release. There may be other changes required in new Redash releases, the `official release notes<https://github.com/getredash/redash/releases>`__ will have more details.
 
 #. Deploy the Redash service, see :ref:`deploy documentation<generic-setup>`:
 
@@ -101,14 +107,14 @@ To upgrade Redash to a new version
 
       docker-compose pull
 
-#. Stop redash services:
+#. Stop Redash services:
 
    .. code-block:: bash
 
       cd /data/deploy/redash/
       docker-compose stop server scheduler scheduled_worker adhoc_worker
 
-#. Run redash database migrations (if required):
+#. Run Redash database migrations (if required):
 
    .. code-block:: bash
 
@@ -120,8 +126,7 @@ To upgrade Redash to a new version
 
       docker-compose up -d
 
-
-Finally, check that the new version is running by `accessing Redash, clicking your icon, "System Status"<https://redash.open-contracting.org/admin/status>`__. and reading the *Version*.
+Finally, check that the new version is running by viewing the `"System Status"<https://redash.open-contracting.org/admin/status>`__ page and reading the *Version*. You may need to log into Redash to access this page.
 
 Troubleshoot
 ~~~~~~~~~~~~
