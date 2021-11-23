@@ -4,7 +4,7 @@ Configure Networking
 Netplan configuration
 ---------------------
 
-There are two ways to configure Netplan using the ``core.network`` Salt state file. For most servers the :ref:`templated option<Netplan Template>` is easiest, if you require advanced configuration options see :ref:`Netplan Custom`.
+There are two ways to configure Netplan using the ``core.network`` Salt state file. For most servers the :ref:`templated option<Netplan Template>` is easiest approach, if you require advanced configuration options see :ref:`Netplan Custom`.
 
 Netplan Template
 ~~~~~~~~~~~~~~~~
@@ -13,7 +13,7 @@ The templated option has been designed specifically for Linode servers, it disab
 
    .. note::
 
-      We use static networking in order to configure IPv6 correctly on Linode servers. By default, Linode servers will listen and prefer IPv6 traffic on the default IPv6 IP, we however want our servers to use our own IPv6 IP block. This has the benefits of ensuring a good IP reputation and improving email deliverability.
+      We use static networking in order to configure IPv6 correctly on Linode servers. By default, Linode servers will listen and prefer IPv6 traffic on the servers default IPv6 address, we however want to use our own IPv6 block. This has the benefits of ensuring a good IP reputation and improving email deliverability.
 
 Example configuration based on OCP14:
 
@@ -35,9 +35,9 @@ Example configuration based on OCP14:
         search_domain: open-contracting.org
 
 netplan
-   Enables the template configuration, without this networking will be left unconfigured.
+   Enables the template Netplan configuration. Default Value: ``False``.
 primary_ip
-   Configure the primary IP addresses, this is also configured elsewhere on the system.
+   Configure the primary IP addresses, this IP is also configured elsewhere on the system.
 primary_ip_subnet_mask
    Default Value: ``/32`` for IPv4 and ``/128`` for IPv6.
 gateway_ip
@@ -45,9 +45,9 @@ gateway_ip
 dns_servers
    List of DNS Resolvers.
 slaac_ip
-   "StateLess Address Auto Configuration" (SLAAC) helps with automatic network configuration, Linode require this option to be set. IPv6 only option.
+   "StateLess Address Auto Configuration" (SLAAC) helps with automatic network configuration. Linode requires SLAAC to be configured. IPv6 only option.
 search_domain
-   Configure search domain for host look ups. Default Value: ``open-contracting.org``.
+   Configure search domain for host look-ups. Default Value: ``open-contracting.org``.
 
 If you provisioned the server in Linode these configuration values can be found in the Linode interface under the *Network* tab.
 
