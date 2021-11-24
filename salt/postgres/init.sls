@@ -1,4 +1,4 @@
-{% from 'lib.sls' import set_firewall, unset_firewall, create_pg_database, create_pg_privileges %}
+{% from 'lib.sls' import set_firewall, unset_firewall %}
 
 {% set pg_version = pillar.postgres.get('version', '11') %}
 
@@ -146,9 +146,93 @@ pg_stat_statements:
 {% endif %} {# users #}
 
 {% if salt['pillar.get']('postgres:databases') %}
-{% for name, entry in pillar.postgres.databases.items() %}
-{{ create_pg_database(name, entry.user) }}
-{{ create_pg_privileges(name, entry.user, entry.privileges) }}
+{% for database, entry in pillar.postgres.databases.items() %}
+# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
+
+{{ database }}:
+  postgres_database.present:
+    - name: {{ database }}
+    - owner: postgres
+    - require:
+      - service: postgresql
+
+# REVOKE all schema privileges from the public role
+# https://www.postgresql.org/docs/11/sql-revoke.html
+
+revoke public schema privileges on {{ database }} database:
+  postgres_privileges.absent:
+    - name: public
+    - privileges:
+      - ALL
+    - object_type: schema
+    - object_name: public
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_database: {{ database }}
+
+# GRANT all schema privileges to the user
+# https://www.postgresql.org/docs/11/sql-grant.html
+# https://www.postgresql.org/docs/11/ddl-priv.html
+
+grant {{ entry.user }} schema privileges:
+  postgres_privileges.present:
+    - name: {{ entry.user }}
+    - privileges:
+      - ALL
+    - object_type: schema
+    - object_name: public
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_user: {{ entry.user }}_sql_user
+      - postgres_database: {{ database }}
+
+{% if entry.get('privileges') %}
+{% for schema, groups in entry.privileges.items() %}
+{% for group in groups %}
+# GRANT the USAGE privilege on the schema to the group
+grant {{ group }} schema privileges in {{ schema }}:
+  postgres_privileges.present:
+    - name: {{ group }}
+    - privileges:
+      - USAGE
+    - object_type: schema
+    - object_name: {{ schema }}
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_database: {{ database }}
+
+# GRANT the SELECT privilege on all tables in the schema to the group
+grant {{ group }} table privileges in {{ schema }}:
+  postgres_privileges.present:
+    - name: {{ group }}
+    - privileges:
+      - SELECT
+    - object_type: table
+    - object_name: ALL
+    - prepend: {{ schema }}
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_database: {{ database }}
+
+/opt/{{ group }}-{{ schema }}.sql:
+  file.managed:
+    - name: /opt/{{ group }}-{{ schema }}.sql
+    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ entry.user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
+
+# ALTER default privileges such that, when the user creates a table in the schema, the SELECT privilege is granted to the group.
+# Can replace after `postgres_default_privileges` function becomes available. https://github.com/saltstack/salt/pull/56808
+alter {{ group }} default privileges in {{ schema }}:
+  cmd.run:
+    - name: psql -f /opt/{{ group }}-{{ schema }}.sql {{ database }}
+    - runas: postgres
+    - onchanges:
+      - file: /opt/{{ group }}-{{ schema }}.sql
+    - require:
+      - postgres_database: {{ database }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
 {% endfor %}
 {% endif %} {# databases #}
 
