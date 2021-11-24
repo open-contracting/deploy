@@ -52,10 +52,11 @@ kingfisher_collect:
   user: collect
   env:
     FILES_STORE: /data/storage/kingfisher-collect
-    KINGFISHER_API2_URL: http://localhost:8000
-    # This needs to correspond to `RABBIT_EXCHANGE_NAME` under `kingfisher_process`.
-    RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_production
+    RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_registry_production
+    # Need to sync as `{RABBIT_EXCHANGE_NAME}_api`.
     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_production_api
+    # Need to sync with `docker_apps.kingfisher_process.port`.
+    KINGFISHER_API2_URL: http://localhost:8000
 
 docker_apps:
   registry:
@@ -67,26 +68,25 @@ docker_apps:
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
+      # Need to sync with `docker_apps.kingfisher_process.port`.
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
+      # Need to sync with `docker_apps.pelican_frontend.port`.
       PELICAN_FRONTEND_URL: http://host.docker.internal:8001
-      # Kingfisher Collect
       SCRAPYD_URL: http://host.docker.internal:6800
-      # Spoonbill
       SPOONBILL_URL: https://flatten.open-contracting.org
   kingfisher_process:
     target: kingfisher-process
     port: 8000
     env:
       LOCAL_ACCESS: 'true'
-      # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` under `kingfisher_collect`.
-      RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_production
+      RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
   pelican_backend:
     target: pelican-backend
     env:
-      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
+      RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
   pelican_frontend:
     target: pelican-frontend
     port: 8001
     env:
       LOCAL_ACCESS: 'true'
-      RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME
+      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
