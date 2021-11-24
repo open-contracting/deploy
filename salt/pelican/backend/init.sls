@@ -31,3 +31,12 @@ run pelican migration {{ basename }}:
       - postgres_database: pelican_backend
       - file: {{ userdir }}/.pgpass
 {% endfor %}
+
+/opt/pelican-backend/exchange_rates.csv:
+  file.managed:
+    - source: salt://private/files/exchange_rates.csv
+    - user: {{ docker.user }}
+    - group: {{ docker.user }}
+    - makedirs: True
+    - require:
+      - user: {{ docker.user }}_user_exists
