@@ -8,8 +8,7 @@ include:
 readonlyrest-download:
   file.managed:
     - name: /opt/readonlyrest-{{ readonlyrest_version }}.zip
-    - source: https://{{ pillar.github.access_token }}:x-oauth-basic@raw.githubusercontent.com/open-contracting/deploy-salt-private/main/files/readonlyrest-{{ readonlyrest_version }}.zip
-    - source_hash: 85c836ed54d955d2813504b33279be2a21cbba1e
+    - source: salt://private/files/readonlyrest-{{ readonlyrest_version }}.zip
 
 readonlyrest-install:
   cmd.run:
