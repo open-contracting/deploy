@@ -110,6 +110,7 @@ pg_stat_statements:
 {% endif %}
 
 {% if not salt['pillar.get']('postgres:replication') %}
+# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
 {% if salt['pillar.get']('postgres:groups') %}
 {% for name in pillar.postgres.groups %}
@@ -147,8 +148,6 @@ pg_stat_statements:
 
 {% if salt['pillar.get']('postgres:databases') %}
 {% for database, entry in pillar.postgres.databases.items() %}
-# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
-
 {{ database }}:
   postgres_database.present:
     - name: {{ database }}
@@ -158,7 +157,6 @@ pg_stat_statements:
 
 # REVOKE all schema privileges from the public role
 # https://www.postgresql.org/docs/11/sql-revoke.html
-
 revoke public schema privileges on {{ database }} database:
   postgres_privileges.absent:
     - name: public
@@ -173,7 +171,6 @@ revoke public schema privileges on {{ database }} database:
 # GRANT all schema privileges to the user
 # https://www.postgresql.org/docs/11/sql-grant.html
 # https://www.postgresql.org/docs/11/ddl-priv.html
-
 grant {{ entry.user }} schema privileges:
   postgres_privileges.present:
     - name: {{ entry.user }}
@@ -231,7 +228,7 @@ alter {{ group }} default privileges in {{ schema }}:
       - postgres_database: {{ database }}
 {% endfor %}
 {% endfor %}
-{% endif %}
+{% endif %} {# privileges #}
 
 {% endfor %}
 {% endif %} {# databases #}
