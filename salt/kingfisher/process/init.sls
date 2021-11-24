@@ -1,6 +1,7 @@
 {% from 'lib.sls' import create_user %}
 
 include:
+  - kingfisher.process.database
   - python.psycopg2
   - python_apps
 
