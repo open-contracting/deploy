@@ -37,16 +37,16 @@ base:
     - docs_maintenance
 
   'kingfisher-process':
-    - kingfisher
     - kingfisher_common
+    - kingfisher_process
     - private.kingfisher_common
-    - private.kingfisher
+    - private.kingfisher_process
     - tinyproxy
     - kingfisher_process_maintenance
 
   'kingfisher-replica':
-    - kingfisher_replica
     - kingfisher_common
+    - kingfisher_replica
     - private.kingfisher_common
     - kingfisher_replica_maintenance
 
