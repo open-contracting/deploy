@@ -1,17 +1,3 @@
-# https://kingfisher-process.readthedocs.io/en/latest/requirements-install.html#database
-{% from 'lib.sls' import create_pg_database, create_pg_privileges %}
-
-create kingfisher process groups:
-  postgres_group.present:
-    - names:
-      - reference
-      - kingfisher_process_read
-      - kingfisher_summarize_read
-    - require:
-      - service: postgresql
-
-{{ create_pg_database('ocdskingfisherprocess', 'kingfisher_process') }}
-
 # Extensions
 
 # https://github.com/open-contracting/deploy/issues/117 for analysts to create pivot tables.
@@ -55,11 +41,3 @@ grant kingfisher_summarize database privileges:
     - require:
       - postgres_user: kingfisher_summarize_sql_user
       - postgres_database: ocdskingfisherprocess
-
-{{
-  create_pg_privileges('ocdskingfisherprocess', 'kingfisher_process', {
-    'reference': ['public'],
-    'summaries': ['kingfisher_summarize_read'],
-    'public': ['kingfisher_process_read'],
-  })
-}}
