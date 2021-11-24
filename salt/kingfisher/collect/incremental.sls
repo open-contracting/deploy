@@ -2,7 +2,6 @@
 {% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
-  - kingfisher.collect.database
   - python.psycopg2
   - python_apps
 

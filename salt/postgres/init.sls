@@ -1,4 +1,4 @@
-{% from 'lib.sls' import set_firewall, unset_firewall %}
+{% from 'lib.sls' import set_firewall, unset_firewall, create_pg_database, create_pg_privileges %}
 
 {% set pg_version = pillar.postgres.get('version', '11') %}
 
@@ -109,7 +109,19 @@ pg_stat_statements:
     - mode: 600
 {% endif %}
 
-{% if salt['pillar.get']('postgres:users') and not salt['pillar.get']('postgres:replication') %}
+{% if not salt['pillar.get']('postgres:replication') %}
+
+{% if salt['pillar.get']('postgres:groups') %}
+{% for name in pillar.postgres.groups %}
+{{ name }}:
+  postgres_group.present:
+    - name: {{ name }}
+    - require:
+      - service: postgresql
+{% endfor %}
+{% endif %} {# groups #}
+
+{% if salt['pillar.get']('postgres:users') %}
 {% for name, entry in pillar.postgres.users.items() %}
 {{ name }}_sql_user:
   postgres_user.present:
@@ -131,7 +143,16 @@ pg_stat_statements:
 {% endfor %}
 {% endif %}
 {% endfor %}
-{% endif %}
+{% endif %} {# users #}
+
+{% if salt['pillar.get']('postgres:databases') %}
+{% for name, entry in pillar.postgres.databases.items() %}
+{{ create_pg_database(name, entry.user) }}
+{{ create_pg_privileges(name, entry.user, entry.privileges) }}
+{% endfor %}
+{% endif %} {# databases #}
+
+{% endif %} {# replication #}
 
 # Manage authorized keys for postgres user
 postgres_authorized_keys:
