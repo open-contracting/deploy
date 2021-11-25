@@ -1,5 +1,6 @@
 services:
   web:
+    env_file: .env
     image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
     restart: unless-stopped
     extra_hosts:

@@ -1,4 +1,5 @@
 x-shared: &shared
+  env_file: .env
   image: "ghcr.io/open-contracting/data-registry-django:latest"
   restart: unless-stopped
   extra_hosts:
@@ -24,6 +25,7 @@ services:
     command: "python manage.py wiper"
 
   static:
+    env_file: .env
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     restart: unless-stopped
     ports:
