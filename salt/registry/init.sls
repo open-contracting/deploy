@@ -15,3 +15,20 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
     - require:
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
+
+/data/storage/exporter_dumps:
+  file.directory:
+    - makedirs: True
+    - mode: 777
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+
+{{ pillar.kingfisher_collect.env.FILES_STORE }}:
+  file.directory:
+    - makedirs: True
+    - user: {{ pillar.kingfisher_collect.user }}
+    - group: {{ pillar.kingfisher_collect.user }}
+    - require:
+      - user: {{ pillar.kingfisher_collect.user }}_user_exists

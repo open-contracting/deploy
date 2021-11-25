@@ -4,17 +4,18 @@ x-shared: &shared
   restart: unless-stopped
   extra_hosts:
     - "host.docker.internal:host-gateway"
-  # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
   volumes:
-    - /data/storage/exporter:/data/exporter
+    # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
+    # Need to sync with Spoonbill's configuration.
+    - /data/storage/exporter_dumps:/data/exporter
 
 services:
   web:
     <<: *shared
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
-    # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     volumes:
+      # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
       - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
   exporter:
     <<: *shared
