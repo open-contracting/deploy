@@ -88,7 +88,7 @@ python_apps:
     user: ocdskfp
     git:
       url: https://github.com/open-contracting/kingfisher-process.git
-      branch: main
+      branch: v1
       target: ocdskingfisherprocess
     config:
       ocdskingfisher-process/logging.json: salt://kingfisher/process/files/logging.json
