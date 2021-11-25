@@ -1,6 +1,7 @@
 include:
   - docker
 
+# Trailing slash for easy concatenation.
 {% set docker_apps_directory = '/data/deploy/' %}
 
 {% for name, entry in pillar.docker_apps.items() %}

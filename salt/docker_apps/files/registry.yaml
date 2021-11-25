@@ -27,4 +27,4 @@ services:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     restart: unless-stopped
     ports:
-      - {{ pillar.apache.sites.registry.static_port }}:8080
+      - {{ pillar.apache.sites.registry.context.static_port }}:8080
