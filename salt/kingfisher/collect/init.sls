@@ -5,7 +5,8 @@ include:
   - python.extensions # twisted
   - python.psycopg2
 
-{% set user = pillar.kingfisher_collect.user %}
+{% set entry = pillar.kingfisher_collect %}
+{% set user = entry.user %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
@@ -65,13 +66,9 @@ include:
   file.managed:
     - source: salt://kingfisher/collect/files/scrapyd.ini
     - template: jinja
-    - context:
-        appdir: {{ directory }}
+    - context: {{ dict(appdir=directory, **entry.get('context', {}))|yaml }}
     - watch_in:
       - service: scrapyd
-    {% if pillar.kingfisher_collect.get('scrapyd_bind_address') %}
-    - bind_address: {% pillar.kingfisher_collect.scrapyd_bind_address %}
-    {% endif %}
 
 /var/log/scrapyd:
   file.directory:
@@ -82,7 +79,7 @@ include:
 
 {{ systemd({'service': 'scrapyd', 'user': user, 'appdir': directory}) }}
 
-{% if pillar.kingfisher_collect.get('summarystats') %}
+{% if entry.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
     - identifier: OCDS_KINGFISHER_SCRAPE_LOG_STATS
@@ -92,7 +89,7 @@ find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}
       - file: {{ directory }}
 {% endif %}
 
-{% if pillar.kingfisher_collect.get('autoremove') %}
+{% if entry.get('autoremove') %}
 # Delete crawl logs older than 90 days.
 find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/scrapyd/logs/ -type d -empty -delete:
   cron.present:
