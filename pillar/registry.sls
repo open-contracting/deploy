@@ -85,7 +85,8 @@ docker_apps:
     target: kingfisher-process
     port: 8000
     env:
-      LOCAL_ACCESS: 'true'
+      LOCAL_ACCESS: True
+      ALLOWED_HOSTS: '*'
       RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
   pelican_backend:
     target: pelican-backend
@@ -97,5 +98,6 @@ docker_apps:
     target: pelican-frontend
     port: 8001
     env:
-      LOCAL_ACCESS: 'true'
+      LOCAL_ACCESS: True
+      ALLOWED_HOSTS: '*'
       RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
