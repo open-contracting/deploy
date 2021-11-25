@@ -70,7 +70,7 @@ include:
     - watch_in:
       - service: scrapyd
     {% if pillar.kingfisher_collect.get('scrapyd_bind_address') %}
-    - bind_address: {%pillar.kingfisher_collect.scrapyd_bind_address%}
+    - bind_address: {% pillar.kingfisher_collect.scrapyd_bind_address %}
     {% endif %}
 
 /var/log/scrapyd:
