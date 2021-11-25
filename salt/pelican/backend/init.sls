@@ -34,3 +34,7 @@ run pelican migration {{ basename }}:
     - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+
+# After the migrations run, manually populate the exchange_rates table.
+#
+# psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (id, valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
