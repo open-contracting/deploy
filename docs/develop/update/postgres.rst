@@ -56,6 +56,28 @@ To configure the database for an application:
           DATABASE:
             user: USERNAME
 
+#. If another application requires read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2-3,10-12
+
+      postgres:
+        groups:
+          - APPLICATION_read
+        users:
+          USERNAME:
+            password: "PASSWORD"
+        databases:
+          DATABASE:
+            user: USERNAME
+            privileges:
+              SCHEMA:
+                - APPLICATION_read
+
+   .. note::
+
+      In most cases, the ``SCHEMA`` is ``public``, and the ``DATABASE``, ``APPLICATION`` and ``USERNAME`` are all the same.
+
 #. Add the private Pillar file to the top file entry for the application.
 
 .. _pg-add-configuration:
