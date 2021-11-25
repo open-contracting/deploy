@@ -7,6 +7,7 @@ include:
 
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
+{% set group = entry.get('group', user) %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
@@ -77,7 +78,7 @@ include:
     - require_in:
       - service: scrapyd
 
-{{ systemd({'service': 'scrapyd', 'user': user, 'appdir': directory}) }}
+{{ systemd({'service': 'scrapyd', 'user': user, 'group': group, 'appdir': directory}) }}
 
 {% if entry.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:

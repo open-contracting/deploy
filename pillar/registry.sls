@@ -54,6 +54,7 @@ docker:
 
 kingfisher_collect:
   user: collect
+  group: deployer
   context:
     bind_address: 0.0.0.0
   env:

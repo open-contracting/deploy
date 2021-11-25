@@ -47,6 +47,7 @@ unset {{ setting_name }} firewall setting:
     - template: jinja
     - context:
         user: {{ entry.user }}
+        group: {{ entry.get('group', entry.user) }}
         entry: {{ entry|yaml }}
     - watch_in:
       - service: {{ entry.service }}

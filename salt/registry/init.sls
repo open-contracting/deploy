@@ -29,6 +29,7 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
   file.directory:
     - makedirs: True
     - user: {{ pillar.kingfisher_collect.user }}
-    - group: {{ pillar.kingfisher_collect.user }}
+    - group: {{ pillar.kingfisher_collect.group }}
     - require:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
+      - user: {{ pillar.kingfisher_collect.group }}_user_exists

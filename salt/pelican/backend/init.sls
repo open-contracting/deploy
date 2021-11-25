@@ -1,4 +1,4 @@
-{% set userdir = '/home/' + pillar.docker.user %}
+{% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 {% set entry = pillar.docker_apps.pelican_backend %}
 {% set directory = docker_apps_directory + entry.target %}
