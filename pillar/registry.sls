@@ -32,8 +32,10 @@ apache:
       configuration: registry
       servername: data.open-contracting.org
       context:
+        # Need to sync with `docker_apps.registry.port`.
         port: 8002
         static_port: 8003
+        timeout: 300
 
 postgres:
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
@@ -66,6 +68,7 @@ docker_apps:
     port: 8002
     env:
       ALLOWED_HOSTS: data.open-contracting.org
+      DJANGO_PROXY: True
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
