@@ -1,5 +1,8 @@
 {% set userdir = '/home/' + pillar.docker.user %}
 
+{% set entry = pillar.docker_apps.pelican_backend %}
+{% set directory = docker_apps_directory + entry.target %}
+
 {%
   for basename, source_hash in [
     ('001_base', '2b195c9983988080c5563ae0af4f722cfe51ece9882fe0e0ade5c324bd2eefab'),
@@ -37,4 +40,16 @@ run pelican migration {{ basename }}:
 
 # After the migrations run, manually populate the exchange_rates table.
 #
-# psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (id, valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
+# psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
+#
+# This allows us to update exchange_rates.csv for new servers, without interfering with existing servers.
+
+# docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
+cd {{ directory }}; /usr/local/bin/docker-compose run --rm extract python manage.py update-exchange-rates 2> /dev/null:
+  cron.present:
+    - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
+    - user: {{ pillar.docker.user }}
+    - hour: '*/12'
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
