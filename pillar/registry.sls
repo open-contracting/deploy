@@ -36,6 +36,8 @@ apache:
         static_port: 8003
 
 postgres:
+  # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
+  public_access: true
   version: 12
   configuration: registry
   storage: hdd

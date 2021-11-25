@@ -211,19 +211,20 @@ grant {{ group }} table privileges in {{ schema }}:
     - require:
       - postgres_database: {{ database }}
 
-/opt/{{ group }}-{{ schema }}.sql:
+/opt/default-privileges/{{ group }}-{{ schema }}.sql:
   file.managed:
-    - name: /opt/{{ group }}-{{ schema }}.sql
+    - name: /opt/default-privileges/{{ group }}-{{ schema }}.sql
     - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ entry.user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
+    - makedirs: True
 
 # ALTER default privileges such that, when the user creates a table in the schema, the SELECT privilege is granted to the group.
 # Can replace after `postgres_default_privileges` function becomes available. https://github.com/saltstack/salt/pull/56808
 alter {{ group }} default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -f /opt/{{ group }}-{{ schema }}.sql {{ database }}
+    - name: psql -f /opt/default-privileges/{{ group }}-{{ schema }}.sql {{ database }}
     - runas: postgres
     - onchanges:
-      - file: /opt/{{ group }}-{{ schema }}.sql
+      - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
     - require:
       - postgres_database: {{ database }}
 {% endfor %}

@@ -52,6 +52,7 @@ base:
   'registry':
     - rabbitmq
     - kingfisher.collect
+    - pelican.backend
     - registry
 
   'spoonbill-dev':

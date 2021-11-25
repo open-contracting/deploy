@@ -11,16 +11,16 @@ Create a superuser:
 
 .. code-block:: bash
 
-   docker-compose run --rm web python manage.py createsuperuser
+   docker-compose run $(cat .env | xargs printf -- ' -e %s') --rm web python manage.py createsuperuser
 
 Migrate the database:
 
 .. code-block:: bash
 
-   docker-compose run --rm web python manage.py migrate
+   docker-compose run $(cat .env | xargs printf -- ' -e %s') --rm web python manage.py migrate
 
 Load data into the database. For example:
 
 .. code-block:: bash
 
-   psql -c "\copy exchange_rates (valid_on, rates) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
+   psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (id, valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
