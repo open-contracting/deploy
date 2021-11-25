@@ -54,6 +54,7 @@ docker:
 
 kingfisher_collect:
   user: collect
+  scrapyd_bind_address: 0.0.0.0
   env:
     FILES_STORE: /data/storage/kingfisher-collect
     RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_registry_production
