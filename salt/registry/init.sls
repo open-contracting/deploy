@@ -1,7 +1,6 @@
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-- registry.database
 - docker_apps
 
 {% set entry = pillar.docker_apps.registry %}
