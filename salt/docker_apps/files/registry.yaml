@@ -1,7 +1,7 @@
 x-base: &base
   env_file: .env
   restart: unless-stopped
-  user: {{ pillar.docker.user }}
+  user: "{{ pillar.docker.uid }}"
 
 x-shared: &shared
   <<: *base

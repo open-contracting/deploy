@@ -49,6 +49,7 @@ postgres:
 
 docker:
   user: deployer
+  uid: 1002
   docker_compose:
     version: 1.29.2
 

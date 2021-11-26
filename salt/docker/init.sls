@@ -31,7 +31,7 @@ docker:
       - service: docker
 
 {% if salt['pillar.get']('docker:user') %}
-{{ create_user(pillar.docker.user) }}
+{{ create_user(pillar.docker.user, uid=pillar.docker.get('uid')) }}
 
 # https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
 add {{ pillar.docker.user }} user to docker group:

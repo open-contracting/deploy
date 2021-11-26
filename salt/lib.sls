@@ -19,11 +19,14 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.
-{% macro create_user(user, authorized_keys=[]) %}
+{% macro create_user(user, uid=None, authorized_keys=[]) %}
 {{ user }}_user_exists:
   user.present:
     - name: {{ user }}
     - home: /home/{{ user }}
+{% if uid %}
+    - uid: {{ uid }}
+{% endif %}
     - order: 1
     - shell: /bin/bash
 
