@@ -5,7 +5,7 @@ After=network.target
 [Service]
 User={{ user }}
 Group={{ group }}
-UMask=0002
+UMask=2002
 {%- for key, value in pillar.kingfisher_collect.env.items() %}
 Environment="{{ key}}={{ value }}"
 {%- endfor %}

@@ -28,6 +28,7 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
     - makedirs: True
+    - mode: 2775
     - user: {{ pillar.kingfisher_collect.user }}
     - group: {{ pillar.kingfisher_collect.group }}
     - require:
