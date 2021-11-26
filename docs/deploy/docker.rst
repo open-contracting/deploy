@@ -7,6 +7,13 @@ Change to the application's directory, replacing ``APP``:
 
    cd /data/deploy/APP
 
+Pull new images and start new containers:
+
+.. code-block:: bash
+
+   docker-compose pull
+   docker-compose up -d
+
 Create a superuser:
 
 .. code-block:: bash
