@@ -1,7 +1,11 @@
-x-shared: &shared
+x-base: &base
   env_file: .env
-  image: "ghcr.io/open-contracting/data-registry-django:latest"
   restart: unless-stopped
+  user: {{ pillar.docker.user }}
+
+x-shared: &shared
+  <<: *base
+  image: "ghcr.io/open-contracting/data-registry-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
@@ -26,8 +30,7 @@ services:
     command: "python manage.py wiper"
 
   static:
-    env_file: .env
+    <<: *base
     image: "ghcr.io/open-contracting/data-registry-static:latest"
-    restart: unless-stopped
     ports:
       - {{ pillar.apache.sites.registry.context.static_port }}:8080
