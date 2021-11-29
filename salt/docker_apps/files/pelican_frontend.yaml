@@ -2,7 +2,7 @@ services:
   web:
     env_file: .env
     restart: unless-stopped
-    user: "{{ pillar.docker.uid }}"
+    user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
     extra_hosts:
       - "host.docker.internal:host-gateway"
