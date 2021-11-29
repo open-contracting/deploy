@@ -103,3 +103,8 @@ docker_apps:
       LOCAL_ACCESS: True
       ALLOWED_HOSTS: '*'
       RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
+      # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
+      # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
+      # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
+      # and to better support multiprocessing."
+      MPLCONFIGDIR: /dev/shm/matplotlib
