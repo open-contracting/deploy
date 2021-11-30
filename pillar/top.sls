@@ -58,7 +58,7 @@ base:
 
   'redash':
     - redash
-    - maintenance
+    - redash_maintenance
 
   'registry':
     - registry
