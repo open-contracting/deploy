@@ -17,31 +17,24 @@ services:
   api_loader:
     <<: *shared
     command: "python manage.py api_loader"
-    scale: 2
   file_worker:
     <<: *shared
     command: "python manage.py file_worker"
-    scale: 2
   checker:
     <<: *shared
     command: "python manage.py checker"
-    scale: 2
   compiler:
     <<: *shared
     command: "python manage.py compiler"
-    scale: 2
   release_compiler:
     <<: *shared
     command: "python manage.py release_compiler"
-    scale: 2
   record_compiler:
     <<: *shared
     command: "python manage.py record_compiler"
-    scale: 2
   finisher:
     <<: *shared
     command: "python manage.py finisher"
-    scale: 3
   wiper:
     <<: *shared
     command: "python manage.py wiper"

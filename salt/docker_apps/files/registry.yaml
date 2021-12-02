@@ -23,7 +23,6 @@ services:
   exporter:
     <<: *shared
     command: "python manage.py exporter"
-    scale: 2
   wiper:
     <<: *shared
     command: "python manage.py wiper"
