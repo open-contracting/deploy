@@ -97,6 +97,7 @@ docker_apps:
       RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
       # 2021-10-27: on kingfisher-process, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
       KINGFISHER_PROCESS_MAX_SIZE: 30000
+      PELICAN_BACKEND_STEPS: field_coverage
   pelican_frontend:
     target: pelican-frontend
     port: 8001
