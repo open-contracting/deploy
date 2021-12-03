@@ -44,8 +44,8 @@ postgres:
   configuration: registry
   storage: hdd
   type: oltp
-  # We can monitor the number of connections with all workers and web servers running, to see if the default can be restored.
-  max_connections: 200
+  # We need a lot of connections for all the workers and threads.
+  max_connections: 300  # oltp at https://pgtune.leopard.in.ua
 
 docker:
   user: deployer

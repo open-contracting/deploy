@@ -20,6 +20,7 @@ services:
   file_worker:
     <<: *shared
     command: "python manage.py file_worker"
+    scale: 2
   checker:
     <<: *shared
     command: "python manage.py checker"
@@ -29,6 +30,7 @@ services:
   release_compiler:
     <<: *shared
     command: "python manage.py release_compiler"
+    scale: 4
   record_compiler:
     <<: *shared
     command: "python manage.py record_compiler"
