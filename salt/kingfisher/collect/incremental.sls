@@ -38,12 +38,6 @@ include:
 {%
   set crawls = [
     {
-      'identifier': 'AFGHANISTAN',
-      'spider': 'afghanistan_release_packages',
-      'start_date': '2021-06-14',
-      'options': '-a compile_releases=true',
-    },
-    {
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
@@ -54,11 +48,7 @@ include:
 # Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in crawls %}
 cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
-  {% if 'AFGHANISTAN' in crawl.identifier %}
-  cron.absent:
-  {% else %}
   cron.present:
-  {% end if %}
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
     - hour: 0
