@@ -58,7 +58,7 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'op
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
     {% if 'day' in crawl %}
-    - day: {{ crawl.day }}
+    - daymonth: {{ crawl.day }}
     {% endif %}
     - hour: 0
     - minute: 15
