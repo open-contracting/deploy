@@ -38,12 +38,6 @@ include:
 {%
   set crawls = [
     {
-      'identifier': 'AFGHANISTAN',
-      'spider': 'afghanistan_release_packages',
-      'start_date': '2021-06-14',
-      'options': '-a compile_releases=true',
-    },
-    {
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
