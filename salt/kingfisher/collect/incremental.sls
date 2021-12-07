@@ -38,6 +38,12 @@ include:
 {%
   set crawls = [
     {
+      'identifier': 'CHILE',
+      'spider': 'chile_compra_api_records',
+      'start_date': '2021-12-03',
+      'day': 1,
+    },
+    {
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
@@ -51,6 +57,9 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'op
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
+    {% if 'day' in crawl %}
+    - day: {{ crawl.day }}
+    {% endif %}
     - hour: 0
     - minute: 15
     - require:
