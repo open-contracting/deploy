@@ -61,13 +61,6 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
 
 #. Create a personal access token with the "repo" scope for a `machine user <https://docs.github.com/en/developers/overview/managing-deploy-keys#machine-users>`__ on GitHub. The machine user must have read-only access to the deploy-salt-private repository.
 
-#. Allow Salt to access the ReadOnlyREST ZIP file. Add to your service's *private* Pillar file, replacing ``ACCESS_TOKEN``:
-
-   .. code-block:: yaml
-
-      github:
-        access_token: ACCESS_TOKEN
-
 #. Allow anyone to access Elasticsearch. Add to your service's Pillar file:
 
    .. code-block:: yaml

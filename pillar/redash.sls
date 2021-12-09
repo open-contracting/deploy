@@ -50,17 +50,3 @@ docker_apps:
       REDASH_MAIL_USE_TLS: true
       REDASH_MAIL_DEFAULT_SENDER: noreply@noreply.open-contracting.org
       REDASH_HOST: https://redash.open-contracting.org
-
-#redash:
-#  postgres:
-#    username: redash_user
-#
-#  docker_tag: redash/redash:10.0.0-beta.b49597
-#    hostname: host.docker.internal
-#    database: redash_db
-#  mail:
-#    server: email-smtp.us-east-1.amazonaws.com
-#    port: 587
-#    default_sender: noreply@noreply.open-contracting.org
-#  host: https://redash.open-contracting.org
-#

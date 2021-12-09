@@ -43,15 +43,42 @@ To configure the database for an application:
           USERNAME:
             password: "PASSWORD"
 
-#. Add the private Pillar file to the top file entry for the application.
-
-#. In the application's main state file, create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. For example:
+#. Create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. Replace ``DATABASE`` and ``USERNAME``:
 
    .. code-block:: yaml
+      :emphasize-lines: 6-7
 
-      {% from 'lib.sls' import create_pg_database %}
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+        databases:
+          DATABASE:
+            user: USERNAME
 
-      {{ create_pg_database('DATABASE_NAME', 'DATABASE_USER') }}
+#. If another application requires read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2-3,10-12
+
+      postgres:
+        groups:
+          - APPLICATION_read
+        users:
+          USERNAME:
+            password: "PASSWORD"
+        databases:
+          DATABASE:
+            user: USERNAME
+            privileges:
+              SCHEMA:
+                - APPLICATION_read
+
+   .. note::
+
+      In most cases, the ``SCHEMA`` is ``public``, and the ``DATABASE``, ``APPLICATION`` and ``USERNAME`` are all the same.
+
+#. Add the private Pillar file to the top file entry for the application.
 
 .. _pg-add-configuration:
 

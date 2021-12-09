@@ -2,7 +2,6 @@
 {% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
-  - kingfisher.collect.database
   - python.psycopg2
   - python_apps
 
@@ -39,10 +38,10 @@ include:
 {%
   set crawls = [
     {
-      'identifier': 'AFGHANISTAN',
-      'spider': 'afghanistan_release_packages',
-      'start_date': '2021-06-14',
-      'options': '-a compile_releases=true',
+      'identifier': 'CHILE',
+      'spider': 'chile_compra_api_records',
+      'start_date': '2021-12-03',
+      'day': 1,
     },
     {
       'identifier': 'MOLDOVA',
@@ -58,6 +57,9 @@ cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'op
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
+    {% if 'day' in crawl %}
+    - daymonth: {{ crawl.day }}
+    {% endif %}
     - hour: 0
     - minute: 15
     - require:

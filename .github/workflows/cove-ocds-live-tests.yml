@@ -8,10 +8,10 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/setup-python@v1
+      - uses: actions/setup-python@v2.3.1
         with:
           python-version: 3.6
-      - uses: actions/cache@v1
+      - uses: actions/cache@v2.1.7
         with:
           path: venv
           key: ${{ runner.os }}-venv-${{ hashFiles('**/requirements_dev.txt') }}
@@ -33,7 +33,7 @@ jobs:
           CUSTOM_SERVER_URL=https://standard.open-contracting.org/ DJANGO_SETTINGS_MODULE=cove_project.settings py.test tests/test_functional.py
       - name: Send mail
         if: failure()
-        uses: dawidd6/action-send-mail@v2
+        uses: dawidd6/action-send-mail@v3.6.0
         with:
           server_address: ${{secrets.MAIL_HOST}}
           server_port: ${{secrets.MAIL_PORT}}

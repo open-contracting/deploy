@@ -47,6 +47,13 @@ Load local data
 
 #. If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
+#. If you need to copy a file from your local machine, you can use ``scp``. For example, on your local machine:
+
+.. code-block:: bash
+
+   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
+   scp file.json ocdskfp@process.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07-romina
+
 #. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
 
 #. Delete the data directory once you're satisfied that it loaded correctly.

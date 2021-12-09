@@ -19,11 +19,14 @@ unset {{ setting_name }} firewall setting:
 {% endmacro %}
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.
-{% macro create_user(user, authorized_keys=[]) %}
+{% macro create_user(user, uid=None, authorized_keys=[]) %}
 {{ user }}_user_exists:
   user.present:
     - name: {{ user }}
     - home: /home/{{ user }}
+{% if uid %}
+    - uid: {{ uid }}
+{% endif %}
     - order: 1
     - shell: /bin/bash
 
@@ -47,6 +50,7 @@ unset {{ setting_name }} firewall setting:
     - template: jinja
     - context:
         user: {{ entry.user }}
+        group: {{ entry.get('group', entry.user) }}
         entry: {{ entry|yaml }}
     - watch_in:
       - service: {{ entry.service }}
@@ -113,100 +117,4 @@ add .htpasswd-{{ name }}:
     - require:
       - pkg: apache2
 {% endif %}
-{% endmacro %}
-
-{#
-  Creates the database, revokes all schema privileges from the public role, and grants all schema privileges to the user.
-#}
-# https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
-
-{% macro create_pg_database(database, user) %}
-{{ database }}:
-  postgres_database.present:
-    - name: {{ database }}
-    - owner: postgres
-    - require:
-      - service: postgresql
-
-# REVOKE privileges
-# https://www.postgresql.org/docs/11/sql-revoke.html
-
-revoke public schema privileges on {{ database }} database:
-  postgres_privileges.absent:
-    - name: public
-    - privileges:
-      - ALL
-    - object_type: schema
-    - object_name: public
-    - maintenance_db: {{ database }}
-    - require:
-      - postgres_database: {{ database }}
-
-# GRANT privileges
-# https://www.postgresql.org/docs/11/sql-grant.html
-# https://www.postgresql.org/docs/11/ddl-priv.html
-
-grant {{ user }} schema privileges:
-  postgres_privileges.present:
-    - name: {{ user }}
-    - privileges:
-      - ALL
-    - object_type: schema
-    - object_name: public
-    - maintenance_db: {{ database }}
-    - require:
-      - postgres_user: {{ user }}_sql_user
-      - postgres_database: {{ database }}
-{% endmacro %}
-
-{#
-  - Grants the USAGE privilege on the schema to the groups
-  - Grants the SELECT privilege on all tables in the schema to the groups
-  - Alters default privileges such that, when the user creates a table in the schema, the SELECT privilege is granted to the groups
-
-  :param dict schema_groups: a dict in which the key is a schema, and the value is a list of groups.
-#}
-{% macro create_pg_privileges(database, user, schema_groups) %}
-{% for schema, groups in schema_groups.items() %}
-{% for group in groups %}
-grant {{ group }} schema privileges in {{ schema }}:
-  postgres_privileges.present:
-    - name: {{ group }}
-    - privileges:
-      - USAGE
-    - object_type: schema
-    - object_name: {{ schema }}
-    - maintenance_db: {{ database }}
-    - require:
-      - postgres_database: {{ database }}
-
-grant {{ group }} table privileges in {{ schema }}:
-  postgres_privileges.present:
-    - name: {{ group }}
-    - privileges:
-      - SELECT
-    - object_type: table
-    - object_name: ALL
-    - prepend: {{ schema }}
-    - maintenance_db: {{ database }}
-    - require:
-      - postgres_database: {{ database }}
-
-/opt/{{ group }}-{{ schema }}.sql:
-  file.managed:
-    - name: /opt/{{ group }}-{{ schema }}.sql
-    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
-
-# Can replace after `postgres_default_privileges` function becomes available.
-# https://github.com/saltstack/salt/pull/56808
-alter {{ group }} default privileges in {{ schema }}:
-  cmd.run:
-    - name: psql -f /opt/{{ group }}-{{ schema }}.sql {{ database }}
-    - runas: postgres
-    - onchanges:
-      - file: /opt/{{ group }}-{{ schema }}.sql
-    - require:
-      - postgres_database: {{ database }}
-{% endfor %}
-{% endfor %}
 {% endmacro %}

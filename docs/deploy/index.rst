@@ -14,6 +14,7 @@ Deployment Guides
    :caption: Service-specific tasks
    :maxdepth: 2
 
+   docker.rst
    docs.rst
    prometheus.rst
    kingfisher.rst

@@ -1,41 +1,34 @@
-version: "2.2"
+x-base: &base
+  env_file: .env
+  restart: unless-stopped
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
 
 x-shared: &shared
+  <<: *base
   image: "ghcr.io/open-contracting/data-registry-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
-
-x-daemon: &daemon
-  <<: *shared
-  restart: unless-stopped
+  volumes:
+    # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
+    - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
+    # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
+    # Need to sync with Spoonbill's configuration.
+    - {{ pillar.docker_apps.registry.env.EXPORTER_HOST_DIR }}:/data/exporter
 
 services:
-  django:
-    <<: *daemon
+  web:
+    <<: *shared
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
-    <<: *daemon
-    command: "python manage.py exporter --settings=core.settings.docker"
-    scale: 2
-    # The path must match the settings.EXPORTER_DIR default in data-registry
-    volumes:
-      - /data/storage/exporter_dumps:/data/exporter_dumps
+    <<: *shared
+    command: "python manage.py exporter"
   wiper:
-    <<: *daemon
-    command: "python manage.py wiper --settings=core.settings.docker"
-
-  cbom:
     <<: *shared
-    command: "python manage.py cbom --settings=core.settings.docker"
-    volumes:
-      - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/scrapy
-  migrate:
-    <<: *shared
-    command: "python manage.py migrate --settings=core.settings.docker"
+    command: "python manage.py wiper"
 
   static:
+    <<: *base
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     ports:
-      - "8003:8080"
-    restart: unless-stopped
+      - {{ pillar.apache.sites.registry.context.static_port }}:8080

@@ -32,6 +32,7 @@ To be responsible for servers, you should:
    packages.rst
    databases.rst
    elasticsearch.rst
+   docker.rst
    hosting.rst
 
 .. toctree::

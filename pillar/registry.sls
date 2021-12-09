@@ -32,67 +32,84 @@ apache:
       configuration: registry
       servername: data.open-contracting.org
       context:
+        # Need to sync with `docker_apps.registry.port`.
         port: 8002
         static_port: 8003
+        timeout: 300
 
 postgres:
+  # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
+  public_access: true
   version: 12
   configuration: registry
   storage: hdd
   type: oltp
-  # We can monitor the number of connections with all workers and web servers running, to see if the default can be restored.
-  max_connections: 200
+  # We need a lot of connections for all the workers and threads.
+  max_connections: 300  # oltp at https://pgtune.leopard.in.ua
 
 docker:
   user: deployer
+  uid: 1002
   docker_compose:
     version: 1.29.2
 
 kingfisher_collect:
   user: collect
+  group: deployer
+  context:
+    bind_address: 0.0.0.0
   env:
-    FILES_STORE: &SCRAPY_FILES_STORE /data/storage/kingfisher-collect
+    FILES_STORE: /data/storage/kingfisher-collect
+    RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_registry_production
+    # Need to sync as `{RABBIT_EXCHANGE_NAME}_api`.
+    RABBIT_ROUTING_KEY: kingfisher_process_data_registry_production_api
+    # Need to sync with `docker_apps.kingfisher_process.port`.
     KINGFISHER_API2_URL: http://localhost:8000
-    # This needs to correspond to ENV_NAME and ENV_VERSION below.
-    RABBIT_EXCHANGE_NAME: kingfisher_process_data_registry_1.0
-    RABBIT_ROUTING_KEY: kingfisher_process_data_registry_1.0_api
 
 docker_apps:
   registry:
     target: data-registry
     port: 8002
     env:
-      FEEDBACK_EMAIL: jmckinney@open-contracting.org
+      ALLOWED_HOSTS: data.open-contracting.org
+      DJANGO_PROXY: True
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
+      FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
-      PROCESS_HOST: http://localhost:8000/
-      PELICAN_HOST: http://localhost:8001/
-      EXPORTER_HOST: http://localhost:8002/
-      # Kingfisher Collect
-      SCRAPY_HOST: http://localhost:6800/
-      SCRAPY_PROJECT: kingfisher
-      # Spoonbill
-      FLATTEN_URL: https://flatten.open-contracting.org
+      # Need to sync with `docker_apps.kingfisher_process.port`.
+      KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
+      # Need to sync with `docker_apps.pelican_frontend.port`.
+      PELICAN_FRONTEND_URL: http://host.docker.internal:8001
+      SCRAPYD_URL: http://host.docker.internal:6800
+      SPOONBILL_URL: https://flatten.open-contracting.org
+      EXPORTER_HOST_DIR: /data/storage/exporter_dumps
   kingfisher_process:
     target: kingfisher-process
     port: 8000
     env:
-      # Kingfisher Process uses a Rabbit exchange named `kingfisher_process_{ENV_NAME}_{ENV_VERSION}`.
-      # Remember to update `RABBIT_EXCHANGE_NAME` and `RABBIT_ROUTING_KEY` above.
-      ENV_NAME: data_registry
-      ENV_VERSION: '1.0'
+      LOCAL_ACCESS: True
+      ALLOWED_HOSTS: '*'
+      RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
   pelican_backend:
     target: pelican-backend
     env:
-      RABBIT_EXCHANGE_NAME: &PELICAN_RABBIT_EXCHANGE_NAME pelican_data_registry_production
-      # SENTRY_SAMPLE_RATE: 1
+      RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
+      # 2021-10-27: on kingfisher-process, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
+      KINGFISHER_PROCESS_MAX_SIZE: 30000
+      PELICAN_BACKEND_STEPS: field_coverage
   pelican_frontend:
     target: pelican-frontend
     port: 8001
     env:
-      LOCAL_ACCESS: 'true'
-      RABBIT_EXCHANGE_NAME: *PELICAN_RABBIT_EXCHANGE_NAME
+      LOCAL_ACCESS: True
+      ALLOWED_HOSTS: '*'
+      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
+      # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
+      # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
+      # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
+      # and to better support multiprocessing."
+      MPLCONFIGDIR: /dev/shm/matplotlib
 
 host_id: ocp13
 network:

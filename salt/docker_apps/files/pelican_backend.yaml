@@ -1,34 +1,27 @@
-version: "2.2"
-
 x-shared: &shared
+  env_file: .env
+  restart: unless-stopped
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
   image: "ghcr.io/open-contracting/pelican-backend:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
 
-x-daemon: &daemon
-  <<: *shared
-  restart: unless-stopped
-
 services:
   extract:
-    <<: *daemon
-    command: "workers.extract.kingfisher_process"
-    scale: 4
+    <<: *shared
+    command: "python -m workers.extract.kingfisher_process"
   data_item:
-    <<: *daemon
-    command: "workers.check.data_item"
-    scale: 4
+    <<: *shared
+    command: "python -m workers.check.data_item"
   dataset:
-    <<: *daemon
-    command: "workers.check.dataset"
-    scale: 4
+    <<: *shared
+    command: "python -m workers.check.dataset"
   time_based:
-    <<: *daemon
-    command: "workers.check.time_based"
-    scale: 4
+    <<: *shared
+    command: "python -m workers.check.time_based"
   report:
-    <<: *daemon
-    command: "workers.report"
+    <<: *shared
+    command: "python -m workers.report"
   wipe:
-    <<: *daemon
-    command: "workers.wipe"
+    <<: *shared
+    command: "python -m workers.wipe"

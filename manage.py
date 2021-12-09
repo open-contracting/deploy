@@ -82,7 +82,7 @@ def cli():
 @click.argument('destination')
 def connect(destination):
     """
-    Port-knocks then connects to a destination using SSH.
+    Port-knock then connect to a destination using SSH.
     """
     user, host = destination.split('@')
     try:
