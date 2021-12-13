@@ -12,9 +12,9 @@ x-shared: &shared
     - "host.docker.internal:host-gateway"
   volumes:
     # The right-hand path must match the settings.FILE_UPLOAD_TEMP_DIR default value in spoonbill-web.
-    - /data/storage/spoonbill/tmp:/data/tmp
+    - {{ pillar.docker_apps.spoonbill.base_host_dir }}/tmp:/data/tmp
     # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
-    - /data/storage/spoonbill/media:/data/media
+    - {{ pillar.docker_apps.spoonbill.base_host_dir }}/media:/data/media
     # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
     - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
 

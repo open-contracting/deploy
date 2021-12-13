@@ -114,6 +114,7 @@ docker_apps:
       MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
+    base_host_dir: /data/storage/spoonbill
     env:
       TRAEFIK_IP: 65.21.93.141
       DOMAIN: &DOMAIN flatten.open-contracting.org
