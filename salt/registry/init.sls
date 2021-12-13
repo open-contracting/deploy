@@ -16,7 +16,7 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
 
-/data/storage/exporter_dumps:
+{{ entry.env.EXPORTER_HOST_DIR }}:
   file.directory:
     - makedirs: True
     - mode: 777

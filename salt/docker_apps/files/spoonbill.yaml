@@ -16,7 +16,7 @@ x-shared: &shared
     # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
     - /data/storage/spoonbill/media:/data/media
     # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
-    - /data/storage/exporter_dumps:/data/exporter
+    - {{ pillar.docker_apps.registry.env.EXPORTER_HOST_DIR }}:/data/exporter
 
 services:
   traefik:
@@ -41,7 +41,7 @@ services:
       - '--entrypoints.https.address=:443'
       - '--log=true'
       - '--log.level=INFO'
-      - '--certificatesresolvers.acmec.acme.email=${ACME_EMAIL}'
+      - '--certificatesresolvers.acmec.acme.email='{{ pillar.docker_apps.spoonbill.env.ACME_EMAIL }}
       - '--certificatesresolvers.acmec.acme.httpchallenge=true'
       - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
       - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'

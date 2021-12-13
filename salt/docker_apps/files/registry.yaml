@@ -12,7 +12,7 @@ x-shared: &shared
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
     # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
-    - /data/storage/exporter_dumps:/data/exporter
+    - {{ pillar.docker_apps.registry.env.EXPORTER_HOST_DIR }}:/data/exporter
 
 services:
   web:
