@@ -70,6 +70,7 @@ docker_apps:
   registry:
     target: data-registry
     port: 8002
+    exporter_host_dir: /data/storage/exporter_dumps
     env:
       ALLOWED_HOSTS: data.open-contracting.org
       DJANGO_PROXY: True
@@ -83,7 +84,6 @@ docker_apps:
       PELICAN_FRONTEND_URL: http://host.docker.internal:8001
       SCRAPYD_URL: http://host.docker.internal:6800
       SPOONBILL_URL: https://flatten.open-contracting.org
-      EXPORTER_HOST_DIR: /data/storage/exporter_dumps
       # Need to sync with Spoonbill's configuration.
       SPOONBILL_EXPORTER_DIR: /data/exporter
   kingfisher_process:
