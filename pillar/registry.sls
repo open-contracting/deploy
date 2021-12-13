@@ -83,7 +83,8 @@ docker_apps:
       PELICAN_FRONTEND_URL: http://host.docker.internal:8001
       SCRAPYD_URL: http://host.docker.internal:6800
       SPOONBILL_URL: https://flatten.open-contracting.org
-      EXPORTER_HOST_DIR: /data/storage/exporter_dumps
+      # Need to sync with Spoonbill's configuration.
+      EXPORTER_HOST_DIR: /data/exporter
   kingfisher_process:
     target: kingfisher-process
     port: 8000

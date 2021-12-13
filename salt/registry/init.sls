@@ -34,3 +34,14 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
     - require:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
+
+/data/storage/spoonbill:
+  file.directory:
+    - names:
+      - {{ directory }}/tmp
+      - {{ directory }}/media
+    - makedirs: True
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
