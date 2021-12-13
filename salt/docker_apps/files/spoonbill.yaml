@@ -1,0 +1,105 @@
+version: '3.7'
+
+x-base: &base
+  env_file: .env
+  restart: unless-stopped
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+
+x-shared: &shared
+  <<: *base
+  image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  volumes:
+    # The right-hand path must match the settings.FILE_UPLOAD_TEMP_DIR default value in spoonbill-web.
+    - {{ pillar.docker_apps.spoonbill.base_host_dir }}/tmp:/data/tmp
+    # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
+    - {{ pillar.docker_apps.spoonbill.base_host_dir }}/media:/data/media
+    # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
+    - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
+
+services:
+  traefik:
+    <<: *base
+    image: traefik:v2.4
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:/letsencrypt
+    ports:
+      - ${TRAEFIK_IP:-0.0.0.0}:80:80
+      - ${TRAEFIK_IP:-0.0.0.0}:443:443
+    command:
+      - '--api'
+      # - '--api.insecure=true'
+      - '--providers.docker=true'
+      - '--providers.docker.exposedByDefault=false'
+      - '--entrypoints.http=true'
+      - '--entrypoints.http.address=:80'
+      - '--entrypoints.http.http.redirections.entrypoint.to=https'
+      - '--entrypoints.http.http.redirections.entrypoint.scheme=https'
+      - '--entrypoints.https=true'
+      - '--entrypoints.https.address=:443'
+      - '--log=true'
+      - '--log.level=INFO'
+      - '--certificatesresolvers.acmec.acme.email=shakh@quintagroup.org'
+      - '--certificatesresolvers.acmec.acme.httpchallenge=true'
+      - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
+      - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'
+  app:
+    <<: *shared
+    command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.app.rule=Host(`$API_DOMAIN`) && (PathPrefix(`/api`) || PathPrefix(`/ws`))'
+      - 'traefik.http.routers.app.entrypoints=http,https'
+      - 'traefik.http.routers.app.tls=true'
+      - 'traefik.http.routers.app.tls.certresolver=acmec'
+      - 'traefik.http.routers.app.tls.options=default'
+    depends_on:
+      - postgres
+      - redis
+      - traefik
+    hostname: app
+  postgres:
+    <<: *base
+    hostname: postgres
+    image: postgres:13
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+  redis:
+    <<: *base
+    hostname: redis
+    image: redis:latest
+  celery_worker:
+    <<: *shared
+    command: celery -A spoonbill_web worker -l INFO --concurrency=4
+    container_name: celery_worker
+    depends_on:
+      - app
+      - postgres
+      - redis
+    hostname: celery_worker
+  celery_beat:
+    <<: *base
+    image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+    command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    depends_on:
+      - app
+      - postgres
+      - redis
+    hostname: celery_beat
+  front:
+    image: ghcr.io/open-contracting/spoonbill-web/front:latest
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.site.rule=Host(`$DOMAIN`)'
+      - 'traefik.http.routers.site.entrypoints=http,https'
+      - 'traefik.http.routers.site.tls=true'
+      - 'traefik.http.routers.site.tls.certresolver=acmec'
+      - 'traefik.http.routers.site.tls.options=default'
+    depends_on:
+      - app
+    hostname: front
+
+volumes:
+  postgresql-data:

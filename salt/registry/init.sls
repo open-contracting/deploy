@@ -16,15 +16,16 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
 
-/data/storage/exporter_dumps:
+{{ entry.exporter_host_dir }}:
   file.directory:
     - makedirs: True
-    - mode: 777
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
+{% if salt['pillar.get']('kingfisher_collect') %}
+# This is not in kingfisher/collect/init.sls, because only the registry has specific permissions requirements.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
     - makedirs: True
@@ -34,3 +35,4 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
     - require:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
+{% endif %}

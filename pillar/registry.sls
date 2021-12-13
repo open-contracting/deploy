@@ -70,6 +70,7 @@ docker_apps:
   registry:
     target: data-registry
     port: 8002
+    exporter_host_dir: /data/storage/exporter_dumps
     env:
       ALLOWED_HOSTS: data.open-contracting.org
       DJANGO_PROXY: True
@@ -83,7 +84,8 @@ docker_apps:
       PELICAN_FRONTEND_URL: http://host.docker.internal:8001
       SCRAPYD_URL: http://host.docker.internal:6800
       SPOONBILL_URL: https://flatten.open-contracting.org
-      EXPORTER_HOST_DIR: /data/storage/exporter_dumps
+      # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
+      SPOONBILL_EXPORTER_DIR: /data/exporter
   kingfisher_process:
     target: kingfisher-process
     port: 8000
@@ -110,3 +112,15 @@ docker_apps:
       # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
       # and to better support multiprocessing."
       MPLCONFIGDIR: /dev/shm/matplotlib
+  spoonbill:
+    target: spoonbill
+    base_host_dir: /data/storage/spoonbill
+    env:
+      TRAEFIK_IP: 65.21.93.141
+      DOMAIN: &DOMAIN flatten.open-contracting.org
+      API_DOMAIN: *DOMAIN
+      DJANGO_ALLOWED_HOSTS: *DOMAIN
+      CORS_ORIGIN_WHITELIST: https://flatten.open-contracting.org
+      API_PREFIX: api/
+      DB_HOST: postgres
+      REDIS_HOST: redis
