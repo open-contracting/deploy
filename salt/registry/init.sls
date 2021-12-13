@@ -25,6 +25,7 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
       - user: {{ pillar.docker.user }}_user_exists
 
 {% if salt['pillar.get']('kingfisher_collect') %}
+# This is not in kingfisher/collect/init.sls, because only the registry has specific permissions requirements.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
     - makedirs: True
