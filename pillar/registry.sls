@@ -112,3 +112,14 @@ docker_apps:
       # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
       # and to better support multiprocessing."
       MPLCONFIGDIR: /dev/shm/matplotlib
+  spoonbill:
+    target: spoonbill
+    env:
+      TRAEFIK_IP: 65.21.93.141
+      DOMAIN: &DOMAIN flatten.open-contracting.org
+      API_DOMAIN: *DOMAIN
+      DJANGO_ALLOWED_HOSTS: *DOMAIN
+      CORS_ORIGIN_WHITELIST: https://flatten.open-contracting.org
+      API_PREFIX: api/
+      DB_HOST: postgres
+      REDIS_HOST: redis
