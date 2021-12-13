@@ -19,7 +19,6 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py 
 {{ entry.exporter_host_dir }}:
   file.directory:
     - makedirs: True
-    - mode: 777
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - require:
