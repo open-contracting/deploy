@@ -49,7 +49,4 @@ html_theme = 'furo'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
-
-# -- Extension configuration -------------------------------------------------
-
 html_css_files = ['css/custom.css']
