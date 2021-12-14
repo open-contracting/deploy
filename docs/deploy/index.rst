@@ -3,6 +3,7 @@ Deployment Guides
 
 .. toctree::
    :caption: Generic tasks
+   :maxdepth: 2
 
    setup.rst
    create_server.rst
