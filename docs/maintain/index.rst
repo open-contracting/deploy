@@ -27,6 +27,7 @@ To be responsible for servers, you should:
 
 .. toctree::
    :caption: Contents
+   :maxdepth: 2
 
    periodic.rst
    packages.rst
