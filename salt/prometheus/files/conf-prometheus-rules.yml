@@ -2,41 +2,113 @@
 groups:
   - name: alert.rules
     rules:
+
+      ## Availability
+
       - alert: InstanceDown
         expr: up == 0
-        for: 3m
+        for: 20m
         labels:
           severity: critical
         annotations:
           summary: "Endpoint {{ $labels.instance }} down"
           description: "{{ $labels.instance }} of job {{ $labels.job }} is down."
 
-      - alert: AvailableMemoryLow20PerCent
-        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.2
-        for: 3m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{ $labels.instance }} has less than 20% available memory"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 20% available memory."
+      ## CPU
 
-      - alert: AvailableMemoryLow5PerCent
-        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.05
-        for: 3m
+      - alert: CPUHigh80Percent
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="covid19|data-registry"}[5m])) * 100) >= 80
+        for: 15m
         labels:
           severity: critical
         annotations:
-          summary: "Endpoint {{ $labels.instance }} has less than 5% available memory"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 5% available memory."
+          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
+
+      - alert: CPUHigh80PercentCovid19
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="covid19"}[5m])) * 100) >= 80
+        for: 4h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
+
+      - alert: CPUHigh80PercentRegistry
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[5m])) * 100) >= 80
+        for: 4h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
+
+      ## Memory 
+
+      - alert: AvailableMemoryLow90PerCent
+        expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} has less than 10% available memory"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% available memory."
+
+      ## Disk IO
+
+      - alert: DiskIOHigh20Percent
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job!~"ocds-kingfisher.*|data-registry"}[10m]))) * 100 >= 20
+        for: 4h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
+
+      - alert: DiskIOHigh20PercentKingfisher
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"ocds-kingfisher.*"}[10m]))) * 100 >= 20
+        for: 12h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
+
+      - alert: DiskIOHigh20PercentRegistry
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"data-registry"}[10m]))) * 100 >= 20
+        for: 12h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
+
+      ## Disk space
 
       - alert: RootFileSystemLow
-        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.05
-        for: 3m
+        expr: node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"} < 0.15
+        for: 5m
         labels:
           severity: critical
         annotations:
-          summary: "Endpoint {{ $labels.instance }} has less than 5% of disk space"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 5% of disk space."
+          summary: "Endpoint {{ $labels.instance }} has less than 15% of disk space"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 15% of disk space."
+
+      - alert: LowDiskSpace15Percent
+        expr:
+          node_filesystem_avail_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
+          / node_filesystem_size_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
+          * 100 <= 15
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has less than 15% of disk space"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 15% of disk space."
+
+      ## Hardware server, Disk SMART monitoring
+
+      # Alerting when raw value > 0 https://www.backblaze.com/blog/hard-drive-smart-stats/
 
       - alert: SmartMonDeviceIsUnhealthy
         expr: smartmon_device_smart_healthy != 1
@@ -68,55 +140,6 @@ groups:
           summary: "Endpoint {{ $labels.instance }} does not have data for Smartmon"
           description: "{{ $labels.instance }} of job {{ $labels.job }} is reporting it does not have data for Smartmon"
 
-      - alert: DiskIOHigh20Percent
-        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job!~"ocds-kingfisher.*"}[10m]))) * 100 >= 20
-        for: 4h
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
-
-      - alert: DiskIOHigh20PercentKingfisher
-        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"ocds-kingfisher.*"}[10m]))) * 100 >= 20
-        for: 12h
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
-
-      - alert: LowDiskSpace10Percent
-        expr:
-          node_filesystem_avail_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
-          / node_filesystem_size_bytes{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"}
-          * 100 <= 10
-        for: 3m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{$labels.instance}} has less than 10% of disk space"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% of disk space."
-
-      - alert: CPUHigh80Percent
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="covid19"}[5m])) * 100) >= 80
-        for: 3m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
-
-      - alert: CPUHigh80PercentCovid19
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="covid19"}[5m])) * 100) >= 80
-        for: 4h
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
-
-      # Alerting when raw value > 0 https://www.backblaze.com/blog/hard-drive-smart-stats/
       - alert: SmartReallocatedSectorCount
         expr: smartmon_reallocated_sector_ct_raw_value > 0
         for: 3m
