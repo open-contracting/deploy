@@ -43,18 +43,18 @@ readonlyrest-install:
   file.managed:
     - name: /opt/pem-to-keystore-wrapper.sh
     - source: salt://elasticsearch/files/pem-to-keystore-wrapper.sh
-    - mode: 755
     - user: root
     - group: root
+    - mode: 755
     - require:
       - file: /opt/pem-to-keystore.sh
 
 /etc/sudoers.d/90-pem-to-keystore:
   file.managed:
+    - source: salt://elasticsearch/files/sudoers.d/pem-to-keystore
     - user: root
     - group: root
     - mode: 440
-    - source: salt://elasticsearch/files/sudoers.d/pem-to-keystore
     # check_cmd is appended with a temporary file containing the new managed contents.
     - check_cmd: visudo -c -f
     - require:
