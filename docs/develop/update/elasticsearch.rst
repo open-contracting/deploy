@@ -84,7 +84,7 @@ ReadOnlyREST is open source, but only available via web form. We store its ZIP f
       apache:
         modules:
           mod_md:
-            MDNotifyCmd: /opt/pem-to-keystore.sh
+            MDNotifyCmd: /opt/pem-to-keystore-wrapper.sh
 
 #. Set a JKS keystore password. Add to your service's *private* Pillar file, replacing ``KEY_PASS`` with a `strong password <https://www.lastpass.com/password-generator>`__:
 
