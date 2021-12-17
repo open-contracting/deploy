@@ -32,6 +32,9 @@ postgres:
   storage: ssd
   type: oltp
   nr_hugepages: 128
+  databases:
+    redash_db:
+      user: redash
 
 docker:
   user: deployer

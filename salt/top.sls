@@ -48,8 +48,8 @@ base:
     - prometheus
 
   'redash':
+    - docker_apps
     - postgres
-    - redash
 
   'registry':
     - rabbitmq
