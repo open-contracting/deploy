@@ -55,7 +55,7 @@ readonlyrest-install:
     - user: root
     - group: root
     - mode: 440
-    # check_cmd is appended with a temporary file containing the new managed contents.
+    # Salt appends to check_cmd a temporary file containing the new managed contents. This serves as the argument to `-f`.
     - check_cmd: visudo -c -f
     - require:
       - file: /opt/pem-to-keystore.sh
