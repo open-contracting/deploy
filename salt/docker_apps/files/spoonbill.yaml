@@ -1,10 +1,13 @@
-x-base: &base
+x-env: &with-env
   env_file: .env
   restart: unless-stopped
+
+x-user: &with-user
+  <<: *with-env
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
 
 x-shared: &shared
-  <<: *base
+  <<: *with-user
   image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -18,7 +21,7 @@ x-shared: &shared
 
 services:
   traefik:
-    <<: *base
+    <<: *with-env
     image: traefik:v2.4
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -44,13 +47,16 @@ services:
       - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
       - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'
   postgres:
-    <<: *base
+    # See "Arbitrary --user Notes" at https://hub.docker.com/_/postgres/ for additional steps to run as different user:
+    #
+    # docker run -it --rm -v spoonbill_postgresql-data:/var/lib/postgresql/data bash chown -R 1002:1002 /var/lib/postgresql/data
+    <<: *with-user
     hostname: postgres
     image: postgres:13
     volumes:
       - postgresql-data:/var/lib/postgresql/data
   redis:
-    <<: *base
+    <<: *with-env
     hostname: redis
     image: redis:latest
   app:
@@ -78,7 +84,7 @@ services:
       - postgres
       - redis
   celery_beat:
-    <<: *base
+    <<: *with-user
     hostname: celery_beat
     image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
