@@ -119,7 +119,8 @@ docker_apps:
       TRAEFIK_IP: 65.21.93.141
       DOMAIN: &DOMAIN flatten.open-contracting.org
       API_DOMAIN: *DOMAIN
-      DJANGO_ALLOWED_HOSTS: *DOMAIN
+      ALLOWED_HOSTS: *DOMAIN
+      DJANGO_ENV: production
       CORS_ORIGIN_WHITELIST: https://flatten.open-contracting.org
       API_PREFIX: api/
       DB_HOST: postgres
