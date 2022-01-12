@@ -21,9 +21,6 @@ services:
     <<: *shared
     command: "python manage.py file_worker"
     scale: 2
-  checker:
-    <<: *shared
-    command: "python manage.py checker"
   compiler:
     <<: *shared
     command: "python manage.py compiler"
