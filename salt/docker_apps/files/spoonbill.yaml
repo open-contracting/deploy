@@ -104,6 +104,9 @@ services:
       - 'traefik.http.routers.site.tls.options=default'
     depends_on:
       - app
+    volumes:
+      # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
+      - {{ pillar.docker_apps.spoonbill.base_host_dir }}/media:/data/media
 
 volumes:
   postgresql-data:
