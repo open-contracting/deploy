@@ -47,7 +47,7 @@ include:
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
-      'options': '-a compile_releases=true'
+      'options': '-a compile_releases=true',
     },
   ]
 %}
