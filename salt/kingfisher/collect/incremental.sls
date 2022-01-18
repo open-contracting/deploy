@@ -42,12 +42,12 @@ include:
       'spider': 'chile_compra_api_records',
       'start_date': '2021-12-03',
       'day': 1,
+      'options': '-a compile_releases=true',
     },
     {
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
-      'options': '-a compile_releases=true',
     },
   ]
 %}
