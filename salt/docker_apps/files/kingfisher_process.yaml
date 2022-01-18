@@ -17,6 +17,7 @@ services:
   api_loader:
     <<: *shared
     command: "python manage.py api_loader"
+    scale: 2
   file_worker:
     <<: *shared
     command: "python manage.py file_worker"

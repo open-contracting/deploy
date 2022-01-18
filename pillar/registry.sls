@@ -93,6 +93,7 @@ docker_apps:
       LOCAL_ACCESS: True
       ALLOWED_HOSTS: '*'
       RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
+      LOG_LEVEL: DEBUG
   pelican_backend:
     target: pelican-backend
     env:
