@@ -1,7 +1,7 @@
 x-shared: &shared
   env_file: .env
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
-  image: "ghcr.io/open-contracting/kingfisher-process:latest"
+  image: "ghcr.io/open-contracting/kingfisher-process-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
