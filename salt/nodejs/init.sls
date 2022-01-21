@@ -1,4 +1,4 @@
-{% set node_version = pillar.nodejs.get('version', '14') %}
+{% set node_version = pillar.nodejs.get('version', '16') %}
 
 # https://github.com/nodesource/distributions
 nodejs:
