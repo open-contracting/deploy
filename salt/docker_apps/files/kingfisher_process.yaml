@@ -35,6 +35,7 @@ services:
   finisher:
     <<: *shared
     command: "python manage.py finisher"
+    scale: 2
   wiper:
     <<: *shared
     command: "python manage.py wiper"
