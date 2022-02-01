@@ -225,6 +225,7 @@ alter {{ group }} default privileges in {{ schema }}:
     - runas: postgres
     - onchanges:
       - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
+      - postgres_database: {{ database }}
     - require:
       - postgres_database: {{ database }}
 {% endfor %}
