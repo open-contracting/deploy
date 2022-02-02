@@ -17,7 +17,7 @@ groups:
       ## CPU
 
       - alert: CPUHigh80Percent
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="covid19|data-registry"}[5m])) * 100) >= 80
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!~"covid19|data-registry"}[5m])) * 100) >= 80
         for: 15m
         labels:
           severity: critical
