@@ -56,9 +56,6 @@ base:
     - spoonbill
     - registry
 
-  'spoonbill-dev':
-    - spoonbill_dev
-
   'toucan':
     - toucan
 
