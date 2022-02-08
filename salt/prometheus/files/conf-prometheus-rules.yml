@@ -36,7 +36,7 @@ groups:
 
       - alert: CPUHigh80PercentRegistry
         expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[5m])) * 100) >= 80
-        for: 4h
+        for: 8h
         labels:
           severity: critical
         annotations:
