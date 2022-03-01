@@ -26,10 +26,6 @@ base:
     - private.covid19_prod
     - covid19_maintenance
 
-  'covid19-dev':
-    - covid19_dev
-    - private.covid19_dev
-
   'docs':
     - docs
     - private.docs
@@ -65,9 +61,6 @@ base:
     - registry
     - private.registry
     - registry_maintenance
-
-  'spoonbill-dev':
-    - spoonbill_dev
 
   'toucan':
     - toucan

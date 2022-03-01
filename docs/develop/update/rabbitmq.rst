@@ -27,6 +27,19 @@ To configure the message broker for an application:
             tags:
               - management
 
+#. To give the user access to `memory use <https://www.rabbitmq.com/memory-use.html>`__, add:
+
+   .. code-block:: yaml
+      :emphasize-lines: 7
+
+      rabbitmq:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+            tags:
+              - management
+              - monitoring
+
 #. Add the private Pillar file to the top file entry for the application.
 
 .. note::

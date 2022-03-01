@@ -26,6 +26,12 @@ Migrate the database:
 
    docker-compose run --rm web python manage.py migrate
 
+.. note::
+
+   If you are using a `postgres <https://hub.docker.com/_/postgres/>`__ image, see its "Arbitrary ``--user`` Notes" section.
+
+   Remember that volume names are, by default, prefixed by the directory name: for example, ``spoonbill_postgresql-data``.
+
 Load data
 ---------
 

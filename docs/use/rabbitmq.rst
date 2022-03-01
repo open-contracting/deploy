@@ -24,6 +24,20 @@ Reference:
 -  `Production Checklist <https://www.rabbitmq.com/production-checklist.html>`__
 -  `Currently Supported Release Series <https://www.rabbitmq.com/versions.html>`__
 
+Check log files
+---------------
+
+RabbitMQ log files are at ``/var/log/rabbitmq/``. ``rabbit@<hostname>.log`` is the main file. ``erl_crash.dump`` describes the latest crash.
+
+Check memory use
+----------------
+
+If ``erl_crash.dump`` contains "Slogan: eheap_alloc: Cannot allocate 123456789 bytes of memory (of type "heap").", you can `monitor its memory usage <https://www.rabbitmq.com/memory-use.html#breakdown-cli>`__ and `change its memory thresholds <https://www.rabbitmq.com/memory.html>`__ as needed.
+
+.. seealso::
+
+   `Persistence Configuration <https://www.rabbitmq.com/persistence-conf.html>`__
+
 Troubleshoot
 ------------
 
