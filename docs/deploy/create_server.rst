@@ -16,43 +16,48 @@ Linode
 #. `Log into Linode <https://login.linode.com/>`__
 #. Click *Create Linode*
 
-   #. Set *Distribution* (Operating System) to the "Ubuntu 20.04 LTS" image
-   #. Set the *Region* to *London UK*
-   #. Set *Linode Plan*
-   #. Set *Linode Label* to the server name
-   #. *Add Tags* indicating the environment (*Production* or *Development*)
+   #. Set *Images* to "Ubuntu 20.04 LTS"
+   #. Set *Region* to *London UK*
+   #. Select a *Linode Plan*
+   #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+   #. Set *Add Tags* to either *Production* or *Development*
    #. Set *Root Password* to a `strong password <https://www.lastpass.com/password-generator>`__
-   #. Check *Enable Backups*
-   #. Click *Create Linode*
+   #. Check *Backups*
+   #. Click *Create Linode* and wait a few minutes for the server to power on
 
-#. Wait for the server to boot (this will take a few minutes)
-#. Select your new server
-#. *Power Off* Linode in order to resize disks
-#. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
-#. Wait for the disk to resize
-#. Resize and rename the swap disk "### MB Swap Image"
-#. Under the *Configurations* tab, Edit the server config ("My Ubuntu 20.04 LTS Disk Profile – GRUB 2" or something simular), disable "Auto-configure networking".
+#. From the `Linodes <https://cloud.linode.com/linodes>`__ list:
+
+   #. Click on the label for the new server
+   #. Click *Power Off* and wait for the server to power off
+   #. On the *Storage* tab:
+
+      #. Resize the "Swap Image" disk to the appropriate size
+
+         The swap size should be at most 200% of RAM and:
+
+         -  If RAM is less than 2 GB: at least 100% of RAM
+         -  If RAM is less than 32 GB: at least 50% of RAM
+         -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
+
+         If the swap size is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
+
+      #. Rename the "Swap Image" disk to "### MB Swap Image"
+      #. Resize the "Ubuntu 20.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+
+   #. On the *Configurations* tab:
+
+      #. Click *Edit* for the "My Ubuntu 20.04 LTS Disk Profile" (or similar) config
+      #. Uncheck *Auto-configure networking*
+      #. Click *Save Changes*
+
+   #. Click *Power On*
+   #. Copy *SSH Access* to your clipboard
+
+#. Open a support ticket with Linode to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
 
    .. note::
 
-      If RAM is less than 2 GB, swap size should be at least the size of RAM.
-      If RAM is less than 32 GB, swap size should be at least half the size of RAM.
-      Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
-
-      At most swap should be double the size of RAM.
-
-      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ as part of the core deployment.
-
-#. Power On Linode
-
-#. Select your new server and copy the *SSH Access* details
-
-#. Raise a support ticket with Linode to add the new instance to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
-
-   .. note::
-
-      Linode will take up to a day to process this ticket, proceed with the remainder of the server setup.
-      When the new IP is provisioned the pillar ``network`` configuration will need updating.
+      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, update ``network`` for the server in Pillar.
 
 Hetzner
 ~~~~~~~
