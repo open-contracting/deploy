@@ -29,8 +29,8 @@ To enable public access, update the server's Pillar file:
   postgres:
     public_access: True
 
-Add service accounts
---------------------
+Add users, groups and databases
+-------------------------------
 
 To configure the database for an application:
 
