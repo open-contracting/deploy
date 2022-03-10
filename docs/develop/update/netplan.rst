@@ -1,13 +1,10 @@
-Configure Networking
+Configure networking
 ====================
-
-Netplan configuration
----------------------
 
 There are two ways to configure Netplan using the ``core.network`` Salt state file. For most servers the :ref:`templated option<Netplan Template>` is easiest approach, if you require advanced configuration options see :ref:`Netplan Custom`.
 
-Netplan Template
-~~~~~~~~~~~~~~~~
+Template
+--------
 
 The templated option has been designed specifically for Linode servers, it disables automatic IP configuration (DHCP) and sets up static networking on IPv4 and IPv6.
 
@@ -51,8 +48,8 @@ search_domain
 
 If you provisioned the server in Linode these configuration values can be found in the Linode interface under the *Network* tab.
 
-Netplan Custom
-~~~~~~~~~~~~~~
+Custom
+------
 
 Example Configuration based on OCP13:
 
