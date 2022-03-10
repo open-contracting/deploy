@@ -57,7 +57,7 @@ Linode
 
    .. note::
 
-      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, update ``network`` for the server in Pillar.
+      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, add the IPv6 address to the :doc:`network configuration<../develop/update/netplan>`.
 
 Hetzner
 ~~~~~~~
@@ -203,15 +203,14 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. Add or update the network configuration in pillar. For further IPv4 and IPv6 network configuration see the :doc:`Netplan configuration page<netplan>`.
+#. :doc:`../develop/update/netplan`. For example, update the server's Pillar file:
 
    .. code-block:: yaml
 
-      host_id: ocpXX
+      host_id: ocp12
       network:
         ipv4:
-          primary_ip: 203.0.113.114
-
+          primary_ip: 123.45.67.89
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
@@ -228,7 +227,6 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    .. code-block:: bash
 
       ./run.py TARGET system.reboot
-
 
 .. note::
 
