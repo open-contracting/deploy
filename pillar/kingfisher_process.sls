@@ -66,7 +66,7 @@ postgres:
         # Daily incremental backup
         15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
         # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full
+        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
 kingfisher_collect:
   user: ocdskfs
