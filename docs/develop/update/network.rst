@@ -74,6 +74,10 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 Other hosts
 ~~~~~~~~~~~
 
+.. note::
+
+   This step is optional. Only override a Netplan configuration if necessary.
+
 In the server's Pillar file, set ``network.netplan.configuration`` to ``custom`` and set ``network.netplan.ethernets``:
 
 .. code-block:: yaml

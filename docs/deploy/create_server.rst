@@ -39,7 +39,9 @@ Linode
          -  If RAM is less than 32 GB: at least 50% of RAM
          -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
 
-         If the swap size is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
+         .. note::
+
+            If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
 
       #. Rename the "Swap Image" disk to "### MB Swap Image"
       #. Resize the "Ubuntu 20.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
