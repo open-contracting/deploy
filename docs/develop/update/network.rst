@@ -69,7 +69,7 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 ``nameservers.addresses``
   The *DNS Resolvers*
 ``nameservers.search``
-  Default ``open-contracting.org``
+  Default ``[ open-contracting.org ]``
 
 Other hosts
 ~~~~~~~~~~~
