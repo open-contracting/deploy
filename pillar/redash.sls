@@ -39,12 +39,12 @@ docker_apps:
   redash:
     target: redash
     env:
-      PYTHONUNBUFFERED: 0
+      PYTHONUNBUFFERED: '0'
       REDASH_LOG_LEVEL: INFO
       REDASH_REDIS_URL: redis://redis:6379/0
-      REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL: true
+      REDASH_FEATURE_SHOW_PERMISSIONS_CONTROL: 'true'
       REDASH_MAIL_SERVER: email-smtp.us-east-1.amazonaws.com
       REDASH_MAIL_PORT: 587
-      REDASH_MAIL_USE_TLS: true
+      REDASH_MAIL_USE_TLS: 'true'
       REDASH_MAIL_DEFAULT_SENDER: noreply@noreply.open-contracting.org
       REDASH_HOST: https://redash.open-contracting.org
