@@ -7,7 +7,7 @@ Make changes
 
 .. toctree::
 
-   netplan.rst
+   network.rst
    firewall.rst
    packages.rst
    apache.rst

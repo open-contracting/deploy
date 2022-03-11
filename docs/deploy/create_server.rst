@@ -57,7 +57,7 @@ Linode
 
    .. note::
 
-      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, add the IPv6 address to the :doc:`network configuration<../develop/update/netplan>`.
+      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, add the IPv6 address to the :doc:`network configuration<../develop/update/network>`.
 
 Hetzner
 ~~~~~~~
@@ -203,7 +203,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. :doc:`../develop/update/netplan`.
+#. :doc:`../develop/update/network`.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
