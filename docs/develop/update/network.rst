@@ -1,8 +1,8 @@
 Configure networking
 ====================
 
-IP addresses
-------------
+Hostnames and IP addresses
+--------------------------
 
 Update the server's Pillar file:
 
@@ -47,6 +47,8 @@ Update the server's Pillar file:
        gateway6: fe80::1
        nameservers:
          addresses: [ 1.2.3.4, 5.6.7.8, 2001:db8:0:1, 2001:db8:0:2 ]
+         search:
+          - open-contracting.org
 
 To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
 
@@ -55,9 +57,9 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 ``ipv6``
   TODO
 ``ipv4_subnet_mask``
-  TODO
+  TODO, default "/32"
 ``ipv6_subnet_mask``
-  TODO
+  TODO, default "/128"
 ``addresses``
   The *Address* with a *Type* of *IPv6 – SLAAC*, suffixed by "/128"
 ``gateway4``
@@ -66,6 +68,8 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
   The *Default Gateway* with a *Type* of *IPv6 – SLAAC*
 ``nameservers.addresses``
   The *DNS Resolvers*
+``nameservers.search``
+  Default ``open-contracting.org``
 
 Other hosts
 ~~~~~~~~~~~
