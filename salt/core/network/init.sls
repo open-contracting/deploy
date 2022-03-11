@@ -24,7 +24,9 @@
     - order: 5
     - contents: "{{ pillar.network.host_id }}.open-contracting.org"
 
-# The Salt system.networking state does not fully support Ubuntu 20.04 yet so we are using cmd.run instead.
+# Salt's `network` module uses Debian's `/etc/network/interfaces` file, not Netplan (from reading its code).
+# https://github.com/open-contracting/deploy/issues/278#issuecomment-924485063
+# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.network.html
 set hostname:
   cmd.run:
     - order: 10
