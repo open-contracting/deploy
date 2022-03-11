@@ -75,7 +75,7 @@ Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com
 
 .. admonition:: Stateful containers
 
-   Containers are designed to be interrupted at any time, whereas stateful services like :doc:`PostgreSQL<postgres>` and :doc:`RabbitMQ<rabbitmq>` can fail in such conditions. Instead, run these on the host, where they are easier to manage and operate with high reliability.
+   Containers are designed to be interrupted at any time, whereas stateful services like :doc:`PostgreSQL<postgres>` and :doc:`RabbitMQ<rabbitmq>` can fail in such conditions. Instead, run these on the host, where they are easier to operate with high reliability.
 
 .. admonition:: One-off commands
 
@@ -132,7 +132,7 @@ Reference:
 Use host services
 ~~~~~~~~~~~~~~~~~
 
-To connect to the host's services, like PostgreSQL or RabbitMQ, add:
+To connect to the host's services, like PostgreSQL or RabbitMQ, add to the Docker Compose file:
 
 .. code-block:: yaml
    :emphasize-lines: 5-6
@@ -144,7 +144,7 @@ To connect to the host's services, like PostgreSQL or RabbitMQ, add:
        extra_hosts:
          - "host.docker.internal:host-gateway"
 
-Then, under the ``env`` key, use ``host.docker.internal`` instead of ``localhost``. For example:
+Then, under the ``env`` key in the service's Pillar file, use ``host.docker.internal`` instead of ``localhost``. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5
