@@ -12,6 +12,9 @@ network:
     nameservers:
       addresses: [ 178.79.182.5, 176.58.107.5, 176.58.116.5, 176.58.121.5, 151.236.220.5, 212.71.252.5, 212.71.253.5, 109.74.192.20, 109.74.193.20, 109.74.194.20, 2a01:7e00::9, 2a01:7e00::3, 2a01:7e00::c, 2a01:7e00::5, 2a01:7e00::6, 2a01:7e00::8, 2a01:7e00::b, 2a01:7e00::4, 2a01:7e00::7, 2a01:7e00::2 ]
 
+vm:
+  nr_hugepages: 128
+
 apache:
   public_access: True
   sites:
@@ -23,21 +26,15 @@ apache:
 
 postgres:
   version: 13
-  # Redash connections to Postgres are not sent over the localhost connection.
-  # Postgres access is locked down further in the Linode firewall.
-  public_access: true
+  # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
+  public_access: True
   configuration: redash
-  storage: ssd
-  type: oltp
-  nr_hugepages: 128
-  databases:
-    redash_db:
-      user: redash
 
 docker:
   user: deployer
   docker_compose:
     version: 1.29.2
+
 docker_apps:
   redash:
     target: redash
