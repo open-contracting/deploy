@@ -13,7 +13,6 @@ registry:
   port: 2223
 toucan:              ocp09.open-contracting.org
 
-
 # ocp0 is crm.open-contracting.org
 # ocp06 was covid19-dev
 # ocp08 was redash.open-contracting.org on Ubuntu 18
