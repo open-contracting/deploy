@@ -1,90 +1,85 @@
 Configure networking
 ====================
 
-There are two ways to configure Netplan using the ``core.network`` Salt state file. For most servers the :ref:`templated option<Netplan Template>` is easiest approach, if you require advanced configuration options see :ref:`Netplan Custom`.
+IP addresses
+------------
 
-Template
---------
+Update the server's Pillar file:
 
-The templated option has been designed specifically for Linode servers, it disables automatic IP configuration (DHCP) and sets up static networking on IPv4 and IPv6.
+.. code-block:: yaml
 
-   .. note::
+   network:
+     host_id: ocp12
+     ipv4: 123.45.67.89
+     ipv6: 2001:db8:0:1
 
-      We use static networking in order to configure IPv6 correctly on Linode servers. By default, Linode servers will listen and prefer IPv6 traffic on the servers default IPv6 address, we however want to use our own IPv6 block. This has the benefits of ensuring a good IP reputation and improving email deliverability.
+``ipv6`` is optional.
 
-Example configuration based on OCP14:
+Netplan
+-------
 
-   .. code-block:: yaml
+`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
 
-      network:
-        netplan: True
-        ipv4:
-          primary_ip: 139.162.199.85
-          primary_ip_subnet_mask: "/24"
-          gateway_ip: 139.162.199.1
-          dns_servers: [ 178.79.182.5, 176.58.107.5, 176.58.116.5, 176.58.121.5, 151.236.220.5, 212.71.252.5, 212.71.253.5, 109.74.192.20, 109.74.193.20, 109.74.194.20 ]
-        ipv6:
-          primary_ip: 2a01:7e00:e000:02cc::14
-          primary_ip_subnet_mask: "/128"
-          slaac_ip: 2a01:7e00::f03c:92ff:fea5:0e5f/128
-          gateway_ip: fe80::1
-          dns_servers: [ 2a01:7e00::9, 2a01:7e00::3, 2a01:7e00::c, 2a01:7e00::5, 2a01:7e00::6, 2a01:7e00::8, 2a01:7e00::b, 2a01:7e00::4, 2a01:7e00::7, 2a01:7e00::2 ]
-        search_domain: open-contracting.org
+Linode
+~~~~~~
 
-netplan
-   Enables the template Netplan configuration. Default Value: ``False``.
-primary_ip
-   Configure the primary IP addresses, this IP is also configured elsewhere on the system.
-primary_ip_subnet_mask
-   Default Value: ``/32`` for IPv4 and ``/128`` for IPv6.
-gateway_ip
-   "Default Gateway" to route network traffic through.
-dns_servers
-   List of DNS Resolvers.
-slaac_ip
-   "StateLess Address Auto Configuration" (SLAAC) helps with automatic network configuration. Linode requires SLAAC to be configured. IPv6 only option.
-search_domain
-   Configure search domain for host look-ups. Default Value: ``open-contracting.org``.
+This configuration disables automatic IP configuration and configures static networking on IPv4 and IPv6.
 
-If you provisioned the server in Linode these configuration values can be found in the Linode interface under the *Network* tab.
+.. note::
 
-Custom
-------
+   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block, to improve IP reputation and email deliverability.
 
-Example Configuration based on OCP13:
+Update the server's Pillar file:
 
-   .. code-block:: yaml
+.. code-block:: yaml
 
-      network:
-        ipv4:
-          primary_ip: 65.21.93.181
-        ipv6:
-          primary_ip: 2a01:4f9:3b:45ca::2
-        custom_netplan:
-          network:
-            version: 2
-            renderer: networkd
-            ethernets:
-              enp9s0:
-                addresses:
-                  - 65.21.93.181/32
-                  - 65.21.93.141/32
-                  - 2a01:4f9:3b:45ca::2/64
-                routes:
-                  - on-link: true
-                    to: 0.0.0.0/0
-                    via: 65.21.93.129
-                gateway6: fe80::1
-                nameservers:
-                  addresses:
-                    - 213.133.99.99
-                    - 213.133.100.100
-                    - 213.133.98.98
-                    - 2a01:4f8:0:1::add:9898
-                    - 2a01:4f8:0:1::add:9999
-                    - 2a01:4f8:0:1::add:1010
+   network:
+     host_id: ocp12
+     ipv4: 123.45.67.89
+     ipv6: 2001:db8:0:1
+     netplan:
+       configuration: linode
+       ipv4_subnet_mask: "/24"
+       ipv6_subnet_mask: "/128"
+       addresses:
+         - 2a01:7e00::f03c:92ff:fea5:0e5f/128  # SLAAC
+       gateway4: 139.162.199.1
+       gateway6: fe80::1
+       nameservers:
+         addresses: [ 1.2.3.4, 5.6.7.8, 2001:db8:0:1, 2001:db8:0:2 ]
 
-primary_ip
-   Configure the primary IP addresses on the system.
-custom_netplan
-   Parse your Netplan configuration, this is serialized as yaml and uploaded to ``/etc/netplan/10-salt-networking.yaml``
+To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
+
+``ipv4``
+  The *Address* with a *Type* of *IPv4 – Public*
+``ipv6``
+  TODO
+``ipv4_subnet_mask``
+  TODO
+``ipv6_subnet_mask``
+  TODO
+``addresses``
+  The *Address* with a *Type* of *IPv6 – SLAAC*, suffixed by "/128"
+``gateway4``
+  The *Default Gateway* with a *Type* of *IPv4 – Public*
+``gateway6``
+  The *Default Gateway* with a *Type* of *IPv6 – SLAAC*
+``nameservers.addresses``
+  The *DNS Resolvers*
+
+Other hosts
+~~~~~~~~~~~
+
+In the server's Pillar file, set ``network.netplan.configuration`` to ``custom`` and set ``network.netplan.ethernets``:
+
+.. code-block:: yaml
+
+   network:
+     host_id: ocp12
+     ipv4: 123.45.67.89
+     ipv6: 2001:db8:0:1
+     netplan:
+       configuration: custom
+       ethernets:
+         eth0:
+            # Your Netplan configuration for the eth0 device.

@@ -1,56 +1,49 @@
-# Define order so that these configuration options are run before everything else.
-# Other packages and commands rely on the hostname field being configured.
-
-# Don't run on old/existing servers prior to network configuration.
+# Don't apply to servers that pre-exist the `network` approach.
 {%- if 'network' in pillar %}
-{{ pillar.network.ipv4.primary_ip }}:
+
+# `order` is used, to ensure these states run before others.
+
+{{ pillar.network.ipv4 }}:
   host.only:
     - order: 5
     - hostnames:
-      - {{ pillar.host_id }}.open-contracting.org
-      - {{ pillar.host_id }}
+      - {{ pillar.network.host_id }}.open-contracting.org
+      - {{ pillar.network.host_id }}
+
 {%- if 'ipv6' in pillar.network %}
-{{ pillar.network.ipv6.primary_ip }}:
+{{ pillar.network.ipv6 }}:
   host.only:
     - order: 5
     - hostnames:
-      - {{ pillar.host_id }}.open-contracting.org
-      - {{ pillar.host_id }}
+      - {{ pillar.network.host_id }}.open-contracting.org
+      - {{ pillar.network.host_id }}
 {% endif %}
 
 /etc/mailname:
   file.managed:
     - order: 5
-    - contents: "{{ pillar.host_id }}.open-contracting.org"
+    - contents: "{{ pillar.network.host_id }}.open-contracting.org"
 
 # The Salt system.networking state does not fully support Ubuntu 20.04 yet so we are using cmd.run instead.
 set hostname:
   cmd.run:
     - order: 10
-    - name: hostnamectl set-hostname "{{ pillar.host_id }}.open-contracting.org"
+    - name: hostnamectl set-hostname "{{ pillar.network.host_id }}.open-contracting.org"
     - onchanges:
-        - file: /etc/mailname
+      - file: /etc/mailname
 
-{%- if pillar.network.get('netplan') %}
-# We manually configure networking on Linode servers so that we can use our own IPv6 /64 range.
-# https://www.linode.com/docs/guides/linux-static-ip-configuration/#disable-network-helper
-/etc/systemd/network/05-eth0.network:
-  file.absent
-
+{%- if 'netplan' in pillar.network %}
 /etc/netplan/01-netcfg.yaml:
   file.absent
 
-{%- if 'custom_netplan' in pillar.network %}
-/etc/netplan/10-salt-networking.yaml:
-  file.serialize:
-    - dataset_pillar: network:custom_netplan
-    - formatter: yaml
-{% else %}
+# Linode-only. https://www.linode.com/docs/guides/linux-static-ip-configuration/#disable-network-helper
+/etc/systemd/network/05-eth0.network:
+  file.absent
+
 /etc/netplan/10-salt-networking.yaml:
   file.managed:
-    - source: salt://core/network/files/netplan_template.yml
+    - source: salt://core/network/files/netplan_{{ pillar.network.netplan.configuration }}.yaml
     - template: jinja
-{% endif %}
 
 netplan_apply:
   cmd.run:
@@ -58,4 +51,5 @@ netplan_apply:
     - onchanges:
         - file: /etc/netplan/10-salt-networking.yaml
 {% endif %}
+
 {% endif %}

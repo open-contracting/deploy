@@ -1,0 +1,21 @@
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    eth0:
+      dhcp4: no
+      dhcp6: no
+      accept-ra: no
+      addresses:
+        - {{ pillar.network.ipv4 }}{{ pillar.network.netplan.get('ipv4_subnet_mask', '/32') }}
+        {%- if 'ipv6' in pillar.network %}
+        - {{ pillar.network.ipv6 }}{{ pillar.network.netplan.get('ipv6_subnet_mask', '/128') }}
+        {%- endif %}
+        {%- for address in pillar.network.netplan.get('addresses', []) %}
+        - {{ address }}
+        {%- endfor %}
+      gateway4: {{ pillar.network.netplan.gateway4 }}
+      gateway6: {{ pillar.network.netplan.gateway6 }}
+      nameservers:
+        search: {{ pillar.network.netplan.get('search', ['open-contracting.org']) }}
+        addresses: {{ pillar.network.netplan.nameservers.addresses }}

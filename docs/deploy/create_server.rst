@@ -203,14 +203,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. :doc:`../develop/update/netplan`. For example, update the server's Pillar file:
-
-   .. code-block:: yaml
-
-      host_id: ocp12
-      network:
-        ipv4:
-          primary_ip: 123.45.67.89
+#. :doc:`../develop/update/netplan`.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
