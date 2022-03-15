@@ -55,7 +55,7 @@ Linode
    #. Click *Power On*
    #. Copy *SSH Access* to your clipboard
 
-#. Open a support ticket with Linode to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
+#. Open a `support ticket with Linode<https://cloud.linode.com/support/tickets>`__ to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
 
    .. note::
 

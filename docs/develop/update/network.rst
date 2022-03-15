@@ -42,7 +42,7 @@ Update the server's Pillar file:
        ipv4_subnet_mask: "/24"
        ipv6_subnet_mask: "/128"
        addresses:
-         - 2a01:7e00::f03c:92ff:fea5:0e5f/128  # SLAAC
+         - 2a01:7e00::f03c:92ff:fea5:0e5f/64  # SLAAC
        gateway4: 139.162.199.1
        gateway6: fe80::1
        nameservers:
@@ -61,7 +61,7 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 ``ipv6_subnet_mask``
   TODO, default "/128"
 ``addresses``
-  The *Address* with a *Type* of *IPv6 – SLAAC*, suffixed by "/128"
+  The *Address* with a *Type* of *IPv6 – SLAAC*, suffixed by "/64"
 ``gateway4``
   The *Default Gateway* with a *Type* of *IPv4 – Public*
 ``gateway6``

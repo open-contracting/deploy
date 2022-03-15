@@ -6,7 +6,7 @@ network:
     configuration: linode
     ipv4_subnet_mask: "/24"
     addresses:
-      - 2a01:7e00::f03c:92ff:fea5:0e5f/128  # SLAAC
+      - 2a01:7e00::f03c:92ff:fea5:0e5f/64    # SLAAC
     gateway4: 139.162.199.1
     gateway6: fe80::1
     nameservers:
