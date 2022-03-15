@@ -29,6 +29,8 @@ postgres:
   # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
   public_access: True
   configuration: redash
+  storage: ssd
+  type: oltp
 
 docker:
   user: deployer
