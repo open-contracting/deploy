@@ -1,6 +1,6 @@
 # Based on: https://github.com/getnewdash/setup/blob/master/data/docker-compose.yml
 x-shared: &shared
-  image: redash/redash:10.0.0.b50363
+  image: redash/redash:10.1.0.b50633
   depends_on:
     redis:
       condition: service_healthy
