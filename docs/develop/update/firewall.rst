@@ -69,6 +69,8 @@ When making changes to firewall settings or port assignments, you might want to:
 
       netstat -tupln
 
+.. _external-firewall:
+
 When using Docker
 -----------------
 

@@ -250,7 +250,14 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
       ./run.py TARGET service.restart uwsgi
 
-5. Migrate from the old server
+5. Configure the firewall
+-------------------------
+
+If you are deploying docker then you will need to configure a firewall in the ISP. See :ref:`external-firewall`.
+
+If you are not using docker then a firewall is configured for you as part of the salt deployment.
+
+6. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user
@@ -277,7 +284,7 @@ For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
-6. Update external services
+7. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
