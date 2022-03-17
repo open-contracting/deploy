@@ -6,6 +6,7 @@ Create a Redash server
 
 #. Configure :doc:`PostgreSQL<../develop/update/postgres>` and :doc:`Docker apps<../develop/update/docker>` in the server's Pillar file
 #. :doc:`Create the new server<create_server>`
+#. :doc:`Configure an external firewall<firewall>`. Opening the following ports: ICMP, SSH(22), HTTP(80) and HTTPS(443).
 
 .. note::
 
