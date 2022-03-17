@@ -76,7 +76,7 @@ Load the new server's database
 
    .. code-block:: bash
 
-      su deployer
+      su - deployer
       cd /data/deploy/redash
       docker-compose up -d
 
@@ -98,7 +98,8 @@ Upgrade the Redash service
 
    .. code-block:: bash
 
-      su deployer
+      su - deployer
+      cd /data/deploy/redash
 
 #. Pull the images:
 
@@ -110,7 +111,6 @@ Upgrade the Redash service
 
    .. code-block:: bash
 
-      cd /data/deploy/redash
       docker-compose stop server scheduler scheduled_worker adhoc_worker worker
 
 #. Run database migrations, if required:
