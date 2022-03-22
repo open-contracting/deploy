@@ -49,7 +49,6 @@ base:
 
   'redash':
     - docker_apps
-    - postgres
 
   'registry':
     - rabbitmq
