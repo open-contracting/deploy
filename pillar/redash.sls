@@ -4,13 +4,10 @@ network:
   ipv6: 2a01:7e00:e000:02cc::14
   netplan:
     configuration: linode
-    ipv4_subnet_mask: "/24"
     addresses:
       - 2a01:7e00::f03c:92ff:fea5:0e5f/64    # SLAAC
     gateway4: 139.162.199.1
     gateway6: fe80::1
-    nameservers:
-      addresses: [ 178.79.182.5, 176.58.107.5, 176.58.116.5, 176.58.121.5, 151.236.220.5, 212.71.252.5, 212.71.253.5, 109.74.192.20, 109.74.193.20, 109.74.194.20, 2a01:7e00::9, 2a01:7e00::3, 2a01:7e00::c, 2a01:7e00::5, 2a01:7e00::6, 2a01:7e00::8, 2a01:7e00::b, 2a01:7e00::4, 2a01:7e00::7, 2a01:7e00::2 ]
 
 vm:
   nr_hugepages: 128

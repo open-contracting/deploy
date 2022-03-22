@@ -3,19 +3,21 @@ network:
   renderer: networkd
   ethernets:
     eth0:
+      {#- Disable auto configuration so we can statically compile. #}
       dhcp4: no
       dhcp6: no
       accept-ra: no
       addresses:
-        - {{ pillar.network.ipv4 }}{{ pillar.network.netplan.get('ipv4_subnet_mask', '/32') }}
-        {%- if 'ipv6' in pillar.network %}
-        - {{ pillar.network.ipv6 }}{{ pillar.network.netplan.get('ipv6_subnet_mask', '/128') }}
-        {%- endif %}
+	{#- networkd makes the latest IP the primary IP so order matters here #}
         {%- for address in pillar.network.netplan.get('addresses', []) %}
         - {{ address }}
         {%- endfor %}
+        - {{ pillar.network.ipv4 }}/24
+        {%- if 'ipv6' in pillar.network %}
+        - {{ pillar.network.ipv6 }}/64
+        {%- endif %}
       gateway4: {{ pillar.network.netplan.gateway4 }}
       gateway6: {{ pillar.network.netplan.gateway6 }}
       nameservers:
-        search: {{ pillar.network.netplan.get('search', ['open-contracting.org']) }}
-        addresses: {{ pillar.network.netplan.nameservers.addresses }}
+        search: ['open-contracting.org']
+        addresses: ['178.79.182.5', '176.58.107.5', '176.58.116.5', '176.58.121.5', '151.236.220.5', '212.71.252.5', '212.71.253.5', '109.74.192.20', '109.74.193.20', '109.74.194.20', '2a01:7e00::9', '2a01:7e00::3', '2a01:7e00::c', '2a01:7e00::5', '2a01:7e00::6', '2a01:7e00::8', '2a01:7e00::b', '2a01:7e00::4', '2a01:7e00::7', '2a01:7e00::2']
