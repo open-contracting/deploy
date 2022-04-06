@@ -20,8 +20,6 @@ jobs:
           git clone 'https://github.com/open-contracting/cove-ocds.git'
           cd cove-ocds
           pip install -r requirements_dev.txt
-          # Google Chrome and ChromeDriver are already included.
-          # https://help.github.com/en/actions/reference/software-installed-on-github-hosted-runners
       - name: Test
         run: |
           . venv/bin/activate
