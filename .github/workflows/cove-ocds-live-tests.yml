@@ -8,35 +8,28 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
+        with:
+          repository: open-contracting/cove-ocds
       - uses: actions/setup-python@v3
         with:
           python-version: 3.6
           cache: pip
           cache-dependency-path: '**/requirements*.txt'
-      - name: Install
-        run: |
-          python -m venv venv
-          . venv/bin/activate
-          git clone 'https://github.com/open-contracting/cove-ocds.git'
-          cd cove-ocds
-          pip install -r requirements_dev.txt
-      - name: Test
-        run: |
-          . venv/bin/activate
-          cd cove-ocds
-          CUSTOM_SERVER_URL=https://standard.open-contracting.org/ DJANGO_SETTINGS_MODULE=cove_project.settings py.test tests/test_functional.py
-      - name: Send mail
-        if: failure()
-        uses: dawidd6/action-send-mail@v3.6.1
+      - run: pip install -r requirements_dev.txt
+      - env:
+          CUSTOM_SERVER_URL: https://standard.open-contracting.org/
+          DJANGO_SETTINGS_MODULE: cove_project.settings
+        run: pytest tests/test_functional.py
+      - if: failure()
+        uses: dawidd6/action-send-mail@v3
         with:
-          server_address: ${{secrets.MAIL_HOST}}
-          server_port: ${{secrets.MAIL_PORT}}
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: "GitHub Actions: ${{github.repository}} ${{github.workflow}} failed!"
-          body: |
-            GitHub Actions: ${{github.repository}} ${{github.workflow}} failed!
-
-            ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
-          to: inbox+opendataservices+443f+servers@plan.io, sysadmin@open-contracting.org
-          from: Github action <noreply@noreply.open-contracting.org>
+          server_address: ${{ secrets.MAIL_HOST }}
+          server_port: ${{ secrets.MAIL_PORT }}
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "GitHub Actions: ${{ github.repository }} ${{ github.workflow }} failed!"
+          body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          to: sysadmin@open-contracting.org
+          cc: inbox+opendataservices+443f+servers@plan.io
+          from: GitHub Actions <noreply@noreply.open-contracting.org>
