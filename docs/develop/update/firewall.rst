@@ -143,49 +143,51 @@ Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/guides/ge
 You can configure a Linode Cloud Firewall as follows:
 
 #. `Log into Linode <https://login.linode.com/>`__
-#. Open the `*Firewalls* listing page <https://cloud.linode.com/firewalls>`__
+#. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
 #. Click *Create Firewall*
 
    #. Set *Label* to the server name
-   #. Assign your Linode instance
+   #. Set *Linodes* to the server
+   #. Click *Create Firewall*
 
-#. Select your new firewall
-#. Set *Default inbound policy* to *Drop*
-#. Add an inbound rule. The recommended minimum is:
+#. Click on the label for the new firewall
 
-   .. list-table::
-       :header-rows: 1
+   #. Set *Default inbound policy* to *Drop*
+   #. Add an inbound rule. The recommended minimum is:
+   
+      .. list-table::
+          :header-rows: 1
+   
+          * - Label
+            - Protocol
+            - Ports
+            - Sources
+            - Action
+          * - Allow-SSH
+            - TCP
+            - SSH (22)
+            - All IPv4, All IPv6
+            - Accept
+          * - Allow-ICMP
+            - ICMP
+            -
+            - All IPv4, All IPv6
+            - Accept
+   
+      Most servers will also have:
+   
+      .. list-table::
+          :header-rows: 1
+   
+          * - Label
+            - Protocol
+            - Ports
+            - Sources
+            - Action
+          * - Allow-HTTP
+            - TCP
+            - HTTP (80), HTTPS (443)
+            - All IPv4, All IPv6
+            - Accept
 
-       * - Label
-         - Protocol
-         - Ports
-         - Sources
-         - Action
-       * - Allow-SSH
-         - TCP
-         - SSH (22)
-         - All IPv4, All IPv6
-         - Accept
-       * - Allow-ICMP
-         - ICMP
-         -
-         - All IPv4, All IPv6
-         - Accept
-
-   Most servers will also have:
-
-   .. list-table::
-       :header-rows: 1
-
-       * - Label
-         - Protocol
-         - Ports
-         - Sources
-         - Action
-       * - Allow-HTTP
-         - TCP
-         - HTTP (80), HTTPS (443)
-         - All IPv4, All IPv6
-         - Accept
-
-#. Click *Save Changes*
+   #. Click *Save Changes*

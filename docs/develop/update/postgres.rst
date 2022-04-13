@@ -146,9 +146,9 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
 
       pgBackRest supports any S3-compatible storage, including AWS and BackBlaze.
 
-   If you are using AWS you will need to `create an S3 Bucket<https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__ and `set up an IAM user<https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__.
+   If you are using AWS you will need to `create an S3 Bucket <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__ and `set up an IAM user <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__.
 
-   You can find an example IAM permissions policy in the `pgBackRest documentation<https://pgbackrest.org/user-guide.html#s3-support>`__.
+   You can find an example IAM permissions policy in the `pgBackRest documentation <https://pgbackrest.org/user-guide.html#s3-support>`__.
 
 #. Create pgbackrest pillar config.
 

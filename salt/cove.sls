@@ -28,3 +28,14 @@ set MAILTO environment variable in {{ entry.user }} crontab:
     - user: {{ entry.user }}
     - require:
       - user: {{ entry.user }}_user_exists
+
+# By default this clears down /tmp data older than 7 days.
+clean up tmp data when python errors:
+  pkg.installed:
+    - name: tmpreaper
+
+/etc/tmpreaper.conf:
+  file.replace:
+    - name: /etc/tmpreaper.conf
+    - pattern: "^SHOWWARNING=true"
+    - repl: "#SHOWWARNING=true"
