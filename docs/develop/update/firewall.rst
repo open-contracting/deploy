@@ -69,12 +69,12 @@ When making changes to firewall settings or port assignments, you might want to:
 
       netstat -tupln
 
-.. _external-firewall:
-
 When using Docker
 -----------------
 
 The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
+
+.. _hetzner-firewall:
 
 Hetzner (hardware servers)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,6 +133,8 @@ You can configure a Hetzner firewall as follows:
          - ack
          - Accept
 
+.. _linode-firewall:
+
 Linode (VPS servers)
 ~~~~~~~~~~~~~~~~~~~~
 
@@ -170,5 +172,20 @@ You can configure a Linode Cloud Firewall as follows:
          - All IPv4, All IPv6
          - Accept
 
-#. Click *Save Changes*
+   Most servers will also have:
 
+   .. list-table::
+       :header-rows: 1
+
+       * - Label
+         - Protocol
+         - Ports
+         - Sources
+         - Action
+       * - Allow-HTTP
+         - TCP
+         - HTTP (80), HTTPS (443)
+         - All IPv4, All IPv6
+         - Accept
+
+#. Click *Save Changes*

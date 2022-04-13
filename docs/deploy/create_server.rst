@@ -55,11 +55,13 @@ Linode
    #. Click *Power On*
    #. Copy *SSH Access* to your clipboard
 
-#. Open a `support ticket with Linode<https://cloud.linode.com/support/tickets>`__ to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
+#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
 
    .. note::
 
       Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, add the IPv6 address to the :doc:`network configuration<../develop/update/network>`.
+
+#. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
 
 Hetzner
 ~~~~~~~
@@ -157,6 +159,8 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
       reboot
 
+#. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+
 .. _create-dns-records:
 
 2. Create DNS records
@@ -250,14 +254,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
       ./run.py TARGET service.restart uwsgi
 
-5. Configure the firewall
--------------------------
-
-If you are deploying docker then you will need to configure a firewall in the ISP. See :ref:`external-firewall`.
-
-If you are not using docker then a firewall is configured for you as part of the salt deployment.
-
-6. Migrate from the old server
+5. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user
@@ -284,7 +281,7 @@ For Redash servers, see :doc:`redash`.
 
 If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
-7. Update external services
+6. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`

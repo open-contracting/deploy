@@ -1,14 +1,15 @@
+{#- See https://www.linode.com/docs/guides/linux-static-ip-configuration/#ubuntu-1804-and-2004 #}
 network:
   version: 2
   renderer: networkd
   ethernets:
     eth0:
-      {#- Disable auto configuration so we can statically compile. #}
+      {#- Disable automatic IP configuration. #}
       dhcp4: no
       dhcp6: no
       accept-ra: no
       addresses:
-	{#- networkd makes the latest IP the primary IP so order matters here #}
+      {#- networkd uses the last IP as the primary IP. #}
         {%- for address in pillar.network.netplan.get('addresses', []) %}
         - {{ address }}
         {%- endfor %}

@@ -6,7 +6,7 @@ Create a Redash server
 
 #. Configure :doc:`PostgreSQL<../develop/update/postgres>` and :doc:`Docker apps<../develop/update/docker>` in the server's Pillar file
 #. :doc:`Create the new server<create_server>`
-#. :doc:`Configure an external firewall<firewall>`. Opening the following ports: ICMP, SSH(22), HTTP(80) and HTTPS(443).
+#. :doc:`Configure an external firewall<firewall>`, opening SSH, ICMP, HTTP and HTTPS.
 
 .. note::
 
@@ -72,12 +72,15 @@ Load the new server's database
 
       sudo -u postgres psql -f redash.sql redash
 
-#. Start the containers:
+#. Change to the non-root user and Redash directory:
 
    .. code-block:: bash
 
       su - deployer
       cd /data/deploy/redash
+
+#. Start the containers:
+
       docker-compose up -d
 
 Upgrade the Redash service
@@ -94,7 +97,7 @@ Upgrade the Redash service
       curl --silent --connect-timeout 1 ocp14.open-contracting.org:8255 || true
       ssh root@ocp14.open-contracting.org
 
-#. Change to the non-root user:
+#. Change to the non-root user and Redash directory:
 
    .. code-block:: bash
 

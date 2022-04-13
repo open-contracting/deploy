@@ -27,7 +27,19 @@ This configuration disables automatic IP configuration and configures static net
 
 .. note::
 
-   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block, to improve IP reputation and email deliverability.
+   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
+
+.. admonition:: One-time setup
+
+   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block:
+
+      Hello,
+
+      Please provision an IPv6 /64 block for our account.
+
+      Thanks!
+
+   A /64 block is requested, because `spam blocklists use /64 ranges <https://www.spamhaus.org/organization/statement/012/spamhaus-ipv6-blocklists-strategy-statement>`__.
 
 Update the server's Pillar file:
 
@@ -48,18 +60,17 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 
 ``ipv4``
   The *Address* with a *Type* of *IPv4 – Public*
-``ipv6``
-  An *Address* from the *2a01:7e00:e000:02cc::/64* subnet, with a *Type* of *IPv6 – Range*
-  Please use the server identifier, for example *2a01:7e00:e000:02cc::14* for *OCP14*.
 ``addresses``
-  The *Address* with a *Type* of *IPv6 – SLAAC*, suffixed by "/64"
+  The *Address* with a *Type* of *IPv6 – SLAAC*, `suffixed by "/64" <https://www.linode.com/docs/guides/linux-static-ip-configuration/#general-information>`__
 ``gateway4``
   The *Default Gateway* with a *Type* of *IPv4 – Public*
 ``gateway6``
   The *Default Gateway* with a *Type* of *IPv6 – SLAAC*
 
-Other providers
-~~~~~~~~~~~~~~~
+For ``ipv6``, use our IPv6 block with the hostname's digits as the final group of the IPv6 address: for example, *2a01:7e00:e000:02cc::12* for *ocp12*.
+
+Other hosting providers
+~~~~~~~~~~~~~~~~~~~~~~~
 
 .. note::
 
