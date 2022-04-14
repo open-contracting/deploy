@@ -55,11 +55,17 @@ Linode
    #. Click *Power On*
    #. Copy *SSH Access* to your clipboard
 
-#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to add the new server to our ``2a01:7e00:e000:02cc::/64`` IPv6 range.
+#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign our IPv6 block to the new server.
+
+      Hello,
+
+      Please assign our IPv6 /64 block (2a01:7e00:e000:02cc::/64) to the server ocp##.open-contracting.org.
+
+      Thank you,
 
    .. note::
 
-      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, add the IPv6 address to the :doc:`network configuration<../develop/update/network>`.
+      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
 
 #. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
 

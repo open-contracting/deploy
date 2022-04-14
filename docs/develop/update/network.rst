@@ -37,7 +37,7 @@ This configuration disables automatic IP configuration and configures static net
 
       Please provision an IPv6 /64 block for our account.
 
-      Thanks!
+      Thank you,
 
    A /64 block is requested, because `spam blocklists use /64 ranges <https://www.spamhaus.org/organization/statement/012/spamhaus-ipv6-blocklists-strategy-statement>`__.
 
