@@ -1,0 +1,57 @@
+# Based on: https://github.com/getnewdash/setup/blob/master/data/docker-compose.yml
+x-shared: &shared
+  image: redash/redash:10.1.0.b50633
+  depends_on:
+    redis:
+      condition: service_healthy
+  env_file: /data/deploy/redash/.env
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  restart: always
+
+services:
+  nginx:
+    image: redash/nginx:latest
+    ports:
+      - "9090:80"
+    depends_on:
+      - server
+    links:
+      - server:redash
+    restart: always
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  server:
+    <<: *shared
+    command: server
+    ports:
+      - "5000:5000"
+    environment:
+      REDASH_WEB_WORKERS: 4
+  scheduler:
+    <<: *shared
+    command: scheduler
+  scheduled_worker:
+    <<: *shared
+    command: worker
+    environment:
+      QUEUES: "scheduled_queries,schemas"
+      WORKERS_COUNT: 1
+  adhoc_worker:
+    <<: *shared
+    command: worker
+    environment:
+      QUEUES: "queries"
+      WORKERS_COUNT: 2
+  worker:
+    <<: *shared
+    command: worker
+    environment:
+      QUEUES: "periodic emails default"
+      WORKERS_COUNT: 1

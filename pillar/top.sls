@@ -54,7 +54,8 @@ base:
 
   'redash':
     - redash
-    - maintenance
+    - private.redash
+    - redash_maintenance
 
   'registry':
     - registry

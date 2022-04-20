@@ -7,12 +7,14 @@ docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
 prometheus:          ocp03.open-contracting.org
-redash:              ocp08.open-contracting.org
+redash:              ocp14.open-contracting.org
 registry:
   host: ocp13.open-contracting.org
   port: 2223
 toucan:              ocp09.open-contracting.org
 
+# ocp0 is crm.open-contracting.org
 # ocp06 was covid19-dev
+# ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp10 was archive.kingfisher.open-contracting.org
 # ocp12 was spoonbill-dev

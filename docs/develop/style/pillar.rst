@@ -7,7 +7,7 @@ Order the top-level keys in these layers:
   -  System administration: ``maintenance``, ``system_contacts``
   -  Third-party service credentials: ``github``, ``google``, ``smtp``
 -  Universal services
-  -  Server access: ``firewall``, ``ssh``
+  -  Server access: ``network``, ``firewall``, ``ssh``
   -  Kernel: ``vm``
   -  Monitoring: ``prometheus``
   -  Logging: ``rsyslog``, ``logrotate``

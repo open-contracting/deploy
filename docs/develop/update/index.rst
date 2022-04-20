@@ -7,6 +7,7 @@ Make changes
 
 .. toctree::
 
+   network.rst
    firewall.rst
    packages.rst
    apache.rst

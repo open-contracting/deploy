@@ -16,35 +16,58 @@ Linode
 #. `Log into Linode <https://login.linode.com/>`__
 #. Click *Create Linode*
 
-   #. Set *Distribution* (Operating System) to the "Ubuntu 20.04 LTS" image
-   #. Set the *Region* to *London UK*
-   #. Set *Linode Plan*
-   #. Set *Linode Label* to the server name
-   #. *Add Tags* indicating the environment (*Production* or *Development*)
+   #. Set *Images* to "Ubuntu 20.04 LTS"
+   #. Set *Region* to *London UK*
+   #. Select a *Linode Plan*
+   #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+   #. Set *Add Tags* to either *Production* or *Development*
    #. Set *Root Password* to a `strong password <https://www.lastpass.com/password-generator>`__
-   #. Check *Enable Backups*
-   #. Click *Create Linode*
+   #. Check *Backups*
+   #. Click *Create Linode* and wait a few minutes for the server to power on
 
-#. Wait for the server to boot (this will take a few minutes)
-#. Select your new server
-#. *Power Off* Linode in order to resize disks
-#. Under the *Storage* tab, Resize the main disk "Ubuntu 20.04 LTS Disk" to the desired storage limits. (Recommended minimum 20GB / 20480MB).
-#. Wait for the disk to resize
-#. Resize and rename the swap disk "### MB Swap Image"
+#. From the `Linodes <https://cloud.linode.com/linodes>`__ list:
+
+   #. Click on the label for the new server
+   #. Click *Power Off* and wait for the server to power off
+   #. On the *Storage* tab:
+
+      #. Resize the "Swap Image" disk to the appropriate size
+
+         The swap size should be at most 200% of RAM and:
+
+         -  If RAM is less than 2 GB: at least 100% of RAM
+         -  If RAM is less than 32 GB: at least 50% of RAM
+         -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
+
+         .. note::
+
+            If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
+
+      #. Rename the "Swap Image" disk to "### MB Swap Image"
+      #. Resize the "Ubuntu 20.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+
+   #. On the *Configurations* tab:
+
+      #. Click *Edit* for the "My Ubuntu 20.04 LTS Disk Profile" (or similar) config
+      #. Uncheck *Auto-configure networking*
+      #. Click *Save Changes*
+
+   #. Click *Power On*
+   #. Copy *SSH Access* to your clipboard
+
+#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign our IPv6 block to the new server.
+
+      Hello,
+
+      Please assign our IPv6 /64 block (2a01:7e00:e000:02cc::/64) to the server ocp##.open-contracting.org.
+
+      Thank you,
 
    .. note::
 
-      If RAM is less than 2 GB, swap size should be at least the size of RAM.
-      If RAM is less than 32 GB, swap size should be at least half the size of RAM.
-      Otherwise swap size should be at least a quarter the size of RAM (minimum of 16 GB).
+      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
 
-      At most swap should be double the size of RAM.
-
-      If swap is too small, a swap file will be `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>__` as part of the core deployment.
-
-#. Power On Linode
-
-#. Select your new server and copy the *SSH Access* details
+#. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
 
 Hetzner
 ~~~~~~~
@@ -142,6 +165,8 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
       reboot
 
+#. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+
 .. _create-dns-records:
 
 2. Create DNS records
@@ -190,11 +215,13 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname, and apply the base configuration. Replace ``TARGET`` and ``ocpXX``:
+#. :doc:`../develop/update/network`.
+
+#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
    .. code-block:: bash
 
-      salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*' pillar='{"host_id": "ocpXX"}'
+      salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*'
 
    .. note::
 

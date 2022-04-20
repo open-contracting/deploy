@@ -12,6 +12,7 @@ base:
     - core.logrotate
     - core.mail
     - core.motd
+    - core.network
     - core.rsyslog
     - core.sshd
     - core.swap
@@ -47,7 +48,7 @@ base:
     - prometheus
 
   'redash':
-    - redash
+    - docker_apps
 
   'registry':
     - rabbitmq
