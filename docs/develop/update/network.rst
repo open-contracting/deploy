@@ -50,7 +50,7 @@ Update the server's Pillar file:
      ipv4: 198.51.100.34
      ipv6: 2001:db8::12
      netplan:
-       configuration: linode
+       template: linode
        addresses:
          - 2001:db8::32/64    # SLAAC
        gateway4: 198.51.100.1
@@ -76,7 +76,7 @@ Other hosting providers
 
    This step is optional. Only override a Netplan configuration if necessary. For example, Hetzner's `installimage <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>` script creates a `configuration file <https://github.com/hetzneronline/installimage/blob/84883efa372b9c9ecef2bb7703d696221b4e1093/network_config.functions.sh#L560>`__.
 
-In the server's Pillar file, set ``network.netplan.configuration`` to ``custom`` and set ``network.netplan.ethernets``:
+In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and set ``network.netplan.configuration``:
 
 .. code-block:: yaml
 
@@ -85,7 +85,13 @@ In the server's Pillar file, set ``network.netplan.configuration`` to ``custom``
      ipv4: 198.51.100.34
      ipv6: 2001:db8::12
      netplan:
-       configuration: custom
-       ethernets:
-         eth0:
-            # Your Netplan configuration for the eth0 device.
+       template: custom
+       configuration: |
+         network:
+           version: 2
+           renderer: networkd
+           ethernets:
+             eth0:
+               addresses:
+                 - 198.51.100.34/32
+                 ...

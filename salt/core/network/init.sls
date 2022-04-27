@@ -44,7 +44,7 @@ set hostname:
 
 /etc/netplan/10-salt-networking.yaml:
   file.managed:
-    - source: salt://core/network/files/netplan_{{ pillar.network.netplan.configuration }}.yaml
+    - source: salt://core/network/files/netplan_{{ pillar.network.netplan.template }}.yaml
     - template: jinja
 
 netplan_apply:
