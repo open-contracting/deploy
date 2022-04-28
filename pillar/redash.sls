@@ -3,7 +3,7 @@ network:
   ipv4: 139.162.199.85
   ipv6: 2a01:7e00:e000:02cc::14
   netplan:
-    configuration: linode
+    template: linode
     addresses:
       - 2a01:7e00::f03c:92ff:fea5:0e5f/64    # SLAAC
     gateway4: 139.162.199.1

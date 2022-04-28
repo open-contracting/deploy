@@ -1,3 +1,33 @@
+network:
+  host_id: ocp13
+  ipv4: 65.21.93.181
+  ipv6: 2a01:4f9:3b:45ca::2
+  netplan:
+    template: custom
+    configuration: |
+      network:
+        version: 2
+        renderer: networkd
+        ethernets:
+          enp9s0:
+            addresses:
+              - 65.21.93.181/32
+              - 65.21.93.141/32
+              - 2a01:4f9:3b:45ca::2/64
+            routes:
+              - on-link: true
+                to: 0.0.0.0/0
+                via: 65.21.93.129
+            gateway6: fe80::1
+            nameservers:
+              addresses:
+                - 213.133.99.99
+                - 213.133.100.100
+                - 213.133.98.98
+                - 2a01:4f8:0:1::add:9898
+                - 2a01:4f8:0:1::add:9999
+                - 2a01:4f8:0:1::add:1010
+
 vm:
   nr_hugepages: 8231
 
