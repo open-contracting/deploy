@@ -57,3 +57,15 @@ apache2-utils:
 {{ apache(name, entry) }}
 {% endfor %}
 {% endif %}
+
+# Delay the Apache start up if the server has multiple IP addresses.
+{% if salt['pillar.get']('apache:wait_for_networking') == True %}
+/etc/systemd/system/apache2.service.d/customization.conf:
+  file.managed:
+    - source: salt://core/systemd/files/apache2.conf
+    - makedirs: True
+  module.run:
+    - name: service.systemctl_reload
+    - onchanges:
+      - file: /etc/systemd/system/apache2.service.d/customization.conf
+{% endif %}

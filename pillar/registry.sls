@@ -39,6 +39,7 @@ apache:
   public_access: True
   ipv4: 65.21.93.181
   ipv6: 2a01:4f9:3b:45ca::2
+  wait_for_networking: True
   sites:
     # Can use Scrapyd's basic authentication instead once 1.3 is released.
     # https://github.com/scrapy/scrapyd/issues/364
