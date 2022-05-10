@@ -4,80 +4,72 @@ Hosting
 Rescale a server
 ----------------
 
-The Bytemark and Linode Control Panels makes it easy to scale/resize a server (number of cores and GiB of RAM).
+The Bytemark and Linode Control Panels make it easy to scale/resize a server (number of cores and GiB of RAM).
 
 You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elasticsearch, PostgreSQL and/or uWSGI.
 
-Recovery
---------
+Recover a server
+----------------
 
-In the event that a server is inaccessible including via SSH there are a number of recovery systems we can use to restore access.
+If a server becomes inaccessible, including via SSH, log into the hosting provider and:
 
-The first step regardless of the ISP is to initiate a reboot via the server provider.
-This will clear down the current server state (unsaved firewall rules, running processes and system resources (CPU / Memory)), often this will bring the server back online.
+1. Reboot the server. This often restores access, as unsaved changes to firewall rules are reset, system resources are freed, and running processes are restarted.
+2. Use a recovery system to restore access if the server remains inaccessible.
 
 Linode
-^^^^^^
-LISH (Linode Shell) is a console hosted by Linode providing direct access to our servers.
-Using the LISH console we can login directly as if we were connecting to the instance locally.
+~~~~~~
 
-To access LISH:
-#. Log into Linode
+`Lish (Linode Shell) <https://www.linode.com/docs/guides/using-the-lish-console/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+
+#. `Log into Linode <https://login.linode.com/>`__
 #. Select the server you want to access
-#. Select *Launch LISH Console*
-#. Connect as the ``root`` user using the password stored in `LastPass <https://www.lastpass.com>`__.
-
-`Linode documentation including SSH tunnelling with LISH <https://www.linode.com/docs/guides/using-the-lish-console/>`__.
+#. Click *Launch LISH Console*
+#. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
 
 Hetzner
-^^^^^^^
-The Hetzner rescue system works by booting the server onto a temporary recovery image, from here we can mount the server disks and fix issues directly.
+~~~~~~~
 
-To set up the rescue system:
+Hetzner offers two recovery methods.
+
+Hetzner Rescue System
+^^^^^^^^^^^^^^^^^^^^^
+
+The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
+
 #. `Log into Hetzner <https://robot.your-server.de/server>`__
 #. Select the server you want to access
-#. Enable the Rescue System, select *Rescue*
-   #. Operating system: Linux
-   #. Architecture: 64 bit
-   #. Public key: Select your key
-   #. *Activate rescue system*
+#. Activate the rescue system:
 
-   The rescue system will now be used next time we reboot.
+   #. Click the *Rescue* tab
+   #. Set *Operating system* to *Linux*
+   #. Set *Architecture* to *64 bit*
+   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.your-server.de/key/index>`__)
+   #. Click *Activate rescue system*
 
-.. Note::
+#. Reboot the server:
 
-   If your key is not in Hetzner you can upload it under the `*Key management* page<https://robot.your-server.de/key/index>`__.
+   #. Click the *Reset* tab
+   #. Set *Reset type* to *Send CTRL+ALT+DEL to the server*
+   #. Click *Send*
 
-#. Reboot the server
-   #. Select the *Reset* heading
-   #. *Send CTRL+ALT+DEL to the server*
-   #. *Send*
+   It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
 
-   It will take a few minutes for the reboot to process, if nothing has happened after 5 minutes, try again using *Execute an automatic hardware reset*.
+#. Connect to the server as the ``root`` user using SSH
 
-#. ssh onto the server using the key specified above
-
-#. *mount* the disk
+#. Mount the drive(s):
 
    .. code-block:: bash
 
       mount /dev/md/2 /mnt
 
-#. Optionally, *chroot* into the operating system
+#. Optionally, ``chroot`` into the operating system:
 
    .. code-block:: bash
 
       chroot-prepare /mnt
       chroot /mnt
 
-`Hetzner documentation <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
+KVM Console
+^^^^^^^^^^^
 
-KVM Access
-""""""""""
-An alternative Hetzner recovery method is to request a KVM Console.
-With this a Hetzner plug a separate KVM system into the server providing access to the server as if we were connecting locally.
-This mitigates any issues with Network, Firewall or SSHD configuration.
-
-KVM sessions can be slow to set up as we need to wait for a Hetzner Support technician to physically access our server.
-
-Information on ordering and using KVM can be found in the `Hetzner documentation<https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__.
+Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
