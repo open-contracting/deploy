@@ -49,7 +49,7 @@ The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/trou
 #. Reboot the server:
 
    #. Click the *Reset* tab
-   #. Set *Reset type* to *Send CTRL+ALT+DEL to the server*
+   #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
    #. Click *Send*
 
    It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
