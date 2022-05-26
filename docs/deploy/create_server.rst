@@ -197,12 +197,12 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
 
-#. If the server has an IPv6 address, add an AAAA record for the hostname:
+#. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
 
    #. Click *ADD*
    #. Select "AAAA" from the *Type* dropdown
    #. Enter the hostname in *Host* (``ocp42``, for example)
-   #. Enter the IPv6 address in *Points to*
+   #. Enter the IPv6 address in *Points to* (use ``2`` as the last group of digits)
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
 
