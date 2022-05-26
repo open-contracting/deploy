@@ -78,14 +78,15 @@ Hetzner
 
 #. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
 #. Click the *Dedicated* menu to browser for a suitable server
+#. Check the `Server Auction <https://www.hetzner.com/sb>`__ for a comparable server
 #. Click the *Order* button for the chosen server
 
    #. Set *Server Location* (no issues to date with the lowest price option)
-   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal".
+   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal"
 
       .. note::
 
-         If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps.
+         If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps. Servers from the Server Auction are delivered in the `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
 
    #. Set *Drives* as needed
    #. Click the *Order Now* button
@@ -166,6 +167,16 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
       reboot
 
 #. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+
+.. _install-windows:
+
+Install Windows
+^^^^^^^^^^^^^^^
+
+Reference:
+
+-  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
+-  `Installing WIndows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
 .. _create-dns-records:
 
