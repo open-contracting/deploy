@@ -16,6 +16,7 @@ systemd-timesyncd:
 /etc/systemd/timesyncd.conf.d/customization.conf:
   file.managed:
     - source: salt://core/systemd/files/timesyncd.conf
+    - template: jinja
     - makedirs: True
     - watch_in:
       - service: systemd-timesyncd

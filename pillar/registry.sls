@@ -28,6 +28,12 @@ network:
                 - 2a01:4f8:0:1::add:9999
                 - 2a01:4f8:0:1::add:1010
 
+ntp:
+  ntp-finland
+
+NTP:
+  ntp-finland
+
 vm:
   nr_hugepages: 8231
 
