@@ -1,6 +1,8 @@
 Amazon Web Services (AWS)
 =========================
 
+In all cases, set the region to *us-east-1* (N. Virginia).
+
 Simple Email Service (SES)
 --------------------------
 
@@ -178,6 +180,34 @@ Bounces and complaints are sent to the subscribed address. The relevant properti
 
 Reference: `DNS Blackhole List (DNSBL) FAQs <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/faqs-dnsbls.html>`__
 
+Relational Database Service (RDS)
+---------------------------------
+
+.. note::
+
+   This configuration is for data analysis, where it is acceptable for the data to be lost.
+
+#. Go to RDS' `Databases <https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#databases:>`__
+#. Click *Create database*
+
+   #. Set *Engine type* to "PostgreSQL"
+   #. Set *Version* to the latest version
+   #. Set *Templates* to "Free tier"
+   #. Check *Auto generate a password*
+   #. Set *DB instance class* to "db.t3.micro"
+   #. Uncheck *Enable storage autoscaling*
+   #. Set *Public access* to "Yes"
+   #. Add "postgresql-anywhere" to *Existing VPC security groups"
+   #. Remove "default" from *Existing VPC security groups"
+   #. Expand *Additional configuration*
+   #. Uncheck *Enable automated backups*
+   #. Uncheck *Enable encryption*
+   #. Uncheck *Turn on Performance Insights*
+   #. Click *Create database*
+
+#. Wait for the database to be created
+#. Click *View connection details*
+
 Aurora Serverless
 -----------------
 
@@ -186,7 +216,7 @@ Note: `"You can't give an Aurora Serverless DB cluster a public IP address." <ht
 Create a VPC
 ~~~~~~~~~~~~
 
-#. Set *IPv4 CIDR block* to 10.0.0.0/16
+#. Set *IPv4 CIDR block* to "10.0.0.0/16"
 #. Click *Create*
 
 Reference: `Create a DB instance in the VPC <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
@@ -196,14 +226,14 @@ Create subnets
 
 #. Set *VPC* to the created VPC
 #. Set *Availability Zone* to any zone
-#. Set *IPv4 CIDR block* to 10.0.1.0/24
+#. Set *IPv4 CIDR block* to "10.0.1.0/24"
 #. Click *Create*
 
 Then:
 
 #. Set *VPC* to the created VPC
 #. Set *Availability Zone* to another zone
-#. Set *IPv4 CIDR block* to 10.0.2.0/24
+#. Set *IPv4 CIDR block* to "10.0.2.0/24"
 #. Click *Create*
 
 Create security group
