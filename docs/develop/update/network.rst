@@ -95,3 +95,20 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
                addresses:
                  - 198.51.100.34/32
                  ...
+
+NTP Servers
+-----------
+
+If the server is located outside of the UK you will need to manually configure NTP.
+
+You can do this by editing the server's Pillar file and configuring ``ntp`` to a list of the desired `NTP servers <https://www.pool.ntp.org/zone/europe>`__.
+
+For example to use the NTP servers located in Finland:
+
+.. code-block:: yaml
+
+   ntp:
+     - 0.fi.pool.ntp.org
+     - 1.fi.pool.ntp.org
+     - 2.fi.pool.ntp.org
+     - 3.fi.pool.ntp.org
