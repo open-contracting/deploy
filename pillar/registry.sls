@@ -29,10 +29,10 @@ network:
                 - 2a01:4f8:0:1::add:1010
 
 ntp:
-  ntp-finland
-
-NTP:
-  ntp-finland
+  - 0.fi.pool.ntp.org
+  - 1.fi.pool.ntp.org
+  - 2.fi.pool.ntp.org
+  - 3.fi.pool.ntp.org
 
 vm:
   nr_hugepages: 8231
