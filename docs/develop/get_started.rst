@@ -41,7 +41,7 @@ You must first have access to three private repositories. Contact an owner of th
 3. Add your public SSH key to remote servers
 --------------------------------------------
 
-Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/commons.sls`` file if you require root access to all servers. For example:
+Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/common.sls`` file if you require root access to all servers. For example:
 
 .. code-block:: bash
 
