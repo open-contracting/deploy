@@ -9,6 +9,7 @@ Order the top-level keys in these layers:
 -  Universal services
   -  Server access: ``network``, ``firewall``, ``ssh``
   -  Kernel: ``vm``
+  -  Time: ``ntp``
   -  Monitoring: ``prometheus``
   -  Logging: ``rsyslog``, ``logrotate``
 -  Application services

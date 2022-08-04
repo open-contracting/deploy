@@ -99,9 +99,13 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
 NTP Servers
 -----------
 
-If the server is located outside of the UK you will need to manually configure NTP.
+NTP configures and maintains time on the servers, this is installed and configured automatically by Salt.
 
-You can do this by editing the server's Pillar file and configuring ``ntp`` to a list of the desired `NTP servers <https://www.pool.ntp.org/zone/europe>`__.
+By default servers are configured to use the UK NTP pool, if your server is located outside of the UK it is advisable to choose NTP servers from the servers geographical region.
+
+We do this to reduce network latency to the NTP source providing a more reliable source of time.
+
+You can configure custom NTP servers by editing the server's Pillar file and configuring ``ntp`` to a list of the desired `NTP servers <https://www.pool.ntp.org/zone/europe>`__.
 
 For example to use the NTP servers located in Finland:
 
