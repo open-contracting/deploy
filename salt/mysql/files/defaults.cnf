@@ -1,0 +1,3 @@
+[mysqld]
+# Disable Reverse DNS lookups improving performance.
+skip-name-resolve

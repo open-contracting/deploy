@@ -80,6 +80,9 @@ base:
   'I@prometheus:node_exporter':
     - prometheus.node_exporter
 
+  'I@mysql:configuration':
+    - mysql
+
   'I@maintenance:enabled:true':
     - maintenance.rkhunter
 
