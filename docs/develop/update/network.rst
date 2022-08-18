@@ -96,18 +96,14 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
                  - 198.51.100.34/32
                  ...
 
-NTP Servers
------------
+Time servers
+------------
 
-NTP configures and maintains time on the servers, this is installed and configured automatically by Salt.
+`systemd-timesyncd <https://www.man7.org/linux/man-pages/man8/systemd-timesyncd.8.html>`__ synchronizes the local system clock with remote `NTP <https://en.wikipedia.org/wiki/Network_Time_Protocol>`__ servers.
 
-By default servers are configured to use the UK NTP pool, if your server is located outside of the UK it is advisable to choose NTP servers from the servers geographical region.
+You should select NTP servers from the `NTP Pool Project <https://www.ntppool.org/zone/@>`__ that are close to the server's location, in order to mitigate network latency and improve time accuracy.
 
-We do this to reduce network latency to the NTP source providing a more reliable source of time.
-
-You can configure custom NTP servers by editing the server's Pillar file and configuring ``ntp`` to a list of the desired `NTP servers <https://www.pool.ntp.org/zone/europe>`__.
-
-For example to use the NTP servers located in Finland:
+For example, to use the `NTP servers in Finland <https://www.ntppool.org/zone/fi>`__, add to the server's Pillar file:
 
 .. code-block:: yaml
 
@@ -116,3 +112,5 @@ For example to use the NTP servers located in Finland:
      - 1.fi.pool.ntp.org
      - 2.fi.pool.ntp.org
      - 3.fi.pool.ntp.org
+
+By default, the NTP servers in the UK are used.

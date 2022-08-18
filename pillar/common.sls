@@ -1,4 +1,5 @@
 # Values used on all servers. These may be overwritten.
+
 maintenance:
   enabled: False
   # Set safe default.

@@ -1,4 +1,4 @@
-# Configure an NTP service
+# Configure an SNTP service.
 systemd-timesyncd:
   {% if grains['osrelease'] >= '20.04' %}
   # timesyncd is built into systemd on older Ubuntu releases.
@@ -28,7 +28,7 @@ systemd-timesyncd:
     - watch_in:
       - service: systemd-timesyncd
 
-# Catch instances where ntp has been installed protecting against two NTP services running at once.
+# Prevent NTP from running at the same time as SNTP.
 ntp:
   service.dead:
     - enable: False
