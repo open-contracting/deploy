@@ -95,3 +95,22 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
                addresses:
                  - 198.51.100.34/32
                  ...
+
+Time servers
+------------
+
+`systemd-timesyncd <https://www.man7.org/linux/man-pages/man8/systemd-timesyncd.8.html>`__ synchronizes the local system clock with remote `NTP <https://en.wikipedia.org/wiki/Network_Time_Protocol>`__ servers.
+
+You should select NTP servers from the `NTP Pool Project <https://www.ntppool.org/zone/@>`__ that are close to the server's location, in order to mitigate network latency and improve time accuracy.
+
+For example, to use the `NTP servers in Finland <https://www.ntppool.org/zone/fi>`__, add to the server's Pillar file:
+
+.. code-block:: yaml
+
+   ntp:
+     - 0.fi.pool.ntp.org
+     - 1.fi.pool.ntp.org
+     - 2.fi.pool.ntp.org
+     - 3.fi.pool.ntp.org
+
+By default, the NTP servers in the UK are used.
