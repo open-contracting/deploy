@@ -1,8 +1,8 @@
 {% set mysql_version = pillar.mysql.get('version', '8.0') %}
 
-mysql install dependancies:
+mysql install dependencies:
   pkg.installed:
-    - pkgs: 
+    - pkgs:
       - gnupg2
       - python3-mysqldb
 
@@ -13,7 +13,7 @@ percona-release:
     - sources:
       - percona-release: https://repo.percona.com/apt/percona-release_latest.{{ salt['grains.get']('lsb_distrib_codename') }}_all.deb
   cmd.run:
-    - name: percona-release setup ps{{ mysql_version|replace(".","") }}
+    - name: percona-release setup ps{{ mysql_version|replace('.', '') }}
     - creates: /etc/apt/sources.list.d/percona-ps-80-release.list
     - require:
       - pkg: percona-release
@@ -49,7 +49,7 @@ remove test db:
       - service: mysql
 {% endif %} {# config #}
 
-{% if salt['pillar.get']('mysql:users') %}
+{% if pillar.mysql.get('users') %}
 {% for name, entry in pillar.mysql.users.items() %}
 {{ name }}_mysql_user:
   mysql_user.present:
@@ -62,13 +62,14 @@ remove test db:
 {% endfor %}
 {% endif %} {# users #}
 
-{% if salt['pillar.get']('mysql:databases') %}
+{% if pillar.mysql.get('databases') %}
 {% for database, entry in pillar.mysql.databases.items() %}
 {{ database }}:
   mysql_database.present:
     - name: {{ database }}
     - require:
       - service: mysql
+
 grant {{ entry.user }} privileges:
   mysql_grants.present:
     - grant: all privileges

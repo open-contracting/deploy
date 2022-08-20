@@ -9,10 +9,10 @@ The default version is 8.0.
 To override the version, update the server's Pillar file:
 
 .. code-block:: yaml
-  :emphasize-lines: 2
+   :emphasize-lines: 2
 
-  mysql:
-    version: 8.0
+   mysql:
+     version: '8.0'
 
 Add users, groups and databases
 -------------------------------
@@ -44,7 +44,7 @@ To configure the database for an application:
 #. Add the private Pillar file to the top file entry for the application.
 
 Configure MySQL
---------------------
+---------------
 
 .. note::
 

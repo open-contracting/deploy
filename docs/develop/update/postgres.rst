@@ -9,10 +9,10 @@ The default version is 11.
 To override the version, update the server's Pillar file:
 
 .. code-block:: yaml
-  :emphasize-lines: 2
+   :emphasize-lines: 2
 
-  postgres:
-    version: 11
+   postgres:
+     version: 11
 
 .. _pg-public-access:
 
@@ -24,10 +24,10 @@ By default, PostgreSQL only allows local connections (`see the template for the 
 To enable public access, update the server's Pillar file:
 
 .. code-block:: yaml
-  :emphasize-lines: 2
+   :emphasize-lines: 2
 
-  postgres:
-    public_access: True
+   postgres:
+     public_access: True
 
 Add users, groups and databases
 -------------------------------

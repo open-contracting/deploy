@@ -97,7 +97,7 @@ pg_stat_statements:
     - maintenance_db: template1
     - if_not_exists: True
 
-{% if salt['pillar.get']('postgres:ssh_key') %}
+{% if pillar.postgres.get('ssh_key') %}
 /var/lib/postgresql/.ssh:
   file.directory:
     - makedirs: True
@@ -109,10 +109,10 @@ pg_stat_statements:
     - mode: 600
 {% endif %}
 
-{% if not salt['pillar.get']('postgres:replication') %}
+{% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-{% if salt['pillar.get']('postgres:groups') %}
+{% if pillar.postgres.get('groups') %}
 {% for name in pillar.postgres.groups %}
 {{ name }}:
   postgres_group.present:
@@ -122,7 +122,7 @@ pg_stat_statements:
 {% endfor %}
 {% endif %} {# groups #}
 
-{% if salt['pillar.get']('postgres:users') %}
+{% if pillar.postgres.get('users') %}
 {% for name, entry in pillar.postgres.users.items() %}
 {{ name }}_sql_user:
   postgres_user.present:
@@ -146,7 +146,7 @@ pg_stat_statements:
 {% endfor %}
 {% endif %} {# users #}
 
-{% if salt['pillar.get']('postgres:databases') %}
+{% if pillar.postgres.get('databases') %}
 {% for database, entry in pillar.postgres.databases.items() %}
 {{ database }}:
   postgres_database.present:
