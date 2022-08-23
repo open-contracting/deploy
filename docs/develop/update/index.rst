@@ -13,6 +13,7 @@ Make changes
    apache.rst
    elasticsearch.rst
    postgres.rst
+   mysql.rst
    rabbitmq.rst
    python.rst
    docker.rst

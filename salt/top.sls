@@ -71,6 +71,9 @@ base:
   'I@apache:public_access:true':
     - apache.letsencrypt
 
+  'I@mysql:configuration':
+    - mysql
+
   'I@postgres:configuration':
     - postgres
 
