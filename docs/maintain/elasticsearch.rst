@@ -97,20 +97,7 @@ Upgrade
 
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
-#. Get the ReadOnlyREST plugin's ZIP file:
-
-   #. Open the `download page <https://readonlyrest.com/download/>`__
-   #. Select "Free Elasticsearch plugin" from the *Select Product* dropdown
-   #. Select the Elasticsearch version from the *Elastic Stack Version* dropdown
-   #. Enter your email address in *Send to email*
-   #. Check *Notify me about new versions and security fixes*
-   #. Click the *Get it now* button
-
-   .. note::
-
-      A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
-
-#. Move the ZIP file to the ``salt/private/files`` directory.
+#. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
 
 #. Stop Elasticsearch, for example:
 
@@ -124,8 +111,12 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
       ./run.py 'docs' cmd.run "/usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest"
 
-#. Update ``readonlyrest_version`` and ``source_hash`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
-
 #. :doc:`Deploy the service<../deploy/deploy>`
+
+#. Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+
+.. note::
+
+   A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
 
 Reference: `Upgrading the plugin <https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin>`__
