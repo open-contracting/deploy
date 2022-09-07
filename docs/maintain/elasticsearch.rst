@@ -97,6 +97,8 @@ Upgrade
 
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
+#. Check a new version of ReadOnlyREST is available for download and it supports the new version of ElasticSearch. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
+
 #. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
 
 #. Stop Elasticsearch, for example:
@@ -114,9 +116,5 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 #. :doc:`Deploy the service<../deploy/deploy>`
 
 #. Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
-
-.. note::
-
-   A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
 
 Reference: `Upgrading the plugin <https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin>`__
