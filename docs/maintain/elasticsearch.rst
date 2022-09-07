@@ -97,7 +97,7 @@ Upgrade
 
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
-#. Check a new version of ReadOnlyREST is available for download and it supports the new version of ElasticSearch. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
+#. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
 
 #. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
 
