@@ -97,7 +97,7 @@ Upgrade
 
 .. note::
 
-   Before upgrading ElasticSearch double check all plugins support the new version.
+   Before upgrading Elasticsearch, check that all plugins (below) support the new version.
 
 #. Connect to the server as the ``root`` user, for example:
 
@@ -106,13 +106,13 @@ Upgrade
       curl --silent --connect-timeout 1 ocp07.open-contracting.org:8255 || true
       ssh root@ocp07.open-contracting.org
 
-#. Install any outstanding updates.
+#. Perform any outstanding updates:
 
    .. code-block:: bash
 
       apt-get update && apt-get dist-upgrade
 
-#. Update ElasticSearch. The ElasticSearch package is held to prevent accidental updates.
+#. Update Elasticsearch (the Elasticsearch package is held to prevent accidental updates):
 
    .. code-block:: bash
 
@@ -120,17 +120,17 @@ Upgrade
       apt-get update && apt-get dist-upgrade
       apt-mark hold elasticsearch
 
-#. Update ElasticSearch plugins (detailed below).
+#. Update plugins, as described below.
 
-#. Test ElasticSearch is working correctly.
+#. Test Elasticsearch is working.
 
-   #. Check the service running without errors.
+   #. Check that the service is running without errors.
 
       .. code-block:: bash
 
          service elasticsearch status
 
-   #. Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+   #. Test the `site search works <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
 
 ReadOnlyREST
 ^^^^^^^^^^^^
@@ -139,9 +139,7 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
 #. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
 
-#. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file.
-
-   To get the current installed ElasticSearch version:
+#. In the ``salt/elasticsearch/plugins/readonlyrest.sls`` file, set ``readonlyrest_version`` to the version to install, and set ``elasticsearch_version`` to the already installed version:
 
    .. code-block:: bash
 
