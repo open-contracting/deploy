@@ -95,26 +95,70 @@ List users' queries:
 Upgrade
 -------
 
+.. note::
+
+   Before upgrading ElasticSearch double check all plugins support the new version.
+
+#. Connect to the server as the ``root`` user, for example:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 ocp07.open-contracting.org:8255 || true
+      ssh root@ocp07.open-contracting.org
+
+#. Install any outstanding updates.
+
+   .. code-block:: bash
+
+      apt-get update && apt-get dist-upgrade
+
+#. Update ElasticSearch. We keep the ElasticSearch package held to prevent accidental updates.
+
+   .. code-block:: bash
+
+      apt-mark unhold elasticsearch
+      apt-get update && apt-get dist-upgrade
+      apt-mark hold elasticsearch
+
+#. Update ElasticSearch plugins (detailed below).
+
+#. Test ElasticSearch is working correctly.
+
+   Check the service running without errors.
+
+   .. code-block:: bash
+
+      service elasticsearch status
+
+   Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+
+ReadOnlyREST
+^^^^^^^^^^^^
+
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
 #. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
 
-#. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
+#. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file.
+
+   To get the ``elasticsearch_version``:
+
+   .. code-block:: bash
+
+      dpkg-query --show elasticsearch
 
 #. Stop Elasticsearch, for example:
 
    .. code-block:: bash
 
-      ./run.py 'docs' service.stop elasticsearch
+      systemctl stop elasticsearch
 
 #. Uninstall ReadOnlyREST, for example:
 
    .. code-block:: bash
 
-      ./run.py 'docs' cmd.run "/usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest"
+      /usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest
 
 #. :doc:`Deploy the service<../deploy/deploy>`
-
-#. Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
 
 Reference: `Upgrading the plugin <https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin>`__
