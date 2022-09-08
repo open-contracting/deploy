@@ -112,7 +112,7 @@ Upgrade
 
       apt-get update && apt-get dist-upgrade
 
-#. Update ElasticSearch. We keep the ElasticSearch package held to prevent accidental updates.
+#. Update ElasticSearch. The ElasticSearch package is held to prevent accidental updates.
 
    .. code-block:: bash
 
@@ -124,13 +124,13 @@ Upgrade
 
 #. Test ElasticSearch is working correctly.
 
-   Check the service running without errors.
+   #. Check the service running without errors.
 
-   .. code-block:: bash
+      .. code-block:: bash
 
-      service elasticsearch status
+         service elasticsearch status
 
-   Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+   #. Test the `site search works correctly <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
 
 ReadOnlyREST
 ^^^^^^^^^^^^
@@ -141,7 +141,7 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
 #. Update ``readonlyrest_version`` and ``elasticsearch_version`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file.
 
-   To get the ``elasticsearch_version``:
+   To get the current installed ElasticSearch version:
 
    .. code-block:: bash
 
