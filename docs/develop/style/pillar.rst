@@ -4,6 +4,7 @@ Pillar style guide
 Order the top-level keys in these layers:
 
 -  Meta
+
    -  System administration: ``maintenance``, ``system_contacts``
    -  Third-party service credentials: ``github``, ``google``, ``smtp``
 
