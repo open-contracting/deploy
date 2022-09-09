@@ -20,5 +20,5 @@ Order the top-level keys in these layers:
 
    -  Web access: ``apache``
    -  Services: ``elasticsearch``, ``postgres``, ``rabbitmq``
-   -  Environments: ``docker``, ``nodejs``, ``ruby``
+   -  Environments: ``docker``, ``nodejs``, ``rvm``
    -  Applications: ``docker_apps``, ``python_apps``, ``react_apps``

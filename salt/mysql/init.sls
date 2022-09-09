@@ -1,6 +1,6 @@
 {% set mysql_version = pillar.mysql.get('version', '8.0') %}
 
-mysql install dependencies:
+mysql dependencies:
   pkg.installed:
     - pkgs:
       - gnupg2

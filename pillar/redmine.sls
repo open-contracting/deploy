@@ -23,8 +23,8 @@ mysql:
     redmine:
       user: redmine
 
-ruby:
-  version: 3.1.2
+rvm:
+  default_version: 3.1.2
 
 redmine:
   user: redmine

@@ -4,6 +4,7 @@ include:
   - apache
   - mysql
   - passenger
+  - rvm
 
 {{ create_user(pillar.redmine.user) }}
 
