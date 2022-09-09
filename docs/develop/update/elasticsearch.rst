@@ -51,8 +51,6 @@ Enable public access
 
 As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html>`__ For the OCDS documentation, we use the `ReadOnlyREST <https://readonlyrest.com>`__ plugin to control access.
 
-ReadOnlyREST is open source, but only available via web form. We store its ZIP file in the `deploy-salt-private <https://github.com/open-contracting/deploy-salt-private>`__ repository. ReadOnlyREST's ZIP file should match the installed Elasticsearch version.
-
 .. note::
 
    This setup assumes that :doc:`Apache<apache>` and Elasticsearch serve content from the same domain, and can share an SSL certificate.
