@@ -22,7 +22,7 @@ In the service's Pillar file, add, for example:
        name: redmine
        user: redmine
 
-And in the servers private Pillar file:
+Add, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__:
 
 .. code-block:: yaml
 
