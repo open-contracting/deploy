@@ -15,27 +15,29 @@ include:
     - require:
       - user: {{ pillar.redmine.user }}_user_exists
 
+# https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2
 redmine dependencies:
   pkg.installed:
     - pkgs:
-      - subversion
       - ruby-dev
       - libncurses5-dev
       - libmysqlclient-dev
+      # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Optional-components
       - ghostscript
       - imagemagick
     - require:
       - pkg: libapache2-mod-passenger
       - rvm: ruby-{{ pillar.ruby_version }}
 
-# Deploy redmine code 
-redmine deploy:
+redmine:
+  pkg.installed:
+    - name: subversion
   svn.latest:
     - name: https://svn.redmine.org/redmine/branches/{{ pillar.redmine.svn.branch }}
     - target: /home/{{ pillar.redmine.user }}/public_html
     - rev: {{ pillar.redmine.svn.revision }}
     - require:
-      - pkg: redmine dependencies
+      - pkg: redmine
       - file: /home/{{ pillar.redmine.user }}/public_html
 
 set redmine directory permissions:
@@ -53,18 +55,23 @@ set redmine directory permissions:
       - group
       - mode
       - ignore_files
+    - require:
+      - user: {{ pillar.redmine.user }}_user_exists
 
 set redmine file permissions:
   file.managed:
-    - user: {{ pillar.redmine.user }}
-    - group: {{ pillar.redmine.user }}
-    - replace: False
     - names:
       - /home/{{ pillar.redmine.user }}/public_html/config.ru
       - /home/{{ pillar.redmine.user }}/public_html/Gemfile.lock
+    - replace: False
+    - user: {{ pillar.redmine.user }}
+    - group: {{ pillar.redmine.user }}
+    - require:
+      - user: {{ pillar.redmine.user }}_user_exists
 
 /home/{{ pillar.redmine.user }}/public_html/config/database.yml:
   file.serialize:
+    # https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Edit-database-configuration-file
     - dataset:
         production:
           adapter: mysql2
@@ -77,12 +84,13 @@ set redmine file permissions:
     - user: {{ pillar.redmine.user }}
     - group: {{ pillar.redmine.user }}
     - mode: 640
+    - require:
+      - user: {{ pillar.redmine.user }}_user_exists
 
-# Deploy plugins from salt/private
-{% if pillar.redmine.get('plugins') %}
-{% for plugin_name in pillar.redmine.plugins %}
-/home/redmine/public_html/plugins/{{ plugin_name }}:
+{% for plugin in pillar.redmine.get('plugins', []) %}
+/home/{{ pillar.redmine.user }}/public_html/plugins/{{ plugin }}:
   file.recurse:
-    - source: salt://private/redmine-plugins/{{ plugin_name }}
+    - source: salt://private/files/redmine/{{ plugin }}
+    - require:
+      - user: {{ pillar.redmine.user }}_user_exists
 {% endfor %}
-{% endif %}
