@@ -57,6 +57,10 @@ base:
     - private.redash
     - redash_maintenance
 
+  'redmine':
+    - redmine
+    - private.redmine
+
   'registry':
     - registry
     - private.registry

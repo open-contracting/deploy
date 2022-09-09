@@ -41,7 +41,7 @@ remove test db:
     - watch_in:
       - service: mysql
 
-{% if pillar.mysql.configuration %}
+{% if pillar.mysql.get('configuration') %}
 /etc/mysql/conf.d/{{ pillar.mysql.configuration }}.cnf:
   file.managed:
     - source: salt://mysql/files/conf/{{ pillar.mysql.configuration }}.cnf

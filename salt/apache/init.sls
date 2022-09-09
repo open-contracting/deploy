@@ -36,36 +36,36 @@ apache2-reload:
     - name: service.reload
     - m_name: apache2
 
-# https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
-apache2-utils:
-  pkg.installed:
-    - name: apache2-utils
-
-{% if salt['pillar.get']('apache:ipv4') %}
-/etc/apache2/ports.conf:
-  file.managed:
-    - source: salt://apache/files/ports.conf
-    - template: jinja
-    - require:
-      - pkg: apache2
-    - watch_in:
-      - service: apache2
-{% endif %}
-
-{% if salt['pillar.get']('apache:sites') %}
-{% for name, entry in pillar.apache.sites.items() %}
-{{ apache(name, entry) }}
-{% endfor %}
-{% endif %}
-
-{% if salt['pillar.get']('apache:wait_for_networking') %}
-# Delay the Apache start up if the server has multiple IP addresses.
-/etc/systemd/system/apache2.service.d/customization.conf:
-  file.managed:
-    - source: salt://core/systemd/files/apache2.conf
-    - makedirs: True
-  module.run:
-    - name: service.systemctl_reload
-    - onchanges:
-      - file: /etc/systemd/system/apache2.service.d/customization.conf
-{% endif %}
+## https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
+#apache2-utils:
+#  pkg.installed:
+#    - name: apache2-utils
+#
+#{% if salt['pillar.get']('apache:ipv4') %}
+#/etc/apache2/ports.conf:
+#  file.managed:
+#    - source: salt://apache/files/ports.conf
+#    - template: jinja
+#    - require:
+#      - pkg: apache2
+#    - watch_in:
+#      - service: apache2
+#{% endif %}
+#
+#{% if salt['pillar.get']('apache:sites') %}
+#{% for name, entry in pillar.apache.sites.items() %}
+#{{ apache(name, entry) }}
+#{% endfor %}
+#{% endif %}
+#
+#{% if salt['pillar.get']('apache:wait_for_networking') %}
+## Delay the Apache start up if the server has multiple IP addresses.
+#/etc/systemd/system/apache2.service.d/customization.conf:
+#  file.managed:
+#    - source: salt://core/systemd/files/apache2.conf
+#    - makedirs: True
+#  module.run:
+#    - name: service.systemctl_reload
+#    - onchanges:
+#      - file: /etc/systemd/system/apache2.service.d/customization.conf
+#{% endif %}

@@ -50,6 +50,10 @@ base:
   'redash':
     - docker_apps
 
+  'redmine':
+    - passenger
+    - redmine
+
   'registry':
     - rabbitmq
     - kingfisher.collect
