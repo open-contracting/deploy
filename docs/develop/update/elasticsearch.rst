@@ -57,8 +57,6 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 
 #. Add the ``elasticsearch.plugins.readonlyrest`` state file to your service's target in the ``salt/top.sls`` file.
 
-#. Create a personal access token with the "repo" scope for a `machine user <https://docs.github.com/en/developers/overview/managing-deploy-keys#machine-users>`__ on GitHub. The machine user must have read-only access to the deploy-salt-private repository.
-
 #. Allow anyone to access Elasticsearch. Add to your service's Pillar file:
 
    .. code-block:: yaml
