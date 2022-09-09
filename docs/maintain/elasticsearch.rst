@@ -95,36 +95,67 @@ List users' queries:
 Upgrade
 -------
 
+.. note::
+
+   Before upgrading Elasticsearch, check that all plugins (below) support the new version.
+
+#. Connect to the server as the ``root`` user, for example:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 ocp07.open-contracting.org:8255 || true
+      ssh root@ocp07.open-contracting.org
+
+#. Perform any outstanding updates:
+
+   .. code-block:: bash
+
+      apt-get update && apt-get dist-upgrade
+
+#. Update Elasticsearch (the Elasticsearch package is held to prevent accidental updates):
+
+   .. code-block:: bash
+
+      apt-mark unhold elasticsearch
+      apt-get update && apt-get dist-upgrade
+      apt-mark hold elasticsearch
+
+#. Update plugins, as described below.
+
+#. Test Elasticsearch is working.
+
+   #. Check that the service is running without errors.
+
+      .. code-block:: bash
+
+         service elasticsearch status
+
+   #. Test the `site search works <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+
+ReadOnlyREST
+^^^^^^^^^^^^
+
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
-#. Get the ReadOnlyREST plugin's ZIP file:
+#. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
 
-   #. Open the `download page <https://readonlyrest.com/download/>`__
-   #. Select "Free Elasticsearch plugin" from the *Select Product* dropdown
-   #. Select the Elasticsearch version from the *Elastic Stack Version* dropdown
-   #. Enter your email address in *Send to email*
-   #. Check *Notify me about new versions and security fixes*
-   #. Click the *Get it now* button
+#. In the ``salt/elasticsearch/plugins/readonlyrest.sls`` file, set ``readonlyrest_version`` to the version to install, and set ``elasticsearch_version`` to the already installed version:
 
-   .. note::
+   .. code-block:: bash
 
-      A new version might not yet be available for download. You can check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__.
-
-#. Move the ZIP file to the ``salt/private/files`` directory.
+      dpkg-query --show elasticsearch
 
 #. Stop Elasticsearch, for example:
 
    .. code-block:: bash
 
-      ./run.py 'docs' service.stop elasticsearch
+      systemctl stop elasticsearch
 
 #. Uninstall ReadOnlyREST, for example:
 
    .. code-block:: bash
 
-      ./run.py 'docs' cmd.run "/usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest"
-
-#. Update ``readonlyrest_version`` and ``source_hash`` in the ``salt/elasticsearch/plugins/readonlyrest.sls`` file
+      /usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest
 
 #. :doc:`Deploy the service<../deploy/deploy>`
 
