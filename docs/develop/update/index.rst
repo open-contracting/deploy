@@ -15,7 +15,6 @@ Make changes
    postgres.rst
    mysql.rst
    rabbitmq.rst
-   redmine.rst
    python.rst
    docker.rst
    languages.rst

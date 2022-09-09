@@ -1,10 +1,10 @@
-Configure Redmine
-=================
-
-Check `Redmine's documentation for supported Ruby and MySQL versions <https://www.redmine.org/projects/redmine/wiki/redmineinstall>`__.
+Redmine tasks
+=============
 
 Upgrade the Redmine service
 ---------------------------
+
+Check `Redmine's documentation for supported Ruby and MySQL versions <https://www.redmine.org/projects/redmine/wiki/redmineinstall>`__.
 
 Whenever Redmine and its plugins are updated, run these commands to install Redmine dependencies and run database migrations.
 

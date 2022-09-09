@@ -20,6 +20,7 @@ Deployment Guides
    prometheus.rst
    kingfisher.rst
    redash.rst
+   redmine.rst
 
 .. toctree::
    :caption: External service tasks
