@@ -5,7 +5,6 @@ Redmine requires :doc:`MySQL<mysql>`__ and :doc:`Apache Mod Passenger<apache>`__
 
 Chech the `Redmine wiki for supported Ruby and MySQL versions <https://www.redmine.org/projects/redmine/wiki/redmineinstall>`__.
 
-
 Add basic configuration
 -----------------------
 
@@ -19,7 +18,7 @@ In the service's Pillar file, add, for example:
        branch: 5.0-stable
        revision: 21783
      config: redmine
-     db:
+     database:
        name: redmine
        user: redmine
 
@@ -28,15 +27,14 @@ And in the servers private Pillar file:
 .. code-block:: yaml
 
    redmine:
-     db:
+     database:
        password: "redacted"
 
 This will:
 * Create a new user ``user``.
 * Deploy the Redmine SVN repository using the ``branch`` and ``revision`` under ``user``.
 * Upload the ``config`` file sourced in ``salt/redmine/files/``.
-* Configure Redmine with the ``db`` details.
-
+* Configure Redmine with the ``database`` details.
 
 Add plugins
 -----------
@@ -52,7 +50,6 @@ Add plugins
        - view_customize
 
 This will deploy each ``plugin`` sourced in ``salt/private/files/redmine-plugins/``.
-
 
 Install Dependancies
 --------------------

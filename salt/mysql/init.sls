@@ -29,7 +29,7 @@ percona-mysql:
     - require:
       - pkg: percona-mysql
 
-remove test db:
+remove test database:
   mysql_database.absent:
     - name: test
     - require:

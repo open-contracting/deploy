@@ -30,7 +30,7 @@ redmine:
     branch: 5.0-stable
     revision: 21783
   config: redmine
-  db:
+  database:
     name: redmine
     user: redmine
   plugins:
