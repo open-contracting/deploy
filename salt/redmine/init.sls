@@ -27,7 +27,7 @@ redmine dependencies:
       - imagemagick
     - require:
       - pkg: libapache2-mod-passenger
-      - rvm: ruby-{{ pillar.ruby_version }}
+      - rvm: ruby-{{ pillar.rvm.default_version }}
 
 redmine:
   pkg.installed:
