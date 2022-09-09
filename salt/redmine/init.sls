@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, create_user %}
+{% from 'lib.sls' import create_user %}
 
 {% set user = 'redmine' %}
 {% set branch = '5.0-stable' %}
