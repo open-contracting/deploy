@@ -1,3 +1,4 @@
+{# https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Configure-Apache #}
 ServerAdmin sysadmin@dogsbody.com
 DocumentRoot /home/{{ pillar.redmine.user }}/public_html/public
 
