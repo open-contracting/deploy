@@ -92,6 +92,8 @@ set redmine file permissions:
 /home/{{ user }}/public_html/plugins/{{ plugin }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ plugin }}
+    - user: {{ user }}
+    - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
 {% endfor %}
