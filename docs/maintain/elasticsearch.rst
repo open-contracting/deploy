@@ -128,9 +128,9 @@ Upgrade
 
       .. code-block:: bash
 
-         service elasticsearch status
+         systemctl status elasticsearch
 
-   #. Test the `site search works <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default`__.
+   #. Test the `site search works <https://standard.open-contracting.org/latest/en/search/?q=example&check_keywords=yes&area=default>`__.
 
 ReadOnlyREST
 ^^^^^^^^^^^^
