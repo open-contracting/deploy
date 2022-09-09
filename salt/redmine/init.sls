@@ -2,8 +2,8 @@
 
 include:
   - apache
+  - apache.modules.passenger
   - mysql
-  - passenger
   - rvm
 
 {{ create_user(pillar.redmine.user) }}

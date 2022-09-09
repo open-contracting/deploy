@@ -1,5 +1,3 @@
-{% from 'lib.sls' import apache %}
-
 include:
   - apache
 
@@ -15,12 +13,12 @@ passenger dependencies:
 
 passenger:
   pkgrepo.managed:
+    - humanname: Phusion Passenger Official Repository
     - name: deb https://oss-binaries.phusionpassenger.com/apt/passenger {{ grains.oscodename }} main
     - dist: focal
     - file: /etc/apt/sources.list.d/passenger.list
     - keyid: 561F9B9CAC40B2F7
     - keyserver: keyserver.ubuntu.com
-    - refresh_db: true
   pkg.installed:
     - name: libapache2-mod-passenger
     - require:
