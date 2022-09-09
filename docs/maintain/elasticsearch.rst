@@ -99,6 +99,10 @@ Upgrade
 
    Before upgrading Elasticsearch, check that all plugins (below) support the new version.
 
+.. note::
+
+   `OCDS Index <https://ocds-index.readthedocs.io/en/latest/>`__ supports Elasticsearch 7.x only.
+
 #. Connect to the server as the ``root`` user, for example:
 
    .. code-block:: bash
