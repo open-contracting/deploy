@@ -18,11 +18,13 @@ apache:
 
 mysql:
   version: 8.0
+  configuration: False
   databases:
     redmine:
       user: redmine
 
-ruby_version: 3.1.2
+ruby:
+  version: 3.1.2
 
 redmine:
   user: redmine

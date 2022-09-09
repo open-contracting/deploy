@@ -5,8 +5,7 @@ include:
   - mysql
   - passenger
 
-# Create redmine user
-{{ create_user( pillar.redmine.user ) }}
+{{ create_user(pillar.redmine.user) }}
 
 /home/{{ pillar.redmine.user }}/public_html:
   file.directory:
@@ -15,7 +14,7 @@ include:
     - require:
       - user: {{ pillar.redmine.user }}_user_exists
 
-redmine dependancies:
+redmine dependencies:
   pkg.installed:
     - pkgs:
       - subversion
@@ -35,7 +34,7 @@ redmine deploy:
     - target: /home/{{ pillar.redmine.user }}/public_html
     - rev: {{ pillar.redmine.svn.revision }}
     - require:
-      - pkg: redmine dependancies
+      - pkg: redmine dependencies
       - file: /home/{{ pillar.redmine.user }}/public_html
 
 set redmine directory permissions:

@@ -51,7 +51,6 @@ base:
     - docker_apps
 
   'redmine':
-    - passenger
     - redmine
 
   'registry':

@@ -1,9 +1,9 @@
 Configure Redmine
 =================
 
-Redmine requires :doc:`MySQL<mysql>`__ and :doc:`Apache Mod Passenger<apache>`__ to be configured.
+Redmine requires :doc:`MySQL<mysql>`__ and :ref:`mod_passenger for Apache<apache-modules>`__.
 
-Chech the `Redmine wiki for supported Ruby and MySQL versions <https://www.redmine.org/projects/redmine/wiki/redmineinstall>`__.
+Check `Redmine's documentation for supported Ruby and MySQL versions <https://www.redmine.org/projects/redmine/wiki/redmineinstall>`__.
 
 Add basic configuration
 -----------------------
@@ -28,13 +28,14 @@ And in the servers private Pillar file:
 
    redmine:
      database:
-       password: "redacted"
+       password: "PASSWORD"
 
 This will:
-* Create a new user ``user``.
-* Deploy the Redmine SVN repository using the ``branch`` and ``revision`` under ``user``.
-* Upload the ``config`` file sourced in ``salt/redmine/files/``.
-* Configure Redmine with the ``database`` details.
+
+-  Create a ``redmine`` user.
+-  Deploy the Redmine SVN repository using the ``branch`` and ``revision`` under ``redmine``.
+-  Upload the ``config`` file sourced in ``salt/redmine/files/``.
+-  Configure Redmine with the ``database`` details.
 
 Add plugins
 -----------
@@ -51,10 +52,10 @@ Add plugins
 
 This will deploy each ``plugin`` sourced in ``salt/private/files/redmine-plugins/``.
 
-Install Dependancies
+Install dependencies
 --------------------
 
-The following commands install Redmine dependancies and database structure changes. These commands need running whenever Redmine and it's plugins are updated.
+The following commands install Redmine dependencies and database structure changes. These commands need running whenever Redmine and it's plugins are updated.
 
 #. Connect to the server as the ``root`` user, for example:
 

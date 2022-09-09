@@ -3,7 +3,7 @@
 include:
   - apache
 
-Passenger apt repo dependancies:
+Passenger apt repo dependencies:
   pkg.installed:
     - pkgs:
       - gnupg

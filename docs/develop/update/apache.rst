@@ -220,11 +220,12 @@ apache.modules.md
 apache.modules.passenger
   Adds the `Passenger webserver<https://www.phusionpassenger.com/>`__ for serving Ruby applications.
 
-  Requires ``ruby_version`` to be configured in pillar. Check `Ruby releases for supported versions <https://www.ruby-lang.org/en/downloads/releases/>`__.
+  Set ``ruby.version`` in the service's Pillar file to a `Ruby version <https://www.ruby-lang.org/en/downloads/releases/>`__.
 
   .. code-block:: yaml
 
-     ruby_version: 3.1.2
+     ruby:
+       version: 3.1.2
 
 apache.modules.proxy
   Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
