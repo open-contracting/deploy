@@ -9,11 +9,13 @@ rvm:
       - pkgrepo: rvm
 
 # A Salt bug breaks support for the apt-managed package.
-rvm salt integration:
+rvm-symlink:
   file.symlink:
     - name: /usr/local/rvm/bin/rvm
     - target: /usr/share/rvm/bin/rvm
     - makedirs: True
+    - require:
+      - pkg: rvm
 
 {{ create_user('rvm') }}
 
@@ -29,4 +31,4 @@ ruby-{{ pillar.rvm.default_version }}:
   rvm.installed:
     - default: True
     - require:
-      - pkg: rvm
+      - file: rvm-symlink
