@@ -31,7 +31,6 @@ redmine:
   svn:
     branch: 5.0-stable
     revision: 21783
-  config: redmine
   database:
     name: redmine
     user: redmine

@@ -64,9 +64,16 @@ set redmine file permissions:
       - /home/{{ pillar.redmine.user }}/public_html/Gemfile.lock
 
 /home/{{ pillar.redmine.user }}/public_html/config/database.yml:
-  file.managed:
-    - source: salt://redmine/files/config/{{ pillar.redmine.config }}.yml
-    - template: jinja
+  file.serialize:
+    - dataset:
+        production:
+          adapter: mysql2
+          host: localhost
+          database: {{ pillar.redmine.database.name }}
+          username: {{ pillar.redmine.database.user }}
+          password: "{{ pillar.redmine.database.password }}"
+          encoding: utf8mb4
+    - serializer: yaml
     - user: {{ pillar.redmine.user }}
     - group: {{ pillar.redmine.user }}
     - mode: 640

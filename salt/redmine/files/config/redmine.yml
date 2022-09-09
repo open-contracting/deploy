@@ -1,7 +1,0 @@
-production:
-  adapter: mysql2
-  database: {{ pillar.redmine.database.name }}
-  host: localhost
-  username: {{ pillar.redmine.database.user }}
-  password: "{{ pillar.redmine.database.password }}"
-  encoding: utf8mb4
