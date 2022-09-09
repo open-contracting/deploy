@@ -29,9 +29,6 @@ redmine dependencies:
       # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Optional-components
       - ghostscript
       - imagemagick
-    - require:
-      - pkg: libapache2-mod-passenger
-      - rvm: ruby-{{ pillar.rvm.default_version }}
 
 redmine:
   pkg.installed:
