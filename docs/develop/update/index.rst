@@ -18,6 +18,7 @@ Make changes
    redmine.rst
    python.rst
    docker.rst
+   languages.rst
    logs.rst
    delete.rst
 
