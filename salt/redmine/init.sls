@@ -1,19 +1,23 @@
 {% from 'lib.sls' import apache, create_user %}
 
+{% set user = 'redmine' %}
+{% set branch = '5.0-stable' %}
+{% set revision = 21783 %}
+
 include:
   - apache
   - apache.modules.passenger
   - mysql
   - rvm
 
-{{ create_user(pillar.redmine.user) }}
+{{ create_user(user) }}
 
-/home/{{ pillar.redmine.user }}/public_html:
+/home/{{ user }}/public_html:
   file.directory:
-    - user: {{ pillar.redmine.user }}
-    - group: {{ pillar.redmine.user }}
+    - user: {{ user }}
+    - group: {{ user }}
     - require:
-      - user: {{ pillar.redmine.user }}_user_exists
+      - user: {{ user }}_user_exists
 
 # https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2
 redmine dependencies:
@@ -33,22 +37,22 @@ redmine:
   pkg.installed:
     - name: subversion
   svn.latest:
-    - name: https://svn.redmine.org/redmine/branches/{{ pillar.redmine.svn.branch }}
-    - target: /home/{{ pillar.redmine.user }}/public_html
-    - rev: {{ pillar.redmine.svn.revision }}
+    - name: https://svn.redmine.org/redmine/branches/{{ branch }}
+    - target: /home/{{ user }}/public_html
+    - rev: {{ revision }}
     - require:
       - pkg: redmine
-      - file: /home/{{ pillar.redmine.user }}/public_html
+      - file: /home/{{ user }}/public_html
 
 set redmine directory permissions:
   file.directory:
     - names:
-      - /home/{{ pillar.redmine.user }}/public_html/tmp
-      - /home/{{ pillar.redmine.user }}/public_html/files
-      - /home/{{ pillar.redmine.user }}/public_html/log
-      - /home/{{ pillar.redmine.user }}/public_html/public/plugin_assets
-    - user: {{ pillar.redmine.user }}
-    - group: {{ pillar.redmine.user }}
+      - /home/{{ user }}/public_html/tmp
+      - /home/{{ user }}/public_html/files
+      - /home/{{ user }}/public_html/log
+      - /home/{{ user }}/public_html/public/plugin_assets
+    - user: {{ user }}
+    - group: {{ user }}
     - mode: 755
     - recurse:
       - user
@@ -56,41 +60,41 @@ set redmine directory permissions:
       - mode
       - ignore_files
     - require:
-      - user: {{ pillar.redmine.user }}_user_exists
+      - user: {{ user }}_user_exists
 
 set redmine file permissions:
   file.managed:
     - names:
-      - /home/{{ pillar.redmine.user }}/public_html/config.ru
-      - /home/{{ pillar.redmine.user }}/public_html/Gemfile.lock
+      - /home/{{ user }}/public_html/config.ru
+      - /home/{{ user }}/public_html/Gemfile.lock
     - replace: False
-    - user: {{ pillar.redmine.user }}
-    - group: {{ pillar.redmine.user }}
+    - user: {{ user }}
+    - group: {{ user }}
     - require:
-      - user: {{ pillar.redmine.user }}_user_exists
+      - user: {{ user }}_user_exists
 
-/home/{{ pillar.redmine.user }}/public_html/config/database.yml:
+/home/{{ user }}/public_html/config/database.yml:
   file.serialize:
     # https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Edit-database-configuration-file
     - dataset:
         production:
           adapter: mysql2
           host: localhost
-          database: {{ pillar.redmine.database.name }}
-          username: {{ pillar.redmine.database.user }}
-          password: "{{ pillar.redmine.database.password }}"
+          database: redmine
+          username: redmine
+          password: "{{ pillar.mysql.users.redmine.password }}"
           encoding: utf8mb4
     - serializer: yaml
-    - user: {{ pillar.redmine.user }}
-    - group: {{ pillar.redmine.user }}
+    - user: {{ user }}
+    - group: {{ user }}
     - mode: 640
     - require:
-      - user: {{ pillar.redmine.user }}_user_exists
+      - user: {{ user }}_user_exists
 
-{% for plugin in pillar.redmine.get('plugins', []) %}
-/home/{{ pillar.redmine.user }}/public_html/plugins/{{ plugin }}:
+{% for plugin in ['redmine_agile', 'redmine_checklists', 'redmine_contacts', 'redmine_contacts_helpdesk', 'view_customize'] %}
+/home/{{ user }}/public_html/plugins/{{ plugin }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ plugin }}
     - require:
-      - user: {{ pillar.redmine.user }}_user_exists
+      - user: {{ user }}_user_exists
 {% endfor %}

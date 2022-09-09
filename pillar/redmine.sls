@@ -17,7 +17,7 @@ apache:
       servername: crm.open-contracting.org
 
 mysql:
-  version: 8.0
+  version: '8.0'
   configuration: False
   databases:
     redmine:
@@ -25,18 +25,3 @@ mysql:
 
 rvm:
   default_version: 3.1.2
-
-redmine:
-  user: redmine
-  svn:
-    branch: 5.0-stable
-    revision: 21783
-  database:
-    name: redmine
-    user: redmine
-  plugins:
-    - redmine_agile
-    - redmine_checklists
-    - redmine_contacts
-    - redmine_contacts_helpdesk
-    - view_customize
