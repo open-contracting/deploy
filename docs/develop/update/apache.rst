@@ -218,7 +218,7 @@ apache.modules.https
 apache.modules.md
   Acquires `SSL certificates from Let's Encrypt <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__.
 apache.modules.passenger
-  Adds the `Passenger webserver<https://www.phusionpassenger.com/>`__ for serving Ruby applications.
+  Adds the `Passenger app server <https://www.phusionpassenger.com/>`__ for serving Ruby applications.
 
   Set ``ruby.version`` in the service's Pillar file to a `Ruby version <https://www.ruby-lang.org/en/downloads/releases/>`__.
 
