@@ -139,7 +139,7 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
 #. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
 
-#. In the ``salt/elasticsearch/plugins/readonlyrest.sls`` file, set ``readonlyrest_version`` to the version to install, and set ``elasticsearch_version`` to the already installed version:
+#. In the server's Pillar file, set ``elasticsearch.plugins.readonlyrest.version`` to the version of ReadOnlyREST to install, and set ``elasticsearch.version`` to the already installed version of Elasticsearch:
 
    .. code-block:: bash
 

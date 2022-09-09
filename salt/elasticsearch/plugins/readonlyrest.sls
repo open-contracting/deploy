@@ -3,15 +3,12 @@
 include:
   - elasticsearch
 
-{% set elasticsearch_version = '7.17.6' %}
-{% set readonlyrest_version = '1.43.0_es7.17.6' %}
-
 readonlyrest-install:
   cmd.run:
-    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ elasticsearch_version }}\""
+    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\""
     - require:
       - pkg: elasticsearch
-    - creates: "/usr/share/elasticsearch/plugins/readonlyrest/readonlyrest-{{ readonlyrest_version }}.jar"
+    - creates: "/usr/share/elasticsearch/plugins/readonlyrest/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.version }}.jar"
     - watch_in:
       - service: elasticsearch
 

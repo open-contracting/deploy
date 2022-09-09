@@ -24,6 +24,9 @@ elasticsearch:
   public_access: True
   # Allow OCDS documentation and GitHub Actions.
   allowed_origins: "*"
+  # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
+  version: 7.17.6
   plugins:
     readonlyrest:
+      version: 1.43.0_es7.17.6
       configuration: docs
