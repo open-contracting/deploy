@@ -52,7 +52,7 @@ Update the server's Pillar file:
      netplan:
        template: linode
        addresses:
-         - 2001:db8::32/64    # SLAAC
+         - 2001:db8::32/64 # SLAAC
        gateway4: 198.51.100.1
        gateway6: fe80::1
 
