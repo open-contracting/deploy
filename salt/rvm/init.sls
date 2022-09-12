@@ -17,16 +17,6 @@ rvm-symlink:
     - require:
       - pkg: rvm
 
-{{ create_user('rvm') }}
-
-add rvm user to rvm group:
-  group.present:
-    - name: rvm
-    - addusers:
-      - rvm
-    - require:
-      - user: rvm_user_exists
-
 ruby-{{ pillar.rvm.default_version }}:
   rvm.installed:
     - default: True

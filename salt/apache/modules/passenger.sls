@@ -6,8 +6,6 @@ passenger dependencies:
   pkg.installed:
     - pkgs:
       - dirmngr
-      - gnupg
-      - python3-gnupg
       - apt-transport-https
       - ca-certificates
 
