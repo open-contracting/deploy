@@ -19,9 +19,6 @@ apache:
 mysql:
   version: '8.0'
   configuration: False
-  databases:
-    redmine:
-      user: redmine
 
 rvm:
   default_version: 3.1.2
