@@ -24,7 +24,6 @@ redmine dependencies:
   pkg.installed:
     - pkgs:
       - ruby-dev
-      - libncurses5-dev
       - libmysqlclient-dev
       # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Optional-components
       - ghostscript
