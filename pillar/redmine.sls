@@ -1,13 +1,13 @@
 network:
   host_id: ocp16
   ipv4: 139.162.219.246
-#  ipv6: 2a01:7e00::f03c:93ff:fe24:07b9
-#  netplan:
-#    template: linode
-#    addresses:
-#      - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
-#    gateway4: 198.51.100.1
-#    gateway6: fe80::1
+  ipv6: "2a01:7e00:e000:07fd::"
+  netplan:
+    template: linode
+    addresses:
+      - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
+    gateway4: 139.162.219.1
+    gateway6: fe80::1
 
 apache:
   public_access: True
