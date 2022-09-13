@@ -237,6 +237,43 @@ Using `these commands <https://github.com/open-contracting/miscellaneous-private
 #. Open a MySQL console, and run the SQL queries
 #. Open a Rails console, and run the cleanup scripts
 
+Cleanup old files
+-----------------
+
+Check changed, untracked and ignored files:
+
+.. code-block:: bash
+
+   cd /var/data/redmine
+   svn diff
+   svn status
+   svn status --no-ignore | grep '^I' | grep -v tmp/
+
+Expected untracked files are:
+
+-  `Themes from RedmineUP <https://www.redmineup.com/pages/themes>`__
+
+Expected ignore files include files under:
+
+-  ``.bundle``
+-  ``Gemfile.lock``
+-  ``config/configuration.yml``
+-  ``config/database.yml``
+-  ``config/initializers/secret_token.rb``
+-  ``db/schema.rb``
+-  ``files/*``
+-  ``log/*``
+-  ``plugins/*``
+-  ``public/plugin_assets`` belonging to current plugins, and ``redmine_crm``
+
+You might need to:
+
+-  Delete files from ``public/plugin_assets`` that relate to old plugins
+-  Revert patched files
+-  Delete patch files
+
+After making changes, as root, run: ``systemctl restart nginx.service``
+
 Reference
 ---------
 
