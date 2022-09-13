@@ -29,7 +29,7 @@ redmine dependencies:
       - ghostscript
       - imagemagick
 
-deploy redmine:
+redmine:
   pkg.installed:
     - name: subversion
   svn.latest:
@@ -37,7 +37,7 @@ deploy redmine:
     - target: /home/{{ user }}/public_html
     - rev: {{ revision }}
     - require:
-      - pkg: deploy redmine
+      - pkg: redmine
       - file: /home/{{ user }}/public_html
 
 set redmine directory permissions:

@@ -64,7 +64,7 @@ remove test database:
 
 {% if pillar.mysql.get('databases') %}
 {% for database, entry in pillar.mysql.databases.items() %}
-{{ database }}:
+{{ database }}_mysql_database:
   mysql_database.present:
     - name: {{ database }}
     - require:
@@ -77,6 +77,6 @@ grant {{ entry.user }} privileges:
     - user: {{ entry.user }}
     - require:
       - mysql_user: {{ entry.user }}_mysql_user
-      - mysql_database: {{ database }}
+      - mysql_database: {{ database }}_mysql_database
 {% endfor %}
 {% endif %} {# databases #}
