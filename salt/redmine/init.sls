@@ -49,12 +49,12 @@ set redmine directory permissions:
       - /home/{{ user }}/public_html/public/plugin_assets
     - user: {{ user }}
     - group: {{ user }}
-    - mode: 755
+    - dir_mode: 755
+    - file_mode: 644
     - recurse:
       - user
       - group
       - mode
-      - ignore_files
     - require:
       - user: {{ user }}_user_exists
 
