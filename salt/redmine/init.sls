@@ -40,6 +40,8 @@ redmine:
       - pkg: redmine
       - file: /home/{{ user }}/public_html
 
+# Ensure permissions are correct.
+# https://www.redmine.org/projects/redmine/wiki/redmineinstall#Step-8-File-system-permissions
 set redmine directory permissions:
   file.directory:
     - names:

@@ -11,6 +11,8 @@ In the service's Pillar file, add, for example:
    nodejs:
      version: 16
 
+.. _rvm:
+
 Configure Ruby
 --------------
 
