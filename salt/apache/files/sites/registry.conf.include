@@ -1,10 +1,5 @@
 # vi: ft=apache
 
-# Remove the path component (STATIC_VERSION) added to the STATIC_URL setting.
-# https://httpd.apache.org/docs/current/rewrite/flags.html#flag_pt
-RewriteEngine on
-RewriteRule ^/static/([^/]*)/(.*) /static/$2 [L,PT]
-
 RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 
