@@ -3,21 +3,20 @@ Redmine tasks
 
 The `Data Support CRM <https://crm.open-contracting.org>`__ uses `Redmine <https://www.redmine.org>`__.
 
-Enable Admin user
+Enable admin user
 -----------------
 
-- To enable the ``admin`` user:
+To enable the ``admin`` user:
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      ./run.py 'redmine' mysql.query redmine 'update users set status = 1, admin = 1 where login = "admin"'
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 1, admin = 1 WHERE login = "admin"'
 
-- To disable the ``admin`` user:
+To disable the ``admin`` user:
 
-   .. code-block:: bash
+.. code-block:: bash
 
-      ./run.py 'redmine' mysql.query redmine 'update users set status = 0, admin = 0 where login = "admin"'
-
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 0, admin = 0 WHERE login = "admin"'
 
 Upgrade Ruby
 ------------
@@ -70,11 +69,9 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
 
 #. Read Redmine's `changelog <https://www.redmine.org/projects/redmine/wiki/Changelog>`__ for changes that might affect users
 
-#. Modify the ``branch`` and ``revision`` for the new release in ``salt/redmine/init.sls``
+#. In ``salt/redmine/init.sls``, set ``branch`` and ``revision`` to the desired branch and current revision of the `official SVN repository <https://svn.redmine.org/redmine/branches/>`__
 
-   Retrieve the latest ``branch`` and ``revision`` from the `official SVN repository<https://svn.redmine.org/redmine/branches/>`__.
-
-#. :doc:`Deploy the service<deploy>`.
+#. :doc:`Deploy the service<deploy>`
 
 #. Connect to the server as the ``root`` user, for example:
 
