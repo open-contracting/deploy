@@ -3,6 +3,22 @@ Redmine tasks
 
 The `Data Support CRM <https://crm.open-contracting.org>`__ uses `Redmine <https://www.redmine.org>`__.
 
+Enable Admin user
+-----------------
+
+- To enable the ``admin`` user:
+
+   .. code-block:: bash
+
+      ./run.py 'redmine' mysql.query redmine 'update users set status = 1, admin = 1 where login = "admin"'
+
+- To disable the ``admin`` user:
+
+   .. code-block:: bash
+
+      ./run.py 'redmine' mysql.query redmine 'update users set status = 0, admin = 0 where login = "admin"'
+
+
 Upgrade Ruby
 ------------
 
