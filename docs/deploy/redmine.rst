@@ -294,7 +294,7 @@ You might need to:
 -  Revert patched files
 -  Delete patch files
 
-After making changes, as root, run: ``systemctl restart nginx.service``
+After making changes, as root, run: ``systemctl restart apache2.service``
 
 Reference
 ---------
