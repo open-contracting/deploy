@@ -70,6 +70,12 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
 
 #. Read Redmine's `changelog <https://www.redmine.org/projects/redmine/wiki/Changelog>`__ for changes that might affect users
 
+#. Modify the ``branch`` and ``revision`` for the new release in ``salt/redmine/init.sls``
+
+   Retrieve the latest ``branch`` and ``revision`` from the `official SVN repository<https://svn.redmine.org/redmine/branches/>`__.
+
+#. :doc:`Deploy the service<deploy>`.
+
 #. Connect to the server as the ``root`` user, for example:
 
    .. code-block:: bash
