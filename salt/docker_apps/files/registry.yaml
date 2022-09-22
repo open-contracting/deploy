@@ -22,6 +22,9 @@ services:
   exporter:
     <<: *shared
     command: "python manage.py exporter"
+  flattener:
+    <<: *shared
+    command: "python manage.py flattener"
   wiper:
     <<: *shared
     command: "python manage.py wiper"
