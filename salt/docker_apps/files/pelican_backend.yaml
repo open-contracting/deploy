@@ -1,6 +1,5 @@
 x-shared: &shared
   env_file: .env
-  restart: unless-stopped
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
   image: "ghcr.io/open-contracting/pelican-backend:latest"
   extra_hosts:

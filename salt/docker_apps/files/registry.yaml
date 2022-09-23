@@ -1,6 +1,5 @@
 x-base: &base
   env_file: .env
-  restart: unless-stopped
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
 
 x-shared: &shared
@@ -17,6 +16,7 @@ x-shared: &shared
 services:
   web:
     <<: *shared
+    restart: unless-stopped
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
@@ -28,9 +28,9 @@ services:
   wiper:
     <<: *shared
     command: "python manage.py wiper"
-
   static:
     <<: *base
     image: "ghcr.io/open-contracting/data-registry-static:latest"
+    restart: unless-stopped
     ports:
       - {{ pillar.apache.sites.registry.context.static_port }}:8080
