@@ -99,4 +99,7 @@ set redmine file permissions:
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
+      - svn: redmine
+    - watch_in:
+      - service: apache2
 {% endfor %}
