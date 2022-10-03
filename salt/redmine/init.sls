@@ -2,7 +2,7 @@
 
 {% set user = 'redmine' %}
 {% set branch = '5.0-stable' %}
-{% set revision = 21783 %}
+{% set revision = 21893 %}
 
 include:
   - apache
@@ -41,6 +41,18 @@ redmine:
     - require:
       - pkg: redmine
       - file: /home/{{ user }}/public_html
+    - watch_in:
+      - service: apache2
+
+/home/{{ user }}/public_html/config/application.rb:
+  file.replace:
+    - pattern: "config\\.i18n\\.fallbacks = true"
+    - repl: "config.i18n.fallbacks = [I18n.default_locale]"
+
+#/home/{{ user }}/public_html/lib/redmine/field_format.rb:
+#  file.replace:
+#    - pattern: "\\[::I18n\\.t\\('activerecord.errors.messages.inclusion'\\)\\]"
+#    - repl: "[] # 2018-12-20 Edit made by James McKinney to fix bug/incompatibility between redmine_contacts and Redmine 3.4.7"
 
 # Ensure permissions are correct.
 # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Step-8-File-system-permissions
