@@ -3,6 +3,7 @@
 {% set user = 'redmine' %}
 {% set branch = '5.0-stable' %}
 {% set revision = 21893 %}
+{% set theme = 'circle' %}
 
 include:
   - apache
@@ -102,6 +103,17 @@ set redmine file permissions:
     - mode: 640
     - require:
       - user: {{ user }}_user_exists
+
+/home/{{ user }}/public_html/public/themes/{{ theme }}:
+  file.recurse:
+    - source: salt://private/files/redmine/{{ theme }}
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
+      - svn: redmine
+    - watch_in:
+      - service: apache2
 
 {% for plugin in ['redmine_agile', 'redmine_checklists', 'redmine_contacts', 'redmine_contacts_helpdesk', 'view_customize'] %}
 /home/{{ user }}/public_html/plugins/{{ plugin }}:

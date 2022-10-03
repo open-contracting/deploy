@@ -60,7 +60,8 @@ Upgrade theme
 #. Read its `changelog <https://www.redmineup.com/pages/themes/circle/updates>`__, checking for notable new features
 #. Check whether the desired version of Redmine is `supported <https://www.redmineup.com/pages/themes/circle#requirements>`__
 #. Download the latest version
-#. Replace the theme's directory in the ``salt/redmine/files/`` directory
+#. Replace the theme's directory in the ``salt/private/files/redmine/`` directory
+#. :doc:`Deploy the service<deploy>`
 
 Upgrade Redmine
 ---------------
