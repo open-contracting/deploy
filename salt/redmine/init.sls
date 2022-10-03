@@ -28,6 +28,8 @@ redmine dependencies:
       # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Optional-components
       - ghostscript
       - imagemagick
+  gem.installed:
+    - name: bundler
 
 redmine:
   pkg.installed:
