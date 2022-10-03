@@ -41,6 +41,8 @@ Upgrade plugins
    #. Download the latest versions
 
 #. Replace the plugin directories in the ``salt/private/files/redmine/`` directory with the new versions
+#. Patch the plugin files with `our customizations<https://github.com/open-contracting/miscellaneous-private-scripts/tree/master/redmine/patches>`__
+#. :doc:`Deploy the service<deploy>`
 
 Changelogs
 ~~~~~~~~~~
