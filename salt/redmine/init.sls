@@ -75,6 +75,7 @@ set redmine directory permissions:
       - mode
     - require:
       - user: {{ user }}_user_exists
+      - svn: redmine
 
 set redmine file permissions:
   file.managed:
@@ -86,6 +87,7 @@ set redmine file permissions:
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
+      - svn: redmine
 
 /home/{{ user }}/public_html/config/database.yml:
   file.serialize:
