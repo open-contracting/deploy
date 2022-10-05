@@ -42,6 +42,7 @@ Upgrade plugins
 
 #. Replace the plugin directories in the ``salt/private/files/redmine/`` directory with the new versions
 #. Apply `our patches <https://github.com/open-contracting/miscellaneous-private-scripts/tree/master/redmine/patches>`__ to the plugin files
+#. Commit and push your changes
 #. :doc:`Deploy the service<deploy>`
 
 Changelogs
@@ -61,6 +62,7 @@ Upgrade theme
 #. Check whether the desired version of Redmine is `supported <https://www.redmineup.com/pages/themes/circle#requirements>`__
 #. Download the latest version
 #. Replace the theme's directory in the ``salt/private/files/redmine/`` directory
+#. Commit and push your changes
 #. :doc:`Deploy the service<deploy>`
 
 Upgrade Redmine
