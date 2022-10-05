@@ -40,8 +40,9 @@ redmine:
     - target: /home/{{ user }}/public_html
     - rev: {{ revision }}
     - require:
-      - pkg: redmine
       - file: /home/{{ user }}/public_html
+      - pkg: redmine
+      - gem: redmine
     - watch_in:
       - service: apache2
 
