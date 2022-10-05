@@ -46,11 +46,6 @@ redmine:
     - watch_in:
       - service: apache2
 
-/home/{{ user }}/public_html/config/application.rb:
-  file.replace:
-    - pattern: "config\\.i18n\\.fallbacks = true"
-    - repl: "config.i18n.fallbacks = [I18n.default_locale]"
-
 #/home/{{ user }}/public_html/lib/redmine/field_format.rb:
 #  file.replace:
 #    - pattern: "\\[::I18n\\.t\\('activerecord.errors.messages.inclusion'\\)\\]"
