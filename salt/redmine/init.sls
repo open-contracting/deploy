@@ -104,6 +104,9 @@ set redmine file permissions:
     - mode: 640
     - require:
       - user: {{ user }}_user_exists
+      - svn: redmine
+    - watch_in:
+      - service: apache2
 
 /home/{{ user }}/public_html/public/themes/{{ theme }}:
   file.recurse:
