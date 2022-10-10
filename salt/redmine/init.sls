@@ -21,9 +21,10 @@ include:
       - user: {{ user }}_user_exists
 
 # https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2
-redmine dependencies:
+redmine:
   pkg.installed:
     - pkgs:
+      - subversion
       - ruby-dev
       - libmysqlclient-dev
       # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Optional-components
@@ -31,10 +32,6 @@ redmine dependencies:
       - imagemagick
   gem.installed:
     - name: bundler
-
-redmine:
-  pkg.installed:
-    - name: subversion
   svn.latest:
     - name: https://svn.redmine.org/redmine/branches/{{ branch }}
     - target: /home/{{ user }}/public_html
@@ -128,3 +125,20 @@ set redmine file permissions:
     - watch_in:
       - service: apache2
 {% endfor %}
+
+/home/sysadmin-tools/bin/redmine_cron.sh:
+  file.managed:
+    - source: salt://redmine/files/redmine_cron.sh
+    - mode: 750
+    - template: jinja
+    - require:
+      - file: /home/sysadmin-tools/bin
+
+## Disabled until server go live.
+#/etc/cron.d/redmine:
+#  file.managed:
+#    - text: |
+#      MAILTO=root
+#      */5 * * * * root /bin/bash /home/sysadmin-tools/bin/redmine_cron.sh
+#    - require:
+#      - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
