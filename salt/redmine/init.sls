@@ -142,3 +142,14 @@ set redmine file permissions:
 #      */5 * * * * root /bin/bash /home/sysadmin-tools/bin/redmine_cron.sh
 #    - require:
 #      - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
+
+{{ create_user("report_user", authorized_keys=salt['pillar.get']('ssh:report_user', [])) }}
+
+grant report user readonly privileges:
+  mysql_grants.present:
+    - grant: SELECT
+    - database: redmine.*
+    - user: report
+    - require:
+      - mysql_user: report_mysql_user
+      - mysql_database: redmine_mysql_database
