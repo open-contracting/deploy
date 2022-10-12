@@ -43,11 +43,6 @@ redmine:
     - watch_in:
       - service: apache2
 
-#/home/{{ user }}/public_html/lib/redmine/field_format.rb:
-#  file.replace:
-#    - pattern: "\\[::I18n\\.t\\('activerecord.errors.messages.inclusion'\\)\\]"
-#    - repl: "[] # 2018-12-20 Edit made by James McKinney to fix bug/incompatibility between redmine_contacts and Redmine 3.4.7"
-
 # Ensure permissions are correct.
 # https://www.redmine.org/projects/redmine/wiki/redmineinstall#Step-8-File-system-permissions
 set redmine directory permissions:

@@ -110,6 +110,32 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
       RAILS_ENV=production bundle exec rake db:migrate
       RAILS_ENV=production bundle exec rake redmine:plugins:migrate
 
+#. Apply custom Redmine field_format.rb patch:
+
+   #. Modify ``/home/redmine/public_html/lib/redmine/field_format.rb``, removing ``::I18n.t('activerecord.errors.messages.inclusion')`` from line 788.
+
+      .. code-block:: ruby
+
+         784 def validate_custom_value(custom_value)
+         785   values = Array.wrap(custom_value.value).reject {|value| value.to_s == ''}
+         786   invalid_values = values - possible_custom_value_options(custom_value).map(&:last)
+         787   if invalid_values.any?
+         788     []
+         789   else
+         790     []
+         791   end
+         792 end
+
+   .. node::
+
+      This edit fixes a bug/incompatibility between redmine_contacts and Redmine 3.4.7.
+
+#. Load in Redmine changes:
+
+   .. code-block:: bash
+
+      systemctl restart apache2.service
+
 #. Ask the Data Support Team to :ref:`test-redmine`.
 
 .. _test-redmine:
