@@ -126,7 +126,7 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
          791   end
          792 end
 
-   .. node::
+   .. note::
 
       This edit fixes a bug/incompatibility between redmine_contacts and Redmine 3.4.7.
 
