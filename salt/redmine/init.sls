@@ -97,6 +97,20 @@ set redmine file permissions:
     - watch_in:
       - service: apache2
 
+## Disabled until server go live.
+#/home/{{ user }}/public_html/config/configuration.yml:
+#  file.serialize:
+#    - dataset_pillar: redmine:configuration
+#    - serializer: yaml
+#    - user: {{ user }}
+#    - group: {{ user }}
+#    - mode: 640
+#    - require:
+#      - user: {{ user }}_user_exists
+#      - svn: redmine
+#    - watch_in:
+#      - service: apache2
+
 /home/{{ user }}/public_html/public/themes/{{ theme }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ theme }}
