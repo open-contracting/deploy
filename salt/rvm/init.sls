@@ -9,6 +9,7 @@ rvm:
       - pkgrepo: rvm
 
 # A Salt bug breaks support for the apt-managed package.
+# https://github.com/saltstack/salt/issues/62904
 rvm-symlink:
   file.symlink:
     - name: /usr/local/rvm/bin/rvm
