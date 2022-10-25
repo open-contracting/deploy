@@ -60,6 +60,7 @@ base:
   'redmine':
     - redmine
     - private.redmine
+    - redmine_maintenance
 
   'registry':
     - registry
