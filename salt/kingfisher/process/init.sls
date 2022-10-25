@@ -145,7 +145,7 @@ cd {{ directory }}; . .ve/bin/activate; python ocdskingfisher-process-cli --quie
       - virtualenv: {{ directory }}/.ve
 
 # Delete collections that ended over a year ago, while retaining one set of collections per source from over a year ago.
-cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess kingfisher_process -q -c '\t' -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT 1 FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC;" | xargs -I{} python ocdskingfisher-process-cli --quiet delete-collection {}:
+cd {{ directory }}; . .ve/bin/activate; psql -h localhost ocdskingfisherprocess kingfisher_process -q -c '\t' -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT 1 FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC" | xargs -I{} python ocdskingfisher-process-cli --quiet delete-collection {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
     - user: {{ entry.user }}
