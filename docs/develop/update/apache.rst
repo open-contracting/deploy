@@ -217,6 +217,8 @@ apache.modules.https
   Provides support for the `HTTP/2 protocol <https://httpd.apache.org/docs/2.4/mod/mod_http2.html>`__.
 apache.modules.md
   Acquires `SSL certificates from Let's Encrypt <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__.
+apache.modules.passenger
+  Adds the `Passenger app server <https://www.phusionpassenger.com/>`__.
 apache.modules.proxy
   Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
 apache.modules.proxy_http

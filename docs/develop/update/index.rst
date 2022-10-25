@@ -17,6 +17,7 @@ Make changes
    rabbitmq.rst
    python.rst
    docker.rst
+   languages.rst
    logs.rst
    delete.rst
 

@@ -1,0 +1,17 @@
+{# https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Configure-Apache #}
+{# Need to sync "redmine" in this file with `user` in the salt/redmine/init.sls file. #}
+ServerAdmin {{ pillar.system_contacts.root }}
+DocumentRoot /home/redmine/public_html/public
+
+<Directory /home/redmine/public_html/public>
+    Require all granted
+</Directory>
+
+<Directory /home/redmine/public_html>
+    PassengerUser redmine
+    PassengerAppRoot /home/redmine/public_html
+    PassengerFriendlyErrorPages on
+</Directory>
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+CustomLog ${APACHE_LOG_DIR}/access.log combined
