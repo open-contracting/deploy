@@ -6,6 +6,8 @@ The `Data Support CRM <https://crm.open-contracting.org>`__ uses `Redmine <https
 Enable admin user
 -----------------
 
+Dogsbody Technology uses the admin user to verify upgrades.
+
 To enable the ``admin`` user:
 
 .. code-block:: bash
@@ -23,7 +25,7 @@ Upgrade Ruby
 
 #. Check the installed version of Ruby on the `Information <https://crm.open-contracting.org/admin/info>`__ page
 #. Check which minor versions of Ruby are `supported <https://www.redmine.org/projects/redmine/wiki/RedmineInstall>`__ by the desired version of Redmine
-#. Change the default version of Ruby installed by :ref:`RVM<rvm>`
+#. :ref:`Change the default version of Ruby installed by RVM<rvm>`
 
 Upgrade plugins
 ---------------
@@ -110,7 +112,7 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
       RAILS_ENV=production bundle exec rake db:migrate
       RAILS_ENV=production bundle exec rake redmine:plugins:migrate
 
-#. Apply custom Redmine field_format.rb patch:
+#. Patch the ``field_format.rb`` file:
 
    #. Modify ``/home/redmine/public_html/lib/redmine/field_format.rb``, removing ``::I18n.t('activerecord.errors.messages.inclusion')`` from line 788.
 
