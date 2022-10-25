@@ -1,6 +1,10 @@
 OCDS documentation tasks
 ========================
 
+.. seealso::
+
+   :ref:`Migrate OCDS documentation to a new server <migrate-server>`
+
 Add a new language
 ------------------
 

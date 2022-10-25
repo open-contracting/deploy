@@ -95,6 +95,10 @@ To generate the ``SECRET_KEY`` environment variable for the private Pillar file,
 
    python manage.py shell -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
 
+.. seealso::
+
+   :ref:`Migrate a Django application to a new server<migrate-server>`
+
 Configure uWSGI
 ---------------
 

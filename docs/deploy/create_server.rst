@@ -271,32 +271,34 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
       ./run.py TARGET service.restart uwsgi
 
+.. _migrate-server:
+
 5. Migrate from the old server
 ------------------------------
 
-#. :ref:`check-mail` for the root user
-#. :ref:`Check the user directory<clean-root-user-directory>` of the root user
+#. :ref:`check-mail` for the root user and, if applicable, each app user
+#. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
+#. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
+#. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
 
 For Django application servers:
 
 #. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
-#. :ref:`check-mail` for the app user
-#. Check the user directory of the app user
-#. Optionally, copy the Apache and uWSGI log files
 
 For OCDS documentation servers:
 
 #. Copy the ``/home/ocds-docs/web`` directory
 #. Update the IP addresses in the ``pillar/cove.sls`` file, and deploy the ``cove-*`` services
-#. Optionally, copy the Apache log files
+
+For Redmine servers:
+
+#. Copy the ``/home/redmine/public_html/files`` directory
 
 For Kingfisher servers (instructions are incomplete):
 
 #. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
 For Redash servers, see :doc:`redash`.
-
-If the server runs a database like PostgreSQL or Elasticsearch, copy the database.
 
 6. Update external services
 ---------------------------

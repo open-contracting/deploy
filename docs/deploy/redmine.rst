@@ -3,6 +3,10 @@ Redmine tasks
 
 The `Data Support CRM <https://crm.open-contracting.org>`__ uses `Redmine <https://www.redmine.org>`__.
 
+.. seealso::
+
+   :ref:`Migrate a Redmine service to a new server<migrate-server>`
+
 Enable admin user
 -----------------
 
