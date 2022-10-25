@@ -97,19 +97,18 @@ set redmine file permissions:
     - watch_in:
       - service: apache2
 
-## Disabled until server go live.
-#/home/{{ user }}/public_html/config/configuration.yml:
-#  file.serialize:
-#    - dataset_pillar: redmine:configuration
-#    - serializer: yaml
-#    - user: {{ user }}
-#    - group: {{ user }}
-#    - mode: 640
-#    - require:
-#      - user: {{ user }}_user_exists
-#      - svn: redmine
-#    - watch_in:
-#      - service: apache2
+/home/{{ user }}/public_html/config/configuration.yml:
+  file.serialize:
+    - dataset_pillar: redmine:configuration
+    - serializer: yaml
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 640
+    - require:
+      - user: {{ user }}_user_exists
+      - svn: redmine
+    - watch_in:
+      - service: apache2
 
 /home/{{ user }}/public_html/public/themes/{{ theme }}:
   file.recurse:
@@ -143,14 +142,13 @@ set redmine file permissions:
     - require:
       - file: /home/sysadmin-tools/bin
 
-## Disabled until server go live.
-#/etc/cron.d/redmine:
-#  file.managed:
-#    - text: |
-#      MAILTO=root
-#      */5 * * * * root /bin/bash /home/sysadmin-tools/bin/redmine_cron.sh
-#    - require:
-#      - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
+/etc/cron.d/redmine:
+  file.managed:
+    - contents: |
+        MAILTO=root
+        */5 * * * * root /bin/bash /home/sysadmin-tools/bin/redmine_cron.sh
+    - require:
+      - file: /home/sysadmin-tools/bin
 
 {{ create_user("report_user", authorized_keys=salt['pillar.get']('ssh:report_user', [])) }}
 
