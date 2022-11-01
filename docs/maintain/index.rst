@@ -41,3 +41,4 @@ To be responsible for servers, you should:
    :maxdepth: 2
 
    docs.rst
+   redmine.rst

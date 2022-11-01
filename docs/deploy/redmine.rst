@@ -5,24 +5,8 @@ The `Data Support CRM <https://crm.open-contracting.org>`__ uses `Redmine <https
 
 .. seealso::
 
+   :doc:`Redmine maintenance tasks<../maintain/redmine>`
    :ref:`Migrate a Redmine service to a new server<migrate-server>`
-
-Enable admin user
------------------
-
-Dogsbody Technology uses the admin user to verify upgrades.
-
-To enable the ``admin`` user:
-
-.. code-block:: bash
-
-   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 1, admin = 1 WHERE login = "admin"'
-
-To disable the ``admin`` user:
-
-.. code-block:: bash
-
-   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 0, admin = 0 WHERE login = "admin"'
 
 Upgrade Ruby
 ------------
@@ -292,80 +276,3 @@ Using `these commands <https://github.com/open-contracting/miscellaneous-private
 #. Set up your environment
 #. Open a MySQL console, and run the SQL queries
 #. Open a Rails console, and run the cleanup scripts
-
-Cleanup old files
------------------
-
-Check changed, untracked and ignored files:
-
-.. code-block:: bash
-
-   cd /var/data/redmine
-   svn diff
-   svn status
-   svn status --no-ignore | grep '^I' | grep -v tmp/
-
-Expected untracked files are:
-
--  `Themes from RedmineUP <https://www.redmineup.com/pages/themes>`__
-
-Expected ignore files include files under:
-
--  ``.bundle``
--  ``Gemfile.lock``
--  ``config/configuration.yml``
--  ``config/database.yml``
--  ``config/initializers/secret_token.rb``
--  ``db/schema.rb``
--  ``files/*``
--  ``log/*``
--  ``plugins/*``
--  ``public/plugin_assets`` belonging to current plugins, and ``redmine_crm``
-
-You might need to:
-
--  Delete files from ``public/plugin_assets`` that relate to old plugins
--  Revert patched files
--  Delete patch files
-
-After making changes, as root, run: ``systemctl restart apache2.service``
-
-Reference
----------
-
-What emails are imported
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-In ``app/models/mail_handler.rb``, Redmine ignores these headers:
-
--  ``Auto-Submitted: auto-replied``
--  ``Auto-Submitted: auto-generated``
--  ``X-Autoreply: yes``
-
-It also ignores:
-
--  Emails from the sending address to avoid cycles (data@open-contracting.org).
--  Emails from inactive users.
-
-To check for ignored messages on the server:
-
-.. code-block:: bash
-
-   grep "MailHandler: ignoring" /var/data/redmine/log/production.log
-
-The data@open-contracting.org GMail account should only have the following in its *Inbox*:
-
--  Unread messages (which will be imported)
--  Emails from data@ (when the CRM cc's data@)
--  Delivery status notifications (from before using Amazon SES)
--  Auto-responders (``Auto-Submitted: auto-replied``)
--  Calendar invitations (``Auto-Submitted: auto-generated``)
--  Eventbrite order notifications
-
-The following filter can be used to find any others:
-
-.. code-block:: none
-
-   in:inbox after:2019/01/01 from:(-me) subject:(-"delivery status notification" -"no se puede entregar" -"undeliverable" -"automatic reply" -"respuesta automatica" -"resposta automatica" -"out of office" -"out of the office" -"away from office" -"I'm on annual leave until" -"auto" -"holiday" -"on leave" -"vacation" -"fuera de la oficina" -"absense du bureau" -"updated invitation" -"order notification for" -"notificación de registro para" -"notification d'inscription pour") -{"this is an automated reply" "Me encuentro de licencia" "fuera de la oficina"}
-
-*Sent* should only contain emails from data@ in cases where the CRM cc'd data@.
