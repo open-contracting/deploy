@@ -1,6 +1,10 @@
 Redmine tasks
 =============
 
+.. seealso::
+
+   :doc:`Redmine user guide<../use/redmine>`
+
 Enable admin user
 -----------------
 
@@ -18,44 +22,55 @@ To disable the ``admin`` user:
 
    ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 0, admin = 0 WHERE login = "admin"'
 
-Open interactive consoles
--------------------------
+Debug email reception
+---------------------
 
-#. Connect to the server as the ``redmine`` user:
+In ``app/models/mail_handler.rb``, Redmine ignores these headers:
 
-   .. code-block:: bash
+-  ``Auto-Submitted: auto-replied``
+-  ``Auto-Submitted: auto-generated``
+-  ``X-Autoreply: yes``
 
-      curl --silent --connect-timeout 1 crm.open-contracting.org:8255 || true
-      ssh redmine@crm.open-contracting.org
+It also ignores:
 
-#. Change to the Redmine application's directory:
+-  Emails from the sending address to avoid cycles (data@open-contracting.org).
+-  Emails from inactive users.
 
-   .. code-block:: bash
+To check if an expected message is among these ignored messages:
 
-      cd /home/redmine/public_html
+.. code-block:: bash
 
-#. Open an IRB console:
+   grep "MailHandler: ignoring" /home/redmine/public_html/log/production.log
 
-   .. code-block:: bash
+The data@open-contracting.org GMail account should only have the following in its *Inbox*:
 
-      bundle exec rails console --environment=production
+-  Unread messages (which will be imported)
+-  Emails from data@ (when the CRM cc's data@)
+-  Delivery status notifications (from before using Amazon SES)
+-  Auto-responders (``Auto-Submitted: auto-replied``)
+-  Calendar invitations (``Auto-Submitted: auto-generated``)
+-  Eventbrite order notifications
 
-#. Or, open a MySQL console (password in ``config/database.yml``):
+To review the inbox for expected messages, excluding the above messages:
 
-   .. code-block:: bash
+.. code-block:: none
 
-      bundle exec rails dbconsole --environment=production
+   in:inbox after:2019/01/01 from:(-me) subject:(-"delivery status notification" -"no se puede entregar" -"undeliverable" -"automatic reply" -"respuesta automatica" -"resposta automatica" -"out of office" -"out of the office" -"away from office" -"I'm on annual leave until" -"auto" -"holiday" -"on leave" -"vacation" -"fuera de la oficina" -"absense du bureau" -"updated invitation" -"order notification for" -"notificación de registro para" -"notification d'inscription pour") -{"this is an automated reply" "Me encuentro de licencia" "fuera de la oficina"}
+
+.. note::
+
+   The *Sent* folder should only contain emails from data@ in cases where the CRM cc'd data@.
 
 Debug email notifications
 -------------------------
 
-Read the email configuration:
+Review the email configuration:
 
 .. code-block:: bash
 
-   cat /var/data/redmine/config/configuration.yml
+   cat /home/redmine/public_html/config/configuration.yml
 
-Open a Rails console and run:
+:ref:`Open a Rails console<redmine-console>`, and run:
 
 .. code-block:: ruby
 
@@ -72,7 +87,7 @@ Check changed, untracked and ignored files:
 
 .. code-block:: bash
 
-   cd /var/data/redmine
+   cd /home/redmine/public_html
    svn diff
    svn status
    svn status --no-ignore | grep '^I' | grep -v tmp/
@@ -104,43 +119,6 @@ After making changes, as root, run: ``systemctl restart apache2.service``
 
 Reference
 ---------
-
-What emails are imported
-~~~~~~~~~~~~~~~~~~~~~~~~
-
-In ``app/models/mail_handler.rb``, Redmine ignores these headers:
-
--  ``Auto-Submitted: auto-replied``
--  ``Auto-Submitted: auto-generated``
--  ``X-Autoreply: yes``
-
-It also ignores:
-
--  Emails from the sending address to avoid cycles (data@open-contracting.org).
--  Emails from inactive users.
-
-To check for ignored messages on the server:
-
-.. code-block:: bash
-
-   grep "MailHandler: ignoring" /var/data/redmine/log/production.log
-
-The data@open-contracting.org GMail account should only have the following in its *Inbox*:
-
--  Unread messages (which will be imported)
--  Emails from data@ (when the CRM cc's data@)
--  Delivery status notifications (from before using Amazon SES)
--  Auto-responders (``Auto-Submitted: auto-replied``)
--  Calendar invitations (``Auto-Submitted: auto-generated``)
--  Eventbrite order notifications
-
-The following filter can be used to find any others:
-
-.. code-block:: none
-
-   in:inbox after:2019/01/01 from:(-me) subject:(-"delivery status notification" -"no se puede entregar" -"undeliverable" -"automatic reply" -"respuesta automatica" -"resposta automatica" -"out of office" -"out of the office" -"away from office" -"I'm on annual leave until" -"auto" -"holiday" -"on leave" -"vacation" -"fuera de la oficina" -"absense du bureau" -"updated invitation" -"order notification for" -"notificación de registro para" -"notification d'inscription pour") -{"this is an automated reply" "Me encuentro de licencia" "fuera de la oficina"}
-
-*Sent* should only contain emails from data@ in cases where the CRM cc'd data@.
 
 Code snippets
 ~~~~~~~~~~~~~

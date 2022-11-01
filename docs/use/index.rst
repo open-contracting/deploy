@@ -25,5 +25,6 @@ User Guides
    bash.rst
    databases.rst
    kingfisher.rst
+   redmine.rst
    prometheus.rst
    rabbitmq.rst
