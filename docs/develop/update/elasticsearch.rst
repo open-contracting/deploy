@@ -135,7 +135,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 Troubleshoot
 ~~~~~~~~~~~~
 
-If a request gets a HTTP 4XX error, connect to the server and run:
+If a request gets a HTTP 4XX error, connect to the server, and run:
 
 .. code-block:: bash
 

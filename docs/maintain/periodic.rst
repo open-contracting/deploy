@@ -31,7 +31,7 @@ Clean root user directory
 Check drive usage
 -----------------
 
-If ``ncdu`` is installed, change to the root directory and run the ``ncdu`` command.
+If ``ncdu`` is installed, change to the root directory, and run the ``ncdu`` command.
 
 .. _check-mail:
 
