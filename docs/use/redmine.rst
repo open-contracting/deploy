@@ -23,7 +23,7 @@ Via shell
 Via application
 ~~~~~~~~~~~~~~~
 
-#. Create an SSH tunnel to forward MySQL's port 3306 to a port number of your preference, for example:
+#. Create an SSH tunnel as the ``report_user`` user, to forward MySQL's port 3306 to a port number of your preference, for example:
 
    .. code-block:: bash
 
