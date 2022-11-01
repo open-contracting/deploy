@@ -12,7 +12,7 @@ Via shell
    .. code-block:: bash
 
       curl --silent --connect-timeout 1 crm.open-contracting.org:8255 || true
-      ssh redmine@crm.open-contracting.org
+      ssh report_user@crm.open-contracting.org
 
 #. Open a MySQL console:
 
