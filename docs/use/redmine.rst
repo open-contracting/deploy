@@ -45,7 +45,7 @@ Via application
 
    .. code-block:: bash
 
-      mysql redmine --host localhost --port 3307 --user report --protocol TCP -p
+      mysql redmine --host localhost --port 3307 --protocol TCP --user report -p
 
 .. _redmine-console:
 
