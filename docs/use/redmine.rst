@@ -41,6 +41,12 @@ Via application
    User
      report
 
+   If using the ``mysql`` command, set the protocol:
+
+   .. code-block:: bash
+
+      mysql redmine --host localhost --port 3307 --user report --protocol TCP -p
+
 .. _redmine-console:
 
 Open interactive consoles
