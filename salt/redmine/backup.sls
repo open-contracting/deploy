@@ -5,7 +5,13 @@ include:
   - aws
 
 {{ set_config("aws-settings.local", "S3FILEBACKUPBUCKET", pillar.redmine.backup.location) }}
-{{ set_config("aws-settings.local", "FOLDER2S3BACKUPSRC", "( \"/home/"+user+"/public_html\" )") }}
+
+set FOLDER2S3BACKUPSRC setting:
+  file.keyvalue:
+    - name: /home/sysadmin-tools/aws-settings.local
+    - key: FOLDER2S3BACKUPSRC
+    - value: ( "/home/{{ user }}/public_html/" )
+    - append_if_not_found: True
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:

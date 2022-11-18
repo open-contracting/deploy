@@ -21,16 +21,16 @@ if [ -z "$FOLDER2S3BACKUPSRC" ]; then
     exit 4
 fi
 
-if [ ! -x $AWS_CLI ]; then
+if [ ! -x "${AWS_CLI}" ]; then
     echo "Error: The aws executable is not installed"
     exit 7
 fi
 
 for SITE in "${FOLDER2S3BACKUPSRC[@]}"; do
-    # Needs unique name for multi site but not break single site
-    SITENAME=$(echo "${SITE//[^a-zA-Z0-9]/_}")
+    SITENAME="${SITE//[^a-zA-Z0-9]/_}"
+    SITENAME="${SITENAME//^___/}"
     TIMESTAMP="$(TZ=UTC date +%Y-%m-%d)"
-    LOCALBACKUPLOCATION="/tmp/live${SITENAME}backup_${TIMESTAMP}.tar.gz"
+    LOCALBACKUPLOCATION="/tmp/${SITENAME}backup_${TIMESTAMP}.tar.gz"
 
     # To stop the script breaking when reading changing files (e.x. logs)
     set +e
@@ -40,6 +40,6 @@ for SITE in "${FOLDER2S3BACKUPSRC[@]}"; do
         tar czf "${LOCALBACKUPLOCATION}" "${SITE}" "${BACKUPEXCLUDE}" &> /dev/null
     fi
     set -e
-    ${AWS_CLI} s3 cp "${LOCALBACKUPLOCATION}" s3://${S3BACKUPBUCKET}/live${SITENAME}backup_${TIMESTAMP}.tar.gz --quiet
+    ${AWS_CLI} s3 cp "${LOCALBACKUPLOCATION}" "s3://${S3FILEBACKUPBUCKET}/${SITENAME}backup_${TIMESTAMP}.tar.gz" --quiet
     rm "${LOCALBACKUPLOCATION}"
 done
