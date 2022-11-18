@@ -1,21 +1,29 @@
 # Defines common macros.
-
-{% macro set_firewall(setting_name, setting_value="yes") %}
-set {{ setting_name }} firewall setting:
+{% macro set_config(filename, setting_name, setting_value="yes") %}
+set {{ setting_name }} setting:
   file.keyvalue:
-    - name: /home/sysadmin-tools/firewall-settings.local
+    - name: /home/sysadmin-tools/{{ filename }}
     - key: {{ setting_name }}
     - value: '"{{ setting_value }}"'
     - append_if_not_found: True
 {% endmacro %}
 
-{% macro unset_firewall(setting_name) %}
-unset {{ setting_name }} firewall setting:
+{% macro unset_config(filename, setting_name) %}
+unset {{ setting_name }} setting:
   file.keyvalue:
-    - name: /home/sysadmin-tools/firewall-settings.local
+    - name: /home/sysadmin-tools/{{ filename }}
     - key: {{ setting_name }}
     - value: '""'
     - ignore_if_missing: True
+{% endmacro %}
+
+# Legacy firewall support macro
+{% macro set_firewall(setting_name, setting_value="yes") %}
+{{ set_config("firewall-settings.local", setting_name, setting_value) }}
+{% endmacro %}
+
+{% macro unset_firewall(setting_name) %}
+{{ unset_config("firewall-settings.local", setting_name) }}
 {% endmacro %}
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.

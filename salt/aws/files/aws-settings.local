@@ -1,0 +1,17 @@
+AWS_CLI=""
+AWS_ACCESS_KEY_ID=""
+AWS_SECRET_ACCESS_KEY=""
+AWS_DEFAULT_REGION=""
+
+# MySQL Backup Variables
+DB_HOST="localhost"
+DB_FLAGS=""
+DB_DEFAULTS_FILE="/home/sysadmin-tools/mysql-defaults.cnf"
+S3DATABASEBACKUPBUCKET=""
+
+# Site file Backup Variables
+S3FILEBACKUPBUCKET=""
+# Space deliminated bash array e.x. ("/home/siteone", "/home/sitetwo")
+FOLDER2S3BACKUPSRC=()
+# BACKUPEXCLUDE="--exclude=/home/foobar/public_html/unwanted/dir"
+BACKUPEXCLUDE=""

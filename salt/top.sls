@@ -74,8 +74,14 @@ base:
   'I@apache:public_access:true':
     - apache.letsencrypt
 
+  'I@redmine:backup':
+    - redmine.backup
+
   'I@mysql:configuration':
     - mysql
+
+  'I@mysql:backup':
+    - mysql.backup
 
   'I@postgres:configuration':
     - postgres
