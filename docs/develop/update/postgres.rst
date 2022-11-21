@@ -128,7 +128,7 @@ Configure PostgreSQL
       vm:
         nr_hugepages: 1234
 
-#. :doc:`Deploy<../../deploy/deploy>`
+#. :doc:`Deploy the service<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
@@ -240,7 +240,7 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
              -----BEGIN RSA PRIVATE KEY-----
              ...
 
-   #. :doc:`Deploy<../../deploy/deploy>`
+   #. :doc:`Deploy the service<../../deploy/deploy>`
 
 .. _pg-setup-replication:
 
