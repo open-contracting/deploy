@@ -9,8 +9,8 @@ Make changes
 
    network.rst
    firewall.rst
-   awscli.rst
    packages.rst
+   awscli.rst
    apache.rst
    elasticsearch.rst
    postgres.rst

@@ -4,14 +4,7 @@
 include:
   - aws
 
-{{ set_config("aws-settings.local", "S3FILEBACKUPBUCKET", pillar.redmine.backup.location) }}
-
-set FOLDER2S3BACKUPSRC setting:
-  file.keyvalue:
-    - name: /home/sysadmin-tools/aws-settings.local
-    - key: FOLDER2S3BACKUPSRC
-    - value: ( "/home/{{ user }}/public_html/" )
-    - append_if_not_found: True
+{{ set_config("aws-settings.local", "S3_SITE_BACKUP_BUCKET", pillar.redmine.backup.location) }}
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:
@@ -27,3 +20,10 @@ set FOLDER2S3BACKUPSRC setting:
         15 04 * * * root /home/sysadmin-tools/bin/site-backup-to-s3.sh
     - require:
       - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
+
+set BACKUP_DIRECTORIES setting:
+  file.keyvalue:
+    - name: /home/sysadmin-tools/aws-settings.local
+    - key: BACKUP_DIRECTORIES
+    - value: ( "/home/{{ user }}/public_html/" )
+    - append_if_not_found: True

@@ -1,12 +1,11 @@
-Configure AWS Command Line Interface
-====================================
+Configure AWS CLI
+=================
 
-The AWS Command Line Interface (AWS CLI) is used by the site file and MySQL backup scripts.
+.. hint::
 
-Configure Pillar
-----------------
+   AWS CLI is the `Amazon Web Services Command Line Interface <https://aws.amazon.com/cli/>`__.
 
-In the service's Pillar file, add the following, replacing the example keys:
+In the service's Pillar file, add, for example:
 
 .. code-block:: yaml
 

@@ -277,10 +277,10 @@ Using `these commands <https://github.com/open-contracting/miscellaneous-private
 #. Open a MySQL console, and run the SQL queries
 #. Open a Rails console, and run the cleanup scripts
 
-Backups
--------
+Set up backups
+--------------
 
-#. Configure the :doc:`AWS CLI<../develop/update/awscli>`.
+#. Configure the :doc:`AWS CLI<../develop/update/awscli>`
 
 #. Set ``redmine.backup.location`` in the server's Pillar file, for example:
 
@@ -289,6 +289,6 @@ Backups
 
       redmine:
         backup:
-          location: ocp-redmine-backups/site-files
+          location: ocp-redmine-backup/site
 
 #. :doc:`Deploy the service<../deploy>`

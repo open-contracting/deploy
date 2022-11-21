@@ -21,4 +21,3 @@ awscli:
 {{ set_config("aws-settings.local", "AWS_ACCESS_KEY_ID", pillar.aws.access_key) }}
 {{ set_config("aws-settings.local", "AWS_SECRET_ACCESS_KEY", pillar.aws.secret_key) }}
 {{ set_config("aws-settings.local", "AWS_DEFAULT_REGION", pillar.aws.region) }}
-{{ set_config("aws-settings.local", "AWS_CLI", "/usr/local/bin/aws") }}

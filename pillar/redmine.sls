@@ -30,12 +30,11 @@ mysql:
   version: '8.0'
   configuration: False
   backup:
-    location: ocp-redmine-backups/database
-
-redmine:
-  backup:
-    location: ocp-redmine-backups/site-files
-
+    location: ocp-redmine-backup/database
 
 rvm:
   default_version: 3.1.2
+
+redmine:
+  backup:
+    location: ocp-redmine-backup/site

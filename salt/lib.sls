@@ -1,6 +1,6 @@
 # Defines common macros.
 {% macro set_config(filename, setting_name, setting_value="yes") %}
-set {{ setting_name }} setting:
+set {{ setting_name }} in {{ filename }}:
   file.keyvalue:
     - name: /home/sysadmin-tools/{{ filename }}
     - key: {{ setting_name }}
@@ -9,7 +9,7 @@ set {{ setting_name }} setting:
 {% endmacro %}
 
 {% macro unset_config(filename, setting_name) %}
-unset {{ setting_name }} setting:
+unset {{ setting_name }} in {{ filename }}:
   file.keyvalue:
     - name: /home/sysadmin-tools/{{ filename }}
     - key: {{ setting_name }}
@@ -17,7 +17,6 @@ unset {{ setting_name }} setting:
     - ignore_if_missing: True
 {% endmacro %}
 
-# Legacy firewall support macro
 {% macro set_firewall(setting_name, setting_value="yes") %}
 {{ set_config("firewall-settings.local", setting_name, setting_value) }}
 {% endmacro %}

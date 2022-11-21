@@ -3,7 +3,7 @@
 include:
   - aws
 
-{{ set_config("aws-settings.local", "S3DATABASEBACKUPBUCKET", pillar.mysql.backup.location ) }}
+{{ set_config("aws-settings.local", "S3_DATABASE_BACKUP_BUCKET", pillar.mysql.backup.location ) }}
 
 /home/sysadmin-tools/bin/mysql-backup-to-s3.sh:
   file.managed:
@@ -27,7 +27,7 @@ include:
     - contents: |
        [client]
        user = root
-       password = {{ salt['pillar.get']('mysql:users:root:password','') }}
+       password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
     - user: root
     - group: root
     - mode: 600
