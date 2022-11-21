@@ -202,7 +202,7 @@ Find unexpected schema ``USAGE`` privileges:
    CROSS JOIN pg_namespace
    WHERE
        usename NOT IN ('postgres') AND
-       nspname NOT IN ('information_schema', 'pg_catalog', 'reference') AND
+       nspname NOT IN ('information_schema', 'pg_catalog', 'reference', 'summaries') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
@@ -405,7 +405,8 @@ Find unexpected schema:
            'pg_catalog',
            'pg_toast',
            'public',
-           'reference'
+           'reference',
+           'summaries'
        );
 
 Find unexpected tables in the public schema:
