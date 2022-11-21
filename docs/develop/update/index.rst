@@ -9,6 +9,7 @@ Make changes
 
    network.rst
    firewall.rst
+   awscli.rst
    packages.rst
    apache.rst
    elasticsearch.rst

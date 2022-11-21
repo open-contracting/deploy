@@ -69,3 +69,19 @@ Configure MySQL
 #. :doc:`Deploy<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/mysql/conf.d`` directory on the server.
+
+Backups
+-------
+
+#. Configure the :doc:`AWS CLI<../awscli>`.
+
+#. Set ``mysql.backup.location`` in the server's Pillar file, for example:
+
+   .. code-block:: yaml
+      :emphasize-lines: 3
+
+      mysql:
+        backup:
+          location: ocp-redmine-backups/database
+
+#. :doc:`Deploy<../../deploy/deploy>`.
