@@ -1,7 +1,7 @@
 Amazon Web Services (AWS)
 =========================
 
-In all cases, set the region to *us-east-1* (N. Virginia).
+Our default region is *us-east-1* (N. Virginia). For large data transfer operations (like backups), use the closest region: for example, *us-west-2* (London) for Linode servers in the London datacenter.
 
 Simple Email Service (SES)
 --------------------------
@@ -211,7 +211,9 @@ Relational Database Service (RDS)
 Aurora Serverless
 -----------------
 
-Note: `"You can't give an Aurora Serverless DB cluster a public IP address." <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations>`__; instead, you need to use an EC2 instance as a bastion host.
+.. warning::
+
+   `"You can't give an Aurora Serverless DB cluster a public IP address." <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations>`__. Instead, you need to use an EC2 instance as a bastion host.
 
 Create a VPC
 ~~~~~~~~~~~~
