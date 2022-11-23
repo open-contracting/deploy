@@ -12,6 +12,7 @@ include:
     - mode: 750
     - require:
       - file: /home/sysadmin-tools/bin
+      - sls: aws
 
 /etc/cron.d/redmine_backup:
   file.managed:
@@ -27,3 +28,5 @@ set BACKUP_DIRECTORIES setting:
     - key: BACKUP_DIRECTORIES
     - value: ( "/home/{{ user }}/public_html/" )
     - append_if_not_found: True
+    - require:
+      - file: /home/sysadmin-tools/bin

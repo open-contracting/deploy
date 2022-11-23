@@ -10,11 +10,17 @@
 
 set -euo pipefail
 
+# shellcheck disable=SC1091
 source /home/sysadmin-tools/aws-settings.local
 
 export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY
 export AWS_DEFAULT_REGION
+
+if [ "${LOGNAME}" != "root" ]; then
+    echo "ERROR: Execution of ${0} stopped as not run by user root!"
+    exit 3
+fi
 
 if [ ! -x "${AWS_CLI}" ]; then
     echo "Error: The aws executable is not installed"
@@ -28,9 +34,10 @@ fi
 
 for DIRECTORY in "${BACKUP_DIRECTORIES[@]}"; do
     SAFENAME="${DIRECTORY//[^a-zA-Z0-9]/_}"
-    SAFENAME="${SAFENAME//^___/}"
+    SAFENAME="${SAFENAME/#_/}"
+    SAFENAME="${SAFENAME/%_/}"
     BASENAME="${SAFENAME}_backup_$(TZ=UTC date +%Y-%m-%d).tar.gz"
-    FILEPATH="/tmp/${BASENAME}"
+    FILEPATH="$(mktemp file_backup_XXXX.tar.gz)"
 
     # To stop the script breaking when reading changing files (e.x. logs)
     set +e
@@ -41,6 +48,6 @@ for DIRECTORY in "${BACKUP_DIRECTORIES[@]}"; do
     fi
     set -e
 
-    ${AWS_CLI} s3 cp "${FILEPATH}" "s3://${S3_SITE_BACKUP_BUCKET}/${BASENAME}" --quiet
+    ${AWS_CLI} s3 cp "${FILEPATH}" "s3://${S3_SITE_BACKUP_BUCKET}/${BASENAME}" --only-show-errors
     rm "${FILEPATH}"
 done

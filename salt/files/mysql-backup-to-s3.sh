@@ -10,6 +10,7 @@
 
 set -euo pipefail
 
+# shellcheck disable=SC1091
 source /home/sysadmin-tools/aws-settings.local
 
 export AWS_ACCESS_KEY_ID
@@ -43,7 +44,7 @@ for DATABASE in "${DATABASES[@]}"; do
     information_schema | performance_schema | sys | innodb | mysql) ;; # Skip system databases
     *)
         TIMESTAMP="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)"
-        TMPFILE=$(mktemp)
+        TMPFILE="$(mktemp mysql_backup_XXXX.sql.gz)"
         ${MYSQLDUMP} "${MYSQL_ARGUMENT}" --databases "${DATABASE}" | gzip > "${TMPFILE}"
         if zgrep -q "Dump completed on" "${TMPFILE}"; then
             $AWS_CLI s3 cp "${TMPFILE}" "s3://${S3_DATABASE_BACKUP_BUCKET}/${TIMESTAMP}_${DATABASE}.sql.gz" --only-show-errors

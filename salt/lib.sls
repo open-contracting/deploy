@@ -6,6 +6,8 @@ set {{ setting_name }} in {{ filename }}:
     - key: {{ setting_name }}
     - value: '"{{ setting_value }}"'
     - append_if_not_found: True
+    - require:
+      - file: /home/sysadmin-tools/bin
 {% endmacro %}
 
 {% macro unset_config(filename, setting_name) %}
@@ -15,6 +17,8 @@ unset {{ setting_name }} in {{ filename }}:
     - key: {{ setting_name }}
     - value: '""'
     - ignore_if_missing: True
+    - require:
+      - file: /home/sysadmin-tools/bin
 {% endmacro %}
 
 {% macro set_firewall(setting_name, setting_value="yes") %}

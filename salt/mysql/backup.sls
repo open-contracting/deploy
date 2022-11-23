@@ -28,8 +28,6 @@ include:
        [client]
        user = root
        password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
-    - user: root
-    - group: root
     - mode: 600
     - require:
       - file: /home/sysadmin-tools/bin

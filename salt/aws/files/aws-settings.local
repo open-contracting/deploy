@@ -5,13 +5,10 @@ AWS_DEFAULT_REGION=""
 
 # MySQL backup
 S3_DATABASE_BACKUP_BUCKET=""
-DB_HOST="localhost"
-DB_FLAGS=""
-DB_DEFAULTS_FILE="/home/sysadmin-tools/mysql-defaults.cnf"
 
 # Site backup
 S3_SITE_BACKUP_BUCKET=""
 # Space deliminated bash array e.x. ("/home/siteone", "/home/sitetwo")
 BACKUP_DIRECTORIES=()
-# BACKUP_EXCLUDE="--exclude=/home/foobar/public_html/unwanted/dir"
+# BACKUP_EXCLUDE="--exclude=/home/example/public_html/unwanted/dir"
 BACKUP_EXCLUDE=""
