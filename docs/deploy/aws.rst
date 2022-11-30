@@ -285,3 +285,84 @@ Create database
    #. *Backup retention period*: 1 day
 
 #. Click *Create database*
+
+Amazon S3
+---------
+
+.. _aws-s3-backup:
+
+Creating Backup Storage
+~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Go to Amazon S3 `Buckets<https://s3.console.aws.amazon.com/s3/buckets>`__
+#. Click *Create bucket*
+   #. Enter the *Bucket name*, for example: ocp-redmine-backup
+   #. Set *AWS Region* to the closest region to the servers
+   #. Click *Create bucket*
+#. Select the bucket you have just created
+#. Click *Management*
+#. Click *Create lifecycle rule*
+   #. *Lifecycle rule name*: delete-after-30-days
+   #. *Choose a rule scope*: *Apply to all objects in the bucket*
+      #. Check *I acknowledge that this rule will apply to all objects in the bucket.*
+   #. *Lifecycle rule actions*
+      #. Check *Expire current versions of objects* and *Delete expired object delete markers or incomplete multipart uploads*
+   #. *Expire current versions of objects* 30 days after object creation
+   #. *Delete incomplete multipart uploads* after 7 days
+   #. Click *Create rule*
+
+Identity and Access Management (IAM)
+------------------------------------
+
+.. _aws-iam-backup-user:
+
+Create a new IAM backup user and policy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Go to IAM `Policies<https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
+#. Click *Create policy*
+   #. Click the *JSON* tab and enter the policy document. Replace ``BUCKET_NAME``
+      .. code-block:: json
+
+         {
+             "Version": "2012-10-17",
+             "Statement": [
+                 {
+                     "Effect": "Allow",
+                     "Action": [
+                         "s3:ListBucket"
+                     ],
+                     "Resource": [
+                         "arn:aws:s3:::BUCKET_NAME"
+                     ]
+                 },
+                 {
+                     "Effect": "Allow",
+                     "Action": [
+                         "s3:PutObject",
+                         "s3:GetObject",
+                         "s3:DeleteObject"
+                     ],
+                     "Resource": [
+                         "arn:aws:s3:::BUCKET_NAME/*"
+                     ]
+                 }
+             ]
+         }
+   #. Click *Next: Tags*
+   #. Click *Next: Review*
+   #. *Name*, for example: ocp-redmine-backup
+   #. Click *Create policy*
+
+
+#. Go to IAM `users<https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
+#. Click *Add Users*
+   #. *User name*, for example: ocp-redmine-backups
+   #. *Select AWS credential type*:
+      # Check *Access key - Programmatic access*
+   #. Click *Next: Permissions*
+   #. *Attach existing policies directly*, select the backup policy created above
+   #. Click *Next: Tags*
+   #. Click *Next: Review*
+   #. Click *Create user*
+   #. Add the *Access key ID* and *Secret access key* to the service `Pillar file<../develop/update/awscli>`.

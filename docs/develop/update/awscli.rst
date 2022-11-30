@@ -5,7 +5,9 @@ Configure AWS CLI
 
    AWS CLI is the `Amazon Web Services Command Line Interface <https://aws.amazon.com/cli/>`__.
 
-In the service's Pillar file, add, for example:
+#. Create an IAM user, see :ref:`aws-iam-backup-user`.
+
+#. In the service's Pillar file, add, for example:
 
 .. code-block:: yaml
 
