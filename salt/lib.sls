@@ -1,4 +1,6 @@
 # Defines common macros.
+
+# Setting `require` to `file: /home/sysadmin-tools/{{ filename }}` causes "Recursive requisite found".
 {% macro set_config(filename, setting_name, setting_value="yes") %}
 set {{ setting_name }} in {{ filename }}:
   file.keyvalue:
