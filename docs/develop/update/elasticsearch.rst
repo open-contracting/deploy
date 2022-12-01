@@ -72,7 +72,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       elasticsearch:
         allowed_origins: https://standard.open-contracting.org
 
-#. Configure Apache to restart elasticsearch when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
+#. Configure Apache to restart Elasticsearch when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
 
    .. code-block:: yaml
       :emphasize-lines: 2-4
