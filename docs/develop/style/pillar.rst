@@ -18,7 +18,8 @@ Order the top-level keys in these layers:
 
 -  Application services
 
+   -  Infrastructure: ``aws``
    -  Web access: ``apache``
-   -  Services: ``elasticsearch``, ``postgres``, ``rabbitmq``
+   -  Services: ``elasticsearch``, ``postgres``, ``mysql``, ``rabbitmq``
    -  Environments: ``docker``, ``nodejs``, ``rvm``
    -  Applications: ``docker_apps``, ``python_apps``, ``react_apps``
