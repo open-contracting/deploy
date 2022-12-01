@@ -10,7 +10,7 @@ apache:
   public_access: True
   modules:
     mod_md:
-      MDNotifyCmd: /opt/pem-to-keystore-wrapper.sh
+      MDNotifyCmd: /opt/restart-elasticsearch.sh
   sites:
     ocds-docs-live:
       configuration: docs

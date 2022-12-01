@@ -72,7 +72,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       elasticsearch:
         allowed_origins: https://standard.open-contracting.org
 
-#. Configure Apache to create JKS keystores when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
+#. Configure Apache to restart elasticsearch when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
 
    .. code-block:: yaml
       :emphasize-lines: 2-4
@@ -80,17 +80,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       apache:
         modules:
           mod_md:
-            MDNotifyCmd: /opt/pem-to-keystore-wrapper.sh
-
-#. Set a JKS keystore password. Add to your service's *private* Pillar file, replacing ``KEY_PASS`` with a `strong password <https://www.lastpass.com/password-generator>`__:
-
-   .. code-block:: yaml
-      :emphasize-lines: 2-4
-
-      elasticsearch:
-        plugins:
-          readonlyrest:
-            key_pass: KEY_PASS
+            MDNotifyCmd: /opt/restart-elasticsearch.sh
 
 #. Add users for public searches and for admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'USERNAME:PASSWORD' | shasum -a 512`` (replacing ``USERNAME`` and ``PASSWORD`` with a strong password each time):
 
@@ -111,12 +101,6 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
                   - manage
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
-
-#. Create the JKS keystore and restart the Elasticsearch service. For example, for the ``standard.open-contracting.org`` domain:
-
-   .. code-block:: bash
-
-      ./run.py 'docs' cmd.run '/opt/pem-to-keystore.sh standard.open-contracting.org'
 
 #. Test the public user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
 

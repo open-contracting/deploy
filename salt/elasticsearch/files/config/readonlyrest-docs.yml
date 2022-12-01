@@ -2,9 +2,8 @@ readonlyrest:
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#loading-settings-order-of-precedence
   force_load_from_file: True
   ssl:
-    keystore_file: keystore.jks
-    keystore_pass: {{ pillar.elasticsearch.plugins.readonlyrest.key_pass }}
-    key_pass: {{ pillar.elasticsearch.plugins.readonlyrest.key_pass }}
+    server_certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
+    server_certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
     - name: Allow localhost

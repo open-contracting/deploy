@@ -12,45 +12,27 @@ readonlyrest-install:
     - watch_in:
       - service: elasticsearch
 
-/opt/pkcs-password:
+/opt/restart-elasticsearch.sh:
   file.managed:
-    - name: /opt/pkcs-password
-    - contents_pillar: elasticsearch:plugins:readonlyrest:key_pass
-    - mode: 600
-
-/opt/pem-to-keystore.sh:
-  pkg.installed:
-    - name: openjdk-11-jre-headless # for keytool command
-  file.managed:
-    - name: /opt/pem-to-keystore.sh
-    - source: salt://elasticsearch/files/pem-to-keystore.sh
-    - mode: 700
-    - require:
-      - pkg: apache2
-      - pkg: elasticsearch
-      - pkg: /opt/pem-to-keystore.sh
-      - file: /opt/pkcs-password
-
-/opt/pem-to-keystore-wrapper.sh:
-  file.managed:
-    - name: /opt/pem-to-keystore-wrapper.sh
-    - source: salt://elasticsearch/files/pem-to-keystore-wrapper.sh
+    - name: /opt/restart-elasticsearch.sh
+    - source: salt://elasticsearch/files/restart-elasticsearch.sh
     - user: root
     - group: root
     - mode: 755
     - require:
-      - file: /opt/pem-to-keystore.sh
+      - pkg: apache2
+      - pkg: elasticsearch
 
-/etc/sudoers.d/90-pem-to-keystore:
+/etc/sudoers.d/90-restart-elasticsearch:
   file.managed:
-    - source: salt://elasticsearch/files/sudoers.d/pem-to-keystore
+    - source: salt://elasticsearch/files/sudoers.d/restart-elasticsearch
     - user: root
     - group: root
     - mode: 440
     # Salt appends to check_cmd a temporary file containing the new managed contents. This serves as the argument to `-f`.
     - check_cmd: visudo -c -f
     - require:
-      - file: /opt/pem-to-keystore.sh
+      - file: /opt/restart-elasticsearch.sh
 
 /etc/elasticsearch/readonlyrest.yml:
   file.managed:
