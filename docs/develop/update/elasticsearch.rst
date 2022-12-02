@@ -72,7 +72,17 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       elasticsearch:
         allowed_origins: https://standard.open-contracting.org
 
-#. Configure Apache to restart Elasticsearch when renewing SSL certificates, so that the ReadOnlyREST plugin can configure SSL using the same certificates:
+#. Configure Elasticsearch SSL certificates. Add to your service's Pillar file, for example using the Apache mod_md certificates:
+
+   .. code-block:: yaml
+
+      elasticsearch:
+        plugins:
+          readonlyrest:
+            certificate_key: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
+            certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
+
+#. Configure Apache mod_md to restart Elasticsearch when renewing SSL certificates, if the ReadOnlyREST plugin is using the mod_md certificates:
 
    .. code-block:: yaml
       :emphasize-lines: 2-4

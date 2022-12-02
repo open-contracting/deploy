@@ -16,8 +16,6 @@ readonlyrest-install:
   file.managed:
     - name: /opt/restart-elasticsearch.sh
     - source: salt://elasticsearch/files/restart-elasticsearch.sh
-    - user: root
-    - group: root
     - mode: 755
     - require:
       - pkg: apache2
@@ -26,8 +24,6 @@ readonlyrest-install:
 /etc/sudoers.d/90-restart-elasticsearch:
   file.managed:
     - source: salt://elasticsearch/files/sudoers.d/restart-elasticsearch
-    - user: root
-    - group: root
     - mode: 440
     # Salt appends to check_cmd a temporary file containing the new managed contents. This serves as the argument to `-f`.
     - check_cmd: visudo -c -f
