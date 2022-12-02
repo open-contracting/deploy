@@ -79,7 +79,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       elasticsearch:
         plugins:
           readonlyrest:
-            certificate_key: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
+            certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
             certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
 
 #. Configure Apache mod_md to restart Elasticsearch when renewing SSL certificates, if the ReadOnlyREST plugin is using the mod_md certificates:

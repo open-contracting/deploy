@@ -30,5 +30,5 @@ elasticsearch:
     readonlyrest:
       version: 1.43.0_es7.17.6
       configuration: docs
-      certificate_key: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
+      certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
       certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
