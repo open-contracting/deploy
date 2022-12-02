@@ -32,7 +32,7 @@ if [ ! -r "/home/sysadmin-tools/mysql-defaults.cnf" ]; then
     exit 4
 fi
 
-mapfile -t DATABASES < <(/usr/bin/mysql /home/sysadmin-tools/mysql-defaults.cnf -Bse 'SHOW DATABASES')
+mapfile -t DATABASES < <(/usr/bin/mysql --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf -Bse 'SHOW DATABASES')
 for DATABASE in "${DATABASES[@]}"; do
     case "$DATABASE" in
     information_schema | performance_schema | sys | innodb | mysql) ;; # Skip system databases
@@ -40,7 +40,7 @@ for DATABASE in "${DATABASES[@]}"; do
         BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.sql.gz"
         TEMPFILE="$(mktemp mysql_backup_XXXX.sql.gz)"
 
-        /usr/bin/mysqldump /home/sysadmin-tools/mysql-defaults.cnf --databases "$DATABASE" | gzip > "$TEMPFILE"
+        /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf --databases "$DATABASE" | gzip > "$TEMPFILE"
         if zgrep -q "Dump completed on" "$TEMPFILE"; then
             $AWS_CLI s3 cp "$TEMPFILE" "s3://$S3_DATABASE_BACKUP_BUCKET/$BASENAME" --only-show-errors
         else
