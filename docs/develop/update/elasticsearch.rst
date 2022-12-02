@@ -51,10 +51,6 @@ Enable public access
 
 As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html>`__ For the OCDS documentation, we use the `ReadOnlyREST <https://readonlyrest.com>`__ plugin to control access.
 
-.. note::
-
-   This setup assumes that :doc:`Apache<apache>` and Elasticsearch serve content from the same domain, and can share an SSL certificate.
-
 #. Add the ``elasticsearch.plugins.readonlyrest`` state file to your service's target in the ``salt/top.sls`` file.
 
 #. Allow anyone to access Elasticsearch. Add to your service's Pillar file:
@@ -72,7 +68,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
       elasticsearch:
         allowed_origins: https://standard.open-contracting.org
 
-#. Configure Elasticsearch SSL certificates. Add to your service's Pillar file, for example using the Apache mod_md certificates:
+#. Configure ReadOnlyREST SSL certificates in your service's Pillar file. If :doc:`Apache<apache>` and Elasticsearch serve content from the same domain, you can reuse the certificates acquired by the ``mod_md`` module. For example:
 
    .. code-block:: yaml
 
@@ -82,7 +78,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
             certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
             certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
 
-#. Configure Apache mod_md to restart Elasticsearch when renewing SSL certificates, if the ReadOnlyREST plugin is using the mod_md certificates:
+   If reusing certificates, configure the ``mod_md`` module to restart Elasticsearch after renewing certificates:
 
    .. code-block:: yaml
       :emphasize-lines: 2-4
