@@ -18,7 +18,7 @@ If you encounter issues, try installing with pip:
 
 .. code-block:: bash
 
-    pip install salt salt-ssh
+    pip install --no-deps -r requirements.txt
 
 For other operating systems and package managers, see `this page <https://repo.saltstack.com/>`__ (or `this page <https://docs.saltstack.com/en/latest/topics/installation/index.html>`__) to install a recent version (2019 or later).
 
