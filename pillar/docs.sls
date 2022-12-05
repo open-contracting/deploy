@@ -10,7 +10,7 @@ apache:
   public_access: True
   modules:
     mod_md:
-      MDNotifyCmd: /opt/pem-to-keystore-wrapper.sh
+      MDNotifyCmd: /opt/restart-elasticsearch.sh
   sites:
     ocds-docs-live:
       configuration: docs
@@ -30,3 +30,5 @@ elasticsearch:
     readonlyrest:
       version: 1.43.0_es7.17.6
       configuration: docs
+      certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
+      certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
