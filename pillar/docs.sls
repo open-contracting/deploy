@@ -25,10 +25,10 @@ elasticsearch:
   # Allow OCDS documentation and GitHub Actions.
   allowed_origins: "*"
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
-  version: 7.17.6
+  version: 7.17.7
   plugins:
     readonlyrest:
-      version: 1.43.0_es7.17.6
+      version: 1.45.0_es7.17.7
       configuration: docs
-      certificate_key_file: /etc/apache2/md/domains/standard.open-contracting.org/privkey.pem
-      certificate_file: /etc/apache2/md/domains/standard.open-contracting.org/pubcert.pem
+      certificate_key_file: /etc/elasticsearch/ssl/standard.open-contracting.org/privkey.pem
+      certificate_file: /etc/elasticsearch/ssl/standard.open-contracting.org/pubcert.pem
