@@ -8,7 +8,7 @@ import sys
 os.environ["HOMEBREW_PREFIX"] = "/opt/homebrew"
 
 import salt.cli.ssh
-import salt.roster
+import salt.client.ssh
 
 
 def main():
@@ -20,18 +20,13 @@ def main():
 
     # See salt/cli/ssh.py::SaltSSH
     client.parse_args()
-
-    # See salt/client/ssh/__init__.py::SSH
-    # Allows using the `-L` flag as documented in the docs/maintain/packages.rst file.
-    tgt_type = client.config["selected_target_option"] if client.config["selected_target_option"] else "glob"
-    roster = salt.roster.Roster(client.config, client.config.get("roster", "flat"))
-    targets = roster.targets(client.config["tgt"], tgt_type)
+    ssh = salt.client.ssh.SSH(client.config)
 
     # Port-knock all the targets.
     print("Port-knocking:")
-    for name, target in targets.items():
+    for name, target in ssh.targets.items():
         print(f"- {target['host']} ({name})")
-    for target in targets.values():
+    for target in ssh.targets.values():
         try:
             socket.create_connection((target["host"], 8255), 1)
         except OSError:

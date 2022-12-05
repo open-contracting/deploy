@@ -5,6 +5,9 @@ import subprocess
 import sys
 from collections import defaultdict
 
+# https://github.com/saltstack/salt/issues/62664#issuecomment-1336017055
+os.environ["HOMEBREW_PREFIX"] = "/opt/homebrew"
+
 import click
 import salt.cli.ssh
 import salt.client.ssh
