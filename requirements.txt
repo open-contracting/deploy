@@ -36,7 +36,7 @@ click==8.0.1
     #   pip-tools
 contextvars==2.4
     # via salt-ssh
-cryptography==3.4.6
+cryptography==3.3.2
     # via
     #   pyopenssl
     #   salt-ssh
