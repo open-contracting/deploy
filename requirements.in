@@ -11,4 +11,4 @@ pytest
 # On macOS, install the version of cryptography in requirements.txt with, for example:
 # https://github.com/saltstack/salt/issues/63191
 #
-# env CPPFLAGS="-I/opt/homebrew/opt/openssl@3/include -Wno-error=implicit-function-declaration" LDFLAGS=-L/opt/homebrew/opt/openssl@3/lib  pip install --no-binary :all: cryptography==3.3.2
+# env LDFLAGS=-L$(brew --prefix openssl@3)/lib CFLAGS="-I$(brew --prefix openssl@3)/include -Wno-error=implicit-function-declaration" pip install --no-binary :all: cryptography==3.3.2
