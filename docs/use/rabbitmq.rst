@@ -24,8 +24,8 @@ Reference:
 -  `Production Checklist <https://www.rabbitmq.com/production-checklist.html>`__
 -  `Currently Supported Release Series <https://www.rabbitmq.com/versions.html>`__
 
-Check log files
----------------
+Review log files
+----------------
 
 RabbitMQ log files are at ``/var/log/rabbitmq/``. ``rabbit@<hostname>.log`` is the main file. ``erl_crash.dump`` describes the latest crash.
 

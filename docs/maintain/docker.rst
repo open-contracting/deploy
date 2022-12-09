@@ -7,8 +7,51 @@ Get basic information:
 
    docker system info
 
-Check usage
------------
+Reference: `Overview of docker compose CLI <https://docs.docker.com/compose/reference/>`__
+
+Review log files
+----------------
+
+Run, replacing ``CONTAINER``:
+
+.. code-block:: bash
+
+   docker-compose logs -f -t CONTAINER
+
+Open a shell
+------------
+
+Open a Bash shell, for example:
+
+.. code-block:: bash
+
+   docker-compose run --rm static bash
+
+Open a Python shell, for example:
+
+.. code-block:: bash
+
+   docker-compose run --rm web python manage.py shell
+
+`Our Python projects <https://ocp-software-handbook.readthedocs.io/en/latest/python/settings.html#word-choice>`__ follow a ``LOG_LEVEL`` environment variable, which you can set with ``-e LOG_LEVEL=DEBUG``, for example.
+
+Check project usage
+-------------------
+
+Show containers' status:
+
+.. code-block:: bash
+
+   docker-compose ps
+
+Show containers' processes:
+
+.. code-block:: bash
+
+   docker-compose top
+
+Check system-wide usage
+-----------------------
 
 Check drive usage:
 

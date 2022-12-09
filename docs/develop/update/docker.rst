@@ -73,6 +73,12 @@ Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com
        image: "ghcr.io/open-contracting/myrepo:latest"
        restart: unless-stopped
 
+Validate the file, for example:
+
+.. code-block:: bash
+
+   docker-compose config -q salt/docker_apps/files/redash.yaml
+
 .. admonition:: Stateful containers
 
    Containers are designed to be interrupted at any time, whereas stateful services like :doc:`PostgreSQL<postgres>` and :doc:`RabbitMQ<rabbitmq>` can fail in such conditions. Instead, run these on the host, where they are easier to operate with high reliability.
@@ -103,7 +109,7 @@ Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com
 
 Reference:
 
--  `The Compose Specification <https://github.com/compose-spec/compose-spec/blob/master/spec.md>`__
+-  `Compose specification <https://docs.docker.com/compose/compose-file/>`__
 -  `Use Compose in production <https://docs.docker.com/compose/production/>`__
 
 Configure Docker app
@@ -157,6 +163,7 @@ Then, under the ``env`` key in the service's Pillar file, use ``host.docker.inte
 
 Reference:
 
+-  `Networking overview <https://docs.docker.com/network/>`__
 -  `Networking in Compose <https://docs.docker.com/compose/networking/>`__
 -  `How to connect to the Docker host from inside a Docker container? <https://medium.com/@TimvanBaarsen/how-to-connect-to-the-docker-host-from-inside-a-docker-container-112b4c71bc66>`__
 
