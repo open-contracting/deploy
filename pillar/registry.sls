@@ -98,10 +98,11 @@ docker_apps:
     port: 8002
     exporter_host_dir: /data/storage/exporter_dumps
     env:
-      ALLOWED_HOSTS: data.open-contracting.org
       DJANGO_PROXY: True
-      FATHOM_ANALYTICS_ID: HTTGFPYH
+      ALLOWED_HOSTS: data.open-contracting.org
+      SECURE_HSTS_SECONDS: 3600
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
+      FATHOM_ANALYTICS_ID: HTTGFPYH
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
       # Need to sync with `docker_apps.kingfisher_process.port`.

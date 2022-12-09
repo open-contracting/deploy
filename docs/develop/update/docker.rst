@@ -79,6 +79,10 @@ Validate the file, for example:
 
    docker-compose config -q salt/docker_apps/files/redash.yaml
 
+.. seealso::
+
+   :ref:`django-configure`
+
 .. admonition:: Stateful containers
 
    Containers are designed to be interrupted at any time, whereas stateful services like :doc:`PostgreSQL<postgres>` and :doc:`RabbitMQ<rabbitmq>` can fail in such conditions. Instead, run these on the host, where they are easier to operate with high reliability.

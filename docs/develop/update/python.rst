@@ -61,13 +61,15 @@ To create configuration files within the user's ``.config`` directory, add, for 
 
 You can add as many configuration files as you like.
 
+.. _django-configure:
+
 Configure Django
 ----------------
 
 If the Python app uses the Django framework, add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 8-13
+   :emphasize-lines: 8-14
 
    python_apps:
      myapp:
@@ -81,6 +83,7 @@ If the Python app uses the Django framework, add, for example:
          compilemessages: True
          env:
            ALLOWED_HOSTS: mysubdomain.open-contracting.org
+           FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
            FATHOM_ANALYTICS_ID: ABCDEFGH
 
 This will activate the virtual environment, and run, using ``--settings {app}.settings``:
@@ -89,7 +92,9 @@ This will activate the virtual environment, and run, using ``--settings {app}.se
 -  The `collectstatic <https://docs.djangoproject.com/en/3.2/ref/contrib/staticfiles/#collectstatic>`__ management command
 -  The `compilemessages <https://docs.djangoproject.com/en/3.2/ref/django-admin/#compilemessages>`__ management command, if ``compilemessages`` is truthy
 
-To generate the ``SECRET_KEY`` environment variable for the private Pillar file, run, in your Django project:
+Set a ``SECURE_HSTS_SECONDS`` environment variable according to `Django's documentation <https://docs.djangoproject.com/en/3.2/ref/middleware/#http-strict-transport-security>`__.
+
+Generate a ``SECRET_KEY`` environment variable for the private Pillar file by running, in your Django project:
 
 .. code-block:: bash
 
