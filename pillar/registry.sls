@@ -100,7 +100,7 @@ docker_apps:
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: data.open-contracting.org
-      SECURE_HSTS_SECONDS: 3600
+      SECURE_HSTS_SECONDS: 31536000
       FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
       FATHOM_ANALYTICS_ID: HTTGFPYH
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
