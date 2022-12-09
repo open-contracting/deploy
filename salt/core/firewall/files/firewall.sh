@@ -10,6 +10,9 @@
 # Configuration:
 #     See the /home/sysadmin-tools/firewall-settings.local file for details.
 #     On CentOS, make sure that firewalld has been disabled and that iptables has been enabled.
+#
+# If making changes to this file, check the output when testing the command, because it succeeds
+# even if stderr is non-empty. https://github.com/open-contracting/deploy/issues/202
 
 set -euo pipefail
 
