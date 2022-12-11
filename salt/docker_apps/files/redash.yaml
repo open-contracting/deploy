@@ -20,8 +20,10 @@ services:
       - server:redash
     restart: always
   redis:
-    image: redis:6.2-alpine
+    image: bitnami/redis:6.2
     restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
     healthcheck:
       test: redis-cli -h 127.0.0.1 ping | grep -q PONG
       interval: 10s
