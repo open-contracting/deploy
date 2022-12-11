@@ -516,7 +516,7 @@ Mitigate downtime
    #. Login to `GoDaddy <https://sso.godaddy.com>`__
    #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
    #. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
-   #. Update the replica's CNAME record to point to the main server's A record: for example, point ``postgres-readonly`` to ``kingfisher-process1``
+   #. Update the replica's CNAME record to point to the main server's A record: for example, point ``postgres-readonly`` to ``process1.kingfisher``
    #. Wait for the changes to propagate, which depends on the original TTL value
 
 Fix replication

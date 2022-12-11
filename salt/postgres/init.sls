@@ -1,7 +1,5 @@
 {% from 'lib.sls' import set_firewall, unset_firewall %}
 
-{% set pg_version = pillar.postgres.get('version', '11') %}
-
 {% if pillar.postgres.get('public_access') %}
   {{ set_firewall("PUBLIC_POSTGRESQL") }}
   {{ unset_firewall("PRIVATE_POSTGRESQL") }}
@@ -29,12 +27,12 @@ postgresql:
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
   pkg.installed:
-    - name: postgresql-{{ pg_version }}
+    - name: postgresql-{{ pillar.postgres.version }}
     - require:
       - pkgrepo: postgresql
   service.running:
     # The "postgresql" service is a dummy service, and causes the service status to be misreported.
-    - name: postgresql@{{ pg_version }}-main.service
+    - name: postgresql@{{ pillar.postgres.version }}-main.service
     - enable: True
     - require:
       - pkg: postgresql
@@ -42,10 +40,10 @@ postgresql:
 postgresql-reload:
   module.wait:
     - name: service.reload
-    - m_name: postgresql@{{ pg_version }}-main.service
+    - m_name: postgresql@{{ pillar.postgres.version }}-main.service
 
 # Upload access configuration for postgres.
-/etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/pg_hba.conf:
   file.managed:
     - source: salt://postgres/files/pg_hba.conf
     - template: jinja
@@ -62,7 +60,7 @@ postgresql-reload:
 #
 # (Unfortunately, `file.managed` doesn't have a `sources` option like `file.append` in order to create a target file
 # from many source files, and `file.accumulated` doesn't have a `source` option.)
-/etc/postgresql/{{ pg_version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
   file.managed:
     - source: salt://postgres/files/conf/{{ pillar.postgres.configuration }}.conf
     - template: jinja

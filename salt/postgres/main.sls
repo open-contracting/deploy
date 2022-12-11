@@ -1,12 +1,9 @@
 # Configure settings specific to the main server for physical replication.
 
-# Default to postgres version 11, if not defined in pillar.
-{% set pg_version = pillar.postgres.get('version', '11') %}
-
 # PostgreSQL's replication slots prevent a main server from removing WAL segments from `pg_wal` that are still needed
 # by replica servers. As a fallback, and in case replication slots are not configured, we also have a WAL archive. Old
 # archive files are deleted by `/etc/cron.d/replica_monitoring` below.
-/var/lib/postgresql/{{ pg_version }}/main/archive/:
+/var/lib/postgresql/{{ pillar.postgres.version }}/main/archive/:
   file.directory:
     - user: postgres
     - group: postgres
@@ -27,6 +24,6 @@
   file.managed:
     - text: |
         MAILTO=root
-        15 10 * * * postgres /home/sysadmin-tools/bin/delete-after-x-days.sh 7 /var/lib/postgresql/{{ pg_version }}/main/archive/
+        15 10 * * * postgres /home/sysadmin-tools/bin/delete-after-x-days.sh 7 /var/lib/postgresql/{{ pillar.postgres.version }}/main/archive/
     - require:
       - file: /home/sysadmin-tools/bin/delete-after-x-days.sh

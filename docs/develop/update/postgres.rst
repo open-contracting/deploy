@@ -4,9 +4,7 @@ Configure PostgreSQL
 Specify the version
 -------------------
 
-The default version is 11.
-
-To override the version, update the server's Pillar file:
+Set the version in the server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 2
