@@ -58,7 +58,7 @@ services:
   redis:
     <<: *with-env
     hostname: redis
-    image: redis:latest
+    image: bitnami/redis:latest
   app:
     <<: *shared
     hostname: app

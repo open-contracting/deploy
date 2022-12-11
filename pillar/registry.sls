@@ -155,3 +155,4 @@ docker_apps:
       API_PREFIX: api/
       DB_HOST: postgres
       REDIS_HOST: redis
+      ALLOW_EMPTY_PASSWORD: "yes"
