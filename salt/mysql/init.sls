@@ -49,7 +49,7 @@ remove test database:
       - service: mysql
 {% endif %} {# config #}
 
-{% if pillar.mysql.get('users') %}
+{% if 'users' in pillar.mysql %}
 {% for name, entry in pillar.mysql.users.items() %}
 {{ name }}_mysql_user:
   mysql_user.present:
@@ -62,7 +62,7 @@ remove test database:
 {% endfor %}
 {% endif %} {# users #}
 
-{% if pillar.mysql.get('databases') %}
+{% if 'databases' in pillar.mysql %}
 {% for database, entry in pillar.mysql.databases.items() %}
 {{ database }}_mysql_database:
   mysql_database.present:

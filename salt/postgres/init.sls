@@ -8,10 +8,10 @@
 {% else %}
   {{ unset_firewall("PUBLIC_POSTGRESQL") }}
   {{ set_firewall("PRIVATE_POSTGRESQL") }}
-  {% if pillar.postgres.get('replica_ipv4') %}
+  {% if 'replica_ipv4' in pillar.postgres %}
     {{ set_firewall("REPLICA_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
   {% endif %}
-  {% if pillar.postgres.get('replica_ipv6') %}
+  {% if 'replica_ipv6' in pillar.postgres %}
     {{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
   {% endif %}
   {% if salt['pillar.get']('maintenance:enabled') %}
@@ -95,7 +95,7 @@ pg_stat_statements:
     - maintenance_db: template1
     - if_not_exists: True
 
-{% if pillar.postgres.get('ssh_key') %}
+{% if 'ssh_key' in pillar.postgres %}
 /var/lib/postgresql/.ssh:
   file.directory:
     - makedirs: True
@@ -110,7 +110,7 @@ pg_stat_statements:
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-{% if pillar.postgres.get('groups') %}
+{% if 'groups' in pillar.postgres %}
 {% for name in pillar.postgres.groups %}
 {{ name }}:
   postgres_group.present:
@@ -120,7 +120,7 @@ pg_stat_statements:
 {% endfor %}
 {% endif %} {# groups #}
 
-{% if pillar.postgres.get('users') %}
+{% if 'users' in pillar.postgres %}
 {% for name, entry in pillar.postgres.users.items() %}
 {{ name }}_sql_user:
   postgres_user.present:
@@ -144,7 +144,7 @@ pg_stat_statements:
 {% endfor %}
 {% endif %} {# users #}
 
-{% if pillar.postgres.get('databases') %}
+{% if 'databases' in pillar.postgres %}
 {% for database, entry in pillar.postgres.databases.items() %}
 {{ database }}:
   postgres_database.present:
@@ -181,7 +181,7 @@ grant {{ entry.user }} schema privileges:
       - postgres_user: {{ entry.user }}_sql_user
       - postgres_database: {{ database }}
 
-{% if entry.get('privileges') %}
+{% if 'privileges' in entry %}
 {% for schema, groups in entry.privileges.items() %}
 {% for group in groups %}
 # GRANT the USAGE privilege on the schema to the group

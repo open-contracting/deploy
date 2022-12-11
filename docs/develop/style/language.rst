@@ -28,6 +28,14 @@ To test whether a mapping key is present, use the ``in`` operator:
 
    {% if 'child' in pillar.parent %}
 
+.. note::
+
+   Maintainers can check this style rule with this regular expression:
+
+   .. code-block:: none
+
+      if .*get\(.(?!(?:autoremove|compilemessages|enabled|public_access|replication|smartmon|summarystats)\b)
+
 To test whether an optional boolean is true, use the ``.get()`` method:
 
 .. code-block:: jinja
