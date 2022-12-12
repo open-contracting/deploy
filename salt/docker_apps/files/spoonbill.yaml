@@ -42,7 +42,7 @@ services:
       - '--entrypoints.https.address=:443'
       - '--log=true'
       - '--log.level=INFO'
-      - '--certificatesresolvers.acmec.acme.email=shakh@quintagroup.org'
+      - '--certificatesresolvers.acmec.acme.email=sysadmin@open-contracting.org'
       - '--certificatesresolvers.acmec.acme.httpchallenge=true'
       - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
       - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'
