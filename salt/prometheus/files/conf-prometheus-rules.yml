@@ -122,7 +122,7 @@ groups:
       # Alerts for anything extra we add via the node exporter textfile directory feature.
       # One needs to be set up for every file we are expecting.
 
-      - alert: KingfisherSmartMonDataIsMissing
+      - alert: SmartMonDataIsMissing
         expr: absent(node_textfile_mtime_seconds{file="/home/prometheus-client/node-exporter-textfile-directory/smartmon.sh.prom",job=~"ocds-kingfisher.*|data-registry"})
         for: 3m
         labels:
