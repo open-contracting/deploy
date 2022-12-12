@@ -17,17 +17,8 @@ groups:
       ## CPU
 
       - alert: CPUHigh80Percent
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!~"covid19|data-registry"}[5m])) * 100) >= 80
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job!="data-registry"}[5m])) * 100) >= 80
         for: 15m
-        labels:
-          severity: critical
-        annotations:
-          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
-
-      - alert: CPUHigh80PercentCovid19
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="covid19"}[5m])) * 100) >= 80
-        for: 4h
         labels:
           severity: critical
         annotations:
@@ -132,7 +123,7 @@ groups:
       # One needs to be set up for every file we are expecting.
 
       - alert: KingfisherSmartMonDataIsMissing
-        expr: absent(node_textfile_mtime_seconds{file="smartmon.sh.prom",job="ocds-kingfisher2"})
+        expr: absent(node_textfile_mtime_seconds{file="/home/prometheus-client/node-exporter-textfile-directory/smartmon.sh.prom",job=~"ocds-kingfisher.*|data-registry"})
         for: 3m
         labels:
           severity: critical
