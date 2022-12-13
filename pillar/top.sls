@@ -67,11 +67,6 @@ base:
     - private.registry
     - registry_maintenance
 
-  'toucan':
-    - toucan
-    - private.toucan
-    - maintenance
-
   # Don't install the Prometheus Node Exporter on development or test servers.
   '* and not G@id:*-dev and not G@id:*-test':
     - prometheus_client

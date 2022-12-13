@@ -60,9 +60,6 @@ base:
     - spoonbill
     - registry
 
-  'toucan':
-    - toucan
-
   # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
 
   'I@apache:sites':
