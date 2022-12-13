@@ -11,10 +11,7 @@ User Guides
 
    If urgent, contact James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) and/or Yohanna Lisnichuk (`PYT/PYST <https://www.timeanddate.com/time/zones/pyt>`__) via email or Slack (contact details in CRM). If you receive an email auto-reply, use the CRM to contact:
 
-   -  Centro de Desarrollo Sostenible (Paraguay) about Kingfisher Collect
-   -  Datlab (Czech Republic) about Kingfisher Process and Pelican
-   -  Dogsbody Technology Ltd (UK) about Redmine CRM and PostgreSQL replica
-   -  Open Data Services (UK) about Data Review Tool, Kingfisher Summarize and Kingfisher Colab
+   -  Dogsbody Technology Ltd (UK) about server maintenance
    -  Lindsey Marchessault (Alberta) for anything else
 
    Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask Dogsbody to grant you root access, linking to this policy.

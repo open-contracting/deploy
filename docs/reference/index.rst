@@ -56,7 +56,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 -  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for VPS servers provisioned before August 2021.
 
    -  `Network status <https://status.bytemark.org/>`__
-   -  **Access**: The 'opendataservices' and 'opencon-tech' users have secondary access to the 'opencontracting' account.
+   -  **Access**: The 'opencon-tech' user has secondary access to the 'opencontracting' account.
    -  **Backups**: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
 
 Unmanaged services are:
@@ -74,7 +74,7 @@ Administrative access
 
 See the `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html>`__ for access to third-party services.
 
-The staff of the following organizations can have administrative roles:
+The staff of the following organizations have had administrative roles:
 
 -  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
 -  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
@@ -102,14 +102,14 @@ Root access should be :ref:`routinely reviewed<review-root-access>`.
 Redash
 ~~~~~~
 
-There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP, and at most two from CDS and ODS.
+There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP only.
 
-Users should belong to a single group. Non-admin staff of OCP, CDS and ODS should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
+Users should belong to a single group. Non-admin staff of OCP should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
 
 Redmine CRM
 ~~~~~~~~~~~
 
-There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP, and at most two from CDS and ODS.
+There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP only.
 
 See the `Helpdesk process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
 

@@ -11,8 +11,6 @@ This page is about internal use of these tools by the Open Contracting Partnersh
 
 For internal use, Kingfisher Collect, Process and Summarize are deployed to a main server.
 
-If you are a new user of Kingfisher, subscribe to the `Kingfisher Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/kingfisher-status>`__ mailing list, in order to receive notifications about major downtime.
-
 The following pages describe specific tasks for each tool:
 
 .. toctree::

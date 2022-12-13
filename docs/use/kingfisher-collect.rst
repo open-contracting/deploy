@@ -10,8 +10,8 @@ Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/lates
 Review a new publication
 ------------------------
 
-#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository. CDS and OCP will prioritize it.
-#. :ref:`Schedule a crawl<collect-data>`, once the spider is written and :ref:`deployed<update-spiders>` by CDS.
+#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository.
+#. :ref:`Schedule a crawl<collect-data>`, once the spider is written and :ref:`deployed<update-spiders>`.
 #. :ref:`Wait for the crawl to finish<access-scrapyd-web-service>`.
 #. :ref:`Review the crawl's log file<kingfisher-collect-review-log-files>`.
 #. Review the data.
