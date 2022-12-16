@@ -56,7 +56,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 -  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for VPS servers provisioned before August 2021.
 
    -  `Network status <https://status.bytemark.org/>`__
-   -  **Access**: The 'opencon-tech' user has secondary access to the 'opencontracting' account.
+   -  **Access**: The 'opencon-tech' (sysadmin@dogsbody.com) user has secondary access to the 'opencontracting' account.
    -  **Backups**: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
 
 Unmanaged services are:
