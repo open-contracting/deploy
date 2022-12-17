@@ -47,7 +47,7 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
    -  `Network status <https://www.hetzner-status.de/en.html>`__
 
--  `Linode <https://cloud.linode.com/>`__ for VPS servers provisioned after August 2021, plus the `Helpdesk CRM <https://crm.open-contracting.org>`__
+-  `Linode <https://cloud.linode.com/>`__ for VPS servers provisioned after August 2021
 
    -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
@@ -111,7 +111,7 @@ Redmine CRM
 
 There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP only.
 
-See the `Helpdesk process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
+See the `process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
 
 .. toctree::
    :caption: Service-specific information

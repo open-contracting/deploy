@@ -37,7 +37,7 @@ Ensure you have the correct versions of dependencies. Activate your virtual envi
 
    Skip this step unless you're working on Kingfisher.
 
-#. :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click *Jobs* and look under *Running*. If any spiders are running, don't deploy without the consent of helpdesk analysts.
+#. :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click *Jobs* and look under *Running*. If any spiders are running, don't deploy without the consent of data support managers.
 
 #. Connect to the Kingfisher server as the ``root`` user:
 
@@ -46,7 +46,7 @@ Ensure you have the correct versions of dependencies. Activate your virtual envi
       curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
       ssh root@collect.kingfisher.open-contracting.org
 
-#. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the helpdesk analysts, who should be identified by the session names.
+#. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the data support managers, who should be identified by the session names.
 
    To list all sessions:
 
@@ -54,7 +54,7 @@ Ensure you have the correct versions of dependencies. Activate your virtual envi
 
       for i in root ocdskfp; do echo $i; su $i -c "tmux ls"; done
 
-#. If the ``postgres`` service would be restarted by the deployment (for example, due to a configuration change or a package upgrade), check if any :ref:`long-running queries<pg-stat-activity>` are running. If there are queries with a ``state`` of ``active`` and a ``time`` greater than an hour, don't deploy without the consent of the helpdesk analysts, who should be identified by the ``usename``, ``client_addr`` or comment at the start of ``query``.
+#. If the ``postgres`` service would be restarted by the deployment (for example, due to a configuration change or a package upgrade), check if any :ref:`long-running queries<pg-stat-activity>` are running. If there are queries with a ``state`` of ``active`` and a ``time`` greater than an hour, don't deploy without the consent of the data support managers, who should be identified by the ``usename``, ``client_addr`` or comment at the start of ``query``.
 
 If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher Process without losing Scrapy requests<deploy-kingfisher-process>`.
 
