@@ -93,8 +93,7 @@ Add basic authentication
         sites:
           SITE:
             htpasswd:
-              name: NAME
-              password: PASSWORD
+              NAME: PASSWORD
 
    This will add the user to the ``/etc/apache2/.htpasswd-SITE`` file.
 
@@ -127,7 +126,7 @@ Add basic authentication
 
 .. note::
 
-   Only one htpasswd user is permitted per site, but this can be changed.
+   To delete an htpasswd entry, :ref:`follow these instructions<delete-htpasswd-entry>`.
 
 .. _ssl-certificates:
 

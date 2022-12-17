@@ -23,7 +23,7 @@ Access Scrapyd's web interface
 
 .. admonition:: One-time setup
 
-   Save the username (``scrape``) and the password (ask a colleague) in your password manager. (If you have access, the password is the value of the ``kingfisher_collect.web.password`` key in the ``pillar/private/kingfisher.sls`` file.)
+   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.ocdskingfisherscrape.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
 
 Open https://collect.kingfisher.open-contracting.org to view the statuses and logs of crawls.
 

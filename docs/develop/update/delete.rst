@@ -143,6 +143,26 @@ Delete an Apache module
 
 #. Remove the temporary state
 
+.. _delete-htpasswd-entry:
+
+Delete an htpasswd entry
+------------------------
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      scrape:
+        webutil.user_absent
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.sls_id scrape core
+
+#. Remove the temporary state
+
 .. _delete-virtual-host:
 
 Delete a virtual host
@@ -157,3 +177,23 @@ Run, for example:
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
 
 A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
+
+.. _delete-postgresql-user:
+
+Delete a PostgreSQL user
+------------------------
+
+#. Add a temporary state, for example:
+
+   .. code-block:: yaml
+
+      delete-USER:
+        postgres_user.absent
+
+#. Run the temporary state, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'kingfisher-process' state.sls_id delete-USER postgres
+
+#. Remove the temporary state

@@ -120,14 +120,14 @@ enable site {{ name }}.conf:
     - watch_in:
       - module: apache2-reload
 
-{% if 'htpasswd' in entry %}
-add .htpasswd-{{ name }}:
+{% for username, password in entry.get('htpasswd', {}).items() %}
+add .htpasswd-{{ name }}-{{ username }}:
   webutil.user_exists:
-    - name: {{ entry.htpasswd.name }}
-    - password: {{ entry.htpasswd.password }}
+    - name: {{ username }}
+    - password: {{ password }}
     - htpasswd_file: /etc/apache2/.htpasswd-{{ name }}
     - update: True
     - require:
       - pkg: apache2
-{% endif %}
+{% endfor %}
 {% endmacro %}

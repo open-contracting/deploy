@@ -78,6 +78,10 @@ To configure the database for an application:
 
 #. Add the private Pillar file to the top file entry for the application.
 
+.. note::
+
+   To delete a PostgreSQL user, :ref:`follow these instructions<delete-postgresql-user>`.
+
 .. _pg-add-configuration:
 
 Configure PostgreSQL
