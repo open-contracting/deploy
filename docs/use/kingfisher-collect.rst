@@ -142,7 +142,7 @@ If you are frequently running the above, `create an issue <https://github.com/op
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username (``scrape``) and password (ask a colleague) as to access https://collect.kingfisher.open-contracting.org in a web browser.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username and password as to :ref:`access-scrapyd-web-service`.
 
 Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
 
