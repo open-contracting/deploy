@@ -153,7 +153,8 @@ Delete an htpasswd entry
    .. code-block:: yaml
 
       scrape:
-        webutil.user_absent
+        webutil.user_absent:
+          - htpasswd_file: /etc/apache2/.htpasswd-ocdskingfisherscrape
 
 #. Run the temporary state, for example:
 
