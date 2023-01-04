@@ -2,7 +2,6 @@
 
 cove-oc4ids:         ocp01.open-contracting.org
 cove-ocds:           ocp02.open-contracting.org
-covid19:             ocp11.open-contracting.org
 docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
@@ -16,6 +15,7 @@ registry:
 # ocp0 was crm.open-contracting.org
 # ocp06 was covid19-dev
 # ocp08 was redash.open-contracting.org on Ubuntu 18
-# ocp09 was toucan
+# ocp09 was toucan.open-contracting.org
 # ocp10 was archive.kingfisher.open-contracting.org
+# ocp11 was www.open-contracting.health (covid19)
 # ocp12 was spoonbill-dev

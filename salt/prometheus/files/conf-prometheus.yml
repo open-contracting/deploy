@@ -11,7 +11,6 @@ scrape_configs:
 
   # Node Exporter.
 {%- for job_name, host in {
-    'covid19': 'ocp11.open-contracting.org',
     'ocds-cove-live.oc4ids': 'ocp01.open-contracting.org',
     'ocds-kingfisher-replica': 'ocp05.open-contracting.org',
     'ocds-kingfisher2': 'ocp04.open-contracting.org',

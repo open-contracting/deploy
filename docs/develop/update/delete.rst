@@ -189,7 +189,8 @@ Delete a PostgreSQL user
    .. code-block:: yaml
 
       delete-USER:
-        postgres_user.absent
+        postgres_user.absent:
+          name: USER
 
 #. Run the temporary state, for example:
 

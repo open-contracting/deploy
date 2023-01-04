@@ -25,10 +25,6 @@ base:
   'cove-oc4ids':
     - memcached
 
-  'covid19*':
-    - rabbitmq
-    - covid19
-
   'docs':
     - docs
     - elasticsearch

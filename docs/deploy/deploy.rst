@@ -12,12 +12,6 @@ To limit the output to changes and failures, add a ``--state-output=changes`` op
 
     ./run.py --state-output=changes 'docs' state.apply
 
-If the output has an error of ``Unable to detect Python-2 version``, you don't have Python 2.7 in your ``PATH``. To fix this, if you use ``pyenv``, run, for example:
-
-.. code-block:: bash
-
-    pyenv shell system
-
 Deploy a service
 ~~~~~~~~~~~~~~~~
 
@@ -32,6 +26,14 @@ The ``state.apply`` function often completes within one minute. You can ignore t
 .. note::
 
    If you want to check whether a deployment is simply slow (frequent) or actually stalled (rare), :ref:`watch Salt's activity<watch-salt-activity>`.
+
+.. tip::
+
+   To override Pillar data, use, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'mytarget-dev' state.apply pillar='{"python_apps":{"myapp":{"git":{"branch":"BRANCH_NAME"}}}}'
 
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
