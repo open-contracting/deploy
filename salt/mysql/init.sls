@@ -6,7 +6,7 @@ mysql dependencies:
       - gnupg2
       - python3-mysqldb
 
-{# Using Percona's offical tool "percona-release" to configure their repositories and signing keys. #}
+{# Using Percona's official tool "percona-release" to configure their repositories and signing keys. #}
 percona-release:
   pkg.installed:
     - name: percona-release

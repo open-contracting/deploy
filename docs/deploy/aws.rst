@@ -72,7 +72,7 @@ Verify an email address
 #. If an MX record didn't exist, go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__ (otherwise, check your email):
 
    #. Click the bucket name
-   #. Click the long alpha-numeric string (if there is none, double-check the earlier steps)
+   #. Click the long alphanumeric string (if there is none, double-check the earlier steps)
    #. Click *Download*
    #. Copy the URL in the downloaded file
    #. Open the URL in a web browser
