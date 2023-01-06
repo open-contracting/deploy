@@ -16,4 +16,4 @@ jobs:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip
       - run: pip install codespell
-      - run: codespell -S '.git,*.csv' -l absense,fo,maintainance,uptodate,uncorrect .
+      - run: codespell -S '.git,*.csv' -L absense,fo,maintainance,uptodate,uncorrect .
