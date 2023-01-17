@@ -13,37 +13,24 @@ Add a new language
 
 .. _add-new-profile:
 
-Add a new profile
------------------
+Add a new minor version
+-----------------------
 
-Below, substitute ``{root}``, ``{latest-branch}``, ``{minor-branch}`` and ``{dev-branch}``. For example: ``ppp``, ``latest`` ``1.0`` and ``1.0-dev``.
+Below, substitute ``{root}``, ``{current-minor-branch}`` and ``{old-minor-branch}``. For example: ``ppp``, ``1.1`` and ``1.0``.
 
-#. Edit ``salt/docs/robots.txt``
-#. For Googlebot, add:
+#. Edit ``salt/apache/files/docs/robots.txt``
 
-   .. code-block:: none
-
-      Allow: /profiles/{root}/{latest-branch}
-
-#. If the profile publishes schema files, also add:
+#. If the profile has a version, add:
 
    .. code-block:: none
 
-      Allow: /profiles/{root}/schema
-      Allow: /profiles/{root}/extension
+      Disallow: /profiles/{root}/{current-minor-branch}
 
-#. If the profile has a single branch, skip these steps. Otherwise, for all user agents, add:
-
-   .. code-block:: none
-
-      Disallow: /profiles/{root}/{minor-branch}
-      Disallow: /profiles/{root}/{dev-branch}
-
-#. If the profile has older versions, also add, for each ``{old-version}``:
+#. If the profile has older minor versions, also add, for each old minor version:
 
    .. code-block:: none
 
-      Disallow: /profiles/{root}/{old-branch}
+      Disallow: /profiles/{root}/{old-minor-branch}
 
 .. _publish-draft-documentation:
 
