@@ -53,7 +53,8 @@ Publish draft documentation
 To configure a documentation repository to push builds to the server:
 
 #. Access the repository’s *Settings* tab
-#. Click *Secrets*
+#. Click *Secret and variables*
+#. Click *Actions*
 #. Set the private key:
 
    #. Click *New repository secret*
