@@ -16,6 +16,9 @@ else
     SUFFIX=""
 fi
 
+curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+ssh ocds-docs@standard.open-contracting.org "mkdir -p /home/ocds-docs/web/$PREFIX$PATH_PREFIX"
+
 # If a git tag isn't pushed, deploy the build directory from the git branch.
 if [ "$RELEASE" != "true" ]; then
     curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
