@@ -9,9 +9,9 @@ git:
     - name: git
 
 # Required for salt to interact with apt.
-python-apt:
+python3-apt:
   pkg.installed:
-    - name: python-apt
+    - name: python3-apt
 
 # Required for some targets.
 debconf-utils:
