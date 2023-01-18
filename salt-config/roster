@@ -1,6 +1,6 @@
 # Defines the potential targets of the salt-ssh command.
 
-cove-oc4ids:         ocp01.open-contracting.org
+cove-oc4ids:         ocp17.open-contracting.org
 cove-ocds:           ocp02.open-contracting.org
 docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
