@@ -39,6 +39,9 @@ include:
     - system_site_packages: False
     - pip_pkgs:
       - pip-tools
+    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Setting "runas" workaround.
+    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
+    - runas: {{ entry.user }}
     - require:
       - pkg: virtualenv
       - git: {{ entry.git.url }}
