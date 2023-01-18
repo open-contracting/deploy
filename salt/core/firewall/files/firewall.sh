@@ -69,7 +69,7 @@ case "${ID}_${VERSION_ID}" in
         IPTABLESSAVLOC=/etc/iptables/rules.v4
         IP6TABLESSAVLOC=/etc/iptables/rules.v6
         ;;
-    centos_7|redhat-derivative)
+    centos_7|redhat-derivative_)
         IPTABLESSAVLOC=/etc/sysconfig/iptables
         IP6TABLESSAVLOC=/etc/sysconfig/ip6tables
         ;;
