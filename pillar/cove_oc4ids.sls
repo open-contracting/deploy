@@ -18,9 +18,9 @@ python_apps:
       url: https://github.com/open-contracting/cove-oc4ids.git
     django:
       env:
-        ALLOWED_HOSTS: .infrastructure.open-contracting.org,.cove-oc4ids.open-contracting.org
+        ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
         FATHOM_ANALYTICS_ID: UHUGOEOK
     apache:
-      servername: infrastructure.open-contracting.org
+      servername: review-oc4ids.standard.open-contracting.org
       context:
         assets_base_url: /infrastructure
