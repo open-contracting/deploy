@@ -90,48 +90,48 @@ You can configure a Hetzner firewall as follows:
 #. Create your firewall rules. The recommended minimum is:
 
    .. list-table::
-       :header-rows: 1
+      :header-rows: 1
 
-       * - Name
-         - Source IP
-         - Destination IP
-         - Source port
-         - Destination port
-         - Protocol
-         - TCP flags
-         - Action
-       * - Allow SSH
-         - 0.0.0.0/0
-         - 0.0.0.0/0
-         - 0-65535
-         - 22
-         - *
-         -
-         - Accept
-       * - Allow ICMP
-         - 0.0.0.0/0
-         - 0.0.0.0/0
-         - 0-65535
-         - 0-65535
-         - icmp
-         -
-         - Accept
-       * - Allow Prometheus
-         - 213.138.113.219/32
-         - 0.0.0.0/0
-         - 0-65535
-         - 7231
-         - *
-         -
-         - Accept
-       * - Allow Outgoing TCP
-         - 0.0.0.0/0
-         - 0.0.0.0/0
-         - 0-65535
-         - 32768-65535
-         - tcp
-         - ack
-         - Accept
+      * - Name
+        - Source IP
+        - Destination IP
+        - Source port
+        - Destination port
+        - Protocol
+        - TCP flags
+        - Action
+      * - Allow SSH
+        - 0.0.0.0/0
+        - 0.0.0.0/0
+        - 0-65535
+        - 22
+        - *
+        -
+        - Accept
+      * - Allow ICMP
+        - 0.0.0.0/0
+        - 0.0.0.0/0
+        - 0-65535
+        - 0-65535
+        - icmp
+        -
+        - Accept
+      * - Allow Prometheus
+        - 213.138.113.219/32
+        - 0.0.0.0/0
+        - 0-65535
+        - 7231
+        - *
+        -
+        - Accept
+      * - Allow Outgoing TCP
+        - 0.0.0.0/0
+        - 0.0.0.0/0
+        - 0-65535
+        - 32768-65535
+        - tcp
+        - ack
+        - Accept
 
 .. _linode-firewall:
 
@@ -156,43 +156,43 @@ You can configure a Linode Cloud Firewall as follows:
    #. Add an inbound rule. The recommended minimum is:
    
       .. list-table::
-          :header-rows: 1
+         :header-rows: 1
    
-          * - Label
-            - Protocol
-            - Ports
-            - Sources
-            - Action
-          * - Allow-SSH
-            - TCP
-            - SSH (22)
-            - All IPv4, All IPv6
-            - Accept
-          * - Allow-ICMP
-            - ICMP
-            -
-            - All IPv4, All IPv6
-            - Accept
-          * - Allow-Prometheus
-            - TCP
-            - 7231
-            - 213.138.113.219/32, 2001:41c8:51:7db::219/128
-            - Accept
+         * - Label
+           - Protocol
+           - Ports
+           - Sources
+           - Action
+         * - Allow-SSH
+           - TCP
+           - SSH (22)
+           - All IPv4, All IPv6
+           - Accept
+         * - Allow-ICMP
+           - ICMP
+           -
+           - All IPv4, All IPv6
+           - Accept
+         * - Allow-Prometheus
+           - TCP
+           - 7231
+           - 213.138.113.219/32, 2001:41c8:51:7db::219/128
+           - Accept
    
       Most servers will also have:
    
       .. list-table::
-          :header-rows: 1
+         :header-rows: 1
    
-          * - Label
-            - Protocol
-            - Ports
-            - Sources
-            - Action
-          * - Allow-HTTP
-            - TCP
-            - HTTP (80), HTTPS (443)
-            - All IPv4, All IPv6
-            - Accept
+         * - Label
+           - Protocol
+           - Ports
+           - Sources
+           - Action
+         * - Allow-HTTP
+           - TCP
+           - HTTP (80), HTTPS (443)
+           - All IPv4, All IPv6
+           - Accept
 
    #. Click *Save Changes*
