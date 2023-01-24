@@ -43,13 +43,12 @@ set hostname:
 
 /etc/systemd/network/05-eth0.network:
   file.managed:
-    - source: salt://core/network/files/networkd_{{ pillar.network.networkd.template }}.template
+    - source: salt://core/network/files/networkd_{{ pillar.network.networkd.template }}.network
     - template: jinja
 
 systemd-networkd:
   service.enabled:
     - name: systemd-networkd
-
 {%- elif 'netplan' in pillar.network %}
 /etc/netplan/01-netcfg.yaml:
   file.absent
