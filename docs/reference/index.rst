@@ -3,6 +3,7 @@ Reference
 
 .. toctree::
    :caption: Contents
+   :maxdepth: 1
 
    downtime.rst
    docs.rst
