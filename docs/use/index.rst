@@ -12,7 +12,7 @@ User Guides
    If urgent, contact James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) and/or Yohanna Lisnichuk (`PYT/PYST <https://www.timeanddate.com/time/zones/pyt>`__) via Slack or email (contact details in CRM). If you receive an email auto-reply, use the CRM to contact:
 
    -  Dogsbody Technology Ltd (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) about server maintenance
-   -  Lindsey Marchessault (Alberta) for anything else
+   -  Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__) for anything else
 
    Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask Dogsbody to grant you root access, linking to this policy.
 
