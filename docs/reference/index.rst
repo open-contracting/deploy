@@ -1,10 +1,11 @@
 Reference
 =========
 
-Communicating during downtime
------------------------------
+.. toctree::
+   :caption: Contents
 
-Please see the `protocol <https://docs.google.com/document/d/1qAoh2scU5ZMGC_WYFjjNNJU-34NzYaC4V2xjmb2G75k/edit>`__ for planned and unplanned downtime.
+   downtime.rst
+   docs.rst
 
 Monitoring
 ----------
@@ -112,8 +113,3 @@ Redmine CRM
 There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP only.
 
 See the `process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
-
-.. toctree::
-   :caption: Service-specific information
-
-   docs.rst
