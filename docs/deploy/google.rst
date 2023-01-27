@@ -6,6 +6,13 @@ Email
 
 Use `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
 
+These services send email from open-contracting.org:
+
+-  :doc:`aws`
+-  `Mailchimp <https://mailchimp.com/help/set-up-email-domain-authentication/>`__
+-  `Salesforce <https://help.salesforce.com/s/articleView?id=000354353&language=en_US&type=1>`__: `SPF <https://help.salesforce.com/s/articleView?id=sf.emailadmin_spf_include_salesforce.htm&type=5>`__ and `DKIM <https://help.salesforce.com/s/articleView?id=sf.emailadmin_create_secure_dkim.htm&type=5>`__
+-  `Trolley <https://help.trolley.com/en/articles/2447559-how-to-set-up-white-label-emails>`__ (using `Twilio SendGrid <https://docs.sendgrid.com/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
+
 Check DNS configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 
