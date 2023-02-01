@@ -6,27 +6,18 @@
     {%- set assets_base_url = '' %}
 {%- endif %}
 
-{%-
-    set aliases = {
-        '/robots.txt': '/static/robots.txt',
-        '/favicon.ico': '/static/favicon.ico',
-        '/static/': '/static/',
-        '/media/': '/media/',
-    }
-%}
-
-{%- for url_path in aliases %}
-ProxyPass {{ assets_base_url }}{{ url_path }} !
-{%- endfor %}
-
+ProxyPass {{ assets_base_url }}/robots.txt !
+ProxyPass {{ assets_base_url }}/favicon.ico !
+ProxyPass {{ assets_base_url }}/static/ !
+ProxyPass {{ assets_base_url }}/media/ !
 # https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
 ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
 
 # https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/modwsgi/#serving-files
-
-{%- for url_path, file_path in aliases.items() %}
-Alias {{ assets_base_url }}{{ url_path }} {{ appdir }}{{ file_path }}
-{%- endfor %}
+Alias {{ assets_base_url }}/robots.txt {{ appdir }}/static/robots.txt
+Alias {{ assets_base_url }}/favicon.ico {{ appdir }}/static/favicon.ico
+Alias {{ assets_base_url }}/static/ {{ appdir }}/static/
+Alias {{ assets_base_url }}/media/ {{ appdir }}/media/
 
 <Directory {{ appdir }}/static>
     Require all granted
