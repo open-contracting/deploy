@@ -3,6 +3,11 @@
 {# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
 {%
     set options = {
+        '/profiles/eforms': {
+            'versions': ['latest'],
+            'languages': ['en'],
+            'redirect_excludes': ['schema', 'extension'],
+        },
         '/profiles/eu': {
             'versions': ['latest'],
             'languages': ['en'],
@@ -46,6 +51,9 @@ SetEnv BANNER /includes/banner_live.html
 <Location /1.0/>
     SetEnv BANNER /includes/banner_old.html
 </Location>
+<Location /profiles/eu/>
+    SetEnv BANNER /includes/banner_eu.html
+</Location>
 
 # Staging banners.
 <Location /staging/>
@@ -56,6 +64,9 @@ SetEnv BANNER /includes/banner_live.html
 </Location>
 <Location /staging/profiles/>
     SetEnv BANNER /includes/banner_staging_profiles.html
+</Location>
+<Location /staging/profiles/eforms/>
+    SetEnv BANNER /includes/banner_staging_profiles_eforms.html
 </Location>
 <Location /staging/profiles/eu/>
     SetEnv BANNER /includes/banner_staging_profiles_eu.html
