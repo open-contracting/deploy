@@ -35,7 +35,7 @@ if [ "$RELEASE" != "true" ]; then
         # Symlink the live directory.
         curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
 	    # shellcheck disable=SC2087
-        ssh ocds-docs@standard.open-contracting.org <<- EOF
+        ssh ocds-docs@standard.open-contracting.org /bin/bash <<- EOF
             mkdir -p /home/ocds-docs/web/$PREFIX$PATH_PREFIX
             ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF
 		EOF
