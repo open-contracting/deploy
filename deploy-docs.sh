@@ -17,8 +17,6 @@ else
 fi
 
 curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-# shellcheck disable=SC2029
-ssh ocds-docs@standard.open-contracting.org "mkdir -p /home/ocds-docs/web/$PREFIX$PATH_PREFIX"
 
 # If a git tag isn't pushed, deploy the build directory from the git branch.
 if [ "$RELEASE" != "true" ]; then
@@ -36,8 +34,11 @@ if [ "$RELEASE" != "true" ]; then
     if [ "$PRODUCTION" == "true" ]; then
         # Symlink the live directory.
         curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-        # shellcheck disable=SC2029
-        ssh ocds-docs@standard.open-contracting.org "ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF"
+	    # shellcheck disable=SC2087
+        ssh ocds-docs@standard.open-contracting.org <<- EOF
+            mkdir -p /home/ocds-docs/web/$PREFIX$PATH_PREFIX
+            ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF
+		EOF
     fi
 # If a git tag is pushed, create the schema directory and ZIP file.
 else
