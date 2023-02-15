@@ -5,24 +5,12 @@ Get started
 
    Only follow the Development Guides if you will be configuring or deploying servers. If you are simply using services, read the :doc:`../use/index`.
 
-1. Install Salt
----------------
-
-On macOS, using Homebrew, install Salt and Salt SSH with:
-
-.. code-block:: bash
-
-    brew install salt
-
-If you encounter issues, try installing with pip:
+1. Install requirements
+-----------------------
 
 .. code-block:: bash
 
     pip install --no-deps -r requirements.txt
-
-For other operating systems and package managers, see `this page <https://repo.saltstack.com/>`__ (or `this page <https://docs.saltstack.com/en/latest/topics/installation/index.html>`__) to install a recent version (2019 or later).
-
-You must use Salt with Python 3. If your system package uses Python 2, install salt-ssh with pip into a Python 3 virtual environment.
 
 2. Clone repositories
 ---------------------
