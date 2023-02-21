@@ -53,7 +53,7 @@ include:
     - cwd: {{ directory }}
     - require:
       - virtualenv: {{ directory }}/.ve
-      {% if grains.osmajorrelease|string == '22' %}
+      {% if grains.osmajorrelease == 22 %}
       - pkg: libffi-dev
       {% endif %}
     # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
