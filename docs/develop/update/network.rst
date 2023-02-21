@@ -21,7 +21,7 @@ Linux networking
 systemd-networkd
 ~~~~~~~~~~~~~~~~
 
-`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and  is our preferred solution for Linode instances. Configurations are available for `Linode`_ and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
+`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode instances. Configurations are available for `Linode`_ and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
 
 Linode template
 ^^^^^^^^^^^^^^^
