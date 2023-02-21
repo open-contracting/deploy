@@ -15,18 +15,64 @@ Update the server's Pillar file:
 
 ``ipv6`` is optional.
 
-Linux Networking
+Linux networking
 ----------------
 
-Networkd
-~~~~~~~~
-systemd-networkd is a system daemon to configure networking. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
+systemd-networkd
+~~~~~~~~~~~~~~~~
 
-networkd is our preferred solution for Linode instances, see `Linode`_ configuration guide below.
+`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and  is our preferred solution for Linode instances. Configurations are available for `Linode`_ and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
+
+Linode template
+^^^^^^^^^^^^^^^
+
+This configuration disables automatic IP configuration and configures static networking on IPv4 and IPv6.
 
 .. note::
 
-   This step is optional. Only override networking if necessary. For example, configuring customer IPv6 blocks for Linode instances.
+   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
+
+.. admonition::
+
+   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block, replacing ``ocpXX`` with the Linode instance's ID:
+
+      Hello,
+
+      Please can you provision an IPv6 /64 block for my server ocpXX.open-contracting.org.
+
+      Thank you,
+
+   A /64 block is requested, because `spam blocklists use /64 ranges <https://www.spamhaus.org/organization/statement/012/spamhaus-ipv6-blocklists-strategy-statement>`__.
+
+Update the server's Pillar file:
+
+.. code-block:: yaml
+
+   network:
+     host_id: ocp12
+     ipv4: 198.51.100.34
+     ipv6: 2001:db8::12
+     networkd:
+       template: linode
+       addresses:
+         - 2001:db8::/64
+       gateway4: 198.51.100.1
+
+To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
+
+``ipv4``
+  The *Address* with a *Type* of *IPv4 – Public*
+``gateway4``
+  The *Default Gateway* with a *Type* of *IPv4 – Public*
+``addresses``
+  Other IP addresses attached to your instance (if any). Include the subnet block suffix, e.g.: `/64`
+
+Custom template
+^^^^^^^^^^^^^^^
+
+.. warning::
+
+   Only use a ``custom`` template if your needs are not met by any other template.
 
 In the server's Pillar file, set ``network.networkd.template`` to ``custom`` and set ``network.networkd.configuration``:
 
@@ -76,55 +122,6 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
                addresses:
                  - 198.51.100.34/32
                  ...
-
-Linode
-~~~~~~
-
-This configuration disables automatic IP configuration and configures static networking on IPv4 and IPv6.
-
-.. note::
-
-   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
-
-.. admonition::
-
-   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block:
-
-      Hello,
-
-      Please can you provision an IPv6 /64 block for my server ocpXX.open-contracting.org.
-
-      Thank you,
-
-   A /64 block is requested, because `spam blocklists use /64 ranges <https://www.spamhaus.org/organization/statement/012/spamhaus-ipv6-blocklists-strategy-statement>`__.
-
-   Replace ocpXX with the ID for your instance.
-
-Update the server's Pillar file:
-
-.. code-block:: yaml
-
-   network:
-     host_id: ocp12
-     ipv4: 198.51.100.34
-     ipv6: 2001:db8::12
-     networkd:
-       template: linode
-       addresses:
-         - 2001:db8::/64
-       gateway4: 198.51.100.1
-
-To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
-
-``ipv4``
-  The *Address* with a *Type* of *IPv4 – Public*
-``gateway4``
-  The *Default Gateway* with a *Type* of *IPv4 – Public*
-
-Optional:
-
-``addresses``
-  Other IP addresses attached to your instance. Include the subnet block suffix, e.g.: `/64`
 
 Time servers
 ------------
