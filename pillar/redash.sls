@@ -7,7 +7,6 @@ network:
     addresses:
       - 2a01:7e00::f03c:92ff:fea5:0e5f/64 # SLAAC
     gateway4: 139.162.199.1
-    gateway6: fe80::1
 
 vm:
   nr_hugepages: 128
