@@ -1,3 +1,11 @@
+network:
+  host_id: ocp17
+  ipv4: 176.58.112.127
+  ipv6: "2a01:7e00:e000:04c1::"
+  networkd:
+    template: linode
+    gateway4: 176.58.112.1
+
 ssh:
   root:
     # Open Data Services Co-operative
@@ -10,9 +18,9 @@ python_apps:
       url: https://github.com/open-contracting/cove-oc4ids.git
     django:
       env:
-        ALLOWED_HOSTS: .standard.open-contracting.org,.oc4ids.opencontracting.uk0.bigv.io
+        ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
         FATHOM_ANALYTICS_ID: UHUGOEOK
     apache:
-      servername: cove-live.oc4ids.opencontracting.uk0.bigv.io
+      servername: review-oc4ids.standard.open-contracting.org
       context:
         assets_base_url: /infrastructure

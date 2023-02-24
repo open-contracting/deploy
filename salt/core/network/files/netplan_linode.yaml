@@ -24,7 +24,7 @@ network:
         - {{ pillar.network.ipv6 }}/64
         {%- endif %}
       gateway4: {{ pillar.network.netplan.gateway4 }}
-      gateway6: {{ pillar.network.netplan.gateway6 }}
+      gateway6: fe80::1
       nameservers:
         search: ['open-contracting.org']
         addresses: ['178.79.182.5', '176.58.107.5', '176.58.116.5', '176.58.121.5', '151.236.220.5', '212.71.252.5', '212.71.253.5', '109.74.192.20', '109.74.193.20', '109.74.194.20', '2a01:7e00::9', '2a01:7e00::3', '2a01:7e00::c', '2a01:7e00::5', '2a01:7e00::6', '2a01:7e00::8', '2a01:7e00::b', '2a01:7e00::4', '2a01:7e00::7', '2a01:7e00::2']

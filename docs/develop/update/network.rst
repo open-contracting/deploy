@@ -15,13 +15,16 @@ Update the server's Pillar file:
 
 ``ipv6`` is optional.
 
-Netplan
--------
+Linux networking
+----------------
 
-`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
+systemd-networkd
+~~~~~~~~~~~~~~~~
 
-Linode
-~~~~~~
+`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode instances. Configurations are available for `Linode`_ and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
+
+Linode template
+^^^^^^^^^^^^^^^
 
 This configuration disables automatic IP configuration and configures static networking on IPv4 and IPv6.
 
@@ -29,13 +32,13 @@ This configuration disables automatic IP configuration and configures static net
 
    By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
 
-.. admonition:: One-time setup
+.. admonition::
 
-   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block:
+   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block, replacing ``ocpXX`` with the Linode instance's ID:
 
       Hello,
 
-      Please provision an IPv6 /64 block for our account.
+      Please can you provision an IPv6 /64 block for my server ocpXX.open-contracting.org.
 
       Thank you,
 
@@ -49,28 +52,52 @@ Update the server's Pillar file:
      host_id: ocp12
      ipv4: 198.51.100.34
      ipv6: 2001:db8::12
-     netplan:
+     networkd:
        template: linode
        addresses:
-         - 2001:db8::32/64 # SLAAC
+         - 2001:db8::/64
        gateway4: 198.51.100.1
-       gateway6: fe80::1
 
 To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
 
 ``ipv4``
   The *Address* with a *Type* of *IPv4 – Public*
-``addresses``
-  The *Address* with a *Type* of *IPv6 – SLAAC*, `suffixed by "/64" <https://www.linode.com/docs/guides/linux-static-ip-configuration/#general-information>`__
 ``gateway4``
   The *Default Gateway* with a *Type* of *IPv4 – Public*
-``gateway6``
-  The *Default Gateway* with a *Type* of *IPv6 – SLAAC*
+``addresses``
+  Other IP addresses attached to your instance (if any). Include the subnet block suffix, e.g.: `/64`
 
-For ``ipv6``, use our IPv6 block with the hostname's digits as the final group of the IPv6 address: for example, *2a01:7e00:e000:02cc::12* for *ocp12*.
+Custom template
+^^^^^^^^^^^^^^^
 
-Other hosting providers
-~~~~~~~~~~~~~~~~~~~~~~~
+.. warning::
+
+   Only use a ``custom`` template if your needs are not met by any other template.
+
+In the server's Pillar file, set ``network.networkd.template`` to ``custom`` and set ``network.networkd.configuration``:
+
+.. code-block:: yaml
+
+   [Match]
+   Name=eth0
+
+   [Network]
+   DHCP=no
+   DNS=203.0.113.1 203.0.113.2 2001:db8::32 2001:db8::64
+   Domains=open-contracting.org
+   IPv6PrivacyExtensions=false
+   IPv6AcceptRA=false
+
+   Address=198.51.100.34/24
+   Address=2001:db8::12/64
+
+   Gateway=Address=198.51.100.1
+   Gateway=fe80::1
+
+Netplan
+~~~~~~~
+
+`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
 
 .. note::
 

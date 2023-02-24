@@ -10,7 +10,6 @@ Disallow: /legacy
 Disallow: /staging
 # Disallow Data Review Tool results.
 Disallow: /review/data
-Disallow: /infrastructure/review/data
 
 User-Agent: LinkChecker
 Allow: /

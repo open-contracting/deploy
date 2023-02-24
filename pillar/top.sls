@@ -8,6 +8,7 @@ base:
   'cove-oc4ids':
     - cove
     - cove_oc4ids
+    - cove_oc4ids_maintenance
     - private.cove_oc4ids
     - maintenance
 

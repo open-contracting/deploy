@@ -1,7 +1,7 @@
 # Defines the potential targets of the salt-ssh command.
 
-cove-oc4ids:         ocp01.open-contracting.org
-cove-ocds:           ocp02.open-contracting.org
+cove-oc4ids:         ocp17.open-contracting.org
+cove-ocds:           ocp18.open-contracting.org
 docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
@@ -13,6 +13,7 @@ registry:
   port: 2223
 
 # ocp0 was crm.open-contracting.org
+# ocp01 was cove-oc4ids on Ubuntu 18
 # ocp06 was covid19-dev
 # ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp09 was toucan.open-contracting.org

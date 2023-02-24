@@ -7,7 +7,6 @@ network:
     addresses:
       - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
     gateway4: 139.162.219.1
-    gateway6: fe80::1
 
 apache:
   public_access: True

@@ -3,3 +3,4 @@ python c extensions:
     - pkgs:
       - python3-dev
       - build-essential
+      - libffi-dev
