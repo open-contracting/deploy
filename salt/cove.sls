@@ -12,6 +12,13 @@ include:
 
 {{ create_user(entry.user) }}
 
+allow {{ userdir }} access:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ entry.user }}_user_exists
+
 cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
