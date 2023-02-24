@@ -11,11 +11,11 @@ scrape_configs:
 
   # Node Exporter.
 {%- for job_name, host in {
-    'ocds-cove-live.oc4ids': 'ocp17.open-contracting.org',
+    'cove-oc4ids-2': 'ocp17.open-contracting.org',
+    'cove-ocds-2': 'ocp18.open-contracting.org',
     'ocds-kingfisher-replica': 'ocp05.open-contracting.org',
     'ocds-kingfisher2': 'ocp04.open-contracting.org',
     'ocds-live.docs': 'ocp07.open-contracting.org',
-    'ocds-live3.cove': 'ocp18.open-contracting.org',
     'prometheus-server-node': 'ocp03.open-contracting.org',
     'data-registry': 'ocp13.open-contracting.org',
     'redash': 'ocp14.open-contracting.org',
