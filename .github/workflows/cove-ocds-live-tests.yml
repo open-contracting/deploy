@@ -1,13 +1,13 @@
 name: OCDS Data Review Tool live tests
 on:
   workflow_dispatch:
-  # schedule:
-  #   # * is a special character in YAML so you have to quote this string
-  #   - cron: "0 0 * * *"
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: "0 0 * * *"
 jobs:
   build:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
