@@ -258,22 +258,6 @@ def test_no_redirect(path):
     assert r.status_code == 200
 
 
-@pytest.mark.parametrize('root, text', [
-    ('', 'OCDS'),
-    ('/infrastructure', 'OC4IDS'),
-])
-def test_review(root, text):
-    r = get(f'{base_url}{root}/review/')
-
-    assert r.status_code == 200
-    assert text in r.text
-
-    r = get(f'{base_url}{root}/static/dataexplore/css/style.css')
-
-    assert r.status_code == 200
-    assert 'color:' in r.text
-
-
 @pytest.mark.parametrize('root, version', [
     (root, version) for root, versions in banner_live for version in versions
 ])
@@ -323,9 +307,6 @@ def test_banner_staging_profiles():
     ('/feed', 'https://www.open-contracting.org/feed/'),
     ('/beta', 'https://www.open-contracting.org/2014/09/04/beta'),
     ('/project', f'{base_url}/latest/en/'),
-    ('/validator', f'{base_url}/review'),
-    ('/validator/data/1232ec83-48ac-45cb-923d-1f67701488ef',
-     f'{base_url}/review/data/1232ec83-48ac-45cb-923d-1f67701488ef'),
     # Redirects to extensions.open-contracting.org.
     ('/1.1/es/extensions/community/', 'https://extensions.open-contracting.org/es/extensions/'),
     ('/profiles/ppp/1.0/es/extensions/bids/', 'https://extensions.open-contracting.org/es/extensions/bids/'),
