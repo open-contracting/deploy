@@ -220,8 +220,8 @@ Redirect /profiles/gpa/master /profiles/gpa/latest
 Redirect /validator /review
 RedirectMatch ^/validator/(.*)$ /review/$1
 # The Data Review Tool was moved to its own subdomain.
-Redirect /infrastructure/review /review https://review-oc4ids.standard.open-contracting.org
-RedirectMatch ^/infrastructure/review(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
+Redirect /infrastructure/review https://review-oc4ids.standard.open-contracting.org
+RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
 
 # See: https://crm.open-contracting.org/issues/4401
 {% for lang in options[''].languages %}

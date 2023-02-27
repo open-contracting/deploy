@@ -8,6 +8,9 @@ pytest
 # Need to manually set setproctitle to a version that works on Python 3.10 in requirements.txt.
 # https://github.com/saltstack/salt/pull/62576
 
+# Need to manually patch salt with https://github.com/saltstack/salt/pull/63184 until salt-ssh==3006
+# to avoid jinja2.exceptions.TemplateNotFound errors relating to the lib.sls file.
+
 # On macOS, install the version of cryptography in requirements.txt with, for example:
 # https://github.com/saltstack/salt/issues/63191
 #
