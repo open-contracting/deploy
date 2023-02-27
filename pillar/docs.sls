@@ -15,9 +15,6 @@ apache:
     ocds-docs-live:
       configuration: docs
       servername: standard.open-contracting.org
-      context:
-        ocds_cove_backend: https://cove.live3.cove.opencontracting.uk0.bigv.io
-        timeout: 1830  # 30 sec longer than cove's uwsgi.harakiri
 
 elasticsearch:
   public_access: True

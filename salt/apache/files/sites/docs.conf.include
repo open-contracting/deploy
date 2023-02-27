@@ -32,7 +32,6 @@
             'versions': ['latest', '1.1', '1.0'],
             'languages': ['en', 'es', 'fr'],
             'redirect_excludes': ['staging', 'schema', 'profiles', 'legacy', 'favicon.ico', 'robots.txt'],
-            'cove_backend': ocds_cove_backend,
             'stable_sitemap': [['latest', '1.1', '1.0']],
         },
     }
@@ -163,13 +162,6 @@ SetEnv proxy-nokeepalive 1
             </Location>
         {% endfor %}
     {% endfor %}
-
-    {% if 'cove_backend' in opts %}
-        # Proxy to the Data Review Tool, if configured. /media contains user-submitted content.
-        ProxyPass {{ root }}/review {{ opts.cove_backend }}{{ root }}/review timeout={{ timeout }}
-        ProxyPass {{ root }}/static {{ opts.cove_backend }}{{ root }}/static
-        ProxyPass {{ root }}/media  {{ opts.cove_backend }}{{ root }}/media
-    {% endif %}
 {% endfor %}
 
 ####################
@@ -217,9 +209,11 @@ Redirect /profiles/eu/master /profiles/eu/latest
 Redirect /profiles/gpa/master /profiles/gpa/latest
 
 # The Validator was renamed the Data Review Tool.
-Redirect /validator /review
-RedirectMatch ^/validator/(.*)$ /review/$1
-# The Data Review Tool was moved to its own subdomain.
+Redirect /validator https://review.standard.open-contracting.org
+RedirectMatch ^/validator/(.*)$ https://review.standard.open-contracting.org/$1
+# The Data Review Tools were moved to their own subdomain.
+Redirect /review https://review.standard.open-contracting.org
+RedirectMatch ^/review/(.*)$ https://review.standard.open-contracting.org/$1
 Redirect /infrastructure/review https://review-oc4ids.standard.open-contracting.org
 RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
 

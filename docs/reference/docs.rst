@@ -6,7 +6,7 @@ This page serves as an orientation to how different components of the OCDS docum
 Servers
 -------
 
-The ``docs`` target serves OCDS documentation (e.g. `1.1 <https://standard.open-contracting.org/1.1/>`__), its profiles (e.g. `Public Private Partnerships <https://standard.open-contracting.org/profiles/ppp/latest/en/>`__) and draft documentation (below). It is a reverse proxy to the `OCDS Data Review Tool <https://standard.open-contracting.org/review/>`. It also serves Elasticsearch.
+The ``docs`` target serves OCDS documentation (e.g. `1.1 <https://standard.open-contracting.org/1.1/>`__), its profiles (e.g. `Public Private Partnerships <https://standard.open-contracting.org/profiles/ppp/latest/en/>`__) and draft documentation (below). It also serves Elasticsearch.
 
 Version and language switchers
 ------------------------------
