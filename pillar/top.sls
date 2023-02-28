@@ -15,6 +15,7 @@ base:
   'cove-ocds':
     - cove
     - cove_ocds
+    - cove_ocds_maintenance
     - private.cove_ocds
     - maintenance
 
