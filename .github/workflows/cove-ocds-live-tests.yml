@@ -32,5 +32,4 @@ jobs:
           subject: "GitHub Actions: ${{ github.repository }} ${{ github.workflow }} failed!"
           body: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           to: sysadmin@open-contracting.org
-          cc: inbox+opendataservices+443f+servers@plan.io
           from: GitHub Actions <noreply@noreply.open-contracting.org>
