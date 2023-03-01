@@ -15,9 +15,13 @@ For example:
 
    rsyslog:
      conf:
-       92-kingfisher-archive.conf: kingfisher-archive.conf
+       91-kingfisher-summarize.conf: kingfisher-summarize.conf
 
-The ``kingfisher-archive.conf`` file in ``salt/core/rsyslog/files`` will be written to ``/etc/rsyslog.d/92-kingfisher-archive.conf``, and the ``rsyslog`` service will be restarted.
+The ``kingfisher-summarize.conf`` file in ``salt/core/rsyslog/files`` will be written to ``/etc/rsyslog.d/91-kingfisher-summarize.conf``, and the ``rsyslog`` service will be restarted.
+
+.. tip::
+
+   To discard a message after writing it to a `regular file <https://www.rsyslog.com/doc/master/configuration/actions.html#regular-file>`__, add `& stop <https://www.rsyslog.com/doc/master/configuration/actions.html#discard-stop>`__ as a second action.
 
 logrotate
 ---------
@@ -31,6 +35,6 @@ For example:
 
    logrotate:
      conf:
-       archive: kingfisher-archive
+       kingfisher-summarize: kingfisher-summarize
 
-The ``kingfisher-archive`` file in ``salt/core/logrotate/files`` will be written to ``/etc/logrotate.d/archive``.
+The ``kingfisher-summarize`` file in ``salt/core/logrotate/files`` will be written to ``/etc/logrotate.d/kingfisher-summarize``.
