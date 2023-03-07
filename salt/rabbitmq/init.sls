@@ -1,8 +1,31 @@
 # https://github.com/salt-formulas/salt-formula-rabbitmq/blob/master/rabbitmq/server/service.sls
 
+rabbitmq-dependancies:
+  pkg.installed:
+    - pkgs:
+      - gnupg2
+      - apt-transport-https
+
+erlang repo:
+  pkgrepo.managed:
+    - humanname: Erlang Official Repository
+    - name: deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ grains.oscodename }} main
+    - dist: {{ grains.oscodename }}
+    - file: /etc/apt/sources.list.d/rabbitmq_erlang.list
+    - key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf77f1eda57ebb1cc
+
 rabbitmq-server:
+  pkgrepo.managed:
+    - humanname: RabbitMQ Official Repository
+    - name: deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ {{ grains.oscodename }} main
+    - dist: {{ grains.oscodename }}
+    - file: /etc/apt/sources.list.d/rabbitmq_server.list
+    - key_url: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
   pkg.installed:
     - name: rabbitmq-server
+    - require:
+      - pkg: rabbitmq-dependancies
+      - pkgrepo: "erlang repo"
   service.running:
     - name: rabbitmq-server
     - enable: True
