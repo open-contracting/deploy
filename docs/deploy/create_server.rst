@@ -288,7 +288,6 @@ For Django application servers:
 For OCDS documentation servers:
 
 #. Copy the ``/home/ocds-docs/web`` directory
-#. Update the IP addresses in the ``pillar/cove.sls`` file, and deploy the ``cove-*`` services
 
 For Redmine servers:
 
