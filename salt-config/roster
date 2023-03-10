@@ -16,6 +16,7 @@ registry:
 # ocp01 was cove-oc4ids on Ubuntu 18
 # ocp02 was cove-ocds on Ubuntu 18
 # ocp06 was covid19-dev
+# ocp07 was docs on Ubuntu 18
 # ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp09 was toucan.open-contracting.org
 # ocp10 was archive.kingfisher.open-contracting.org
