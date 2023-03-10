@@ -6,7 +6,15 @@ include:
   - apache.modules.rewrite
 
 {% set user = 'ocds-docs' %}
+{% set userdir = '/home/' + user %}
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
+
+allow {{ userdir }} access:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ user }}_user_exists
 
 # Needed to create a ZIP file of the schema and codelists.
 # https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
