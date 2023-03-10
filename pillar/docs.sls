@@ -1,3 +1,11 @@
+network:
+  host_id: ocp19
+  ipv4: 178.79.135.174
+  #ipv6: 2001:db8::19
+  networkd:
+    template: linode
+    gateway4: 178.79.135.1
+
 ssh:
   docs:
     # Public key for salt/private/keys/docs_ci
