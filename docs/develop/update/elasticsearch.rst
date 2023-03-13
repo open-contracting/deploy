@@ -112,7 +112,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 
    .. code-block:: bash
 
-      curl -u 'public:PASSWORD' https://standard.open-contracting.org:9200/ocdsindex_en/_search \
+      curl -u 'public:PASSWORD' https://standard.open-contracting.org/search/ocdsindex_en/_search \
       -H 'Content-Type: application/json' \
       -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
@@ -120,7 +120,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 
    .. code-block:: bash
 
-      curl -u 'manage:PASSWORD' https://standard.open-contracting.org:9200/_cat/indices
+      curl -u 'manage:PASSWORD' https://standard.open-contracting.org/search/_cat/indices
 
 Troubleshoot
 ~~~~~~~~~~~~
@@ -152,7 +152,7 @@ You will see a message like (newlines are added for readability):
        MET:HEAD,
        PTH:/ocdsindex_en,
        CNT:<N/A>,
-       HDR:Accept=*/*, Authorization=<OMITTED>, Host=standard.open-contracting.org:9200, User-Agent=curl/7.64.1, content-length=0,
+       HDR:Accept=*/*, Authorization=<OMITTED>, Host=standard.open-contracting.org, User-Agent=curl/7.64.1, content-length=0,
        HIS:
          [Allow localhost->
            RULES:[hosts->false],
