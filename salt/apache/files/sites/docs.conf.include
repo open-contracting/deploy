@@ -76,11 +76,6 @@ SetEnv BANNER /includes/banner_live.html
     SetEnv BANNER /includes/banner_staging_profiles_ppp.html
 </Location>
 
-# ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
-ProxyPreserveHost Off
-# With a keepalive, we had problems with headers being interpreted as the start of the response.
-SetEnv proxy-nokeepalive 1
-
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
     Require all granted
