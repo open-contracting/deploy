@@ -1,7 +1,7 @@
 # vi: ft=apache
 
-{# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
-{%
+{#- The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
+{%-
     set options = {
         '/profiles/eforms': {
             'versions': ['latest'],
@@ -37,10 +37,10 @@
     }
 %}
 
-{# Matches all root paths. #}
-{% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+{#- Matches all root paths. #}
+{%- set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
 
-{% set documentroot = '/home/ocds-docs/web' %}
+{%- set documentroot = '/home/ocds-docs/web' %}
 
 DocumentRoot {{ documentroot }}
 RewriteMap unescape int:unescape
