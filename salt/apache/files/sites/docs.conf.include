@@ -344,5 +344,4 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
 ####################
 # ElasticSearch
 ####################
-ProxyPass "/ocdsindex_en" "http://localhost:9200/"
-ProxyPassReverse "/ocdsindex_en" "http://localhost:9200/"
+ProxyPassMatch "^/search/(.*)?" http://localhost:9200/$1
