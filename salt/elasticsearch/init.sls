@@ -90,7 +90,7 @@ ElasticSearch Global Config:
     - watch_in:
       - service: elasticsearch
 
-{# Prevent ES from starting in the case of misconfiguration. #}
+{# Prevent Elasticsearch from starting in the case of misconfiguration. #}
 /etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
