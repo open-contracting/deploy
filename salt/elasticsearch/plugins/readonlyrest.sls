@@ -3,9 +3,11 @@
 include:
   - elasticsearch
 
+# ror-tools.jar patch required on ES version 8.0+ https://docs.readonlyrest.com/elasticsearch#3.-patch-elasticsearch
 readonlyrest-install:
   cmd.run:
-    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\""
+    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\";
+            /usr/share/elasticsearch/jdk/bin/java -jar /usr/share/elasticsearch/plugins/readonlyrest/ror-tools.jar patch"
     - require:
       - pkg: elasticsearch
     - creates: "/usr/share/elasticsearch/plugins/readonlyrest/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.version }}.jar"
