@@ -1,4 +1,4 @@
-{% from 'lib.sls' import set_firewall, unset_firewall%}
+{% from 'lib.sls' import set_firewall, unset_firewall %}
 
 {% if pillar.elasticsearch.get('public_access') %}
   {{ set_firewall("PUBLIC_ELASTICSEARCH") }}
