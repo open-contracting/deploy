@@ -3,6 +3,10 @@ readonlyrest:
   force_load_from_file: True
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
+    - name: Allow manage admin access over localhost
+      groups:
+        - manage
+      x_forwarded_for: ["127.0.0.0/8", "178.79.135.174/32"]
     - name: Allow the public group to search indices created by OCDS Index
       groups:
         - public
@@ -12,6 +16,7 @@ readonlyrest:
         must_involve_indices: True
       actions:
         - indices:data/read/search
+      x_forwarded_for: ["0.0.0.0/0"]
     - name: Allow the manage group to manage indices created by OCDS Index
       groups:
         - manage
@@ -25,4 +30,5 @@ readonlyrest:
         - indices:data/write/bulk
         - indices:data/write/delete/byquery
         - indices:monitor/settings/get
+      x_forwarded_for: ["0.0.0.0/0"]
   users: {{ pillar.elasticsearch.plugins.readonlyrest.users|yaml }}

@@ -25,7 +25,7 @@ apache:
       servername: standard.open-contracting.org
 
 elasticsearch:
-  public_access: True
+  public_access: False
   # Allow OCDS documentation and GitHub Actions.
   allowed_origins: "*"
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
