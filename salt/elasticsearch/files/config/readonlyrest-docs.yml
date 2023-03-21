@@ -6,7 +6,17 @@ readonlyrest:
     - name: Allow manage admin access over localhost
       groups:
         - manage
-      x_forwarded_for: ["127.0.0.0/8", "178.79.135.174/32"]
+      x_forwarded_for:
+        - "127.0.0.0/8"
+        - "{{ pillar.network.ipv4 }}"
+        {%- if "ipv6" in pillar.network %}
+        - "{{ pillar.network.ipv6 }}"
+        {%- endif %}
+        {%- if "admin_ips" in pillar.elasticsearch %}
+        {%- for ip in pillar.elasticsearch.admin_ips %}
+        - "{{ ip }}"
+        {%- endfor %}
+        {%- endif %}
     - name: Allow the public group to search indices created by OCDS Index
       groups:
         - public
