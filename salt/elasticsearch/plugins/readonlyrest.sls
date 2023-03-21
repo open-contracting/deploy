@@ -32,6 +32,8 @@ readonlyrest-install:
         readonlyrest.force_load_from_file: 'true'
         # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#5-disable-x-pack-security-module
         xpack.security.enabled: 'false'
+        xpack.security.transport.ssl.enabled: 'false'
+        xpack.security.http.ssl.enabled: 'false'
     - separator: ': '
     - append_if_not_found: True
     - require:

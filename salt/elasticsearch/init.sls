@@ -41,36 +41,18 @@ set jvm maximum heap size:
     - watch_in:
       - service: elasticsearch
 
-{% if pillar.elasticsearch.get('public_access') %}
 /etc/elasticsearch/elasticsearch.yml:
   file.keyvalue:
     - name: /etc/elasticsearch/elasticsearch.yml
     - key_values:
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
+        {% if pillar.elasticsearch.get('public_access') %}
         network.bind_host: 0.0.0.0
-        network.publish_host: _local_
-    - separator: ': '
-    - append_if_not_found: True
-    - watch_in:
-      - service: elasticsearch
-{% else %}
-/etc/elasticsearch/elasticsearch.yml:
-  file.keyvalue:
-    - name: /etc/elasticsearch/elasticsearch.yml
-    - key_values:
-        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
+        {% else %}
+        http.host: 127.0.0.1
         network.bind_host: 127.0.0.1
+        {% endif %}
         network.publish_host: _local_
-    - separator: ': '
-    - append_if_not_found: True
-    - watch_in:
-      - service: elasticsearch
-{% endif %}
-
-ElasticSearch Global Config:
-  file.keyvalue:
-    - name: /etc/elasticsearch/elasticsearch.yml
-    - key_values:
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
         search.allow_expensive_queries: 'false'
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
@@ -83,7 +65,14 @@ ElasticSearch Global Config:
     - watch_in:
       - service: elasticsearch
 
-{# Prevent Elasticsearch from starting in the case of misconfiguration. #}
+/etc/elasticsearch/elasticsearch.yml disable cluster mode:
+  file.comment:
+    - name: /etc/elasticsearch/elasticsearch.yml
+    - regex: "^cluster.initial_master_nodes:"
+    - backup: False
+    - ignore_missing: True
+
+{# Prevent ElasticSearch from starting in the case of misconfiguration. #}
 /etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
