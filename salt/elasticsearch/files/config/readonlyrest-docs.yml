@@ -5,7 +5,7 @@ readonlyrest:
   access_control_rules:
     - name: Allow manage admin access over localhost
       groups:
-        - manage
+        - ocpadmin
       x_forwarded_for:
         - "127.0.0.0/8"
         - "{{ pillar.network.ipv4 }}"
