@@ -26,8 +26,6 @@ apache:
 
 elasticsearch:
   public_access: False
-  # Allow OCDS documentation and GitHub Actions.
-  allowed_origins: "*"
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
   version: 8.6.2
   plugins:

@@ -78,13 +78,6 @@ ElasticSearch Global Config:
         script.allowed_contexts: ingest
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
         discovery.type: single-node
-#        {% if 'allowed_origins' in pillar.elasticsearch %}
-#        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-http.html
-#        http.cors.enabled: 'true'
-#        http.cors.allow-origin: "'{{ pillar.elasticsearch.allowed_origins }}'"
-#        http.cors.allow-methods: OPTIONS, GET, POST
-#        http.cors.allow-headers: X-Requested-With, Content-Type, Content-Length, Authorization
-#        {% endif %}
     - separator: ': '
     - append_if_not_found: True
     - watch_in:
