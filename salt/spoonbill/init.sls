@@ -3,11 +3,11 @@ include:
 
 {% set entry = pillar.docker_apps.spoonbill %}
 
-{{ entry.base_host_dir }}:
+{{ entry.host_dir }}:
   file.directory:
     - names:
-      - {{ entry.base_host_dir }}/tmp
-      - {{ entry.base_host_dir }}/media
+      - {{ entry.host_dir }}/tmp
+      - {{ entry.host_dir }}/media
     - makedirs: True
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
