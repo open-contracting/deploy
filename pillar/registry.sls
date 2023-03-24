@@ -133,6 +133,7 @@ docker_apps:
   pelican_frontend:
     target: pelican-frontend
     port: 8001
+    host_dir: /data/storage/pelican-frontend
     env:
       LOCAL_ACCESS: True
       ALLOWED_HOSTS: '*'

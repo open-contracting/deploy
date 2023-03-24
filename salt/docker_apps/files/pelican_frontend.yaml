@@ -1,10 +1,13 @@
 services:
   web:
     env_file: .env
-    restart: unless-stopped
     user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      # The right-hand path must match the directory of the settings.SERVICE_ACCOUNT_JSON_FILE default value in pelican-frontend.
+      - {{ pillar.docker_apps.pelican_frontend.host_dir }}:/data
+    restart: unless-stopped
     ports:
       - {{ pillar.docker_apps.pelican_frontend.port }}:8000

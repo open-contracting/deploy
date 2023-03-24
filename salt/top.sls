@@ -53,6 +53,7 @@ base:
     - rabbitmq
     - kingfisher.collect
     - pelican.backend
+    - pelican.frontend
     - spoonbill
     - registry
 
