@@ -11,14 +11,14 @@
 # ondrej/apache2 is still needed on Ubuntu 20.04 for MDContactEmail.
 # https://github.com/icing/mod_md/issues/203
 apache2:
-  {%- if grains.osmajorrelease in ("18", "20") %}
+  {% if grains.osmajorrelease in ("18", "20") %}
   pkgrepo.managed:
     - ppa: ondrej/apache2
-  {%- endif %}
+  {% endif %}
   pkg.installed:
     - pkgs:
       - apache2
-    {%- if grains.osmajorrelease in ("18", "20") %}
+    {% if grains.osmajorrelease in ("18", "20") %}
       # Avoid "AH01882: Init: this version of mod_ssl was compiled against a newer library (OpenSSL 1.1.1g 21 Apr 2020,
       # version currently loaded is OpenSSL 1.1.1 11 Sep 2018) - may result in undefined or erroneous behavior"
       # https://github.com/open-contracting/deploy/issues/66#issuecomment-742898193
@@ -26,7 +26,7 @@ apache2:
       - openssl
     - require:
       - pkgrepo: apache2
-    {%- endif %}
+    {% endif %}
   service.running:
     - name: apache2
     - enable: True

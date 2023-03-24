@@ -20,10 +20,10 @@ pgbackrest:
    - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.configuration }}.conf
    - template: jinja
 
-{%- if salt['pillar.get']('postgres:backup:cron') %}
+{% if salt['pillar.get']('postgres:backup:cron') %}
 /etc/cron.d/postgres_backups:
   file.managed:
     - contents_pillar: postgres:backup:cron
     - require:
       - pkg: pgbackrest
-{%- endif %}
+{% endif %}

@@ -1,5 +1,5 @@
 # Don't apply to servers that pre-exist the `network` approach.
-{%- if 'network' in pillar %}
+{% if 'network' in pillar %}
 
 # `order` is used, to ensure these states run before others.
 
@@ -10,7 +10,7 @@
       - {{ pillar.network.host_id }}.open-contracting.org
       - {{ pillar.network.host_id }}
 
-{%- if 'ipv6' in pillar.network %}
+{% if 'ipv6' in pillar.network %}
 {{ pillar.network.ipv6 }}:
   host.only:
     - order: 5
@@ -34,7 +34,7 @@ set hostname:
     - onchanges:
       - file: /etc/mailname
 
-{%- if 'networkd' in pillar.network %}
+{% if 'networkd' in pillar.network %}
 /etc/netplan/01-netcfg.yaml:
   file.absent
 
@@ -49,7 +49,7 @@ set hostname:
 systemd-networkd:
   service.enabled:
     - name: systemd-networkd
-{%- elif 'netplan' in pillar.network %}
+{% elif 'netplan' in pillar.network %}
 /etc/netplan/01-netcfg.yaml:
   file.absent
 
