@@ -6,6 +6,7 @@ include:
   - apache.modules.rewrite
 
 {% set user = 'ocds-docs' %}
+{% set userdir = '/home/' + user %}
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
 # Needed to create a ZIP file of the schema and codelists.
@@ -28,39 +29,43 @@ docs modules:
     - require:
       - pkg: apache2
 
-/home/{{ user }}/web:
+{{ userdir }}/web:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
 
-/home/{{ user }}/web/robots.txt:
+{{ userdir }}/web/robots.txt:
   file.managed:
     - source: salt://apache/files/docs/robots.txt
     - user: {{ user }}
     - group: {{ user }}
     - require:
-      - file: /home/{{ user }}/web
+      - file: {{ userdir }}/web
 
-/home/{{ user }}/web/includes:
+{{ userdir }}/web/includes:
   file.recurse:
     - source: salt://apache/files/docs/includes
     - user: {{ user }}
     - group: {{ user }}
     - require:
-      - file: /home/{{ user }}/web
+      - file: {{ userdir }}/web
 
-/home/{{ user }}/1-size.sh:
+{{ userdir }}/1-size.sh:
   file.managed:
     - source: salt://docs/files/size.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
+    - require:
+      - user: {{ user }}_user_exists
 
-/home/{{ user }}/2-delete.sh:
+{{ userdir }}/2-delete.sh:
   file.managed:
     - source: salt://docs/files/delete.sh
     - user: {{ user }}
     - group: {{ user }}
     - mode: 700
+    - require:
+      - user: {{ user }}_user_exists

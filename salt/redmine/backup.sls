@@ -1,5 +1,5 @@
 {% from 'lib.sls' import set_config %}
-{% from 'redmine/init.sls' import user %}
+{% from 'redmine/init.sls' import userdir %}
 
 include:
   - aws
@@ -26,7 +26,7 @@ set BACKUP_DIRECTORIES setting:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local
     - key: BACKUP_DIRECTORIES
-    - value: ( "/home/{{ user }}/public_html/" )
+    - value: ( "{{ userdir }}/public_html/" )
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin

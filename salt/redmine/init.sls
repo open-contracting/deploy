@@ -1,6 +1,7 @@
 {% from 'lib.sls' import create_user %}
 
 {% set user = 'redmine' %}
+{% set userdir = '/home/' + user %}
 {% set branch = '5.0-stable' %}
 {% set revision = 21893 %}
 {% set theme = 'circle' %}
@@ -13,7 +14,7 @@ include:
 
 {{ create_user(user) }}
 
-/home/{{ user }}/public_html:
+{{ userdir }}/public_html:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
@@ -34,10 +35,10 @@ redmine:
     - name: bundler
   svn.latest:
     - name: https://svn.redmine.org/redmine/branches/{{ branch }}
-    - target: /home/{{ user }}/public_html
+    - target: {{ userdir }}/public_html
     - rev: {{ revision }}
     - require:
-      - file: /home/{{ user }}/public_html
+      - file: {{ userdir }}/public_html
       - pkg: redmine
       - gem: redmine
     - watch_in:
@@ -48,10 +49,10 @@ redmine:
 set redmine directory permissions:
   file.directory:
     - names:
-      - /home/{{ user }}/public_html/tmp
-      - /home/{{ user }}/public_html/files
-      - /home/{{ user }}/public_html/log
-      - /home/{{ user }}/public_html/public/plugin_assets
+      - {{ userdir }}/public_html/tmp
+      - {{ userdir }}/public_html/files
+      - {{ userdir }}/public_html/log
+      - {{ userdir }}/public_html/public/plugin_assets
     - user: {{ user }}
     - group: {{ user }}
     - dir_mode: 755
@@ -61,22 +62,20 @@ set redmine directory permissions:
       - group
       - mode
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
 
 set redmine file permissions:
   file.managed:
     - names:
-      - /home/{{ user }}/public_html/config.ru
-      - /home/{{ user }}/public_html/Gemfile.lock
+      - {{ userdir }}/public_html/config.ru
+      - {{ userdir }}/public_html/Gemfile.lock
     - replace: False
     - user: {{ user }}
     - group: {{ user }}
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
 
-/home/{{ user }}/public_html/config/database.yml:
+{{ userdir }}/public_html/config/database.yml:
   file.serialize:
     # https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Edit-database-configuration-file
     - dataset:
@@ -92,12 +91,11 @@ set redmine file permissions:
     - group: {{ user }}
     - mode: 640
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
     - watch_in:
       - service: apache2
 
-/home/{{ user }}/public_html/config/configuration.yml:
+{{ userdir }}/public_html/config/configuration.yml:
   file.serialize:
     - dataset_pillar: redmine:configuration
     - serializer: yaml
@@ -105,30 +103,27 @@ set redmine file permissions:
     - group: {{ user }}
     - mode: 640
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
     - watch_in:
       - service: apache2
 
-/home/{{ user }}/public_html/public/themes/{{ theme }}:
+{{ userdir }}/public_html/public/themes/{{ theme }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ theme }}
     - user: {{ user }}
     - group: {{ user }}
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
     - watch_in:
       - service: apache2
 
 {% for plugin in ['redmine_agile', 'redmine_checklists', 'redmine_contacts', 'redmine_contacts_helpdesk', 'view_customize'] %}
-/home/{{ user }}/public_html/plugins/{{ plugin }}:
+{{ userdir }}/public_html/plugins/{{ plugin }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ plugin }}
     - user: {{ user }}
     - group: {{ user }}
     - require:
-      - user: {{ user }}_user_exists
       - svn: redmine
     - watch_in:
       - service: apache2
