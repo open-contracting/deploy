@@ -147,12 +147,14 @@ docker_apps:
     target: spoonbill
     host_dir: /data/storage/spoonbill
     env:
+      # Referenced by Docker Compose file.
       TRAEFIK_IP: 65.21.93.141
       DOMAIN: &DOMAIN flatten.open-contracting.org
       API_DOMAIN: *DOMAIN
+      # Referenced by Django project.
       ALLOWED_HOSTS: *DOMAIN
-      CORS_ORIGIN_WHITELIST: https://flatten.open-contracting.org
+      CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
       API_PREFIX: api/
       DB_HOST: postgres
-      REDIS_HOST: redis
+      # Environment variables for redis image: https://hub.docker.com/r/bitnami/redis
       ALLOW_EMPTY_PASSWORD: "yes"
