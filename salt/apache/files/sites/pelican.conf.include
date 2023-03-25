@@ -3,5 +3,17 @@
 RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 
-ProxyPass / http://127.0.0.1:{{ port }}/ timeout={{ timeout }}
-ProxyPassReverse / http://127.0.0.1:{{ port }}/
+<Location "/">
+    {#- Match the URL patterns in pelican-frontend's urls.py files. #}
+    {%- for endpoint in ['api', 'datasets', 'data_items'] %}
+    ProxyPass /{{ endpoint }}/ http://127.0.0.1:{{ django_port }}/{{ endpoint }}/ timeout={{ timeout }}
+    ProxyPassReverse /{{ endpoint }}/ http://127.0.0.1:{{ django_port }}/{{ endpoint }}/
+    {% endfor %}
+    ProxyPass / http://127.0.0.1:{{ port }}/
+    ProxyPassReverse / http://127.0.0.1:{{ port }}/
+
+    AuthName "Pelican"
+    AuthType Basic
+    AuthUserFile /etc/apache2/.htpasswd-pelican
+    Require valid-user
+</Location>
