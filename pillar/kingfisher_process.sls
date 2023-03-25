@@ -79,9 +79,14 @@ kingfisher_collect:
   user: ocdskfs
   autoremove: True
   summarystats: True
+  context:
+    bind_address: 0.0.0.0
   env:
-    KINGFISHER_API_URI: https://process.kingfisher.open-contracting.org
-    KINGFISHER_API_LOCAL_DIRECTORY: /home/ocdskfs/scrapyd/data/
+    RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_support_production
+    # Need to sync as `{RABBIT_EXCHANGE_NAME}_api`.
+    RABBIT_ROUTING_KEY: kingfisher_process_data_support_production_api
+    # Need to sync with `docker_apps.kingfisher_process.port`.
+    KINGFISHER_API2_URL: http://localhost:8000
 
 python_apps:
   kingfisher_collect:
@@ -120,6 +125,16 @@ python_apps:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
 
 docker_apps:
+  kingfisher_process:
+    target: kingfisher-process
+    port: 8000
+    env:
+      LOCAL_ACCESS: True
+      ALLOWED_HOSTS: '*'
+      RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
+      # This is set to be the same size as the prefetch_count argument.
+      # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
+      REQUESTS_POOL_MAXSIZE: 20
   pelican_backend:
     target: pelican-backend
     env:
