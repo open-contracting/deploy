@@ -39,6 +39,14 @@ apache:
         documentroot: /home/ocdskfs/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
+    pelican:
+      configuration: pelican
+      servername: pelican.open-contracting.org
+      context:
+        port: 8004
+        # Need to sync with `docker_apps.pelican_frontend.port`.
+        django_port: 8001
+        timeout: 300
 
 postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
@@ -60,6 +68,12 @@ postgres:
         15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
         # Weekly full backup
         15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
+
+docker:
+  user: deployer
+  uid: 1005
+  docker_compose:
+    version: 1.29.2
 
 kingfisher_collect:
   user: ocdskfs
@@ -104,3 +118,27 @@ python_apps:
       target: ocdskingfisherviews
     config:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
+
+docker_apps:
+  pelican_backend:
+    target: pelican-backend
+    env:
+      RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_support_production
+      # 2021-10-27: on kingfisher-process, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
+      KINGFISHER_PROCESS_MAX_SIZE: 30000
+  pelican_frontend:
+    target: pelican-frontend
+    port: 8001
+    host_dir: /data/storage/pelican-frontend
+    reports: true
+    env:
+      DJANGO_PROXY: True
+      ALLOWED_HOSTS: pelican.open-contracting.org
+      SECURE_HSTS_SECONDS: 31536000
+      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
+      CORS_ALLOWED_ORIGINS: https://pelican.open-contracting.org
+      # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
+      # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
+      # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
+      # and to better support multiprocessing."
+      MPLCONFIGDIR: /dev/shm/matplotlib

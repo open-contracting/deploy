@@ -33,12 +33,14 @@ base:
 
   'kingfisher-process':
     - postgres.main
-    - redis
+    - rabbitmq
     - kingfisher
     - kingfisher.collect
     - kingfisher.collect.incremental
     - kingfisher.process
     - kingfisher.summarize
+    - pelican.backend
+    - pelican.frontend
 
   'prometheus':
     - prometheus
