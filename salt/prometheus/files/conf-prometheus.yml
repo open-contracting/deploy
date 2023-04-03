@@ -16,7 +16,7 @@ scrape_configs:
     'ocds-kingfisher-replica': 'ocp05.open-contracting.org',
     'ocds-kingfisher2': 'ocp04.open-contracting.org',
     'ocds-live.docs': 'ocp07.open-contracting.org',
-    'prometheus-server-node': 'ocp03.open-contracting.org',
+    'prometheus-server-node': 'ocp20.open-contracting.org',
     'data-registry': 'ocp13.open-contracting.org',
     'redash': 'ocp14.open-contracting.org',
     'redmine': 'ocp16.open-contracting.org',

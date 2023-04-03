@@ -5,7 +5,7 @@ cove-ocds:           ocp18.open-contracting.org
 docs:                ocp07.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
-prometheus:          ocp03.open-contracting.org
+prometheus:          ocp20.open-contracting.org
 redash:              ocp14.open-contracting.org
 redmine:             ocp16.open-contracting.org
 registry:
