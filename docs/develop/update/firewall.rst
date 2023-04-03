@@ -117,7 +117,7 @@ You can configure a Hetzner firewall as follows:
         -
         - Accept
       * - Allow Prometheus
-        - 213.138.113.219/32
+        - 139.162.253.17/32
         - 0.0.0.0/0
         - 0-65535
         - 7231
@@ -176,7 +176,7 @@ You can configure a Linode Cloud Firewall as follows:
          * - Allow-Prometheus
            - TCP
            - 7231
-           - 213.138.113.219/32, 2001:41c8:51:7db::219/128
+           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
            - Accept
    
       Most servers will also have:
