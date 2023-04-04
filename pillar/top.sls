@@ -41,7 +41,7 @@ base:
     - prometheus_server
     - private.smtp
     - private.prometheus_server
-    - maintenance
+    - prometheus_server_maintenance
 
   'redash':
     - redash
