@@ -300,6 +300,11 @@ For Kingfisher servers (instructions are incomplete):
 
 For Redash servers, see :doc:`redash`.
 
+For Prometheus:
+
+#. Copy the ``/home/prometheus-server/data`` directory
+#. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
+
 6. Update external services
 ---------------------------
 
