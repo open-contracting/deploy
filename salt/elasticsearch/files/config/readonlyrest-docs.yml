@@ -3,7 +3,7 @@ readonlyrest:
   force_load_from_file: True
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
-    - name: Allow manage admin access over localhost
+    - name: Allow the ocpadmin group to administrate Elasticsearch
       groups:
         - ocpadmin
       x_forwarded_for:
