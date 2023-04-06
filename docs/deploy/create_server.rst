@@ -289,7 +289,7 @@ Django applications
 Kingfisher
 ~~~~~~~~~~
 
-.. todo::
+.. note::
 
    Instructions are incomplete.
 
