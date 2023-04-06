@@ -93,15 +93,29 @@ Update spiders in Kingfisher Collect
 Access Scrapyd's crawl logs
 ---------------------------
 
-From a browser, click on a "Log" link from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <https://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__.
+.. seealso::
 
-From the command-line, :ref:`connect to the server<connect-kingfisher-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
+   `How to interpret a Scrapy crawl log <https://kingfisher-collect.readthedocs.io/en/latest/logs.html>`__
 
-.. code-block:: bash
+If using a browser, either:
 
-   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-   ssh ocdskfp@collect.kingfisher.open-contracting.org
-   cd scrapyd/logs/kingfisher
+* Click on a "Log" link from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__
+* Open the `logs page for the kingfisher project <https://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__
+
+If using the command-line:
+
+#. :ref:`Connect to the server<connect-kingfisher-server>`:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
+      ssh ocdskfp@collect.kingfisher.open-contracting.org
+
+#. Change to the ``logs`` directory for the ``kingfisher`` project:
+
+   .. code-block:: bash
+
+      cd scrapyd/logs/kingfisher
 
 Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
