@@ -10,14 +10,12 @@ base:
     - cove_oc4ids
     - cove_oc4ids_maintenance
     - private.cove_oc4ids
-    - maintenance
 
   'cove-ocds':
     - cove
     - cove_ocds
     - cove_ocds_maintenance
     - private.cove_ocds
-    - maintenance
 
   'docs':
     - docs
@@ -43,7 +41,7 @@ base:
     - prometheus_server
     - private.smtp
     - private.prometheus_server
-    - maintenance
+    - prometheus_server_maintenance
 
   'redash':
     - redash

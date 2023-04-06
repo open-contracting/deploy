@@ -1,9 +1,17 @@
+network:
+  host_id: ocp20
+  ipv4: 139.162.253.17
+  #ipv6: 2a01:7e00::f03c:93ff:fe13:a12c
+  networkd:
+    template: linode
+    gateway4: 139.162.253.1
+
 prometheus:
   prometheus:
     service: prometheus-server
     user: prometheus-server
     basename: prometheus
-    version: 2.36.2
+    version: 2.37.6
     local_storage_retention: 120d
     config:
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml
@@ -13,7 +21,7 @@ prometheus:
     service: prometheus-alertmanager
     user: prometheus-alertmanager
     basename: alertmanager
-    version: 0.24.0
+    version: 0.25.0
     config:
       conf-alertmanager.yml: salt://prometheus/files/conf-alertmanager.yml
 
