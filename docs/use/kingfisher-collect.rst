@@ -152,7 +152,7 @@ To create (or append the Kingfisher Collect credentials to) a ``.netrc`` file:
 
    .. code-block:: shell-session
 
-      $ grep -A collect.kingfisher.open-contracting.org ~/.netrc
+      $ grep -A2 collect.kingfisher.open-contracting.org ~/.netrc
       machine collect.kingfisher.open-contracting.org
         login myuser
         password mypass
