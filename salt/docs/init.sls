@@ -9,7 +9,7 @@ include:
 {% set userdir = '/home/' + user %}
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
-allow {{ userdir }} access:
+allow Apache access to {{ userdir }}:
   file.directory:
     - name: {{ userdir }}
     - mode: 755
