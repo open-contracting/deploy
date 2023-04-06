@@ -10,7 +10,7 @@ Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/lates
 Review a new publication
 ------------------------
 
-#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository.
+#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ to request a new spider in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository.
 #. :ref:`Schedule a crawl<collect-data>`, once the spider is written and :ref:`deployed<update-spiders>`.
 #. :ref:`Wait for the crawl to finish<access-scrapyd-web-service>`.
 #. :ref:`Review the crawl's log file<kingfisher-collect-review-log-files>`.
@@ -142,13 +142,17 @@ If you are frequently running the above, `create an issue <https://github.com/op
 Create a .netrc file
 --------------------
 
+.. admonition:: One-time setup
+
+   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.ocdskingfisherscrape.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
+
 To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username and password as to :ref:`access-scrapyd-web-service`.
 
-Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
+Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``USERNAME`` with your username and ``PASSWORD`` with your password, and run:
 
 .. code-block:: bash
 
-   echo 'machine collect.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
+   echo 'machine collect.kingfisher.open-contracting.org login USERNAME password PASSWORD' >> ~/.netrc
 
 You must change the file's permissions to be readable only by the owner:
 
