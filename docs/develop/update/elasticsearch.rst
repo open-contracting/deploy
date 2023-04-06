@@ -46,6 +46,37 @@ Set swappiness value
    vm:
      swappiness: 1
 
+Enable ReadOnlyREST
+-------------------
+
+As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html>`__ For the OCDS documentation, we use the `ReadOnlyREST <https://readonlyrest.com>`__ plugin to control access, this is hosted behind Apache to add and manage SSL.
+
+#. Add the ``elasticsearch.plugins.readonlyrest`` state file to your service's target in the ``salt/top.sls`` file.
+
+#. Set ``elasticsearch.version`` and ``elasticsearch.plugins.readonlyrest`` in your service's Pillar file, for example:
+
+.. code-block:: yaml
+
+   elasticsearch:
+     version: 8.6.2
+     plugins:
+       readonlyrest:
+         version: 1.47.0_es8.6.2
+
+#. :doc:`Deploy the service<../../deploy/deploy>`
+
+#. Test the public user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
+
+   .. code-block:: bash
+      curl -u 'public:PASSWORD' https://standard.open-contracting.org/search/ocdsindex_en/_search \
+      -H 'Content-Type: application/json' \
+      -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
+
+#. Test the admin user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
+
+   .. code-block:: bash
+      curl -u 'manage:PASSWORD' https://standard.open-contracting.org/search/_cat/indices
+
 Troubleshoot
 ~~~~~~~~~~~~
 
