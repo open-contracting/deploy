@@ -339,10 +339,10 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
     # Use the HTTP referer to return to the same page in the new language.
     RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/staging/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
     # The backreferences are the root, version, language and path.
-    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%2%3/%6/%5? [R]
+    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%2%3/%6/%5? [R,NE]
 
     # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
     RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
     # The backreferences are the root, version and language.
-    RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/%1/? [R]
+    RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/%1/? [R,NE]
 </LocationMatch>
