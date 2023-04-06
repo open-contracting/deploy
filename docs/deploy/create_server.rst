@@ -281,29 +281,41 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
 #. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
 
-For Django application servers:
+Django applications
+~~~~~~~~~~~~~~~~~~~
 
 #. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 
-For OCDS documentation servers:
+Kingfisher
+~~~~~~~~~~
+
+.. todo::
+
+   Instructions are incomplete.
+
+#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
+
+OCDS documentation
+~~~~~~~~~~~~~~~~~~
 
 #. Copy the ``/home/ocds-docs/web`` directory
 #. Update the IP addresses in the ``pillar/cove.sls`` file, and deploy the ``cove-*`` services
 
-For Redmine servers:
-
-#. Copy the ``/home/redmine/public_html/files`` directory
-
-For Kingfisher servers (instructions are incomplete):
-
-#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
-
-For Redash servers, see :doc:`redash`.
-
-For Prometheus:
+Prometheus
+~~~~~~~~~~
 
 #. Copy the ``/home/prometheus-server/data`` directory
 #. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
+
+Redash
+~~~~~~
+
+See :doc:`redash`.
+
+Redmine
+~~~~~~~
+
+#. Copy the ``/home/redmine/public_html/files`` directory
 
 6. Update external services
 ---------------------------
