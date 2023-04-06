@@ -42,7 +42,7 @@ Add sites
 Add to your service's Pillar file:
 
 .. code-block:: yaml
-   :emphasize-lines: 3-12
+   :emphasize-lines: 3-9
 
    apache:
      public_access: True

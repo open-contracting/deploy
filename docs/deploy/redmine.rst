@@ -292,4 +292,4 @@ Set up backups
         backup:
           location: ocp-redmine-backup/site
 
-#. :doc:`Deploy the service<../deploy>`
+#. :doc:`Deploy the service<deploy>`

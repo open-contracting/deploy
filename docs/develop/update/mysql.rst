@@ -74,7 +74,7 @@ Set up backups
 --------------
 
 #. Create and configure a :ref:`S3 backup bucket<aws-s3-backup>`
-#. Configure the :doc:`AWS CLI<../awscli>`
+#. Configure the :doc:`AWS CLI<awscli>`
 #. Set ``mysql.backup.location`` in the server's Pillar file, for example:
 
    .. code-block:: yaml

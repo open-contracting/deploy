@@ -166,7 +166,7 @@ Check DMARC compliance
 
 .. note::
 
-   `SES adds two DKIM signatures <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). This signature's domain is not aligned, but according to `RFC 7489 <https://tools.ietf.org/html/rfc7489#page-10>`, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC "pass" if any DKIM signature is aligned and verifies."
+   `SES adds two DKIM signatures <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). This signature's domain is not aligned, but according to `RFC 7489 <https://tools.ietf.org/html/rfc7489#page-10>`__, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC "pass" if any DKIM signature is aligned and verifies."
 
 Debug delivery issues
 ~~~~~~~~~~~~~~~~~~~~~
@@ -197,8 +197,8 @@ Relational Database Service (RDS)
    #. Set *DB instance class* to "db.t3.micro"
    #. Uncheck *Enable storage autoscaling*
    #. Set *Public access* to "Yes"
-   #. Add "postgresql-anywhere" to *Existing VPC security groups"
-   #. Remove "default" from *Existing VPC security groups"
+   #. Add "postgresql-anywhere" to *Existing VPC security groups*
+   #. Remove "default" from *Existing VPC security groups*
    #. Expand *Additional configuration*
    #. Uncheck *Enable automated backups*
    #. Uncheck *Enable encryption*
@@ -294,7 +294,7 @@ Amazon S3
 Create backup bucket
 ~~~~~~~~~~~~~~~~~~~~
 
-#. Go to Amazon S3 `Buckets<https://s3.console.aws.amazon.com/s3/buckets>`__
+#. Go to Amazon S3 `Buckets <https://s3.console.aws.amazon.com/s3/buckets>`__
 #. Click *Create bucket*
 
    #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
@@ -324,7 +324,7 @@ Identity and Access Management (IAM)
 Create a new IAM backup user and policy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Go to IAM `Policies<https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
+#. Go to IAM `Policies <https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
 #. Click *Create policy*
 
    #. Click the *JSON* tab and paste the content below, replacing ``BUCKET_NAME``:
@@ -362,7 +362,7 @@ Create a new IAM backup user and policy
    #. Enter a *Name* (``ocp-redmine-backup``, for example)
    #. Click *Create policy*
 
-#. Go to IAM `Users<https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
+#. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click *Add Users*
 
    #. Enter a *User name* (``ocp-redmine-backup``, for example)
@@ -378,4 +378,4 @@ Create a new IAM backup user and policy
    #. Click *Next: Tags*
    #. Click *Next: Review*
    #. Click *Create user*
-   #. Add the *Access key ID* and *Secret access key* to the `service's Pillar file<../develop/update/awscli>`
+   #. Add the *Access key ID* and *Secret access key* to the :doc:`service's Pillar file<../develop/update/awscli>`

@@ -32,7 +32,7 @@ This configuration disables automatic IP configuration and configures static net
 
    By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
 
-.. admonition::
+.. admonition:: Email template
 
    `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block, replacing ``ocpXX`` with the Linode instance's ID:
 
