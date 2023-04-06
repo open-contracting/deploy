@@ -40,27 +40,17 @@ First, `read this section <https://kingfisher-collect.readthedocs.io/en/latest/s
 
 To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, from your computer:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-   curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
-
-You should see a response like:
-
-.. code-block:: json
-
-   {"node_name": "process1", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
+   $ curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+   {"node_name": "ocp04", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
 To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-   curl -n https://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
-
-You should see a response like:
-
-.. code-block:: json
-
-   {"node_name": "process1", "status": "ok", "prevstate": "running"}
+   $ curl -n https://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
+   {"node_name": "ocp04", "status": "ok", "prevstate": "running"}
 
 The crawl won't stop immediately. You can force an unclean shutdown by sending the request again; however, it's preferred to allow the crawl to stop gracefully, so that the log file is completed.
 
@@ -185,7 +175,7 @@ Test your configuration:
 .. code-block:: shell-session
 
    $ curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
-   {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}
+   {"node_name": "ocp04", "status": "ok", "projects": ["kingfisher"]}
 
 Data retention policy
 ---------------------
