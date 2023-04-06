@@ -38,7 +38,7 @@ Collect data with Kingfisher Collect
 
 First, `read this section <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Collect documentation.
 
-To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, from your computer:
+To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, **from your computer**:
 
 .. code-block:: shell-session
 
@@ -136,7 +136,7 @@ Create a .netrc file
 
    Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.ocdskingfisherscrape.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username and password as to :ref:`access-scrapyd-web-service`.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it **from your computer** as described above, using the same username and password as to :ref:`access-scrapyd-web-service`.
 
 Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file **on your computer**.
 
