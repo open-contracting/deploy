@@ -1,11 +1,3 @@
-{% from 'lib.sls' import set_firewall, unset_firewall %}
-
-{% if pillar.elasticsearch.get('public_access') %}
-  {{ set_firewall("PUBLIC_ELASTICSEARCH") }}
-{% else %}
-  {{ unset_firewall("PUBLIC_ELASTICSEARCH") }}
-{% endif %}
-
 elasticsearch:
   pkgrepo.managed:
     - humanname: Elasticsearch Official Repository
@@ -46,12 +38,8 @@ set jvm maximum heap size:
     - name: /etc/elasticsearch/elasticsearch.yml
     - key_values:
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
-        {% if pillar.elasticsearch.get('public_access') %}
-        network.bind_host: 0.0.0.0
-        {% else %}
         http.host: 127.0.0.1
         network.bind_host: 127.0.0.1
-        {% endif %}
         network.publish_host: _local_
         # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
         search.allow_expensive_queries: 'false'
