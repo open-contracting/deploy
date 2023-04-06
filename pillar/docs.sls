@@ -16,9 +16,6 @@ vm:
 
 apache:
   public_access: True
-  modules:
-    mod_md:
-      MDNotifyCmd: /opt/restart-elasticsearch.sh
   sites:
     ocds-docs-live:
       configuration: docs
@@ -31,5 +28,3 @@ elasticsearch:
     readonlyrest:
       version: 1.47.0_es8.6.2
       configuration: docs
-      certificate_key_file: /etc/elasticsearch/ssl/standard.open-contracting.org/privkey.pem
-      certificate_file: /etc/elasticsearch/ssl/standard.open-contracting.org/pubcert.pem
