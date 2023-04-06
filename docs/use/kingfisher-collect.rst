@@ -140,42 +140,44 @@ To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spide
 
 Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file **on your computer**.
 
-To create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``USERNAME`` with your username and ``PASSWORD`` with your password, and run:
+To create (or append the Kingfisher Collect credentials to) a ``.netrc`` file:
 
-.. code-block:: bash
+#. Replace ``USERNAME`` with your username and ``PASSWORD`` with your password, and run:
 
-   echo 'machine collect.kingfisher.open-contracting.org login USERNAME password PASSWORD' >> ~/.netrc
+   .. code-block:: bash
 
-Change the file's permissions to be readable only by the owner:
+      echo 'machine collect.kingfisher.open-contracting.org login USERNAME password PASSWORD' >> ~/.netrc
 
-.. code-block:: bash
+#. Check that only one section of the ``~/.netrc`` file refers to Kingfisher Collect:
 
-   chmod 600 ~/.netrc
+   .. code-block:: shell-session
 
-Check the permissions:
+      $ grep -A collect.kingfisher.open-contracting.org ~/.netrc
+      machine collect.kingfisher.open-contracting.org
+        login myuser
+        password mypass
 
-.. code-block:: shell-session
+   If there are multiple sections or an incorrect password, you must correct the file in a text editor.
 
-   $ stat -f "%Sp" ~/.netrc
-   -rw-------
+#. Change the file's permissions to be readable only by the owner:
 
-Check that only one section of the ``~/.netrc`` file refers to Kingfisher Collect:
+   .. code-block:: bash
 
-.. code-block:: shell-session
+      chmod 600 ~/.netrc
 
-   $ grep -A collect.kingfisher.open-contracting.org ~/.netrc
-   machine collect.kingfisher.open-contracting.org
-     login myuser
-     password mypass
+#. Check the permissions:
 
-If there are multiple sections or an incorrect password, you must correct the file in a text editor.
+   .. code-block:: shell-session
 
-Test your configuration:
+      $ stat -f "%Sp" ~/.netrc
+      -rw-------
 
-.. code-block:: shell-session
+#. Test your configuration:
 
-   $ curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
-   {"node_name": "ocp04", "status": "ok", "projects": ["kingfisher"]}
+   .. code-block:: shell-session
+
+      $ curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
+      {"node_name": "ocp04", "status": "ok", "projects": ["kingfisher"]}
 
 Data retention policy
 ---------------------
