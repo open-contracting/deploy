@@ -4,6 +4,7 @@ x-shared: &shared
   image: "ghcr.io/open-contracting/pelican-backend:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
+  restart: unless-stopped
 
 services:
   extract:
