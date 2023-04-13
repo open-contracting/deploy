@@ -12,9 +12,6 @@ readonlyrest:
         {%- if "ipv6" in pillar.network %}
         - "{{ pillar.network.ipv6 }}"
         {%- endif %}
-        {%- for ip in pillar.elasticsearch.get("admin_ips", []) %}
-        - "{{ ip }}"
-        {%- endfor %}
     - name: Allow the public group to search indices created by OCDS Index
       groups:
         - public
