@@ -40,6 +40,7 @@ docs modules:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
+    - mode: 755
     - require:
       - user: {{ user }}_user_exists
 
