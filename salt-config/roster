@@ -2,7 +2,7 @@
 
 cove-oc4ids:         ocp17.open-contracting.org
 cove-ocds:           ocp18.open-contracting.org
-docs:                ocp07.open-contracting.org
+docs:                ocp19.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
 prometheus:          ocp20.open-contracting.org
@@ -16,6 +16,7 @@ registry:
 # ocp01 was cove-oc4ids on Ubuntu 18
 # ocp02 was cove-ocds on Ubuntu 18
 # ocp06 was covid19-dev
+# ocp07 was docs on Ubuntu 18
 # ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp09 was toucan.open-contracting.org
 # ocp10 was archive.kingfisher.open-contracting.org

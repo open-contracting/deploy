@@ -1,7 +1,7 @@
 # vi: ft=apache
 
-{# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
-{%
+{#- The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
+{%-
     set options = {
         '/profiles/eforms': {
             'versions': ['latest'],
@@ -37,10 +37,10 @@
     }
 %}
 
-{# Matches all root paths. #}
-{% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+{#- Matches all root paths. #}
+{%- set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
 
-{% set documentroot = '/home/ocds-docs/web' %}
+{%- set documentroot = '/home/ocds-docs/web' %}
 
 DocumentRoot {{ documentroot }}
 
@@ -74,13 +74,6 @@ SetEnv BANNER /includes/banner_live.html
 <Location /staging/profiles/ppp/>
     SetEnv BANNER /includes/banner_staging_profiles_ppp.html
 </Location>
-
-# Needed to proxy to SSL servers.
-SSLProxyEngine on
-# ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
-ProxyPreserveHost Off
-# With a keepalive, we had problems with headers being interpreted as the start of the response.
-SetEnv proxy-nokeepalive 1
 
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
@@ -346,3 +339,8 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
     # The backreferences are the root, version and language.
     RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/%1/? [R,NE]
 </LocationMatch>
+
+####################
+# ElasticSearch
+####################
+ProxyPassMatch "^/search/(.*)?" http://localhost:9200/$1

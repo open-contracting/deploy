@@ -299,7 +299,6 @@ OCDS documentation
 ~~~~~~~~~~~~~~~~~~
 
 #. Copy the ``/home/ocds-docs/web`` directory
-#. Update the IP addresses in the ``pillar/cove.sls`` file, and deploy the ``cove-*`` services
 
 Prometheus
 ~~~~~~~~~~

@@ -3,32 +3,16 @@
 include:
   - elasticsearch
 
+# ror-tools.jar patch required on ES version 8.0+ https://docs.readonlyrest.com/elasticsearch#3.-patch-elasticsearch
 readonlyrest-install:
   cmd.run:
-    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\""
+    - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\";
+            /usr/share/elasticsearch/jdk/bin/java -jar /usr/share/elasticsearch/plugins/readonlyrest/ror-tools.jar patch"
     - require:
       - pkg: elasticsearch
     - creates: "/usr/share/elasticsearch/plugins/readonlyrest/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.version }}.jar"
     - watch_in:
       - service: elasticsearch
-
-/opt/restart-elasticsearch.sh:
-  file.managed:
-    - name: /opt/restart-elasticsearch.sh
-    - source: salt://elasticsearch/files/restart-elasticsearch.sh
-    - mode: 755
-    - require:
-      - pkg: apache2
-      - pkg: elasticsearch
-
-/etc/sudoers.d/90-restart-elasticsearch:
-  file.managed:
-    - source: salt://elasticsearch/files/sudoers.d/restart-elasticsearch
-    - mode: 440
-    # Salt appends to check_cmd a temporary file containing the new managed contents. This serves as the argument to `-f`.
-    - check_cmd: visudo -c -f
-    - require:
-      - file: /opt/restart-elasticsearch.sh
 
 /etc/elasticsearch/readonlyrest.yml:
   file.managed:
@@ -46,10 +30,10 @@ readonlyrest-install:
     - key_values:
         # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#malformed-in-index-settings
         readonlyrest.force_load_from_file: 'true'
-        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#4-disable-x-pack-security-module
+        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#5-disable-x-pack-security-module
         xpack.security.enabled: 'false'
-        # https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#external-rest-api
-        http.type: ssl_netty4
+        xpack.security.transport.ssl.enabled: 'false'
+        xpack.security.http.ssl.enabled: 'false'
     - separator: ': '
     - append_if_not_found: True
     - require:
