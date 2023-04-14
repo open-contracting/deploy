@@ -98,6 +98,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 #. Test the admin user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
 
    .. code-block:: bash
+
       curl -u 'manage:PASSWORD' https://standard.open-contracting.org/search/_cat/indices
 
 Troubleshoot
