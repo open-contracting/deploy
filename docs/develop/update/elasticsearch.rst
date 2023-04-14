@@ -90,6 +90,7 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 #. Test the public user, replacing ``PASSWORD``. For example, for the ``standard.open-contracting.org`` domain:
 
    .. code-block:: bash
+
       curl -u 'public:PASSWORD' https://standard.open-contracting.org/search/ocdsindex_en/_search \
       -H 'Content-Type: application/json' \
       -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
