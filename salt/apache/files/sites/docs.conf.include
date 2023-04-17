@@ -346,5 +346,6 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
 <LocationMatch "^/search/(.*)">
     ProxyPass http://localhost:9200
     ProxyPassReverse http://localhost:9200
+    # Allow GitHub Actions.
     Header add "Access-Control-Allow-Origin" "*"
 </LocationMatch>
