@@ -76,7 +76,7 @@ Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-ind
 
 .. code-block:: bash
 
-   ocdsindex expire https://standard.open-contracting.org/search --exclude-file=ocdsindex-exclude.txt
+   ocdsindex expire https://standard.open-contracting.org/search/ --exclude-file=ocdsindex-exclude.txt
 
 Search documents in a given index matching a base URL, for example:
 
