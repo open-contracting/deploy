@@ -201,17 +201,17 @@ Redirect /recursos /latest/en/support/tools/
 Redirect /resources /latest/en/support/tools/
 
 # Redirect master branches.
-Redirect /profiles/eu/master /profiles/eu/latest
-Redirect /profiles/gpa/master /profiles/gpa/latest
+Redirect permanent /profiles/eu/master /profiles/eu/latest
+Redirect permanent /profiles/gpa/master /profiles/gpa/latest
 
 # The Validator was renamed the Data Review Tool.
-Redirect /validator https://review.standard.open-contracting.org
-RedirectMatch ^/validator/(.*)$ https://review.standard.open-contracting.org/$1
+Redirect permanent /validator https://review.standard.open-contracting.org
+RedirectMatch permanent ^/validator/(.*)$ https://review.standard.open-contracting.org/$1
 # The Data Review Tools were moved to their own subdomain.
-Redirect /review https://review.standard.open-contracting.org
-RedirectMatch ^/review/(.*)$ https://review.standard.open-contracting.org/$1
-Redirect /infrastructure/review https://review-oc4ids.standard.open-contracting.org
-RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
+Redirect permanent /review https://review.standard.open-contracting.org
+RedirectMatch permanent ^/review/(.*)$ https://review.standard.open-contracting.org/$1
+Redirect permanent /infrastructure/review https://review-oc4ids.standard.open-contracting.org
+RedirectMatch permanent ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
 
 # Remove multiple slashes, which cause CSS to break and double-counting by search engines.
 # REQUEST_URI already has the slashes merged.
