@@ -88,73 +88,77 @@ SetEnv BANNER /includes/banner_live.html
 
     Header set Access-Control-Allow-Origin "*"
 
-    {% for root, opts in options.items() %}
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
-        RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
-    {% endfor %}
+    # Add an "en" language if not present, to avoid serving a directory listing.
+    # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
+{%- for root, opts in options.items() %}
+    RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+{%- endfor %}
 </Directory>
 
-{% for root, opts in options.items() %}
-    # Add the default version if not present.
-    <Location {{ root or '/' }}>
-        RedirectMatch ^{{ root }}/?$ {{ root }}/{{ opts.versions[0] }}/
-    </Location>
+{%- for root, opts in options.items() %}
+####################
+# {{ root or '/' }}
+####################
 
-    # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
+# Add the default version if not present.
+<Location {{ root or '/' }}>
+    RedirectMatch ^{{ root }}/?$ {{ root }}/{{ opts.versions[0] }}/
+</Location>
 
-    # Implement the version switcher.
-    <Location {{ root }}/switcher>
-        RewriteEngine on
+# Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
-        {% for versions in opts.get('stable_sitemap', [None]) %}
-            {% if versions %}
-                # Test that we are switching between versions with the same sitemap or with appropriate redirects.
-                RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"
-                RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
-            {% endif %}
-            # Use the HTTP referer to return to the same page in the new version.
-            RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-            # The backreferences are the version (branch), language and path.
-            RewriteRule ^.*$ {{ root }}/%5/%3/%4? [R,NE]
-        {% endfor %}
+# Implement the version switcher.
+<Location {{ root }}/switcher>
+    RewriteEngine on
 
-        # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
-        RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-        # The backreference is the version (branch).
-        RewriteRule ^.*$ {{ root }}/%1/? [R,NE]
-    </Location>
+    {%- for versions in opts.get('stable_sitemap', [None]) %}
+        {%- if versions %}
+    # Test that we are switching between versions with the same sitemap or with appropriate redirects.
+    RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"
+    RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
+        {%- endif %}
+    # Use the HTTP referer to return to the same page in the new version.
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
+    # The backreferences are the version (branch), language and path.
+    RewriteRule . {{ root }}/%5/%3/%4? [R,NE]
+    {%- endfor %}
 
-    # Implement the language switcher.
-    {% for version in opts.versions %}
-        <Location {{ root }}/{{ version }}/switcher>
-            RewriteEngine on
+    # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
+    RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
+    # The backreference is the version (branch).
+    RewriteRule . {{ root }}/%1/? [R,NE]
+</Location>
 
-            # Use the HTTP referer to return to the same page in the new language.
-            RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-            # The backreferences are the version, language and path.
-            RewriteRule ^.*$ {{ root }}/%2/%5/%4? [R,NE]
+# Implement the language switcher.
+    {%- for version in opts.versions %}
+<Location {{ root }}/{{ version }}/switcher>
+    RewriteEngine on
 
-            # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
-            RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-            # The backreference is the language.
-            RewriteRule ^.*$ {{ root }}/{{ version }}/%1/? [R,NE]
-        </Location>
+    # Use the HTTP referer to return to the same page in the new language.
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
+    # The backreferences are the version, language and path.
+    RewriteRule . {{ root }}/%2/%5/%4? [R,NE]
 
-        # Configure the error page.
-        {% for lang in opts.languages %}
-            <Location {{ root }}/{{ version }}/{{ lang }}/>
-                ErrorDocument 404 {{ root }}/{{ version }}/{{ lang }}/404/
-            </Location>
+    # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
+    RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
+    # The backreference is the language.
+    RewriteRule . {{ root }}/{{ version }}/%1/? [R,NE]
+</Location>
 
-            <Location {{ root }}/{{ version }}/{{ lang }}/404/>
-                SetOutputFilter SUBSTITUTE
-                # This also substitutes URLs for stylesheets, scripts, etc.
-                Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
-            </Location>
-        {% endfor %}
-    {% endfor %}
-{% endfor %}
+# Configure the error page.
+        {%- for lang in opts.languages %}
+<Location {{ root }}/{{ version }}/{{ lang }}/>
+    ErrorDocument 404 {{ root }}/{{ version }}/{{ lang }}/404/
+</Location>
+
+<Location {{ root }}/{{ version }}/{{ lang }}/404/>
+    SetOutputFilter SUBSTITUTE
+    # This also substitutes URLs for stylesheets, scripts, etc.
+    Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
+</Location>
+        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
 
 ####################
 # Redirects
@@ -308,11 +312,11 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
 <Directory {{ documentroot }}/staging>
     ErrorDocument 404 /staging/error/404
 
-    {% for root, opts in options.items() %}
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        # This should be nearly identical to the RedirectMatch directive within the Directory directive above.
-        RedirectMatch ^/staging{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}(?!switcher)([^/]+)/?$ /staging{{ root }}/$1/en/
-    {% endfor %}
+    # Add an "en" language if not present, to avoid serving a directory listing.
+    # This should be nearly identical to the RedirectMatch directive within the Directory directive above.
+{%- for root, opts in options.items() %}
+    RedirectMatch ^/staging{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}(?!switcher)([^/]+)/?$ /staging{{ root }}/$1/en/
+{%- endfor %}
 </Directory>
 
 # We can't set 404 pages like for production directories, so we use a RewriteRule directive.
@@ -321,7 +325,7 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
     RewriteEngine on
     RewriteCond "%{THE_REQUEST}" "^GET /staging/{{ pattern }}([^/]*/[^/]*)/"
     # The backreferences are the root, and version and language.
-    RewriteRule ^.*$ /staging/%1%2/404/ [L]
+    RewriteRule . /staging/%1%2/404/ [L]
 </Location>
 
 # We can't backreference a LocationMatch regular expression, so we need this intermediate step.
@@ -337,7 +341,7 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
     RewriteEngine on
     RewriteCond "%{REQUEST_URI}" "^/staging/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
     # The backreferences are the root, version and language, and path.
-    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%1%2/%4 [R]
+    RewriteRule . https://standard.open-contracting.org/staging/%1%2/%4 [R]
 </LocationMatch>
 
 # Implement the language switcher.
@@ -347,7 +351,7 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
     # Use the HTTP referer to return to the same page in the new language.
     RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/staging/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
     # The backreferences are the root, version, language and path.
-    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%2%3/%6/%5? [R,NE]
+    RewriteRule . https://standard.open-contracting.org/staging/%2%3/%6/%5? [R,NE]
 
     # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
     RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
@@ -358,6 +362,7 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
 ####################
 # ElasticSearch
 ####################
+
 <LocationMatch "^/search/(.*)">
     ProxyPass http://localhost:9200/$1
     ProxyPassReverse http://localhost:9200/$1
