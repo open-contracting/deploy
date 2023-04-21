@@ -50,6 +50,7 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm extract python manage
     - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
     - user: {{ pillar.docker.user }}
     - hour: '*/12'
+    - minute: random
     - require:
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
