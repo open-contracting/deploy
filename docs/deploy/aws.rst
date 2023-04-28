@@ -45,23 +45,21 @@ Verify an email address
 
 #. Check that the domain's verification status is "verified" on SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__
 
-#. If an MX record didn't exist, go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__:
+#. If the domain's MX record points to AWS, go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#/email-receiving>`__:
 
-   #. Click *Create a New Rule Set*
-   #. Click the rule set's name
-   #. Click *Create Rule*
-   #. Click *Next Step*
-   #. Select "S3" from the *Add action* dropdown
-   #. Select "Create S3 bucket" from the *S3 bucket* dropdown
-   #. Enter a bucket name in *Bucket Name*
-   #. Click *Create Bucket*
-   #. Click *Next Step*
-   #. Enter a rule name in *Rule Name*
-   #. Click *Next Step*
-   #. Click *Create Rule*
-   #. Go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__
-   #. Check the rule set's box
-   #. Click *Set as Active Rule Set*
+   #. Click *Create rule set*
+   #. Click the rule set's name, e.g. "email-address-verification"
+   #. Click *Create rule*
+   #. Enter a rule name in *Rule Name*, e.g. "deliver-to-s3-bucket"
+   #. Click *Next*
+   #. Click *Next*
+   #. Select "Deliver to S3 bucket" from the *Add new action* dropdown
+   #. Click *Create S3 bucket*
+   #. Enter a bucket name in *Bucket Name*, e.g. "ocp-aws-verification"
+   #. Click *Create bucket*
+   #. Click *Next*
+   #. Click *Create rule*
+   #. Click *Set as active*
 
 #. Go to SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__:
 
@@ -69,7 +67,7 @@ Verify an email address
    #. Enter the email address in *Email Address:*
    #. Click *Verify This Email Address*
 
-#. If an MX record didn't exist, go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__ (otherwise, check your email):
+#. If the domain's MX record points to AWS, go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__ (otherwise, check your email):
 
    #. Click the bucket name
    #. Click the long alphanumeric string (if there is none, double-check the earlier steps)
@@ -79,11 +77,9 @@ Verify an email address
 
 #. Check that the email address's verification status is "verified" on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__
 
-#. If an MX record didn't exist, cleanup:
+#. If the domain's MX record points to AWS, cleanup:
 
-   #. Delete the bucket
-   #. Disable and delete the rule set
-   #. Remove the MX record
+   #. Set the rule set as inactive
 
 Reference: `Verifying an Email Address <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html>`__
 
@@ -94,7 +90,7 @@ Create SMTP credentials
 
    You only need to do this once per AWS region.
 
-#. Go to SES' `SMTP Settings <https://console.aws.amazon.com/ses/home?region=us-east-1#smtp-settings:>`__:
+#. Go to SES' `SMTP Settings <https://console.aws.amazon.com/ses/home?region=us-east-1#smtp>`__:
 
    #. Click *Create My SMTP Credentials*
    #. Enter a user name in *IAM User Name:*
