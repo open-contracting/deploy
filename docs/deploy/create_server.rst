@@ -176,7 +176,7 @@ Install Windows
 Reference:
 
 -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
--  `Installing WIndows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+-  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
 .. _create-dns-records:
 
