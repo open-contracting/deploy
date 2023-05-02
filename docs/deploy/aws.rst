@@ -355,13 +355,13 @@ Create a new IAM backup user and policy
 
    #. Click *Next: Tags*
    #. Click *Next: Review*
-   #. Enter a *Name* (``ocp-redmine-backup``, for example)
+   #. Enter a *Name* (``redmine-backup``, for example)
    #. Click *Create policy*
 
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click *Add Users*
 
-   #. Enter a *User name* (``ocp-redmine-backup``, for example)
+   #. Enter a *User name* (``redmine-backup``, for example)
    #. Check *Access key - Programmatic access*
    #. Click *Next: Permissions*
    #. Click *Attach existing policies directly*
