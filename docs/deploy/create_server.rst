@@ -90,7 +90,7 @@ Hetzner
 
    #. Set *Drives* as needed
    #. Click the *Order Now* button
-   #. In the *Server Login Details* panel, set *Type* to "Public key" and enter your public SSH key
+   #. In the *Server Login Details* panel, set *Type* to "Public key" and enter :ref:`your public SSH key<add-public-key>`
 
       .. note::
 

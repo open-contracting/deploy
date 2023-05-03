@@ -3,7 +3,7 @@ Connect to a server (SSH)
 
 .. admonition:: One-time setup
 
-   Ask a systems administrator to add your public SSH key to the relevant ``ssh`` list in the server's Pillar file.
+   Ask a systems administrator to add :ref:`your public SSH key<add-public-key>` to the relevant ``ssh`` list in the server's Pillar file.
 
 By default, the SSH port is closed. The easiest way to open it depends on whether your IP address is dynamic or static.
 

@@ -29,6 +29,16 @@ You must first have access to three private repositories. Contact an owner of th
 3. Add your public SSH key to remote servers
 --------------------------------------------
 
+.. tip::
+
+   To generate new SSH keys (if they do not already exist):
+
+   .. code-block:: bash
+
+      ssh-keygen -t rsa -b 4096
+
+   This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
+
 Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or to the ``ssh.admin`` list in the ``pillar/common.sls`` file if you require root access to all servers. For example:
 
 .. code-block:: bash
@@ -52,6 +62,6 @@ Unless your local user is the root user, run:
 
     ./script/setup
 
-This script assumes your SSH keys are ``~/.ssh/id_rsa`` and ``~/.ssh/id_rsa.pub``.
+This script assumes your SSH keys are ``~/.ssh/id_rsa.pub`` and ``~/.ssh/id_rsa``.
 
 You're now ready to :doc:`../deploy/deploy`.

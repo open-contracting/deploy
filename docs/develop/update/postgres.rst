@@ -221,7 +221,7 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
 
       ssh-keygen -t rsa -b 4096
 
-   This creates both a public (`~/.ssh/id_rsa.pub`) and private key (`~/.ssh/id_rsa`)
+   This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
 
 #. Add these new keys in deploy pillar
 
