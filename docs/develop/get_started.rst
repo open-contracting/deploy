@@ -35,7 +35,7 @@ You must first have access to three private repositories. Contact an owner of th
 
    .. code-block:: bash
 
-      ssh-keygen -t rsa -b 4096
+      ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
    This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
 
