@@ -16,6 +16,9 @@ apache:
         user: coalition
         socket: /var/run/php/php-fpm-coalition.sock
 
+php:
+  version: '8.1'
+
 phpfpm:
   sites:
     coalition:
