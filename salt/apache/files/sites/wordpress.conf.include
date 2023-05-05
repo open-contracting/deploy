@@ -1,23 +1,24 @@
-DocumentRoot /home/coalition/public_html
-<Directory /home/coalition/public_html>
+DocumentRoot /home/{{ user }}/public_html
+
+<Directory /home/{{ user }}/public_html>
     Options FollowSymLinks
     AllowOverride Limit Options FileInfo
     DirectoryIndex index.php
     Require all granted
 </Directory>
 
-<Directory /home/coalition/public_html/wp-content>
+<Directory /home/{{ user }}/public_html/wp-content>
     Options FollowSymLinks
     Require all granted
 </Directory>
 
 <FilesMatch \.php$>
-  SetHandler "proxy:unix:{{ php_socket }}|fcgi://localhost/"
+    SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
 <FilesMatch "^(wp-admin|wp-login\.php)">
     AuthType Basic
     AuthName "Restricted Area"
-    AuthUserFile /etc/apache2/.htpasswd-coalition
+    AuthUserFile /etc/apache2/.htpasswd-{{ user }}
     Require valid-user
 </FilesMatch>
