@@ -1,10 +1,26 @@
-Configure Node.js and Ruby
-==========================
+Configure PHP, Node.js and Ruby
+===============================
+
+.. _php:
+
+Configure PHP
+-------------
+
+The `default version <https://endoflife.date/php>`__ is 8.1.
+
+To override or lock the version, update the server's Pillar file:
+
+.. code-block:: yaml
+
+   php:
+     version: '8.1'
 
 Configure Node.js
 -----------------
 
-In the service's Pillar file, add, for example:
+The `default version <https://endoflife.date/node>`__ is the latest LTS version, 18.
+
+To override or lock the version, update the server's Pillar file:
 
 .. code-block:: yaml
 

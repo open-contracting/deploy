@@ -21,26 +21,14 @@ In the service's Pillar file, add, for example:
            user: coalition
            socket: /var/run/php/php-fpm-coalition.sock
 
-MySQL
------
+MySQL and PHP
+-------------
+
+Follow the :doc:`MySQL` and :ref:`PHP` documentation.
 
 .. note::
 
    `The official WordPress distribution only supports the MySQL and MariaDB database engines <https://codex.wordpress.org/Using_Alternative_Databases>`__.
-
-Follow the :doc:`MySQL` documentation.
-
-PHP
----
-
-The `default version <https://endoflife.date/php>`__ is 8.1.
-
-To override the version, update the server's Pillar file:
-
-.. code-block:: yaml
-
-   php:
-     version: '8.1'
 
 PHP-FPM
 -------
