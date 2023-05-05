@@ -14,8 +14,6 @@ apache:
       serveraliases: ['open-spending.eu']
       context:
         php_socket: /var/run/php/php-fpm-coalition.sock
-#      htpasswd: # For wp-admin
-#        basicauth: example
 
 phpfpm:
   sites:

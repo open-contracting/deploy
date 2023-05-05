@@ -14,3 +14,10 @@ DocumentRoot /home/coalition/public_html
 <FilesMatch \.php$>
   SetHandler "proxy:unix:{{ php_socket }}|fcgi://localhost/"
 </FilesMatch>
+
+<FilesMatch "^(wp-admin|wp-login\.php)">
+    AuthType Basic
+    AuthName "Restricted Area"
+    AuthUserFile /etc/apache2/.htpasswd-coalition
+    Require valid-user
+</FilesMatch>
