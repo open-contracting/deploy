@@ -12,8 +12,8 @@ wp-cli:
   file.managed:
     - name: /usr/local/bin/wp
     - source: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar
-    - mode: 755
     - source_hash: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar.sha512
+    - mode: 755
 
 {{ create_user(user) }}
 
