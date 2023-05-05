@@ -5,6 +5,10 @@ base:
     - common
     - private.common
 
+  'coalition':
+    - coalition
+    - private.coalition
+
   'cove-oc4ids':
     - cove
     - cove_oc4ids
