@@ -19,6 +19,7 @@ Make changes
    rabbitmq.rst
    python.rst
    docker.rst
+   wordpress.rst
    languages.rst
    logs.rst
    delete.rst

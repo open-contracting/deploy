@@ -4,7 +4,7 @@ Configure MySQL
 Specify the version
 -------------------
 
-The default version is 8.0.
+The `default version <https://endoflife.date/mysql>`__ is 8.0.
 
 To override the version, update the server's Pillar file:
 
