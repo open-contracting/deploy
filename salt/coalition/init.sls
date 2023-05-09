@@ -20,8 +20,6 @@ wp-cli:
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}
-    - user: {{ user }}
-    - group: {{ user }}
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
