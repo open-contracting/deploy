@@ -6,7 +6,7 @@ Configure PHP, Node.js and Ruby
 Configure PHP
 -------------
 
-The `default version <https://endoflife.date/php>`__ is 8.1.
+The `default version <https://endoflife.date/php>`__ is the latest Ubuntu-managed version, 8.1.
 
 To override or lock the version, update the server's Pillar file:
 
