@@ -15,7 +15,7 @@ php-fpm:
     - name: php{{ php_version }}-fpm
     - enable: True
     - require:
-      - pkg: apache2
+      - pkg: php-fpm
 
 php-fpm-reload:
   module.wait:
