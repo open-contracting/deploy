@@ -28,6 +28,9 @@ base:
   'cove-oc4ids':
     - memcached
 
+  'credere':
+    - docker_apps
+
   'docs':
     - docs
     - elasticsearch
