@@ -280,7 +280,7 @@ Using `these commands <https://github.com/open-contracting/miscellaneous-private
 Set up backups
 --------------
 
-#. Create and configure a :ref:`S3 backup bucket<aws-s3-backup>`
+#. Create and configure a :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<../develop/update/awscli>`
 
 #. Set ``redmine.backup.location`` in the server's Pillar file, for example:
