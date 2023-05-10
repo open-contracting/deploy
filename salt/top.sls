@@ -19,6 +19,9 @@ base:
     - core.systemd.logind
     - core.systemd.ntp
 
+  'coalition':
+    - coalition
+
   'cove-*':
     - cove
 

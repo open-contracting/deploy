@@ -1,5 +1,6 @@
 # Defines the potential targets of the salt-ssh command.
 
+coalition:           ocp21.open-contracting.org
 cove-oc4ids:         ocp17.open-contracting.org
 cove-ocds:           ocp18.open-contracting.org
 docs:                ocp19.open-contracting.org

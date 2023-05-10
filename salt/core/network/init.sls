@@ -47,8 +47,9 @@ set hostname:
     - template: jinja
 
 systemd-networkd:
-  service.enabled:
+  service.running:
     - name: systemd-networkd
+    - enable: True
 {% elif 'netplan' in pillar.network %}
 /etc/netplan/01-netcfg.yaml:
   file.absent
