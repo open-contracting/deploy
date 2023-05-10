@@ -115,12 +115,6 @@ Migration
 
 When migrating domains or renaming themes, you might need to search and replace items in the database, using the `wp search-replace <https://developer.wordpress.org/cli/commands/search-replace/>`__ command.
 
-#. Create a log file:
-
-   .. code-block:: bash
-
-      touch /tmp/wp-search-replace.log
-
 #. Run the command with the ``--dry-run`` flag, for example:
 
    .. code-block:: bash
@@ -134,12 +128,6 @@ When migrating domains or renaming themes, you might need to search and replace 
       less /tmp/wp-search-replace.log
 
 #. Run the command without the ``--dry-run`` flag.
-
-#. Delete the log file:
-
-   .. code-block:: bash
-
-      touch /tmp/wp-search-replace.log
 
 Strings to replace might include:
 
