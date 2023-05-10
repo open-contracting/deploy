@@ -121,7 +121,7 @@ When migrating domains or renaming themes, you might need to search and replace 
 
       wp search-replace --report-changed-only --all-tables --precise --log=/tmp/wp-search-replace.log --dry-run 'open-spedning-coalition' 'www.open-spending.eu'
 
-#. Read the log file to check that no undesired replacements will be made.
+#. Read the log file to check that no undesired replacements will be made:
 
    .. code-block:: bash
 
@@ -131,6 +131,8 @@ When migrating domains or renaming themes, you might need to search and replace 
 
 Strings to replace might include:
 
+-  Developer email addresses
+-  Domain names
 -  Theme names
 -  File paths
 
