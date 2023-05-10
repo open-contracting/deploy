@@ -16,7 +16,7 @@ DocumentRoot /home/{{ user }}/public_html
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
-<FilesMatch "^(wp-admin|wp-login\.php)">
+<FilesMatch "^wp-login\.php">
     AuthType Basic
     AuthName "Restricted Area"
     AuthUserFile /etc/apache2/.htpasswd-{{ user }}
