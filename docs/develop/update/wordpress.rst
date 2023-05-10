@@ -134,4 +134,7 @@ Strings to replace might include:
 -  Theme names
 -  File paths
 
-If the site uses `WordFence <https://www.wordfence.com>`__, start a new scan to remove old items in the database.
+If the site uses these plugins, perform these operations to remove old items in the database:
+
+-  `Rank Math <https://rankmath.com>`__: *Status & Tools* menu item > *Database Tools* tab > Click the *Delete Internal Links* and *Clear 404 Log* buttons.
+-  `WordFence <https://www.wordfence.com>`__: *Scan* menu item -> Click the *START NEW SCAN* button. You can also manually delete rows from the ``wp_wfhits`` and ``wp_wflogins`` tables.
