@@ -4,7 +4,7 @@ Configure WordPress
 Apache
 ------
 
-Follow the :doc:`Apache` documentation, using the ``wordpress`` configuration at the :ref:`apache-sites` step.
+Follow the :doc:`apache` documentation, using the ``wordpress`` configuration at the :ref:`apache-sites` step.
 
 In the service's Pillar file, add, for example:
 
@@ -24,7 +24,7 @@ In the service's Pillar file, add, for example:
 MySQL and PHP
 -------------
 
-Follow the :doc:`MySQL` and :ref:`PHP` documentation.
+Follow the :doc:`mysql` and :ref:`php` documentation.
 
 .. note::
 
@@ -107,5 +107,41 @@ WordPress
 
    .. code-block:: bash
 
-      git -C wp-content/themes/ clone git@github.com:open-contracting-partnership/www.open-spending.eu.git
+      git -C wp-content/themes/ clone https://github.com/open-contracting-partnership/www.open-spending.eu.git
       wp theme activate www.open-spending.eu
+
+Migration
+~~~~~~~~~
+
+When migrating domains or renaming themes, you might need to search and replace items in the database, using the `wp search-replace <https://developer.wordpress.org/cli/commands/search-replace/>`__ command.
+
+#. Create a log file:
+
+   .. code-block:: bash
+
+      touch /tmp/wp-search-replace.log
+
+#. Run the command with the ``--dry-run`` flag, for example:
+
+   .. code-block:: bash
+
+      wp search-replace --report-changed-only --all-tables --precise --log=/tmp/wp-search-replace.log --dry-run 'open-spedning-coalition' 'www.open-spending.eu'
+
+#. Read the log file to check that no undesired replacements will be made. Repeat steps 2-3 as needed.
+
+   .. code-block:: bash
+
+      less /tmp/wp-search-replace.log
+
+#. Run the command without the ``--dry-run`` flag.
+
+#. Delete the log file:
+
+   .. code-block:: bash
+
+      touch /tmp/wp-search-replace.log
+
+Strings to replace might include:
+
+-  Theme names
+-  File paths
