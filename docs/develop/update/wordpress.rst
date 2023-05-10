@@ -64,7 +64,7 @@ WordPress
       wordpress:
         cli_version: 2.7.1
 
-#. :doc:`Deploy the service<deploy>`.
+#. :doc:`Deploy the service<../../deploy/deploy>`.
 
 #. Connect to the server as the WordPress user, for example:
 
