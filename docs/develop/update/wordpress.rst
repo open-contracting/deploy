@@ -133,3 +133,5 @@ Strings to replace might include:
 
 -  Theme names
 -  File paths
+
+If the site uses `WordFence <https://www.wordfence.com>`__, start a new scan to remove old items in the database.

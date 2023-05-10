@@ -39,6 +39,7 @@ php modules:
   pkg.installed:
     - pkgs:
       - php{{ php_version }}-curl
+      - php{{ php_version }}-gd
       - php{{ php_version }}-mbstring
       - php{{ php_version }}-mysql
       - php{{ php_version }}-xml
