@@ -25,3 +25,7 @@ services:
   wipe:
     <<: *shared
     command: "python -m workers.wipe"
+  cron:
+    <<: *shared
+    profiles:
+      - cron

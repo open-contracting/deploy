@@ -10,7 +10,7 @@ include:
 {{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "pelican.backend") }}
 
 # docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm extract python manage.py update-exchange-rates 2> /dev/null:
+cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py update-exchange-rates 2> /dev/null:
   cron.present:
     - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
     - user: {{ pillar.docker.user }}
