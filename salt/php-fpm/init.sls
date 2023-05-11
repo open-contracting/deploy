@@ -39,9 +39,11 @@ php modules:
   pkg.installed:
     - pkgs:
       - php{{ php_version }}-curl
-      - php{{ php_version }}-gd
+      - php{{ php_version }}-imagick
+      - php{{ php_version }}-intl
       - php{{ php_version }}-mbstring
       - php{{ php_version }}-mysql
       - php{{ php_version }}-xml
+      - php{{ php_version }}-zip
     - watch_in:
       - service: php-fpm
