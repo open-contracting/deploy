@@ -93,6 +93,8 @@ Validate the file, for example:
 
    If you need to run a scheduled task in a cron job, use ``docker-compose run`` and redirect the output with ``2> /dev/null``, since there's no `quiet option <https://github.com/docker/compose/issues/6026>`__.
 
+   Confirm the meaning of a cron expression using `Cronhub <https://crontab.cronhub.io>`__.
+
 .. admonition:: Shared configuration
 
    To share configuration between services, you can use this pattern:

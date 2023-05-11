@@ -1,3 +1,5 @@
+{% from 'lib.sls' import set_cron_env %}
+
 include:
   - kingfisher.process
   - python_apps
@@ -15,8 +17,10 @@ include:
     - require:
       - git: {{ entry.git.url }}
 
+{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+
 # Delete schema whose selected collections no longer exist.
-cd {{ directory }}; . .ve/bin/activate; python manage.py -q dev stale | xargs -I{} python manage.py remove {}:
+cd {{ directory }}; . .ve/bin/activate; python manage.py -q dev stale | xargs -I{} python manage.py --quiet remove {}:
   cron.present:
     - identifier: KINGFISHER_SUMMARIZE_ORPHAN_SCHEMA
     - user: {{ entry.user }}
