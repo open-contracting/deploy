@@ -30,5 +30,5 @@ postgres:
   public_access: True
   configuration: False
   databases:
-    credere_db:
+    credere:
       user: credere
