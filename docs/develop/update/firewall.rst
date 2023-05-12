@@ -67,7 +67,7 @@ When making changes to firewall settings or port assignments, you might want to:
 
    .. code-block:: bash
 
-      netstat -tupln
+      ss -tupln # netstat -tupln
 
 When using Docker
 -----------------
