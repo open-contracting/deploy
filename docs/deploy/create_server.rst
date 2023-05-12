@@ -213,7 +213,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
    .. note::
 
-      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
+      The root password is needed if you can't login via SSH (for example, due to a broken configuration).
 
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 

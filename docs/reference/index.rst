@@ -55,12 +55,6 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
    -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloud-platform>`__.
 
--  `Bytemark <https://panel.bytemark.co.uk/servers>`__ for VPS servers provisioned before August 2021.
-
-   -  `Network status <https://status.bytemark.org/>`__
-   -  **Access**: The 'opencon-tech' (sysadmin@dogsbody.com) user has secondary access to the 'opencontracting' account.
-   -  **Backups**: It is configured to have one weekly backup (see :doc:`../deploy/create_server`).
-
 Unmanaged services are:
 
 -  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
