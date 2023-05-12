@@ -341,5 +341,4 @@ If the service is being introduced:
 
 If the service uses a new top-level domain name:
 
-#. Add the domain to `Google Webmaster Central <https://www.google.com/webmasters/verification/home?hl=en>`__
 #. Add the domain to `Google Search Console <https://search.google.com/search-console>`__
