@@ -69,7 +69,7 @@ Configure Django
 If the Python app uses the Django framework, add, for example:
 
 .. code-block:: yaml
-   :emphasize-lines: 8-14
+   :emphasize-lines: 8-13
 
    python_apps:
      myapp:
