@@ -83,7 +83,6 @@ If the Python app uses the Django framework, add, for example:
          compilemessages: True
          env:
            ALLOWED_HOSTS: mysubdomain.open-contracting.org
-           FATHOM_ANALYTICS_DOMAIN: kite.open-contracting.org
            FATHOM_ANALYTICS_ID: ABCDEFGH
 
 This will activate the virtual environment, and run, using ``--settings {app}.settings``:
