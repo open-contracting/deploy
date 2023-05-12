@@ -93,6 +93,10 @@ If a new configuration isn't taking effect, check the service's status on the se
 
    systemctl status uwsgi
 
+.. note::
+
+   During deployment, uWSGI reloads rather than restarts. However, deleted environment variables are not unset during reload. To remove a variable from the environment, you must restart uWSGI.
+
 Check git revision
 ------------------
 
