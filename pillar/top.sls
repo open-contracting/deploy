@@ -23,6 +23,7 @@ base:
 
   'credere':
     - credere
+    - credere_dev
     - private.credere
 
   'docs':
