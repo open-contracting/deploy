@@ -21,6 +21,10 @@ base:
     - cove_ocds_maintenance
     - private.cove_ocds
 
+  'credere':
+    - credere
+    - private.credere
+
   'docs':
     - docs
     - private.docs
