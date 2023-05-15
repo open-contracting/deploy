@@ -53,17 +53,19 @@ Verify an email address
    #. Enter the email address in *Email address*
    #. Click *Create identity*
 
-#. If the domain's MX record points to AWS, go to SES' `Rule Sets <https://us-east-1.console.aws.amazon.com/ses/home#/email-receiving>`__:
+#. If the domain's MX record points to AWS, go to SES' `Email receiving <https://us-east-1.console.aws.amazon.com/ses/home#/email-receiving>`__:
 
    #. Click *Create rule set*
-   #. Click the rule set's name, e.g. "email-address-verification"
+   #. Enter a name in *Rule set name* (``email-address-verification``, for example)
+   #. Click *Create rule set*
+   #. Click the rule set's name
    #. Click *Create rule*
-   #. Enter a rule name in *Rule Name*, e.g. "deliver-to-s3-bucket"
+   #. Enter a rule name in *Rule name* (``deliver-to-s3-bucket``, for example)
    #. Click *Next*
    #. Click *Next*
    #. Select "Deliver to S3 bucket" from the *Add new action* dropdown
    #. Click *Create S3 bucket*
-   #. Enter a bucket name in *Bucket Name*, e.g. "ocp-aws-verification"
+   #. Enter a bucket name in *Bucket name* (``ocp-aws-verification``, for example)
    #. Click *Create bucket*
    #. Click *Next*
    #. Click *Create rule*
@@ -112,8 +114,10 @@ Create SMTP credentials
 
 Reference: `Obtaining Amazon SES SMTP credentials <https://docs.aws.amazon.com/ses/latest/dg/smtp-credentials.html>`__
 
-Set up notifications
-~~~~~~~~~~~~~~~~~~~~
+.. _ses-basic-notifications:
+
+Set up basic notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Go to SNS' `Topics <https://us-east-1.console.aws.amazon.com/sns/v3/home#/topics>`__:
 
@@ -139,6 +143,50 @@ Set up notifications
    #. Click *Save changes*
 
 Reference: `Configuring Amazon SNS notifications for Amazon SES <https://docs.aws.amazon.com/ses/latest/dg/configure-sns-notifications.html>`__
+
+Set up advanced notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Go to SES' `Configuration sets <https://us-east-1.console.aws.amazon.com/ses/home#/configuration-sets>`__:
+
+   #. Click *Create set*
+   #. Enter a name in *Configuration set name* (``credere``, for example)
+   #. Click *Create set*
+
+#. Click the configuration set's name
+#. Click the *Event destinations* tab
+#. Click *Add destination*:
+
+   #. Check:
+
+      -  Rendering failures, if using email templates
+      -  Rejects
+      -  Delivery delays
+
+      Do not check, to avoid unnecessary notifications:
+
+      -  Sends
+      -  Deliveries (same as *Delivery feedback* above)
+      -  Hard bounces (same as *Bounce feedback* above)
+      -  Complaints (same as *Complaint feedback* above)
+      -  Subscriptions
+
+   #. Click *Next*
+   #. Check *Amazon SES*
+   #. Enter a name in *Name* (``credere-noreply-open-contracting-org``, for example)
+   #. Select the SNS topic for :ref:`basic notifications<ses-basic-notifications>` from the *SNS topic* dropdown
+   #. Click *Next*
+   #. Click *Add destination*
+
+#. Go to SNS' `Subscriptions <https://us-east-1.console.aws.amazon.com/sns/v3/home#/subscriptions>`__:
+
+   #. Click *Create subscription*
+   #. Select the SNS topic from the *Topic ARN* dropdown
+   #. Select "Email" from the *Protocol* dropdown
+   #. Enter the subscriber's email address in *Endpoint*
+   #. Click *Create subscription*
+
+#. Wait for the email to confirm the subscription
 
 Check DMARC compliance
 ~~~~~~~~~~~~~~~~~~~~~~
