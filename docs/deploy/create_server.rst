@@ -16,7 +16,7 @@ Linode
 #. `Log into Linode <https://login.linode.com/>`__
 #. Click *Create Linode*
 
-   #. Set *Images* to "Ubuntu 20.04 LTS"
+   #. Set *Images* to the latest Ubuntu LTS version
    #. Set *Region* to *London UK*
    #. Select a *Linode Plan*
    #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
@@ -44,11 +44,11 @@ Linode
             If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
 
       #. Rename the "Swap Image" disk to "### MB Swap Image"
-      #. Resize the "Ubuntu 20.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+      #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
 
    #. On the *Configurations* tab:
 
-      #. Click *Edit* for the "My Ubuntu 20.04 LTS Disk Profile" (or similar) config
+      #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
       #. Uncheck *Auto-configure networking*
       #. Click *Save Changes*
 
@@ -82,7 +82,7 @@ Hetzner
 #. Click the *Order* button for the chosen server
 
    #. Set *Server Location* (no issues to date with the lowest price option)
-   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal"
+   #. Set *Operating System* to the latest Ubuntu LTS version
 
       .. note::
 
@@ -130,7 +130,7 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
       installimage
 
-   #. Select "Ubuntu 18.04 - minimal"
+   #. Select the latest Ubuntu LTS version.
 
    #. The installer opens a configuration file.
 
