@@ -7,6 +7,7 @@ base:
 
   'coalition':
     - coalition
+    - coalition_maintenance
     - private.coalition
 
   'cove-oc4ids':
@@ -24,6 +25,7 @@ base:
   'credere':
     - credere
     - credere_dev
+    - credere_maintenance
     - private.credere
 
   'docs':
