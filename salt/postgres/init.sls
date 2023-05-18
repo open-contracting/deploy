@@ -22,7 +22,12 @@
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
+    {% if grains.osmajorrelease | string in ("18", "20") %}
     - name: deb https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main
+    {% else %}
+    - name: deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main
+    - aptkey: False
+    {% endif %}
     - dist: {{ grains.oscodename }}-pgdg
     - file: /etc/apt/sources.list.d/psql.list
     - key_url: https://www.postgresql.org/media/keys/ACCC4CF8.asc

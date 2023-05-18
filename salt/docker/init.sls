@@ -4,7 +4,12 @@
 docker:
   pkgrepo.managed:
     - humanname: Docker Official Repository
+    {% if grains.osmajorrelease | string in ("18", "20") %}
     - name: deb [arch={{ grains.osarch }}] https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }} {{ grains.oscodename }} stable
+    {% else %}
+    - name: deb [arch={{ grains.osarch }} signed-by=/usr/share/keyrings/docker-keyring.gpg] https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }} {{ grains.oscodename }} stable
+    - aptkey: False
+    {% endif %}
     - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/docker.list
     - key_url: https://download.docker.com/{{ grains.kernel|lower }}/{{ grains.os|lower }}/gpg
