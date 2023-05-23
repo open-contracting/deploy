@@ -23,6 +23,9 @@ docker:
 docker_apps:
   credere:
     target: credere
+    env:
+      EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
+      FRONTEND_URL: 
 
 postgres:
   version: 15

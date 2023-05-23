@@ -27,6 +27,7 @@ base:
     - credere_dev
     - credere_maintenance
     - private.credere
+    - private.credere_dev
 
   'docs':
     - docs
