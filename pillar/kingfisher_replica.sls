@@ -24,8 +24,8 @@ prometheus:
     smartmon: True
 
 postgres:
+  version: 15
   public_access: True
-  version: 11
   configuration: kingfisher-replica1
   storage: ssd
   type: dw

@@ -50,9 +50,9 @@ apache:
         timeout: 300
 
 postgres:
+  version: 15
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True
-  version: 11
   configuration: kingfisher-process1
   storage: ssd
   type: oltp

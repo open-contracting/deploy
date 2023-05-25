@@ -31,19 +31,19 @@ max_connections = {{ max_connections }}
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#shared_buffers
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L101-L118
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L101-L120
 {#- NOTE: Update vm.nr_hugepages if this is changed. #}
 shared_buffers = {{ grains.mem_total // 4 }}MB  # 25%
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-WORK-MEM
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#work_mem
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L343-L344
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L321-L322
 {#- NOTE: Update if max_connections or max_parallel_workers_per_gather is changed. #}
 work_mem = {{ [4, grains.mem_total // (4 * max_connections * max_parallel_workers_per_gather)] | max }}MB  # 25%
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#maintenance_work_mem
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L131-L153
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L133-L155
 maintenance_work_mem = {{ [2048, grains.mem_total // 16] | min }}MB
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-STACK-DEPTH
@@ -55,7 +55,7 @@ max_stack_depth = 6MB
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-EFFECTIVE-IO-CONCURRENCY
 # "SSDs … can often process many concurrent requests, so the best value might be in the hundreds."
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L262
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L243
 effective_io_concurrency = {% if pillar.postgres.get('storage', 'ssd') == 'hdd' %}2{% else %}200{% endif %}
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES
@@ -65,11 +65,11 @@ max_worker_processes = {{ grains.num_cpus }}
 max_parallel_workers = {{ grains.num_cpus }}
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-PER-GATHER
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L283-L287
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L256-L260
 max_parallel_workers_per_gather = {{ max_parallel_workers_per_gather }}
 
 # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-MAINTENANCE
-# https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L306
+# https://github.com/le0pard/pgtune/blob/8bb05286aa63c2cc0673514b285ba747c7c2dbcb/assets/selectors/configuration.js#L284
 max_parallel_maintenance_workers = {{ [4, grains.num_cpus // 2] | min }}
 
 ##################
