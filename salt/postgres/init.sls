@@ -80,13 +80,13 @@ postgresql-reload:
 {% endif %}
 {% endif %}
 
-# https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
 # https://github.com/jfcoz/postgresqltuner
 vm.overcommit_memory:
   sysctl.present:
     - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
 
-# https://www.postgresql.org/docs/11/kernel-resources.html#LINUX-HUGE-PAGES
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
 # https://github.com/jfcoz/postgresqltuner
 {% if salt['pillar.get']('vm:nr_hugepages') %}
 vm.nr_hugepages:
@@ -159,7 +159,7 @@ pg_stat_statements:
       - service: postgresql
 
 # REVOKE all schema privileges from the public role
-# https://www.postgresql.org/docs/11/sql-revoke.html
+# https://www.postgresql.org/docs/current/sql-revoke.html
 revoke public schema privileges on {{ database }} database:
   postgres_privileges.absent:
     - name: public
@@ -172,8 +172,8 @@ revoke public schema privileges on {{ database }} database:
       - postgres_database: {{ database }}
 
 # GRANT all schema privileges to the user
-# https://www.postgresql.org/docs/11/sql-grant.html
-# https://www.postgresql.org/docs/11/ddl-priv.html
+# https://www.postgresql.org/docs/current/sql-grant.html
+# https://www.postgresql.org/docs/current/ddl-priv.html
 grant {{ entry.user }} schema privileges:
   postgres_privileges.present:
     - name: {{ entry.user }}

@@ -50,3 +50,26 @@ html_theme = 'furo'
 html_static_path = ['_static']
 
 html_css_files = ['css/custom.css']
+
+
+# -- Extension configuration -------------------------------------------------
+
+linkcheck_ignore = [
+    # Localhost instructions.
+    r'^http://localhost:',
+    # Redirects to login pages.
+    r'^https://(?:account|dcc)\.godaddy\.com',
+    r'^https://(?:crm|redash)\.open-contracting\.org',
+    r'^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/',
+    r'^https://(?:ocp-library\.herokuapp|robot\.your-server|us-east-1\.console\.aws\.amazon)\.com',
+    r'^https://(?:postmaster|search)\.google\.com',
+    r'^https://app\.(dmarcanalyzer|usefathom)\.com',
+    r'^https://github\.com/open-contracting/[^/]+/issues/new',
+    r'^https://sentry.io/organizations/open-contracting-partnership/',
+    r'^https://www\.redmineup\.com/license_manager',
+    # Private repositories return not found.
+    r'^https://github\.com/open-contracting/(?:deploy-pillar-private|dogsbody-maintenance|miscellaneous-private-scripts)',
+]
+# Note: GitHub anchors cause false positives (anchors are loaded via JavaScript).
+# Don't ignore these, in case the URLs fail for another reason.
+# Note: Hetzner URLs responds to linkcheck requests with 501 errors.

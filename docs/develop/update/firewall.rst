@@ -83,7 +83,7 @@ Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedic
 
 You can configure a Hetzner firewall as follows:
 
-#. `Log into Hetzner <https://robot.your-server.de/server>`__
+#. `Log into Hetzner <https://robot.your-server.com/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
 #. Enable *Hetzner Services*
@@ -138,11 +138,11 @@ You can configure a Hetzner firewall as follows:
 Linode (VPS servers)
 ~~~~~~~~~~~~~~~~~~~~
 
-Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/guides/getting-started-with-cloud-firewall/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
 You can configure a Linode Cloud Firewall as follows:
 
-#. `Log into Linode <https://login.linode.com/>`__
+#. `Log into Linode <https://login.linode.com/login>`__
 #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
 #. Click *Create Firewall*
 

@@ -195,7 +195,7 @@ Check DMARC compliance
 
 .. note::
 
-   `SES adds an extra DKIM signature <https://docs.aws.amazon.com/ses/latest/dg/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). It is not aligned, but according to `RFC 7489 <https://tools.ietf.org/html/rfc7489#page-10>`__, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC 'pass' if any DKIM signature is aligned and verifies."
+   `SES adds an extra DKIM signature <https://docs.aws.amazon.com/ses/latest/dg/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). It is not aligned, but according to `RFC 7489 <https://datatracker.ietf.org/doc/html/rfc7489#page-10>`__, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC 'pass' if any DKIM signature is aligned and verifies."
 
 Debug delivery issues
 ~~~~~~~~~~~~~~~~~~~~~

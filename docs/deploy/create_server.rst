@@ -13,7 +13,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 Linode
 ~~~~~~
 
-#. `Log into Linode <https://login.linode.com/>`__
+#. `Log into Linode <https://login.linode.com/login>`__
 #. Click *Create Linode*
 
    #. Set *Images* to the latest Ubuntu LTS version
@@ -21,7 +21,7 @@ Linode
    #. Select a *Linode Plan*
    #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
    #. Set *Add Tags* to either *Production* or *Development*
-   #. Set *Root Password* to a `strong password <https://www.lastpass.com/password-generator>`__
+   #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
    #. Check *Backups*
    #. Click *Create Linode* and wait a few minutes for the server to power on
 
@@ -111,7 +111,7 @@ Install Ubuntu
 
 If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
-#. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
+#. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
 #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
 #. Test the server hardware:
 
@@ -124,7 +124,7 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
    #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
 
-#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en>`__) and accept the defaults, unless stated otherwise below:
+#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
 
    .. code-block:: bash
 
@@ -134,7 +134,7 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
    #. The installer opens a configuration file.
 
-      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en#Drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
          .. code-block:: none
 
@@ -209,7 +209,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 3. Apply core changes
 ---------------------
 
-#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
+#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
    .. note::
 
@@ -238,7 +238,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
 
-#. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
+#. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
 

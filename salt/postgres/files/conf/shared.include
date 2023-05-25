@@ -17,10 +17,10 @@
 # Connections and Authentication #
 ##################################
 
-# https://www.postgresql.org/docs/11/runtime-config-connection.html#GUC-LISTEN-ADDRESSES
+# https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-LISTEN-ADDRESSES
 listen_addresses = '*'
 
-# https://www.postgresql.org/docs/11/runtime-config-connection.html#GUC-MAX-CONNECTIONS
+# https://www.postgresql.org/docs/current/runtime-config-connection.html#GUC-MAX-CONNECTIONS
 max_connections = {{ max_connections }}
 
 ########################
@@ -29,46 +29,46 @@ max_connections = {{ max_connections }}
 
 ### Memory
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-SHARED-BUFFERS
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-SHARED-BUFFERS
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#shared_buffers
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L101-L118
 {#- NOTE: Update vm.nr_hugepages if this is changed. #}
 shared_buffers = {{ grains.mem_total // 4 }}MB  # 25%
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-WORK-MEM
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-WORK-MEM
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#work_mem
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L343-L344
 {#- NOTE: Update if max_connections or max_parallel_workers_per_gather is changed. #}
 work_mem = {{ [4, grains.mem_total // (4 * max_connections * max_parallel_workers_per_gather)] | max }}MB  # 25%
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAINTENANCE-WORK-MEM
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#maintenance_work_mem
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L131-L153
 maintenance_work_mem = {{ [2048, grains.mem_total // 16] | min }}MB
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAX-STACK-DEPTH
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-STACK-DEPTH
 # "The ideal setting for this parameter is the actual stack size limit enforced by the kernel (as set by ulimit -s or
 # local equivalent), less a safety margin of a megabyte or so."
 max_stack_depth = 6MB
 
 ### Asynchronous Behavior
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-EFFECTIVE-IO-CONCURRENCY
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-EFFECTIVE-IO-CONCURRENCY
 # "SSDs … can often process many concurrent requests, so the best value might be in the hundreds."
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L262
 effective_io_concurrency = {% if pillar.postgres.get('storage', 'ssd') == 'hdd' %}2{% else %}200{% endif %}
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-WORKER-PROCESSES
 max_worker_processes = {{ grains.num_cpus }}
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS
 max_parallel_workers = {{ grains.num_cpus }}
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-PER-GATHER
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-PER-GATHER
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L283-L287
 max_parallel_workers_per_gather = {{ max_parallel_workers_per_gather }}
 
-# https://www.postgresql.org/docs/11/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-MAINTENANCE
+# https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PARALLEL-WORKERS-MAINTENANCE
 # https://github.com/le0pard/pgtune/blob/a002a699e77426d5c5221645df999eec7fe92472/webpack/selectors/configuration.js#L306
 max_parallel_maintenance_workers = {{ [4, grains.num_cpus // 2] | min }}
 
@@ -78,22 +78,22 @@ max_parallel_maintenance_workers = {{ [4, grains.num_cpus // 2] | min }}
 
 ### Planner Cost Constants
 
-# https://www.postgresql.org/docs/11/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE
+# https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-EFFECTIVE-CACHE-SIZE
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#effective_cache_size
 effective_cache_size = {{ ( grains.mem_total * 3 ) // 4 }}MB  # 75%
 
-# https://www.postgresql.org/docs/11/runtime-config-query.html#GUC-RANDOM-PAGE-COST
+# https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-RANDOM-PAGE-COST
 # https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server#random_page_cost
 # https://github.com/jfcoz/postgresqltuner/blob/312d19764d24698d764cc6846b9e6efb6347a153/postgresqltuner.pl#L867
 random_page_cost = {% if pillar.postgres.get('storage', 'ssd') == 'hdd' %}2.0{% else %}1.0{% endif %}
 
 ### Planner Method Configuration
 
-# https://www.postgresql.org/docs/11/runtime-config-query.html#GUC-ENABLE-PARTITIONWISE-AGGREGATE
+# https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-ENABLE-PARTITIONWISE-AGGREGATE
 # https://github.com/jfcoz/postgresqltuner/blob/312d19764d24698d764cc6846b9e6efb6347a153/postgresqltuner.pl#L878
 enable_partitionwise_aggregate = on
 
-# https://www.postgresql.org/docs/11/runtime-config-query.html#GUC-ENABLE-PARTITIONWISE-JOIN
+# https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-ENABLE-PARTITIONWISE-JOIN
 # https://github.com/jfcoz/postgresqltuner/blob/312d19764d24698d764cc6846b9e6efb6347a153/postgresqltuner.pl#L878
 enable_partitionwise_join = on
 
@@ -101,18 +101,18 @@ enable_partitionwise_join = on
 # Error Reporting and Logging #
 ###############################
 
-# https://www.postgresql.org/docs/11/runtime-config-logging.html#GUC-LOG-MIN-DURATION-STATEMENT
+# https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-MIN-DURATION-STATEMENT
 log_min_duration_statement = 1000
 
-# https://www.postgresql.org/docs/11/runtime-config-logging.html#GUC-LOG-TIMEZONE
+# https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-TIMEZONE
 log_timezone = 'UTC'
 
 #################
 # Miscellaneous #
 #################
 
-# https://www.postgresql.org/docs/11/pgstatstatements.html
+# https://www.postgresql.org/docs/current/pgstatstatements.html
 shared_preload_libraries = 'pg_stat_statements'
 
-# https://www.postgresql.org/docs/11/runtime-config-client.html#GUC-TIMEZONE
+# https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-TIMEZONE
 timezone = 'UTC'

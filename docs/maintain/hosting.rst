@@ -19,9 +19,9 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 Linode
 ~~~~~~
 
-`Lish (Linode Shell) <https://www.linode.com/docs/guides/using-the-lish-console/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+`Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
 
-#. `Log into Linode <https://login.linode.com/>`__
+#. `Log into Linode <https://login.linode.com/login>`__
 #. Select the server you want to access
 #. Click *Launch LISH Console*
 #. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
@@ -36,14 +36,14 @@ Hetzner Rescue System
 
 The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-#. `Log into Hetzner <https://robot.your-server.de/server>`__
+#. `Log into Hetzner <https://robot.your-server.com/server>`__
 #. Select the server you want to access
 #. Activate the rescue system:
 
    #. Click the *Rescue* tab
    #. Set *Operating system* to *Linux*
    #. Set *Architecture* to *64 bit*
-   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.your-server.de/key/index>`__)
+   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.your-server.com/key/index>`__)
    #. Click *Activate rescue system*
 
 #. Reboot the server:

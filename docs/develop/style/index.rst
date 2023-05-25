@@ -11,7 +11,7 @@ Style guides
 grains
 ------
 
-To make Pillar, state and configuration files more reusable, use `Grains <https://docs.saltstack.com/en/latest/topics/grains/>`__ where possible. Common grains with example values are:
+To make Pillar, state and configuration files more reusable, use `Grains <https://docs.saltproject.io/en/latest/topics/grains/>`__ where possible. Common grains with example values are:
 
 cpuarch
   ``x86_64``

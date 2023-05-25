@@ -1,7 +1,7 @@
 Manage server packages
 ======================
 
-If ``maintenance.patching`` is not set to ``manual`` in a target's Pillar file, then the `unattended-upgrades package <https://help.ubuntu.com/lts/serverguide/automatic-updates.html>`__ is installed and configured.
+If ``maintenance.patching`` is not set to ``manual`` in a target's Pillar file, then the `unattended-upgrades package <https://ubuntu.com/server/docs/package-management#heading--automatic-updates>`__ is installed and configured.
 
 The example commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern, like ``'cove-*'``, or with a comma-separated list using the ``-L`` flag, like ``-L kingfisher-process,kingfisher-replica``.
 

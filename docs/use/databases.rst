@@ -21,7 +21,7 @@ OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` serv
 psql
 ~~~~
 
-If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/11/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
+If PostgreSQL is installed, you can use `psql <https://www.postgresql.org/docs/current/app-psql.html>`__, PostgreSQL's interactive terminal, from the command-line.
 
 For security, remember to set ``sslmode`` to ``require``.
 
@@ -35,7 +35,7 @@ For example:
 
    psql "dbname=ocdskingfisherprocess user=jmckinney host=postgres-readonly.kingfisher.open-contracting.org sslmode=require"
 
-Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/11/libpq-pgpass.html>`__, replacing ``USER`` and ``PASS``:
+Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/current/libpq-pgpass.html>`__, replacing ``USER`` and ``PASS``:
 
 .. code-block:: bash
 

@@ -62,7 +62,7 @@ base:
     - spoonbill
     - registry
 
-  # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
+  # https://docs.saltproject.io/en/latest/topics/targeting/compound.html
 
   'I@apache:sites':
     - apache

@@ -1,7 +1,7 @@
 Salt style guide
 ================
 
-Read `Salt Best Practices <https://docs.saltstack.com/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#style>`__.
+Read `Salt Best Practices <https://docs.saltproject.io/en/latest/topics/best_practices.html>`__ and `Salt Formulas Style <https://docs.saltproject.io/en/latest/topics/development/conventions/formulas.html#style>`__.
 
 State IDs
 ---------
@@ -14,7 +14,7 @@ State functions
 cmd
 ~~~
 
-In general, avoid the `cmd.run <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.cmd.html>`__ function. For most system commands, Salt provides a `state function <https://docs.saltstack.com/en/latest/ref/states/all/index.html>`__.
+In general, avoid the `cmd.run <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html>`__ function. For most system commands, Salt provides a `state function <https://docs.saltproject.io/en/latest/ref/states/all/index.html>`__.
 
 Our use is limited to:
 
@@ -29,7 +29,7 @@ When using ``cmd.run``, you should set an ``onchanges`` requisite or a ``creates
 file
 ~~~~
 
-If possible, avoid `file <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.file.html>`__ functions. For many system files, Salt provides a `state function <https://docs.saltstack.com/en/latest/ref/states/all/index.html>`__.
+If possible, avoid `file <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.file.html>`__ functions. For many system files, Salt provides a `state function <https://docs.saltproject.io/en/latest/ref/states/all/index.html>`__.
 
 Our use is limited to:
 
@@ -37,7 +37,7 @@ Our use is limited to:
 -  Writing a custom file or creating a custom directory that is specific to our services
 -  Updating a system file for which Salt has no relevant function (uncommon)
 
-Note that unarchiving files (whether local or remote) should use the `archive.extracted function <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.archive.html>`__.
+Note that unarchiving files (whether local or remote) should use the `archive.extracted function <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.archive.html>`__.
 
 .. tip::
 
@@ -52,7 +52,7 @@ Note that unarchiving files (whether local or remote) should use the `archive.ex
 service
 ~~~~~~~
 
-The Salt documentation `states <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.service.html>`__:
+The Salt documentation `states <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.service.html>`__:
 
    By default if a service is triggered to refresh due to a watch statement the service is restarted. If the desired behavior is to reload the service, then set the reload value to True.
 
@@ -87,7 +87,7 @@ In this example, enabling the ``proxy`` module causes the ``apache2`` service to
 Includes
 --------
 
-As the Salt documentation `states <https://docs.saltstack.com/en/getstarted/config/include.html>`__, with respect to whether to use an include or the top file:
+As the Salt documentation `states <https://docs.saltproject.io/en/getstarted/config/include.html>`__, with respect to whether to use an include or the top file:
 
    If a Salt state always needs some other state, then using an include is a better choice. If only some systems should receive both Salt states, including both states in the top file gives you the flexibility to choose which systems receive each.
 
@@ -105,18 +105,18 @@ then the state file that defines the ``my-id`` ID should be included in the ``my
 Requisites
 ----------
 
-Instead of relying on `ordering <https://docs.saltstack.com/en/getstarted/config/requisites.html>`__, it's better to explicitly declare direct `requisites <https://docs.saltstack.com/en/latest/ref/states/requisites.html>`__. We use exclusively:
+Instead of relying on `ordering <https://docs.saltproject.io/en/getstarted/config/requisites.html>`__, it's better to explicitly declare direct `requisites <https://docs.saltproject.io/en/latest/ref/states/requisites.html>`__. We use exclusively:
 
--  `require <https://docs.saltstack.com/en/latest/ref/states/requisites.html#require>`__ is easier to reason about than ``require_in``, because code typically declares its own dependencies.
--  `watch_in <https://docs.saltstack.com/en/latest/ref/states/requisites.html#watch>`__  is easier to reason about than ``watch``, because it follows the direction of causation: if *this* state changes, then :ref:`restart or reload<service-functions>` *that* service.
--  `onchanges <https://docs.saltstack.com/en/latest/ref/states/requisites.html#onchanges>`__ makes the state apply only if its required state generates changes, and is used exclusively with the ``cmd.run`` function (which otherwise always applies).
+-  `require <https://docs.saltproject.io/en/latest/ref/states/requisites.html#require>`__ is easier to reason about than ``require_in``, because code typically declares its own dependencies.
+-  `watch_in <https://docs.saltproject.io/en/latest/ref/states/requisites.html#watch>`__  is easier to reason about than ``watch``, because it follows the direction of causation: if *this* state changes, then :ref:`restart or reload<service-functions>` *that* service.
+-  `onchanges <https://docs.saltproject.io/en/latest/ref/states/requisites.html#onchanges>`__ makes the state apply only if its required state generates changes, and is used exclusively with the ``cmd.run`` function (which otherwise always applies).
 
 We use ``require_in`` in exceptional circumstances: for example, to require a state created by a macro.
 
 Macros
 ------
 
-As the Salt documentation `states <https://docs.saltstack.com/en/latest/topics/development/conventions/formulas.html#jinja-macros>`__:
+As the Salt documentation `states <https://docs.saltproject.io/en/latest/topics/development/conventions/formulas.html#jinja-macros>`__:
 
    Jinja macros are useful for one thing and one thing only: creating mini templates that can be reused and rendered on demand.
 

@@ -45,9 +45,9 @@ Hosting
 
 All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
 
--  `Hetzner <https://robot.your-server.de/server>`__ for hardware servers, including Kingfisher and Registry
+-  `Hetzner <https://robot.your-server.com/server>`__ for hardware servers, including Kingfisher and Registry
 
-   -  `Network status <https://www.hetzner-status.de/en.html>`__
+   -  `Network status <https://status.hetzner.com>`__
 
 -  `Linode <https://cloud.linode.com/>`__ for VPS servers provisioned after August 2021
 
@@ -61,7 +61,7 @@ Unmanaged services are:
 
    -  `Network status <https://www.githubstatus.com>`__
 
--  Heroku for the `OCP Library <http://ocp-library.herokuapp.com>`__
+-  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__
 
    -  `Network status <https://status.heroku.com>`__
 
@@ -73,7 +73,7 @@ See the `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/lat
 The staff of the following organizations have had administrative roles:
 
 -  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
--  `Centro de Desarrollo Sostenible <http://www.cds.com.py>`__ (CDS)
+-  `Centro de Desarrollo Sostenible <https://www.cds.com.py>`__ (CDS)
 -  `Datlab <https://datlab.eu>`__
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
 -  `Open Data Services Co-operative <https://opendataservices.coop>`__ (ODS)

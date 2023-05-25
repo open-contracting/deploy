@@ -18,7 +18,7 @@ To override or lock the version, update the server's Pillar file:
 Configure Node.js
 -----------------
 
-The `default version <https://endoflife.date/node>`__ is the latest LTS version, 18.
+The `default version <https://endoflife.date/nodejs>`__ is the latest LTS version, 18.
 
 To override or lock the version, update the server's Pillar file:
 

@@ -4,7 +4,7 @@ Test and commit
 Test changes
 ------------
 
-To preview what is going to change, use `test=True <https://docs.saltstack.com/en/latest/ref/states/testing.html>`__, for example:
+To preview what is going to change, use `test=True <https://docs.saltproject.io/en/latest/ref/states/testing.html>`__, for example:
 
 .. code-block:: bash
 
@@ -30,7 +30,7 @@ If you get the error, ``An Exception occurred while executing state.show_highsta
 Using a virtual machine
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. `Create a virtual machine <https://docs.saltstack.com/en/getstarted/ssh/system.html>`__
+#. `Create a virtual machine <https://docs.saltproject.io/en/getstarted/ssh/system.html>`__
 #. Get the virtual machine's IP address
 
    - If using VirtualBox, run (replacing ``VMNAME``):
