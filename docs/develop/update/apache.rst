@@ -42,7 +42,7 @@ Add sites
 Add to your service's Pillar file:
 
 .. code-block:: yaml
-   :emphasize-lines: 3-12
+   :emphasize-lines: 3-9
 
    apache:
      public_access: True
@@ -224,6 +224,8 @@ apache.modules.proxy_uwsgi
   Provides supports for the `uWSGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_uwsgi.html>`__. Included by the ``python_apps`` state file.
 apache.modules.remoteip
   Adds `RemoteIPHeader, RemoteIPTrustedProxy and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_remoteip.html>`__.
+apache.modules.rewrite
+  Adds the `mod_rewrite rule-based rewriting engine to rewrite requested URLs on the fly <https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html>`__.
 apache.modules.ssl
   Included and required by ``apache.modules.md``.
 apache.modules.watchdog

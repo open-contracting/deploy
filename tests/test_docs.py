@@ -11,9 +11,9 @@ base_url = f'https://{fqdn}'
 versions = {
     '': (['latest', '1.0', '1.1-dev'], '/es/schema/release/'),
     '/infrastructure': (['latest', '0.9-dev'], '/en/reference/schema/'),
-    '/profiles/eforms': (['latest', 'dev'], '/en/reference/'),
-    '/profiles/eu': (['latest', 'dev'], '/en/reference/'),
-    '/profiles/gpa': (['latest', 'dev'], '/en/reference/'),
+    '/profiles/eforms': (['latest'], '/en/reference/'),
+    '/profiles/eu': (['latest'], '/en/reference/'),
+    '/profiles/gpa': (['latest'], '/en/reference/'),
     '/profiles/ppp': (['latest', '1.0-dev'], '/es/reference/schema/'),
 }
 
@@ -60,7 +60,7 @@ def get_prefix(version):
 def test_force_https(url):
     r = get(url)
 
-    assert r.status_code == 302
+    assert r.status_code == 301
     assert r.headers['Location'] == urlsplit(url)._replace(scheme='https').geturl()
 
 
@@ -68,7 +68,7 @@ def test_robots_txt():
     r = get('https://standard.open-contracting.org/robots.txt')
 
     assert r.status_code == 200
-    assert 'Googlebot' in r.text
+    assert 'LinkChecker' in r.text
 
 
 def test_json_headers():
@@ -138,7 +138,7 @@ def test_version_switcher(root, version):
     r = get(f'{base_url}{root}/switcher?branch={version}')
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}{root}/{version}/'
+    assert r.headers['Location'] == f'{base_url}{root}/{version}/?'
 
 
 # Staging branches are not options in the version switcher.
@@ -152,7 +152,7 @@ def test_version_switcher_with_referer(root, version, path):
             headers={'Referer': f'{base_url}{prefix}{root}/latest{path}'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}{path}'
+    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}{path}?'
 
 
 @pytest.mark.parametrize('from_version, to_version', chain(
@@ -163,7 +163,7 @@ def test_version_switcher_from_staging(from_version, to_version):
             headers={'Referer': f'{base_url}/staging/{from_version}/es/schema/release/'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}/{to_version}/'
+    assert r.headers['Location'] == f'{base_url}/{to_version}/?'
 
 
 @pytest.mark.parametrize('from_version, to_version', permutations(['latest', '1.1', '1.0'], 2))
@@ -172,7 +172,7 @@ def test_version_switcher_stable_sitemap(from_version, to_version):
             headers={'Referer': f'{base_url}/{from_version}/es/schema/release/'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}/{to_version}/es/schema/release/'
+    assert r.headers['Location'] == f'{base_url}/{to_version}/es/schema/release/?'
 
 
 @pytest.mark.parametrize('from_version, to_version', chain(
@@ -184,7 +184,7 @@ def test_version_switcher_unstable_sitemap(from_version, to_version):
             headers={'Referer': f'{base_url}/{from_version}/es/schema/release/'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}/{to_version}/'
+    assert r.headers['Location'] == f'{base_url}/{to_version}/?'
 
 
 @pytest.mark.parametrize('root, version, lang', [
@@ -197,7 +197,7 @@ def test_language_switcher(root, version, lang):
     r = get(f'{base_url}{prefix}{root}/{version}/switcher?lang={lang}')
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}/'
+    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}/?'
 
 
 @pytest.mark.parametrize('root, version, lang, path', [
@@ -211,7 +211,7 @@ def test_language_switcher_with_referer(root, version, lang, path):
             headers={'Referer': f'{base_url}{prefix}{root}/{version}/en{path}'})
 
     assert r.status_code == 302
-    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}{path}'
+    assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}{path}?'
 
 
 @pytest.mark.parametrize('root, version, lang', [
@@ -281,26 +281,14 @@ def test_banner_old(root, version):
     assert 'This profile is in development ' not in r.text
 
 
-@pytest.mark.parametrize('root, version, latest_version', [
-    (root, vers[-1], vers[0]) for root, (vers, path) in versions.items()
-])
-def test_banner_staging(root, version, latest_version):
-    r = get(f'{base_url}/staging{root}/{version}/en/')
+def test_banner_staging():
+    r = get(f'{base_url}/staging/profiles/ppp/1.0-dev/en/')
 
     assert r.status_code == 200
     assert 'This is an old version of ' not in r.text
     assert 'This is a development copy of ' in r.text
     assert 'This profile is in development ' not in r.text
-    assert f'<a href="{root}/{latest_version}/en/">' in r.text
-
-
-def test_banner_staging_profiles():
-    r = get(f'{base_url}/staging/profiles/test/latest/en/')
-
-    assert r.status_code == 200
-    assert 'This is an old version of ' not in r.text
-    assert 'This is a development copy of ' not in r.text
-    assert 'This profile is in development ' in r.text
+    assert f'<a href="/profiles/ppp/latest/en/">' in r.text
 
 
 @pytest.mark.parametrize('path, location', [

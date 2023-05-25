@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user, systemd %}
+{% from 'lib.sls' import create_user, set_cron_env, systemd %}
 
 include:
   - python.virtualenv
@@ -80,6 +80,8 @@ include:
 
 {{ systemd({'service': 'scrapyd', 'user': user, 'group': group, 'appdir': directory}) }}
 
+{{ set_cron_env(user, "MAILTO", "sysadmin@open-contracting.org") }}
+
 {% if entry.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
@@ -103,7 +105,7 @@ find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/
       - file: {{ directory }}
 
 # Delete crawl directories containing exclusively files older than 90 days.
-find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d -exec bash -c 'if [[ -z $(find {} -ctime -90) ]]; then rm -rf {}; fi' \; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
+for dir in $(find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d); do if [[ -z $(find $dir -ctime -90) ]]; then rm -rf $dir; fi; done; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_DELETE_DATA
     - user: {{ user }}

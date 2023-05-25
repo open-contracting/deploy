@@ -6,70 +6,72 @@ Our default region is *us-east-1* (N. Virginia). For large data transfer operati
 Simple Email Service (SES)
 --------------------------
 
-Reference: `Setting up Email with Amazon SES <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-set-up.html>`__
+Reference: `Setting up Amazon Simple Email Service <https://docs.aws.amazon.com/ses/latest/dg/setting-up.html>`__
+
+.. note::
+
+   `Dedicated IP addresses for Amazon SES <https://docs.aws.amazon.com/ses/latest/dg/dedicated-ip.html>`__ are available. However, a dedicated IP address would take a long time to cultivate a sending reputation with our low volume. The shared IP addresses have good reputation. As describe below, SPF, DKIM and Return-Path are configured to improve deliverability.
 
 Verify a domain
 ~~~~~~~~~~~~~~~
 
-#. Go to SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__:
+#. Go to SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
 
-   #. Click *Verify a New Domain*
-   #. Enter the domain in *Domain:*
-   #. Check the *Generate DKIM Settings* box
-   #. Click *Verify This Domain*
+   #. Click *Create identity*
+   #. Check *Domain*
+   #. Enter the domain in *Domain*
+   #. Expand *Advanced DKIM settings*
+   #. Check *Easy DKIM*
+   #. Check *RSA_2048_BIT*
+   #. Click *Create identity*
 
 #. Go to GoDaddy's `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__:
 
-   #. Add the TXT and CNAME records. Add the MX record if none exists.
-
-      .. note::
-
-         SES' *DKIM Record Set* is a scrollable table with three records.
+   #. Add the three CNAME records. Add the MX record if none exists.
 
       .. note::
 
          Omit ``.open-contracting.org`` from hostnames. GoDaddy appends it automatically.
 
-   #. `Add or update the SPF record <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-spf.html>`__
+   #. `Add or update the SPF record <https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-spf.html>`__
 
-#. Wait for the domain's verification status to become "verified" on SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__
+#. Wait for the domain's *Identity status* to become "Verified" on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__
 
    .. note::
 
       AWS will notify you by email. Last time, it took a few minutes.
 
-Reference: `Verifying a Domain <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-domain-procedure.html>`__
+Reference: `Creating (and verifying) a domain identity <https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-domain-procedure>`__
 
 Verify an email address
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Check that the domain's verification status is "verified" on SES' `Domains <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-domain:>`__
+#. Go to SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
 
-#. If an MX record didn't exist, go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__:
+   #. Click *Create identity*
+   #. Check *Email address*
+   #. Enter the email address in *Email address*
+   #. Click *Create identity*
 
-   #. Click *Create a New Rule Set*
+#. If the domain's MX record points to AWS, go to SES' `Email receiving <https://us-east-1.console.aws.amazon.com/ses/home#/email-receiving>`__:
+
+   #. Click *Create rule set*
+   #. Enter a name in *Rule set name* (``email-address-verification``, for example)
+   #. Click *Create rule set*
    #. Click the rule set's name
-   #. Click *Create Rule*
-   #. Click *Next Step*
-   #. Select "S3" from the *Add action* dropdown
-   #. Select "Create S3 bucket" from the *S3 bucket* dropdown
-   #. Enter a bucket name in *Bucket Name*
-   #. Click *Create Bucket*
-   #. Click *Next Step*
-   #. Enter a rule name in *Rule Name*
-   #. Click *Next Step*
-   #. Click *Create Rule*
-   #. Go to SES' `Rule Sets <https://console.aws.amazon.com/ses/home?region=us-east-1#receipt-rules:>`__
-   #. Check the rule set's box
-   #. Click *Set as Active Rule Set*
+   #. Click *Create rule*
+   #. Enter a rule name in *Rule name* (``deliver-to-s3-bucket``, for example)
+   #. Click *Next*
+   #. Click *Next*
+   #. Select "Deliver to S3 bucket" from the *Add new action* dropdown
+   #. Click *Create S3 bucket*
+   #. Enter a bucket name in *Bucket name* (``ocp-aws-verification``, for example)
+   #. Click *Create bucket*
+   #. Click *Next*
+   #. Click *Create rule*
+   #. Click *Set as active*
 
-#. Go to SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__:
-
-   #. Click *Verify a New Email Address*
-   #. Enter the email address in *Email Address:*
-   #. Click *Verify This Email Address*
-
-#. If an MX record didn't exist, go to `S3 <https://s3.console.aws.amazon.com/s3/home?region=us-east-1#>`__ (otherwise, check your email):
+#. If the domain's MX record points to AWS, go to `S3 <https://s3.console.aws.amazon.com/s3/buckets?region=us-east-1>`__ (otherwise, check your email):
 
    #. Click the bucket name
    #. Click the long alphanumeric string (if there is none, double-check the earlier steps)
@@ -77,15 +79,23 @@ Verify an email address
    #. Copy the URL in the downloaded file
    #. Open the URL in a web browser
 
-#. Check that the email address's verification status is "verified" on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__
+#. Check that the email address' *Identity status* is "Verified" on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__
 
-#. If an MX record didn't exist, cleanup:
+#. If the domain's MX record points to AWS, cleanup:
 
-   #. Delete the bucket
-   #. Disable and delete the rule set
-   #. Remove the MX record
+   #. Set the rule set as inactive
 
-Reference: `Verifying an Email Address <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/verify-email-addresses-procedure.html>`__
+Reference: `Creating (and verifying) an email address identity <https://docs.aws.amazon.com/ses/latest/dg/creating-identities.html#verify-email-addresses-procedure>`__
+
+Use a MAIL FROM domain
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   This optional step improves email deliverability. Also known as the Return-Path address.
+
+#. Refer to `Using a custom MAIL FROM domain <https://docs.aws.amazon.com/ses/latest/dg/mail-from.html#mail-from-set>`__
+#. Check that the verified identity's *MAIL FROM configuration* is "Successful"
 
 Create SMTP credentials
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -94,47 +104,22 @@ Create SMTP credentials
 
    You only need to do this once per AWS region.
 
-#. Go to SES' `SMTP Settings <https://console.aws.amazon.com/ses/home?region=us-east-1#smtp-settings:>`__:
+#. Go to SES' `SMTP Settings <https://us-east-1.console.aws.amazon.com/ses/home#smtp>`__:
 
-   #. Click *Create My SMTP Credentials*
+   #. Click *Create SMTP credentials*
    #. Enter a user name in *IAM User Name:*
    #. Click *Create*
    #. Click *Download Credentials*
    #. Click *Close*
 
-Reference: `Getting Your SMTP Credentials <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/get-smtp-credentials.html>`__
+Reference: `Obtaining Amazon SES SMTP credentials <https://docs.aws.amazon.com/ses/latest/dg/smtp-credentials.html>`__
 
-Move out of sandbox
-~~~~~~~~~~~~~~~~~~~
+.. _ses-basic-notifications:
 
-.. note::
+Set up basic notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-   You only need to do this once per AWS account.
-
-Reference: `Moving Out of the Amazon SES Sandbox <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/request-production-access.html>`__
-
-Set up MAIL FROM domain
-~~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-
-   This optional step improves email deliverability.
-
-Reference: `Setting up a custom MAIL FROM domain <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/mail-from.html>`__
-
-Disable account-level suppression list
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-.. note::
-
-   This optional step can negatively affect sender reputation.
-
-Reference: `Disabling the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-disabling>`__
-
-Set up notifications
-~~~~~~~~~~~~~~~~~~~~
-
-#. Go to SNS' `Topics <https://console.aws.amazon.com/sns/v3/home?region=us-east-1#/topics>`__:
+#. Go to SNS' `Topics <https://us-east-1.console.aws.amazon.com/sns/v3/home#/topics>`__:
 
    #. Click *Create topic*
    #. Set *Type* to *Standard*
@@ -147,17 +132,61 @@ Set up notifications
    #. Enter an email address in *Endpoint*
    #. Click *Create subscription*
 
-#. Click the email address on SES' `Email Addresses <https://console.aws.amazon.com/ses/home?region=us-east-1#verified-senders-email:>`__:
+#. Click the email address on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
 
-   #. Expand *Notifications*
-   #. Click *Edit configuration*
-   #. Select the created topic from the *Bounces:* dropdown
-   #. Check the *Include original headers* box
-   #. Select the created topic from the *Complaints:* dropdown
-   #. Check the *Include original headers* box
-   #. Click *Save Config*
+   #. Click the *Notifications* tab
+   #. Click *Edit* in the *Feedback notifications* section
+   #. Select the created topic from the *Bounce feedback* dropdown
+   #. Check the *Include original email headers* box
+   #. Select the created topic from the *Complaint feedback* dropdown
+   #. Check the *Include original email headers* box
+   #. Click *Save changes*
 
-Reference: `Configuring Amazon SNS notifications for Amazon SES <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/configure-sns-notifications.html>`__
+Reference: `Configuring Amazon SNS notifications for Amazon SES <https://docs.aws.amazon.com/ses/latest/dg/configure-sns-notifications.html>`__
+
+Set up advanced notifications
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. Go to SES' `Configuration sets <https://us-east-1.console.aws.amazon.com/ses/home#/configuration-sets>`__:
+
+   #. Click *Create set*
+   #. Enter a name in *Configuration set name* (``credere``, for example)
+   #. Click *Create set*
+
+#. Click the configuration set's name
+#. Click the *Event destinations* tab
+#. Click *Add destination*:
+
+   #. Check:
+
+      -  Rendering failures, if using email templates
+      -  Rejects
+      -  Delivery delays
+
+      Do not check, to avoid unnecessary notifications:
+
+      -  Sends
+      -  Deliveries (same as *Delivery feedback* above)
+      -  Hard bounces (same as *Bounce feedback* above)
+      -  Complaints (same as *Complaint feedback* above)
+      -  Subscriptions
+
+   #. Click *Next*
+   #. Check *Amazon SES*
+   #. Enter a name in *Name* (``credere-noreply-open-contracting-org``, for example)
+   #. Select the SNS topic for :ref:`basic notifications<ses-basic-notifications>` from the *SNS topic* dropdown
+   #. Click *Next*
+   #. Click *Add destination*
+
+#. Go to SNS' `Subscriptions <https://us-east-1.console.aws.amazon.com/sns/v3/home#/subscriptions>`__:
+
+   #. Click *Create subscription*
+   #. Select the SNS topic from the *Topic ARN* dropdown
+   #. Select "Email" from the *Protocol* dropdown
+   #. Enter the subscriber's email address in *Endpoint*
+   #. Click *Create subscription*
+
+#. Wait for the email to confirm the subscription
 
 Check DMARC compliance
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -166,19 +195,41 @@ Check DMARC compliance
 
 .. note::
 
-   `SES adds two DKIM signatures <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). This signature's domain is not aligned, but according to `RFC 7489 <https://tools.ietf.org/html/rfc7489#page-10>`, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC "pass" if any DKIM signature is aligned and verifies."
+   `SES adds an extra DKIM signature <https://docs.aws.amazon.com/ses/latest/dg/troubleshoot-dkim.html>`__ ("The extra DKIM signature, which contains ``d=amazonses.com``, is automatically added by Amazon SES. You can ignore it"). It is not aligned, but according to `RFC 7489 <https://datatracker.ietf.org/doc/html/rfc7489#page-10>`__, "a single email can contain multiple DKIM signatures, and it is considered to be a DMARC 'pass' if any DKIM signature is aligned and verifies."
 
 Debug delivery issues
 ~~~~~~~~~~~~~~~~~~~~~
 
 Bounces and complaints are sent to the subscribed address. The relevant properties of the notification message are:
 
--  `complaintSubType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#complaint-object>`__ (`Viewing a list of addresses that are on the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-view-entries>`__, `Removing an email address from the account-level suppression list <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-email-suppression-list.html#sending-email-suppression-list-manual-delete>`__)
+-  `complaintSubType <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#complaint-object>`__
 
--  `bounceType <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounce-types>`__ and ``bounceSubType``
--  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/notification-contents.html#bounced-recipients>`__
+-  `bounceType and bounceSubType <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#bounce-types>`__
+-  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#bounced-recipients>`__
 
-Reference: `DNS Blackhole List (DNSBL) FAQs <https://docs.aws.amazon.com/ses/latest/DeveloperGuide/faqs-dnsbls.html>`__
+.. seealso::
+
+   -  `Viewing a list of addresses that are on the account-level suppression list <https://docs.aws.amazon.com/ses/latest/dg/sending-email-suppression-list.html#sending-email-suppression-list-view-entries>`__
+   -  `Removing individual email addresses from your Amazon SES account-level suppression list <https://docs.aws.amazon.com/ses/latest/dg/sending-email-suppression-list.html#sending-email-suppression-list-manual-delete>`__
+   -  `DNS Blackhole List (DNSBL) FAQs <https://docs.aws.amazon.com/ses/latest/dg/faqs-dnsbls.html>`__
+
+Disable account-level suppression list
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   This optional step can negatively affect sender reputation.
+
+Reference: `Disabling the account-level suppression list <https://docs.aws.amazon.com/ses/latest/dg/sending-email-suppression-list.html#sending-email-suppression-list-disabling>`__
+
+Move out of sandbox
+~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   You only need to do this once per AWS account.
+
+Reference: `Moving out of the Amazon SES sandbox <https://docs.aws.amazon.com/ses/latest/dg/request-production-access.html>`__
 
 Relational Database Service (RDS)
 ---------------------------------
@@ -187,7 +238,7 @@ Relational Database Service (RDS)
 
    This configuration is for data analysis, where it is acceptable for the data to be lost.
 
-#. Go to RDS' `Databases <https://us-east-1.console.aws.amazon.com/rds/home?region=us-east-1#databases:>`__
+#. Go to RDS' `Databases <https://us-east-1.console.aws.amazon.com/rds/home#databases:>`__
 #. Click *Create database*
 
    #. Set *Engine type* to "PostgreSQL"
@@ -197,8 +248,8 @@ Relational Database Service (RDS)
    #. Set *DB instance class* to "db.t3.micro"
    #. Uncheck *Enable storage autoscaling*
    #. Set *Public access* to "Yes"
-   #. Add "postgresql-anywhere" to *Existing VPC security groups"
-   #. Remove "default" from *Existing VPC security groups"
+   #. Add "postgresql-anywhere" to *Existing VPC security groups*
+   #. Remove "default" from *Existing VPC security groups*
    #. Expand *Additional configuration*
    #. Uncheck *Enable automated backups*
    #. Uncheck *Enable encryption*
@@ -208,93 +259,95 @@ Relational Database Service (RDS)
 #. Wait for the database to be created
 #. Click *View connection details*
 
-Aurora Serverless
------------------
+.. Aurora Serverless is commented out, as not used.
 
-.. warning::
+   Aurora Serverless
+   -----------------
 
-   `"You can't give an Aurora Serverless DB cluster a public IP address." <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations>`__. Instead, you need to use an EC2 instance as a bastion host.
+   .. warning::
 
-Create a VPC
-~~~~~~~~~~~~
+      `"You can't give an Aurora Serverless DB cluster a public IP address." <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations>`__. Instead, you need to use an EC2 instance as a bastion host.
 
-#. Set *IPv4 CIDR block* to "10.0.0.0/16"
-#. Click *Create*
+   Create a VPC
+   ~~~~~~~~~~~~
 
-Reference: `Create a DB instance in the VPC <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
+   #. Set *IPv4 CIDR block* to "10.0.0.0/16"
+   #. Click *Create*
 
-Create subnets
-~~~~~~~~~~~~~~
+   Reference: `Create a DB instance in the VPC <https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_VPC.WorkingWithRDSInstanceinaVPC.html#USER_VPC.CreateDBInstanceInVPC>`__
 
-#. Set *VPC* to the created VPC
-#. Set *Availability Zone* to any zone
-#. Set *IPv4 CIDR block* to "10.0.1.0/24"
-#. Click *Create*
+   Create subnets
+   ~~~~~~~~~~~~~~
 
-Then:
+   #. Set *VPC* to the created VPC
+   #. Set *Availability Zone* to any zone
+   #. Set *IPv4 CIDR block* to "10.0.1.0/24"
+   #. Click *Create*
 
-#. Set *VPC* to the created VPC
-#. Set *Availability Zone* to another zone
-#. Set *IPv4 CIDR block* to "10.0.2.0/24"
-#. Click *Create*
+   Then:
 
-Create security group
-~~~~~~~~~~~~~~~~~~~~~
+   #. Set *VPC* to the created VPC
+   #. Set *Availability Zone* to another zone
+   #. Set *IPv4 CIDR block* to "10.0.2.0/24"
+   #. Click *Create*
 
-#. Set *Security group name* to "postgresql-anywhere"
-#. Set *Description* to "Allows PostgreSQL connections from anywhere"
-#. Click *Add rule* under *Inbound rules*
-#. Set *Type* to "PostgreSQL"
-#. Set *Source* to "Anywhere"
-#. Click *Create security group*
+   Create security group
+   ~~~~~~~~~~~~~~~~~~~~~
 
-Create database
-~~~~~~~~~~~~~~~
+   #. Set *Security group name* to "postgresql-anywhere"
+   #. Set *Description* to "Allows PostgreSQL connections from anywhere"
+   #. Click *Add rule* under *Inbound rules*
+   #. Set *Type* to "PostgreSQL"
+   #. Set *Source* to "Anywhere"
+   #. Click *Create security group*
 
-#. Choose a database creation method: (no changes)
-#. Engine options
+   Create database
+   ~~~~~~~~~~~~~~~
 
-   #. *Engine type*: Amazon Aurora
-   #. *Edition*: Amazon Aurora with PostgreSQL compatibility
-   #. *Version*: Aurora PostgreSQL (compatible with PostgreSQL 10.7)
+   #. Choose a database creation method: (no changes)
+   #. Engine options
 
-#. Database features: Serverless
-#. Settings: (no changes)
-#. Capacity settings
+      #. *Engine type*: Amazon Aurora
+      #. *Edition*: Amazon Aurora with PostgreSQL compatibility
+      #. *Version*: Aurora PostgreSQL (compatible with PostgreSQL 10.7)
 
-   #. *Minimum Aurora capacity unit*: 2
-   #. *Maximum Aurora capacity unit*: 2
-   #. Expand *Additional scaling configuration*
-   #. Check *Pause compute capacity after consecutive minutes of inactivity*
-   #. Set to *1* hours 0 minutes 0 seconds
+   #. Database features: Serverless
+   #. Settings: (no changes)
+   #. Capacity settings
 
-#. Connectivity
+      #. *Minimum Aurora capacity unit*: 2
+      #. *Maximum Aurora capacity unit*: 2
+      #. Expand *Additional scaling configuration*
+      #. Check *Pause compute capacity after consecutive minutes of inactivity*
+      #. Set to *1* hours 0 minutes 0 seconds
 
-   #. *Virtual private cloud (VPC)*: Select the created VPC
-   #. Expand *Additional connectivity configuration*
-   #. *VPC security group*:
+   #. Connectivity
 
-      #. Select the created group
-      #. Remove the default group
+      #. *Virtual private cloud (VPC)*: Select the created VPC
+      #. Expand *Additional connectivity configuration*
+      #. *VPC security group*:
 
-   #. Check *Data API*
+         #. Select the created group
+         #. Remove the default group
 
-#. Additional configuration
+      #. Check *Data API*
 
-   #. *Initial database name*: common
-   #. *Backup retention period*: 1 day
+   #. Additional configuration
 
-#. Click *Create database*
+      #. *Initial database name*: common
+      #. *Backup retention period*: 1 day
+
+   #. Click *Create database*
 
 Amazon S3
 ---------
 
-.. _aws-s3-backup:
+.. _aws-s3-bucket:
 
-Create backup bucket
-~~~~~~~~~~~~~~~~~~~~
+Create bucket
+~~~~~~~~~~~~~
 
-#. Go to Amazon S3 `Buckets<https://s3.console.aws.amazon.com/s3/buckets>`__
+#. Go to Amazon S3 `Buckets <https://s3.console.aws.amazon.com/s3/buckets>`__
 #. Click *Create bucket*
 
    #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
@@ -302,6 +355,9 @@ Create backup bucket
    #. Click *Create bucket*
 
 #. Click the created bucket
+
+If the bucket is for server backups:
+
 #. Click *Management*
 #. Click *Create lifecycle rule*
 
@@ -321,10 +377,10 @@ Identity and Access Management (IAM)
 
 .. _aws-iam-backup-user:
 
-Create a new IAM backup user and policy
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Create a backup policy
+~~~~~~~~~~~~~~~~~~~~~~
 
-#. Go to IAM `Policies<https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
+#. Go to IAM `Policies <https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
 #. Click *Create policy*
 
    #. Click the *JSON* tab and paste the content below, replacing ``BUCKET_NAME``:
@@ -359,13 +415,16 @@ Create a new IAM backup user and policy
 
    #. Click *Next: Tags*
    #. Click *Next: Review*
-   #. Enter a *Name* (``ocp-redmine-backup``, for example)
+   #. Enter a *Name* (``redmine-backup``, for example)
    #. Click *Create policy*
 
-#. Go to IAM `Users<https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
+Create a backup user
+~~~~~~~~~~~~~~~~~~~~
+
+#. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click *Add Users*
 
-   #. Enter a *User name* (``ocp-redmine-backup``, for example)
+   #. Enter a *User name* (``redmine-backup``, for example)
    #. Check *Access key - Programmatic access*
    #. Click *Next: Permissions*
    #. Click *Attach existing policies directly*
@@ -378,4 +437,4 @@ Create a new IAM backup user and policy
    #. Click *Next: Tags*
    #. Click *Next: Review*
    #. Click *Create user*
-   #. Add the *Access key ID* and *Secret access key* to the `service's Pillar file<../develop/update/awscli>`
+   #. Add the *Access key ID* and *Secret access key* to the :doc:`service's Pillar file<../develop/update/awscli>`

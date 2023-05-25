@@ -5,19 +5,29 @@ base:
     - common
     - private.common
 
+  'coalition':
+    - coalition
+    - coalition_maintenance
+    - private.coalition
+
   'cove-oc4ids':
     - cove
     - cove_oc4ids
     - cove_oc4ids_maintenance
     - private.cove_oc4ids
-    - maintenance
 
   'cove-ocds':
     - cove
     - cove_ocds
     - cove_ocds_maintenance
     - private.cove_ocds
-    - maintenance
+
+  'credere':
+    - credere
+    - credere_dev
+    - credere_maintenance
+    - private.credere
+    - private.credere_dev
 
   'docs':
     - docs
@@ -43,7 +53,7 @@ base:
     - prometheus_server
     - private.smtp
     - private.prometheus_server
-    - maintenance
+    - prometheus_server_maintenance
 
   'redash':
     - redash

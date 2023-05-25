@@ -10,7 +10,7 @@ Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/lates
 Review a new publication
 ------------------------
 
-#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository.
+#. `Create an issue <https://github.com/open-contracting/kingfisher-collect/issues/new/choose>`__ to request a new spider in the `kingfisher-collect <https://github.com/open-contracting/kingfisher-collect/issues>`__ repository.
 #. :ref:`Schedule a crawl<collect-data>`, once the spider is written and :ref:`deployed<update-spiders>`.
 #. :ref:`Wait for the crawl to finish<access-scrapyd-web-service>`.
 #. :ref:`Review the crawl's log file<kingfisher-collect-review-log-files>`.
@@ -38,29 +38,19 @@ Collect data with Kingfisher Collect
 
 First, `read this section <https://kingfisher-collect.readthedocs.io/en/latest/scrapyd.html#collect-data>`__ of the Kingfisher Collect documentation.
 
-To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, from your computer:
+To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` with your name (you can edit the note any way you like), and run, **from your computer**:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-   curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
-
-You should see a response like:
-
-.. code-block:: json
-
-   {"node_name": "process1", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
+   $ curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
+   {"node_name": "ocp04", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
 To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-   curl -n https://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
-
-You should see a response like:
-
-.. code-block:: json
-
-   {"node_name": "process1", "status": "ok", "prevstate": "running"}
+   $ curl -n https://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
+   {"node_name": "ocp04", "status": "ok", "prevstate": "running"}
 
 The crawl won't stop immediately. You can force an unclean shutdown by sending the request again; however, it's preferred to allow the crawl to stop gracefully, so that the log file is completed.
 
@@ -103,15 +93,29 @@ Update spiders in Kingfisher Collect
 Access Scrapyd's crawl logs
 ---------------------------
 
-From a browser, click on a "Log" link from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__, or open the `logs page for the kingfisher project <https://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__.
+.. seealso::
 
-From the command-line, :ref:`connect to the server<connect-kingfisher-server>`, and change to the ``logs`` directory for the ``kingfisher`` project:
+   `How to interpret a Scrapy crawl log <https://kingfisher-collect.readthedocs.io/en/latest/logs.html>`__
 
-.. code-block:: bash
+If using a browser, either:
 
-   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-   ssh ocdskfp@collect.kingfisher.open-contracting.org
-   cd scrapyd/logs/kingfisher
+* Click on a "Log" link from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__
+* Open the `logs page for the kingfisher project <https://collect.kingfisher.open-contracting.org/logs/kingfisher/>`__
+
+If using the command-line:
+
+#. :ref:`Connect to the server<connect-kingfisher-server>`:
+
+   .. code-block:: bash
+
+      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
+      ssh ocdskfp@collect.kingfisher.open-contracting.org
+
+#. Change to the ``logs`` directory for the ``kingfisher`` project:
+
+   .. code-block:: bash
+
+      cd scrapyd/logs/kingfisher
 
 Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
@@ -142,40 +146,48 @@ If you are frequently running the above, `create an issue <https://github.com/op
 Create a .netrc file
 --------------------
 
-To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same username and password as to :ref:`access-scrapyd-web-service`.
+To :ref:`collect data<collect-data>` with (and :ref:`update spiders<update-spiders>` in) Kingfisher Collect, you need to send requests to it from your computer as described above, using the same credentials as to :ref:`access-scrapyd-web-service`.
 
-Instead of setting the username and password in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file. In order to create (or append the Kingfisher Collect credentials to) a ``.netrc`` file, replace ``PASSWORD`` with the password, and run:
+Instead of setting the credentials in multiple locations (on the command line and in ``scrapy.cfg`` files), set them in one location: in a ``.netrc`` file **on your computer**.
 
-.. code-block:: bash
+To create (or append the Kingfisher Collect credentials to) a ``.netrc`` file:
 
-   echo 'machine collect.kingfisher.open-contracting.org login scrape password PASSWORD' >> ~/.netrc
+#. Replace ``USERNAME`` with your username and ``PASSWORD`` with your password, and run:
 
-You must change the file's permissions to be readable only by the owner:
+   .. code-block:: bash
 
-.. code-block:: bash
+      echo 'machine collect.kingfisher.open-contracting.org login USERNAME password PASSWORD' >> ~/.netrc
 
-   chmod 600 ~/.netrc
+#. Check that only one section of the ``~/.netrc`` file refers to Kingfisher Collect:
 
-To check the permissions:
+   .. code-block:: shell-session
 
-.. code-block:: shell-session
+      $ grep -A2 collect.kingfisher.open-contracting.org ~/.netrc
+      machine collect.kingfisher.open-contracting.org
+        login myuser
+        password mypass
 
-   $ stat -f "%Sp" ~/.netrc
-   -rw-------
+   If there are multiple sections or an incorrect password, you must correct the file in a text editor.
 
-If you run ``grep collect.kingfisher.open-contracting.org ~/.netrc``, you should only see the single line you added with the correct password. If there are multiple lines or an incorrect password, you must correct the file in a text editor.
+#. Change the file's permissions to be readable only by the owner:
 
-To test your configuration, run:
+   .. code-block:: bash
 
-.. code-block:: bash
+      chmod 600 ~/.netrc
 
-   curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
+#. Check the permissions:
 
-You should see a response like:
+   .. code-block:: shell-session
 
-.. code-block:: json
+      $ stat -f "%Sp" ~/.netrc
+      -rw-------
 
-   {"node_name": "process1", "status": "ok", "projects": ["kingfisher"]}
+#. Test your configuration:
+
+   .. code-block:: shell-session
+
+      $ curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
+      {"node_name": "ocp04", "status": "ok", "projects": ["kingfisher"]}
 
 Data retention policy
 ---------------------

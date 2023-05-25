@@ -35,13 +35,9 @@ For example, the above commands show that ``redis`` is a metapackage (installing
 List manually installed packages
 --------------------------------
 
-This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works best. On Bytemark servers:
+This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works best.
 
-.. code-block:: bash
-
-   comm -23 <(apt-mark showmanual | sort -u) <(gzip -dc /var/log/installer/initial-status.gz | sed -n 's/^Package: //p' | sort -u)
-
-On Hetzner servers, the ``/var/log/installer`` directory is missing. The Ubuntu manifest can be used as an approximation:
+On Hetzner and Linode servers, the ``/var/log/installer`` directory is missing. The Ubuntu manifest can be used as an approximation, for example:
 
 .. code-block:: bash
 

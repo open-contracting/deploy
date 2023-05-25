@@ -19,6 +19,7 @@ Make changes
    rabbitmq.rst
    python.rst
    docker.rst
+   wordpress.rst
    languages.rst
    logs.rst
    delete.rst
@@ -26,7 +27,7 @@ Make changes
 Text editors
 ------------
 
-For `Sublime Text <https://www.sublimetext.com>`__, you can use the `SaltStack package <https://github.com/saltstack/sublime-text>`__ for syntax highlighting.
+For `Sublime Text <https://www.sublimetext.com>`__, you can use the `SaltStack package <https://github.com/vmware-archive/sublime-text>`__ for syntax highlighting.
 
 Change history
 --------------

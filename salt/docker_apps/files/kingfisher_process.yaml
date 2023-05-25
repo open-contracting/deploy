@@ -4,22 +4,25 @@ x-shared: &shared
   image: "ghcr.io/open-contracting/kingfisher-process-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
+  restart: unless-stopped
+
+x-filesystem: &filesystem
+  <<: *shared
   volumes:
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in kingfisher-process.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data
 
 services:
   web:
-    <<: *shared
-    restart: unless-stopped
+    <<: *filesystem
     ports: 
       - {{ pillar.docker_apps.kingfisher_process.port }}:8000
   api_loader:
-    <<: *shared
+    <<: *filesystem
     command: "python manage.py api_loader"
     scale: 2
   file_worker:
-    <<: *shared
+    <<: *filesystem
     command: "python manage.py file_worker"
     scale: 2
   compiler:

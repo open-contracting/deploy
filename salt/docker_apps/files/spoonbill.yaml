@@ -52,7 +52,7 @@ services:
     # docker run -it --rm -v spoonbill_postgresql-data:/var/lib/postgresql/data bash chown -R 1002:1002 /var/lib/postgresql/data
     <<: *with-user
     hostname: postgres
-    image: postgres:13
+    image: postgres:12
     volumes:
       - postgresql-data:/var/lib/postgresql/data
   redis:

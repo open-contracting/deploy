@@ -1,24 +1,29 @@
 # Defines the potential targets of the salt-ssh command.
 
+coalition:           ocp21.open-contracting.org
 cove-oc4ids:         ocp17.open-contracting.org
 cove-ocds:           ocp18.open-contracting.org
-docs:                ocp07.open-contracting.org
+credere:             ocp22.open-contracting.org
+docs:                ocp19.open-contracting.org
 kingfisher-process:  ocp04.open-contracting.org
 kingfisher-replica:  ocp05.open-contracting.org
-prometheus:          ocp03.open-contracting.org
+prometheus:          ocp20.open-contracting.org
 redash:              ocp14.open-contracting.org
 redmine:             ocp16.open-contracting.org
 registry:
   host: ocp13.open-contracting.org
   port: 2223
 
-# ocp0 was crm.open-contracting.org
+# ocp15 is bi.open-contracting.org
+
+# ocp0 was redmine on Ubuntu 18
 # ocp01 was cove-oc4ids on Ubuntu 18
 # ocp02 was cove-ocds on Ubuntu 18
+# ocp03 was prometheus on Ubuntu 18
 # ocp06 was covid19-dev
+# ocp07 was docs on Ubuntu 18
 # ocp08 was redash.open-contracting.org on Ubuntu 18
 # ocp09 was toucan.open-contracting.org
 # ocp10 was archive.kingfisher.open-contracting.org
 # ocp11 was www.open-contracting.health (covid19)
 # ocp12 was spoonbill-dev
-# ocp15 is bi.open-contracting.org

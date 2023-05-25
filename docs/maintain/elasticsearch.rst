@@ -54,13 +54,13 @@ List indices:
 
 .. code-block:: bash
 
-   curl -n https://standard.open-contracting.org:9200/_cat/indices
+   curl -n https://standard.open-contracting.org/search/_cat/indices
 
 List base URLs in a given index, for example:
 
 .. code-block:: bash
 
-   curl -n -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=0&pretty' \
+   curl -n -X GET 'https://standard.open-contracting.org/search/ocdsindex_en/_search?size=0&pretty' \
    -H 'Content-Type: application/json' \
    -d '{"aggs": {"base_urls": {"terms": {"field": "base_url", "size": 10000}}}}'
 
@@ -68,7 +68,7 @@ Delete documents matching a base URL:
 
 .. code-block:: bash
 
-   curl -n -X POST 'https://standard.open-contracting.org:9200/ocdsindex_en/_delete_by_query' \
+   curl -n -X POST 'https://standard.open-contracting.org/search/ocdsindex_en/_delete_by_query' \
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
@@ -76,13 +76,13 @@ Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-ind
 
 .. code-block:: bash
 
-   ocdsindex expire https://standard.open-contracting.org:9200 --exclude-file=ocdsindex-exclude.txt
+   ocdsindex expire https://standard.open-contracting.org:443/search/ --exclude-file=ocdsindex-exclude.txt
 
 Search documents in a given index matching a base URL, for example:
 
 .. code-block:: bash
 
-   curl -n -X GET 'https://standard.open-contracting.org:9200/ocdsindex_en/_search?size=10000' \
+   curl -n -X GET 'https://standard.open-contracting.org/search/ocdsindex_en/_search?size=10000' \
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 

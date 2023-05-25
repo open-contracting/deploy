@@ -1,14 +1,17 @@
 readonlyrest:
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#loading-settings-order-of-precedence
   force_load_from_file: True
-  ssl:
-    server_certificate_key_file: {{ pillar.elasticsearch.plugins.readonlyrest.certificate_key_file }}
-    server_certificate_file: {{ pillar.elasticsearch.plugins.readonlyrest.certificate_file }}
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
   access_control_rules:
-    - name: Allow localhost
-      hosts:
-        - localhost
+    - name: Allow the ocpadmin group to administrate Elasticsearch
+      groups:
+        - ocpadmin
+      x_forwarded_for:
+        - "127.0.0.0/8"
+        - "{{ pillar.network.ipv4 }}"
+        {%- if "ipv6" in pillar.network %}
+        - "{{ pillar.network.ipv6 }}"
+        {%- endif %}
     - name: Allow the public group to search indices created by OCDS Index
       groups:
         - public
@@ -18,6 +21,7 @@ readonlyrest:
         must_involve_indices: True
       actions:
         - indices:data/read/search
+      x_forwarded_for: ["0.0.0.0/0"]
     - name: Allow the manage group to manage indices created by OCDS Index
       groups:
         - manage
@@ -31,4 +35,5 @@ readonlyrest:
         - indices:data/write/bulk
         - indices:data/write/delete/byquery
         - indices:monitor/settings/get
+      x_forwarded_for: ["0.0.0.0/0"]
   users: {{ pillar.elasticsearch.plugins.readonlyrest.users|yaml }}

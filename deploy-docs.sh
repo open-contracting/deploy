@@ -25,10 +25,10 @@ if [ "$RELEASE" != "true" ]; then
 
     # Index the build directory.
     ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
-    ocdsindex index https://standard.open-contracting.org:9200 documents.json
+    ocdsindex index https://standard.open-contracting.org:443/search/ documents.json
     if [ "$REF" == "$VERSION" ]; then
         ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX"latest/ > documents.json
-        ocdsindex index https://standard.open-contracting.org:9200 documents.json
+        ocdsindex index https://standard.open-contracting.org:443/search/ documents.json
     fi
 
     if [ "$PRODUCTION" == "true" ]; then

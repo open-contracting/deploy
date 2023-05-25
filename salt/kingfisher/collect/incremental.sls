@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import create_user, set_cron_env %}
 {% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
@@ -51,6 +51,12 @@ include:
     },
   ]
 %}
+
+{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+# This line can be removed after upgrading Python and Scrapy.
+# - "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release."
+# - https://github.com/open-contracting/kingfisher-collect/issues/998
+{{ set_cron_env(entry.user, "PYTHONWARNINGS", "ignore:::OpenSSL._util,ignore:::scrapy.core.scraper") }}
 
 # Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in crawls %}

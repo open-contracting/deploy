@@ -13,7 +13,7 @@ import salt.cli.ssh
 import salt.client.ssh
 
 PROVIDERS = (
-    'bytemark',
+    'linode',
     'hetzner',
 )
 
@@ -22,7 +22,7 @@ def get_provider(target):
     if 'kingfisher' in target or 'registry' in target:
         return 'hetzner'
     else:
-        return 'bytemark'
+        return 'linode'
 
 
 def compare(content, get_item, mode='diff', margin=0, providers=None):

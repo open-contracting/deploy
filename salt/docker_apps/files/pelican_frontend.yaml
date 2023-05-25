@@ -7,6 +7,7 @@ x-shared: &shared
 
 services:
   web:
+    <<: *shared
     image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
     ports:
       - {{ pillar.docker_apps.pelican_frontend.port }}:8000
@@ -15,7 +16,8 @@ services:
       # The right-hand path must match the directory of the settings.SERVICE_ACCOUNT_JSON_FILE default value in pelican-frontend.
       - {{ pillar.docker_apps.pelican_frontend.host_dir }}:/data
   vue:
+    <<: *shared
     image: "ghcr.io/open-contracting/pelican-frontend-vue:latest"
     ports:
       - {{ pillar.apache.sites.pelican_frontend.context.port }}:8080
-{%- end %}
+{%- endif %}

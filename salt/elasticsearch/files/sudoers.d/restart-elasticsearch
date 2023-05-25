@@ -1,1 +1,0 @@
-www-data    ALL=(root) NOPASSWD: /bin/systemctl restart elasticsearch.service

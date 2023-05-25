@@ -67,7 +67,7 @@ When making changes to firewall settings or port assignments, you might want to:
 
    .. code-block:: bash
 
-      netstat -tupln
+      ss -tupln # netstat -tupln
 
 When using Docker
 -----------------
@@ -83,7 +83,7 @@ Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedic
 
 You can configure a Hetzner firewall as follows:
 
-#. `Log into Hetzner <https://robot.your-server.de/server>`__
+#. `Log into Hetzner <https://robot.your-server.com/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
 #. Enable *Hetzner Services*
@@ -117,7 +117,7 @@ You can configure a Hetzner firewall as follows:
         -
         - Accept
       * - Allow Prometheus
-        - 213.138.113.219/32
+        - 139.162.253.17/32
         - 0.0.0.0/0
         - 0-65535
         - 7231
@@ -138,11 +138,11 @@ You can configure a Hetzner firewall as follows:
 Linode (VPS servers)
 ~~~~~~~~~~~~~~~~~~~~
 
-Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/guides/getting-started-with-cloud-firewall/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
 You can configure a Linode Cloud Firewall as follows:
 
-#. `Log into Linode <https://login.linode.com/>`__
+#. `Log into Linode <https://login.linode.com/login>`__
 #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
 #. Click *Create Firewall*
 
@@ -176,7 +176,7 @@ You can configure a Linode Cloud Firewall as follows:
          * - Allow-Prometheus
            - TCP
            - 7231
-           - 213.138.113.219/32, 2001:41c8:51:7db::219/128
+           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
            - Accept
    
       Most servers will also have:

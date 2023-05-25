@@ -13,15 +13,15 @@ Create the server via the :ref:`host<hosting>`'s interface.
 Linode
 ~~~~~~
 
-#. `Log into Linode <https://login.linode.com/>`__
+#. `Log into Linode <https://login.linode.com/login>`__
 #. Click *Create Linode*
 
-   #. Set *Images* to "Ubuntu 20.04 LTS"
+   #. Set *Images* to the latest Ubuntu LTS version
    #. Set *Region* to *London UK*
    #. Select a *Linode Plan*
    #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
    #. Set *Add Tags* to either *Production* or *Development*
-   #. Set *Root Password* to a `strong password <https://www.lastpass.com/password-generator>`__
+   #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
    #. Check *Backups*
    #. Click *Create Linode* and wait a few minutes for the server to power on
 
@@ -44,11 +44,11 @@ Linode
             If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
 
       #. Rename the "Swap Image" disk to "### MB Swap Image"
-      #. Resize the "Ubuntu 20.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+      #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
 
    #. On the *Configurations* tab:
 
-      #. Click *Edit* for the "My Ubuntu 20.04 LTS Disk Profile" (or similar) config
+      #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
       #. Uncheck *Auto-configure networking*
       #. Click *Save Changes*
 
@@ -82,7 +82,7 @@ Hetzner
 #. Click the *Order* button for the chosen server
 
    #. Set *Server Location* (no issues to date with the lowest price option)
-   #. Set *Operating System* to "Ubuntu 18.04 LTS - minimal"
+   #. Set *Operating System* to the latest Ubuntu LTS version
 
       .. note::
 
@@ -90,7 +90,7 @@ Hetzner
 
    #. Set *Drives* as needed
    #. Click the *Order Now* button
-   #. In the *Server Login Details* panel, set *Type* to "Public key" and enter your public SSH key
+   #. In the *Server Login Details* panel, set *Type* to "Public key" and enter :ref:`your public SSH key<add-public-key>`
 
       .. note::
 
@@ -111,7 +111,7 @@ Install Ubuntu
 
 If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
-#. Activate and load the `Rescue System <https://wiki.hetzner.de/index.php/Hetzner_Rescue-System/en>`__, if not already loaded.
+#. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
 #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
 #. Test the server hardware:
 
@@ -124,17 +124,17 @@ If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
    #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
 
-#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en>`__) and accept the defaults, unless stated otherwise below:
+#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
 
    .. code-block:: bash
 
       installimage
 
-   #. Select "Ubuntu 18.04 - minimal"
+   #. Select the latest Ubuntu LTS version.
 
    #. The installer opens a configuration file.
 
-      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://wiki.hetzner.de/index.php/Installimage/en#Drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
          .. code-block:: none
 
@@ -176,7 +176,7 @@ Install Windows
 Reference:
 
 -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
--  `Installing WIndows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+-  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
 .. _create-dns-records:
 
@@ -209,11 +209,11 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 3. Apply core changes
 ---------------------
 
-#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
+#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
    .. note::
 
-      The root password is needed if you can't login via SSH (for example, due to a broken configuration). For Bytemark, open the `panel <https://panel.bytemark.co.uk/servers>`__, click the server's *Console* button, and login.
+      The root password is needed if you can't login via SSH (for example, due to a broken configuration).
 
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 
@@ -238,7 +238,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
 
-#. `Reboot the server <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
+#. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
 
@@ -281,24 +281,40 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
 #. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
 
-For Django application servers:
+Django applications
+~~~~~~~~~~~~~~~~~~~
 
 #. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 
-For OCDS documentation servers:
+Kingfisher
+~~~~~~~~~~
 
-#. Copy the ``/home/ocds-docs/web`` directory
-#. Update the IP addresses in the ``pillar/cove.sls`` file, and deploy the ``cove-*`` services
+.. note::
 
-For Redmine servers:
-
-#. Copy the ``/home/redmine/public_html/files`` directory
-
-For Kingfisher servers (instructions are incomplete):
+   Instructions are incomplete.
 
 #. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
-For Redash servers, see :doc:`redash`.
+OCDS documentation
+~~~~~~~~~~~~~~~~~~
+
+#. Copy the ``/home/ocds-docs/web`` directory
+
+Prometheus
+~~~~~~~~~~
+
+#. Copy the ``/home/prometheus-server/data`` directory
+#. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
+
+Redash
+~~~~~~
+
+See :doc:`redash`.
+
+Redmine
+~~~~~~~
+
+#. Copy the ``/home/redmine/public_html/files`` directory
 
 6. Update external services
 ---------------------------
@@ -325,5 +341,4 @@ If the service is being introduced:
 
 If the service uses a new top-level domain name:
 
-#. Add the domain to `Google Webmaster Central <https://www.google.com/webmasters/verification/home?hl=en>`__
 #. Add the domain to `Google Search Console <https://search.google.com/search-console>`__

@@ -1,3 +1,4 @@
+{% from 'lib.sls' import set_cron_env %}
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
@@ -6,8 +7,10 @@ include:
 {% set entry = pillar.docker_apps.registry %}
 {% set directory = docker_apps_directory + entry.target %}
 
+{{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "registry") }}
+
 # docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm web python manage.py manageprocess 2> /dev/null:
+cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py manageprocess 2> /dev/null:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}

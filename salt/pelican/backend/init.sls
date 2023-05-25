@@ -1,7 +1,24 @@
+{% from 'lib.sls' import set_cron_env %}
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
+
+include:
+- docker_apps
 
 {% set entry = pillar.docker_apps.pelican_backend %}
 {% set directory = docker_apps_directory + entry.target %}
+
+{{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "pelican.backend") }}
+
+# docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
+cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py update-exchange-rates 2> /dev/null:
+  cron.present:
+    - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
+    - user: {{ pillar.docker.user }}
+    - hour: '*/12'
+    - minute: random
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
 
 {%
   for basename, source_hash in [
@@ -43,13 +60,3 @@ run pelican migration {{ basename }}:
 # psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
 #
 # This allows us to update exchange_rates.csv for new servers, without interfering with existing servers.
-
-# docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm extract python manage.py update-exchange-rates 2> /dev/null:
-  cron.present:
-    - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
-    - user: {{ pillar.docker.user }}
-    - hour: '*/12'
-    - require:
-      - file: {{ directory }}/docker-compose.yaml
-      - file: {{ directory }}/.env

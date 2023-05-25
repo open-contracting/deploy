@@ -1,3 +1,11 @@
+network:
+  host_id: ocp19
+  ipv4: 178.79.135.174
+  #ipv6: 2001:db8::19
+  networkd:
+    template: linode
+    gateway4: 178.79.135.1
+
 ssh:
   docs:
     # Public key for salt/private/keys/docs_ci
@@ -8,23 +16,15 @@ vm:
 
 apache:
   public_access: True
-  modules:
-    mod_md:
-      MDNotifyCmd: /opt/restart-elasticsearch.sh
   sites:
     ocds-docs-live:
       configuration: docs
       servername: standard.open-contracting.org
 
 elasticsearch:
-  public_access: True
-  # Allow OCDS documentation and GitHub Actions.
-  allowed_origins: "*"
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
-  version: 7.17.9
+  version: 8.7.0
   plugins:
     readonlyrest:
-      version: 1.47.0_es7.17.9
+      version: 1.47.0_es8.7.0
       configuration: docs
-      certificate_key_file: /etc/elasticsearch/ssl/standard.open-contracting.org/privkey.pem
-      certificate_file: /etc/elasticsearch/ssl/standard.open-contracting.org/pubcert.pem

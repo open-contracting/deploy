@@ -1,9 +1,10 @@
-x-base: &base
+x-shared: &shared
   env_file: .env
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
 
-x-shared: &shared
-  <<: *base
+x-django: &django
+  <<: *shared
   image: "ghcr.io/open-contracting/data-registry-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -15,22 +16,24 @@ x-shared: &shared
 
 services:
   web:
-    <<: *shared
-    restart: unless-stopped
+    <<: *django
     ports: 
       - {{ pillar.docker_apps.registry.port }}:8000
   exporter:
-    <<: *shared
+    <<: *django
     command: "python manage.py exporter"
   flattener:
-    <<: *shared
+    <<: *django
     command: "python manage.py flattener"
   wiper:
-    <<: *shared
+    <<: *django
     command: "python manage.py wiper"
+  cron:
+    <<: *django
+    profiles:
+      - cron
   static:
-    <<: *base
+    <<: *shared
     image: "ghcr.io/open-contracting/data-registry-static:latest"
-    restart: unless-stopped
     ports:
       - {{ pillar.apache.sites.registry.context.static_port }}:8080

@@ -4,7 +4,7 @@ Configure MySQL
 Specify the version
 -------------------
 
-The default version is 8.0.
+The `default version <https://endoflife.date/mysql>`__ is 8.0.
 
 To override the version, update the server's Pillar file:
 
@@ -19,7 +19,7 @@ Add users, groups and databases
 
 To configure the database for an application:
 
-#. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/password-generator>`__ (uncheck *Symbols*) and ``USERNAME`` with a recognizable username:
+#. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/features/password-generator>`__ (uncheck *Symbols*) and ``USERNAME`` with a recognizable username:
 
    .. code-block:: yaml
 
@@ -73,8 +73,8 @@ The configuration file will be in the ``/etc/mysql/conf.d`` directory on the ser
 Set up backups
 --------------
 
-#. Create and configure a :ref:`S3 backup bucket<aws-s3-backup>`
-#. Configure the :doc:`AWS CLI<../awscli>`
+#. Create and configure a :ref:`S3 backup bucket<aws-s3-bucket>`
+#. Configure the :doc:`AWS CLI<awscli>`
 #. Set ``mysql.backup.location`` in the server's Pillar file, for example:
 
    .. code-block:: yaml

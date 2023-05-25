@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import create_user, set_cron_env %}
 
 include:
   - apache.modules.remoteip
@@ -19,6 +19,8 @@ allow {{ userdir }} access:
     - require:
       - user: {{ entry.user }}_user_exists
 
+{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+
 cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
@@ -27,14 +29,6 @@ cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_K
     - minute: random
     - require:
       - virtualenv: {{ directory }}/.ve
-
-set MAILTO environment variable in {{ entry.user }} crontab:
-  cron.env_present:
-    - name: MAILTO
-    - value: sysadmin@open-contracting.org
-    - user: {{ entry.user }}
-    - require:
-      - user: {{ entry.user }}_user_exists
 
 # By default this clears down /tmp data older than 7 days.
 clean up tmp data when python errors:

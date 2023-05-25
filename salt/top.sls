@@ -19,11 +19,17 @@ base:
     - core.systemd.logind
     - core.systemd.ntp
 
+  'coalition':
+    - coalition
+
   'cove-*':
     - cove
 
   'cove-oc4ids':
     - memcached
+
+  'credere':
+    - docker_apps
 
   'docs':
     - docs
@@ -58,7 +64,7 @@ base:
     - spoonbill
     - registry
 
-  # https://docs.saltstack.com/en/latest/topics/targeting/compound.html
+  # https://docs.saltproject.io/en/latest/topics/targeting/compound.html
 
   'I@apache:sites':
     - apache

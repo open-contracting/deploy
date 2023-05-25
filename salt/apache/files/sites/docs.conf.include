@@ -1,7 +1,7 @@
 # vi: ft=apache
 
-{# The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
-{%
+{#- The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
+{%-
     set options = {
         '/profiles/eforms': {
             'versions': ['latest'],
@@ -37,13 +37,12 @@
     }
 %}
 
-{# Matches all root paths. #}
-{% set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+{#- Matches all root paths. #}
+{%- set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
 
-{% set documentroot = '/home/ocds-docs/web' %}
+{%- set documentroot = '/home/ocds-docs/web' %}
 
 DocumentRoot {{ documentroot }}
-RewriteMap unescape int:unescape
 
 SetEnv BANNER /includes/banner_live.html
 <Location /1.0/>
@@ -76,13 +75,6 @@ SetEnv BANNER /includes/banner_live.html
     SetEnv BANNER /includes/banner_staging_profiles_ppp.html
 </Location>
 
-# Needed to proxy to SSL servers.
-SSLProxyEngine on
-# ProxyPreserveHost was on but we need it to be Off, as it makes adding SSL much easier.
-ProxyPreserveHost Off
-# With a keepalive, we had problems with headers being interpreted as the start of the response.
-SetEnv proxy-nokeepalive 1
-
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
     Require all granted
@@ -96,73 +88,77 @@ SetEnv proxy-nokeepalive 1
 
     Header set Access-Control-Allow-Origin "*"
 
-    {% for root, opts in options.items() %}
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
-        RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
-    {% endfor %}
+    # Add an "en" language if not present, to avoid serving a directory listing.
+    # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
+{%- for root, opts in options.items() %}
+    RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+{%- endfor %}
 </Directory>
 
-{% for root, opts in options.items() %}
-    # Add the default version if not present.
-    <Location {{ root or '/' }}>
-        RedirectMatch ^{{ root }}/?$ {{ root }}/{{ opts.versions[0] }}/
-    </Location>
+{%- for root, opts in options.items() %}
+####################
+# {{ root or '/' }}
+####################
 
-    # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
+# Add the default version if not present.
+<Location {{ root or '/' }}>
+    RedirectMatch ^{{ root }}/?$ {{ root }}/{{ opts.versions[0] }}/
+</Location>
 
-    # Implement the version switcher.
-    <Location {{ root }}/switcher>
-        RewriteEngine on
+# Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
-        {% for versions in opts.get('stable_sitemap', [None]) %}
-            {% if versions %}
-                # Test that we are switching between versions with the same sitemap or with appropriate redirects.
-                RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"
-                RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
-            {% endif %}
-            # Use the HTTP referer to return to the same page in the new version.
-            RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-            # The backreferences are the version (branch), language and path.
-            RewriteRule ^.*$ {{ root }}/${unescape:%5}/%3/%4? [R]
-        {% endfor %}
+# Implement the version switcher.
+<Location {{ root }}/switcher>
+    RewriteEngine on
 
-        # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
-        RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-        # The backreference is the version (branch).
-        RewriteRule ^.*$ {{ root }}/${unescape:%1}/? [R]
-    </Location>
+    {%- for versions in opts.get('stable_sitemap', [None]) %}
+        {%- if versions %}
+    # Test that we are switching between versions with the same sitemap or with appropriate redirects.
+    RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"
+    RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
+        {%- endif %}
+    # Use the HTTP referer to return to the same page in the new version.
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
+    # The backreferences are the version (branch), language and path.
+    RewriteRule . {{ root }}/%5/%3/%4? [R,NE]
+    {%- endfor %}
 
-    # Implement the language switcher.
-    {% for version in opts.versions %}
-        <Location {{ root }}/{{ version }}/switcher>
-            RewriteEngine on
+    # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
+    RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
+    # The backreference is the version (branch).
+    RewriteRule . {{ root }}/%1/? [R,NE]
+</Location>
 
-            # Use the HTTP referer to return to the same page in the new language.
-            RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-            # The backreferences are the version, language and path.
-            RewriteRule ^.*$ {{ root }}/%2/${unescape:%5}/%4? [R]
+# Implement the language switcher.
+    {%- for version in opts.versions %}
+<Location {{ root }}/{{ version }}/switcher>
+    RewriteEngine on
 
-            # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
-            RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-            # The backreference is the language.
-            RewriteRule ^.*$ {{ root }}/{{ version }}/${unescape:%1}/? [R]
-        </Location>
+    # Use the HTTP referer to return to the same page in the new language.
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
+    # The backreferences are the version, language and path.
+    RewriteRule . {{ root }}/%2/%5/%4? [R,NE]
 
-        # Configure the error page.
-        {% for lang in opts.languages %}
-            <Location {{ root }}/{{ version }}/{{ lang }}/>
-                ErrorDocument 404 {{ root }}/{{ version }}/{{ lang }}/404/
-            </Location>
+    # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
+    RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
+    # The backreference is the language.
+    RewriteRule . {{ root }}/{{ version }}/%1/? [R,NE]
+</Location>
 
-            <Location {{ root }}/{{ version }}/{{ lang }}/404/>
-                SetOutputFilter SUBSTITUTE
-                # This also substitutes URLs for stylesheets, scripts, etc.
-                Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
-            </Location>
-        {% endfor %}
-    {% endfor %}
-{% endfor %}
+# Configure the error page.
+        {%- for lang in opts.languages %}
+<Location {{ root }}/{{ version }}/{{ lang }}/>
+    ErrorDocument 404 {{ root }}/{{ version }}/{{ lang }}/404/
+</Location>
+
+<Location {{ root }}/{{ version }}/{{ lang }}/404/>
+    SetOutputFilter SUBSTITUTE
+    # This also substitutes URLs for stylesheets, scripts, etc.
+    Substitute "s|\"\.\./|\"{{ root }}/{{ version }}/{{ lang }}/|i"
+</Location>
+        {%- endfor %}
+    {%- endfor %}
+{%- endfor %}
 
 ####################
 # Redirects
@@ -205,94 +201,108 @@ Redirect /recursos /latest/en/support/tools/
 Redirect /resources /latest/en/support/tools/
 
 # Redirect master branches.
-Redirect /profiles/eu/master /profiles/eu/latest
-Redirect /profiles/gpa/master /profiles/gpa/latest
+Redirect permanent /profiles/eu/master /profiles/eu/latest
+Redirect permanent /profiles/gpa/master /profiles/gpa/latest
 
 # The Validator was renamed the Data Review Tool.
-Redirect /validator https://review.standard.open-contracting.org
-RedirectMatch ^/validator/(.*)$ https://review.standard.open-contracting.org/$1
+Redirect permanent /validator https://review.standard.open-contracting.org
+RedirectMatch permanent ^/validator/(.*)$ https://review.standard.open-contracting.org/$1
 # The Data Review Tools were moved to their own subdomain.
-Redirect /review https://review.standard.open-contracting.org
-RedirectMatch ^/review/(.*)$ https://review.standard.open-contracting.org/$1
-Redirect /infrastructure/review https://review-oc4ids.standard.open-contracting.org
-RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
+Redirect permanent /review https://review.standard.open-contracting.org
+RedirectMatch permanent ^/review/(.*)$ https://review.standard.open-contracting.org/$1
+Redirect permanent /infrastructure/review https://review-oc4ids.standard.open-contracting.org
+RedirectMatch permanent ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-contracting.org/$1
+
+# Remove multiple slashes, which cause CSS to break and double-counting by search engines.
+# REQUEST_URI already has the slashes merged.
+RewriteEngine on
+RewriteCond %{THE_REQUEST} ^GET\s(.*)/{2,}(.*)\s
+RewriteRule . %1/%2 [R=301,L]
 
 # See: https://crm.open-contracting.org/issues/4401
-{% for lang in options[''].languages %}
-    {% for version in ['latest', '1.1'] %}
-        # Extensions
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/community/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/developing/?                https://extensions.open-contracting.org/{{ lang }}/extensions/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/party_details/?             https://extensions.open-contracting.org/{{ lang }}/extensions/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/bids/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/enquiries/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/location/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/lots/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/milestone_documents/?       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/participation_fee/?         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/process_title/?             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+{%- for lang in options[''].languages %}
+    {%- for version in ['latest', '1.1'] %}
+####################
+# OCDS {{ lang }} {{ version }}
+####################
 
-        # Iterative improvements from OCDS 1.1.4 and up
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/building_blocks/?                /{{ version }}/{{ lang }}/primer/how/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/contracting_process/?            /{{ version }}/{{ lang }}/primer/how/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/publication_patterns/?           /{{ version }}/{{ lang }}/guidance/build/hosting/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/quality/?                        /{{ version }}/{{ lang }}/guidance/publish/quality/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/releases_and_records/?           /{{ version }}/{{ lang }}/primer/releases_and_records/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/use_cases/?                      /{{ version }}/{{ lang }}/guidance/design/user_needs/
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/validation/?                     /{{ version }}/{{ lang }}/guidance/build/#check-your-data
-        RedirectMatch /{{ version }}/{{ lang }}/getting_started/?                                /{{ version }}/{{ lang }}/primer/
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/awards_contracts_buyers_suppliers/? /{{ version }}/{{ lang }}/guidance/map/awards_contracts/
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/award_notices_decisions/?           /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-award-notices
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts/?          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/purchase_orders/?                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/consortia/?                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/related_processes/?                 /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender/?               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
-        RedirectMatch /{{ version }}/{{ lang }}/guidance/map/catalogs/?                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
-        RedirectMatch /{{ version }}/{{ lang }}/extensions/?                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/amendments/?                      /{{ version }}/{{ lang }}/guidance/map/amendments/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/hosting/?                         /{{ version }}/{{ lang }}/guidance/build/hosting/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/levels/?                          /{{ version }}/{{ lang }}/guidance/publish/quality/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/licensing/?                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/publication_policy/?              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/registration/?                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/serialization/?                   /{{ version }}/{{ lang }}/guidance/build/serialization/
-        RedirectMatch /{{ version }}/{{ lang }}/implementation/?                                 /{{ version }}/{{ lang }}/guidance/
-        RedirectMatch /{{ version }}/{{ lang }}/schema/changelog/?                               /{{ version }}/{{ lang }}/history/changelog/
-        RedirectMatch /{{ version }}/{{ lang }}/schema/deprecation/?                             /{{ version }}/{{ lang }}/governance/deprecation/
-        RedirectMatch /{{ version }}/{{ lang }}/support/credits/?                                /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
-        RedirectMatch /{{ version }}/{{ lang }}/support/governance/?                             /{{ version }}/{{ lang }}/governance/
-        RedirectMatch /{{ version }}/{{ lang }}/support/history_and_development/?                /{{ version }}/{{ lang }}/history/history_and_development/
-        RedirectMatch /{{ version }}/{{ lang }}/support/tools/?                                  /{{ version }}/{{ lang }}/support/#ocds-tools
-    {% endfor %}
-{% endfor %}
+# Extensions
+RedirectMatch /{{ version }}/{{ lang }}/extensions/community/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/developing/?                https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/party_details/?             https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/bids/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/enquiries/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/location/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/lots/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/milestone_documents/?       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/participation_fee/?         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/process_title/?             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
 
-{% for lang in options['/profiles/ppp'].languages %}
-    {% for version in ['latest', '1.0'] %}
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/bids?                   https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget?                 https://extensions.open-contracting.org/{{ lang }}/extensions/budget/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget_project?         https://extensions.open-contracting.org/{{ lang }}/extensions/budget_project/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/charges?                https://extensions.open-contracting.org/{{ lang }}/extensions/charges/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/documentation_details?  https://extensions.open-contracting.org/{{ lang }}/extensions/documentation_details/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/finance?                https://extensions.open-contracting.org/{{ lang }}/extensions/finance/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/index?                  https://extensions.open-contracting.org/{{ lang }}/extensions/index/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/location?               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/metrics?                https://extensions.open-contracting.org/{{ lang }}/extensions/metrics/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/milestone_documents?    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/performance_failures?   https://extensions.open-contracting.org/{{ lang }}/extensions/performance_failures/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/ppp?                    https://extensions.open-contracting.org/{{ lang }}/extensions/ppp/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/process_title?          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/qualification?          https://extensions.open-contracting.org/{{ lang }}/extensions/qualification/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/requirements?           https://extensions.open-contracting.org/{{ lang }}/extensions/requirements/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/risk_allocation?        https://extensions.open-contracting.org/{{ lang }}/extensions/risk_allocation/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/shareholders?           https://extensions.open-contracting.org/{{ lang }}/extensions/shareholders/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/signatories?            https://extensions.open-contracting.org/{{ lang }}/extensions/signatories/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/tariffs?                https://extensions.open-contracting.org/{{ lang }}/extensions/tariffs/
-        RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_milestones? https://extensions.open-contracting.org/{{ lang }}/extensions/transaction_milestones/
-    {% endfor %}
-{% endfor %}
+# Iterative improvements from OCDS 1.1.4 and up
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/building_blocks/?                /{{ version }}/{{ lang }}/primer/how/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/contracting_process/?            /{{ version }}/{{ lang }}/primer/how/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/publication_patterns/?           /{{ version }}/{{ lang }}/guidance/build/hosting/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/quality/?                        /{{ version }}/{{ lang }}/guidance/publish/quality/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/releases_and_records/?           /{{ version }}/{{ lang }}/primer/releases_and_records/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/use_cases/?                      /{{ version }}/{{ lang }}/guidance/design/user_needs/
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/validation/?                     /{{ version }}/{{ lang }}/guidance/build/#check-your-data
+RedirectMatch /{{ version }}/{{ lang }}/getting_started/?                                /{{ version }}/{{ lang }}/primer/
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/awards_contracts_buyers_suppliers/? /{{ version }}/{{ lang }}/guidance/map/awards_contracts/
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/award_notices_decisions/?           /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-award-notices
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts/?          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/purchase_orders/?                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/consortia/?                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/related_processes/?                 /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender/?               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
+RedirectMatch /{{ version }}/{{ lang }}/guidance/map/catalogs/?                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
+RedirectMatch /{{ version }}/{{ lang }}/extensions/?                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/amendments/?                      /{{ version }}/{{ lang }}/guidance/map/amendments/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/hosting/?                         /{{ version }}/{{ lang }}/guidance/build/hosting/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/levels/?                          /{{ version }}/{{ lang }}/guidance/publish/quality/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/licensing/?                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
+RedirectMatch /{{ version }}/{{ lang }}/implementation/publication_policy/?              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
+RedirectMatch /{{ version }}/{{ lang }}/implementation/registration/?                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
+RedirectMatch /{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/serialization/?                   /{{ version }}/{{ lang }}/guidance/build/serialization/
+RedirectMatch /{{ version }}/{{ lang }}/implementation/?                                 /{{ version }}/{{ lang }}/guidance/
+RedirectMatch /{{ version }}/{{ lang }}/schema/changelog/?                               /{{ version }}/{{ lang }}/history/changelog/
+RedirectMatch /{{ version }}/{{ lang }}/schema/deprecation/?                             /{{ version }}/{{ lang }}/governance/deprecation/
+RedirectMatch /{{ version }}/{{ lang }}/support/credits/?                                /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
+RedirectMatch /{{ version }}/{{ lang }}/support/governance/?                             /{{ version }}/{{ lang }}/governance/
+RedirectMatch /{{ version }}/{{ lang }}/support/history_and_development/?                /{{ version }}/{{ lang }}/history/history_and_development/
+RedirectMatch /{{ version }}/{{ lang }}/support/tools/?                                  /{{ version }}/{{ lang }}/support/#ocds-tools
+    {%- endfor %}
+{%- endfor %}
+
+{%- for lang in options['/profiles/ppp'].languages %}
+    {%- for version in ['latest', '1.0'] %}
+####################
+# PPP {{ lang }} {{ version }}
+####################
+
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/bids/?                   https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/budget/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget_project/?         https://extensions.open-contracting.org/{{ lang }}/extensions/budget_project/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/charges/?                https://extensions.open-contracting.org/{{ lang }}/extensions/charges/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/documentation_details/?  https://extensions.open-contracting.org/{{ lang }}/extensions/documentation_details/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/finance/?                https://extensions.open-contracting.org/{{ lang }}/extensions/finance/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/index/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/index/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/location/?               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/metrics/?                https://extensions.open-contracting.org/{{ lang }}/extensions/metrics/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/milestone_documents/?    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/performance_failures/?   https://extensions.open-contracting.org/{{ lang }}/extensions/performance_failures/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/ppp/?                    https://extensions.open-contracting.org/{{ lang }}/extensions/ppp/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/process_title/?          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/qualification/?          https://extensions.open-contracting.org/{{ lang }}/extensions/qualification/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/requirements/?           https://extensions.open-contracting.org/{{ lang }}/extensions/requirements/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/risk_allocation/?        https://extensions.open-contracting.org/{{ lang }}/extensions/risk_allocation/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/shareholders/?           https://extensions.open-contracting.org/{{ lang }}/extensions/shareholders/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/signatories/?            https://extensions.open-contracting.org/{{ lang }}/extensions/signatories/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/tariffs/?                https://extensions.open-contracting.org/{{ lang }}/extensions/tariffs/
+RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_milestones/? https://extensions.open-contracting.org/{{ lang }}/extensions/transaction_milestones/
+    {%- endfor %}
+{%- endfor %}
 
 ####################
 # Staging
@@ -301,11 +311,11 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
 <Directory {{ documentroot }}/staging>
     ErrorDocument 404 /staging/error/404
 
-    {% for root, opts in options.items() %}
-        # Add an "en" language if not present, to avoid serving a directory listing.
-        # This should be nearly identical to the RedirectMatch directive within the Directory directive above.
-        RedirectMatch ^/staging{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}(?!switcher)([^/]+)/?$ /staging{{ root }}/$1/en/
-    {% endfor %}
+    # Add an "en" language if not present, to avoid serving a directory listing.
+    # This should be nearly identical to the RedirectMatch directive within the Directory directive above.
+{%- for root, opts in options.items() %}
+    RedirectMatch ^/staging{{ root }}/{% for exclude in opts.redirect_excludes %}(?!{{ exclude }}){% endfor %}(?!switcher)([^/]+)/?$ /staging{{ root }}/$1/en/
+{%- endfor %}
 </Directory>
 
 # We can't set 404 pages like for production directories, so we use a RewriteRule directive.
@@ -314,7 +324,7 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
     RewriteEngine on
     RewriteCond "%{THE_REQUEST}" "^GET /staging/{{ pattern }}([^/]*/[^/]*)/"
     # The backreferences are the root, and version and language.
-    RewriteRule ^.*$ /staging/%1%2/404/ [L]
+    RewriteRule . /staging/%1%2/404/ [L]
 </Location>
 
 # We can't backreference a LocationMatch regular expression, so we need this intermediate step.
@@ -330,7 +340,7 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
     RewriteEngine on
     RewriteCond "%{REQUEST_URI}" "^/staging/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
     # The backreferences are the root, version and language, and path.
-    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%1%2/%4 [R]
+    RewriteRule . https://standard.open-contracting.org/staging/%1%2/%4 [R]
 </LocationMatch>
 
 # Implement the language switcher.
@@ -340,10 +350,24 @@ RedirectMatch ^/infrastructure/review/(.*)$ https://review-oc4ids.standard.open-
     # Use the HTTP referer to return to the same page in the new language.
     RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/staging/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
     # The backreferences are the root, version, language and path.
-    RewriteRule ^.*$ https://standard.open-contracting.org/staging/%2%3/${unescape:%6}/%5? [R]
+    RewriteRule . https://standard.open-contracting.org/staging/%2%3/%6/%5? [R,NE]
 
     # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
     RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
     # The backreferences are the root, version and language.
-    RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/${unescape:%1}/? [R]
+    RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/%1/? [R,NE]
+</LocationMatch>
+
+####################
+# ElasticSearch
+####################
+
+<LocationMatch "^/search/(.*)">
+    ProxyPass http://localhost:9200/$1
+    ProxyPassReverse http://localhost:9200/$1
+    # Allow GitHub Actions.
+    # https://www.elastic.co/guide/en/elasticsearch/reference/8.7/modules-network.html
+    Header add "Access-Control-Allow-Origin" "*"
+    Header Add "Access-Control-Allow-Methods" "OPTIONS, GET, POST"
+    Header add "Access-Control-Allow-Headers" "X-Requested-With, Content-Type, Content-Length, Authorization"
 </LocationMatch>

@@ -11,12 +11,14 @@ scrape_configs:
 
   # Node Exporter.
 {%- for job_name, host in {
+    'coalition': 'ocp21.open-contracting.org',
     'cove-oc4ids-2': 'ocp17.open-contracting.org',
     'cove-ocds-2': 'ocp18.open-contracting.org',
+    'credere': 'ocp22.open-contracting.org',
     'ocds-kingfisher-replica': 'ocp05.open-contracting.org',
     'ocds-kingfisher2': 'ocp04.open-contracting.org',
-    'ocds-live.docs': 'ocp07.open-contracting.org',
-    'prometheus-server-node': 'ocp03.open-contracting.org',
+    'ocds-live.docs': 'ocp19.open-contracting.org',
+    'prometheus-server-node': 'ocp20.open-contracting.org',
     'data-registry': 'ocp13.open-contracting.org',
     'redash': 'ocp14.open-contracting.org',
     'redmine': 'ocp16.open-contracting.org',
@@ -32,14 +34,6 @@ scrape_configs:
       username: {{ pillar.prometheus.node_exporter.username }}
       password: {{ pillar.prometheus.node_exporter.password }}
 {%- endfor %}
-
-  # The custom endpoint in Kingfisher Process, which adds new metrics prefixed by `kingfisher_process_`.
-  - job_name: 'ocds-kingfisher2-process'
-    scrape_interval: 300s
-    metrics_path: /prometheus/metrics
-    static_configs:
-      - targets: ['process.kingfisher.open-contracting.org']
-    scheme: https
 
 alerting:
   alertmanagers:

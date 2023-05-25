@@ -44,7 +44,7 @@ Delete a user
 
 .. note::
 
-   The `purge <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.user.html#salt.states.user.absent>`__ option will delete all of the user's files.
+   The `purge <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.user.html#salt.states.user.absent>`__ option will delete all of the user's files.
 
 Delete a cron job
 -----------------
@@ -56,7 +56,7 @@ Delete a cron job
 Delete a service
 ----------------
 
-`Stop <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
+`Stop <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
 
 To stop and disable the ``icinga2`` service on the ``docs`` target, for example:
 
@@ -79,7 +79,7 @@ If you deleted the ``uwsgi`` service, also run, for example:
 Delete a package
 ----------------
 
-`Remove a package and its configuration files <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
+`Remove a package and its configuration files <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
 
 To scrub Icinga-related packages from the ``docs`` target, for example:
 

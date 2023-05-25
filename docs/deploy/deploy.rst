@@ -38,13 +38,13 @@ The ``state.apply`` function often completes within one minute. You can ignore t
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-To `run a specific state file <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls>`__, run, for example:
+To `run a specific state file <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls>`__, run, for example:
 
 .. code-block:: bash
 
    ./run.py 'docs' state.sls elasticsearch
 
-To `run a specific SLS ID <https://docs.saltstack.com/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
+To `run a specific SLS ID <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
 
 .. code-block:: bash
 
@@ -98,7 +98,7 @@ Function: service.running, ID: uwsgi
 
 States that always report changes:
 
--  `cmd.run <https://docs.saltstack.com/en/latest/ref/states/all/salt.states.cmd.html>`__, unless ``onchanges`` is specified
+-  `cmd.run <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html>`__, unless ``onchanges`` is specified
 -  `pip.installed <https://github.com/saltstack/salt/issues/24216>`__, if ``upgrade`` is set
 -  ``postgres_privileges.present``, if ``object_name`` is ``ALL``
 
