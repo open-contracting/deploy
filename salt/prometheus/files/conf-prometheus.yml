@@ -35,14 +35,6 @@ scrape_configs:
       password: {{ pillar.prometheus.node_exporter.password }}
 {%- endfor %}
 
-  # The custom endpoint in Kingfisher Process, which adds new metrics prefixed by `kingfisher_process_`.
-  - job_name: 'ocds-kingfisher2-process'
-    scrape_interval: 300s
-    metrics_path: /prometheus/metrics
-    static_configs:
-      - targets: ['process.kingfisher.open-contracting.org']
-    scheme: https
-
 alerting:
   alertmanagers:
   - static_configs:
