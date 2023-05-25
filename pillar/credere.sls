@@ -18,7 +18,7 @@ apache:
 docker:
   user: deployer
   docker_compose:
-    version: v2.17.3
+    version: v2.18.1
 
 docker_apps:
   credere:
