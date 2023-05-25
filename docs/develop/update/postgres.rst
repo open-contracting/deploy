@@ -273,7 +273,7 @@ To configure a main server and a replica server:
             password: example_password
             replication: True
 
-   You will also need to pass this user to the replica server. This is used to populate the recovery.conf file via pgbackrest.
+   You will also need to pass this user to the replica server. This is used to populate the ``postgresql.conf`` file via pgbackrest.
 
    .. code-block:: yaml
 
@@ -285,7 +285,7 @@ To configure a main server and a replica server:
 
    .. note::
 
-      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
+      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/postgresql.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 

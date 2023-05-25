@@ -533,7 +533,7 @@ Fix replication
 #. Download the latest database or a backup from a specific point in time
 
    In this example I'm restoring ``kingfisher``, to restore a different instance, replace ``kingfisher`` with the value set in pillar ``postgres:backup:stanza``.
-   pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/recovery.conf``).
+   pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/postgresql.conf``).
 
    .. code-block:: bash
 
