@@ -40,7 +40,7 @@ apache2-reload:
     - name: service.reload
     - m_name: apache2
 
-# https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
+# https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.webutil.html
 apache2-utils:
   pkg.installed:
     - name: apache2-utils
