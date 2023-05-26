@@ -335,7 +335,11 @@ See :doc:`redash`.
 Redmine
 ~~~~~~~
 
-#. Copy the ``/home/redmine/public_html/files`` directory
+#. Copy the ``/home/redmine/public_html/files`` directory. For example:
+
+   .. code-block:: bash
+
+      rsync -avz ocp99:/home/redmine/public_html/files/ /home/redmine/public_html/files/
 
 6. Update external services
 ---------------------------
