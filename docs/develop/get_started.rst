@@ -70,7 +70,7 @@ Then, ask James or Yohanna to deploy your public SSH key to the relevant servers
 4. Configure Salt for non-root user
 -----------------------------------
 
-Unless your local user is the root user, run:
+Run:
 
 .. code-block:: bash
 
