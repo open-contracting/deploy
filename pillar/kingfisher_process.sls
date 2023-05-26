@@ -20,15 +20,15 @@ prometheus:
   node_exporter:
     smartmon: True
 
+# rsyslog is needed as messages can be written by multiple processes.
+# https://docs.python.org/3/howto/logging-cookbook.html#opening-the-same-log-file-multiple-times
 rsyslog:
   conf:
-    90-kingfisher.conf: kingfisher-process.conf
-    91-kingfisher-views.conf: kingfisher-summarize.conf
+    91-kingfisher-summarize.conf: kingfisher-summarize.conf
 
 logrotate:
   conf:
-    kingfisher.conf: kingfisher-process
-    kingfisher-views.conf: kingfisher-summarize
+    kingfisher-summarize.conf: kingfisher-summarize
 
 apache:
   public_access: True
