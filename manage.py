@@ -83,22 +83,6 @@ def cli():
 
 
 @cli.command()
-@click.argument('destination')
-def connect(destination):
-    """
-    Port-knock then connect to a destination using SSH.
-    """
-    user, host = destination.split('@')
-    try:
-        socket.create_connection((host, 8255), 1)
-    except socket.timeout:
-        pass
-    except ConnectionRefusedError:
-        print('port 8255 closed')
-    os.execvp('ssh', ('ssh', destination))
-
-
-@cli.command()
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def services(provider):

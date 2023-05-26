@@ -22,12 +22,6 @@ You can then use ``ssh`` as usual. Once you're connected, the server will close 
 
    Port 8255 returns no data. Without ``--connect-timeout 1``, curl waits forever for a response.
 
-If you are working on this repository, you can also run:
-
-.. code-block:: bash
-
-   ./manage.py connect user@host
-
 Static IP: Allow list
 ---------------------
 
