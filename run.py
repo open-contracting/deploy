@@ -1,11 +1,10 @@
-#!/usr/bin/env python
-import builtins
+#!/bin/sh
+# https://superuser.com/a/1622435/1803567
+"""$(dirname $(which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
+
 import os
 import socket
 import sys
-
-# https://github.com/saltstack/salt/issues/62664#issuecomment-1336017055
-os.environ["HOMEBREW_PREFIX"] = "/opt/homebrew"
 
 import salt.cli.ssh
 import salt.client.ssh

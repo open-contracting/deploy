@@ -72,7 +72,7 @@ Delete documents matching a base URL:
    -H 'Content-Type: application/json' \
    -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
-Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__:
+Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__ (``pip install ocdsindex``):
 
 .. code-block:: bash
 
