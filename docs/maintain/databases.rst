@@ -189,7 +189,7 @@ Find unexpected schema ``CREATE`` privileges:
        usename NOT IN ('postgres') AND
        has_schema_privilege(usename, nspname, 'CREATE') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -204,9 +204,9 @@ Find unexpected schema ``USAGE`` privileges:
        usename NOT IN ('postgres') AND
        nspname NOT IN ('information_schema', 'pg_catalog', 'reference', 'summaries') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%') AND
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
-       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'view_data_%')
+       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'summary_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -224,7 +224,7 @@ Find unexpected table non ``SELECT`` privileges:
        relname NOT IN ('pg_settings') AND
        has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename, nspname
    ORDER BY usename, nspname;
 
@@ -399,7 +399,7 @@ Find unexpected schema:
    WHERE
        nspname NOT LIKE 'pg_temp_%' AND
        nspname NOT LIKE 'pg_toast_temp_%' AND
-       nspname NOT LIKE 'view_data_%' AND
+       nspname NOT LIKE 'summary_%' AND
        nspname NOT IN (
            'information_schema',
            'pg_catalog',

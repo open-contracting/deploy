@@ -26,7 +26,7 @@ create reference schema:
       - postgres_database: ocdskingfisherprocess
 
 # GRANT privileges
-# Kingfisher Summarize will grant access to `view_data_*` schemas to the `kingfisher_summarize_read` group.
+# Kingfisher Summarize will grant access to `summary_*` schemas to the `kingfisher_summarize_read` group.
 
 # "The database user must have the CREATE privilege on the database used by Kingfisher Process."
 # https://kingfisher-summarize.readthedocs.io/en/latest/get-started.html#database
