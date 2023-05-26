@@ -10,7 +10,7 @@ Connect to a database
 
 .. note::
 
-   To query the database directly from your personal computer, please `request a personal SQL user account <https://github.com/open-contracting/deploy/issues/new/choose>`__, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
+   To query the database directly from your personal computer, request a personal SQL user account from James or Yohanna, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
 
    For most use cases, you can instead query the database from `Redash <https://redash.open-contracting.org>`__. To request an account, email data@open-contracting.org.
 
