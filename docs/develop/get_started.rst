@@ -5,12 +5,26 @@ Get started
 
    Only follow the Development Guides if you will be configuring or deploying servers. If you are simply using services, read the :doc:`../use/index`.
 
-1. Install requirements
+1. Install dependencies
 -----------------------
+
+Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/en/latest/>`__ to install Salt on your platform.
+
+.. note::
+
+   On at least macOS, you should stop the Salt minion service:
+
+   .. code-block:: bash
+
+      launchctl stop com.saltstack.salt.minion
+
+   and disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items).
+
+`Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
 
 .. code-block:: bash
 
-    pip install --no-deps -r requirements.txt
+   sudo salt-pip install click
 
 2. Clone repositories
 ---------------------
@@ -19,10 +33,10 @@ You must first have access to three private repositories. Contact an owner of th
 
 .. code-block:: bash
 
-    git clone git@github.com:open-contracting/deploy.git
-    git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
-    git clone git@github.com:open-contracting/deploy-salt-private.git deploy/salt/private
-    git clone git@github.com:open-contracting/dogsbody-maintenance.git deploy/salt/maintenance
+   git clone git@github.com:open-contracting/deploy.git
+   git clone git@github.com:open-contracting/deploy-pillar-private.git deploy/pillar/private
+   git clone git@github.com:open-contracting/deploy-salt-private.git deploy/salt/private
+   git clone git@github.com:open-contracting/dogsbody-maintenance.git deploy/salt/maintenance
 
 .. _add-public-key:
 
@@ -43,15 +57,15 @@ Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or
 
 .. code-block:: bash
 
-    vi pillar/kingfisher.sls
-    git commit pillar/kingfisher.sls -m "ssh: Add public key for Jane Doe"
-    git push origin main
+   vi pillar/kingfisher.sls
+   git commit pillar/kingfisher.sls -m "ssh: Add public key for Jane Doe"
+   git push origin main
 
 Then, ask James or Yohanna to deploy your public SSH key to the relevant servers. For example:
 
 .. code-block:: bash
 
-    ./run.py '*' state.sls_id root_authorized_keys core.sshd
+   ./run.py '*' state.sls_id root_authorized_keys core.sshd
 
 4. Configure Salt for non-root user
 -----------------------------------
@@ -60,7 +74,19 @@ Unless your local user is the root user, run:
 
 .. code-block:: bash
 
-    ./script/setup
+   ./script/setup
+
+This overwrites the files:
+
+-  ``~/.salt/Saltfile``
+-  ``salt-config/master``
+-  ``salt-config/master.d/localuser.conf``
+-  ``salt-config/pki/ssh/salt-ssh.rsa``
+-  ``salt-config/pki/ssh/salt-ssh.rsa.pub``
+
+.. warning::
+
+   If you use Salt for other clients, you might not want ``~/.salt/Saltfile`` to be overridden.
 
 This script assumes your SSH keys are ``~/.ssh/id_rsa.pub`` and ``~/.ssh/id_rsa``.
 

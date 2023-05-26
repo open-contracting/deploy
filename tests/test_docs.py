@@ -288,7 +288,7 @@ def test_banner_staging():
     assert 'This is an old version of ' not in r.text
     assert 'This is a development copy of ' in r.text
     assert 'This profile is in development ' not in r.text
-    assert f'<a href="/profiles/ppp/latest/en/">' in r.text
+    assert '<a href="/profiles/ppp/latest/en/">' in r.text
 
 
 @pytest.mark.parametrize('path, location', [

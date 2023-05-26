@@ -7,15 +7,34 @@ SSH_KEY_PATH=~/.ssh/id_rsa
 SALT_SSH_KEY_DIR=salt-config/pki/ssh
 REPO_DIR=$(pwd)
 
-# Add symlinks to the likely locations of your SSH keys.
 mkdir -p $SALT_SSH_KEY_DIR
 ln -sf $SSH_KEY_PATH $SALT_SSH_KEY_DIR/salt-ssh.rsa
 ln -sf $SSH_KEY_PATH.pub $SALT_SSH_KEY_DIR/salt-ssh.rsa.pub
 
-# Create a configuration file with sensible settings for running salt as non-root.
+echo "salt-ssh:
+  config_dir: $REPO_DIR/salt-config
+  # https://github.com/saltstack/salt/issues/21370
+  extra_filerefs:
+    - $REPO_DIR/salt/apache/includes/cove.include.jinja
+    - $REPO_DIR/salt/postgres/files/conf/shared.include
+" > ~/.salt/Saltfile
+
+echo "# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-file_roots
+file_roots:
+  base:
+    - $REPO_DIR/salt/
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-pillar_roots
+pillar_roots:
+  base:
+    - $REPO_DIR/pillar/
+" > salt-config/master
+
 mkdir -p salt-config/master.d
-echo "cachedir: $REPO_DIR/cache/
-log_file: $REPO_DIR/log
+echo "# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-cachedir
+cachedir: $REPO_DIR/cache/
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#ssh-log-file
 ssh_log_file: $REPO_DIR/ssh_log
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-pki_dir
 pki_dir: $REPO_DIR/salt-config/pki/
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-user
 user: $USER" > salt-config/master.d/localuser.conf

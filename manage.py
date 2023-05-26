@@ -1,12 +1,12 @@
-#!/usr/bin/env python
+#!/bin/sh
+# https://superuser.com/a/1622435/1803567
+"""$(dirname $(which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
+
 import os
 import socket
 import subprocess
 import sys
 from collections import defaultdict
-
-# https://github.com/saltstack/salt/issues/62664#issuecomment-1336017055
-os.environ["HOMEBREW_PREFIX"] = "/opt/homebrew"
 
 import click
 import salt.cli.ssh
@@ -80,6 +80,7 @@ def salt_ssh(*args):
 @click.group()
 def cli():
     pass
+
 
 @cli.command()
 @click.argument('destination')
