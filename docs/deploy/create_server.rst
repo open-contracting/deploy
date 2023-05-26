@@ -298,12 +298,33 @@ Kingfisher
 OCDS documentation
 ~~~~~~~~~~~~~~~~~~
 
-#. Copy the ``/home/ocds-docs/web`` directory
+#. Copy the ``/home/ocds-docs/web`` directory. For example:
+
+   .. code-block:: bash
+
+      rsync -avz ocp99:/home/ocds-docs/web/ /home/ocds-docs/web/
+
+#. Stop Elasticsearch, replace the ``/var/lib/elasticsearch/`` directory, and start Elasticsearch. For example:
+
+   .. code-block:: bash
+
+      systemctl stop elasticsearch
+      rm -rf /var/lib/elasticsearch/*
+      rsync -avz ocp99:/var/lib/elasticsearch/ /var/lib/elasticsearch/
+      systemctl start elasticsearch
 
 Prometheus
 ~~~~~~~~~~
 
-#. Copy the ``/home/prometheus-server/data`` directory
+#. Stop Prometheus, replace the ``/home/prometheus-server/data/`` directory, and start Prometheus. For example:
+
+   .. code-block:: bash
+
+      systemctl stop prometheus-server
+      rm -rf /home/prometheus-server/data/*
+      rsync -avz ocp99:/home/prometheus-server/data/ /home/prometheus-server/data/
+      systemctl start prometheus-server
+
 #. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
 
 Redash
