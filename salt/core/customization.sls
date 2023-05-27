@@ -1,7 +1,6 @@
 # These are all non-essential changes for added usability on our systems.
 
-# Useful commands for users on the system.
-useful commands:
+useful commands for general purpose:
   pkg.installed:
     - pkgs:
       - curl
