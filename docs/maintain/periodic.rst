@@ -54,8 +54,8 @@ Connect to a server, for example:
 
 .. code-block:: bash
 
-   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
-   ssh root@process.kingfisher.open-contracting.org
+   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
+   ssh root@collect.kingfisher.open-contracting.org
 
 Open the mailbox:
 

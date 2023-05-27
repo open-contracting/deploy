@@ -64,9 +64,9 @@ apache:
         timeout: 300
 
 postgres:
+  version: 12
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
   public_access: true
-  version: 12
   configuration: registry
   storage: hdd
   type: oltp

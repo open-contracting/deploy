@@ -57,8 +57,8 @@ Add your public SSH key to the ``ssh.root`` list in the target's Pillar file, or
 
 .. code-block:: bash
 
-   vi pillar/kingfisher.sls
-   git commit pillar/kingfisher.sls -m "ssh: Add public key for Jane Doe"
+   vi pillar/common.sls
+   git commit pillar/common.sls -m "ssh: Add public key for Jane Doe"
    git push origin main
 
 Then, ask James or Yohanna to deploy your public SSH key to the relevant servers. For example:

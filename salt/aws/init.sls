@@ -1,14 +1,12 @@
 {% from 'lib.sls' import set_config %}
 
-python3-pip:
+awscli:
   pkg.installed:
     - name: python3-pip
-
-awscli:
   pip.installed:
     - name: awscli
     - require:
-      - pkg: python3-pip
+      - pkg: awscli
 
 /home/sysadmin-tools/aws-settings.local:
   file.managed:

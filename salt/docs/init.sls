@@ -7,6 +7,7 @@ include:
 
 {% set user = 'ocds-docs' %}
 {% set userdir = '/home/' + user %}
+
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
 # It is insufficient to give Apache permission to /home/ocds-docs/web only.
