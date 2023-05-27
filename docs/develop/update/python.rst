@@ -27,11 +27,11 @@ In the service's Pillar file, add, for example:
 
    python_apps:
      kingfisher_summarize:
-       user: ocdskfp
+       user: summarize
        git:
          url: https://github.com/open-contracting/kingfisher-summarize.git
          branch: main
-         target: ocdskingfisherviews
+         target: kingfisher-summarize
 
 This will:
 
@@ -51,13 +51,13 @@ To create configuration files within the user's ``.config`` directory, add, for 
 
    python_apps:
      kingfisher_summarize:
-       user: ocdskfp
+       user: summarize
        git:
          url: https://github.com/open-contracting/kingfisher-summarize.git
          branch: main
-         target: ocdskingfisherviews
-      config:
-        kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
+         target: kingfisher-summarize
+       config:
+         kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
 
 You can add as many configuration files as you like.
 

@@ -152,15 +152,15 @@ Delete an htpasswd entry
 
    .. code-block:: yaml
 
-      scrape:
+      delete-NAME:
         webutil.user_absent:
-          - htpasswd_file: /etc/apache2/.htpasswd-ocdskingfisherscrape
+          - htpasswd_file: /etc/apache2/.htpasswd-NAME
 
 #. Run the temporary state, for example:
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.sls_id scrape core
+      ./run.py 'kingfisher-process' state.sls_id delete-NAME core
 
 #. Remove the temporary state
 

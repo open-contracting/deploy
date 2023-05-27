@@ -124,13 +124,13 @@ Delete a user
 
    .. code-block:: bash
 
-      su - postgres -c 'psql ocdskingfisherprocess -c "DROP ROLE ocdskfpguest;"'
+      su - postgres -c 'psql kingfisher_process -c "DROP ROLE role2drop;"'
 
 #. If you see a message like:
 
    .. code-block:: none
 
-      ERROR:  role "ocdskfpguest" cannot be dropped because some objects depend on it
+      ERROR:  role "role2drop" cannot be dropped because some objects depend on it
       DETAIL:  privileges for table …
       …
       and 1234 other objects (see server log for list)
@@ -145,15 +145,15 @@ Delete a user
 
    .. code-block:: bash
 
-      su - postgres -c 'psql ocdskingfisherprocess'
+      su - postgres -c 'psql kingfisher_process'
 
 #. Finally, drop the user:
 
    .. code-block:: sql
 
-      REASSIGN OWNED BY ocdskfpguest TO anotheruser;
-      DROP OWNED BY ocdskfpguest;
-      DROP ROLE ocdskfpguest;
+      REASSIGN OWNED BY role2drop TO anotheruser;
+      DROP OWNED BY role2drop;
+      DROP ROLE role2drop;
 
 Check privileges
 ~~~~~~~~~~~~~~~~
@@ -174,7 +174,7 @@ Find unexpected database ``CREATE`` privileges:
    WHERE
        usename NOT IN ('postgres') AND
        has_database_privilege(usename, datname, 'CREATE') AND
-       NOT (usename = 'kingfisher_summarize' AND datname = 'ocdskingfisherprocess')
+       NOT (usename = 'kingfisher_summarize' AND datname = 'kingfisher_process')
    GROUP BY usename
    ORDER BY usename;
 
