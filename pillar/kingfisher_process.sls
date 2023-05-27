@@ -1,11 +1,19 @@
-ssh:
-  kingfisher:
-    # Open Contracting Partnership
+# Linux and PostgreSQL user names must match. PostgreSQL users should be in the kingfisher_process_read
+# and kingfisher_summarize_read groups.
+users:
+  ahazin:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/etrZ2uWMPgeK9nOB1Q7y22aPyvcWprR2KlIW0MVFLusp1p6s9ZCsehcIbmLps3pYGqoswur1VSAyzxFmd78TWzwFsze6yAydfmN0Q5HM8ZNzpAM6gEd8HgwyX1rEH+1EpZVQ8iiBAebc9aAuUyufz8m4ElybWPvKwNGpTSI0i7eGBJuJ1lSL7mQrnHUaesxBw/38rHvmzO28yHrktn23fHClUOJ2tCCiFh+1mPgh6YTq0yqxtyLGH2F/qvIpzsKRMEoqQ2ETmaRnc8oVLFi7otSM2K7EV7DuKSFJW5FRv5EA67gDOcBHMxUhdg+5E+1WMPZYSyNasEvgAgseFw/JczPeVwjtV0zhTxRQrwrrIkm38lifz/wiUtj9gVb1SmOIOfepY2oxSNM9633Biy7bc5/c7nvvBRHmeHKXZy04bFC77K5pTwVK2eXM9xZE040WuGnhwkum12bJiMwgmF9mbzIHzNSQQ9KY0jqOg8Tc3OqrSv9k6T546TjfuBW2ozM= Andrii (OCP)
+  csalazar:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJs4s1TkcqJg7RsjrpWib7UzHbUYIwnvr+8uK2r4wnZugoj4354jGTSlFlOGc5EQ4FkkNXIOUyOB0i1xxr8piC3VbapkEj/WfMSuElpGdWip3p/UonuNOAxheKna9SqdUvX+Yge/a/M5ElkBoQVZVng5n37e3mU70iveL4VqUzLqqXIY+lzcMlR3VBbuae1O+/T4ug2Teq2B3xL3uiuR+WYlGH9dZLapb+INiohtFImIBcVizdmRtKZRhKfAsh0h2mVp4mfJajz3LHcYkum1c0NvapgmxKIKyR8S2c6QB5jZjrldAFeHV/1mKF99KcmRf89JwkAnbbFT4+Zjks2g8P Camila (OCP)
+  fpenna:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDFAE0b54wyBl+LjxjgG28K2HBjDK5XmdKtV2S/swdiAYZKZZlsTzKWlmevWsK7kmF6HfJK8yTCxNmPJgdJ56ZBzKB38zwvh+EGrysKMJuHyW9aonpB4Ov9mTWVP8W8lRtYW0D+xzcPHxGqBZY3nWt/Vn5G/NVCbAODgn4qGerxqJWmHW79E7a0hLjqaijp29ykPqmOG8VD/07NCHCNgyAaB7jpZpNvpxcgfPsaJy/Nj+gvyksX72ip/d+vZyp2R3rkJIHXBZJdhDq9Z4gCxnURO0zGRqQTemG2JZ9tRws/0/QYy5UQbLaiDdkRSt1AIEYlHJ6BdbT+HpWOA0FBW1T+DKct9ECJhfBEJ0fn3sQPkNRvdRvtsujaqLPRyq1nTtNreWQbDwA1Qf1UR0/3dSon8APsVRt3goDfmDxsWEdDpCHpGQFNPui1oX8mVMejAgAg6e34KvzMnPqJSG7Rfq3QZpVkfNUOric54KcD7pdEse8IQuvR/xvaDda1szNOZOM= Félix (OCP)
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDQHuw4wkhLviTG8TmsEW5I28nyEH091wpu4DGGgDAO4zvoOQU+jRjHAn0EVNmCqLUudIA22EIxofHklRedLDYFXFtTEewa6JdKZhCci+njxrObUwxeD/EJhAWS7mUAIhIZx73UdH2ZRLz11njiRT/9w6RzIDr+YkomQwtxKB0KPTr70HNtShM20V934WbkEe90cV5NLjcG9DqjxsgCTV3HVnJ3Ev/51TGmkfMdwyPR7BluADZUYRaMl/FVBlbBzvKgnjannx875Xc7ORJ9WG+WR2jCApZ6pr1pY4TFC1z+X3w0Ji9UftKMXely/qsehGeEywLpbtkdjsGD2O6uGhgSNbubKgFIUAu74YAWlwq+UQS56L6Y2L/Z1vAlC2NktR6kZmTI5NvbcaFXnn5QTapaeVznvqUXyFpeNxylIROhVqdcP+coBhyhDJg4voRs8IaWyRfcKQ6i5abRcPRSxuh/SZxzv3as58hNZEgDH2U4xdwIQiBzv7OOHAUwKCT1QqJlNwJji7k0yZ5yoyw1j02IgXXQ+7CUJbVsK+MTzslDBiSF6spJK/HXZ4UBYGkz8pxy2jZffS24a5TCOqSZHmLFkgof78y2RopYp2JdNFeiL6g1jkYopficPTcpSYfQF1PkYYZBvucnLoPTqptirP6PazD27j2i23f461WQyx26lQ== Félix (OCP)
+  jmckinney:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2AYzfKIjwrhN7Jg3RrQKK/YJSVo1OSXadbhgE8mKMLi5nuDN6v9g8+QodcCEdA/AjGIr25CtBWcLwvT33h0SfMZ9a8Csq2pv6IAQkigxMrr8aBE9TL8pqQuwcc7CS9PQNYFuqpKoC4PSvNGqn9NRPtZmPkmcIa+CL/G6Y48HY36jWsauI8T8l4gMeOkH9bfB1yNRmEwQAuA+PmGXgGSlx7Gj+TofOHNbWj1l7lThFyG73qQfqyMPmfHPIjyu1EfA4lBezjcgJXlE2VodrLTFfimORJLHk684xnmf7935KwmjBqIucD16PE/KSOyj+vQxXZCTLsQjDuXr3GexOJBXx James (OCP)
+  uallakulov:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGq4JEQ2VpMGW5B8dpg3aRRLdfuc85dYBIDlLmXQJ7ef3/nsqF2gndwRp00sFqTZvPJzr//3p3okxauYkN7h9kegr2ALpueisHxNwaI+Rz6jHrwh3km0w0TAkQULt+n5vMNAjGG3oQkypu25x/WKkdwqc6CRMgMODUYMR6mkfaBLMnI0TT6P1AFHPdF+WqtuS40opaOeanhVhnIPdIajgxN99t2iCVTuAdC4odULs810wNphyQ5y1k4TUQEc5dyvCMdFrPZawUZ0rEHnaN4aPeAEI/zAVIiv0n91Yw2s8GEYW4iT5IbHJQs85DcCthjQb24cqpsH8TOz2aaLQzdH71OctU6HCKTWuercbKtPo7F+m1Ur0nGtK4uWFq/5tWkkHavwtOrz3NQneXl9LWz+MvFl5mN2vuHal493Vgk1LTqTTUF+4aNipmEh4NXg2fmufz+fx+Epx2JurPysmhSJaTUklwB6KtlrYFP7xZRw/5tPtO1g7Ti0qVQ/2M7h+yje0= Umrbek (OCP)
+  ylisnichuk:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG8dhMVvgH/tt9+VoyokyUg/iKVcZKMku8pYN6o8RoT8XKoyP/iyrUIl5HxolqIt+PJTpomYkA40eJ/0mN4/kRhr+tctZ+tUdo8/G8H42FG3McklL6XlwOdXRGIYC+NynF8YGws57J8YkM2oL9linkUZYpGpVkNew2aEg916HWWfGZktwuQa7knIwIhFr9FlvxxaZhdcQ7VJjnJOP0fLLr5WCVaiWDGjQ5cHJURcTBL+j+eTRpKFvk9BMKCAQyLkSEluT0QeESDMtR7sRHA54to1LDXRX0ky9cAQ6mxXWgpSpmHCuPVYpzOfoSd7b8aczDLUGBxq9EWOTS3UMUWJBX Yohanna (OCP)
 
 vm:
   nr_hugepages: 16545
@@ -33,11 +41,11 @@ logrotate:
 apache:
   public_access: True
   sites:
-    ocdskingfisherscrape:
+    kingfisher-collect:
       configuration: proxy
       servername: collect.kingfisher.open-contracting.org
       context:
-        documentroot: /home/ocdskfs/scrapyd
+        documentroot: /home/collect/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
     pelican:
@@ -77,12 +85,15 @@ docker:
     version: 1.29.2
 
 kingfisher_collect:
-  user: ocdskfs
+  user: collect
+  group: deployer
   autoremove: True
   summarystats: True
   context:
     bind_address: 0.0.0.0
   env:
+    # Need to sync with `kingfisher_collect.user` and the `directory` Jinja variable in the kingfisher/collect/init.sls file.
+    FILES_STORE: /home/collect/scrapyd/data
     RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_support_production
     # Need to sync as `{RABBIT_EXCHANGE_NAME}_api`.
     RABBIT_ROUTING_KEY: kingfisher_process_data_support_production_api
@@ -91,38 +102,19 @@ kingfisher_collect:
 
 python_apps:
   kingfisher_collect:
-    user: collect
+    user: incremental
     git:
       url: https://github.com/open-contracting/kingfisher-collect.git
       branch: main
-      target: ocdskingfishercollect
-  kingfisher_process:
-    user: ocdskfp
-    git:
-      url: https://github.com/open-contracting/kingfisher-process.git
-      branch: v1
-      target: ocdskingfisherprocess
-    config:
-      ocdskingfisher-process/logging.json: salt://kingfisher/process/files/logging.json
-      ocdskingfisher-process/config.ini: salt://kingfisher/process/files/config.ini
-    apache:
-      configuration: kingfisher-process
-      servername: process.kingfisher.open-contracting.org
-    uwsgi:
-      configuration: kingfisher-process
-      port: 5001
-      limit-as: 2048 # https://github.com/open-contracting/kingfisher-collect/issues/154
-      workers: 200
-      cheaper: 10
-      cheaper-overload: 30
-      cheaper-busyness-multiplier: 60 # * cheaper-overload = 30mins before stopping workers
+      target: kingfisher-collect
   kingfisher_summarize:
-    user: ocdskfp
+    user: summarize
     git:
       url: https://github.com/open-contracting/kingfisher-summarize.git
       branch: main
-      target: ocdskingfisherviews
+      target: kingfisher-summarize
     config:
+      # Need to sync with the kingfisher/summarize/files/.env file.
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
 
 docker_apps:
@@ -136,6 +128,7 @@ docker_apps:
       # This is set to be the same size as the prefetch_count argument.
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
+      ENABLE_CHECKER: True
   pelican_backend:
     target: pelican-backend
     env:

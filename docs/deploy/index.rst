@@ -18,7 +18,6 @@ Deployment Guides
    docker.rst
    docs.rst
    prometheus.rst
-   kingfisher.rst
    redash.rst
    redmine.rst
 

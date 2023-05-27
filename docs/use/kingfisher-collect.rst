@@ -7,6 +7,10 @@ Read the `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/lates
 
    Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
 
+.. note::
+
+   The ``collect`` user owns the deployment of Kingfisher Collect. Only automated scripts and system administrators should manually delete any data and log files.
+
 Review a new publication
 ------------------------
 
@@ -23,7 +27,7 @@ Access Scrapyd's web interface
 
 .. admonition:: One-time setup
 
-   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.ocdskingfisherscrape.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
+   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.kingfisher-collect.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
 
 Open https://collect.kingfisher.open-contracting.org to view the statuses and logs of crawls.
 
@@ -104,18 +108,13 @@ If using a browser, either:
 
 If using the command-line:
 
-#. :ref:`Connect to the server<connect-kingfisher-server>`:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-      ssh ocdskfp@collect.kingfisher.open-contracting.org
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
 
 #. Change to the ``logs`` directory for the ``kingfisher`` project:
 
    .. code-block:: bash
 
-      cd scrapyd/logs/kingfisher
+      cd ~collect/scrapyd/logs/kingfisher
 
 Scrapy statistics are extracted from the end of each log file every hour on the hour, into a new file ending in ``.log.stats`` in the same directory as the log file. Access as above, or, from the `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
@@ -128,7 +127,7 @@ If you can't wait for the statistics to be extracted, you can connect to the ser
 
 .. code-block:: bash
 
-   tac /home/ocdskfs/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
+   tac /home/collect/scrapyd/logs/kingfisher/spider_name/alpha-numeric-string.log | grep -B99 statscollectors | tac
 
 If you are frequently running the above, `create an issue <https://github.com/open-contracting/deploy/issues>`__ to change the schedule.
 
@@ -138,7 +137,7 @@ If you are frequently running the above, `create an issue <https://github.com/op
 
    .. code-block:: bash
 
-      cd /home/ocdskfs/scrapyd
+      cd ~collect/scrapyd
       less logs/kingfisher/colombia/$(cat data/colombia/20210708_212020/scrapyd-log.txt).log
 
 .. _create-netrc-file:
@@ -156,7 +155,9 @@ To create (or append the Kingfisher Collect credentials to) a ``.netrc`` file:
 
    .. code-block:: bash
 
-      echo 'machine collect.kingfisher.open-contracting.org login USERNAME password PASSWORD' >> ~/.netrc
+      echo 'machine collect.kingfisher.open-contracting.org
+        login USERNAME
+        password PASSWORD' >> ~/.netrc
 
 #. Check that only one section of the ``~/.netrc`` file refers to Kingfisher Collect:
 

@@ -1,5 +1,4 @@
 {% from 'lib.sls' import create_user, set_cron_env %}
-{% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
   - python.psycopg2
@@ -27,8 +26,8 @@ include:
 
 {{ userdir }}/.pgpass:
   file.managed:
-    - source: salt://postgres/files/kingfisher-collect.pgpass
-    - template: jinja
+    - contents: |
+      localhost:5432:kingfisher_collect:kingfisher_collect:{{ pillar.postgres.users.kingfisher_collect.password }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - mode: 400
@@ -56,7 +55,7 @@ include:
 
 # Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in crawls %}
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect -s FILES_STORE={{ userdir }}/data:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}

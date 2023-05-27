@@ -52,11 +52,9 @@ Ensure you have the correct versions of dependencies. Activate your virtual envi
 
    .. code-block:: bash
 
-      for i in root ocdskfp; do echo $i; su $i -c "tmux ls"; done
+      for i in root $(ls -1 /home); do echo $i; su $i -c "tmux ls"; done
 
 #. If the ``postgres`` service would be restarted by the deployment (for example, due to a configuration change or a package upgrade), check if any :ref:`long-running queries<pg-stat-activity>` are running. If there are queries with a ``state`` of ``active`` and a ``time`` greater than an hour, don't deploy without the consent of the data support managers, who should be identified by the ``usename``, ``client_addr`` or comment at the start of ``query``.
-
-If you must deploy while spiders are running, see how to :ref:`deploy Kingfisher Process without losing Scrapy requests<deploy-kingfisher-process>`.
 
 4. Get deploy token
 ~~~~~~~~~~~~~~~~~~~

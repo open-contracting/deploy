@@ -43,7 +43,6 @@ base:
     - kingfisher
     - kingfisher.collect
     - kingfisher.collect.incremental
-    - kingfisher.process
     - kingfisher.summarize
     - pelican.backend
     - pelican.frontend
