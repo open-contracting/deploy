@@ -18,10 +18,6 @@ The landing page lets you query the collected data. For example:
 * I/O wait: `8-week <https://monitor.prometheus.open-contracting.org/graph?g0.expr=(avg%20by(instance)%20(rate(node_cpu_seconds_total%7Bmode%3D%22iowait%22%7D%5B10m%5D)))%20*%20100&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=8w>`__, `1-day <https://monitor.prometheus.open-contracting.org/graph?g0.expr=(avg%20by(instance)%20(rate(node_cpu_seconds_total%7Bmode%3D%22iowait%22%7D%5B10m%5D)))%20*%20100&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1d>`__
 * Disk wear: `8-week <https://monitor.prometheus.open-contracting.org/graph?g0.expr=smartmon_wear_leveling_count_value&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=8w>`__, `1-day <https://monitor.prometheus.open-contracting.org/graph?g0.expr=smartmon_wear_leveling_count_value&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=1d>`__
 
-Service specific queries include:
-
-* `Kingfisher Process Redis queue length <https://monitor.prometheus.open-contracting.org/graph?g0.expr=kingfisher_process_redis_queue_length&g0.tab=0&g0.stacked=0&g0.show_exemplars=0&g0.range_input=8w>`__
-
 Other relevant pages are:
 
 * `Alerts <https://monitor.prometheus.open-contracting.org/alerts>`__

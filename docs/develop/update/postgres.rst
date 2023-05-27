@@ -10,7 +10,7 @@ Set the version in the server's Pillar file:
    :emphasize-lines: 2
 
    postgres:
-     version: 11
+     version: 15
 
 .. _pg-public-access:
 
@@ -22,9 +22,10 @@ By default, PostgreSQL only allows local connections (`see the template for the 
 To enable public access, update the server's Pillar file:
 
 .. code-block:: yaml
-   :emphasize-lines: 2
+   :emphasize-lines: 3
 
    postgres:
+     version: 15
      public_access: True
 
 Add users, groups and databases
