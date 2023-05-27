@@ -106,7 +106,7 @@ Configure PostgreSQL
       :emphasize-lines: 2
 
       postgres:
-        configuration: kingfisher-process1
+        configuration: kingfisher-main1
 
 #. If you use the base configuration:
 
@@ -160,7 +160,7 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
       postgres:
         backup:
           # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
-          configuration: kingfisher-process1
+          configuration: kingfisher-main1
           # Unique identifier for backup configuration
           stanza: kingfisher
           # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
@@ -252,7 +252,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
+#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-main1`` and ``kingfisher-replica1``.
 
 #. Add the replica's IP addresses to the main server's Pillar file:
 

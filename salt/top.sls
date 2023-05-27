@@ -37,7 +37,7 @@ base:
     - elasticsearch.plugins.readonlyrest
     - tinyproxy
 
-  'kingfisher-process':
+  'kingfisher-main':
     - postgres.main
     - rabbitmq
     - kingfisher

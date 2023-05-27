@@ -27,7 +27,7 @@ Access Scrapyd's web interface
 
 .. admonition:: One-time setup
 
-   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.kingfisher-collect.htpasswd`` key in the ``pillar/private/kingfisher_process.sls`` file.)
+   Request a username and password from James or Yohanna. (They will add a key-value pair under the ``apache.sites.kingfisher-collect.htpasswd`` key in the ``pillar/private/kingfisher_main.sls`` file.)
 
 Open https://collect.kingfisher.open-contracting.org to view the statuses and logs of crawls.
 

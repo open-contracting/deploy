@@ -26,7 +26,7 @@ Connect to servers
 
 .. admonition:: One-time setup
 
-   Request access from James or Yohanna. (They will need :ref:`your public SSH key<add-public-key>` to add a key-value pair under the ``users`` key in the ``pillar/kingfisher.sls`` file.)
+   Request access from James or Yohanna. (They will need :ref:`your public SSH key<add-public-key>` to add a key-value pair under the ``users`` key in the ``pillar/kingfisher_main.sls`` file.)
 
 Connect to the data support server:
 

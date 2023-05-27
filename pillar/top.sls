@@ -35,13 +35,13 @@ base:
     - tinyproxy
     - docs_maintenance
 
-  'kingfisher-process':
+  'kingfisher-main':
     - kingfisher_common
-    - kingfisher_process
+    - kingfisher_main
     - private.kingfisher_common
-    - private.kingfisher_process
+    - private.kingfisher_main
     - tinyproxy
-    - kingfisher_process_maintenance
+    - kingfisher_main_maintenance
 
   'kingfisher-replica':
     - kingfisher_common

@@ -69,7 +69,7 @@ Add a user
           USERNAME:
             password: "PASSWORD"
 
-#. Assign the user to groups. For example, the ``kingfisher-process`` target has the groups:
+#. Assign the user to groups. For example, the ``kingfisher-main`` target has the groups:
 
    kingfisher_process_read
      ``SELECT`` on all tables in schema ``public``
@@ -508,7 +508,7 @@ Mitigate downtime
       postgres:
         public_access: True
 
-   For example, for the ``kingfisher-process`` target, modify the ``pillar/kingfisher.sls`` file.
+   For example, for the ``kingfisher-main`` target, modify the ``pillar/kingfisher_main.sls`` file.
 
 #. :doc:`Deploy the main server<../../deploy/deploy>`
 #. Update DNS records:
