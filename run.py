@@ -9,6 +9,7 @@ import sys
 import salt.cli.ssh
 import salt.client.ssh
 
+
 def main():
     # Replace program name to match Saltfile.
     sys.argv[0] = "salt-ssh"
