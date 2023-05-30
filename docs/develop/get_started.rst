@@ -78,15 +78,15 @@ Run:
 
 This overwrites the files:
 
--  ``~/.salt/Saltfile``
--  ``salt-config/master``
 -  ``salt-config/master.d/localuser.conf``
--  ``salt-config/pki/ssh/salt-ssh.rsa``
+-  ``salt-config/master``
 -  ``salt-config/pki/ssh/salt-ssh.rsa.pub``
+-  ``salt-config/pki/ssh/salt-ssh.rsa``
+-  ``Saltfile``
 
-.. warning::
+.. note::
 
-   If you use Salt for other clients, you might not want ``~/.salt/Saltfile`` to be overridden.
+   On macOS, you might need to move ``Saltfile`` to ``~/.salt/Saltfile``.
 
 This script assumes your SSH keys are ``~/.ssh/id_rsa.pub`` and ``~/.ssh/id_rsa``.
 
