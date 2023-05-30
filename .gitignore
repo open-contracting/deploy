@@ -6,6 +6,7 @@
 /salt-config/master
 /salt-config/master.d
 /salt-config/pki
+/Saltfile
 # Locations set salt-config/master.d/localuser.conf
 /cache
 /log
