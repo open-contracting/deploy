@@ -1,6 +1,6 @@
 #!/bin/sh
 # https://superuser.com/a/1622435/1803567
-"""$(dirname $(which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
+"""$(dirname $(readlink $(which salt-ssh) || which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
 
 import os
 import socket
@@ -8,7 +8,6 @@ import sys
 
 import salt.cli.ssh
 import salt.client.ssh
-
 
 def main():
     # Replace program name to match Saltfile.
