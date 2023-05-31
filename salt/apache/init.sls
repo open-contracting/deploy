@@ -51,13 +51,13 @@ apache2:
    file.absent
 
 # This uses the old style. It's not clear how to opt-in to the new style when using Agentless Salt.
-# https://docs.saltstack.com/en/latest/ref/states/all/salt.states.module.html
+# https://docs.saltstack.io/en/latest/ref/states/all/salt.states.module.html
 apache2-reload:
   module.wait:
     - name: service.reload
     - m_name: apache2
 
-# https://docs.saltstack.cn/ref/states/all/salt.states.htpasswd.html
+# https://docs.saltstack.io/ref/states/all/salt.states.htpasswd.html
 apache2-utils:
   pkg.installed:
     - name: apache2-utils
