@@ -32,6 +32,26 @@ apache2:
     - enable: True
     - require:
       - pkg: apache2
+# Removes Apache defaults page and replaces with custom error page
+  /var/www/html/error_page.html:
+    file.managed:
+      - source: salt://apache/files/docs/error_page.html
+      - require:
+        - pkg: apache2
+      - watch_in:
+        - service: apache2
+  /var/www/html/index.html:
+     file.absent
+# Replaces apache2 defaults configuration file and removes sites-enables default.
+  /etc/apache2/sites-enabled/000-default.conf:
+     file.absent
+  /etc/apache2/sites-avaliable/default.conf:
+   file.managed:
+      - source: salt://apache/files/conf/default.conf
+      - require:
+        - pkg: apache2
+      - watch_in:
+        - service: apache2
 
 # This uses the old style. It's not clear how to opt-in to the new style when using Agentless Salt.
 # https://docs.saltproject.io/en/latest/ref/states/all/salt.states.module.html
