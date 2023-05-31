@@ -10,7 +10,6 @@ Make changes
    network.rst
    firewall.rst
    ssl.rst
-   packages.rst
    awscli.rst
    apache.rst
    elasticsearch.rst
@@ -23,6 +22,7 @@ Make changes
    languages.rst
    logs.rst
    delete.rst
+   packages.rst
 
 Text editors
 ------------
