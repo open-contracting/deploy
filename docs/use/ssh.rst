@@ -25,7 +25,7 @@ You can then use ``ssh`` as usual. Once you're connected, the server will close 
 Static IP: Allow list
 ---------------------
 
-#. Add your IP address to the ``firewall.ssh_ipv4`` and ``firewall.ssh_ipv6`` lists in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/main/common.sls>`__ private Pillar file
+#. Add your IP address(es) to the ``ssh_ipv4`` and ``ssh_ipv6`` list(s) in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/main/common.sls>`__ private Pillar file
 #. Add your full name in a comment
 #. :doc:`Deploy all services<../deploy/deploy>`
 
