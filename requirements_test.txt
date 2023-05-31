@@ -4,16 +4,16 @@
 #
 #    pip-compile requirements_test.in
 #
-attrs==21.2.0
-    # via pytest
 build==0.9.0
     # via pip-tools
-certifi==2022.5.18.1
+certifi==2023.5.7
     # via requests
-chardet==3.0.4
+charset-normalizer==3.1.0
     # via requests
 click==8.0.1
     # via pip-tools
+exceptiongroup==1.1.1
+    # via pytest
 idna==2.8
     # via requests
 iniconfig==1.1.1
@@ -28,18 +28,18 @@ pip-tools==6.13.0
     # via -r requirements_test.in
 pluggy==0.13.1
     # via pytest
-py==1.10.0
-    # via pytest
 pyparsing==2.4.7
     # via packaging
-pytest==6.2.4
+pytest==7.3.1
     # via -r requirements_test.in
-requests==2.25.1
+requests==2.31.0
     # via -r requirements_test.in
 toml==0.10.2
-    # via pytest
+    # via pep517
 tomli==2.0.1
-    # via build
+    # via
+    #   build
+    #   pytest
 urllib3==1.26.6
     # via requests
 wheel==0.38.4

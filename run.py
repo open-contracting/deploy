@@ -1,6 +1,6 @@
 #!/bin/sh
 # https://superuser.com/a/1622435/1803567
-"""$(dirname $(which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
+"""$(dirname $(readlink $(which salt-ssh) || which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
 
 import os
 import socket

@@ -44,6 +44,17 @@ include:
       'options': '-a compile_releases=true',
     },
     {
+      'identifier': 'ECUADOR',
+      'spider': 'ecuador_sercop_bulk',
+      'start_date': '2015-01',
+    },
+    {
+      'identifier': 'DOMINICAN_REPUBLIC',
+      'spider': 'dominican_republic_api',
+      'start_date': '2018',
+      'options': '-a compile_releases=true',
+    },
+    {
       'identifier': 'MOLDOVA',
       'spider': 'moldova',
       'start_date': '2021-06-11',
