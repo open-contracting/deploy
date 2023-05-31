@@ -128,6 +128,23 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
 
 #. Ask the Data Support Team to :ref:`test-redmine`.
 
+Enable admin user
+-----------------
+
+Dogsbody Technology uses the admin user to verify upgrades.
+
+To enable the ``admin`` user:
+
+.. code-block:: bash
+
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 1, admin = 1 WHERE login = "admin"'
+
+To disable the ``admin`` user:
+
+.. code-block:: bash
+
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 0, admin = 0 WHERE login = "admin"'
+
 .. _test-redmine:
 
 Test Redmine
