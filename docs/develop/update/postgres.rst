@@ -98,30 +98,42 @@ Configure PostgreSQL
       postgres:
         configuration: False
 
-#. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. To use the base configuration, insert ``{% include 'postgres/files/conf/shared.include' %}`` at the top of the file.
+#. Put your configuration template in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. In most cases, you should use the ``shared`` configuration template.
 
 #. Set ``postgres.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml
-      :emphasize-lines: 2
+      :emphasize-lines: 2-6
 
       postgres:
-        configuration: kingfisher-process1
+        configuration:
+          name: kingfisher-process1
+          source: shared
+          context:
+            mykey: myvalue
 
-#. If you use the base configuration:
+   The keys of the ``context`` mapping are made available as variables in the configuration template.
 
+#. If you use the ``shared`` configuration template, under the ``context`` mapping:
+
+   -  If you need more connections, set ``max_connections`` (100, default).
    -  Set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive).
    -  Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
-   -  If you need more connections, set ``max_connections``.
+   -  Set ``content`` to add content to the configuration file.
 
    .. code-block:: yaml
       :emphasize-lines: 3-5
 
       postgres:
-        configuration: registry
-        storage: hdd
-        type: oltp
-        max_connections: 200
+        configuration:
+          name: registry
+          source: shared
+          context:
+            max_connections: 300
+            storage: hdd
+            type: oltp
+            content: |
+              max_wal_size = 10GB
 
 #. Set ``vm.nr_hugepages`` in the server's Pillar file, following `PostgreSQL's instructions <https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES>`__:
 

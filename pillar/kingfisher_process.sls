@@ -45,9 +45,42 @@ postgres:
   # If the replica becomes unavailable, we can temporarily enable public access.
   # public_access: True
   version: 11
-  configuration: kingfisher-process1
-  storage: ssd
-  type: oltp
+  configuration:
+    name: kingfisher-process1
+    source: shared
+    context:
+      storage: ssd
+      type: oltp
+      content: |
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-MAX-WAL-SIZE
+        # https://github.com/open-contracting/deploy/issues/158
+        max_wal_size = 10GB
+
+        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-WAL-KEEP-SEGMENTS
+        # https://github.com/open-contracting/deploy/issues/158
+        wal_keep_segments = 20
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT
+        synchronous_commit = local
+
+        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-SYNCHRONOUS-STANDBY-NAMES
+        synchronous_standby_names = 'pgslave001'
+
+        ### pgBackRest
+        # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-LEVEL
+        wal_level = logical
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-MODE
+        archive_mode = on
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
+        # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
+        archive_command = 'pgbackrest --stanza=kingfisher archive-push %p'
+
+        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
+        max_wal_senders = 5
   replica_ipv4:
     - 148.251.183.230
   replica_ipv6:

@@ -59,16 +59,11 @@ postgresql-reload:
       - module: postgresql-reload
 
 {% if pillar.postgres.configuration %}
-# Although we can add `shared.include` as a separate file (e.g. looping over configurations, and using `loop.index0`
-# to prefix the files), this makes changes harder to deploy, since re-ordering or removing a configuration will rename
-# the new files, but not remove the old files. Instead, a developer needs to `include` it in the configuration file.
-#
-# (Unfortunately, `file.managed` doesn't have a `sources` option like `file.append` in order to create a target file
-# from many source files, and `file.accumulated` doesn't have a `source` option.)
-/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:
   file.managed:
-    - source: salt://postgres/files/conf/{{ pillar.postgres.configuration }}.conf
+    - source: salt://postgres/files/conf/{{ pillar.postgres.configuration.source }}.conf
     - template: jinja
+    - context: {{ pillar.postgres.configuration.context|yaml }}
     - user: postgres
     - group: postgres
     - mode: 640
