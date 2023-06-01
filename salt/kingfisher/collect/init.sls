@@ -105,7 +105,7 @@ find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/
       - file: {{ directory }}
 
 # Delete crawl directories containing exclusively files older than 90 days.
-for dir in $(find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d); do if [[ -z $(find $dir -ctime -90) ]]; then rm -rf $dir; fi; done; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
+for dir in $(find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d); do if [ -z $(find $dir -ctime -90) ]; then rm -rf $dir; fi; done; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_DELETE_DATA
     - user: {{ user }}
