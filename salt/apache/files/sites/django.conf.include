@@ -1,9 +1,10 @@
 # vi: ft=apache
+{%- if content is defined %}
 
-{% include 'apache/includes/' + name + '.include.jinja' ignore missing %}
-
+{{ content }}
+{%- endif %}
 {%- if assets_base_url is not defined %}
-    {%- set assets_base_url = '' %}
+{%- set assets_base_url = '' %}
 {%- endif %}
 
 ProxyPass {{ assets_base_url }}/robots.txt !
