@@ -24,4 +24,3 @@ User Guides
    kingfisher.rst
    redmine.rst
    prometheus.rst
-   rabbitmq.rst

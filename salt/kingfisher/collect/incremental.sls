@@ -46,13 +46,7 @@ include:
     {
       'identifier': 'ECUADOR',
       'spider': 'ecuador_sercop_bulk',
-      'start_date': '2015-01',
-    },
-    {
-      'identifier': 'DOMINICAN_REPUBLIC',
-      'spider': 'dominican_republic_api',
-      'start_date': '2018',
-      'options': '-a compile_releases=true',
+      'start_date': '2015-01-01',
     },
     {
       'identifier': 'MOLDOVA',
@@ -61,6 +55,12 @@ include:
     },
   ]
 %}
+#    {
+#      'identifier': 'DOMINICAN_REPUBLIC',
+#      'spider': 'dominican_republic_api',
+#      'start_date': '2018-01-01',
+#      'options': '-a compile_releases=true',
+#    },
 
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 

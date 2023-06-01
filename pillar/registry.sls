@@ -67,11 +67,19 @@ postgres:
   version: 12
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
   public_access: true
-  configuration: registry
-  storage: hdd
-  type: oltp
-  # We need a lot of connections for all the workers and threads.
-  max_connections: 300  # oltp at https://pgtune.leopard.in.ua
+  configuration:
+    name: registry
+    source: shared
+    context:
+      # We need a lot of connections for all the workers and threads.
+      max_connections: 300  # oltp at https://pgtune.leopard.in.ua
+      storage: hdd
+      type: oltp
+      content: |
+        data_directory = '/data/storage/postgresql/12/main'
+
+        # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
+        max_wal_size = 10GB
 
 docker:
   user: deployer

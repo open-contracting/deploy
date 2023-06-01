@@ -24,7 +24,12 @@ postgres:
   version: 13
   # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
   public_access: True
-  configuration: redash
+  configuration:
+    name: redash
+    source: shared
+    context:
+      content: |
+        data_directory = '/var/lib/postgresql/13/main'
 
 docker:
   user: deployer

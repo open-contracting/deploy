@@ -1,5 +1,5 @@
-RabbitMQ
-========
+Maintain RabbitMQ
+=================
 
 Access the management interface
 -------------------------------

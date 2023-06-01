@@ -1,5 +1,6 @@
 postgres:
   backup:
+    # Need to sync with `--stanza` in the main server's Pillar file.
     stanza: kingfisher
     retention_full: 4
     s3_bucket: ocp-db-backup

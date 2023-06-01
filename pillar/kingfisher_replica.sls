@@ -26,9 +26,28 @@ prometheus:
 postgres:
   version: 15
   public_access: True
-  configuration: kingfisher-replica1
-  storage: ssd
-  type: dw
+  configuration:
+    name: kingfisher-replica1
+    source: shared
+    context:
+      storage: ssd
+      type: dw
+      content: |
+        # Must be the same value as on the main server, otherwise "hot standby is not possible because max_worker_processes =
+        # 12 is a lower setting than on the master server (its value was 16)"
+        max_worker_processes = 16
+
+        # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-MAX-PREPARED-TRANSACTIONS
+        # The main server has a manually-edited postgresql.conf file from long ago, which sets this to 100.
+        max_prepared_transactions = 100
+
+        # https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-TEMP-FILE-LIMIT
+        # https://github.com/open-contracting/deploy/issues/272
+        temp_file_limit = 1TB
+
+        # https://www.postgresql.org/docs/current/hot-standby.html
+        # Avoid the cancellation of long-running queries, by users like OCCRP.
+        hot_standby_feedback = on
   backup:
     configuration: kingfisher-replica1
     process_max: 6
