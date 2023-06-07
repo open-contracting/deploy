@@ -1,3 +1,8 @@
+network:
+  host_id: ocp23
+  ipv4: 65.109.102.188
+  ipv6: 2a01:4f9:3080:2792::2
+
 # Linux and PostgreSQL user names must match. PostgreSQL users should be in the kingfisher_process_read
 # and kingfisher_summarize_read groups.
 users:

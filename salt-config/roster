@@ -9,7 +9,7 @@ credere:
 docs:
   host: ocp19.open-contracting.org
 kingfisher-main:
-  host: ocp04.open-contracting.org
+  host: ocp23.open-contracting.org
 kingfisher-replica:
   host: ocp05.open-contracting.org
 prometheus:
