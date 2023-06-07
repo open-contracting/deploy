@@ -83,6 +83,12 @@ Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedic
 
 You can configure a Hetzner firewall as follows:
 
+#. Reset the serverside firewall
+
+   .. code-block:: bash
+
+      /home/sysadmin-tools/bin/firewall_reset.sh
+
 #. `Log into Hetzner <https://robot.your-server.com/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
@@ -141,6 +147,12 @@ Linode (VPS servers)
 Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
 You can configure a Linode Cloud Firewall as follows:
+
+#. Reset the serverside firewall
+
+   .. code-block:: bash
+
+      /home/sysadmin-tools/bin/firewall_reset.sh
 
 #. `Log into Linode <https://login.linode.com/login>`__
 #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
