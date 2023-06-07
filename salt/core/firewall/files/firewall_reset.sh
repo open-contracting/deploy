@@ -6,7 +6,6 @@
 # Description:  A script to reset iptables rules.
 #
 # Usage:  $0
-#
 
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
