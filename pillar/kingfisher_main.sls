@@ -120,7 +120,7 @@ docker:
   user: deployer
   uid: 1005
   docker_compose:
-    version: 1.29.2
+    version: 2.18.1
 
 kingfisher_collect:
   user: collect
