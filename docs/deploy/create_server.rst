@@ -293,6 +293,13 @@ Kingfisher
 
    Instructions are incomplete.
 
+#. Adjust reserved disk space to 1% for large disks.
+
+   .. code-block:: bash
+
+      tune2fs -m 1 /dev/md2
+
+#. Update the IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file.
 #. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
 OCDS documentation
