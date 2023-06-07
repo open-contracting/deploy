@@ -27,7 +27,7 @@ include:
 {{ userdir }}/.pgpass:
   file.managed:
     - contents: |
-      localhost:5432:kingfisher_collect:kingfisher_collect:{{ pillar.postgres.users.kingfisher_collect.password }}
+        localhost:5432:kingfisher_collect:kingfisher_collect:{{ pillar.postgres.users.kingfisher_collect.password }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - mode: 400

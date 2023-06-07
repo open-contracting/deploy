@@ -22,7 +22,7 @@ include:
 {{ userdir }}/.pgpass:
   file.managed:
     - contents: |
-      localhost:5432:kingfisher_process:kingfisher_summarize:{{ pillar.postgres.users.kingfisher_summarize.password }}
+        localhost:5432:kingfisher_process:kingfisher_summarize:{{ pillar.postgres.users.kingfisher_summarize.password }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - mode: 400

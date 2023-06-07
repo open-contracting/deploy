@@ -6,7 +6,7 @@
 /home/{{ user }}/.pgpass:
   file.managed:
     - contents: |
-      localhost:5432:kingfisher_process:{{ user }}:{{ pillar.postgres.users[user].password }}
+        localhost:5432:kingfisher_process:{{ user }}:{{ pillar.postgres.users[user].password }}
     - user: {{ user }}
     - group: {{ user }}
     - mode: 400
