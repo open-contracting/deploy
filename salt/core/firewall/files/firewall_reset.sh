@@ -8,27 +8,30 @@
 # Usage:  $0
 #
 
-iptables -P INPUT ACCEPT
-iptables -P FORWARD ACCEPT
-iptables -P OUTPUT ACCEPT
-iptables -F
-iptables -X
-iptables -Z
-iptables -t nat -F
-iptables -t nat -X
-iptables -t mangle -F
-iptables -t mangle -X
-iptables -t raw -F
-iptables -t raw -X
-ip6tables -P INPUT ACCEPT
-ip6tables -P FORWARD ACCEPT
-ip6tables -P OUTPUT ACCEPT
-ip6tables -F
-ip6tables -X
-ip6tables -Z
-ip6tables -t nat -F
-ip6tables -t nat -X
-ip6tables -t mangle -F
-ip6tables -t mangle -X
-ip6tables -t raw -F
-ip6tables -t raw -X
+# shellcheck disable=SC1091
+source /home/sysadmin-tools/firewall-settings.local
+
+$IPTABLES -P INPUT ACCEPT
+$IPTABLES -P FORWARD ACCEPT
+$IPTABLES -P OUTPUT ACCEPT
+$IPTABLES -F
+$IPTABLES -X
+$IPTABLES -Z
+$IPTABLES -t nat -F
+$IPTABLES -t nat -X
+$IPTABLES -t mangle -F
+$IPTABLES -t mangle -X
+$IPTABLES -t raw -F
+$IPTABLES -t raw -X
+$IP6TABLES -P INPUT ACCEPT
+$IP6TABLES -P FORWARD ACCEPT
+$IP6TABLES -P OUTPUT ACCEPT
+$IP6TABLES -F
+$IP6TABLES -X
+$IP6TABLES -Z
+$IP6TABLES -t nat -F
+$IP6TABLES -t nat -X
+$IP6TABLES -t mangle -F
+$IP6TABLES -t mangle -X
+$IP6TABLES -t raw -F
+$IP6TABLES -t raw -X
