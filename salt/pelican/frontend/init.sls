@@ -1,7 +1,7 @@
 # At present, this file only needs to be included if deploying the reporting UI.
 
 include:
-- docker_apps
+  - docker_apps
 
 {% set entry = pillar.docker_apps.pelican_frontend %}
 

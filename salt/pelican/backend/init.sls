@@ -2,7 +2,7 @@
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-- docker_apps
+  - docker_apps
 
 {% set entry = pillar.docker_apps.pelican_backend %}
 {% set directory = docker_apps_directory + entry.target %}
