@@ -6,7 +6,6 @@
 # Description:  A script to reset iptables rules.
 #
 # Usage:  $0
-#
 
 # shellcheck disable=SC1091
 source /home/sysadmin-tools/firewall-settings.local

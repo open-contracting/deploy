@@ -83,7 +83,7 @@ Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedic
 
 You can configure a Hetzner firewall as follows:
 
-#. Reset the serverside firewall
+#. Reset the server-side firewall:
 
    .. code-block:: bash
 
@@ -148,7 +148,7 @@ Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/
 
 You can configure a Linode Cloud Firewall as follows:
 
-#. Reset the serverside firewall
+#. Reset the server-side firewall:
 
    .. code-block:: bash
 
