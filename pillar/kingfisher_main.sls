@@ -53,7 +53,7 @@ apache:
         documentroot: /home/collect/scrapyd
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
-    pelican:
+    pelican_frontend:
       configuration: pelican
       servername: pelican.open-contracting.org
       context:
