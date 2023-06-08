@@ -1,7 +1,7 @@
 {% from 'lib.sls' import apache %}
 
-{% set enable_uwsgi = pillar.python_apps.values()|selectattr("uwsgi", "defined")|first|default %}
-{% set enable_apache = pillar.python_apps.values()|selectattr("apache", "defined")|first|default %}
+{% set enable_uwsgi = pillar.python_apps.values()|selectattr('uwsgi', 'defined')|first|default %}
+{% set enable_apache = pillar.python_apps.values()|selectattr('apache', 'defined')|first|default %}
 
 include:
 {% if enable_uwsgi %}
@@ -68,8 +68,7 @@ include:
       - service: uwsgi
 {% endif %}
 
-{% if 'config' in entry %}
-{% for filename, source in entry.config.items() %}
+{% for filename, source in entry.config|items %}
 {{ userdir }}/.config/{{ filename }}:
   file.managed:
     - source: {{ source }}
@@ -79,8 +78,7 @@ include:
     - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
-{% endfor %}
-{% endif %}{# config #}
+{% endfor %}{# config #}
 
 {% if 'django' in entry %}
 {{ directory }}-migrate:

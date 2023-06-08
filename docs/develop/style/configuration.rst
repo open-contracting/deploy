@@ -8,7 +8,13 @@ To make a configuration file more reusable:
 
    .. code-block:: jinja
 
-      {{ entry.uwsgi.get('max-requests', 1000) }}
+      {{ bind_address|default('127.0.0.1') }}
+
+   If the key contains a hyphen:
+
+   .. code-block:: jinja
+
+      {{ entry.uwsgi.max-requests|default(1000) }}
 
 -  Make values optional, for example:
 

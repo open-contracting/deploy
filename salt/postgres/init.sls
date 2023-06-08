@@ -110,18 +110,15 @@ pg_stat_statements:
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-{% if 'groups' in pillar.postgres %}
-{% for name in pillar.postgres.groups %}
+{% for name in pillar.postgres.groups|default([]) %}
 {{ name }}:
   postgres_group.present:
     - name: {{ name }}
     - require:
       - service: postgresql
-{% endfor %}
-{% endif %} {# groups #}
+{% endfor %} {# groups #}
 
-{% if 'users' in pillar.postgres %}
-{% for name, entry in pillar.postgres.users.items() %}
+{% for name, entry in pillar.postgres.users|items %}
 {{ name }}_sql_user:
   postgres_user.present:
     - name: {{ name }}
@@ -136,16 +133,12 @@ pg_stat_statements:
 {% endif %}
     - require:
       - service: postgresql
-{% if 'groups' in entry %}
-{% for group in entry.groups %}
+{% for group in entry.groups|default([]) %}
       - postgres_group: {{ group }}
 {% endfor %}
-{% endif %}
-{% endfor %}
-{% endif %} {# users #}
+{% endfor %} {# users #}
 
-{% if 'databases' in pillar.postgres %}
-{% for database, entry in pillar.postgres.databases.items() %}
+{% for database, entry in pillar.postgres.databases|items %}
 {{ database }}:
   postgres_database.present:
     - name: {{ database }}
@@ -181,8 +174,7 @@ grant {{ entry.user }} schema privileges:
       - postgres_user: {{ entry.user }}_sql_user
       - postgres_database: {{ database }}
 
-{% if 'privileges' in entry %}
-{% for schema, groups in entry.privileges.items() %}
+{% for schema, groups in entry.privileges|items %}
 {% for group in groups %}
 # GRANT the USAGE privilege on the schema to the group
 grant {{ group }} schema privileges in {{ schema }}:
@@ -227,11 +219,9 @@ alter {{ group }} default privileges in {{ schema }}:
     - require:
       - postgres_database: {{ database }}
 {% endfor %}
-{% endfor %}
-{% endif %} {# privileges #}
+{% endfor %} {# privileges #}
 
-{% endfor %}
-{% endif %} {# databases #}
+{% endfor %} {# databases #}
 
 {% endif %} {# replication #}
 

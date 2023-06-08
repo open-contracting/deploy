@@ -1,18 +1,16 @@
 # vi: ft=apache
+{%- set assets_base_url = assets_base_url|default %}
 {%- if content is defined %}
 
 {{ content }}
-{%- endif %}
-{%- if assets_base_url is not defined %}
-{%- set assets_base_url = '' %}
-{%- endif %}
 
+{%- endif %}
 ProxyPass {{ assets_base_url }}/robots.txt !
 ProxyPass {{ assets_base_url }}/favicon.ico !
 ProxyPass {{ assets_base_url }}/static/ !
 ProxyPass {{ assets_base_url }}/media/ !
 # https://uwsgi-docs.readthedocs.io/en/latest/Apache.html
-ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.get('harakiri', 900) }}
+ProxyPass / unix:/run/uwsgi/app/{{ entry.git.target }}/socket|uwsgi://{{ entry.git.target }}/ timeout={{ entry.uwsgi.harakiri|default(900) }}
 
 # https://docs.djangoproject.com/en/3.2/howto/deployment/wsgi/modwsgi/#serving-files
 Alias {{ assets_base_url }}/robots.txt {{ appdir }}/static/robots.txt

@@ -7,7 +7,7 @@ include:
 
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
-{% set group = entry.get('group', user) %}
+{% set group = entry.group|default(user) %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 

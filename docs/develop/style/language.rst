@@ -4,6 +4,9 @@ Language style guides
 Jinja templating language
 -------------------------
 
+Notation
+~~~~~~~~
+
 Use dot notation:
 
 .. code-block:: jinja
@@ -22,7 +25,10 @@ Use dot notation:
 
    To allow the use of dot notation in Jinja, prefer underscores to hyphens in Pillar keys.
 
-To test whether a mapping key is present, use the ``in`` operator:
+Optional mapping keys
+~~~~~~~~~~~~~~~~~~~~~
+
+To test whether a key is present in a mapping, use the ``in`` operator:
 
 .. code-block:: jinja
 
@@ -36,17 +42,72 @@ To test whether a mapping key is present, use the ``in`` operator:
 
       if .*get\(.(?!(?:autoremove|compilemessages|enabled|public_access|replication|smartmon|summarystats)\b)
 
+To iterate over an optional mapping:
+
+.. code-block:: jinja
+
+   {% for key, value in pillar.mykey|items %}
+
+Or:
+
+.. code-block:: jinja
+
+   {% for key, value in salt['pillar.get']('parent:child', {}).items() %}
+
+.. note::
+
+   Maintainers can check this style rule with this regular expression:
+
+   .. code-block:: none
+
+      \bif\b.*\n.*%.*\bfor\b
+
+Optional list keys
+~~~~~~~~~~~~~~~~~~
+
+To iterate over an optional list:
+
+.. code-block:: jinja
+
+   {% for key, value in pillar.mykey|default([]) %}
+
+Or:
+
+.. code-block:: jinja
+
+   {% for key, value in salt['pillar.get']('parent:child', []) %}
+
+Optional boolean keys
+~~~~~~~~~~~~~~~~~~~~~
+
 To test whether an optional boolean is true, use the ``.get()`` method:
 
 .. code-block:: jinja
 
    {% if pillar.parent.get('enabled') %}
 
-If a Pillar key might not be set, use ``.get()``:
+Optional keys
+~~~~~~~~~~~~~
+
+To get an optional key with a default value:
 
 .. code-block:: jinja
 
-   {{ pillar.parent.get('child') }}
+   {{ entry.mykey|default(123) }}
+
+If the default value is the empty string:
+
+.. code-block:: jinja
+
+   {{ entry.mykey|default }}
+
+.. note::
+
+   Maintainers can check this style rule with this regular expression:
+
+   .. code-block:: none
+
+      (?<!salt\['pillar)\.get\([^\s-]+,
 
 If many parts of a Pillar key might not be set, use ``salt['pillar.get']()``:
 

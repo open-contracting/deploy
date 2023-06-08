@@ -73,7 +73,7 @@ unset {{ setting_name }} in {{ filename }}:
     - template: jinja
     - context:
         user: {{ entry.user }}
-        group: {{ entry.get('group', entry.user) }}
+        group: {{ entry.group|default(entry.user) }}
         entry: {{ entry|yaml }}
     - watch_in:
       - service: {{ entry.service }}
@@ -115,8 +115,8 @@ unset {{ setting_name }} in {{ filename }}:
     - context:
         includefile: /etc/apache2/sites-available/{{ name }}.conf.include
         servername: {{ entry.servername }}
-        serveraliases: {{ entry.get('serveraliases', [])|yaml }}
-        https: {{ entry.get('https', True) }}
+        serveraliases: {{ entry.serveraliases|default([])|yaml }}
+        https: {{ entry.https|default(true) }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:
@@ -130,7 +130,7 @@ enable site {{ name }}.conf:
     - watch_in:
       - module: apache2-reload
 
-{% for username, password in entry.get('htpasswd', {}).items() %}
+{% for username, password in entry.htpasswd|items %}
 add .htpasswd-{{ name }}-{{ username }}:
   webutil.user_exists:
     - name: {{ username }}
