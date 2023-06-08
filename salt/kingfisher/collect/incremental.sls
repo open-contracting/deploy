@@ -45,6 +45,12 @@ include:
       'options': '-a compile_releases=true',
     },
     {
+      'identifier': 'DOMINICAN_REPUBLIC',
+      'spider': 'dominican_republic_api',
+      'start_date': '2018-01-01',
+      'options': '-a compile_releases=true',
+    },
+    {
       'identifier': 'ECUADOR',
       'spider': 'ecuador_sercop_bulk',
       'start_date': '2015-01-01',
@@ -56,12 +62,6 @@ include:
     },
   ]
 %}
-#    {
-#      'identifier': 'DOMINICAN_REPUBLIC',
-#      'spider': 'dominican_republic_api',
-#      'start_date': '2018-01-01',
-#      'options': '-a compile_releases=true',
-#    },
 
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 # This line can be removed after upgrading Python and Scrapy.
