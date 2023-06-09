@@ -129,8 +129,3 @@ Upgrade the Redash service
       docker-compose up -d
 
 #. Check that the new version is running by viewing the `System Status <https://redash.open-contracting.org/admin/status>`__ page and reading the *Version*. You may need to log in to Redash to access this page.
-
-Troubleshoot
-~~~~~~~~~~~~
-
-To troubleshoot ``docker-compose`` commands, add the ``--verbose`` option.
