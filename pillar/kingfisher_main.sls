@@ -98,29 +98,30 @@ postgres:
 
         # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
         # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
-        archive_command = 'pgbackrest --stanza=kingfisher archive-push %p'
+        archive_command = '/bin/true'
+        #archive_command = 'pgbackrest --stanza=kingfisher archive-push %p'
 
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 5
-  replica_ipv4:
-    - 148.251.183.230
-  replica_ipv6:
-    - 2a01:4f8:211:de::2
-  backup:
-    configuration: kingfisher-main1
-    process_max: 8
-    cron: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
-        # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
+#  replica_ipv4:
+#    - 148.251.183.230
+#  replica_ipv6:
+#    - 2a01:4f8:211:de::2
+#  backup:
+#    configuration: kingfisher-main1
+#    process_max: 8
+#    cron: |
+#        MAILTO=root
+#        # Daily incremental backup
+#        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher
+#        # Weekly full backup
+#        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
 docker:
   user: deployer
   uid: 1005
   docker_compose:
-    version: 2.18.1
+    version: v2.18.1
 
 kingfisher_collect:
   user: collect
