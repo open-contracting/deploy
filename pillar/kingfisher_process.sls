@@ -134,7 +134,7 @@ python_apps:
     user: ocdskfp
     git:
       url: https://github.com/open-contracting/kingfisher-summarize.git
-      branch: main
+      branch: v1
       target: ocdskingfisherviews
     config:
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
