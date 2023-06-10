@@ -89,7 +89,7 @@ You can configure a Hetzner firewall as follows:
 
       /home/sysadmin-tools/bin/firewall_reset.sh
 
-#. `Log into Hetzner <https://robot.your-server.com/server>`__
+#. `Log into Hetzner <https://robot.hetzner.com/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
 #. Enable *Hetzner Services*
