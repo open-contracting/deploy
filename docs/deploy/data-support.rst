@@ -4,10 +4,6 @@ Data support tasks
 Create a data support server
 ----------------------------
 
-.. note::
-
-   Instructions are incomplete.
-
 #. Adjust reserved disk space to 1% for large disks:
 
    .. code-block:: bash
