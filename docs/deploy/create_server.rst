@@ -281,26 +281,15 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
 #. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
 
+Data support server
+~~~~~~~~~~~~~~~~~~~
+
+See :doc:`data-support`.
+
 Django applications
 ~~~~~~~~~~~~~~~~~~~
 
 #. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
-
-Kingfisher
-~~~~~~~~~~
-
-.. note::
-
-   Instructions are incomplete.
-
-#. Adjust reserved disk space to 1% for large disks:
-
-   .. code-block:: bash
-
-      tune2fs -m 1 /dev/md2
-
-#. Update the IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
-#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
 OCDS documentation
 ~~~~~~~~~~~~~~~~~~

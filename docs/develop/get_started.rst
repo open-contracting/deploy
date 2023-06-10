@@ -45,7 +45,7 @@ You must first have access to three private repositories. Contact an owner of th
 
 .. tip::
 
-   To generate new SSH keys (if they do not already exist):
+   To generate an SSH key pair (if they do not already exist):
 
    .. code-block:: bash
 
@@ -88,6 +88,6 @@ This overwrites the files:
 
    On macOS, you might need to move ``Saltfile`` to ``~/.salt/Saltfile``.
 
-This script assumes your SSH keys are ``~/.ssh/id_rsa.pub`` and ``~/.ssh/id_rsa``.
+This script assumes your SSH key pair is ``~/.ssh/id_rsa.pub`` and ``~/.ssh/id_rsa``.
 
 You're now ready to :doc:`../deploy/deploy`.

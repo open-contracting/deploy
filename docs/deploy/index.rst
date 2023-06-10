@@ -18,6 +18,7 @@ Deployment Guides
    docker.rst
    docs.rst
    prometheus.rst
+   data-support.rst
    redash.rst
    redmine.rst
 

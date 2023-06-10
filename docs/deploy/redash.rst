@@ -70,7 +70,7 @@ Load the new server's database
 
    .. code-block:: bash
 
-      sudo -u postgres psql -f redash.sql redash
+      sudo -i -u postgres psql -f redash.sql redash
 
 #. Change to the non-root user and Redash directory:
 

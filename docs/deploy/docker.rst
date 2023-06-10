@@ -43,7 +43,7 @@ For example:
 
 .. code-block:: bash
 
-   psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
+   psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
 
 Check that the ID sequence is correct:
 
