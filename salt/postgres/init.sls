@@ -160,6 +160,7 @@ revoke public schema privileges on {{ database }} database:
       - postgres_database: {{ database }}
 
 # GRANT all schema privileges to the user
+# Note: These states always report changes.
 # https://www.postgresql.org/docs/current/sql-grant.html
 # https://www.postgresql.org/docs/current/ddl-priv.html
 grant {{ entry.user }} schema privileges:

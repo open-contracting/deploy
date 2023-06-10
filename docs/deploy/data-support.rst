@@ -17,6 +17,11 @@ Create a data support server
 #. Update the IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
 #. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
+Docker
+~~~~~~
+
+#. Check that ``docker.uid`` in the ``pillar/kingfisher_main.sls`` file matches the entry in the ``/etc/passwd`` file.
+
 Docker apps
 ~~~~~~~~~~~
 
@@ -31,6 +36,8 @@ Docker apps
 
       cd /data/deploy/pelican-frontend/
       docker compose run --rm web python manage.py migrate
+
+#. :doc:`Pull new images and start new containers for each Docker app<docker>`.
 
 Pelican backend
 ~~~~~~~~~~~~~~~
