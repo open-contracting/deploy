@@ -9,6 +9,16 @@ include:
 
 {{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "pelican.backend") }}
 
+/home/{{ pillar.docker.user }}/.pgpass:
+  file.managed:
+    - contents: |
+        localhost:5432:pelican_backend:pelican_backend:{{ pillar.postgres.users.pelican_backend.password }}
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - mode: 400
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+
 # docker compose does not have a quiet option: https://github.com/docker/compose/issues/6026
 cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py update-exchange-rates 2> /dev/null:
   cron.present:
@@ -38,25 +48,11 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py
 
 run pelican migration {{ basename }}:
   cmd.run:
-    - name: psql -c 'SET ROLE pelican_backend' -f /opt/pelican-backend/{{ basename }}.sql pelican_backend
-    - runas: postgres
+    - name: psql -U pelican_backend -h localhost -f /opt/pelican-backend/{{ basename }}.sql pelican_backend
+    - runas: {{ pillar.docker.user }}
     - onchanges:
       - file: /opt/pelican-backend/{{ basename }}.sql
     - require:
       - postgres_database: pelican_backend
+      - file: /home/{{ pillar.docker.user }}/.pgpass
 {% endfor %}
-
-/opt/pelican-backend/exchange_rates.csv:
-  file.managed:
-    - source: salt://private/files/exchange_rates.csv
-    - user: {{ pillar.docker.user }}
-    - group: {{ pillar.docker.user }}
-    - makedirs: True
-    - require:
-      - user: {{ pillar.docker.user }}_user_exists
-
-# After the migrations run, manually populate the exchange_rates table.
-#
-# psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
-#
-# This allows us to update exchange_rates.csv for new servers, without interfering with existing servers.
