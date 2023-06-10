@@ -8,7 +8,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ create_user(entry.user) }}
+{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
 
 {{ userdir }}/data:
   file.directory:
