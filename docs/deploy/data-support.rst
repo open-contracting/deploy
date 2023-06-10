@@ -121,11 +121,17 @@ Kingfisher Collect
 
          psql -U kingfisher_collect -h localhost -f kingfisher_collect.sql kingfisher_collect
 
-   #. Copy the data directory from the old server. For example:
+   #. Copy the ``data`` directory from the old server. For example:
 
       .. code-block:: bash
 
          rsync -avz incremental@ocp04.open-contracting.org:/home/incremental/data/ /home/incremental/data/
+
+   #. Copy the ``logs`` directory from the old server. For example:
+
+      .. code-block:: bash
+
+         rsync -avz incremental@ocp04.open-contracting.org:/home/incremental/logs/ /home/incremental/logs/
 
 #. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
