@@ -19,6 +19,47 @@
   {% endif %}
 {% endif %}
 
+postgres_authorized_keys:
+  ssh_auth.manage:
+    - user: postgres
+    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
+    - require:
+      - pkg: postgresql
+
+{% if 'ssh_key' in pillar.postgres %}
+/var/lib/postgresql/.ssh:
+  file.directory:
+    - makedirs: True
+    - user: postgres
+    - group: postgres
+    - mode: 700
+    - require:
+      - pkg: postgresql
+
+/var/lib/postgresql/.ssh/id_rsa:
+  file.managed:
+    - contents_pillar: postgres:ssh_key
+    - user: postgres
+    - group: postgres
+    - mode: 600
+    - require:
+      - pkg: postgresql
+{% endif %}
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+# https://github.com/jfcoz/postgresqltuner
+vm.overcommit_memory:
+  sysctl.present:
+    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+# https://github.com/jfcoz/postgresqltuner
+{% if salt['pillar.get']('vm:nr_hugepages') %}
+vm.nr_hugepages:
+  sysctl.present:
+    - value: {{ pillar.vm.nr_hugepages }}
+{% endif %}
+
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -75,37 +116,11 @@ postgresql-reload:
 {% endif %}
 {% endif %}
 
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
-# https://github.com/jfcoz/postgresqltuner
-vm.overcommit_memory:
-  sysctl.present:
-    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
-
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-# https://github.com/jfcoz/postgresqltuner
-{% if salt['pillar.get']('vm:nr_hugepages') %}
-vm.nr_hugepages:
-  sysctl.present:
-    - value: {{ pillar.vm.nr_hugepages }}
-{% endif %}
-
 # https://github.com/jfcoz/postgresqltuner
 pg_stat_statements:
   postgres_extension.present:
     - maintenance_db: template1
     - if_not_exists: True
-
-{% if 'ssh_key' in pillar.postgres %}
-/var/lib/postgresql/.ssh:
-  file.directory:
-    - makedirs: True
-    - mode: 700
-
-/var/lib/postgresql/.ssh/id_rsa:
-  file.managed:
-    - contents_pillar: postgres:ssh_key
-    - mode: 600
-{% endif %}
 
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
@@ -245,10 +260,4 @@ alter {{ group }} default privileges in {{ schema }}:
 
 {% endfor %} {# databases #}
 
-{% endif %} {# replication #}
-
-# Manage authorized keys for postgres user
-postgres_authorized_keys:
-  ssh_auth.manage:
-    - user: postgres
-    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
+{% endif %} {# not replication #}
