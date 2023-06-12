@@ -1,11 +1,11 @@
-# Allow ocp23 to access PostgreSQL backups.
+# Allow the main server to access PostgreSQL backups.
 firewall:
   additional_ssh_ipv4:
-    - 65.109.102.188
+    - 95.217.76.74
   additional_ssh_ipv6:
-    - 2a01:4f9:3080:2792::2
+    - 2a01:4f9:4a:1bd3::2
 
-# Allow ocp23 to access PostgreSQL backups.
+# Allow the main server to access PostgreSQL backups.
 ssh:
   postgres:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJ6FdpCTb9AL7OXNm3XFO1db1fd2EtnXmWruTIeFjgvp7EzJidH0DdBmhjPaNLiIIgEReoHj5ibb2GYhCR1jGLGGEXhuvv/7UtFI9sbwCtlDsxMZFQSGCBNuZIHDexXKx3OwvtysTYDytwy8PbfeZwD5pOR+LvmGC8Abs95cacwMWW7D5uHU3sgbit+hS1KgDWII1EIuYztcVMvkfQeyl827pdtEzgz8tRWJLwQ9YXQbC/xXdA3AJQE6dcGBtemP4M0Hv97U2bPnROHcXlLkNGYhNoBz3AFB0Q/p0UvOPJ9T3GHHsxwrrrlow8lhJZWGnjAdbyuFRHAA3eqDPRy9NL postgres@ocp04.open-contracting.org
@@ -24,7 +24,7 @@ prometheus:
     smartmon: True
 
 postgres:
-  version: 15
+  version: 11
   public_access: True
   configuration:
     name: kingfisher-replica1

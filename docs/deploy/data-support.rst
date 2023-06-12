@@ -1,11 +1,8 @@
 Data support tasks
 ==================
 
-Create a data support replica server
-------------------------------------
-
-#. Notify RBC Group of the new domain name for the replica server
-#. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the replica server
+#. Notify RBC Group of the new domain name for the new PostgreSQL server
+#. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the new PostgreSQL server
 
 Create a data support main server
 ---------------------------------
@@ -19,9 +16,13 @@ Create a data support main server
 Dependent services
 ~~~~~~~~~~~~~~~~~~
 
-#. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
 #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
-#. Deploy the ``kingfisher-replica`` and ``docs`` services, when ready
+#. Deploy the ``docs`` service, when ready
+
+If applicable:
+
+#. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
+#. Deploy the ``kingfisher-replica`` service, when ready
 
 Docker
 ~~~~~~
