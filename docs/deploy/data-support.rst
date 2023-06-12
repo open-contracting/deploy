@@ -4,6 +4,11 @@ Data support tasks
 #. Notify RBC Group of the new domain name for the new PostgreSQL server
 #. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the new PostgreSQL server
 
+Create a data support replica server
+------------------------------------
+
+#. Update ``postgres.replica_ipv4`` (and ``postgres.replica_ipv6``, if applicable) in the ``pillar/kingfisher_main.sls`` file.
+
 Create a data support main server
 ---------------------------------
 
