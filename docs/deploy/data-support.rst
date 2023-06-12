@@ -1,8 +1,14 @@
 Data support tasks
 ==================
 
-Create a data support server
-----------------------------
+Create a data support replica server
+------------------------------------
+
+#. Notify RBC Group of the new domain name for the replica server
+#. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the replica server
+
+Create a data support main server
+---------------------------------
 
 #. Adjust reserved disk space to 1% for large disks:
 
@@ -10,8 +16,11 @@ Create a data support server
 
       tune2fs -m 1 /dev/md2
 
-#. Update the IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
-#. Update the IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
+Dependent services
+~~~~~~~~~~~~~~~~~~
+
+#. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
+#. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
 
 Docker
 ~~~~~~
