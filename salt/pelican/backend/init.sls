@@ -53,6 +53,6 @@ run pelican migration {{ basename }}:
     - onchanges:
       - file: /opt/pelican-backend/{{ basename }}.sql
     - require:
-      - postgres_database: pelican_backend
+      - postgres_database: pelican_backend_sql_database
       - file: /home/{{ pillar.docker.user }}/.pgpass
 {% endfor %}

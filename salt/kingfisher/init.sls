@@ -49,7 +49,7 @@ create kingfisher process extensions:
     - if_not_exists: True
     - maintenance_db: kingfisher_process
     - require:
-      - postgres_database: kingfisher_process
+      - postgres_database: kingfisher_process_sql_database
 
 # This file can be updated with:
 #
@@ -76,5 +76,5 @@ create reference.mapping_sheets table:
       - file: /opt/mapping-sheet.csv
       - file: /opt/mapping-sheet.sql
     - require:
-      - postgres_group: reference
+      - postgres_group: reference_sql_group
       - postgres_schema: reference_sql_schema

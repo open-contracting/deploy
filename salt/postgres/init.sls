@@ -111,7 +111,7 @@ pg_stat_statements:
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
 {% for name in pillar.postgres.groups|default([]) %}
-{{ name }}:
+{{ name }}_sql_group:
   postgres_group.present:
     - name: {{ name }}
     - require:
@@ -134,12 +134,12 @@ pg_stat_statements:
     - require:
       - service: postgresql
 {% for group in entry.groups|default([]) %}
-      - postgres_group: {{ group }}
+      - postgres_group: {{ group }}_sql_group
 {% endfor %}
 {% endfor %} {# users #}
 
 {% for database, entry in pillar.postgres.databases|items %}
-{{ database }}:
+{{ database }}_sql_database:
   postgres_database.present:
     - name: {{ database }}
     - owner: postgres
@@ -157,7 +157,7 @@ revoke public schema privileges on {{ database }} database:
     - object_name: public
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
 
 # GRANT all schema privileges to the user
 # Note: These states always report changes.
@@ -173,7 +173,7 @@ grant {{ entry.user }} schema privileges:
     - maintenance_db: {{ database }}
     - require:
       - postgres_user: {{ entry.user }}_sql_user
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
 
 {% for schema, owner in entry.schemas|items %}
 {{ schema }}_sql_schema:
@@ -182,12 +182,8 @@ grant {{ entry.user }} schema privileges:
     - owner: {{ owner.name }}
     - dbname: {{ database }}
     - require:
-  {% if owner.type == 'user' %}
-      - postgres_user: {{ owner.name }}_sql_user
-  {% else %}
-      - postgres_group: {{ owner.name }}
-  {% endif %}
-      - postgres_database: {{ database }}
+      - postgres_{{ owner.type }}: {{ owner.name }}_sql_{{ owner.type }}
+      - postgres_database: {{ database }}_sql_database
 {% endfor %} {# schemas #}
 
 {% for schema, groups in entry.privileges|items %}
@@ -202,7 +198,7 @@ grant {{ group }} schema privileges in {{ schema }}:
     - object_name: {{ schema }}
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
   {% if schema != 'public' %}
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
@@ -218,7 +214,7 @@ grant {{ group }} table privileges in {{ schema }}:
     - prepend: {{ schema }}
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
   {% if schema != 'public' %}
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
@@ -237,9 +233,10 @@ alter {{ group }} default privileges in {{ schema }}:
     - runas: postgres
     - onchanges:
       - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
-      - postgres_database: {{ database }}
+      # If a database is re-created, re-run the default privileges statement.
+      - postgres_database: {{ database }}_sql_database
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
   {% if schema != 'public' %}
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}

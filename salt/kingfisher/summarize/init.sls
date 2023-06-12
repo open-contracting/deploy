@@ -41,7 +41,7 @@ grant kingfisher_summarize database privileges:
     - maintenance_db: kingfisher_process
     - require:
       - postgres_user: kingfisher_summarize_sql_user
-      - postgres_database: kingfisher_process
+      - postgres_database: kingfisher_process_sql_database
 
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 
