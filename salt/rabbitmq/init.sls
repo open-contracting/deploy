@@ -9,18 +9,20 @@ rabbitmq-dependencies:
 rabbitmq-erlang:
   pkgrepo.managed:
     - humanname: Erlang Official Repository
-    - name: deb http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ grains.oscodename }} main
+    - name: deb [signed-by=/usr/share/keyrings/rabbitmq-erlang.gpg] http://ppa.launchpad.net/rabbitmq/rabbitmq-erlang/ubuntu {{ grains.oscodename }} main
     - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/rabbitmq_erlang.list
     - key_url: https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xf77f1eda57ebb1cc
+    - aptkey: False
 
 rabbitmq-server:
   pkgrepo.managed:
     - humanname: RabbitMQ Official Repository
-    - name: deb https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ {{ grains.oscodename }} main
+    - name: deb [signed-by=/usr/share/keyrings/rabbitmq-server.gpg] https://packagecloud.io/rabbitmq/rabbitmq-server/ubuntu/ {{ grains.oscodename }} main
     - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/rabbitmq_server.list
     - key_url: https://packagecloud.io/rabbitmq/rabbitmq-server/gpgkey
+    - aptkey: False
   pkg.installed:
     - name: rabbitmq-server
     - require:
