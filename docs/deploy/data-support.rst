@@ -20,7 +20,8 @@ Dependent services
 ~~~~~~~~~~~~~~~~~~
 
 #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
-#. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file, and deploy the ``docs`` service
+#. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
+#. Deploy the ``kingfisher-replica`` and ``docs`` services, when ready
 
 Docker
 ~~~~~~
