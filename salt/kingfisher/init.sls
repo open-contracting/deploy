@@ -77,4 +77,4 @@ create reference.mapping_sheets table:
       - file: /opt/mapping-sheet.sql
     - require:
       - postgres_group: reference
-      - postgres_schema: reference
+      - postgres_schema: reference_sql_schema
