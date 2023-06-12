@@ -221,41 +221,37 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
 
    You can find the :ref:`recovery steps here<pg-recover-replica>`.
 
-#. Log into the main (replication source) server
-#. Swap to the postgres user
+#. Connect to the main server
+#. Switch to the ``postgres`` user:
 
    .. code-block:: bash
 
       su - postgres
 
-#. Generate new SSH keys (if they do not already exist)
+#. Generate an SSH key pair, if one doesn't already exist:
 
    .. code-block:: bash
 
       ssh-keygen -t rsa -b 4096
 
-   This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
+#. Add the public SSH key to the ``ssh.postgres`` list in the **replica** server's Pillar file:
 
-#. Add these new keys in deploy pillar
+   .. code-block:: yaml
 
-   #. Add the public key to `authorized_keys` on the replica server
+      ssh:
+        postgres:
+          - ssh-rsa AAAB3N...
 
-      .. code-block:: yaml
+#. Set ``postgres.ssh_key`` in the **main** server's private Pillar file to the private SSH key:
 
-         ssh:
-           postgres:
-             - ssh-rsa AAAB3N...
+   .. code-block:: yaml
 
-   #. Add the private key to `deploy-pillar-private <https://github.com/open-contracting/deploy-pillar-private>`__.
+      postgres:
+        ssh_key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          ...
 
-      .. code-block:: yaml
-
-         postgres:
-           ssh_key: |
-             -----BEGIN RSA PRIVATE KEY-----
-             ...
-
-   #. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the main server and replica server<../../deploy/deploy>`
 
 .. _pg-setup-replication:
 

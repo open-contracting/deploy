@@ -237,7 +237,7 @@ Tune settings
 ~~~~~~~~~~~~~
 
 -  :doc:`Connect to the server<../use/ssh>`
--  Change to the ``postgres`` user:
+-  Switch to the ``postgres`` user:
 
    .. code-block:: bash
 
@@ -522,9 +522,9 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. Log into the replica server
+#. Connect to the replica server
 
-#. Stop PostgreSQL if it is still running
+#. Stop PostgreSQL if it is running:
 
    .. code-block:: bash
 
@@ -543,13 +543,13 @@ Fix replication
 
       See :ref:`pg-recover-backup` for more information on the pgbackrest restore function.
 
-#. Start PostgreSQL and monitor
-
-   You should see messages about recovering from WAL files in the logs.
+#. Start PostgreSQL and monitor:
 
    .. code-block:: bash
 
       systemctl start postgres.service
       tail -f /var/log/postgresql/postgresql-11-main.log
+
+   You should see messages about recovering from WAL files in the logs.
 
 If all else fails, you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.

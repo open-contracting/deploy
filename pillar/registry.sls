@@ -66,7 +66,7 @@ apache:
 postgres:
   version: 12
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
-  public_access: true
+  public_access: True
   configuration:
     name: registry
     source: shared

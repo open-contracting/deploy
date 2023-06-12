@@ -64,8 +64,8 @@ apache:
 
 postgres:
   version: 15
-  # If the replica becomes unavailable, we can temporarily enable public access.
-  # public_access: True
+  # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
+  public_access: True
   configuration:
     name: kingfisher-main1
     source: shared
@@ -144,7 +144,7 @@ python_apps:
     user: incremental
     git:
       url: https://github.com/open-contracting/kingfisher-collect.git
-      branch: main
+      branch: upgrade-jsonschema
       target: kingfisher-collect
   kingfisher_summarize:
     user: summarize

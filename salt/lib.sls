@@ -52,6 +52,7 @@ unset {{ setting_name }} in {{ filename }}:
 {% endif %}
     - order: 1
     - shell: /bin/bash
+    - remove_groups: False
 
 {{ user }}_authorized_keys:
   ssh_auth.manage:

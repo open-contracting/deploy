@@ -51,15 +51,6 @@ create kingfisher process extensions:
     - require:
       - postgres_database: kingfisher_process
 
-create reference schema:
-  postgres_schema.present:
-    - name: reference
-    - owner: reference
-    - dbname: kingfisher_process
-    - require:
-      - postgres_group: reference
-      - postgres_database: kingfisher_process
-
 # This file can be updated with:
 #
 #   curl -O https://standard.open-contracting.org/schema/1__1__5/release-schema.json

@@ -1,11 +1,19 @@
 Maintain Docker
 ===============
 
+.. note::
+
+   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
+
 Get basic information:
 
 .. code-block:: bash
 
    docker system info
+
+.. tip::
+
+   To troubleshoot ``docker compose`` commands, add the ``--verbose`` option.
 
 Reference: `Overview of docker compose CLI <https://docs.docker.com/compose/reference/>`__
 
@@ -16,7 +24,7 @@ Run, replacing ``CONTAINER``:
 
 .. code-block:: bash
 
-   docker-compose logs -f -t CONTAINER
+   docker compose logs -f -t CONTAINER
 
 Open a shell
 ------------
@@ -25,13 +33,13 @@ Open a Bash shell, for example:
 
 .. code-block:: bash
 
-   docker-compose run --rm static bash
+   docker compose run --rm static bash
 
 Open a Python shell, for example:
 
 .. code-block:: bash
 
-   docker-compose run --rm web python manage.py shell
+   docker compose run --rm web python manage.py shell
 
 `Our Python projects <https://ocp-software-handbook.readthedocs.io/en/latest/python/settings.html#word-choice>`__ follow a ``LOG_LEVEL`` environment variable, which you can set with ``-e LOG_LEVEL=DEBUG``, for example.
 
@@ -42,13 +50,13 @@ Show containers' status:
 
 .. code-block:: bash
 
-   docker-compose ps
+   docker compose ps
 
 Show containers' processes:
 
 .. code-block:: bash
 
-   docker-compose top
+   docker compose top
 
 Check system-wide usage
 -----------------------

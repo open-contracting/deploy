@@ -160,6 +160,7 @@ revoke public schema privileges on {{ database }} database:
       - postgres_database: {{ database }}
 
 # GRANT all schema privileges to the user
+# Note: These states always report changes.
 # https://www.postgresql.org/docs/current/sql-grant.html
 # https://www.postgresql.org/docs/current/ddl-priv.html
 grant {{ entry.user }} schema privileges:
@@ -174,6 +175,21 @@ grant {{ entry.user }} schema privileges:
       - postgres_user: {{ entry.user }}_sql_user
       - postgres_database: {{ database }}
 
+{% for schema, owner in entry.schemas|items %}
+{{ schema }}_sql_schema:
+  postgres_schema.present:
+    - name: {{ schema }}
+    - owner: {{ owner.name }}
+    - dbname: {{ database }}
+    - require:
+  {% if owner.type == 'user' %}
+      - postgres_user: {{ owner.name }}_sql_user
+  {% else %}
+      - postgres_group: {{ owner.name }}
+  {% endif %}
+      - postgres_database: {{ database }}
+{% endfor %} {# schemas #}
+
 {% for schema, groups in entry.privileges|items %}
 {% for group in groups %}
 # GRANT the USAGE privilege on the schema to the group
@@ -187,6 +203,9 @@ grant {{ group }} schema privileges in {{ schema }}:
     - maintenance_db: {{ database }}
     - require:
       - postgres_database: {{ database }}
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 
 # GRANT the SELECT privilege on all tables in the schema to the group
 grant {{ group }} table privileges in {{ schema }}:
@@ -200,6 +219,9 @@ grant {{ group }} table privileges in {{ schema }}:
     - maintenance_db: {{ database }}
     - require:
       - postgres_database: {{ database }}
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 
 /opt/default-privileges/{{ group }}-{{ schema }}.sql:
   file.managed:
@@ -218,6 +240,9 @@ alter {{ group }} default privileges in {{ schema }}:
       - postgres_database: {{ database }}
     - require:
       - postgres_database: {{ database }}
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 {% endfor %}
 {% endfor %} {# privileges #}
 

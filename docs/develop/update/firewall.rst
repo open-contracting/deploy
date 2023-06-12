@@ -83,61 +83,85 @@ Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedic
 
 You can configure a Hetzner firewall as follows:
 
+#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
+#. `Log into Hetzner <https://robot.hetzner.com/server>`__
+#. Select your server and go to the *Firewall* tab
+#. Set *Status* to active
+#. Enable *Hetzner Services*
+#. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
+
+   .. list-table::
+      :header-rows: 1
+
+      * - Name
+        - Protocol
+        - Destination port
+        - TCP flags
+        - Action
+      * - icmp
+        - icmp
+        - 0-65535
+        -
+        - accept
+      * - ssh
+        - tcp
+        - 22
+        -
+        - accept
+      * - tcp established
+        - tcp
+        - 32768-65535
+        - ack
+        - accept
+
+   Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
+
+   .. list-table::
+      :header-rows: 1
+
+      * - Name
+        - Protocol
+        - Destination port
+        - TCP flags
+        - Action
+      * - http
+        - tcp
+        - 80,443
+        -
+        - accept
+
+   .. note::
+
+      *Destination IP* and *Source port* are never set.
+
+#. Add additional firewall rules. The recommended minimum is to also add:
+
+      * - Name
+        - Protocol
+        - Source IP
+        - Destination port
+        - TCP flags
+        - Action
+      * - prometheus
+        - tcp
+        - 139.162.253.17/32
+        - 7231
+        -
+        - accept
+
+#. Click *Save* and wait for the configuration to be applied.
+
 #. Reset the server-side firewall:
 
    .. code-block:: bash
 
       /home/sysadmin-tools/bin/firewall_reset.sh
 
-#. `Log into Hetzner <https://robot.your-server.com/server>`__
-#. Select your server and go to the *Firewall* tab
-#. Set *Status* to active
-#. Enable *Hetzner Services*
-#. Create your firewall rules. The recommended minimum is:
+#. Restart the Docker service, if running:
 
-   .. list-table::
-      :header-rows: 1
+   .. code-block:: bash
 
-      * - Name
-        - Source IP
-        - Destination IP
-        - Source port
-        - Destination port
-        - Protocol
-        - TCP flags
-        - Action
-      * - Allow SSH
-        - 0.0.0.0/0
-        - 0.0.0.0/0
-        - 0-65535
-        - 22
-        - *
-        -
-        - Accept
-      * - Allow ICMP
-        - 0.0.0.0/0
-        - 0.0.0.0/0
-        - 0-65535
-        - 0-65535
-        - icmp
-        -
-        - Accept
-      * - Allow Prometheus
-        - 139.162.253.17/32
-        - 0.0.0.0/0
-        - 0-65535
-        - 7231
-        - *
-        -
-        - Accept
-      * - Allow Outgoing TCP
-        - 0.0.0.0/0
-        - 0.0.0.0/0
-        - 0-65535
-        - 32768-65535
-        - tcp
-        - ack
-        - Accept
+      systemctl restart docker
 
 .. _linode-firewall:
 
@@ -148,12 +172,7 @@ Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/
 
 You can configure a Linode Cloud Firewall as follows:
 
-#. Reset the server-side firewall:
-
-   .. code-block:: bash
-
-      /home/sysadmin-tools/bin/firewall_reset.sh
-
+#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
 #. `Log into Linode <https://login.linode.com/login>`__
 #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
 #. Click *Create Firewall*
@@ -208,3 +227,15 @@ You can configure a Linode Cloud Firewall as follows:
            - Accept
 
    #. Click *Save Changes*
+
+#. Reset the server-side firewall:
+
+   .. code-block:: bash
+
+      /home/sysadmin-tools/bin/firewall_reset.sh
+
+#. Restart the Docker service, if running:
+
+   .. code-block:: bash
+
+      systemctl restart docker
