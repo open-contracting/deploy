@@ -60,6 +60,17 @@ vm.nr_hugepages:
     - value: {{ pillar.vm.nr_hugepages }}
 {% endif %}
 
+/var/lib/postgresql/postgresqltuner.pl:
+  pkg.installed:
+    - names:
+      - libdbd-pg-perl
+      - libdbi-perl
+  file.managed:
+    - source: https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl
+    # curl -sS https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl | shasum -a 256
+    - source_hash: 3b5d389c4997c2e4d05f6fc22ac60ab60d55aad65df6d157b18445af3a6c7a31
+    - mode: 755
+
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
