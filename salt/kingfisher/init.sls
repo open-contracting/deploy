@@ -18,6 +18,7 @@ useful commands for data support:
   pkg.installed:
     - pkgs:
       - jq
+      - ripgrep
       - unrar
 
 pip:
