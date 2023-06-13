@@ -1,6 +1,9 @@
 # At present, this file only needs to be included if deploying the reporting UI.
 
 include:
+  # pelican.conf.include uses the RequestHeader and ProxyPass directives.
+  - apache
+  - apache.modules.headers
   - docker_apps
 
 {% set entry = pillar.docker_apps.pelican_frontend %}

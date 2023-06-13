@@ -61,6 +61,9 @@ apache:
         # Need to sync with `docker_apps.pelican_frontend.port`.
         django_port: 8001
         timeout: 300
+    rabbitmq:
+      configuration: rabbitmq
+      servername: rabbitmq.kingfisher.open-contracting.org
 
 postgres:
   version: 15
