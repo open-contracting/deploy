@@ -11,6 +11,6 @@ ProxyPassReverse / http://127.0.0.1:{{ port }}/
 <Location "/">
     AuthName "Pelican"
     AuthType Basic
-    AuthUserFile /etc/apache2/.htpasswd-pelican
+    AuthUserFile /etc/apache2/.htpasswd-pelican_frontend
     Require valid-user
 </Location>
