@@ -60,6 +60,10 @@ vm.nr_hugepages:
     - value: {{ pillar.vm.nr_hugepages }}
 {% endif %}
 
+pgbadger:
+  pkg.installed:
+    - name: pgbadger
+
 /var/lib/postgresql/postgresqltuner.pl:
   pkg.installed:
     - names:
