@@ -81,9 +81,9 @@ create {{ name }} rabbitmq user:
     # https://www.rabbitmq.com/access-control.html#authorisation
     - perms:
       - '/':
-        - '.*'
-        - '.*'
-        - '.*'
+        - {% if entry.get('write') %}'.*'{% else %}'^$'{% endif %} # configure
+        - {% if entry.get('write') %}'.*'{% else %}'^$'{% endif %} # write
+        - '.*' # read
     - require:
       - service: rabbitmq-server
 {% endfor %}
