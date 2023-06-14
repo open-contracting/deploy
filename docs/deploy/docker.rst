@@ -1,6 +1,10 @@
 Docker tasks
 ============
 
+.. note::
+
+   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
+
 Change to the application's directory, replacing ``APP``:
 
 .. code-block:: bash
@@ -11,20 +15,20 @@ Change to the application's directory, replacing ``APP``:
 
 .. code-block:: bash
 
-   docker-compose pull
-   docker-compose up -d
+   docker compose pull
+   docker compose up -d
 
 Create a superuser:
 
 .. code-block:: bash
 
-   docker-compose run --rm web python manage.py createsuperuser
+   docker compose run --rm web python manage.py createsuperuser
 
 Migrate the database:
 
 .. code-block:: bash
 
-   docker-compose run --rm web python manage.py migrate
+   docker compose run --rm web python manage.py migrate
 
 .. note::
 
@@ -39,7 +43,7 @@ For example:
 
 .. code-block:: bash
 
-   psql -c 'SET ROLE pelican_backend' -c "\copy exchange_rates (valid_on, rates, created, modified) from '/opt/pelican-backend/exchange_rates.csv' delimiter ',' csv header;" pelican_backend
+   psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
 
 Check that the ID sequence is correct:
 

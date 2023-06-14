@@ -56,7 +56,7 @@ To `run a specific SLS ID <https://docs.saltproject.io/en/latest/ref/modules/all
 
    .. code-block:: bash
 
-      ./run.py --state-output=changes 'kingfisher-process' state.sls postgres,postgres.backup,kingfisher.collect.database,kingfisher.process.database
+      ./run.py --state-output=changes 'kingfisher-main' state.sls postgres,postgres.backup
 
 2. Check Salt output
 --------------------

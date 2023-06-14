@@ -17,6 +17,7 @@ wp-cli:
 
 {{ create_user(user) }}
 
+# Allow Apache to access. See wordpress.conf.include.
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}

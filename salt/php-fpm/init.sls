@@ -1,4 +1,4 @@
-{% set php_version = pillar.php.get('version', '8.1') %}
+{% set php_version = pillar.php.version|default('8.1')|quote %}
 
 include:
   - apache.modules.proxy_fcgi

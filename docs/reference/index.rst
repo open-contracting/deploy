@@ -31,6 +31,8 @@ Google Postmaster Tools
 
 `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ can be used to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
 
+.. _sentry:
+
 Sentry
 ~~~~~~
 
@@ -45,7 +47,7 @@ Hosting
 
 All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
 
--  `Hetzner <https://robot.your-server.com/server>`__ for hardware servers, including Kingfisher and Registry
+-  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers, including Kingfisher and Registry
 
    -  `Network status <https://status.hetzner.com>`__
 

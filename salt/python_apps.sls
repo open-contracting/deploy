@@ -1,12 +1,17 @@
 {% from 'lib.sls' import apache %}
 
-# So far, all servers with Python apps use Apache and uWSGI. If we later have a server that doesn't need these, we can
-# add boolean key to the Pillar data to indicate whether to include these.
+{% set enable_uwsgi = pillar.python_apps.values()|selectattr('uwsgi', 'defined')|first|default %}
+{% set enable_apache = pillar.python_apps.values()|selectattr('apache', 'defined')|first|default %}
+
 include:
+{% if enable_uwsgi %}
   - uwsgi
+{% endif %}
+{% if enable_apache %}
   - apache
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
+{% endif %}
   - python.virtualenv
 
 # Inspired by the Apache formula, which loops over sites to configure. See example in readme.
@@ -57,12 +62,13 @@ include:
     - onchanges:
       - git: {{ entry.git.url }}
       - virtualenv: {{ directory }}/.ve # if .ve was deleted
+{% if 'uwsgi' in entry %}
     # https://github.com/open-contracting/deploy/issues/146
     - watch_in:
       - service: uwsgi
+{% endif %}
 
-{% if 'config' in entry %}
-{% for filename, source in entry.config.items() %}
+{% for filename, source in entry.config|items %}
 {{ userdir }}/.config/{{ filename }}:
   file.managed:
     - source: {{ source }}
@@ -72,8 +78,7 @@ include:
     - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
-{% endfor %}
-{% endif %}{# config #}
+{% endfor %}{# config #}
 
 {% if 'django' in entry %}
 {{ directory }}-migrate:

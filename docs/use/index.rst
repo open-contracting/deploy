@@ -22,5 +22,6 @@ User Guides
    bash.rst
    databases.rst
    kingfisher.rst
+   pelican.rst
    redmine.rst
    prometheus.rst

@@ -104,9 +104,11 @@ $IPTABLES -t mangle -X
 $IPTABLES -t raw -X
 
 $IP6TABLES -F
+$IP6TABLES -t nat -F
 $IP6TABLES -t mangle -F
 $IP6TABLES -t raw -F
 $IP6TABLES -X
+$IP6TABLES -t nat -X
 $IP6TABLES -t mangle -X
 $IP6TABLES -t raw -X
 

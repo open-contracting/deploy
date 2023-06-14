@@ -14,7 +14,7 @@ Connect to a database
 
    For most use cases, you can instead query the database from `Redash <https://redash.open-contracting.org>`__. To request an account, email data@open-contracting.org.
 
-OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the main server. Please always use the replica database. If that server goes down, use the main database until the server is restored.
+OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server.
 
 .. _psql:
 
@@ -33,19 +33,27 @@ For example:
 
 .. code-block:: bash
 
-   psql "dbname=ocdskingfisherprocess user=jmckinney host=postgres-readonly.kingfisher.open-contracting.org sslmode=require"
+   psql "dbname=kingfisher_process user=jmckinney host=postgres-readonly.kingfisher.open-contracting.org sslmode=require"
 
 Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/current/libpq-pgpass.html>`__, replacing ``USER`` and ``PASS``:
 
 .. code-block:: bash
 
-   echo 'postgres-readonly.kingfisher.open-contracting.org:5432:ocdskingfisherprocess:USER:PASS' >> ~/.pgpass
+   echo 'postgres-readonly.kingfisher.open-contracting.org:5432:kingfisher_process:USER:PASS' >> ~/.pgpass
 
 Then, set the permissions of the ``~/.pgpass`` file:
 
 .. code-block:: bash
 
    chmod 600 ~/.pgpass
+
+.. tip::
+
+   If you have shell access to the ``postgres.kingfisher.open-contracting.org`` server, connect with:
+
+   .. code-block:: bash
+
+      psql kingfisher_process
 
 .. _beekeeper:
 
@@ -61,7 +69,7 @@ For security, remember to check *Enable SSL*.
 #. Check *Enable SSL*
 #. Set the *User*
 #. Set the *Password*
-#. Set the *Default Database*, e.g. "ocdskingfisherprocess"
+#. Set the *Default Database*, e.g. "kingfisher_process"
 #. Click the *Test* button
 
 Then, either click the *Connect* button or set the *Connection Name* and click *Save*.
@@ -105,7 +113,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
 .. code-block:: none
 
-   %sql postgresql://USER:PASSWORD@postgres-readonly.kingfisher.open-contracting.org/ocdskingfisherprocess?sslmode=require
+   %sql postgresql://USER:PASSWORD@postgres-readonly.kingfisher.open-contracting.org/kingfisher_process?sslmode=require
 
 .. note::
 
@@ -125,7 +133,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
    import psycopg2
 
    conn = psycopg2.connect(
-       dbname='ocdskingfisherprocess',
+       dbname='kingfisher_process',
        user='USER',
        password='PASSWORD',
        host='postgres-readonly.kingfisher.open-contracting.org',

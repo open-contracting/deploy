@@ -4,12 +4,10 @@ rsyslog:
     - name: rsyslog
     - enable: True
 
-{% if salt['pillar.get']('rsyslog:conf') %}
-{% for filename, source in pillar.rsyslog.conf.items() %}
+{% for filename, source in salt['pillar.get']('rsyslog:conf', {}).items() %}
 /etc/rsyslog.d/{{ filename }}:
   file.managed:
     - source: salt://core/rsyslog/files/{{ source }}
     - watch_in:
       - service: rsyslog
 {% endfor %}
-{% endif %}

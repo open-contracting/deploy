@@ -107,7 +107,7 @@ Configure PostgreSQL
 
       postgres:
         configuration:
-          name: kingfisher-process1
+          name: kingfisher-main1
           source: shared
           context:
             mykey: myvalue
@@ -172,7 +172,7 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
       postgres:
         backup:
           # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
-          configuration: kingfisher-process1
+          configuration: kingfisher-main1
           # Unique identifier for backup configuration
           stanza: kingfisher
           # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
@@ -221,41 +221,37 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
 
    You can find the :ref:`recovery steps here<pg-recover-replica>`.
 
-#. Log into the main (replication source) server
-#. Swap to the postgres user
+#. Connect to the main server
+#. Switch to the ``postgres`` user:
 
    .. code-block:: bash
 
       su - postgres
 
-#. Generate new SSH keys (if they do not already exist)
+#. Generate an SSH key pair, if one doesn't already exist:
 
    .. code-block:: bash
 
       ssh-keygen -t rsa -b 4096
 
-   This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
+#. Add the public SSH key to the ``ssh.postgres`` list in the **replica** server's Pillar file:
 
-#. Add these new keys in deploy pillar
+   .. code-block:: yaml
 
-   #. Add the public key to `authorized_keys` on the replica server
+      ssh:
+        postgres:
+          - ssh-rsa AAAB3N...
 
-      .. code-block:: yaml
+#. Set ``postgres.ssh_key`` in the **main** server's private Pillar file to the private SSH key:
 
-         ssh:
-           postgres:
-             - ssh-rsa AAAB3N...
+   .. code-block:: yaml
 
-   #. Add the private key to `deploy-pillar-private <https://github.com/open-contracting/deploy-pillar-private>`__.
+      postgres:
+        ssh_key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          ...
 
-      .. code-block:: yaml
-
-         postgres:
-           ssh_key: |
-             -----BEGIN RSA PRIVATE KEY-----
-             ...
-
-   #. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the main server and replica server<../../deploy/deploy>`
 
 .. _pg-setup-replication:
 
@@ -264,7 +260,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
+#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-main1`` and ``kingfisher-replica1``.
 
 #. Add the replica's IP addresses to the main server's Pillar file:
 
@@ -286,7 +282,7 @@ To configure a main server and a replica server:
             password: example_password
             replication: True
 
-   You will also need to pass this user to the replica server. This is used to populate the recovery.conf file via pgbackrest.
+   You will also need to pass this user to the replica server. This is used to populate the ``postgresql.conf`` file via pgbackrest.
 
    .. code-block:: yaml
 
@@ -298,7 +294,7 @@ To configure a main server and a replica server:
 
    .. note::
 
-      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
+      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/postgresql.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 

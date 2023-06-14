@@ -1,5 +1,4 @@
 {% from 'lib.sls' import create_user, set_cron_env %}
-{% from 'kingfisher/collect/init.sls' import directory as scrapyd_directory %}
 
 include:
   - python.psycopg2
@@ -9,7 +8,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ create_user(entry.user) }}
+{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
 
 {{ userdir }}/data:
   file.directory:
@@ -27,8 +26,8 @@ include:
 
 {{ userdir }}/.pgpass:
   file.managed:
-    - source: salt://postgres/files/kingfisher-collect.pgpass
-    - template: jinja
+    - contents: |
+        localhost:5432:kingfisher_collect:kingfisher_collect:{{ pillar.postgres.users.kingfisher_collect.password }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - mode: 400
@@ -64,15 +63,11 @@ include:
 %}
 
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
-# This line can be removed after upgrading Python and Scrapy.
-# - "CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography and will be removed in a future release."
-# - https://github.com/open-contracting/kingfisher-collect/issues/998
-{{ set_cron_env(entry.user, "PYTHONWARNINGS", "ignore:::OpenSSL._util,ignore:::scrapy.core.scraper") }}
 
 # Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in crawls %}
-cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/ocdskingfishercollect -s FILES_STORE={{ userdir }}/data:
-  cron.absent:
+cd {{ directory }}; . .ve/bin/activate; scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect -s FILES_STORE={{ userdir }}/data:
+  cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
     {% if 'day' in crawl %}

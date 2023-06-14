@@ -37,14 +37,15 @@ base:
     - elasticsearch.plugins.readonlyrest
     - tinyproxy
 
-  'kingfisher-process':
+  'kingfisher-main':
     - postgres.main
-    - redis
+    - rabbitmq
     - kingfisher
     - kingfisher.collect
     - kingfisher.collect.incremental
-    - kingfisher.process
     - kingfisher.summarize
+    - pelican.backend
+    - pelican.frontend
 
   'prometheus':
     - prometheus

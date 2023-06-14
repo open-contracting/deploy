@@ -66,7 +66,7 @@ apache:
 postgres:
   version: 12
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
-  public_access: true
+  public_access: True
   configuration:
     name: registry
     source: shared
@@ -134,7 +134,7 @@ docker_apps:
     target: pelican-backend
     env:
       RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
-      # 2021-10-27: on kingfisher-process, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
+      # 2021-10-27: on kingfisher-main, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
       KINGFISHER_PROCESS_MAX_SIZE: 30000
       PELICAN_BACKEND_STEPS: field_coverage
   pelican_frontend:

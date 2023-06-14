@@ -1,0 +1,6 @@
+# vi: ft=apache
+
+# https://www.rabbitmq.com/management.html#http-api-proxy
+AllowEncodedSlashes On
+ProxyPassReverse / http://localhost:15672/
+ProxyPass / http://localhost:15672/ nocanon

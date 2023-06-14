@@ -39,3 +39,10 @@ save iptables rules:
     - onchanges:
       - file: /home/sysadmin-tools/firewall-settings.local
       - file: /home/sysadmin-tools/bin/firewall.sh
+
+/home/sysadmin-tools/bin/firewall_reset.sh:
+  file.managed:
+    - source: salt://core/firewall/files/firewall_reset.sh
+    - mode: 750
+    - require:
+      - file: /home/sysadmin-tools/bin

@@ -1,10 +1,6 @@
 include:
   - postgres
 
-pgbadger:
-  pkg.installed:
-    - name: pgbadger
-
 # Require official PostgreSQL repo as they provide a newer version of pgbackrest.
 pgbackrest:
   pkg.installed:
