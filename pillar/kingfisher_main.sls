@@ -57,9 +57,9 @@ apache:
       configuration: pelican
       servername: pelican.open-contracting.org
       context:
-        port: 8004
         # Need to sync with `docker_apps.pelican_frontend.port`.
-        django_port: 8001
+        port: 8001
+        static_port: 8004
         timeout: 300
     rabbitmq:
       configuration: rabbitmq
@@ -114,6 +114,8 @@ postgres:
     repo_path: /kingfisher
     configuration: kingfisher-main1
     process_max: 4
+    # The `grep -v` command means `root` will receive mail if there is more than 1 error.
+    #
     # To check whether the error message in the grep command is up-to-date:
     # "unable to remove file '%s'"
     # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43

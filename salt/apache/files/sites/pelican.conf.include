@@ -3,10 +3,15 @@
 RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 
-ProxyPass /api/ http://127.0.0.1:{{ django_port }}/api/ timeout={{ timeout }}
-ProxyPassReverse /api/ http://127.0.0.1:{{ django_port }}/api/
-ProxyPass / http://127.0.0.1:{{ port }}/
-ProxyPassReverse / http://127.0.0.1:{{ port }}/
+# The incoming Authorization header should not be proxied.
+RequestHeader unset Authorization
+
+ProxyPass /api/ http://127.0.0.1:{{ port }}/api/ timeout={{ timeout }}
+ProxyPassReverse /api/ http://127.0.0.1:{{ port }}/api/
+ProxyPass /static/ http://127.0.0.1:{{ static_port }}/static/
+ProxyPassReverse /static/ http://127.0.0.1:{{ static_port }}/static/
+ProxyPass / http://127.0.0.1:{{ static_port }}/
+ProxyPassReverse / http://127.0.0.1:{{ static_port }}/
 
 <Location "/">
     AuthName "Pelican"
