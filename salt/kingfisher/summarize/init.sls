@@ -10,6 +10,7 @@ include:
 
 {{ create_user(entry.user) }}
 
+# Allow data support managers to access.
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}

@@ -12,6 +12,7 @@ include:
 
 {{ create_user(entry.user) }}
 
+# Allow Apache to access. See django.conf.include.
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}

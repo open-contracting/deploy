@@ -35,6 +35,7 @@ include:
     - require:
       - file: {{ directory }}
 
+# Allow Docker apps (Kingfisher Process) to access.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
     - makedirs: True
