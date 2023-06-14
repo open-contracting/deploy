@@ -103,13 +103,7 @@ Upgrade
 
    `OCDS Index <https://ocds-index.readthedocs.io/en/latest/>`__ supports Elasticsearch 7.x only.
 
-#. Connect to the server as the ``root`` user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp07.open-contracting.org:8255 || true
-      ssh root@ocp07.open-contracting.org
-
+#. :doc:`Connect to the server<../use/ssh>` as the ``root`` user.
 #. Perform any outstanding updates:
 
    .. code-block:: bash

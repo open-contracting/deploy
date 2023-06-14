@@ -87,12 +87,18 @@ The initial migrations for Pelican backend are run by Salt.
 Kingfisher Collect
 ~~~~~~~~~~~~~~~~~~
 
-#. Connect to the new server, switch to the ``incremental`` user, generate an SSH key pair, and get the public SSH key:
+#. :doc:`SSH<../use/ssh>` into the new server as the ``incremental`` user:
+
+   #. Generate an SSH key pair:
 
       .. code-block:: bash
 
-         su - incremental
          ssh-keygen -t rsa -b 4096 -C "incremental"
+
+   #. Get the public SSH key:
+
+      .. code-block:: bash
+
          cat ~/.ssh/id_rsa.pub
 
 #. Add the public SSH key to the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file:
@@ -105,13 +111,7 @@ Kingfisher Collect
 
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the old server and the new server<deploy>`.
-#. Connect to the old server:
-
-   #. Switch to the ``incremental`` user:
-
-      .. code-block:: bash
-
-         su - incremental
+#. :doc:`SSH<../use/ssh>` into the old server as the ``incremental`` user:
 
    #. Stop any processes started by the cron jobs.
    #. Dump the ``kingfisher_collect`` database:
@@ -120,13 +120,7 @@ Kingfisher Collect
 
          pg_dump -U kingfisher_collect -h localhost -f kingfisher_collect.sql kingfisher_collect
 
-#. Connect to the new server:
-
-   #. Switch to the ``incremental`` user:
-
-      .. code-block:: bash
-
-         su - incremental
+#. :doc:`SSH<../use/ssh>` into the new server as the ``incremental`` user.
 
    #. Copy the database dump from the old server. For example:
 

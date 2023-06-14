@@ -65,14 +65,7 @@ WordPress
         cli_version: 2.7.1
 
 #. :doc:`Deploy the service<../../deploy/deploy>`.
-
-#. Connect to the server as the WordPress user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp21.open-contracting.org:8255 || true
-      ssh coalition@ocp21.open-contracting.org
-
+#. :doc:`Connect to the server<../../use/ssh>` as the WordPress user (e.g. ``coalition``).
 #. Change to the ``public_html`` directory:
 
    .. code-block:: bash

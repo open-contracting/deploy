@@ -221,13 +221,7 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
 
    You can find the :ref:`recovery steps here<pg-recover-replica>`.
 
-#. Connect to the main server
-#. Switch to the ``postgres`` user:
-
-   .. code-block:: bash
-
-      su - postgres
-
+#. :doc:`SSH<../use/ssh>` into the main server as the ``postgres`` user.
 #. Generate an SSH key pair, if one doesn't already exist:
 
    .. code-block:: bash

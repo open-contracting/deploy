@@ -28,11 +28,10 @@ Connect to servers
 
    Request access from James or Yohanna. (They will need :ref:`your public SSH key<add-public-key>` to add a key-value pair under the ``users`` key in the ``pillar/kingfisher_main.sls`` file.)
 
-Connect to the data support server:
+Connect to the data support server, replacing ``USER``:
 
 .. code-block:: bash
 
-   curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
    ssh USER@collect.kingfisher.open-contracting.org
 
 In addition to the Kingfisher tools, users have access to these command-line tools:

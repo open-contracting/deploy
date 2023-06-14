@@ -111,15 +111,8 @@ Update a password
 Delete a user
 ~~~~~~~~~~~~~
 
-#. Delete the user from the private Pillar file
-
-#. Connect to the server as the ``root`` user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-      ssh root@collect.kingfisher.open-contracting.org
-
+#. Delete the user from the private Pillar file.
+#. :doc:`SSH<../use/ssh>` into the main server as the ``root`` user.
 #. Attempt to drop the user as the ``postgres`` user, for example:
 
    .. code-block:: bash
@@ -236,13 +229,7 @@ Improve performance
 Tune settings
 ~~~~~~~~~~~~~
 
--  :doc:`Connect to the server<../use/ssh>`
--  Switch to the ``postgres`` user:
-
-   .. code-block:: bash
-
-      su - postgres
-
+#. :doc:`SSH<../use/ssh>` into a PostgreSQL server as the ``postgres`` user.
 -  Run the ``postgresqltuner.pl`` file:
 
    .. code-block:: bash
@@ -514,8 +501,7 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. Connect to the replica server
-
+#. :doc:`SSH<../use/ssh>` into the replica server as the ``root`` user.
 #. Stop PostgreSQL if it is running:
 
    .. code-block:: bash

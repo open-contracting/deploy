@@ -4,19 +4,7 @@ OCDS documentation tasks
 Clean draft documentation
 -------------------------
 
-#. Connect to the server:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-      ssh root@standard.open-contracting.org
-
-#. Switch to the ``ocds-docs`` user:
-
-   .. code-block:: bash
-
-      su - ocds-docs
-
+#. :doc:`SSH<../use/ssh>` into ``standard.open-contracting.org`` as the ``ocds-docs`` user.
 #. Run ``1-size.sh`` to get the total sizes of old drafts. For example, for drafts older than 180 days:
 
    .. code-block:: bash
@@ -32,13 +20,7 @@ Clean draft documentation
 Check 404 errors
 ----------------
 
-#. Connect to the server:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-      ssh root@standard.open-contracting.org
-
+#. :doc:`SSH<../use/ssh>` into ``standard.open-contracting.org`` as the ``root`` user.
 #. Count 404 errors:
 
    .. code-block:: bash

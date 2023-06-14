@@ -5,7 +5,22 @@ Connect to a server (SSH)
 
    Ask a systems administrator to add :ref:`your public SSH key<add-public-key>` to the relevant ``ssh`` list in the server's Pillar file.
 
-By default, the SSH port is closed. The easiest way to open it depends on whether your IP address is dynamic or static.
+On machines running Docker, use SSH as usual. For example:
+
+.. code-block:: bash
+
+   ssh USER@collect.kingfisher.open-contracting.org
+
+These machines include:
+
+.. hlist::
+
+   - credere.open-contracting.org
+   - data.open-contracting.org
+   - redash.open-contracting.org
+   - *.kingfisher.open-contracting.org
+
+On machines not running Docker, the SSH port is closed by default. The easiest way to open it depends on whether your IP address is dynamic or static.
 
 Dynamic IP: Port knock
 ----------------------

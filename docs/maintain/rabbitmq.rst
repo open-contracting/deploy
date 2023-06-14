@@ -12,7 +12,6 @@ If the management interface is not :ref:`publicly available<rabbitmq-proxy>`:
 
    .. code-block:: bash
 
-      curl --silent --connect-timeout 1 HOST:8255 || true
       ssh -N root@HOST -L 15673:localhost:15672
 
 #. Open http://localhost:15673

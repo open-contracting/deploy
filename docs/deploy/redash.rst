@@ -20,13 +20,7 @@ Create a Redash server
 Dump the old server's database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Connect to the old server. For example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp08.open-contracting.org:8255 || true
-      ssh root@ocp08.open-contracting.org
-
+#. :doc:`SSH<../use/ssh>` into the old server as the ``root`` user.
 #. Create the database dump. (If PostgreSQL is running in Docker, you might need to expose its ports first.) For example:
 
    .. code-block:: bash
@@ -60,12 +54,7 @@ Dump the old server's database
 Load the new server's database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Connect to the new server. For example:
-
-   .. code-block:: bash
-
-      ssh root@ocp14.open-contracting.org
-
+#. :doc:`SSH<../use/ssh>` into the new server as the ``root`` user.
 #. Load the database dump into the ``redash`` database:
 
    .. code-block:: bash
@@ -89,14 +78,7 @@ Upgrade the Redash service
 #. Update the ``image`` in the `Docker Compose file <https://github.com/open-contracting/deploy/blob/main/salt/docker_apps/files/redash.yaml>`__ to the latest tag. Read the `release notes <https://github.com/getredash/redash/releases>`__ for any other updates to make.
 
 #. :doc:`Deploy the service<deploy>`.
-
-#. Connect to the server:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp14.open-contracting.org:8255 || true
-      ssh root@ocp14.open-contracting.org
-
+#. :doc:`SSH<../use/ssh>` into ``redash.open-contracting.org`` as the ``root`` user.
 #. Change to the non-root user and Redash directory:
 
    .. code-block:: bash

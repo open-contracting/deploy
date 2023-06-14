@@ -29,7 +29,6 @@ Load local data
 
    .. code-block:: bash
 
-      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
       rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
 #. Change to the ``kingfisher-process`` directory:
