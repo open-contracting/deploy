@@ -10,7 +10,7 @@ include:
 
 {{ create_user(entry.user) }}
 
-# Allow data support managers to access.
+# Allow data support managers to access, to run Kingfisher Summarize.
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}

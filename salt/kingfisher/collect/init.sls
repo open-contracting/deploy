@@ -13,6 +13,14 @@ include:
 
 {{ create_user(user) }}
 
+# Allow data support managers to access, to read Scrapy's crawl logs.
+allow {{ userdir }} access:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ user }}_user_exists
+
 {{ directory }}:
   file.directory:
     - names:

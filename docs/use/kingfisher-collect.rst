@@ -94,8 +94,8 @@ Update spiders in Kingfisher Collect
 
 .. _kingfisher-collect-review-log-files:
 
-Access Scrapyd's crawl logs
----------------------------
+Access Scrapy's crawl logs
+--------------------------
 
 .. seealso::
 
