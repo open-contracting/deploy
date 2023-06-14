@@ -11,7 +11,6 @@ Load local data
 ---------------
 
 #. :ref:`Connect to the data support server<connect-kingfisher-server>`
-
 #. Change to your ``local-load`` directory:
 
    .. code-block:: bash
@@ -26,20 +25,81 @@ Load local data
 
    If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
-   If you need to copy files from your local machine, you can use ``scp``. For example, on your local machine:
+   If you need to copy files from your local machine, you can use ``rsync`` (fast) or ``scp`` (slow). For example, on your local machine:
 
    .. code-block:: bash
 
       curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-      scp file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
+      rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
-#. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
+#. Change to the ``kingfisher-process`` directory:
 
-   .. attention::
+   .. code-block:: bash
 
-      This instruction has not yet been updated for version 2 of Kingfisher Process.
+      cd /data/deploy/kingfisher-process
+
+#. Load the data:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py load --source moldova_local --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+
+   .. note::
+
+      Kingfisher Process can also keep the collection open for more files to be added later.
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
+
+Remove a collection
+-------------------
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. Change to the ``kingfisher-process`` directory:
+
+   .. code-block:: bash
+
+      cd /data/deploy/kingfisher-process
+
+#. Remove the collection:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py deletecollection 123
+
+Check on progress
+-----------------
+
+Using the command-line interface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. Change to the ``kingfisher-process`` directory:
+
+   .. code-block:: bash
+
+      cd /data/deploy/kingfisher-process
+
+#. Check the collection:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py collectionstatus 123
+
+.. _kingfisher-process-rabbitmq:
+
+Using RabbitMQ
+~~~~~~~~~~~~~~
+
+Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can login to the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
+
+#. Open https://rabbitmq.kingfisher.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
+#. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
+#. Read the rows in which the *Name* starts with ``kingfisher_process_``.
+
+   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done!
+   -  If the *Message rates* are non-zero, then work is progressing. If zero, and if there is work to do, then it is stuck!
+
+   If you think work is stuck, notify James or Yohanna.
 
 Export compiled releases from the database as record packages
 -------------------------------------------------------------
@@ -88,22 +148,6 @@ If you need to wrap each compiled release in a record package, modify the files 
 
    echo *.json | xargs sed -i '1i {"records":[{"compiledRelease":'
    for filename in *.json; do echo "}]}" >> "$filename"; done
-
-.. _kingfisher-process-rabbitmq:
-
-Check on progress
------------------
-
-Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can login to the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
-
-#. Open https://rabbitmq.kingfisher.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
-#. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
-#. Read the rows in which the *Name* starts with ``kingfisher_process_``.
-
-   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done!
-   -  If the *Message rates* are non-zero, then work is progressing. If zero, and if there is work to do, then it is stuck!
-
-   If you think work is stuck, notify James or Yohanna.
 
 Data retention policy
 ---------------------
