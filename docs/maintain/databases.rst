@@ -243,25 +243,17 @@ Tune settings
 
       su - postgres
 
--  Download the ``postgresqltuner.sql`` file (if not available):
+-  Run the ``postgresqltuner.pl`` file:
 
    .. code-block:: bash
 
-      curl -O https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl
-
--  Make the ``postgresqltuner.sql`` file executable:
-
-   .. code-block:: bash
-
-      chmod ug+x postgresqltuner.pl
-
--  Run the ``postgresqltuner.sql`` file:
-
-   .. code-block:: bash
-
-      ./postgresqltuner.sql --ssd
+      /var/lib/postgresql/postgresqltuner.pl --ssd
 
 Under "Configuration advice", address "HIGH" and "MEDIUM" recommendations.
+
+.. note::
+
+   `pgBadger <https://pgbadger.darold.net>`__ is also available.
 
 Reference: `Tuning Your PostgreSQL Server <https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server>`__
 
