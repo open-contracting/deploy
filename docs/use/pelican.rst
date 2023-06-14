@@ -1,25 +1,35 @@
 Pelican
 =======
 
-Pelican is composed of a backend that `extracts OCDS data and measures its quality <https://pelican-backend.readthedocs.io/en/latest/>`__ and a frontend that `reports the results <https://pelican-frontend.readthedocs.io/en/latest/>`__.
+Pelican is composed of:
+
+-  `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/>`__, which extracts compiled releases from Kingfisher Process and measures its quality
+-  `Pelican frontend <https://pelican-frontend.readthedocs.io/en/latest/>`__, which reports the results
+
+
+.. seealso::
+
+   `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
 
 Measure a collection
 --------------------
 
-Pelican backend provides an `add command <https://pelican-backend.readthedocs.io/en/latest/tasks/datasets.html>`__ to measure a compiled release collection in Kingfisher Process.
+.. admonition:: One-time setup
 
-#. :ref:`Connect to the data support server<connect-kingfisher-server>`
-#. Change to the ``pelican-backend`` directory:
+   :ref:`Create a ~/.netrc file<netrc>` for the ``pelican.open-contracting.org`` service, using the same credentials as :ref:`access-scrapyd-web-service`.
 
-   .. code-block:: bash
 
-      cd /data/deploy/pelican-backend
+
+#. Submit a POST request to the 
+curl -d '{"name":"spider_data_version","collection_id":123}' -H 'Content-Type: application/json' http://pelican.api/api/datasets/
+
+Can we also prepare some brief documentation on what success looks like (collection appears in the list on https://dqt.datlab.eu/?)?
+Yes, success looks like it appearing in the list, with the status column otherwise indicating the progress.
 
 #. Name the report using the spider's name and the collection date for easy reference, and provide the collection ID for the compiled releases:
 
-   .. code-block:: bash
 
-      docker compose run --rm cron python manage.py add spider_name_2020-01-01 123
+spider_name_2020-01-01 123
 
 .. attention::
 
