@@ -25,3 +25,11 @@ If you forget the name of your session, list all sessions with:
 .. code-block:: bash
 
    tmux ls
+
+.. attention::
+
+   Remember to close your session when done, by pressing ``Ctrl-d`` or by running:
+
+   .. code-block:: bash
+
+      exit

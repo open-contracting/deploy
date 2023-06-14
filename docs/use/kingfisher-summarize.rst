@@ -47,6 +47,12 @@ Summarize collections
 
          ./manage.py add 123 "added by NAME" --field-lists
 
+#. Close the session by pressing ``Ctrl-d`` or by running:
+
+   .. code-block:: bash
+
+      exit
+
 Review log files
 ----------------
 
