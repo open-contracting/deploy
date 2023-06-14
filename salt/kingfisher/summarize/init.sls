@@ -10,6 +10,13 @@ include:
 
 {{ create_user(entry.user) }}
 
+allow {{ userdir }} access:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ entry.user }}_user_exists
+
 {{ directory }}/.env:
   file.managed:
     - source: salt://kingfisher/summarize/files/.env
