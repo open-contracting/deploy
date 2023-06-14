@@ -44,11 +44,7 @@ Manage data
 
 .. admonition:: One-time setup
 
-   Set the password of the ``manage`` user in a netrc file, replacing ``PASSWORD``:
-
-   .. code-block:: bash
-
-      echo 'machine standard.open-contracting.org login manage password PASSWORD' >> ~/.netrc
+   Set the password of the ``manage`` user of the ``standard.open-contracting.org`` service in a :ref:`~/.netrc file<netrc>`.
 
 List indices:
 

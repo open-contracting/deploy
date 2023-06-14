@@ -19,6 +19,7 @@ User Guides
 .. toctree::
 
    ssh.rst
+   http.rst
    bash.rst
    databases.rst
    kingfisher.rst
