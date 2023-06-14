@@ -36,9 +36,7 @@ base:
     - docs_maintenance
 
   'kingfisher-main':
-    - kingfisher_common
     - kingfisher_main
-    - private.kingfisher_common
     - private.kingfisher_main
     - tinyproxy
     - kingfisher_main_maintenance
