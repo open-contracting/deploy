@@ -1,8 +1,12 @@
 Maintain RabbitMQ
 =================
 
+.. _rabbitmq-ssh-tunnel:
+
 Access the management interface
 -------------------------------
+
+If the management interface is not :ref:`publicly available<rabbitmq-proxy>`:
 
 #. Open an SSH tunnel, replacing ``HOST``:
 
