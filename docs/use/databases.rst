@@ -14,7 +14,7 @@ Connect to a database
 
    For most use cases, you can instead query the database from `Redash <https://redash.open-contracting.org>`__. To request an account, email data@open-contracting.org.
 
-OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server, and provides a replica database on the ``postgres-readonly.kingfisher.open-contracting.org`` server, in order to ease the load on the main server. Please always use the replica database. If that server goes down, use the main database until the server is restored.
+OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server.
 
 .. _psql:
 
