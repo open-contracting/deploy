@@ -89,6 +89,22 @@ If you need to wrap each compiled release in a record package, modify the files 
    echo *.json | xargs sed -i '1i {"records":[{"compiledRelease":'
    for filename in *.json; do echo "}]}" >> "$filename"; done
 
+.. _kingfisher-process-rabbitmq:
+
+Check on progress
+-----------------
+
+Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can login to the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
+
+#. Open https://rabbitmq.kingfisher.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
+#. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
+#. Read the rows in which the *Name* starts with ``kingfisher_process_``.
+
+   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done!
+   -  If the *Message rates* are non-zero, then work is progressing. If zero, and if there is work to do, then it is stuck!
+
+   If you think work is stuck, notify James or Yohanna.
+
 Data retention policy
 ---------------------
 

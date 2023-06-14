@@ -31,6 +31,8 @@ Google Postmaster Tools
 
 `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ can be used to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
 
+.. _sentry:
+
 Sentry
 ~~~~~~
 
