@@ -106,7 +106,6 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 5
   backup:
-    # Need to sync with `--stanza` in the main server's Pillar file.
     stanza: kingfisher-2023
     retention_full: 4
     s3_bucket: ocp-db-backup
@@ -115,6 +114,11 @@ postgres:
     repo_path: /kingfisher
     configuration: kingfisher-main1
     process_max: 4
+    # To check whether the error message in the grep command is up-to-date:
+    # "unable to remove file '%s'"
+    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43
+    # "expire command encountered %u error(s), check the log file for details"
+    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078
     cron: |
         MAILTO=root
         # Daily incremental backup
