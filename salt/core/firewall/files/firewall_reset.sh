@@ -7,6 +7,8 @@
 #
 # Usage:  $0
 
+set -euo pipefail
+
 # shellcheck disable=SC1091
 source /home/sysadmin-tools/firewall-settings.local
 
