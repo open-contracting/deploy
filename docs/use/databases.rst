@@ -47,6 +47,14 @@ Then, set the permissions of the ``~/.pgpass`` file:
 
    chmod 600 ~/.pgpass
 
+.. tip::
+
+   If you have shell access to the ``postgres.kingfisher.open-contracting.org`` server, connect with:
+
+   .. code-block:: bash
+
+      psql kingfisher_process
+
 .. _beekeeper:
 
 Beekeeper Studio
