@@ -35,4 +35,10 @@ Connect to the data support server:
    curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
    ssh USER@collect.kingfisher.open-contracting.org
 
-In addition to the Kingfisher tools, users have access to the `jq <https://stedolan.github.io/jq/manual/>`__, ``unrar``, `flatten-tool <https://flatten-tool.readthedocs.io/en/latest/usage-ocds/>`__ and `ocdskit <https://ocdskit.readthedocs.io/en/latest/>`__ command-line tools.
+In addition to the Kingfisher tools, users have access to these command-line tools:
+
+-  `jq <https://stedolan.github.io/jq/manual/>`__, to query JSON data
+-  `ripgrep <https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md>`__, to `grep <https://www.gnu.org/software/grep/manual/grep.html>`__, but fast
+-  `flatten-tool <https://flatten-tool.readthedocs.io/en/latest/usage-ocds/>`__, to unflatten data for local load
+-  `ocdskit <https://ocdskit.readthedocs.io/en/latest/>`__, to transform data for local load
+-  ``unrar``, to unarchive data for local load
