@@ -18,7 +18,7 @@ These machines include:
    - credere.open-contracting.org
    - data.open-contracting.org
    - redash.open-contracting.org
-   - *.kingfisher.open-contracting.org
+   - \*.kingfisher.open-contracting.org
 
 On machines not running Docker, the SSH port is closed by default. The easiest way to open it depends on whether your IP address is dynamic or static.
 

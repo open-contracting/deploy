@@ -3,9 +3,8 @@ Pelican
 
 Pelican is composed of:
 
--  `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/>`__, which extracts compiled releases from Kingfisher Process and measures its quality
+-  `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/>`__, which extracts compiled releases from Kingfisher Process and measures data quality
 -  `Pelican frontend <https://pelican-frontend.readthedocs.io/en/latest/>`__, which reports the results
-
 
 .. seealso::
 
@@ -18,18 +17,13 @@ Measure a collection
 
    :ref:`Create a ~/.netrc file<netrc>` for the ``pelican.open-contracting.org`` service, using the same credentials as :ref:`access-scrapyd-web-service`.
 
+To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Set ``name`` to the spider's name and the collection date (a.k.a. data version) for easy reference, and set ``collection_id`` to the collection ID for the compiled releases. For example:
 
+.. code-block:: bash
 
-#. Submit a POST request to the 
-curl -d '{"name":"spider_data_version","collection_id":123}' -H 'Content-Type: application/json' http://pelican.api/api/datasets/
+   curl -n -d '{"name":"spider_name_2020-01-01","collection_id":123}' -H 'Content-Type: application/json' https://pelican.open-contracting.org/api/datasets/
 
-Can we also prepare some brief documentation on what success looks like (collection appears in the list on https://dqt.datlab.eu/?)?
-Yes, success looks like it appearing in the list, with the status column otherwise indicating the progress.
-
-#. Name the report using the spider's name and the collection date for easy reference, and provide the collection ID for the compiled releases:
-
-
-spider_name_2020-01-01 123
+You should now see your report at https://pelican.open-contracting.org.
 
 .. attention::
 
