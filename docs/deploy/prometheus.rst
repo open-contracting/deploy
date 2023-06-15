@@ -28,7 +28,7 @@ Test Alert Manager
 
 .. code-block:: bash
 
-   curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
+   curl --json '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
 
 Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
 

@@ -3,12 +3,8 @@ Pelican
 
 Pelican is composed of:
 
--  `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/>`__, which extracts compiled releases from Kingfisher Process and measures data quality
--  `Pelican frontend <https://pelican-frontend.readthedocs.io/en/latest/>`__, which reports the results
-
-.. seealso::
-
-   `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
+-  `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/>`__, which extracts compiled releases from Kingfisher Process and measures quality
+-  `Pelican frontend <https://pelican-frontend.readthedocs.io/en/latest/>`__, which reports results
 
 Measure a collection
 --------------------
@@ -21,13 +17,17 @@ To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Se
 
 .. code-block:: bash
 
-   curl -n -d '{"name":"spider_name_2020-01-01","collection_id":123}' -H 'Content-Type: application/json' https://pelican.open-contracting.org/api/datasets/
+   curl -n --json '{"name":"spider_name_2020-01-01","collection_id":123}' https://pelican.open-contracting.org/api/datasets/
 
 You should now see your report at https://pelican.open-contracting.org.
 
 .. attention::
 
    Pelican is more robust to structural errors in OCDS data than it was in 2021. That said, it might still fail on structural errors. If so, :ref:`sentry` is expected to notify James and Yohanna.
+
+.. seealso::
+
+   `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
 
 Read and export a report
 ------------------------
