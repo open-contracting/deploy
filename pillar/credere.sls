@@ -10,7 +10,8 @@ apache:
   sites:
     credere:
       configuration: proxy
-      servername: credere.open-contracting.org
+      servername: ocp22.open-contracting.org
+      # servername: credere.open-contracting.org
       context:
         proxypass: http://localhost:8000/
         authname: Credere Staging
@@ -31,7 +32,11 @@ postgres:
   version: 15
   # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
   public_access: True
-  configuration: False
+  configuration:
+    name: credere
+    source: shared
+    context:
+      storage: ssd
   databases:
     credere:
       user: credere
