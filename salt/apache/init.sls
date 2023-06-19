@@ -38,15 +38,18 @@ apache2:
     - names: 
       - /var/www/html/error_page.html:
         - source: salt://apache/files/docs/error_page.html
-      - /etc/apache2/sites-avaliable/default.conf:
+      - /etc/apache2/sites-available/default.conf:
         - source: salt://apache/files/conf/default.conf
     - require:
       - pkg: apache2
     - watch_in:
       - service: apache2
-# Removes Apache defaults page and configuration
+
+# Remove Apache default page.
 /var/www/html/index.html:
    file.absent
+
+# Remove Apache default configuration.
 /etc/apache2/sites-enabled/000-default.conf:
    file.absent
 
