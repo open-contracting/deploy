@@ -28,6 +28,11 @@ percona-mysql:
     - enable: True
     - require:
       - pkg: percona-mysql
+  debconf.set:
+    - data:
+        'percona-server-server/default-auth-override': { 'type' : 'select', 'value': 'Use Strong Password Encryption (RECOMMENDED)' }
+    - require:
+      - pkg: debconf-utils
 
 remove test database:
   mysql_database.absent:
