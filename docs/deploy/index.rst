@@ -8,6 +8,7 @@ Deployment Guides
    setup.rst
    create_server.rst
    deploy.rst
+   ubuntu_pro.rst
    delete_server.rst
    troubleshoot.rst
 
