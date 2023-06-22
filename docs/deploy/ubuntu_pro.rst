@@ -12,13 +12,13 @@ Installation
 
 #. `Purchase an Ubuntu Pro license <https://ubuntu.com/pro/subscribe>`__ for *Physical servers with unlimited VMs* for the relevant Ubuntu version. A license cannot be purchased for VPS (like Linode).
 #. :doc:`SSH<../use/ssh>` into the server as the ``root`` user.
-#. Install the Ubuntu Pro Client.
+#. Install the Ubuntu Pro Client:
 
    .. code-block:: bash
 
       apt install ubuntu-advantage-tools
 
-#. Attach the licence key.
+#. Attach the licence key:
 
    .. code-block:: bash
 
