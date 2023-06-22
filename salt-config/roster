@@ -10,8 +10,6 @@ docs:
   host: ocp19.open-contracting.org
 kingfisher-main:
   host: ocp23.open-contracting.org
-kingfisher-replica:
-  host: ocp05.open-contracting.org
 prometheus:
   host: ocp20.open-contracting.org
 redash:
@@ -26,10 +24,11 @@ registry:
 
 ### History
 
-# ocp0 was redmine on Ubuntu 18
+# ocp0  was redmine on Ubuntu 18
 # ocp01 was cove-oc4ids on Ubuntu 18
 # ocp02 was cove-ocds on Ubuntu 18
 # ocp03 was prometheus on Ubuntu 18
+# ocp05 was kingfisher-replica on Ubuntu 18
 # ocp06 was covid19-dev
 # ocp07 was docs on Ubuntu 18
 # ocp08 was redash.open-contracting.org on Ubuntu 18
