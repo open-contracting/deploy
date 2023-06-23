@@ -41,12 +41,6 @@ base:
     - tinyproxy
     - kingfisher_main_maintenance
 
-  'kingfisher-replica':
-    - kingfisher_common
-    - kingfisher_replica
-    - private.kingfisher_common
-    - kingfisher_replica_maintenance
-
   'prometheus':
     - prometheus_server
     - private.smtp
