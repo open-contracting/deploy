@@ -1,7 +1,6 @@
 {% from 'lib.sls' import create_user, set_cron_env %}
 
 include:
-  - apache.modules.remoteip
   # https://github.com/open-contracting/cove-ocds/pull/159
   - python.extensions  # backports-datetime-fromisoformat
   - python_apps
