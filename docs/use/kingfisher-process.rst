@@ -7,56 +7,98 @@ Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/lates
 
    Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
 
-.. _kingfisher-process-review-log-files:
-
-Review log files
-----------------
-
-Kingfisher Process writes log messages to the ``/var/log/kingfisher.log`` file. The log file is rotated weekly; last week's log file is at ``/var/log/kingfisher.log.1``, and earlier log files are compressed at ``/var/log/kingfisher.log.2.gz``, etc.
-
-The log files can be read by the ``ocdskfp`` user, after :ref:`connecting to the server<connect-kingfisher-server>`.
-
-Log messages are formatted as:
-
-.. code-block:: none
-
-    [date] [hostname] %(asctime)s - %(process)d - %(name)s - %(levelname)s - %(message)s
-
-You can filter messages by topic. For example:
-
-.. code-block:: bash
-
-    grep NAME /var/log/kingfisher.log | less
-
-For more information, read Kingfisher Process' `logging documentation <https://kingfisher-process.readthedocs.io/en/latest/logging.html>`__.
-
 Load local data
 ---------------
 
-#. :ref:`Connect to the main server as the ocdskfp user<connect-kingfisher-server>`
-
-#. Change into the ``local-load`` directory:
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. Change to your ``local-load`` directory:
 
    .. code-block:: bash
 
       cd ~/local-load
 
-#. Create a data directory following the pattern ``source-YYYY-MM-DD-analyst``. For example: ``moldova-2020-04-07-romina``
+#. Create a data directory following the pattern ``source-YYYY-MM-DD``. For example: ``moldova-2020-04-07``
 
    -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
 
-#. If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
+#. Copy the files to load into the data directory.
 
-#. If you need to copy a file from your local machine, you can use ``scp``. For example, on your local machine:
+   If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
-.. code-block:: bash
+   If you need to copy files from your local machine, you can use ``rsync`` (fast) or ``scp`` (slow). For example, on your local machine:
 
-   curl --silent --connect-timeout 1 process.kingfisher.open-contracting.org:8255 || true
-   scp file.json ocdskfp@process.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07-romina
+   .. code-block:: bash
 
-#. Load the data, using the `local-load <https://kingfisher-process.readthedocs.io/en/latest/cli/local-load.html>`__ command.
+      rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
+
+#. Change to the ``kingfisher-process`` directory:
+
+   .. code-block:: bash
+
+      cd /data/deploy/kingfisher-process
+
+#. Load the data:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py load --source moldova_local --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+
+   .. note::
+
+      Kingfisher Process can also keep the collection open for more files to be added later.
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
+
+Remove a collection
+-------------------
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. Change to the ``kingfisher-process`` directory:
+
+   .. code-block:: bash
+
+      cd /data/deploy/kingfisher-process
+
+#. Remove the collection:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py deletecollection 123
+
+Check on progress
+-----------------
+
+Using the command-line interface
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. Change to the ``kingfisher-process`` directory:
+
+   .. code-block:: bash
+
+      cd /data/deploy/kingfisher-process
+
+#. Check the collection:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py collectionstatus 123
+
+.. _kingfisher-process-rabbitmq:
+
+Using RabbitMQ
+~~~~~~~~~~~~~~
+
+Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can login to the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
+
+#. Open https://rabbitmq.kingfisher.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
+#. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
+#. Read the rows in which the *Name* starts with ``kingfisher_process_``.
+
+   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done!
+   -  If the *Message rates* are non-zero, then work is progressing. If zero, and if there is work to do, then it is stuck!
+
+   If you think work is stuck, notify James or Yohanna.
 
 Export compiled releases from the database as record packages
 -------------------------------------------------------------
@@ -67,9 +109,19 @@ Check the number of compiled releases to be exported. For example:
 
    SELECT cached_compiled_releases_count FROM collection WHERE id = 123;
 
-Large collections will take time to export, so run the commands below in a ``tmux`` session.
+.. attention::
+
+   The ``cached_compiled_releases_count`` column is not yet populated in version 2 of Kingfisher Process ([#370](https://github.com/open-contracting/kingfisher-process/issues/370)). In the meantime, you can run:
+
+   .. code:: sql
+
+      SELECT COUNT(*) FROM compiled_release WHERE collection_id = 123;
 
 Change to the directory in which you want to write the files.
+
+.. tip::
+
+   Large collections will take time to export, so run the commands below in a ``tmux`` session.
 
 To export the compiled releases to a single JSONL file, run, for example:
 

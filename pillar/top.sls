@@ -35,19 +35,11 @@ base:
     - tinyproxy
     - docs_maintenance
 
-  'kingfisher-process':
-    - kingfisher_common
-    - kingfisher_process
-    - private.kingfisher_common
-    - private.kingfisher_process
+  'kingfisher-main':
+    - kingfisher_main
+    - private.kingfisher_main
     - tinyproxy
-    - kingfisher_process_maintenance
-
-  'kingfisher-replica':
-    - kingfisher_common
-    - kingfisher_replica
-    - private.kingfisher_common
-    - kingfisher_replica_maintenance
+    - kingfisher_main_maintenance
 
   'prometheus':
     - prometheus_server

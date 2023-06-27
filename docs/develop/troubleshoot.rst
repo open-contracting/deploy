@@ -4,7 +4,7 @@ Troubleshoot
 jinja2.exceptions.TemplateNotFound
 ----------------------------------
 
-If you ``{% include %}`` a file, this error might be raised. To resolve the issue, add the included file to the ``extra_filerefs`` list in the ``Saltfile`` file (`Salt issue <https://github.com/saltstack/salt/issues/21370>`__).
+Do not use ``{% include %}``. Instead of including shared content in a service-specific file, rewrite the configuration so that the shared content is the template file, and the service-specific content is Pillar data.
 
 Jinja caching issues
 --------------------

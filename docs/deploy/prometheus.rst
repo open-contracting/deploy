@@ -24,11 +24,11 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 Test Alert Manager
 ------------------
 
+:doc:`SSH<../use/ssh>` into ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
+
 .. code-block:: bash
 
-   curl --silent --connect-timeout 1 alertmanager.prometheus.open-contracting.org:8255 || true
-   ssh root@alertmanager.prometheus.open-contracting.org
-   curl -H "Content-Type: application/json" -d '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
+   curl --json '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
 
 Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
 

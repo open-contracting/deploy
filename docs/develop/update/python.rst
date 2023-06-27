@@ -10,14 +10,6 @@ The ``python_apps`` state file performs common operations for Python apps. In yo
 
 If you already have an ``include`` state, add ``python_apps`` to its list.
 
-This will:
-
--  Install the Apache service
--  Install the uWSGI service
--  Enable the :ref:`mod_proxy, mod_proxy_http and mod_proxy_uwsgi<apache-modules>` Apache modules
-
-To make the Python app publicly accessible, :ref:`allow HTTP/HTTPS traffic<allow-http>`.
-
 Add basic configuration
 -----------------------
 
@@ -39,7 +31,7 @@ This will:
 -  Fetch the git repository into the ``target`` directory within the home directory of the ``user``
 -  Initialize a virtual environment in a ``.ve`` directory within the repository's directory
 -  Install ``requirements.txt`` with ``pip-sync`` from `pip-tools <https://pypi.org/project/pip-tools/>`__
--  Reload uWSGI (if configured below) if the code changed
+-  Reload uWSGI (if configured below) if the repository's contents changed
 
 Add configuration files
 -----------------------
@@ -121,6 +113,7 @@ Add, for example:
 
 This will:
 
+-  Install the uWSGI service
 -  Create a ``/etc/uwsgi/apps-available/{target}.ini`` file
 -  Symlink the new file from the ``etc/uwsgi/apps-enabled`` directory
 -  Reload the uWSGI service if the configuration changed
@@ -163,10 +156,6 @@ reload-on-rss
 
 Alternatively, you can write your own configuration file in ``salt/uwsgi/files``, and reference it from the ``configuration`` variable.
 
-.. note::
-
-   At present, a uWSGI service is always configured if ``python_apps`` is set, even if no app sets a ``uwsgi`` key.
-
 Configure Apache
 ----------------
 
@@ -187,7 +176,11 @@ Add, for example:
          context:
            assets_base_url: ''
 
-This will perform similar steps as :ref:`adding an Apache site<apache-sites>`, but creating files named ``/etc/apache2/sites-available/{target}.conf`` and ``/etc/apache2/sites-available/{target}.conf.include``.
+This will:
+
+-  Install the Apache service
+-  Enable the :ref:`mod_proxy, mod_proxy_http and mod_proxy_uwsgi<apache-modules>` Apache modules
+-  Perform the same steps as :ref:`adding an Apache site<apache-sites>`, but creating files named ``/etc/apache2/sites-available/{target}.conf`` and ``/etc/apache2/sites-available/{target}.conf.include``.
 
 The example above uses the `django <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/django.conf.include>`__ configuration, which:
 
@@ -198,6 +191,4 @@ The example above uses the `django <https://github.com/open-contracting/deploy/b
 
 Alternatively, you can write your own configuration file in ``salt/apache/files/sites``, and reference it from the ``configuration`` variable.
 
-.. note::
-
-   At present, an Apache service is always configured if ``python_apps`` is set, even if no app sets an ``apache`` key.
+To make the Python app publicly accessible, :ref:`allow HTTP/HTTPS traffic<allow-http>`.

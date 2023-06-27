@@ -76,11 +76,9 @@ apache2-utils:
       - service: apache2
 {% endif %}
 
-{% if salt['pillar.get']('apache:sites') %}
-{% for name, entry in pillar.apache.sites.items() %}
+{% for name, entry in salt['pillar.get']('apache:sites', {}).items() %}
 {{ apache(name, entry) }}
 {% endfor %}
-{% endif %}
 
 {% if salt['pillar.get']('apache:wait_for_networking') %}
 # Delay the Apache start up if the server has multiple IP addresses.

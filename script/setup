@@ -13,10 +13,6 @@ ln -sf $SSH_KEY_PATH.pub $SALT_SSH_KEY_DIR/salt-ssh.rsa.pub
 
 echo "salt-ssh:
   config_dir: $REPO_DIR/salt-config
-  # https://github.com/saltstack/salt/issues/21370
-  extra_filerefs:
-    - $REPO_DIR/salt/apache/includes/cove.include.jinja
-    - $REPO_DIR/salt/postgres/files/conf/shared.include
 " > Saltfile
 
 echo "# https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-file_roots

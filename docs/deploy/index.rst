@@ -8,6 +8,7 @@ Deployment Guides
    setup.rst
    create_server.rst
    deploy.rst
+   ubuntu_pro.rst
    delete_server.rst
    troubleshoot.rst
 
@@ -18,7 +19,7 @@ Deployment Guides
    docker.rst
    docs.rst
    prometheus.rst
-   kingfisher.rst
+   data-support.rst
    redash.rst
    redmine.rst
 

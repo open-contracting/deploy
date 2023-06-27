@@ -15,9 +15,9 @@ services:
     volumes:
       # The right-hand path must match the directory of the settings.SERVICE_ACCOUNT_JSON_FILE default value in pelican-frontend.
       - {{ pillar.docker_apps.pelican_frontend.host_dir }}:/data
-  vue:
+  static:
     <<: *shared
-    image: "ghcr.io/open-contracting/pelican-frontend-vue:latest"
+    image: "ghcr.io/open-contracting/pelican-frontend-static:latest"
     ports:
-      - {{ pillar.apache.sites.pelican_frontend.context.port }}:8080
+      - {{ pillar.apache.sites.pelican_frontend.context.static_port }}:8080
 {%- endif %}

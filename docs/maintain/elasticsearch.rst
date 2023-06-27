@@ -44,11 +44,7 @@ Manage data
 
 .. admonition:: One-time setup
 
-   Set the password of the ``manage`` user in a netrc file, replacing ``PASSWORD``:
-
-   .. code-block:: bash
-
-      echo 'machine standard.open-contracting.org login manage password PASSWORD' >> ~/.netrc
+   Set the password of the ``manage`` user of the ``standard.open-contracting.org`` service in a :ref:`~/.netrc file<netrc>`.
 
 List indices:
 
@@ -61,16 +57,14 @@ List base URLs in a given index, for example:
 .. code-block:: bash
 
    curl -n -X GET 'https://standard.open-contracting.org/search/ocdsindex_en/_search?size=0&pretty' \
-   -H 'Content-Type: application/json' \
-   -d '{"aggs": {"base_urls": {"terms": {"field": "base_url", "size": 10000}}}}'
+   --json '{"aggs": {"base_urls": {"terms": {"field": "base_url", "size": 10000}}}}'
 
 Delete documents matching a base URL:
 
 .. code-block:: bash
 
    curl -n -X POST 'https://standard.open-contracting.org/search/ocdsindex_en/_delete_by_query' \
-   -H 'Content-Type: application/json' \
-   -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
+   --json '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
 Expire documents using `OCDS Index <https://github.com/open-contracting/ocds-index>`__ (``pip install ocdsindex``):
 
@@ -83,8 +77,7 @@ Search documents in a given index matching a base URL, for example:
 .. code-block:: bash
 
    curl -n -X GET 'https://standard.open-contracting.org/search/ocdsindex_en/_search?size=10000' \
-   -H 'Content-Type: application/json' \
-   -d '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
+   --json '{"query": {"term": {"base_url": "https://standard.open-contracting.org/staging/1.1-dev/"}}}'
 
 List users' queries:
 
@@ -103,13 +96,7 @@ Upgrade
 
    `OCDS Index <https://ocds-index.readthedocs.io/en/latest/>`__ supports Elasticsearch 7.x only.
 
-#. Connect to the server as the ``root`` user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp07.open-contracting.org:8255 || true
-      ssh root@ocp07.open-contracting.org
-
+#. :doc:`Connect to the server<../use/ssh>` as the ``root`` user.
 #. Perform any outstanding updates:
 
    .. code-block:: bash

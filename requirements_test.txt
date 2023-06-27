@@ -42,7 +42,7 @@ tomli==2.0.1
     #   pytest
 urllib3==1.26.6
     # via requests
-wheel==0.38.4
+wheel==0.40.0
     # via pip-tools
 
 # The following packages are considered to be unsafe in a requirements file:

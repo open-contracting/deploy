@@ -5,7 +5,22 @@ Connect to a server (SSH)
 
    Ask a systems administrator to add :ref:`your public SSH key<add-public-key>` to the relevant ``ssh`` list in the server's Pillar file.
 
-By default, the SSH port is closed. The easiest way to open it depends on whether your IP address is dynamic or static.
+On machines running Docker, use SSH as usual. For example:
+
+.. code-block:: bash
+
+   ssh USER@collect.kingfisher.open-contracting.org
+
+These machines include:
+
+.. hlist::
+
+   - credere.open-contracting.org
+   - data.open-contracting.org
+   - redash.open-contracting.org
+   - \*.kingfisher.open-contracting.org
+
+On machines not running Docker, the SSH port is closed by default. The easiest way to open it depends on whether your IP address is dynamic or static.
 
 Dynamic IP: Port knock
 ----------------------
@@ -25,7 +40,7 @@ You can then use ``ssh`` as usual. Once you're connected, the server will close 
 Static IP: Allow list
 ---------------------
 
-#. Add your IP address to the ``firewall.ssh_ipv4`` and ``firewall.ssh_ipv6`` lists in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/main/common.sls>`__ private Pillar file
+#. Add your IP address(es) to the ``ssh_ipv4`` and ``ssh_ipv6`` list(s) in the `common <https://github.com/open-contracting/deploy-pillar-private/blob/main/common.sls>`__ private Pillar file
 #. Add your full name in a comment
 #. :doc:`Deploy all services<../deploy/deploy>`
 

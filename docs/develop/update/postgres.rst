@@ -28,8 +28,8 @@ To enable public access, update the server's Pillar file:
      version: 15
      public_access: True
 
-Add users, groups and databases
--------------------------------
+Add users, groups, databases and schemas
+----------------------------------------
 
 To configure the database for an application:
 
@@ -45,7 +45,7 @@ To configure the database for an application:
 #. Create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. Replace ``DATABASE`` and ``USERNAME``:
 
    .. code-block:: yaml
-      :emphasize-lines: 6-7
+      :emphasize-lines: 5-7
 
       postgres:
         users:
@@ -55,7 +55,35 @@ To configure the database for an application:
           DATABASE:
             user: USERNAME
 
-#. If another application requires read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
+#. Create a schema, if needed by the application. Replace ``SCHEMA`` and ``OWNER``, and change ``TYPE`` to ``user`` or ``group``:
+
+   .. code-block:: yaml
+      :emphasize-lines: 8-11
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+        databases:
+          DATABASE:
+            user: USERNAME
+            schemas:
+              SCHEMA:
+                name: OWNER
+                type: TYPE
+
+   .. note::
+
+      If the owner needs to be a group, create the group, replacing ``NAME``:
+
+      .. code-block:: yaml
+         :emphasize-lines: 2-3
+
+         postgres:
+           groups:
+             - NAME
+
+#. If another application needs read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
 
    .. code-block:: yaml
       :emphasize-lines: 2-3,10-12
@@ -98,30 +126,42 @@ Configure PostgreSQL
       postgres:
         configuration: False
 
-#. Put your configuration file in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. To use the base configuration, insert ``{% include 'postgres/files/conf/shared.include' %}`` at the top of the file.
+#. Put your configuration template in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. In most cases, you should use the ``shared`` configuration template.
 
 #. Set ``postgres.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml
-      :emphasize-lines: 2
+      :emphasize-lines: 2-6
 
       postgres:
-        configuration: kingfisher-process1
+        configuration:
+          name: kingfisher-main1
+          source: shared
+          context:
+            mykey: myvalue
 
-#. If you use the base configuration:
+   The keys of the ``context`` mapping are made available as variables in the configuration template.
 
+#. If you use the ``shared`` configuration template, under the ``context`` mapping:
+
+   -  If you need more connections, set ``max_connections`` (100, default).
    -  Set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive).
    -  Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
-   -  If you need more connections, set ``max_connections``.
+   -  Set ``content`` to add content to the configuration file.
 
    .. code-block:: yaml
       :emphasize-lines: 3-5
 
       postgres:
-        configuration: registry
-        storage: hdd
-        type: oltp
-        max_connections: 200
+        configuration:
+          name: registry
+          source: shared
+          context:
+            max_connections: 300
+            storage: hdd
+            type: oltp
+            content: |
+              max_wal_size = 10GB
 
 #. Set ``vm.nr_hugepages`` in the server's Pillar file, following `PostgreSQL's instructions <https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES>`__:
 
@@ -160,7 +200,7 @@ Salt will install and configure pgBackRest if ``postgres:backup`` is defined in 
       postgres:
         backup:
           # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
-          configuration: kingfisher-process1
+          configuration: kingfisher-main1
           # Unique identifier for backup configuration
           stanza: kingfisher
           # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
@@ -209,41 +249,31 @@ When pgbackrest runs it will try backing up PostgreSQL data from a replica/stand
 
    You can find the :ref:`recovery steps here<pg-recover-replica>`.
 
-#. Log into the main (replication source) server
-#. Swap to the postgres user
-
-   .. code-block:: bash
-
-      su - postgres
-
-#. Generate new SSH keys (if they do not already exist)
+#. :doc:`SSH<../../use/ssh>` into the main server as the ``postgres`` user.
+#. Generate an SSH key pair, if one doesn't already exist:
 
    .. code-block:: bash
 
       ssh-keygen -t rsa -b 4096
 
-   This creates both public (``~/.ssh/id_rsa.pub``) and private (``~/.ssh/id_rsa``) keys.
+#. Add the public SSH key to the ``ssh.postgres`` list in the **replica** server's Pillar file:
 
-#. Add these new keys in deploy pillar
+   .. code-block:: yaml
 
-   #. Add the public key to `authorized_keys` on the replica server
+      ssh:
+        postgres:
+          - ssh-rsa AAAB3N...
 
-      .. code-block:: yaml
+#. Set ``postgres.ssh_key`` in the **main** server's private Pillar file to the private SSH key:
 
-         ssh:
-           postgres:
-             - ssh-rsa AAAB3N...
+   .. code-block:: yaml
 
-   #. Add the private key to `deploy-pillar-private <https://github.com/open-contracting/deploy-pillar-private>`__.
+      postgres:
+        ssh_key: |
+          -----BEGIN RSA PRIVATE KEY-----
+          ...
 
-      .. code-block:: yaml
-
-         postgres:
-           ssh_key: |
-             -----BEGIN RSA PRIVATE KEY-----
-             ...
-
-   #. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the main server and replica server<../../deploy/deploy>`
 
 .. _pg-setup-replication:
 
@@ -252,7 +282,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-process1`` and ``kingfisher-replica1``.
+#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-main1`` and ``kingfisher-replica1``.
 
 #. Add the replica's IP addresses to the main server's Pillar file:
 
@@ -274,7 +304,7 @@ To configure a main server and a replica server:
             password: example_password
             replication: True
 
-   You will also need to pass this user to the replica server. This is used to populate the recovery.conf file via pgbackrest.
+   You will also need to pass this user to the replica server. This is used to populate the ``postgresql.conf`` file via pgbackrest.
 
    .. code-block:: yaml
 
@@ -286,7 +316,7 @@ To configure a main server and a replica server:
 
    .. note::
 
-      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/recovery.conf`` file on the replica server (for PostgreSQL version 11).
+      If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/postgresql.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
 

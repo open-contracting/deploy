@@ -1,5 +1,3 @@
-# vi: ft=apache
-
 {#- The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
 {%-
     set options = {

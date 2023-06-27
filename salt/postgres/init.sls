@@ -19,6 +19,62 @@
   {% endif %}
 {% endif %}
 
+postgres_authorized_keys:
+  ssh_auth.manage:
+    - user: postgres
+    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
+    - require:
+      - pkg: postgresql
+
+{% if 'ssh_key' in pillar.postgres %}
+/var/lib/postgresql/.ssh:
+  file.directory:
+    - makedirs: True
+    - user: postgres
+    - group: postgres
+    - mode: 700
+    - require:
+      - pkg: postgresql
+
+/var/lib/postgresql/.ssh/id_rsa:
+  file.managed:
+    - contents_pillar: postgres:ssh_key
+    - user: postgres
+    - group: postgres
+    - mode: 600
+    - require:
+      - pkg: postgresql
+{% endif %}
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
+# https://github.com/jfcoz/postgresqltuner
+vm.overcommit_memory:
+  sysctl.present:
+    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
+
+# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+# https://github.com/jfcoz/postgresqltuner
+{% if salt['pillar.get']('vm:nr_hugepages') %}
+vm.nr_hugepages:
+  sysctl.present:
+    - value: {{ pillar.vm.nr_hugepages }}
+{% endif %}
+
+pgbadger:
+  pkg.installed:
+    - name: pgbadger
+
+/var/lib/postgresql/postgresqltuner.pl:
+  pkg.installed:
+    - names:
+      - libdbd-pg-perl
+      - libdbi-perl
+  file.managed:
+    - source: https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl
+    # curl -sS https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl | shasum -a 256
+    - source_hash: 3b5d389c4997c2e4d05f6fc22ac60ab60d55aad65df6d157b18445af3a6c7a31
+    - mode: 755
+
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
@@ -59,16 +115,11 @@ postgresql-reload:
       - module: postgresql-reload
 
 {% if pillar.postgres.configuration %}
-# Although we can add `shared.include` as a separate file (e.g. looping over configurations, and using `loop.index0`
-# to prefix the files), this makes changes harder to deploy, since re-ordering or removing a configuration will rename
-# the new files, but not remove the old files. Instead, a developer needs to `include` it in the configuration file.
-#
-# (Unfortunately, `file.managed` doesn't have a `sources` option like `file.append` in order to create a target file
-# from many source files, and `file.accumulated` doesn't have a `source` option.)
-/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration }}.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:
   file.managed:
-    - source: salt://postgres/files/conf/{{ pillar.postgres.configuration }}.conf
+    - source: salt://postgres/files/conf/{{ pillar.postgres.configuration.source }}.conf
     - template: jinja
+    - context: {{ pillar.postgres.configuration.context|yaml }}
     - user: postgres
     - group: postgres
     - mode: 640
@@ -80,53 +131,24 @@ postgresql-reload:
 {% endif %}
 {% endif %}
 
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
-# https://github.com/jfcoz/postgresqltuner
-vm.overcommit_memory:
-  sysctl.present:
-    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
-
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-# https://github.com/jfcoz/postgresqltuner
-{% if salt['pillar.get']('vm:nr_hugepages') %}
-vm.nr_hugepages:
-  sysctl.present:
-    - value: {{ pillar.vm.nr_hugepages }}
-{% endif %}
-
 # https://github.com/jfcoz/postgresqltuner
 pg_stat_statements:
   postgres_extension.present:
     - maintenance_db: template1
     - if_not_exists: True
 
-{% if 'ssh_key' in pillar.postgres %}
-/var/lib/postgresql/.ssh:
-  file.directory:
-    - makedirs: True
-    - mode: 700
-
-/var/lib/postgresql/.ssh/id_rsa:
-  file.managed:
-    - contents_pillar: postgres:ssh_key
-    - mode: 600
-{% endif %}
-
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
-{% if 'groups' in pillar.postgres %}
-{% for name in pillar.postgres.groups %}
-{{ name }}:
+{% for name in pillar.postgres.groups|default([]) %}
+{{ name }}_sql_group:
   postgres_group.present:
     - name: {{ name }}
     - require:
       - service: postgresql
-{% endfor %}
-{% endif %} {# groups #}
+{% endfor %} {# groups #}
 
-{% if 'users' in pillar.postgres %}
-{% for name, entry in pillar.postgres.users.items() %}
+{% for name, entry in pillar.postgres.users|items %}
 {{ name }}_sql_user:
   postgres_user.present:
     - name: {{ name }}
@@ -141,17 +163,13 @@ pg_stat_statements:
 {% endif %}
     - require:
       - service: postgresql
-{% if 'groups' in entry %}
-{% for group in entry.groups %}
-      - postgres_group: {{ group }}
+{% for group in entry.groups|default([]) %}
+      - postgres_group: {{ group }}_sql_group
 {% endfor %}
-{% endif %}
-{% endfor %}
-{% endif %} {# users #}
+{% endfor %} {# users #}
 
-{% if 'databases' in pillar.postgres %}
-{% for database, entry in pillar.postgres.databases.items() %}
-{{ database }}:
+{% for database, entry in pillar.postgres.databases|items %}
+{{ database }}_sql_database:
   postgres_database.present:
     - name: {{ database }}
     - owner: postgres
@@ -169,9 +187,10 @@ revoke public schema privileges on {{ database }} database:
     - object_name: public
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
 
 # GRANT all schema privileges to the user
+# Note: These states always report changes.
 # https://www.postgresql.org/docs/current/sql-grant.html
 # https://www.postgresql.org/docs/current/ddl-priv.html
 grant {{ entry.user }} schema privileges:
@@ -184,10 +203,20 @@ grant {{ entry.user }} schema privileges:
     - maintenance_db: {{ database }}
     - require:
       - postgres_user: {{ entry.user }}_sql_user
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
 
-{% if 'privileges' in entry %}
-{% for schema, groups in entry.privileges.items() %}
+{% for schema, owner in entry.schemas|items %}
+{{ schema }}_sql_schema:
+  postgres_schema.present:
+    - name: {{ schema }}
+    - owner: {{ owner.name }}
+    - dbname: {{ database }}
+    - require:
+      - postgres_{{ owner.type }}: {{ owner.name }}_sql_{{ owner.type }}
+      - postgres_database: {{ database }}_sql_database
+{% endfor %} {# schemas #}
+
+{% for schema, groups in entry.privileges|items %}
 {% for group in groups %}
 # GRANT the USAGE privilege on the schema to the group
 grant {{ group }} schema privileges in {{ schema }}:
@@ -199,7 +228,10 @@ grant {{ group }} schema privileges in {{ schema }}:
     - object_name: {{ schema }}
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 
 # GRANT the SELECT privilege on all tables in the schema to the group
 grant {{ group }} table privileges in {{ schema }}:
@@ -212,7 +244,10 @@ grant {{ group }} table privileges in {{ schema }}:
     - prepend: {{ schema }}
     - maintenance_db: {{ database }}
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 
 /opt/default-privileges/{{ group }}-{{ schema }}.sql:
   file.managed:
@@ -228,20 +263,16 @@ alter {{ group }} default privileges in {{ schema }}:
     - runas: postgres
     - onchanges:
       - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
-      - postgres_database: {{ database }}
+      # If a database is re-created, re-run the default privileges statement.
+      - postgres_database: {{ database }}_sql_database
     - require:
-      - postgres_database: {{ database }}
+      - postgres_database: {{ database }}_sql_database
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
 {% endfor %}
-{% endfor %}
-{% endif %} {# privileges #}
+{% endfor %} {# privileges #}
 
-{% endfor %}
-{% endif %} {# databases #}
+{% endfor %} {# databases #}
 
-{% endif %} {# replication #}
-
-# Manage authorized keys for postgres user
-postgres_authorized_keys:
-  ssh_auth.manage:
-    - user: postgres
-    - ssh_keys: {{ salt['pillar.get']('ssh:postgres', [])|yaml }}
+{% endif %} {# not replication #}

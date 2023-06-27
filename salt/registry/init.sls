@@ -2,7 +2,10 @@
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-- docker_apps
+  # registry.conf.include
+  - apache.modules.headers # RequestHeader
+  - apache.modules.proxy_http # ProxyPass
+  - docker_apps
 
 {% set entry = pillar.docker_apps.registry %}
 {% set directory = docker_apps_directory + entry.target %}
@@ -26,16 +29,3 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py
     - group: {{ pillar.docker.user }}
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-
-{% if salt['pillar.get']('kingfisher_collect') %}
-# This is not in kingfisher/collect/init.sls, because only the registry has specific permissions requirements.
-{{ pillar.kingfisher_collect.env.FILES_STORE }}:
-  file.directory:
-    - makedirs: True
-    - mode: 2775
-    - user: {{ pillar.kingfisher_collect.user }}
-    - group: {{ pillar.kingfisher_collect.group }}
-    - require:
-      - user: {{ pillar.kingfisher_collect.user }}_user_exists
-      - user: {{ pillar.kingfisher_collect.group }}_user_exists
-{% endif %}

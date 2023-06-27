@@ -25,12 +25,7 @@ You can also experience this issue if anyone changes the hostnames in the ``salt
 
 Unless you :ref:`increase verbosity<increase-verbosity>`, you won't see this message, and ``./run.py`` will appear to hang.
 
-To fix this, simply connect to the server using SSH, for example:
-
-.. code-block:: bash
-
-   curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-   ssh root@standard.open-contracting.org
+To fix this, simply :doc:`connect to the server<../use/ssh>`.
 
 Then, re-run the ``./run.py`` command.
 
@@ -51,13 +46,7 @@ If you want to check whether a deployment is simply slow or actually stalled, pe
 
       cat salt-config/roster
 
-#. Open a secondary terminal to connect to the server as root, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-      ssh root@standard.open-contracting.org
-
+#. Open a secondary terminal to :doc:`connect to the server<../use/ssh>` as the ``root`` user.
 #. Watch the processes on the server:
 
    .. code-block:: bash
@@ -73,8 +62,8 @@ If you want to check whether a deployment is simply slow or actually stalled, pe
 
 Then, once the deployment is done:
 
-#. Stop watching the processes, e.g. with ``Ctrl-C``
-#. Disconnect from the server, e.g. with ``Ctrl-D``
+#. Stop watching the processes, e.g. with ``Ctrl-C``.
+#. Disconnect from the server, e.g. with ``Ctrl-D``.
 
 .. _restart-service:
 

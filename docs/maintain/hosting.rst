@@ -36,14 +36,14 @@ Hetzner Rescue System
 
 The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-#. `Log into Hetzner <https://robot.your-server.com/server>`__
+#. `Log into Hetzner <https://robot.hetzner.com/server>`__
 #. Select the server you want to access
 #. Activate the rescue system:
 
    #. Click the *Rescue* tab
    #. Set *Operating system* to *Linux*
    #. Set *Architecture* to *64 bit*
-   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.your-server.com/key/index>`__)
+   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
    #. Click *Activate rescue system*
 
 #. Reboot the server:

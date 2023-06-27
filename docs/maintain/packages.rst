@@ -3,7 +3,7 @@ Manage server packages
 
 If ``maintenance.patching`` is not set to ``manual`` in a target's Pillar file, then the `unattended-upgrades package <https://ubuntu.com/server/docs/package-management#heading--automatic-updates>`__ is installed and configured.
 
-The example commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern, like ``'cove-*'``, or with a comma-separated list using the ``-L`` flag, like ``-L kingfisher-process,kingfisher-replica``.
+The example commands below will run on all servers. To run on specific servers, replace ``'*'`` with either a glob pattern, like ``'cove-*'``, or with a comma-separated list using the ``-L`` flag, like ``-L kingfisher-main,kingfisher-replica``.
 
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 

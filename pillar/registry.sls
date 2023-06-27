@@ -66,12 +66,20 @@ apache:
 postgres:
   version: 12
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
-  public_access: true
-  configuration: registry
-  storage: hdd
-  type: oltp
-  # We need a lot of connections for all the workers and threads.
-  max_connections: 300  # oltp at https://pgtune.leopard.in.ua
+  public_access: True
+  configuration:
+    name: registry
+    source: shared
+    context:
+      # We need a lot of connections for all the workers and threads.
+      max_connections: 300  # oltp at https://pgtune.leopard.in.ua
+      storage: hdd
+      type: oltp
+      content: |
+        data_directory = '/data/storage/postgresql/12/main'
+
+        # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
+        max_wal_size = 10GB
 
 docker:
   user: deployer
@@ -126,7 +134,7 @@ docker_apps:
     target: pelican-backend
     env:
       RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
-      # 2021-10-27: on kingfisher-process, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
+      # 2021-10-27: on kingfisher-main, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
       KINGFISHER_PROCESS_MAX_SIZE: 30000
       PELICAN_BACKEND_STEPS: field_coverage
   pelican_frontend:

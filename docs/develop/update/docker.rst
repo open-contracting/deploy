@@ -64,6 +64,10 @@ This will:
 Add Docker Compose file
 -----------------------
 
+.. note::
+
+   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
+
 Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com/open-contracting/deploy/tree/main/salt/docker_apps/files>`__ directory. For example:
 
 .. code-block:: yaml
@@ -77,7 +81,7 @@ Validate the file, for example:
 
 .. code-block:: bash
 
-   docker-compose config -q salt/docker_apps/files/redash.yaml
+   docker compose config -q salt/docker_apps/files/redash.yaml
 
 .. seealso::
 
@@ -89,9 +93,9 @@ Validate the file, for example:
 
 .. admonition:: One-off commands
 
-   To run a one-off command, like a database migration, use `docker-compose run <https://docs.docker.com/engine/reference/commandline/compose_run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
+   To run a one-off command, like a database migration, use `docker compose run <https://docs.docker.com/engine/reference/commandline/compose_run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
 
-   If you need to run a scheduled task in a cron job, use ``docker-compose run`` and redirect the output with ``2> /dev/null``, since there's no `quiet option <https://github.com/docker/compose/issues/6026>`__.
+   If you need to run a scheduled task in a cron job, use ``docker compose run`` and redirect the output with ``2> /dev/null``, since there's no `quiet option <https://github.com/docker/compose/issues/6026>`__.
 
    Confirm the meaning of a cron expression using `Cronhub <https://crontab.cronhub.io>`__.
 

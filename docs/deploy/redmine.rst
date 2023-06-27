@@ -66,15 +66,8 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
 
 #. In ``salt/redmine/init.sls``, set ``branch`` and ``revision`` to the desired branch and current revision of the `official SVN repository <https://svn.redmine.org/redmine/branches/>`__
 
-#. :doc:`Deploy the service<deploy>`
-
-#. Connect to the server as the ``root`` user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 ocp16.open-contracting.org:8255 || true
-      ssh root@ocp16.open-contracting.org
-
+#. :doc:`Deploy the service<deploy>`.
+#. :doc:`SSH<../use/ssh>` into ``crm.open-contracting.org`` as the ``root`` user.
 #. Change to the Redmine application's directory:
 
    .. code-block:: bash
@@ -127,6 +120,23 @@ Check `Redmine's documentation for supported MySQL versions <https://www.redmine
       systemctl restart apache2.service
 
 #. Ask the Data Support Team to :ref:`test-redmine`.
+
+Enable admin user
+-----------------
+
+Dogsbody Technology uses the admin user to verify upgrades.
+
+To enable the ``admin`` user:
+
+.. code-block:: bash
+
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 1, admin = 1 WHERE login = "admin"'
+
+To disable the ``admin`` user:
+
+.. code-block:: bash
+
+   ./run.py 'redmine' mysql.query redmine 'UPDATE users SET status = 0, admin = 0 WHERE login = "admin"'
 
 .. _test-redmine:
 

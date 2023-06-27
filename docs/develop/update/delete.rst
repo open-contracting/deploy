@@ -38,7 +38,7 @@ Delete a user
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.sls_id analysis kingfisher
+      ./run.py 'mytarget' state.sls_id analysis kingfisher
 
 #. Remove the temporary state
 
@@ -119,7 +119,7 @@ Delete a firewall setting
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.apply
+      ./run.py 'mytarget' state.apply
 
 #. Remove the temporary macro call
 
@@ -139,7 +139,7 @@ Delete an Apache module
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.sls_id headers core
+      ./run.py 'mytarget' state.sls_id headers core
 
 #. Remove the temporary state
 
@@ -160,7 +160,7 @@ Delete an htpasswd entry
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.sls_id delete-NAME core
+      ./run.py 'mytarget' state.sls_id delete-NAME core
 
 #. Remove the temporary state
 
@@ -196,6 +196,6 @@ Delete a PostgreSQL user
 
    .. code-block:: bash
 
-      ./run.py 'kingfisher-process' state.sls_id delete-USER postgres
+      ./run.py 'mytarget' state.sls_id delete-USER postgres
 
 #. Remove the temporary state

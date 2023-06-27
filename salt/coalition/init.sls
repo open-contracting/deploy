@@ -4,8 +4,7 @@
 {% set userdir = '/home/' + user %}
 
 include:
-  - apache
-  - apache.modules.rewrite
+  - apache.modules.rewrite # required by WordPress
   - php-fpm
 
 wp-cli:
@@ -17,6 +16,7 @@ wp-cli:
 
 {{ create_user(user) }}
 
+# Allow Apache to access. See wordpress.conf.include.
 allow {{ userdir }} access:
   file.directory:
     - name: {{ userdir }}

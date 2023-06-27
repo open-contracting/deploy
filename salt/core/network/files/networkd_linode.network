@@ -12,7 +12,7 @@ Address={{ pillar.network.ipv4 }}/24
 {%- if 'ipv6' in pillar.network %}
 Address={{ pillar.network.ipv6 }}/64
 {%- endif %}
-{%- for address in pillar.network.networkd.get('addresses', []) %}
+{%- for address in pillar.network.networkd.addresses|default([]) %}
 Address={{ address }}
 {%- endfor %}
 

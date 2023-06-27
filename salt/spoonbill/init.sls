@@ -1,5 +1,5 @@
 include:
-- docker_apps
+  - docker_apps
 
 {% set entry = pillar.docker_apps.spoonbill %}
 

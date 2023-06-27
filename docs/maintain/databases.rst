@@ -69,7 +69,7 @@ Add a user
           USERNAME:
             password: "PASSWORD"
 
-#. Assign the user to groups. For example, the ``kingfisher-process`` target has the groups:
+#. Assign the user to groups. For example, the ``kingfisher-main`` target has the groups:
 
    kingfisher_process_read
      ``SELECT`` on all tables in schema ``public``
@@ -111,15 +111,8 @@ Update a password
 Delete a user
 ~~~~~~~~~~~~~
 
-#. Delete the user from the private Pillar file
-
-#. Connect to the server as the ``root`` user, for example:
-
-   .. code-block:: bash
-
-      curl --silent --connect-timeout 1 collect.kingfisher.open-contracting.org:8255 || true
-      ssh root@collect.kingfisher.open-contracting.org
-
+#. Delete the user from the private Pillar file.
+#. :doc:`SSH<../use/ssh>` into the main server as the ``root`` user.
 #. Attempt to drop the user as the ``postgres`` user, for example:
 
    .. code-block:: bash
@@ -189,7 +182,7 @@ Find unexpected schema ``CREATE`` privileges:
        usename NOT IN ('postgres') AND
        has_schema_privilege(usename, nspname, 'CREATE') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -204,9 +197,9 @@ Find unexpected schema ``USAGE`` privileges:
        usename NOT IN ('postgres') AND
        nspname NOT IN ('information_schema', 'pg_catalog', 'reference', 'summaries') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%') AND
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
-       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'view_data_%')
+       NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'summary_%')
    GROUP BY usename
    ORDER BY usename;
 
@@ -224,7 +217,7 @@ Find unexpected table non ``SELECT`` privileges:
        relname NOT IN ('pg_settings') AND
        has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
-       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'view_data_%')
+       NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename, nspname
    ORDER BY usename, nspname;
 
@@ -236,32 +229,18 @@ Improve performance
 Tune settings
 ~~~~~~~~~~~~~
 
--  :doc:`Connect to the server<../use/ssh>`
--  Change to the ``postgres`` user:
+#. :doc:`SSH<../use/ssh>` into a PostgreSQL server as the ``postgres`` user.
+-  Run the ``postgresqltuner.pl`` file:
 
    .. code-block:: bash
 
-      su - postgres
-
--  Download the ``postgresqltuner.sql`` file (if not available):
-
-   .. code-block:: bash
-
-      curl -O https://raw.githubusercontent.com/jfcoz/postgresqltuner/master/postgresqltuner.pl
-
--  Make the ``postgresqltuner.sql`` file executable:
-
-   .. code-block:: bash
-
-      chmod ug+x postgresqltuner.pl
-
--  Run the ``postgresqltuner.sql`` file:
-
-   .. code-block:: bash
-
-      ./postgresqltuner.sql --ssd
+      /var/lib/postgresql/postgresqltuner.pl --ssd
 
 Under "Configuration advice", address "HIGH" and "MEDIUM" recommendations.
+
+.. note::
+
+   `pgBadger <https://pgbadger.darold.net>`__ is also available.
 
 Reference: `Tuning Your PostgreSQL Server <https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server>`__
 
@@ -399,7 +378,7 @@ Find unexpected schema:
    WHERE
        nspname NOT LIKE 'pg_temp_%' AND
        nspname NOT LIKE 'pg_toast_temp_%' AND
-       nspname NOT LIKE 'view_data_%' AND
+       nspname NOT LIKE 'summary_%' AND
        nspname NOT IN (
            'information_schema',
            'pg_catalog',
@@ -508,7 +487,7 @@ Mitigate downtime
       postgres:
         public_access: True
 
-   For example, for the ``kingfisher-process`` target, modify the ``pillar/kingfisher.sls`` file.
+   For example, for the ``kingfisher-main`` target, modify the ``pillar/kingfisher_main.sls`` file.
 
 #. :doc:`Deploy the main server<../../deploy/deploy>`
 #. Update DNS records:
@@ -522,9 +501,8 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. Log into the replica server
-
-#. Stop PostgreSQL if it is still running
+#. :doc:`SSH<../use/ssh>` into the replica server as the ``root`` user.
+#. Stop PostgreSQL if it is running:
 
    .. code-block:: bash
 
@@ -533,7 +511,7 @@ Fix replication
 #. Download the latest database or a backup from a specific point in time
 
    In this example I'm restoring ``kingfisher``, to restore a different instance, replace ``kingfisher`` with the value set in pillar ``postgres:backup:stanza``.
-   pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/recovery.conf``).
+   pgbackrest is pre-configured to restore the replication configuration (``/var/lib/postgresql/11/main/postgresql.conf``).
 
    .. code-block:: bash
 
@@ -543,13 +521,13 @@ Fix replication
 
       See :ref:`pg-recover-backup` for more information on the pgbackrest restore function.
 
-#. Start PostgreSQL and monitor
-
-   You should see messages about recovering from WAL files in the logs.
+#. Start PostgreSQL and monitor:
 
    .. code-block:: bash
 
       systemctl start postgres.service
       tail -f /var/log/postgresql/postgresql-11-main.log
+
+   You should see messages about recovering from WAL files in the logs.
 
 If all else fails, you can fallback to rebuilding the replica. See :ref:`pg-setup-replication`.

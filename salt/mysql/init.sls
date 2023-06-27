@@ -1,4 +1,4 @@
-{% set mysql_version = pillar.mysql.get('version', '8.0') %}
+{% set mysql_version = pillar.mysql.version|default('8.0')|quote %}
 
 mysql dependencies:
   pkg.installed:
@@ -28,6 +28,11 @@ percona-mysql:
     - enable: True
     - require:
       - pkg: percona-mysql
+  debconf.set:
+    - data:
+        'percona-server-server/default-auth-override': { 'type' : 'select', 'value': 'Use Strong Password Encryption (RECOMMENDED)' }
+    - require:
+      - pkg: debconf-utils
 
 remove test database:
   mysql_database.absent:
@@ -49,8 +54,7 @@ remove test database:
       - service: mysql
 {% endif %} {# config #}
 
-{% if 'users' in pillar.mysql %}
-{% for name, entry in pillar.mysql.users.items() %}
+{% for name, entry in pillar.mysql.users|items %}
 {{ name }}_mysql_user:
   mysql_user.present:
     - name: {{ name }}
@@ -59,11 +63,9 @@ remove test database:
 {% endif %}
     - require:
       - service: mysql
-{% endfor %}
-{% endif %} {# users #}
+{% endfor %} {# users #}
 
-{% if 'databases' in pillar.mysql %}
-{% for database, entry in pillar.mysql.databases.items() %}
+{% for database, entry in pillar.mysql.databases|items %}
 {{ database }}_mysql_database:
   mysql_database.present:
     - name: {{ database }}
@@ -78,5 +80,4 @@ grant {{ entry.user }} privileges:
     - require:
       - mysql_user: {{ entry.user }}_mysql_user
       - mysql_database: {{ database }}_mysql_database
-{% endfor %}
-{% endif %} {# databases #}
+{% endfor %} {# databases #}

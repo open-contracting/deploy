@@ -7,11 +7,19 @@ include:
 
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
-{% set group = entry.get('group', user) %}
+{% set group = entry.group|default(user) %}
 {% set userdir = '/home/' + user %}
 {% set directory = userdir + '/scrapyd' %}
 
 {{ create_user(user) }}
+
+# Allow data support managers to access, to read Scrapy's crawl logs.
+allow {{ userdir }} access:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ directory }}:
   file.directory:
@@ -34,6 +42,17 @@ include:
     - mode: 444
     - require:
       - file: {{ directory }}
+
+# Allow Docker apps (Kingfisher Process) to access.
+{{ pillar.kingfisher_collect.env.FILES_STORE }}:
+  file.directory:
+    - makedirs: True
+    - mode: 2775
+    - user: {{ pillar.kingfisher_collect.user }}
+    - group: {{ pillar.kingfisher_collect.group }}
+    - require:
+      - user: {{ pillar.kingfisher_collect.user }}_user_exists
+      - user: {{ pillar.kingfisher_collect.group }}_user_exists
 
 # The next states are similar to those in the `python_apps.sls` file, but instead of being based on a git repository,
 # they are based on a requirements.txt file.
@@ -85,7 +104,7 @@ include:
 {% if entry.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:
   cron.present:
-    - identifier: OCDS_KINGFISHER_SCRAPE_LOG_STATS
+    - identifier: OCDS_KINGFISHER_COLLECT_LOG_STATS
     - user: {{ user }}
     - minute: 0
     - require:
@@ -105,7 +124,7 @@ find {{ userdir }}/scrapyd/logs/ -type f -ctime +90 -delete; find {{ userdir }}/
       - file: {{ directory }}
 
 # Delete crawl directories containing exclusively files older than 90 days.
-for dir in $(find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d); do if [[ -z $(find $dir -ctime -90) ]]; then rm -rf $dir; fi; done; find {{ userdir }}/scrapyd/data/ -type d -empty -delete:
+for dir in $(find {{ pillar.kingfisher_collect.env.FILES_STORE }} -mindepth 2 -type d); do if [ -z $(find $dir -ctime -90) ]; then rm -rf $dir; fi; done; find {{ pillar.kingfisher_collect.env.FILES_STORE }} -type d -empty -delete:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_DELETE_DATA
     - user: {{ user }}
@@ -113,5 +132,5 @@ for dir in $(find {{ userdir }}/scrapyd/data/ -mindepth 2 -type d); do if [[ -z 
     - hour: 2
     - minute: 45
     - require:
-      - file: {{ directory }}
+      - file: {{ pillar.kingfisher_collect.env.FILES_STORE }}
 {% endif %}

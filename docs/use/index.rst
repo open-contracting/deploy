@@ -19,9 +19,10 @@ User Guides
 .. toctree::
 
    ssh.rst
+   http.rst
    bash.rst
    databases.rst
    kingfisher.rst
+   pelican.rst
    redmine.rst
    prometheus.rst
-   rabbitmq.rst

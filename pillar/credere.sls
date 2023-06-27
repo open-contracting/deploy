@@ -10,28 +10,45 @@ apache:
   sites:
     credere:
       configuration: proxy
-      servername: credere.open-contracting.org
+      servername: ocp22.open-contracting.org
+      # servername: credere.open-contracting.org
       context:
         proxypass: http://localhost:8000/
-        authname: Credere Staging
+        # authname: Credere Staging
 
 docker:
   user: deployer
   docker_compose:
-    version: v2.18.1
+    version: v2.19.0
 
 docker_apps:
   credere:
     target: credere
     env:
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
-      FRONTEND_URL: 
+      TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
+      FRONTEND_URL: https://ocp22.open-contracting.org # https://credere.open-contracting.org
+      # Email templates
+      FACEBOOK_LINK: www.facebook.com
+      TWITTER_LINK: www.twitter.com
+      LINK_LINK: https://ocp22.open-contracting.org # https://credere.open-contracting.org
+      IMAGES_BASE_URL: https://ocp22.open-contracting.org/images # https://credere.open-contracting.org/images
+      IMAGES_LANG_SUBPATH: en
+      # Vite
+      VITE_APP_VERSION: 0.1.3
+      VITE_API_URL: https://ocp22.open-contracting.org/api # https://credere.open-contracting.org/api
+      VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
+      VITE_DEFAULT_LANG: es
 
 postgres:
   version: 15
   # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
   public_access: True
-  configuration: False
+  configuration:
+    name: credere
+    source: shared
+    context:
+      storage: ssd
   databases:
     credere:
       user: credere

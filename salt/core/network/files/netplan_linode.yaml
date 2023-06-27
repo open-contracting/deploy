@@ -16,7 +16,7 @@ network:
       {#- https://bugs.launchpad.net/netplan/+bug/1766656 #}
       {#- https://manpages.ubuntu.com/manpages/focal/man5/systemd.network.5.html #}
       {#- https://www.linode.com/docs/guides/linux-static-ip-configuration/#ubuntu-1804-and-2004 #}
-        {%- for address in pillar.network.netplan.get('addresses', []) %}
+        {%- for address in pillar.network.netplan.addresses|default([]) %}
         - {{ address }}
         {%- endfor %}
         - {{ pillar.network.ipv4 }}/24
