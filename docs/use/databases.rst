@@ -33,13 +33,13 @@ For example:
 
 .. code-block:: bash
 
-   psql "dbname=kingfisher_process user=jmckinney host=postgres-readonly.kingfisher.open-contracting.org sslmode=require"
+   psql "dbname=kingfisher_process user=jmckinney host=postgres.kingfisher.open-contracting.org sslmode=require"
 
 Instead of entering your password each time, you can add your credentials to the `PostgreSQL Password File <https://www.postgresql.org/docs/current/libpq-pgpass.html>`__, replacing ``USER`` and ``PASS``:
 
 .. code-block:: bash
 
-   echo 'postgres-readonly.kingfisher.open-contracting.org:5432:kingfisher_process:USER:PASS' >> ~/.pgpass
+   echo 'postgres.kingfisher.open-contracting.org:5432:kingfisher_process:USER:PASS' >> ~/.pgpass
 
 Then, set the permissions of the ``~/.pgpass`` file:
 
@@ -49,7 +49,7 @@ Then, set the permissions of the ``~/.pgpass`` file:
 
 .. tip::
 
-   If you have shell access to the ``postgres.kingfisher.open-contracting.org`` server, connect with:
+   If you are logged into the ``postgres.kingfisher.open-contracting.org`` server, you can also run:
 
    .. code-block:: bash
 
@@ -65,7 +65,7 @@ Beekeeper Studio
 For security, remember to check *Enable SSL*.
 
 #. Select "Postgres" from *Connection Type*
-#. Set the *Host*, e.g. "postgres-readonly.kingfisher.open-contracting.org"
+#. Set the *Host*, e.g. "postgres.kingfisher.open-contracting.org"
 #. Check *Enable SSL*
 #. Set the *User*
 #. Set the *Password*
@@ -86,7 +86,7 @@ For security, remember to set *SSL mode* to "Require".
 #. Open the *Object > Create > Server...* menu item
 #. Set the *Name*, e.g. "Kingfisher"
 #. Click the *Connection* tab
-#. Set the *Host name/address*, e.g. "postgres-readonly.kingfisher.open-contracting.org"
+#. Set the *Host name/address*, e.g. "postgres.kingfisher.open-contracting.org"
 #. Set the *Username*
 #. Set the *Password*
 #. Check *Save password?*
@@ -113,7 +113,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
 .. code-block:: none
 
-   %sql postgresql://USER:PASSWORD@postgres-readonly.kingfisher.open-contracting.org/kingfisher_process?sslmode=require
+   %sql postgresql://USER:PASSWORD@postgres.kingfisher.open-contracting.org/kingfisher_process?sslmode=require
 
 .. note::
 
@@ -136,7 +136,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
        dbname='kingfisher_process',
        user='USER',
        password='PASSWORD',
-       host='postgres-readonly.kingfisher.open-contracting.org',
+       host='postgres.kingfisher.open-contracting.org',
        sslmode='require')
 
 Improve slow queries
