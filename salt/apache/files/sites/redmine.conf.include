@@ -1,5 +1,5 @@
-{# https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Configure-Apache #}
-{# Need to sync "redmine" in this file with `user` in the salt/redmine/init.sls file. #}
+{#- Need to sync "redmine" in this file with `user` in the salt/redmine/init.sls file. #}
+# https://redmine.org/projects/redmine/wiki/HowTo_Install_Redmine_50x_on_Ubuntu_2004_with_Apache2#Configure-Apache
 ServerAdmin {{ pillar.system_contacts.root }}
 DocumentRoot /home/redmine/public_html/public
 

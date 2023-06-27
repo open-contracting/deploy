@@ -1,5 +1,3 @@
-# vi: ft=apache
-
 RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 

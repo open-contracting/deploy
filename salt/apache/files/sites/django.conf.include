@@ -1,7 +1,5 @@
-# vi: ft=apache
 {%- set assets_base_url = assets_base_url|default %}
 {%- if content is defined %}
-
 {{ content }}
 
 {%- endif %}
