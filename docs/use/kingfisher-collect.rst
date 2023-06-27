@@ -49,6 +49,11 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
    $ curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
    {"node_name": "ocp04", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
+Kingfisher Collect, by default, instructs Kingfisher Process to run structural checks (slow) and create compiled releases. If you do not need to perform these steps:
+
+-  Skip structural checks, by adding ``-d steps=compile`` to the command
+-  Skip compiled releases, by adding ``-d steps=check`` to the command
+
 To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
 .. code-block:: shell-session
