@@ -69,13 +69,13 @@ To iterate over an optional list:
 
 .. code-block:: jinja
 
-   {% for key, value in pillar.mykey|default([]) %}
+   {% for value in pillar.mykey|default([]) %}
 
 Or:
 
 .. code-block:: jinja
 
-   {% for key, value in salt['pillar.get']('parent:child', []) %}
+   {% for value in salt['pillar.get']('parent:child', []) %}
 
 Optional boolean keys
 ~~~~~~~~~~~~~~~~~~~~~
