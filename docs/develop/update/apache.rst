@@ -210,7 +210,9 @@ You might need to enable Apache modules to use non-core directives in your confi
 
 There are state files for common modules:
 
-apache.modules.https
+apache.modules.headers
+  Provides `RequestHeader and other directives <https://httpd.apache.org/docs/2.4/mod/mod_headers.html>`__.
+apache.modules.http2
   Provides support for the `HTTP/2 protocol <https://httpd.apache.org/docs/2.4/mod/mod_http2.html>`__.
 apache.modules.md
   Acquires `SSL certificates from Let's Encrypt <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__.
