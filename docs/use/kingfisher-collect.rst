@@ -53,6 +53,7 @@ Kingfisher Collect, by default, instructs Kingfisher Process to run structural c
 
 -  Skip structural checks, by adding ``-d steps=compile`` to the command
 -  Skip compiled releases, by adding ``-d steps=check`` to the command
+-  Skip both, by adding ``-d steps=``
 
 To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
 
