@@ -28,8 +28,8 @@ To enable public access, update the server's Pillar file:
      version: 15
      public_access: True
 
-Add users, groups and databases
--------------------------------
+Add users, groups, databases and schemas
+----------------------------------------
 
 To configure the database for an application:
 
@@ -45,7 +45,7 @@ To configure the database for an application:
 #. Create the database for the application, revoke all schema privileges from the public role, and grant all schema privileges to the new user. Replace ``DATABASE`` and ``USERNAME``:
 
    .. code-block:: yaml
-      :emphasize-lines: 6-7
+      :emphasize-lines: 5-7
 
       postgres:
         users:
@@ -55,7 +55,35 @@ To configure the database for an application:
           DATABASE:
             user: USERNAME
 
-#. If another application requires read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
+#. Create a schema, if needed by the application. Replace ``SCHEMA`` and ``OWNER``, and change ``TYPE`` to ``user`` or ``group``:
+
+   .. code-block:: yaml
+      :emphasize-lines: 8-11
+
+      postgres:
+        users:
+          USERNAME:
+            password: "PASSWORD"
+        databases:
+          DATABASE:
+            user: USERNAME
+            schemas:
+              SCHEMA:
+                name: OWNER
+                type: TYPE
+
+   .. note::
+
+      If the owner needs to be a group, create the group, replacing ``NAME``:
+
+      .. code-block:: yaml
+         :emphasize-lines: 2-3
+
+         postgres:
+           groups:
+             - NAME
+
+#. If another application needs read-only access to the database, create a group and its privileges, replacing ``APPLICATION`` and ``SCHEMA``:
 
    .. code-block:: yaml
       :emphasize-lines: 2-3,10-12
