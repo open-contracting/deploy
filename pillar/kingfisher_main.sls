@@ -155,7 +155,7 @@ python_apps:
     user: incremental
     git:
       url: https://github.com/open-contracting/kingfisher-collect.git
-      branch: upgrade-jsonschema
+      branch: main
       target: kingfisher-collect
   kingfisher_summarize:
     user: summarize
