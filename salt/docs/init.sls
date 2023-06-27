@@ -2,8 +2,10 @@
 
 include:
   - apache
-  - apache.modules.headers
-  - apache.modules.rewrite
+  # docs.conf.include
+  - apache.modules.headers # Header
+  - apache.modules.proxy_http # ProxyPass
+  - apache.modules.rewrite # RewriteEngine
 
 {% set user = 'ocds-docs' %}
 {% set userdir = '/home/' + user %}

@@ -67,7 +67,7 @@ base:
 
   'I@apache:sites':
     - apache
-    # So far, all servers with sites configure a reverse proxy.
+    # The rabbitmq and proxy configurations can be used without service-specific state files.
     - apache.modules.proxy_http
 
   # All public web servers should use SSL certificates.

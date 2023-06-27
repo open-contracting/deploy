@@ -4,8 +4,7 @@
 {% set userdir = '/home/' + user %}
 
 include:
-  - apache
-  - apache.modules.rewrite
+  - apache.modules.rewrite # required by WordPress
   - php-fpm
 
 wp-cli:

@@ -2,7 +2,9 @@
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-  - apache.modules.headers # RequestHeader in registry.conf.include
+  # registry.conf.include
+  - apache.modules.headers # RequestHeader
+  - apache.modules.proxy_http # ProxyPass
   - docker_apps
 
 {% set entry = pillar.docker_apps.registry %}

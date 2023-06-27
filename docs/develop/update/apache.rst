@@ -211,7 +211,7 @@ You might need to enable Apache modules to use non-core directives in your confi
 There are state files for common modules:
 
 apache.modules.headers
-  Provides `RequestHeader and other directives <https://httpd.apache.org/docs/2.4/mod/mod_headers.html>`__.
+  Provides `Header and RequestHeader directives <https://httpd.apache.org/docs/2.4/mod/mod_headers.html>`__.
 apache.modules.http2
   Provides support for the `HTTP/2 protocol <https://httpd.apache.org/docs/2.4/mod/mod_http2.html>`__.
 apache.modules.md
@@ -220,17 +220,15 @@ apache.modules.passenger
   Adds the `Passenger app server <https://www.phusionpassenger.com/>`__.
 apache.modules.proxy
   Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
+apache.modules.proxy_fcgi
+  Provides supports for the `FastCGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_fcgi.html>`__. Included by the ``php-fpm`` state file.  
 apache.modules.proxy_http
   Provides support for `HTTP/HTTPS requests in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_http.html>`__. Included by the ``python_apps`` state file.
 apache.modules.proxy_uwsgi
   Provides supports for the `uWSGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_uwsgi.html>`__. Included by the ``python_apps`` state file.
-apache.modules.remoteip
-  Adds `RemoteIPHeader, RemoteIPTrustedProxy and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_remoteip.html>`__.
 apache.modules.rewrite
   Adds the `mod_rewrite rule-based rewriting engine to rewrite requested URLs on the fly <https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html>`__.
 apache.modules.ssl
-  Included and required by ``apache.modules.md``.
-apache.modules.watchdog
   Included and required by ``apache.modules.md``.
 
 To enable a module, include the relevant state file in your service's state file. For example:
@@ -238,10 +236,18 @@ To enable a module, include the relevant state file in your service's state file
 .. code-block:: yaml
 
    include:
-     - apache.modules.remoteip
+     - apache.modules.headers
 
 If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
 
 .. note::
 
    To disable an Apache module, :ref:`follow these instructions<delete-apache-module>`.
+
+.. note::
+
+   The following state files are not used presently:
+
+   -  apache.modules.deflate
+   -  apache.modules.expires
+   -  apache.modules.remoteip
