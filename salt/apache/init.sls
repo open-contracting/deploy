@@ -33,26 +33,6 @@ apache2:
     - require:
       - pkg: apache2
 
-# Uploads custom Apache defaults page and configuration
-  file.managed:
-    - names: 
-      - /var/www/html/error_page.html:
-        - source: salt://apache/files/docs/error_page.html
-      - /etc/apache2/sites-available/default.conf:
-        - source: salt://apache/files/conf/default.conf
-    - require:
-      - pkg: apache2
-    - watch_in:
-      - service: apache2
-
-# Remove Apache default page.
-/var/www/html/index.html:
-   file.absent
-
-# Remove Apache default configuration.
-/etc/apache2/sites-enabled/000-default.conf:
-   file.absent
-
 # This uses the old style. It's not clear how to opt-in to the new style when using Agentless Salt.
 # https://docs.saltproject.io/en/latest/ref/states/all/salt.states.module.html
 apache2-reload:
@@ -75,6 +55,19 @@ apache2-utils:
     - watch_in:
       - service: apache2
 {% endif %}
+
+# For comparison, /var/www/html/index.html is 644 and owned by root.
+/var/www/html/404.html:
+  file.managed:
+    - source: salt://apache/files/404.html
+
+{{ apache('default', {'configuration': 'default', 'https': False}) }}
+
+disable default site:
+  apache_site.disabled:
+    - name: 000-default
+  file.absent:
+    - name: /var/www/html/index.html
 
 {% for name, entry in salt['pillar.get']('apache:sites', {}).items() %}
 {{ apache(name, entry) }}
