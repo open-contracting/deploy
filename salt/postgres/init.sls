@@ -1,4 +1,9 @@
-{% from 'lib.sls' import set_firewall, unset_firewall %}
+{% from 'lib.sls' import apache, set_firewall, unset_firewall %}
+
+{% if 'ssl' in pillar.postgres %}
+include:
+  - apache
+{% endif %}
 
 {% if pillar.postgres.get('public_access') %}
   {{ set_firewall("PUBLIC_POSTGRESQL") }}
@@ -103,7 +108,6 @@ postgresql-reload:
     - name: service.reload
     - m_name: postgresql@{{ pillar.postgres.version }}-main.service
 
-# Upload access configuration for postgres.
 /etc/postgresql/{{ pillar.postgres.version }}/main/pg_hba.conf:
   file.managed:
     - source: salt://postgres/files/pg_hba.conf
@@ -113,6 +117,57 @@ postgresql-reload:
     - mode: 640
     - watch_in:
       - module: postgresql-reload
+
+{% if 'ssl' in pillar.postgres %}
+/etc/postgresql/{{ pillar.postgres.version }}/main/pubcert.pem:
+  file.copy:
+    - source: /etc/ssl/certs/ssl-cert-snakeoil.pem
+    - user: postgres
+    - group: postgres
+    - mode: 600
+
+/etc/postgresql/{{ pillar.postgres.version }}/main/privkey.pem:
+  file.copy:
+    - source: /etc/ssl/private/ssl-cert-snakeoil.key
+    - user: postgres
+    - group: postgres
+    - mode: 600
+
+/etc/postgresql/{{ pillar.postgres.version }}/main/postgresql.conf:
+  file.keyvalue:
+    - key_values:
+        ssl_cert_file: "'/etc/postgresql/{{ pillar.postgres.version }}/main/pubcert.pem'"
+        ssl_key_file: "'/etc/postgresql/{{ pillar.postgres.version }}/main/privkey.pem'"
+    - separator: ' = '
+    - uncomment: '#'
+    # Copy the self-signed certificate into place, so that PostgreSQL can start.
+    - require:
+      - file: /etc/postgresql/{{ pillar.postgres.version }}/main/pubcert.pem
+      - file: /etc/postgresql/{{ pillar.postgres.version }}/main/privkey.pem
+    - watch_in:
+      - service: postgresql
+
+/opt/postgresql-certificates.sh:
+  file.managed:
+    - name: /opt/postgresql-certificates.sh
+    - source: salt://postgres/files/ssl/postgresql-certificates.sh
+    - template: jinja
+    - mode: 700
+
+/opt/postgresql-certificates-wrapper.sh:
+  file.managed:
+    - name: /opt/postgresql-certificates-wrapper.sh
+    - source: salt://postgres/files/ssl/postgresql-certificates-wrapper.sh
+    - mode: 755
+
+/etc/sudoers.d/90-postgresql-certificates:
+  file.managed:
+    - source: salt://postgres/files/ssl/sudoers
+    - mode: 440
+    - check_cmd: visudo -c -f
+
+{{ apache('postgres', {'configuration': 'default', 'servername': pillar.postgres.ssl.servername}) }}
+{% endif %}
 
 {% if pillar.postgres.configuration %}
 /etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:

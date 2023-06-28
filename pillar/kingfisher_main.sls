@@ -45,6 +45,9 @@ logrotate:
 
 apache:
   public_access: True
+  modules:
+    mod_md:
+      MDNotifyCmd: /opt/postgresql-certificates-wrapper.sh
   sites:
     kingfisher-collect:
       configuration: proxy
@@ -69,6 +72,8 @@ postgres:
   version: 15
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
   public_access: True
+  ssl:
+    servername: postgres.kingfisher.open-contracting.org
   configuration:
     name: kingfisher-main1
     source: shared
