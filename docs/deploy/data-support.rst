@@ -3,6 +3,7 @@ Data support tasks
 
 #. Notify RBC Group of the new domain name for the new PostgreSQL server
 #. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the new PostgreSQL server
+#. Add the Redash data source, if new, to the [`unrestricted` Redash group](https://redash.open-contracting.org/groups/5/data_sources)
 
 Create a data support replica server
 ------------------------------------
