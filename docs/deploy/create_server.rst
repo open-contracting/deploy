@@ -309,6 +309,12 @@ OCDS documentation
       rsync -avz ocp99:/var/lib/elasticsearch/ /var/lib/elasticsearch/
       systemctl start elasticsearch
 
+#. Mark the ``elasticsearch`` package as held back:
+
+   .. code-block:: bash
+
+      apt-mark hold elasticsearch
+
 Prometheus
 ~~~~~~~~~~
 
