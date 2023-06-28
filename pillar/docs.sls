@@ -16,6 +16,9 @@ vm:
 
 apache:
   public_access: True
+  modules:
+    mod_autoindex:
+      enabled: True
   sites:
     ocds-docs-live:
       configuration: docs
@@ -23,8 +26,8 @@ apache:
 
 elasticsearch:
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
-  version: 8.7.0
+  version: 8.8.1
   plugins:
     readonlyrest:
-      version: 1.47.0_es8.7.0
+      version: 1.49.1_es8.8.1
       configuration: docs
