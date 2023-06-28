@@ -150,22 +150,9 @@ postgresql-reload:
 /opt/postgresql-certificates.sh:
   file.managed:
     - name: /opt/postgresql-certificates.sh
-    - source: salt://postgres/files/ssl/postgresql-certificates.sh
+    - source: salt://postgres/files/postgresql-certificates.sh
     - template: jinja
-    - mode: 700
-
-/opt/postgresql-certificates-wrapper.sh:
-  file.managed:
-    - name: /opt/postgresql-certificates-wrapper.sh
-    - template: jinja
-    - source: salt://postgres/files/ssl/postgresql-certificates-wrapper.sh
     - mode: 755
-
-/etc/sudoers.d/90-postgresql-certificates:
-  file.managed:
-    - source: salt://postgres/files/ssl/sudoers
-    - mode: 440
-    - check_cmd: visudo -c -f
 
 {{ apache('postgres', {'configuration': 'default', 'servername': pillar.postgres.ssl.servername}) }}
 {% endif %}

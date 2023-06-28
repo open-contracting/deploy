@@ -47,7 +47,7 @@ apache:
   public_access: True
   modules:
     mod_md:
-      MDNotifyCmd: /opt/postgresql-certificates-wrapper.sh
+      MDMessageCmd: /opt/postgresql-certificates.sh
   sites:
     kingfisher-collect:
       configuration: proxy

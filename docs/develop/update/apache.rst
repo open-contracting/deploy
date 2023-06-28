@@ -154,6 +154,8 @@ If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <
 
 The service should now be available at its ``https://`` web address.
 
+.. _configure-mod_md:
+
 Configure
 ~~~~~~~~~
 
@@ -166,7 +168,7 @@ You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__
      public_access: True
      modules:
        mod_md:
-         MDNotifyCmd: /opt/postgresql-certificates-wrapper.sh
+         MDMessageCmd: /opt/postgresql-certificates.sh
 
 To test your configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__, in order to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
 
@@ -177,14 +179,14 @@ To test your configuration, use Let's Encrypt's `staging environment <https://le
      public_access: True
      modules:
        mod_md:
-         MDNotifyCmd: /opt/postgresql-certificates-wrapper.sh
+         MDMessageCmd: /opt/postgresql-certificates.sh
          MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
 
 You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
 
 .. tip::
 
-   If you use the ``MDNotifyCmd`` directive, add ``LogLevel: md:debug`` during testing, and check the Apache error log for lines containing ``cmd(``:
+   If you use the ``MDMessageCmd`` or ``MDNotifyCmd`` directives, add ``LogLevel: md:debug`` during testing, and check the Apache error log for lines containing ``cmd(``:
 
    .. code-block:: bash
 
