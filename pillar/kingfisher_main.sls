@@ -48,7 +48,6 @@ apache:
   modules:
     mod_md:
       MDNotifyCmd: /opt/postgresql-certificates-wrapper.sh
-      MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
   sites:
     kingfisher-collect:
       configuration: proxy
