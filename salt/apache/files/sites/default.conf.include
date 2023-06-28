@@ -1,6 +1,15 @@
 {#- The configuration should be the same as 000-default.conf, except with the addition of ErrorDocument. #}
 DocumentRoot /var/www/html
 ErrorDocument 404 /404.html
+{%- if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
+ErrorDocument 403 /404.html
+{%- endif %}
 
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+{%- if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
+<Directory /var/www/html>
+    Options -Indexes
+</Directory>
+{%- endif %}

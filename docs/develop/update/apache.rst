@@ -154,44 +154,6 @@ If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <
 
 The service should now be available at its ``https://`` web address.
 
-.. _configure-mod_md:
-
-Configure
-~~~~~~~~~
-
-You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ by adding Apache directives to your service's Pillar file. For example:
-
-.. code-block:: yaml
-   :emphasize-lines: 3-5
-
-   apache:
-     public_access: True
-     modules:
-       mod_md:
-         MDMessageCmd: /opt/postgresql-certificates.sh
-
-To test your configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__, in order to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
-
-.. code-block:: yaml
-   :emphasize-lines: 6
-
-   apache:
-     public_access: True
-     modules:
-       mod_md:
-         MDMessageCmd: /opt/postgresql-certificates.sh
-         MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
-
-You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
-
-.. tip::
-
-   If you use the ``MDMessageCmd`` or ``MDNotifyCmd`` directives, add ``LogLevel: md:debug`` during testing, and check the Apache error log for lines containing ``cmd(``:
-
-   .. code-block:: bash
-
-      tail -f /var/log/apache2/error.log
-
 Test
 ~~~~
 
@@ -276,11 +238,9 @@ To enable a module, include the relevant state file in your service's state file
    include:
      - apache.modules.headers
 
+To disable an Apache module, :ref:`follow these instructions<delete-apache-module>`.
+
 If you need another module, consider adding a state file under the ``salt/apache/modules`` directory.
-
-.. note::
-
-   To disable an Apache module, :ref:`follow these instructions<delete-apache-module>`.
 
 .. note::
 
@@ -289,3 +249,58 @@ If you need another module, consider adding a state file under the ``salt/apache
    -  apache.modules.deflate
    -  apache.modules.expires
    -  apache.modules.remoteip
+
+Configure Apache modules
+------------------------
+
+autoindex
+~~~~~~~~~
+
+`mod_autoindex <https://httpd.apache.org/docs/2.4/mod/mod_autoindex.html>`__ is disabled by default. To enable it:
+
+.. code-block:: yaml
+   :emphasize-lines: 2-4
+
+   apache:
+     modules:
+       mod_autoindex:
+         enabled: True
+
+.. _configure-mod_md:
+
+md
+~~
+
+You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ by adding Apache directives to your service's Pillar file. For example:
+
+.. code-block:: yaml
+   :emphasize-lines: 3-5
+
+   apache:
+     public_access: True
+     modules:
+       mod_md:
+         MDMessageCmd: /opt/postgresql-certificates.sh
+
+To test your configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__, in order to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
+
+.. code-block:: yaml
+   :emphasize-lines: 6
+
+   apache:
+     public_access: True
+     modules:
+       mod_md:
+         MDMessageCmd: /opt/postgresql-certificates.sh
+         MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
+
+You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
+
+.. tip::
+
+   If you use the ``MDMessageCmd`` or ``MDNotifyCmd`` directives, add ``LogLevel: md:debug`` during testing, and check the Apache error log for lines containing ``cmd(``:
+
+   .. code-block:: bash
+
+      tail -f /var/log/apache2/error.log
+
