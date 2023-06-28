@@ -12,7 +12,7 @@ Environment="{{ key}}={{ value }}"
 {%- if 'tinyproxy' in pillar %}
 Environment="http_proxy={{ pillar.tinyproxy.url }}"
 Environment="https_proxy={{ pillar.tinyproxy.url }}"
-Environment="no_proxy=sentry.io"
+Environment="no_proxy=localhost,sentry.io"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
 ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --nodaemon --logfile=/var/log/scrapyd/scrapyd.log
