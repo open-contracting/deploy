@@ -56,20 +56,23 @@ apache2-utils:
       - service: apache2
 {% endif %}
 
-# /var/www/html/index.html is 644 and owned by root by default.
-/var/www/html/index.html:
+# For comparison, /var/www/html/index.html is 644 and owned by root.
+/var/www/html/404.html:
   file.managed:
     - source: salt://apache/files/404.html
 
-{{ apache('default', {'configuration': 'default', 'servername': None, 'https': False}) }}
+{{ apache('default', {'configuration': 'default', 'servername': ''}) }}
+
+autoindex:
+  apache_module.disabled:
+    - watch_in:
+      - service: apache2
 
 disable default site:
   apache_site.disabled:
     - name: 000-default
-
-enable default-ssl site:
-  apache_site.enabled:
-    - name: default-ssl
+  file.absent:
+    - name: /var/www/html/index.html
 
 {% for name, entry in salt['pillar.get']('apache:sites', {}).items() %}
 {{ apache(name, entry) }}
