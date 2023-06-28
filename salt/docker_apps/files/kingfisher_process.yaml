@@ -27,6 +27,13 @@ services:
     command: "python manage.py file_worker"
     deploy:
       replicas: 2
+{%- if pillar.docker_apps.kingfisher_process.env.get('ENABLE_CHECKER') %}
+  checker:
+    <<: *shared
+    command: "python manage.py checker"
+    deploy:
+      replicas: 2
+{%- endif %}
   compiler:
     <<: *shared
     command: "python manage.py compiler"
