@@ -68,9 +68,11 @@ autoindex:
     - watch_in:
       - service: apache2
 
-disable default site:
+disable site 000-default.conf:
   apache_site.disabled:
     - name: 000-default
+    - watch_in:
+      - module: apache2-reload
   file.absent:
     - name: /var/www/html/index.html
 
