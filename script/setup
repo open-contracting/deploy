@@ -32,5 +32,13 @@ cachedir: $REPO_DIR/cache/
 ssh_log_file: $REPO_DIR/ssh_log
 # https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-pki_dir
 pki_dir: $REPO_DIR/salt-config/pki/
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#file-roots
+file_roots:
+  base:
+    - $REPO_DIR/salt/
+# https://docs.saltproject.io/en/latest/ref/configuration/master.html#pillar-roots
+pillar_roots:
+  base:
+    - $REPO_DIR/pillar/
 # https://docs.saltproject.io/en/latest/ref/configuration/master.html#std-conf_master-user
 user: $USER" > salt-config/master.d/localuser.conf
