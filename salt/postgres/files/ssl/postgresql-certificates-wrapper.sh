@@ -1,2 +1,4 @@
 #!/usr/bin/env bash
-sudo /opt/postgresql-certificates.sh "$1"
+if [ "$1" = "{{ pillar.postgres.ssl.servername }}" ]; then
+  sudo /opt/postgresql-certificates.sh "$1"
+fi

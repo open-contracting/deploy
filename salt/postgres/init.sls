@@ -157,6 +157,7 @@ postgresql-reload:
 /opt/postgresql-certificates-wrapper.sh:
   file.managed:
     - name: /opt/postgresql-certificates-wrapper.sh
+    - template: jinja
     - source: salt://postgres/files/ssl/postgresql-certificates-wrapper.sh
     - mode: 755
 
