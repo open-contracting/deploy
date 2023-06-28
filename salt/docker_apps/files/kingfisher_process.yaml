@@ -20,25 +20,29 @@ services:
   api_loader:
     <<: *filesystem
     command: "python manage.py api_loader"
-    scale: 2
+    deploy:
+      replicas: 2
   file_worker:
     <<: *filesystem
     command: "python manage.py file_worker"
-    scale: 2
+    deploy:
+      replicas: 2
   compiler:
     <<: *shared
     command: "python manage.py compiler"
   release_compiler:
     <<: *shared
     command: "python manage.py release_compiler"
-    scale: 4
+    deploy:
+      replicas: 4
   record_compiler:
     <<: *shared
     command: "python manage.py record_compiler"
   finisher:
     <<: *shared
     command: "python manage.py finisher"
-    scale: 2
+    deploy:
+      replicas: 2
   wiper:
     <<: *shared
     command: "python manage.py wiper"

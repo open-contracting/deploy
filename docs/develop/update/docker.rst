@@ -115,7 +115,8 @@ Validate the file, for example:
         worker:
           <<: *shared
           command: "python -m worker"
-          scale: 2
+          deploy:
+            replicas: 2
 
 Reference:
 
