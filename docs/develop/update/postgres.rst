@@ -175,6 +175,34 @@ Configure PostgreSQL
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
+Use CA certificates
+-------------------
+
+.. note::
+
+   Only do this if a third-party service requires CA certificates.
+
+#. Set the hostname for PostgreSQL:
+
+   .. code-block:: yaml
+      :emphasize-lines: 2-3
+
+      postgres:
+        ssl:
+          servername: postgres.kingfisher.open-contracting.org
+
+#. :ref:`Configure the mod_md Apache module<configure-mod_md>` to copy the SSL certificates to PostgreSQL's directory:
+
+   .. code-block:: yaml
+
+      apache:
+        public_access: True
+        modules:
+          mod_md:
+            MDMessageCmd: /opt/postgresql-certificates.sh
+
+#. :ref:`Acquire the SSL certificates<ssl-certificates>`.
+
 .. _pg-setup-backups:
 
 Set up backups
