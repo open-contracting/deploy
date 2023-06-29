@@ -15,21 +15,15 @@ elasticsearch:
     - require:
       - pkg: elasticsearch
 
-# https://www.elastic.co/guide/en/elasticsearch/reference/7.10/important-settings.html#heap-size-settings
-# https://www.elastic.co/guide/en/elasticsearch/reference/7.10/jvm-options.html
-set jvm minimum heap size:
-  file.replace:
-    - name: /etc/elasticsearch/jvm.options
-    - pattern: ^-Xms.+
-    - repl: -Xms{{ grains.mem_total // 5 * 2 }}m
-    - watch_in:
-      - service: elasticsearch
-
-set jvm maximum heap size:
-  file.replace:
-    - name: /etc/elasticsearch/jvm.options
-    - pattern: ^-Xmx.+
-    - repl: -Xmx{{ grains.mem_total // 5 * 2 }}m
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.8/important-settings.html#heap-size-settings
+# https://www.elastic.co/guide/en/elasticsearch/reference/8.8/advanced-configuration.html#set-jvm-heap-size
+set jvm heap size:
+  file.managed:
+    - name: /etc/elasticsearch/jvm.options.d/memory.options
+    - group: elasticsearch
+    - contents: |
+       -Xms{{ grains.mem_total // 5 * 2 }}m
+       -Xmx{{ grains.mem_total // 5 * 2 }}m
     - watch_in:
       - service: elasticsearch
 
