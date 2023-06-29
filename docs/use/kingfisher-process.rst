@@ -84,6 +84,33 @@ Using the command-line interface
 
       docker compose run --rm web python manage.py collectionstatus 123
 
+.. tip::
+
+   To interpret the output, run:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py collectionstatus --help
+
+The output of a completed collection looks like:
+
+.. code-block:: none
+
+   steps: check, compile
+   data_type: release package
+   store_end_at: 2023-06-28 22:13:00.067783
+   completed_at: 2023-06-28 23:29:37.825645
+   expected_files_count: 1
+   collection_files: 1
+   processing_steps: 0
+
+   Compiled collection
+   compilation_started: True
+   store_end_at: 2023-06-28 22:13:04.060873
+   completed_at: 2023-06-28 22:13:04.060873
+   collection_files: 277
+   processing_steps: 0
+
 .. _kingfisher-process-rabbitmq:
 
 Using RabbitMQ
@@ -95,7 +122,7 @@ Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`_
 #. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
 #. Read the rows in which the *Name* starts with ``kingfisher_process_``.
 
-   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done!
+   -  If the *Messages* are non-zero, then there is work to do. If zero, then work is done! (Everything except the checker is fast – don't be surprised if it's zero.)
    -  If the *Message rates* are non-zero, then work is progressing. If zero, and if there is work to do, then it is stuck!
 
    If you think work is stuck, notify James or Yohanna.
@@ -111,7 +138,7 @@ Check the number of compiled releases to be exported. For example:
 
 .. attention::
 
-   The ``cached_compiled_releases_count`` column is not yet populated in version 2 of Kingfisher Process ([#370](https://github.com/open-contracting/kingfisher-process/issues/370)). In the meantime, you can run:
+   The ``cached_compiled_releases_count`` column is not yet populated in version 2 of Kingfisher Process (`#370 <https://github.com/open-contracting/kingfisher-process/issues/370>`__). In the meantime, you can run:
 
    .. code:: sql
 
@@ -139,7 +166,7 @@ To export the compiled releases to individual files, run, for example:
    -c 'SELECT data FROM data INNER JOIN compiled_release r ON r.data_id = data.id WHERE collection_id = 123' \
    | split -l 1 -a 5 --additional-suffix=.json
 
-The files will be named ``xaaaaa.json``, ``xaaaab.json``, etc. ``-a 5`` is sufficient for 11M files (26^5).
+The files will be named ``xaaaaa.json``, ``xaaaab.json``, etc. ``-a 5`` is sufficient for 11M files (26⁵).
 
 If you need to wrap each compiled release in a record package, modify the files in-place. For example:
 
