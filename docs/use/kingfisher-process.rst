@@ -80,9 +80,23 @@ Using the command-line interface
 
 #. Check the collection:
 
-   .. code-block:: bash
+   .. code-block:: shell-session
 
-      docker compose run --rm web python manage.py collectionstatus 123
+      $ docker compose run --rm web python manage.py collectionstatus 123
+      steps: check, compile
+      data_type: release package
+      store_end_at: 2023-06-28 22:13:00.067783
+      completed_at: 2023-06-28 23:29:37.825645
+      expected_files_count: 1
+      collection_files: 1
+      processing_steps: 0
+
+      Compiled collection
+      compilation_started: True
+      store_end_at: 2023-06-28 22:13:04.060873
+      completed_at: 2023-06-28 22:13:04.060873
+      collection_files: 277
+      processing_steps: 0
 
 .. tip::
 
@@ -91,25 +105,6 @@ Using the command-line interface
    .. code-block:: bash
 
       docker compose run --rm web python manage.py collectionstatus --help
-
-The output of a completed collection looks like:
-
-.. code-block:: none
-
-   steps: check, compile
-   data_type: release package
-   store_end_at: 2023-06-28 22:13:00.067783
-   completed_at: 2023-06-28 23:29:37.825645
-   expected_files_count: 1
-   collection_files: 1
-   processing_steps: 0
-
-   Compiled collection
-   compilation_started: True
-   store_end_at: 2023-06-28 22:13:04.060873
-   completed_at: 2023-06-28 22:13:04.060873
-   collection_files: 277
-   processing_steps: 0
 
 .. _kingfisher-process-rabbitmq:
 
