@@ -4,7 +4,7 @@ x-shared: &shared
   depends_on:
     redis:
       condition: service_healthy
-  env_file: /data/deploy/redash/.env
+  env_file: .env
   extra_hosts:
     - "host.docker.internal:host-gateway"
   restart: always
