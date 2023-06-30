@@ -1,12 +1,12 @@
 Kingfisher
 ==========
 
-Kingfisher is a family of tools to `collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__, `pre-process <https://kingfisher-process.readthedocs.io/en/latest/>`__, `summarize <https://kingfisher-summarize.readthedocs.io/en/latest/>`__ and `query <https://kingfisher-colab.readthedocs.io/en/latest/>`__ OCDS data.
+Kingfisher is a family of tools to `collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__, `pre-process <https://github.com/open-contracting/kingfisher-process>`__, `summarize <https://kingfisher-summarize.readthedocs.io/en/latest/>`__ and `query <https://kingfisher-colab.readthedocs.io/en/latest/>`__ OCDS data.
 
 This page is about internal use of these tools by the Open Contracting Partnership. For your personal use, see each tool's documentation:
 
 -  `Kingfisher Collect <https://kingfisher-collect.readthedocs.io/en/latest/>`__
--  `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__
+-  `Kingfisher Process <https://github.com/open-contracting/kingfisher-process>`__
 -  `Kingfisher Summarize <https://kingfisher-summarize.readthedocs.io/en/latest/>`__
 
 For internal use, Kingfisher Collect, Process and Summarize are deployed to a data support server.

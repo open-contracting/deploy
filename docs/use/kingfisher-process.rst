@@ -1,7 +1,9 @@
 Kingfisher Process
 ==================
 
-Read the `Kingfisher Process <https://kingfisher-process.readthedocs.io/en/latest/>`__ documentation, which covers general usage.
+.. warning::
+
+   The documenation for version 2 of Kingfisher Process is not yet ready. In the meantime, the `database structure <https://kingfisher-process.readthedocs.io/en/latest/database-structure.html>`__ remains the same.
 
 .. note::
 
@@ -17,9 +19,9 @@ Load local data
 
       cd ~/local-load
 
-#. Create a data directory following the pattern ``source-YYYY-MM-DD``. For example: ``moldova-2020-04-07``
+#. Create a data directory following the pattern ``source-YYYY-MM-DD``, like ``moldova-2020-04-07``
 
-   -  If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
+   If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
 
 #. Copy the files to load into the data directory.
 
@@ -31,12 +33,6 @@ Load local data
 
       rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
-#. Change to the ``kingfisher-process`` directory:
-
-   .. code-block:: bash
-
-      cd /data/deploy/kingfisher-process
-
 #. Load the data:
 
    .. code-block:: bash
@@ -45,7 +41,7 @@ Load local data
 
    .. note::
 
-      Kingfisher Process can also keep the collection open for more files to be added later. To read its documentation, run:
+      Kingfisher Process can also keep the collection open for more files to be added later. For documentation, run:
 
       .. code-block:: bash
 
@@ -59,12 +55,6 @@ Remove a collection
 -------------------
 
 #. :ref:`Connect to the data support server<connect-kingfisher-server>`
-#. Change to the ``kingfisher-process`` directory:
-
-   .. code-block:: bash
-
-      cd /data/deploy/kingfisher-process
-
 #. Remove the collection:
 
    .. code-block:: bash
@@ -78,12 +68,6 @@ Using the command-line interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. :ref:`Connect to the data support server<connect-kingfisher-server>`
-#. Change to the ``kingfisher-process`` directory:
-
-   .. code-block:: bash
-
-      cd /data/deploy/kingfisher-process
-
 #. Check the collection:
 
    .. code-block:: shell-session
