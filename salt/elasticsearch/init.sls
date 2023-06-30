@@ -20,10 +20,10 @@ elasticsearch:
 set jvm heap size:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/memory.options
-    - group: elasticsearch
     - contents: |
        -Xms{{ grains.mem_total // 5 * 2 }}m
        -Xmx{{ grains.mem_total // 5 * 2 }}m
+    - group: elasticsearch
     - watch_in:
       - service: elasticsearch
 
@@ -59,5 +59,6 @@ set jvm heap size:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
     - contents: "-Des.enforce.bootstrap.checks=true"
+    - group: elasticsearch
     - watch_in:
       - service: elasticsearch
