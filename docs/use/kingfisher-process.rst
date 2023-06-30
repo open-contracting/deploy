@@ -41,11 +41,17 @@ Load local data
 
    .. code-block:: bash
 
-      docker compose run --rm web python manage.py load --source moldova_local --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+      sudo -u deployer /opt/kingfisher-process-load.sh --source moldova_local --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
 
    .. note::
 
-      Kingfisher Process can also keep the collection open for more files to be added later.
+      Kingfisher Process can also keep the collection open for more files to be added later. To read its documentation, run:
+
+      .. code-block:: bash
+
+         sudo -u deployer /opt/kingfisher-process-load.sh --help
+         sudo -u deployer /opt/kingfisher-process-addfiles.sh --help
+         sudo -u deployer /opt/kingfisher-process-closecollection.sh --help
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
 
@@ -63,7 +69,7 @@ Remove a collection
 
    .. code-block:: bash
 
-      docker compose run --rm web python manage.py deletecollection 123
+      sudo -u deployer /opt/kingfisher-process-deletecollection.sh 123
 
 Check on progress
 -----------------
@@ -82,7 +88,7 @@ Using the command-line interface
 
    .. code-block:: shell-session
 
-      $ docker compose run --rm web python manage.py collectionstatus 123
+      $ sudo -u deployer /opt/kingfisher-process-collectionstatus.sh 123
       steps: check, compile
       data_type: release package
       store_end_at: 2023-06-28 22:13:00.067783
@@ -104,7 +110,7 @@ Using the command-line interface
 
    .. code-block:: bash
 
-      docker compose run --rm web python manage.py collectionstatus --help
+      sudo -u deployer /opt/kingfisher-process-collectionstatus.sh --help
 
 .. _kingfisher-process-rabbitmq:
 

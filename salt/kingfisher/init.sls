@@ -1,4 +1,8 @@
 {% from 'lib.sls' import create_user %}
+{% from 'docker_apps/init.sls' import docker_apps_directory %}
+
+{% set entry = pillar.docker_apps.kingfisher_process %}
+{% set directory = docker_apps_directory + entry.target %}
 
 {% for user, authorized_keys in pillar.users.items() %}
 {{ create_user(user, authorized_keys=authorized_keys) }}
@@ -79,3 +83,21 @@ create reference.mapping_sheets table:
     - require:
       - postgres_group: reference_sql_group
       - postgres_schema: reference_sql_schema
+
+{% for command in ['addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load'] %}
+/opt/kingfisher-process-{{ command }}.sh:
+  file.managed:
+    - source: salt://kingfisher/files/kingfisher-process.sh
+    - template: jinja
+    - context:
+        directory: {{ directory }}
+        command: {{ command }}
+    - mode: 755
+{% endfor %}
+
+/etc/sudoers.d/90-kingfisher-process:
+  file.managed:
+    - source: salt://kingfisher/files/sudoers
+    - template: jinja
+    - mode: 440
+    - check_cmd: visudo -c -f
