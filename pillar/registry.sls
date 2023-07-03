@@ -46,6 +46,9 @@ apache:
   ipv4: 65.21.93.181
   ipv6: 2a01:4f9:3b:45ca::2
   wait_for_networking: True
+  modules:
+    mod_autoindex:
+      enabled: True  # deployment is failing, otherwise
   sites:
     kingfisher-collect:
       configuration: proxy
@@ -62,6 +65,9 @@ apache:
         port: 8002
         static_port: 8003
         timeout: 300
+    rabbitmq:
+      configuration: rabbitmq
+      servername: rabbitmq.data.open-contracting.org
 
 postgres:
   version: 12
