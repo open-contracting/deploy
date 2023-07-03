@@ -78,6 +78,8 @@ postgres:
     name: kingfisher-main1
     source: shared
     context:
+      # We need a lot of connections for all the workers and threads.
+      max_connections: 300
       storage: ssd
       type: oltp
       content: |
