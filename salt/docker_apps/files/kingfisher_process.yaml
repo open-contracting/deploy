@@ -11,7 +11,7 @@ x-filesystem: &filesystem
   volumes:
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in kingfisher-process.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data
-    {# To run the load command. #}
+    {#- To run the load command. #}
     {%- for user in pillar.users|default({}) %}
     - /home/{{user}}/local-load:/home/{{user}}/local-load
     {%- endfor %}
