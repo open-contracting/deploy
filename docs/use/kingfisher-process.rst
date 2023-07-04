@@ -12,16 +12,30 @@ Kingfisher Process
 Load local data
 ---------------
 
-#. :ref:`Connect to the data support server<connect-kingfisher-server>`
-#. Change to your ``local-load`` directory:
+#. Determine the source ID to use.
+
+   If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, like ``moldova``.
+
+   Otherwise, if the data source has been loaded before, or if you don't know, use a consistent source ID. From a SQL interface, you can list all source IDs with:
+
+   .. code-block:: sql
+
+      SELECT source_id FROM collection GROUP BY source_id ORDER BY source_id;
+
+   If you know the data source had been loaded with a source ID containing "local", get a shorter list of source IDs with:
+
+   .. code-block:: sql
+
+      SELECT source_id FROM collection WHERE source_id LIKE '%local%' GROUP BY source_id ORDER BY source_id;
+
+   If this is the first time loading the data source, use a distinct source ID that follows the pattern ``country[_region][_label]``, like ``moldova_covid19``.
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`.
+#. Create a data directory in your ``local-load`` directory, following the pattern ``source-YYYY-MM-DD``:
 
    .. code-block:: bash
 
-      cd ~/local-load
-
-#. Create a data directory following the pattern ``source-YYYY-MM-DD``, like ``moldova-2020-04-07``
-
-   If the data source is the same as for an `existing spider <https://github.com/open-contracting/kingfisher-collect/tree/main/kingfisher_scrapy/spiders#files>`__, use the same source ID, for example: ``moldova``. Otherwise, use a different source ID that follows our regular pattern ``country[_region][_label]``, for example: ``moldova_covid19``.
+      mkdir ~/local-load/moldova-2020-04-07
 
 #. Copy the files to load into the data directory.
 
@@ -33,19 +47,24 @@ Load local data
 
       rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
-#. Load the data:
+#. Load the data. For example:
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process-load.sh --source moldova_local --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+      sudo -u deployer /opt/kingfisher-process-load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+
+   If you don't need to check for structural errors, omit the ``--check`` flag. If you only need to process a sample, use the ``--sample`` option. For a description of all options, run:
+
+   .. code-block:: bash
+
+      sudo -u deployer /opt/kingfisher-process-load.sh --help
 
    .. note::
 
-      Kingfisher Process can also keep the collection open for more files to be added later. For documentation, run:
+      Kingfisher Process can keep the collection open for more files to be added later, by using the ``--keep-open`` flag with the ``load`` command. To learn how to use the additional commands, run:
 
       .. code-block:: bash
 
-         sudo -u deployer /opt/kingfisher-process-load.sh --help
          sudo -u deployer /opt/kingfisher-process-addfiles.sh --help
          sudo -u deployer /opt/kingfisher-process-closecollection.sh --help
 
@@ -54,7 +73,7 @@ Load local data
 Remove a collection
 -------------------
 
-#. :ref:`Connect to the data support server<connect-kingfisher-server>`
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`.
 #. Remove the collection:
 
    .. code-block:: bash
@@ -67,8 +86,8 @@ Check on progress
 Using the command-line interface
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. :ref:`Connect to the data support server<connect-kingfisher-server>`
-#. Check the collection:
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`.
+#. Check the collection status, replacing the collection ID (``123``).
 
    .. code-block:: shell-session
 
@@ -88,9 +107,7 @@ Using the command-line interface
       collection_files: 277
       processing_steps: 0
 
-.. tip::
-
-   To interpret the output, run:
+   This output means processing is complete. To learn how to interpret the output, run:
 
    .. code-block:: bash
 
