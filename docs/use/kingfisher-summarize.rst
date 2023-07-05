@@ -17,9 +17,7 @@ Summarize collections
 
       tmux new -s initials-task-description
 
-#. Run the `command-line tool <https://kingfisher-summarize.readthedocs.io/en/latest/cli.html>`__, using the ``/opt/kingfisher-summarize.sh`` entrypoint. (This runs ``manage.py`` indirectly.)
-
-   For example:
+#. Run the `command-line tool <https://kingfisher-summarize.readthedocs.io/en/latest/cli.html>`__, using the ``/opt/kingfisher-summarize.sh`` entrypoint. (This runs ``manage.py`` indirectly.) For example:
 
    .. code-block:: bash
 
