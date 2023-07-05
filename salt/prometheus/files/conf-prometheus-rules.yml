@@ -48,7 +48,7 @@ groups:
       ## Disk IO
 
       - alert: DiskIOHigh20Percent
-        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job!~"ocds-kingfisher.*|data-registry"}[10m]))) * 100 >= 20
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job!~"kingfisher.*|data-registry"}[10m]))) * 100 >= 20
         for: 4h
         labels:
           severity: critical
@@ -57,7 +57,7 @@ groups:
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
 
       - alert: DiskIOHigh20PercentKingfisher
-        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"ocds-kingfisher.*"}[10m]))) * 100 >= 20
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"kingfisher.*"}[10m]))) * 100 >= 20
         for: 12h
         labels:
           severity: critical
