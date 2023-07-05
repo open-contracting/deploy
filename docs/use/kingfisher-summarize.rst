@@ -17,27 +17,17 @@ Summarize collections
 
       tmux new -s initials-task-description
 
-#. Change to Kingfisher Summarize's directory:
+#. Run the `command-line tool <https://kingfisher-summarize.readthedocs.io/en/latest/cli.html>`__, using the ``/opt/kingfisher-summarize.sh`` entrypoint. (Running a command with ``/opt/kingfisher-summarize.sh`` is essentially the same as running ``manage.py`` directly.)
+
+   For example:
 
    .. code-block:: bash
 
-      cd ~summarize/kingfisher-summarize
-
-#. Activate the virtual environment:
+      sudo -u summarize /opt/kingfisher-summarize.sh add --help
 
    .. code-block:: bash
 
-      . .ve/bin/activate
-
-#. Run the `command-line tool <https://kingfisher-summarize.readthedocs.io/en/latest/cli.html>`__. For example:
-
-   .. code-block:: bash
-
-      ./manage.py add --help
-
-   .. code-block:: bash
-
-      ./manage.py add 123 "Added by NAME"
+      sudo -u summarize /opt/kingfisher-summarize.sh add 123 "Added by NAME"
 
    .. tip::
 
@@ -45,7 +35,7 @@ Summarize collections
 
       .. code-block:: bash
 
-         ./manage.py add 123 "added by NAME" --field-lists
+         sudo -u summarize /opt/kingfisher-summarize.sh add 123 "added by NAME" --field-lists
 
 #. Close the session by pressing ``Ctrl-d`` or by running:
 

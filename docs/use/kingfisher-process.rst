@@ -51,13 +51,13 @@ Load local data
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process-load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+      sudo -u deployer /opt/kingfisher-process/load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
 
    If you don't need to check for structural errors, omit the ``--check`` flag. If you only need to process a sample, use the ``--sample`` option. For a description of all options, run:
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process-load.sh --help
+      sudo -u deployer /opt/kingfisher-process/load.sh --help
 
    .. note::
 
@@ -65,8 +65,8 @@ Load local data
 
       .. code-block:: bash
 
-         sudo -u deployer /opt/kingfisher-process-addfiles.sh --help
-         sudo -u deployer /opt/kingfisher-process-closecollection.sh --help
+         sudo -u deployer /opt/kingfisher-process/addfiles.sh --help
+         sudo -u deployer /opt/kingfisher-process/closecollection.sh --help
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
 
@@ -78,7 +78,7 @@ Remove a collection
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process-deletecollection.sh 123
+      sudo -u deployer /opt/kingfisher-process/deletecollection.sh 123
 
 Check on progress
 -----------------
@@ -91,7 +91,7 @@ Using the command-line interface
 
    .. code-block:: shell-session
 
-      $ sudo -u deployer /opt/kingfisher-process-collectionstatus.sh 123
+      $ sudo -u deployer /opt/kingfisher-process/collectionstatus.sh 123
       steps: check, compile
       data_type: release package
       store_end_at: 2023-06-28 22:13:00.067783
@@ -111,7 +111,7 @@ Using the command-line interface
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process-collectionstatus.sh --help
+      sudo -u deployer /opt/kingfisher-process/collectionstatus.sh --help
 
 .. _kingfisher-process-rabbitmq:
 

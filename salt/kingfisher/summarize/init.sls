@@ -21,6 +21,9 @@ allow {{ userdir }} access:
 {{ directory }}/.env:
   file.managed:
     - source: salt://kingfisher/summarize/files/.env
+    - template: jinja
+    - context:
+        user: {{ entry.user }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - mode: 444
@@ -63,3 +66,20 @@ cd {{ directory }}; . .ve/bin/activate; python manage.py -q dev stale | xargs -I
     - minute: 45
     - require:
       - virtualenv: {{ directory }}/.ve
+
+/opt/kingfisher-summarize.sh:
+  file.managed:
+    - source: salt://kingfisher/summarize/files/kingfisher-summarize.sh
+    - template: jinja
+    - context:
+        directory: {{ directory }}
+    - mode: 755
+
+/etc/sudoers.d/91-kingfisher-summarize:
+  file.managed:
+    - source: salt://kingfisher/summarize/files/sudoers
+    - template: jinja
+    - context:
+        user: {{ entry.user }}
+    - mode: 440
+    - check_cmd: visudo -c -f

@@ -1,0 +1,1 @@
+{{ pillar.users|join(', ') }} ALL=({{ user }}) NOPASSWD: /opt/kingfisher-summarize.sh
