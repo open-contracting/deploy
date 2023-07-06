@@ -38,7 +38,6 @@ base:
     - tinyproxy
 
   'kingfisher-main':
-    - postgres.main
     - rabbitmq
     - kingfisher
     - kingfisher.collect

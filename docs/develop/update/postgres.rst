@@ -346,8 +346,6 @@ To configure a main server and a replica server:
 
       If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/postgresql.conf`` file on the replica server (for PostgreSQL version 11).
 
-#. Add the ``postgres.main`` state file to the main server's target in the ``salt/top.sls`` file.
-
 #. :doc:`Deploy<../../deploy/deploy>` both servers
 
 #. Connect to the main server as the ``root`` user, and create a replication slot, replacing ``SLOT`` with the value of ``postgres:replication:primary_slot_name``.
