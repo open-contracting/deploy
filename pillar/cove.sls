@@ -12,6 +12,8 @@ python_apps:
       compilemessages: True
       env:
         VALIDATION_ERROR_LOCATIONS_LENGTH: 100
+        # https://github.com/requests-cache/requests-cache/blob/main/requests_cache/policy/expiration.py
+        REQUESTS_CACHE_EXPIRE_AFTER: 0 # EXPIRE_IMMEDIATELY
     apache:
       configuration: django
       context:
