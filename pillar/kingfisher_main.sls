@@ -80,6 +80,16 @@ postgres:
     context:
       storage: ssd
       type: oltp
+      # Kingfisher Process uses QuerySet.iterator() to not cache results at the QuerySet level.
+      # https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.iterator
+      #
+      # With PostgreSQL, iterator() uses server-side cursors to stream results (and not load all at once).
+      # It caches chunk_size results (default 2000) at the database driver level.
+      # https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.iterator
+      #
+      # However, with server-side cursors, PostgreSQL assumes only 10% of results are fetched.
+      # Kingfisher Process always uses all results from iterator(), so we set cursor_tuple_fraction to 1.0.
+      # https://docs.djangoproject.com/en/4.2/ref/databases/#server-side-cursors
       content: |
         # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-MAX-WAL-SIZE
         # https://github.com/open-contracting/deploy/issues/158
@@ -110,6 +120,9 @@ postgres:
 
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 5
+
+        # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
+        cursor_tuple_fraction = 1.0
   backup:
     stanza: kingfisher-2023
     retention_full: 4
