@@ -24,5 +24,13 @@ If the service is being retired:
 #. Remove its `managed passwords <https://www.lastpass.com>`__, if appropriate
 
 Finally:
+#. Securely erase server disks
+   #. Request an *Rescue* system via the :ref:`host<hosting>`'s interface and connect as ``root``.
+   #. Open a session in :ref:`tmux<tmux>`
+   #. Securely remove data, for example wiping the /dev/sda device:
+
+      .. code-block:: bash
+
+         shred -z -n 1 -v /dev/sda
 
 #. Cancel the server via the host's interface
