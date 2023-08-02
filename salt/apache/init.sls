@@ -63,11 +63,18 @@ apache2-utils:
 
 {{ apache('default', {'configuration': 'default', 'servername': ''}) }}
 
-{% if not salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
+{% if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
 autoindex:
-  apache_module.disabled:
+  apache_module.enabled:
     - watch_in:
       - service: apache2
+{% else %}
+# apache_module.disabled doesn't allow --force.
+disable module autoindex:
+  file.absent:
+    - names:
+      - /etc/apache2/mods-enabled/autoindex.conf
+      - /etc/apache2/mods-enabled/autoindex.load
 {% endif %}
 
 disable site 000-default.conf:
