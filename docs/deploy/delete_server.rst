@@ -25,11 +25,11 @@ If the service is being retired:
 
 Finally:
 
-#. Securely erase server disks
+#. Securely erase data:
 
-   #. Request an *Rescue* system via the :ref:`host<hosting>`'s interface and connect as ``root``.
-   #. Open a session in :ref:`tmux<tmux>`
-   #. Securely remove data, for example wiping the /dev/sda device:
+   #. Request a *Rescue* system via the :ref:`host<hosting>`'s interface and connect as ``root``
+   #. Connect to the server, and open a session in :ref:`tmux<tmux>`
+   #. Securely erase data from the relevant device(s), for example:
 
       .. code-block:: bash
 
