@@ -52,6 +52,7 @@ unset {{ setting_name }} in {{ filename }}:
 {% endif %}
     - order: 1
     - shell: /bin/bash
+    # Fixed in next release after 3006.1 https://github.com/saltstack/salt/issues/64211
     - remove_groups: False
 
 {{ user }}_authorized_keys:
