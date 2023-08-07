@@ -19,7 +19,7 @@ To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Se
 
    curl -n --json '{"name":"spider_name_2020-01-01","collection_id":123}' https://pelican.open-contracting.org/api/datasets/
 
-You should now see your report at https://pelican.open-contracting.org.
+After a few seconds, you should see your report being processed at https://pelican.open-contracting.org.
 
 .. attention::
 
