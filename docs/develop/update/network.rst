@@ -30,7 +30,7 @@ This configuration disables automatic IP configuration and configures static net
 
 .. note::
 
-   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We use our own IPv6 block – ``2a01:7e00:e000:02cc::/64`` – to improve IP reputation and email deliverability.
+   By default, a Linode server listens on – and prefers traffic to – its default IPv6 address. We provision IPv6 /64 blocks for each server to improve IP reputation and email deliverability.
 
 .. admonition:: Email template
 
