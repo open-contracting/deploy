@@ -1,11 +1,5 @@
 {% set mysql_version = pillar.mysql.version|default('8.0')|quote %}
 
-mysql dependencies:
-  pkg.installed:
-    - pkgs:
-      - gnupg2
-      - python3-mysqldb
-
 {# Using Percona's official tool "percona-release" to configure their repositories and signing keys. #}
 percona-release:
   pkg.installed:
