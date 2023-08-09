@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache %}
+{% from 'lib.sls' import apache, virtualenv %}
 
 {% set enable_uwsgi = pillar.python_apps.values()|selectattr('uwsgi', 'defined')|first|default %}
 {% set enable_apache = pillar.python_apps.values()|selectattr('apache', 'defined')|first|default %}
@@ -12,7 +12,6 @@ include:
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
 {% endif %}
-  - python
   - python.virtualenv
 
 # Inspired by the Apache formula, which loops over sites to configure. See example in readme.
@@ -38,40 +37,8 @@ include:
       - pkg: git
       - user: {{ entry.user }}_user_exists
 
-{{ directory }}/.ve:
-  virtualenv.managed:
-    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
-    - user: {{ entry.user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
-    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Setting "runas" workaround.
-    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
-    - runas: {{ entry.user }}
-    - require:
-      - pkg: virtualenv
-      - git: {{ entry.git.url }}
-{% if salt['pillar.get']('python:version') %}
-    - watch:
-      - pkg: python
-{% endif %}
-
-{{ directory }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
-    - runas: {{ entry.user }}
-    - cwd: {{ directory }}
-    - require:
-      - virtualenv: {{ directory }}/.ve
-    # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
-    - onchanges:
-      - git: {{ entry.git.url }}
-      - virtualenv: {{ directory }}/.ve # if .ve was deleted
-{% if 'uwsgi' in entry %}
-    # https://github.com/open-contracting/deploy/issues/146
-    - watch_in:
-      - service: uwsgi
-{% endif %}
+# Note: {{ directory }}-requirements will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
+{{ virtualenv(directory, entry.user, {'git': entry.git.url}, {'git': entry.git.url}, 'uwsgi') }}
 
 {% for filename, source in entry.config|items %}
 {{ userdir }}/.config/{{ filename }}:

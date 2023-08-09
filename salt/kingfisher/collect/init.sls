@@ -1,7 +1,6 @@
-{% from 'lib.sls' import create_user, set_cron_env, systemd %}
+{% from 'lib.sls' import create_user, set_cron_env, systemd, virtualenv %}
 
 include:
-  - python
   - python.virtualenv
   - python.extensions # twisted
   - python.psycopg2
@@ -55,36 +54,7 @@ allow {{ userdir }} access:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
 
-# The next states are similar to those in the `python_apps.sls` file, but instead of being based on a git repository,
-# they are based on a requirements.txt file.
-
-{{ directory }}/.ve:
-  virtualenv.managed:
-    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
-    - user: {{ user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
-    - require:
-      - pkg: virtualenv
-      - file: {{ directory }}
-{% if salt['pillar.get']('python:version') %}
-    - watch:
-      - pkg: python
-{% endif %}
-
-{{ directory }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
-    - runas: {{ user }}
-    - cwd: {{ directory }}
-    - require:
-      - virtualenv: {{ directory }}/.ve
-    - onchanges:
-      - file: {{ directory }}/requirements.txt
-      - virtualenv: {{ directory }}/.ve # if .ve was deleted
-    - watch_in:
-      - service: scrapyd
+{{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
 
 # https://scrapyd.readthedocs.io/en/stable/config.html
 {{ userdir }}/.scrapyd.conf:

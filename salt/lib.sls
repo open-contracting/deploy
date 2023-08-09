@@ -93,6 +93,76 @@ unset {{ setting_name }} in {{ filename }}:
 {% endmacro %}
 
 {#
+  - parent_directory is a state that creates the parent directory (e.g. file.directory or git.latest).
+  - requirements_file is a state that creates the requirements.txt file (e.g. file.managed or git.latest).
+  - The calling state file must include the python.virtualenv state file, which includes the python state file.
+#}
+{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in) %}
+{{ directory }}-virtualenv:
+  virtualenv.managed:
+    - name: {{ directory }}/.ve
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
+    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Use "runas" workaround.
+    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
+    - runas: {{ user }}
+    - user: {{ user }}
+    - system_site_packages: False
+    - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
+{% if salt['pillar.get']('python:version') %}
+    # If the Python version changes, reinstall the virtual environment.
+    - watch:
+      - pkg: python
+{% endif %}
+
+# Upgrade pip to avoid "ImportError: cannot import name 'html5lib' from 'pip._vendor'" (without using pip itself).
+#
+# The virtualenv.managed state calls the create function in the virtualenv_mod module. This function installs pip only
+# if .ve/bin/pip is missing (but it's present, by default). ensurepip is simpler than get-pip.py.
+{{ directory }}/.ve/bin/pip:
+  # python3-venv is required for ensurepip to be available on Ubuntu.
+  pkg.installed:
+    - name: python{{ salt['pillar.get']('python:version', 3) }}-venv
+  cmd.run:
+    # https://pip.pypa.io/en/stable/installation/
+    - name: . .ve/bin/activate; python -m ensurepip --upgrade
+    - runas: {{ user }}
+    - cwd: {{ directory }}
+    - require:
+      - pkg: {{ directory }}/.ve/bin/pip
+    - onchanges:
+      - virtualenv: {{ directory }}-virtualenv
+
+{{ directory }}-piptools:
+  virtualenv.managed:
+    - name: {{ directory }}/.ve
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
+    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Use "runas" workaround.
+    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
+    - runas: {{ user }}
+    - user: {{ user }}
+    - system_site_packages: False
+    - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
+    # This state differs from the *-virtualenv state beyond this point.
+    - pip_pkgs:
+      - pip-tools
+    - watch:
+      - cmd: {{ directory }}/.ve/bin/pip
+
+{{ directory }}-requirements:
+  cmd.run:
+    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
+    - runas: {{ user }}
+    - cwd: {{ directory }}
+    - require:
+      - virtualenv: {{ directory }}-piptools
+    # Run the command if the virtual environment was reinstalled (64501d6) or the requirements file was changed.
+    - onchanges: {{ ([{'virtualenv': directory + '-piptools'}] + [requirements_file])|yaml }}
+    # https://github.com/open-contracting/deploy/issues/146
+    - watch_in:
+      - service: {{ watch_in }}
+{% endmacro %}
+
+{#
   Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
   `context` object, whose keys are made available as variables in the configuration template.
 
