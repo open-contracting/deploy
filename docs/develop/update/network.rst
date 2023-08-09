@@ -51,7 +51,7 @@ Update the server's Pillar file:
    network:
      host_id: ocp12
      ipv4: 198.51.100.34
-     ipv6: 2001:db8::12
+     ipv6: "2001:db8::"
      networkd:
        template: linode
        addresses:
