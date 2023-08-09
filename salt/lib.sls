@@ -128,11 +128,12 @@ unset {{ setting_name }} in {{ filename }}:
     - runas: {{ user }}
     - require:
       - pkg: {{ directory }}/.ve/bin/pip
-    - watch_in:
-      - virtualenv: {{ directory }}-piptools
     - onchanges:
       - virtualenv: {{ directory }}-virtualenv
+    - watch_in:
+      - virtualenv: {{ directory }}-piptools
 
+# This state only differs from the *-virtualenv state by installing pip-tools and not watching python.
 {{ directory }}-piptools:
   virtualenv.managed:
     - name: {{ directory }}/.ve
@@ -140,7 +141,6 @@ unset {{ setting_name }} in {{ filename }}:
     - runas: {{ user }}
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
-    # This state differs from the *-virtualenv state beyond this point.
     - pip_pkgs:
       - pip-tools
 
