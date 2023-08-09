@@ -95,15 +95,16 @@ unset {{ setting_name }} in {{ filename }}:
 {#
   - parent_directory is a state that creates the parent directory (e.g. file.directory or git.latest).
   - requirements_file is a state that creates the requirements.txt file (e.g. file.managed or git.latest).
-  - The calling state file must include the python.virtualenv state file, which includes the python state file.
+  - The calling state file must include the python.virtualenv state file (which includes the python state file).
+
+  Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
+  https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 #}
 {% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in) %}
 {{ directory }}-virtualenv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
     - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
-    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Use "runas" workaround.
-    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
     - runas: {{ user }}
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
@@ -127,6 +128,8 @@ unset {{ setting_name }} in {{ filename }}:
     - runas: {{ user }}
     - require:
       - pkg: {{ directory }}/.ve/bin/pip
+    - watch_in:
+      - virtualenv: {{ directory }}-piptools
     - onchanges:
       - virtualenv: {{ directory }}-virtualenv
 
@@ -134,20 +137,16 @@ unset {{ setting_name }} in {{ filename }}:
   virtualenv.managed:
     - name: {{ directory }}/.ve
     - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
-    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Use "runas" workaround.
-    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
     - runas: {{ user }}
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
     # This state differs from the *-virtualenv state beyond this point.
     - pip_pkgs:
       - pip-tools
-    - watch:
-      - cmd: {{ directory }}/.ve/bin/pip
 
 {{ directory }}-requirements:
   cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
+    - name: .ve/bin/pip-sync -q --pip-args "--exists-action w"
     - runas: {{ user }}
     - cwd: {{ directory }}
     - require:
