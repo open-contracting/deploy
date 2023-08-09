@@ -71,7 +71,7 @@ pgbadger:
 
 /var/lib/postgresql/postgresqltuner.pl:
   pkg.installed:
-    - names:
+    - pkgs:
       - libdbd-pg-perl
       - libdbi-perl
   file.managed:
