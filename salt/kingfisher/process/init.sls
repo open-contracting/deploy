@@ -41,12 +41,12 @@ create reference.mapping_sheets table:
   cmd.run:
     - name: psql -f /opt/mapping-sheet.sql kingfisher_process
     - runas: postgres
-    - onchanges:
-      - file: /opt/mapping-sheet.csv
-      - file: /opt/mapping-sheet.sql
     - require:
       - postgres_group: reference_sql_group
       - postgres_schema: reference_sql_schema
+    - onchanges:
+      - file: /opt/mapping-sheet.csv
+      - file: /opt/mapping-sheet.sql
 
 {% for user, authorized_keys in pillar.users.items() %}
 /home/{{ user }}/.pgpass:

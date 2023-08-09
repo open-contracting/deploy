@@ -304,15 +304,15 @@ alter {{ group }} default privileges in {{ schema }}:
   cmd.run:
     - name: psql -f /opt/default-privileges/{{ group }}-{{ schema }}.sql {{ database }}
     - runas: postgres
-    - onchanges:
-      - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
-      # If a database is re-created, re-run the default privileges statement.
-      - postgres_database: {{ database }}_sql_database
     - require:
       - postgres_database: {{ database }}_sql_database
   {% if schema != 'public' %}
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
+    - onchanges:
+      - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
+      # If a database is re-created, re-run the default privileges statement.
+      - postgres_database: {{ database }}_sql_database
 {% endfor %}
 {% endfor %} {# privileges #}
 
