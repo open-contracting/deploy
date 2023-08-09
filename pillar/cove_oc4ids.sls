@@ -1,7 +1,7 @@
 network:
   host_id: ocp17
   ipv4: 176.58.112.127
-  ipv6: 2a01:7e00:e000:04c1::
+  ipv6: "2a01:7e00:e000:04c1::"
   networkd:
     template: linode
     gateway4: 176.58.112.1
