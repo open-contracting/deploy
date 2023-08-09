@@ -1,6 +1,7 @@
 {% from 'lib.sls' import create_user, set_cron_env, systemd %}
 
 include:
+  - python
   - python.virtualenv
   - python.extensions # twisted
   - python.psycopg2
@@ -59,7 +60,7 @@ allow {{ userdir }} access:
 
 {{ directory }}/.ve:
   virtualenv.managed:
-    - python: /usr/bin/python3
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
     - user: {{ user }}
     - system_site_packages: False
     - pip_pkgs:
@@ -67,6 +68,10 @@ allow {{ userdir }} access:
     - require:
       - pkg: virtualenv
       - file: {{ directory }}
+{% if salt['pillar.get']('python:version') %}
+    - watch:
+      - pkg: python
+{% endif %}
 
 {{ directory }}-requirements:
   cmd.run:

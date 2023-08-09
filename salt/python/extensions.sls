@@ -1,6 +1,9 @@
+include:
+  - python
+
 python c extensions:
   pkg.installed:
     - pkgs:
-      - python3-dev
+      - python{{ salt['pillar.get']('python:version', 3) }}-dev
       - build-essential
       - libffi-dev

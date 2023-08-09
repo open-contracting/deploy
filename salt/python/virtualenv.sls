@@ -1,3 +1,6 @@
+include:
+  - python
+
 virtualenv:
   pkg.installed:
     - pkgs:

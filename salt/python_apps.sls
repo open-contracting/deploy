@@ -12,6 +12,7 @@ include:
   - apache.modules.proxy_http
   - apache.modules.proxy_uwsgi
 {% endif %}
+  - python
   - python.virtualenv
 
 # Inspired by the Apache formula, which loops over sites to configure. See example in readme.
@@ -39,7 +40,7 @@ include:
 
 {{ directory }}/.ve:
   virtualenv.managed:
-    - python: /usr/bin/python3
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
     - user: {{ entry.user }}
     - system_site_packages: False
     - pip_pkgs:
@@ -50,6 +51,10 @@ include:
     - require:
       - pkg: virtualenv
       - git: {{ entry.git.url }}
+{% if salt['pillar.get']('python:version') %}
+    - watch:
+      - pkg: python
+{% endif %}
 
 {{ directory }}-requirements:
   cmd.run:

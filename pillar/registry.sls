@@ -93,6 +93,9 @@ docker:
   docker_compose:
     version: 1.29.2
 
+python:
+  version: '3.10'
+
 kingfisher_collect:
   user: collect
   group: deployer
