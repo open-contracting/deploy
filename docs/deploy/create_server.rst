@@ -55,11 +55,11 @@ Linode
    #. Click *Power On*
    #. Copy *SSH Access* to your clipboard
 
-#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign our IPv6 block to the new server.
+#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign an IPv6 /64 block to the new server.
 
       Hello,
 
-      Please assign our IPv6 /64 block (2a01:7e00:e000:02cc::/64) to the server ocp##.open-contracting.org.
+      Please assign an IPv6 /64 block to the server ocp##.open-contracting.org.
 
       Thank you,
 
