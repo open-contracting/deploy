@@ -106,7 +106,6 @@ unset {{ setting_name }} in {{ filename }}:
     # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
     - runas: {{ user }}
     - user: {{ user }}
-    - system_site_packages: False
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
 {% if salt['pillar.get']('python:version') %}
     # If the Python version changes, reinstall the virtual environment.
@@ -117,16 +116,15 @@ unset {{ setting_name }} in {{ filename }}:
 # Upgrade pip to avoid "ImportError: cannot import name 'html5lib' from 'pip._vendor'" (without using pip itself).
 #
 # The virtualenv.managed state calls the create function in the virtualenv_mod module. This function installs pip only
-# if .ve/bin/pip is missing (but it's present, by default). ensurepip is simpler than get-pip.py.
+# if .ve/bin/pip doesn't exist (but it does, by default). ensurepip is simpler than get-pip.py.
 {{ directory }}/.ve/bin/pip:
   # python3-venv is required for ensurepip to be available on Ubuntu.
   pkg.installed:
     - name: python{{ salt['pillar.get']('python:version', 3) }}-venv
   cmd.run:
     # https://pip.pypa.io/en/stable/installation/
-    - name: . .ve/bin/activate; python -m ensurepip --upgrade
+    - name: {{ directory }}/.ve/bin/python -m ensurepip --upgrade
     - runas: {{ user }}
-    - cwd: {{ directory }}
     - require:
       - pkg: {{ directory }}/.ve/bin/pip
     - onchanges:
@@ -140,7 +138,6 @@ unset {{ setting_name }} in {{ filename }}:
     # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
     - runas: {{ user }}
     - user: {{ user }}
-    - system_site_packages: False
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
     # This state differs from the *-virtualenv state beyond this point.
     - pip_pkgs:

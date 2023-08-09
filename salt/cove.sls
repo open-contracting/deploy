@@ -21,7 +21,7 @@ allow {{ userdir }} access:
 
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 
-cd {{ directory }}; . .ve/bin/activate; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" python manage.py expire_files --settings {{ entry.django.app }}.settings:
+cd {{ directory }}; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" .ve/bin/python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:
     - identifier: COVE_EXPIRE_FILES
     - user: {{ entry.user }}
