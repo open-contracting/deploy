@@ -33,16 +33,6 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
-{{ directory }}/requirements.txt:
-  file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt
-    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt.sha256
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 444
-    - require:
-      - file: {{ directory }}
-
 # Allow Docker apps (Kingfisher Process) to access.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
@@ -53,6 +43,16 @@ allow {{ userdir }} access:
     - require:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
+
+{{ directory }}/requirements.txt:
+  file.managed:
+    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt
+    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt.sha256
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 444
+    - require:
+      - file: {{ directory }}
 
 {{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
 
