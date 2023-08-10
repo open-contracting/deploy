@@ -153,9 +153,10 @@ unset {{ setting_name }} in {{ filename }}:
       - virtualenv: {{ directory }}-piptools
     # Run the command if the virtual environment was reinstalled (64501d6) or the requirements file was changed.
     - onchanges: {{ ([{'virtualenv': directory + '-piptools'}] + [requirements_file])|yaml }}
-    # https://github.com/open-contracting/deploy/issues/146
+{% if watch_in %}
     - watch_in:
       - service: {{ watch_in }}
+{% endif %}
 {% endmacro %}
 
 {#

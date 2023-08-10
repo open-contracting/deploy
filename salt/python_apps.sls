@@ -38,7 +38,8 @@ include:
       - user: {{ entry.user }}_user_exists
 
 # Note: {{ directory }}-requirements will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
-{{ virtualenv(directory, entry.user, {'git': entry.git.url}, {'git': entry.git.url}, 'uwsgi') }}
+# https://github.com/open-contracting/deploy/issues/146
+{{ virtualenv(directory, entry.user, {'git': entry.git.url}, {'git': entry.git.url}, 'uwsgi' if 'uwsgi' in entry else None) }}
 
 {% for filename, source in entry.config|items %}
 {{ userdir }}/.config/{{ filename }}:
