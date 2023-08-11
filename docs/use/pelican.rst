@@ -29,14 +29,10 @@ After a few seconds, you should see your report being processed at https://pelic
 
    `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
 
-Delete a report
----------------
+Check on progress
+-----------------
 
-Once you no longer need a report, remember to delete it, replacing ``1`` with its ID:
-
-.. code-block:: bash
-
-   curl -n -X DELETE https://pelican.open-contracting.org/api/datasets/1/
+https://pelican.open-contracting.org indicates the status of reports. In general, this is sufficient. However, you can use the RabbitMQ management interface to check that work isn't stuck, :ref:`like for Kingfisher Process<kingfisher-process-rabbitmq>`, instead reading the ``pelican_backend_`` rows.
 
 Read and export a report
 ------------------------
@@ -48,7 +44,11 @@ To `export a report <https://pelican-frontend.readthedocs.io/en/latest/export.ht
 -  Main template ID: ``1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM`` to use `this template <https://docs.google.com/document/d/1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM/edit>`__. To use another template, share it with data-tools@open-contracting.org.
 -  Export folder ID: ``1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3`` to use `this folder <https://drive.google.com/drive/folders/1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3>`__. To use another folder, share it with data-tools@open-contracting.org.
 
-Check on progress
------------------
+Delete a report
+---------------
 
-https://pelican.open-contracting.org indicates the status of reports. In general, this is sufficient. However, you can use the RabbitMQ management interface to check that work isn't stuck, :ref:`like for Kingfisher Process<kingfisher-process-rabbitmq>`, instead reading the ``pelican_backend_`` rows.
+Once you no longer need a report, remember to delete it, replacing ``1`` with its ID:
+
+.. code-block:: bash
+
+   curl -n -X DELETE https://pelican.open-contracting.org/api/datasets/1/
