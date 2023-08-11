@@ -29,6 +29,15 @@ After a few seconds, you should see your report being processed at https://pelic
 
    `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
 
+Delete a report
+---------------
+
+Once you no longer need a report, remember to delete it, replacing ``1`` with its ID:
+
+.. code-block:: bash
+
+   curl -n -X DELETE https://pelican.open-contracting.org/api/datasets/1/
+
 Read and export a report
 ------------------------
 

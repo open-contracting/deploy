@@ -30,6 +30,13 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
 
+btree_gin:
+  postgres_extension.present:
+    - if_not_exists: True
+    - maintenance_db: pelican_backend
+    - require:
+      - postgres_database: pelican_backend_sql_database
+
 {%
   for basename, source_hash in [
     ('001_base', '2b195c9983988080c5563ae0af4f722cfe51ece9882fe0e0ade5c324bd2eefab'),
