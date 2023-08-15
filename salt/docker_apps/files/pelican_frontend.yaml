@@ -13,7 +13,7 @@ services:
       - {{ pillar.docker_apps.pelican_frontend.port }}:8000
 {%- if 'reports' in pillar.docker_apps.pelican_frontend %}
     volumes:
-      # The right-hand path must match the directory of the settings.SERVICE_ACCOUNT_JSON_FILE default value in pelican-frontend.
+      # The right-hand path must match the STORAGES default value in pelican-frontend.
       - {{ pillar.docker_apps.pelican_frontend.host_dir }}:/data
   static:
     <<: *shared
