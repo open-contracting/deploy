@@ -29,6 +29,15 @@ After a few seconds, you should see your report being processed at https://pelic
 
    `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
 
+Measure time-based checks
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If a report exists for an old collection, and Kingfisher Process has a new collection of the same dataset, you can create a report for that new collection that calculates time-based checks between the two collections. Set ``ancestor_id`` to the ID of the previous report in Pelican:
+
+.. code-block:: bash
+
+   curl -n --json '{"name":"spider_name_2021-02-03","collection_id":456,"ancestor_id":1}' https://pelican.open-contracting.org/api/datasets/
+
 Check on progress
 -----------------
 
