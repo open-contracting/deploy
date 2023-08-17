@@ -28,6 +28,7 @@ registry:
 # ocp01 was cove-oc4ids on Ubuntu 18
 # ocp02 was cove-ocds on Ubuntu 18
 # ocp03 was prometheus on Ubuntu 18
+# ocp04 was kingfisher-main on Ubuntu 18
 # ocp05 was kingfisher-replica on Ubuntu 18
 # ocp06 was covid19-dev
 # ocp07 was docs on Ubuntu 18

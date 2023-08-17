@@ -168,7 +168,9 @@ docker_apps:
       DOMAIN: &DOMAIN flatten.open-contracting.org
       API_DOMAIN: *DOMAIN
       # Referenced by Django project.
+      DJANGO_PROXY: True
       ALLOWED_HOSTS: *DOMAIN
+      SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
       API_PREFIX: api/
       DB_HOST: postgres

@@ -25,6 +25,8 @@ services:
     image: traefik:v2.4
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      # https://hub.docker.com/_/traefik/
+      - ./traefik.toml:/etc/traefik/traefik.toml
       - ./:/letsencrypt
     ports:
       - ${TRAEFIK_IP:-0.0.0.0}:80:80
