@@ -8,7 +8,7 @@ x-user: &with-user
 
 x-shared: &shared
   <<: *with-user
-  image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+  image: "ghcr.io/open-contracting/spoonbill-web-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
@@ -31,23 +31,6 @@ services:
     ports:
       - ${TRAEFIK_IP:-0.0.0.0}:80:80
       - ${TRAEFIK_IP:-0.0.0.0}:443:443
-    command:
-      - '--api'
-      # - '--api.insecure=true'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedByDefault=false'
-      - '--entrypoints.http=true'
-      - '--entrypoints.http.address=:80'
-      - '--entrypoints.http.http.redirections.entrypoint.to=https'
-      - '--entrypoints.http.http.redirections.entrypoint.scheme=https'
-      - '--entrypoints.https=true'
-      - '--entrypoints.https.address=:443'
-      - '--log=true'
-      - '--log.level=INFO'
-      - '--certificatesresolvers.acmec.acme.email=sysadmin@open-contracting.org'
-      - '--certificatesresolvers.acmec.acme.httpchallenge=true'
-      - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
-      - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'
   postgres:
     # See "Arbitrary --user Notes" at https://hub.docker.com/_/postgres/ for additional steps to run as different user:
     #
@@ -88,7 +71,7 @@ services:
   celery_beat:
     <<: *with-user
     hostname: celery_beat
-    image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+    image: "ghcr.io/open-contracting/spoonbill-web-django:latest"
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       - app
@@ -96,7 +79,7 @@ services:
       - redis
   front:
     hostname: front
-    image: ghcr.io/open-contracting/spoonbill-web/front:latest
+    image: ghcr.io/open-contracting/spoonbill-web-vue:latest
     labels:
       - 'traefik.enable=true'
       - 'traefik.http.routers.site.rule=Host(`$DOMAIN`)'

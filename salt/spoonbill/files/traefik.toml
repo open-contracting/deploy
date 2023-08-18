@@ -1,3 +1,29 @@
+[api]
+
+[providers.docker]
+  exposedByDefault = false
+
+[entryPoints]
+  [entryPoints.https]
+    address = ":443"
+  [entryPoints.http]
+    address = ":80"
+    [entryPoints.http.http]
+      [entryPoints.http.http.redirections]
+        [entryPoints.http.http.redirections.entryPoint]
+          to = "https"
+          scheme = "https"
+
+[log]
+  level = "INFO"
+
+[certificatesResolvers.acmec.acme]
+  email = "sysadmin@open-contracting.org"
+  httpchallenge = true
+  storage = "/letsencrypt/acme.json"
+  [certificatesResolvers.acmec.acme.httpChallenge]
+    entrypoint = "http"
+
 # generated 2023-08-17, Mozilla Guideline v5.7, Traefik 2.1.2, intermediate configuration, no HSTS
 # https://ssl-config.mozilla.org/#server=traefik&version=2.1.2&config=intermediate&hsts=false&guideline=5.7
 [tls.options]
