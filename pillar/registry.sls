@@ -171,6 +171,5 @@ docker_apps:
       SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
       API_PREFIX: api/
-      DB_HOST: postgres
       # Environment variables for redis image: https://hub.docker.com/r/bitnami/redis
       ALLOW_EMPTY_PASSWORD: "yes"

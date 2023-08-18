@@ -32,15 +32,6 @@ services:
     ports:
       - ${TRAEFIK_IP:-0.0.0.0}:80:80
       - ${TRAEFIK_IP:-0.0.0.0}:443:443
-  postgres:
-    # See "Arbitrary --user Notes" at https://hub.docker.com/_/postgres/ for additional steps to run as different user:
-    #
-    # docker run -it --rm -v spoonbill_postgresql-data:/var/lib/postgresql/data bash chown -R 1002:1002 /var/lib/postgresql/data
-    <<: *with-user
-    hostname: postgres
-    image: postgres:12
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
   redis:
     <<: *with-env
     hostname: redis
@@ -50,7 +41,6 @@ services:
     hostname: app
     command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
     depends_on:
-      - postgres
       - redis
       - traefik
   celery_worker:
@@ -60,7 +50,6 @@ services:
     container_name: celery_worker
     depends_on:
       - app
-      - postgres
       - redis
   celery_beat:
     <<: *with-user
@@ -69,7 +58,6 @@ services:
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
       - app
-      - postgres
       - redis
   front:
     hostname: front
@@ -79,6 +67,3 @@ services:
     volumes:
       # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
       - {{ pillar.docker_apps.spoonbill.host_dir }}/media:/data/media
-
-volumes:
-  postgresql-data:
