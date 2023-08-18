@@ -22,7 +22,6 @@
 
 [certificatesResolvers.acmec.acme]
   email = "sysadmin@open-contracting.org"
-  httpchallenge = true
   storage = "/letsencrypt/acme.json"
   [certificatesResolvers.acmec.acme.httpChallenge]
-    entrypoint = "http"
+    entryPoint = "http"

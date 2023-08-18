@@ -4,14 +4,14 @@
     rule= "Host(`{{ entry.env.ALLOWED_HOSTS }}`) && (PathPrefix(`/api`) || PathPrefix(`/ws`))"
     entrypoints = ["http", "https"]
     [http.routers.app.tls]
-      certresolver = "acmec"
+      certResolver = "acmec"
       options = "default"
 
   [http.routers.site]
     rule = "Host(`{{ entry.env.ALLOWED_HOSTS }}`)"
     entrypoints = ["http", "https"]
     [http.routers.site.tls]
-      certresolver = "acmec"
+      certResolver = "acmec"
       options = "default"
 
 # https://doc.traefik.io/traefik/https/tls/
