@@ -20,6 +20,21 @@ include:
 {{ directory }}/traefik.toml:
   file.managed:
     - source: salt://spoonbill/files/traefik.toml
+    - template: jinja
+    - context:
+        entry: {{ entry|yaml }}
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - makedirs: True
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+
+{{ directory }}/dynamic.toml:
+  file.managed:
+    - source: salt://spoonbill/files/dynamic.toml
+    - template: jinja
+    - context:
+        entry: {{ entry|yaml }}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True

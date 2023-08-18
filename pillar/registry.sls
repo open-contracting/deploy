@@ -165,11 +165,9 @@ docker_apps:
     env:
       # Referenced by Docker Compose file.
       TRAEFIK_IP: 65.21.93.141
-      DOMAIN: &DOMAIN flatten.open-contracting.org
-      API_DOMAIN: *DOMAIN
       # Referenced by Django project.
       DJANGO_PROXY: True
-      ALLOWED_HOSTS: *DOMAIN
+      ALLOWED_HOSTS: flatten.open-contracting.org
       SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
       API_PREFIX: api/
