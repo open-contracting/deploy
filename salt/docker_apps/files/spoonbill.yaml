@@ -39,28 +39,23 @@ services:
   app:
     <<: *shared
     hostname: app
-    command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
+    command: sh -c "daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
     depends_on:
-      - redis
       - traefik
+      - redis
   celery_worker:
     <<: *shared
-    hostname: celery_worker
     command: celery -A spoonbill_web worker -l INFO --concurrency=4
-    container_name: celery_worker
     depends_on:
-      - app
       - redis
+      - app
   celery_beat:
-    <<: *with-user
-    hostname: celery_beat
-    image: "ghcr.io/open-contracting/spoonbill-web-django:latest"
+    <<: *shared
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
     depends_on:
-      - app
       - redis
+      - app
   front:
-    hostname: front
     image: ghcr.io/open-contracting/spoonbill-web-vue:latest
     depends_on:
       - app
