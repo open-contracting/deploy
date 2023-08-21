@@ -1,13 +1,10 @@
-x-env: &with-env
+x-shared: &shared
   env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
   restart: unless-stopped
 
-x-user: &with-user
-  <<: *with-env
-  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
-
-x-shared: &shared
-  <<: *with-user
+x-django: &django
+  <<: *shared
   image: "ghcr.io/open-contracting/spoonbill-web-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -18,47 +15,35 @@ x-shared: &shared
     - {{ pillar.docker_apps.spoonbill.host_dir }}/media:/data/media
     # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
     - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
+  depends_on:
+    - redis
 
 services:
-  traefik:
-    <<: *with-env
-    image: traefik:v2.4
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # https://hub.docker.com/_/traefik/
-      - ./traefik.toml:/etc/traefik/traefik.toml
-      - ./dynamic.toml:/etc/traefik/dynamic.toml
-      - ./:/letsencrypt
-    ports:
-      - ${TRAEFIK_IP:-0.0.0.0}:80:80
-      - ${TRAEFIK_IP:-0.0.0.0}:443:443
   redis:
-    <<: *with-env
-    hostname: redis
-    image: bitnami/redis:latest
-  app:
-    <<: *shared
-    hostname: app
-    command: sh -c "daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
-    depends_on:
-      - traefik
-      - redis
+    image: bitnami/redis:6.2
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    <<: *django
+    ports:
+      - {{ pillar.docker_apps.spoonbill.port }}:8000
   celery_worker:
-    <<: *shared
+    <<: *django
     command: celery -A spoonbill_web worker -l INFO --concurrency=4
-    depends_on:
-      - redis
-      - app
   celery_beat:
-    <<: *shared
+    <<: *django
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
-    depends_on:
-      - redis
-      - app
-  front:
-    image: ghcr.io/open-contracting/spoonbill-web-vue:latest
-    depends_on:
-      - app
+  static:
+    <<: *shared
+    image: "ghcr.io/open-contracting/spoonbill-web-static:latest"
+    ports:
+      - {{ pillar.apache.sites.spoonbill.context.static_port }}:8080
     volumes:
       # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
       - {{ pillar.docker_apps.spoonbill.host_dir }}/media:/data/media
