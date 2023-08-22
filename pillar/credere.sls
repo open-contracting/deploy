@@ -26,20 +26,34 @@ docker_apps:
   credere:
     target: credere
     env:
+      FRONTEND_URL: https://ocp22.open-contracting.org # https://credere.open-contracting.org
+      EMAIL_TEMPLATE_LANG: en
+      ENVIRONMENT: development
+      MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
+      # Timeline
+      APPLICATION_EXPIRATION_DAYS: 7
+      DAYS_TO_CHANGE_TO_LAPSED: 1
+      DAYS_TO_ERASE_BORROWERS_DATA: 1
+      PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
+      REMINDER_DAYS_BEFORE_EXPIRATION: 2
+      # Email addresses
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
       TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
-      FRONTEND_URL: https://ocp22.open-contracting.org # https://credere.open-contracting.org
+      OCP_EMAIL_GROUP: credereadmin@open-contracting.org
       # Email templates
       FACEBOOK_LINK: www.facebook.com
       TWITTER_LINK: www.twitter.com
       LINK_LINK: https://ocp22.open-contracting.org # https://credere.open-contracting.org
       IMAGES_BASE_URL: https://ocp22.open-contracting.org/images # https://credere.open-contracting.org/images
-      IMAGES_LANG_SUBPATH: en
       # Vite
-      VITE_APP_VERSION: 0.1.3
       VITE_API_URL: https://ocp22.open-contracting.org/api # https://credere.open-contracting.org/api
-      VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
+      VITE_APP_VERSION: 0.1.5
+      VITE_CURRENCY: COP
       VITE_DEFAULT_LANG: es
+      VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
+      VITE_LOCALE: es-CO
+      VITE_MAX_FILE_SIZE_MB: 5
+      VITE_MORE_INFO_OCP_URL: https://www.open-contracting.org/es/
 
 postgres:
   version: 15
