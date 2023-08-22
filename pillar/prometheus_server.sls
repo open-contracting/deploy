@@ -11,7 +11,7 @@ prometheus:
     service: prometheus-server
     user: prometheus-server
     basename: prometheus
-    version: 2.37.6
+    version: 2.45.0
     local_storage_retention: 120d
     config:
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml
