@@ -85,6 +85,20 @@ disable site 000-default.conf:
   file.absent:
     - name: /var/www/html/index.html
 
+/etc/apache2/conf-available/zz-customization.conf:
+  file.managed:
+    - contents: |
+       ServerTokens Prod
+       ServerSignature Off
+
+enable customization config:
+  apache_conf.enabled:
+    - name: zz-customization
+    - watch:
+      - file: /etc/apache2/conf-available/zz-customization.conf
+    - watch_in:
+      - module: apache2-reload
+
 {% for name, entry in salt['pillar.get']('apache:sites', {}).items() %}
 {{ apache(name, entry) }}
 {% endfor %}
