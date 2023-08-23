@@ -43,7 +43,7 @@ btree_gin:
     ('002_constraints', 'f298f0b8cb20d47f390b480d44d12c097e83b177dde56234dcbebc6ad3dcf229'),
   ]
 %}
-/opt/pelican-backend/{{ basename }}.sql:
+{{ directory }}/files/{{ basename }}.sql:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/{{ basename }}.sql
     - source_hash: {{ source_hash }}
@@ -55,11 +55,11 @@ btree_gin:
 
 run pelican migration {{ basename }}:
   cmd.run:
-    - name: psql -U pelican_backend -h localhost -f /opt/pelican-backend/{{ basename }}.sql pelican_backend
+    - name: psql -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend
     - runas: {{ pillar.docker.user }}
     - require:
       - postgres_database: pelican_backend_sql_database
       - file: /home/{{ pillar.docker.user }}/.pgpass
     - onchanges:
-      - file: /opt/pelican-backend/{{ basename }}.sql
+      - file: {{ directory }}/files/{{ basename }}.sql
 {% endfor %}

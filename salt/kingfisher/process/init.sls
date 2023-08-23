@@ -26,27 +26,29 @@ create kingfisher process extensions:
 #   ocdskit mapping-sheet --infer-required release-schema.json > mapping-sheet-orig.csv
 #   awk -F, '!a[$2]++' mapping-sheet-orig.csv > mapping-sheet-uniq.csv
 #   awk 'NR==1 {print "version,extension," $0}; NR>1 {print "1.1,core," $0}' mapping-sheet-uniq.csv > mapping-sheet.csv
-/opt/mapping-sheet.csv:
+{{ directory }}/files/mapping-sheet.csv:
   file.managed:
     - source: salt://kingfisher/files/mapping-sheet.csv
+    - makedirs: True
 
-/opt/mapping-sheet.sql:
+{{ directory }}/files/mapping-sheet.sql:
   file.managed:
     - source: salt://kingfisher/files/mapping-sheet.sql
     - template: jinja
     - context:
-        path: /opt/mapping-sheet.csv
+        path: {{ directory }}/files/mapping-sheet.csv
+    - makedirs: True
 
 create reference.mapping_sheets table:
   cmd.run:
-    - name: psql -f /opt/mapping-sheet.sql kingfisher_process
+    - name: psql -f {{ directory }}/files/mapping-sheet.sql kingfisher_process
     - runas: postgres
     - require:
       - postgres_group: reference_sql_group
       - postgres_schema: reference_sql_schema
     - onchanges:
-      - file: /opt/mapping-sheet.csv
-      - file: /opt/mapping-sheet.sql
+      - file: {{ directory }}/files/mapping-sheet.csv
+      - file: {{ directory }}/files/mapping-sheet.sql
 
 {% for user, authorized_keys in pillar.users.items() %}
 /home/{{ user }}/.pgpass:
