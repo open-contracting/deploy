@@ -215,3 +215,16 @@ Configure Apache
 ----------------
 
 Apache is used as a reverse proxy to any web servers in the Docker containers. See :doc:`apache`. The configuration can simply be ``ProxyPass`` directives.
+
+Additional files
+----------------
+
+Setup
+~~~~~
+
+Create additional files needed to *setup* the service (e.g. SQL migrations) in the ``/data/deploy/TARGET/files`` directory.
+
+Use
+~~~
+
+Create additional files needed to *use* the service (e.g. sudoer binaries) in the ``/opt`` or ``/opt/TARGET`` directory.
