@@ -51,7 +51,7 @@ base:
     - prometheus
 
   'redash':
-    - docker_apps
+    - redash
 
   'redmine':
     - redmine
