@@ -53,7 +53,7 @@ Load local data
 
       sudo -u deployer /opt/kingfisher-process/load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
 
-   If you don't need to check for structural errors, omit the ``--check`` flag. If you only need to process a sample, use the ``--sample`` option. For a description of all options, run:
+   If you don't need to check for structural errors, omit the ``--check`` flag. For a description of all options, run:
 
    .. code-block:: bash
 
