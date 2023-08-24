@@ -187,9 +187,9 @@ python_apps:
   collect_generic:
     user: collect_generic
     git:
-      url: https://github.com/open-contracting/data-support.git
+      url: https://github.com/open-contracting/collect-generic.git
       branch: main
-      target: data-support/non_ocds_collect
+      target: collect-generic
 
 docker_apps:
   kingfisher_process:
