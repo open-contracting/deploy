@@ -184,12 +184,12 @@ python_apps:
     config:
       # Need to sync with the kingfisher/summarize/files/.env file.
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
-  non_ocds_collect:
-    user: non-ocds-collect
+  collect_generic:
+    user: collect_generic
     git:
       url: https://github.com/open-contracting/data-support.git
       branch: main
-      target: non-ocds-collect
+      target: data-support/non_ocds_collect
 
 docker_apps:
   kingfisher_process:

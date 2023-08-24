@@ -3,11 +3,11 @@
 include:
   - python_apps
 
-{% set entry = pillar.python_apps.non_ocds_collect %}
+{% set entry = pillar.python_apps.collect_generic %}
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:non-ocds-collect', [])) }}
+{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:collect_generic', [])) }}
 
 {{ userdir }}/data:
   file.directory:
