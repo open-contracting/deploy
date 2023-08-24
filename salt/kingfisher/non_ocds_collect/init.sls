@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user, set_cron_env %}
+{% from 'lib.sls' import create_user %}
 
 include:
   - python_apps
