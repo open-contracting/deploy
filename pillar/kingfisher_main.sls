@@ -184,6 +184,12 @@ python_apps:
     config:
       # Need to sync with the kingfisher/summarize/files/.env file.
       kingfisher-summarize/logging.json: salt://kingfisher/summarize/files/logging.json
+  collect_generic:
+    user: collect_generic
+    git:
+      url: https://github.com/open-contracting/collect-generic.git
+      branch: main
+      target: collect-generic
 
 docker_apps:
   kingfisher_process:
