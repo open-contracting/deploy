@@ -1,0 +1,9 @@
+RequestHeader unset X-Forwarded-Proto
+RequestHeader set X-Forwarded-Proto https env=HTTPS
+
+ProxyPass /api/ws/ ws://127.0.0.1:{{ port }}/api/ws/
+ProxyPassReverse /api/ws/ ws://127.0.0.1:{{ port }}/api/ws/
+ProxyPass /api/ http://127.0.0.1:{{ port }}/api/ timeout={{ timeout }}
+ProxyPassReverse /api/ http://127.0.0.1:{{ port }}/api/
+ProxyPass / http://127.0.0.1:{{ static_port }}/
+ProxyPassReverse / http://127.0.0.1:{{ static_port }}/

@@ -1,9 +1,9 @@
 {% set mysql_version = pillar.mysql.version|default('8.0')|quote %}
 
+# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.mysql_database.html
 mysql dependencies:
   pkg.installed:
     - pkgs:
-      - gnupg2
       - python3-mysqldb
 
 {# Using Percona's official tool "percona-release" to configure their repositories and signing keys. #}

@@ -1,14 +1,6 @@
 include:
   - apache
 
-# https://www.phusionpassenger.com/library/install/apache/install/oss/bionic/
-passenger dependencies:
-  pkg.installed:
-    - pkgs:
-      - dirmngr
-      - apt-transport-https
-      - ca-certificates
-
 passenger:
   pkgrepo.managed:
     - humanname: Phusion Passenger Official Repository

@@ -57,7 +57,7 @@ grant kingfisher_summarize database privileges:
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 
 # Delete schema whose selected collections no longer exist.
-cd {{ directory }}; . .ve/bin/activate; python manage.py -q dev stale | xargs -I{} python manage.py --quiet remove {}:
+cd {{ directory }}; .ve/bin/python manage.py -q dev stale | xargs -I{} .ve/bin/python manage.py --quiet remove {}:
   cron.present:
     - identifier: KINGFISHER_SUMMARIZE_ORPHAN_SCHEMA
     - user: {{ entry.user }}

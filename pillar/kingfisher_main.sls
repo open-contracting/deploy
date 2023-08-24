@@ -218,8 +218,9 @@ docker_apps:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: pelican.open-contracting.org
       SECURE_HSTS_SECONDS: 31536000
-      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
       CORS_ALLOWED_ORIGINS: https://pelican.open-contracting.org
+      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
+      GOOGLE_DRIVE_USER: pelican@pelican-289615.iam.gserviceaccount.com
       # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
       # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
       # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib

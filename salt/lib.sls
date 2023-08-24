@@ -52,6 +52,7 @@ unset {{ setting_name }} in {{ filename }}:
 {% endif %}
     - order: 1
     - shell: /bin/bash
+    # Fixed in next release after 3006.1 https://github.com/saltstack/salt/issues/64211
     - remove_groups: False
 
 {{ user }}_authorized_keys:
@@ -89,6 +90,73 @@ unset {{ setting_name }} in {{ filename }}:
   module.wait:
     - name: service.reload
     - m_name: {{ entry.service }}
+{% endmacro %}
+
+{#
+  - parent_directory is a state that creates the parent directory (e.g. file.directory or git.latest).
+  - requirements_file is a state that creates the requirements.txt file (e.g. file.managed or git.latest).
+  - The calling state file must include the python.virtualenv state file (which includes the python state file).
+
+  Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
+  https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
+#}
+{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in) %}
+{{ directory }}-virtualenv:
+  virtualenv.managed:
+    - name: {{ directory }}/.ve
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
+    - runas: {{ user }}
+    - user: {{ user }}
+    - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
+{% if salt['pillar.get']('python:version') %}
+    # If the Python version changes, reinstall the virtual environment.
+    - watch:
+      - pkg: python
+{% endif %}
+
+# Upgrade pip to avoid "ImportError: cannot import name 'html5lib' from 'pip._vendor'" (without using pip itself).
+#
+# The virtualenv.managed state calls the create function in the virtualenv_mod module. This function installs pip only
+# if .ve/bin/pip doesn't exist (but it does, by default). ensurepip is simpler than get-pip.py.
+{{ directory }}/.ve/bin/pip:
+  # python3-venv is required for ensurepip to be available on Ubuntu.
+  pkg.installed:
+    - name: python{{ salt['pillar.get']('python:version', 3) }}-venv
+  cmd.run:
+    # https://pip.pypa.io/en/stable/installation/
+    - name: {{ directory }}/.ve/bin/python -m ensurepip --upgrade
+    - runas: {{ user }}
+    - require:
+      - pkg: {{ directory }}/.ve/bin/pip
+    - onchanges:
+      - virtualenv: {{ directory }}-virtualenv
+    - watch_in:
+      - virtualenv: {{ directory }}-piptools
+
+# This state only differs from the *-virtualenv state by installing pip-tools and not watching python.
+{{ directory }}-piptools:
+  virtualenv.managed:
+    - name: {{ directory }}/.ve
+    - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
+    - runas: {{ user }}
+    - user: {{ user }}
+    - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
+    - pip_pkgs:
+      - pip-tools
+
+{{ directory }}-requirements:
+  cmd.run:
+    - name: .ve/bin/pip-sync -q --pip-args "--exists-action w"
+    - runas: {{ user }}
+    - cwd: {{ directory }}
+    - require:
+      - virtualenv: {{ directory }}-piptools
+    # Run the command if the virtual environment was reinstalled (64501d6) or the requirements file was changed.
+    - onchanges: {{ ([{'virtualenv': directory + '-piptools'}] + [requirements_file])|yaml }}
+{% if watch_in %}
+    - watch_in:
+      - service: {{ watch_in }}
+{% endif %}
 {% endmacro %}
 
 {#

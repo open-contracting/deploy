@@ -8,8 +8,8 @@ include:
     - names:
       - {{ entry.host_dir }}/tmp
       - {{ entry.host_dir }}/media
-    - makedirs: True
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
+    - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists

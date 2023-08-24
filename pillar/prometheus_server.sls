@@ -1,7 +1,7 @@
 network:
   host_id: ocp20
   ipv4: 139.162.253.17
-  #ipv6: 2a01:7e00::f03c:93ff:fe13:a12c
+  ipv6: "2a01:7e00:e000:04e0::"
   networkd:
     template: linode
     gateway4: 139.162.253.1
@@ -11,7 +11,7 @@ prometheus:
     service: prometheus-server
     user: prometheus-server
     basename: prometheus
-    version: 2.37.6
+    version: 2.45.0
     local_storage_retention: 120d
     config:
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml

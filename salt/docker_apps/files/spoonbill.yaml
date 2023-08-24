@@ -1,14 +1,11 @@
-x-env: &with-env
+x-shared: &shared
   env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
   restart: unless-stopped
 
-x-user: &with-user
-  <<: *with-env
-  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
-
-x-shared: &shared
-  <<: *with-user
-  image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+x-django: &django
+  <<: *shared
+  image: "ghcr.io/open-contracting/spoonbill-web-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
@@ -18,95 +15,35 @@ x-shared: &shared
     - {{ pillar.docker_apps.spoonbill.host_dir }}/media:/data/media
     # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
     - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
+  depends_on:
+    - redis
 
 services:
-  traefik:
-    <<: *with-env
-    image: traefik:v2.4
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./:/letsencrypt
-    ports:
-      - ${TRAEFIK_IP:-0.0.0.0}:80:80
-      - ${TRAEFIK_IP:-0.0.0.0}:443:443
-    command:
-      - '--api'
-      # - '--api.insecure=true'
-      - '--providers.docker=true'
-      - '--providers.docker.exposedByDefault=false'
-      - '--entrypoints.http=true'
-      - '--entrypoints.http.address=:80'
-      - '--entrypoints.http.http.redirections.entrypoint.to=https'
-      - '--entrypoints.http.http.redirections.entrypoint.scheme=https'
-      - '--entrypoints.https=true'
-      - '--entrypoints.https.address=:443'
-      - '--log=true'
-      - '--log.level=INFO'
-      - '--certificatesresolvers.acmec.acme.email=sysadmin@open-contracting.org'
-      - '--certificatesresolvers.acmec.acme.httpchallenge=true'
-      - '--certificatesresolvers.acmec.acme.httpchallenge.entrypoint=http'
-      - '--certificatesresolvers.acmec.acme.storage=/letsencrypt/acme.json'
-  postgres:
-    # See "Arbitrary --user Notes" at https://hub.docker.com/_/postgres/ for additional steps to run as different user:
-    #
-    # docker run -it --rm -v spoonbill_postgresql-data:/var/lib/postgresql/data bash chown -R 1002:1002 /var/lib/postgresql/data
-    <<: *with-user
-    hostname: postgres
-    image: postgres:12
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
   redis:
-    <<: *with-env
-    hostname: redis
-    image: bitnami/redis:latest
-  app:
-    <<: *shared
-    hostname: app
-    command: sh -c "python manage.py migrate && daphne -b 0.0.0.0 -p 8000 spoonbill_web.asgi:application"
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.app.rule=Host(`$API_DOMAIN`) && (PathPrefix(`/api`) || PathPrefix(`/ws`))'
-      - 'traefik.http.routers.app.entrypoints=http,https'
-      - 'traefik.http.routers.app.tls=true'
-      - 'traefik.http.routers.app.tls.certresolver=acmec'
-      - 'traefik.http.routers.app.tls.options=default'
-    depends_on:
-      - postgres
-      - redis
-      - traefik
+    image: bitnami/redis:6.2
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    <<: *django
+    ports:
+      - {{ pillar.docker_apps.spoonbill.port }}:8000
   celery_worker:
-    <<: *shared
-    hostname: celery_worker
+    <<: *django
     command: celery -A spoonbill_web worker -l INFO --concurrency=4
-    container_name: celery_worker
-    depends_on:
-      - app
-      - postgres
-      - redis
   celery_beat:
-    <<: *with-user
-    hostname: celery_beat
-    image: "ghcr.io/open-contracting/spoonbill-web/app:latest"
+    <<: *django
     command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
-    depends_on:
-      - app
-      - postgres
-      - redis
-  front:
-    hostname: front
-    image: ghcr.io/open-contracting/spoonbill-web/front:latest
-    labels:
-      - 'traefik.enable=true'
-      - 'traefik.http.routers.site.rule=Host(`$DOMAIN`)'
-      - 'traefik.http.routers.site.entrypoints=http,https'
-      - 'traefik.http.routers.site.tls=true'
-      - 'traefik.http.routers.site.tls.certresolver=acmec'
-      - 'traefik.http.routers.site.tls.options=default'
-    depends_on:
-      - app
+  static:
+    <<: *shared
+    image: "ghcr.io/open-contracting/spoonbill-web-static:latest"
+    ports:
+      - {{ pillar.apache.sites.spoonbill.context.static_port }}:8080
     volumes:
       # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
       - {{ pillar.docker_apps.spoonbill.host_dir }}/media:/data/media
-
-volumes:
-  postgresql-data:

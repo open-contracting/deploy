@@ -65,6 +65,14 @@ apache:
         port: 8002
         static_port: 8003
         timeout: 300
+    spoonbill:
+      configuration: spoonbill
+      servername: flatten.open-contracting.org
+      context:
+        # Need to sync with `docker_apps.spoonbill.port`.
+        port: 8005
+        static_port: 8006
+        timeout: 300
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.data.open-contracting.org
@@ -92,6 +100,9 @@ docker:
   uid: 1002
   docker_compose:
     version: 1.29.2
+
+python:
+  version: '3.10'
 
 kingfisher_collect:
   user: collect
@@ -158,16 +169,10 @@ docker_apps:
       MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
+    port: 8005
     host_dir: /data/storage/spoonbill
     env:
-      # Referenced by Docker Compose file.
-      TRAEFIK_IP: 65.21.93.141
-      DOMAIN: &DOMAIN flatten.open-contracting.org
-      API_DOMAIN: *DOMAIN
-      # Referenced by Django project.
-      ALLOWED_HOSTS: *DOMAIN
+      DJANGO_PROXY: True
+      ALLOWED_HOSTS: flatten.open-contracting.org
+      SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
-      API_PREFIX: api/
-      DB_HOST: postgres
-      # Environment variables for redis image: https://hub.docker.com/r/bitnami/redis
-      ALLOW_EMPTY_PASSWORD: "yes"

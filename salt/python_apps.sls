@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache %}
+{% from 'lib.sls' import apache, virtualenv %}
 
 {% set enable_uwsgi = pillar.python_apps.values()|selectattr('uwsgi', 'defined')|first|default %}
 {% set enable_apache = pillar.python_apps.values()|selectattr('apache', 'defined')|first|default %}
@@ -37,36 +37,9 @@ include:
       - pkg: git
       - user: {{ entry.user }}_user_exists
 
-{{ directory }}/.ve:
-  virtualenv.managed:
-    - python: /usr/bin/python3
-    - user: {{ entry.user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
-    # A Salt bug causes the "user" parameter to be ignored when installing pip packages. Setting "runas" workaround.
-    # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
-    - runas: {{ entry.user }}
-    - require:
-      - pkg: virtualenv
-      - git: {{ entry.git.url }}
-
-{{ directory }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
-    - runas: {{ entry.user }}
-    - cwd: {{ directory }}
-    - require:
-      - virtualenv: {{ directory }}/.ve
-    # Note: This will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
-    - onchanges:
-      - git: {{ entry.git.url }}
-      - virtualenv: {{ directory }}/.ve # if .ve was deleted
-{% if 'uwsgi' in entry %}
-    # https://github.com/open-contracting/deploy/issues/146
-    - watch_in:
-      - service: uwsgi
-{% endif %}
+# Note: {{ directory }}-requirements will run if git changed (not only if requirements changed), and uwsgi will be reloaded.
+# https://github.com/open-contracting/deploy/issues/146
+{{ virtualenv(directory, entry.user, {'git': entry.git.url}, {'git': entry.git.url}, 'uwsgi' if 'uwsgi' in entry else None) }}
 
 {% for filename, source in entry.config|items %}
 {{ userdir }}/.config/{{ filename }}:
@@ -83,7 +56,7 @@ include:
 {% if 'django' in entry %}
 {{ directory }}-migrate:
   cmd.run:
-    - name: . .ve/bin/activate; python manage.py migrate --settings {{ entry.django.app }}.settings --noinput
+    - name: .ve/bin/python manage.py migrate --settings {{ entry.django.app }}.settings --noinput
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
@@ -94,7 +67,7 @@ include:
 
 {{ directory }}-collectstatic:
   cmd.run:
-    - name: . .ve/bin/activate; python manage.py collectstatic --settings {{ entry.django.app }}.settings --noinput
+    - name: .ve/bin/python manage.py collectstatic --settings {{ entry.django.app }}.settings --noinput
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}
@@ -109,7 +82,7 @@ include:
     - name: gettext
   cmd.run:
     # Django 3.0 adds --ignore: https://docs.djangoproject.com/en/3.2/releases/3.0/#management-commands
-    - name: . .ve/bin/activate; python manage.py compilemessages --settings {{ entry.django.app }}.settings --ignore=.ve
+    - name: .ve/bin/python manage.py compilemessages --settings {{ entry.django.app }}.settings --ignore=.ve
     - runas: {{ entry.user }}
     - env: {{ entry.django.env|yaml }}
     - cwd: {{ directory }}

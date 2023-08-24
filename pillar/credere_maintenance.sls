@@ -1,6 +1,6 @@
 maintenance:
   enabled: True
-  patching: manual
+  patching: automatic
   rkhunter_customisation: |
     ALLOW_SSH_ROOT_USER=yes
     RTKT_FILE_WHITELIST=/usr/lib/x86_64-linux-gnu/libkeyutils.so.1.9

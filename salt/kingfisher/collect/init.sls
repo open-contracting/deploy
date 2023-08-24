@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user, set_cron_env, systemd %}
+{% from 'lib.sls' import create_user, set_cron_env, systemd, virtualenv %}
 
 include:
   - python.virtualenv
@@ -33,16 +33,6 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
-{{ directory }}/requirements.txt:
-  file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt
-    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/main/requirements.txt.sha256
-    - user: {{ user }}
-    - group: {{ user }}
-    - mode: 444
-    - require:
-      - file: {{ directory }}
-
 # Allow Docker apps (Kingfisher Process) to access.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
@@ -54,32 +44,17 @@ allow {{ userdir }} access:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
 
-# The next states are similar to those in the `python_apps.sls` file, but instead of being based on a git repository,
-# they are based on a requirements.txt file.
-
-{{ directory }}/.ve:
-  virtualenv.managed:
-    - python: /usr/bin/python3
+{{ directory }}/requirements.txt:
+  file.managed:
+    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt
+    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt.sha256
     - user: {{ user }}
-    - system_site_packages: False
-    - pip_pkgs:
-      - pip-tools
+    - group: {{ user }}
+    - mode: 444
     - require:
-      - pkg: virtualenv
       - file: {{ directory }}
 
-{{ directory }}-requirements:
-  cmd.run:
-    - name: . .ve/bin/activate; pip-sync -q --pip-args "--exists-action w"
-    - runas: {{ user }}
-    - cwd: {{ directory }}
-    - require:
-      - virtualenv: {{ directory }}/.ve
-    - onchanges:
-      - file: {{ directory }}/requirements.txt
-      - virtualenv: {{ directory }}/.ve # if .ve was deleted
-    - watch_in:
-      - service: scrapyd
+{{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
 
 # https://scrapyd.readthedocs.io/en/stable/config.html
 {{ userdir }}/.scrapyd.conf:

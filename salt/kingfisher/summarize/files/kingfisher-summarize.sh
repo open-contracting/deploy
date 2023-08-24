@@ -2,7 +2,5 @@
 (
     # shellcheck disable=SC1083
     cd {{ directory }} || exit
-    # shellcheck source=/dev/null
-    . .ve/bin/activate
-    python manage.py "$@"
+    .ve/bin/python manage.py "$@"
 )
