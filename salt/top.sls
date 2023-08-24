@@ -42,6 +42,7 @@ base:
     - kingfisher
     - kingfisher.collect
     - kingfisher.collect.incremental
+    - kingfisher.non_ocds_collect
     - kingfisher.process
     - kingfisher.summarize
     - pelican.backend
