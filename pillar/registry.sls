@@ -12,7 +12,6 @@ network:
           enp9s0:
             addresses:
               - 65.21.93.181/32
-              - 65.21.93.141/32
               - 2a01:4f9:3b:45ca::2/64
             routes:
               - on-link: true
