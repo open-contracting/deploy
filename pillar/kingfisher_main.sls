@@ -46,6 +46,10 @@ logrotate:
 apache:
   public_access: True
   modules:
+    # For serving collect_generic files
+    mod_autoindex:
+      enabled: True
+      directory: /home/collect_generic/data
     mod_md:
       MDMessageCmd: /opt/postgresql-certificates.sh
   sites:
