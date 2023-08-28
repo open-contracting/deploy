@@ -46,7 +46,7 @@ logrotate:
 apache:
   public_access: True
   modules:
-    # Must match {{ userdir }}/data in kingfisher/collect_generic/init.sls.
+    # Must match {userdir}/data in kingfisher/collect_generic/init.sls.
     mod_autoindex:
       enabled: True
       directory: /home/collect_generic/data
