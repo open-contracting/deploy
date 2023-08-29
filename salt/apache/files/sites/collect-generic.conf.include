@@ -1,1 +1,6 @@
 DocumentRoot {{ documentroot }}
+
+<Directory {{ documentroot }}>
+    Require all granted
+    Options +Indexes
+</Directory>
