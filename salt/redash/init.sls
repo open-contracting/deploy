@@ -1,7 +1,12 @@
+{% from 'docker_apps/init.sls' import docker_apps_directory %}
+
 include:
   - docker_apps
 
-/data/deploy/redash/files/nginx-security.conf:
+{% set entry = pillar.docker_apps.redash %}
+{% set directory = docker_apps_directory + entry.target %}
+
+{{ directory }}/files/nginx-security.conf:
   file.managed:
     - contents: |
        server_tokens off;
