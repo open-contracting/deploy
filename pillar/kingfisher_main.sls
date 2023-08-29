@@ -46,13 +46,16 @@ logrotate:
 apache:
   public_access: True
   modules:
-    # Must match {userdir}/data in kingfisher/collect_generic/init.sls.
     mod_autoindex:
       enabled: True
-      directory: /home/collect_generic/data
     mod_md:
       MDMessageCmd: /opt/postgresql-certificates.sh
   sites:
+    collect_generic:
+      configuration: collect-generic
+      servername: downloads.kingfisher.open-contracting.org
+      context:
+        documentroot: /home/collect_generic/data
     kingfisher-collect:
       configuration: proxy
       servername: collect.kingfisher.open-contracting.org
