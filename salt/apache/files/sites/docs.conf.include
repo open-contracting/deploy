@@ -76,14 +76,20 @@ SetEnv BANNER /includes/banner_live.html
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
     Require all granted
-    Options Indexes FollowSymLinks IncludesNOEXEC
-    AddOutputFilter INCLUDES .html
 
     # Serve JSON with UTF-8 charset.
     # https://bugs.chromium.org/p/chromium/issues/detail?id=438464
     # https://bugs.webkit.org/show_bug.cgi?id=197369
     AddType "application/json; charset=utf-8" .json
 
+    # Indexes for https://standard.open-contracting.org/schema/
+    # FollowSymLinks for `latest` and `1.1` symlinks.
+    # https://httpd.apache.org/docs/current/howto/ssi.html#exec
+    Options Indexes FollowSymLinks IncludesNOEXEC
+    # https://httpd.apache.org/docs/current/howto/ssi.html#configuring
+    AddOutputFilter INCLUDES .html
+
+    # OCDS Show: https://github.com/open-contracting-extensions/public-private-partnerships/issues/211
     Header set Access-Control-Allow-Origin "*"
 
     # Add an "en" language if not present, to avoid serving a directory listing.

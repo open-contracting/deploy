@@ -1,15 +1,15 @@
 DocumentRoot /home/{{ user }}/public_html
 
 <Directory /home/{{ user }}/public_html>
+    Require all granted
     Options FollowSymLinks
     AllowOverride Limit Options FileInfo
     DirectoryIndex index.php
-    Require all granted
 </Directory>
 
 <Directory /home/{{ user }}/public_html/wp-content>
-    Options FollowSymLinks
     Require all granted
+    Options FollowSymLinks
 </Directory>
 
 <FilesMatch \.php$>

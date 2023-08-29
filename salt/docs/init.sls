@@ -12,14 +12,6 @@ include:
 
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
-# It is insufficient to give Apache permission to /home/ocds-docs/web only.
-allow Apache access to {{ userdir }}:
-  file.directory:
-    - name: {{ userdir }}
-    - mode: 755
-    - require:
-      - user: {{ user }}_user_exists
-
 # Needed to create a ZIP file of the schema and codelists.
 # https://ocdsdeploy.readthedocs.io/en/latest/deploy/docs.html#copy-the-schema-and-zip-file-into-place
 zip:
@@ -39,6 +31,14 @@ docs modules:
     - source: salt://apache/files/docs/robots_disallow.txt
     - require:
       - pkg: apache2
+
+# It is insufficient to give Apache permission to /home/ocds-docs/web only.
+allow Apache access to {{ userdir }}:
+  file.directory:
+    - name: {{ userdir }}
+    - mode: 755
+    - require:
+      - user: {{ user }}_user_exists
 
 {{ userdir }}/web:
   file.directory:
