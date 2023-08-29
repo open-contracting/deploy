@@ -97,11 +97,11 @@ In the server's Pillar file, set ``network.networkd.template`` to ``custom`` and
 Netplan
 ~~~~~~~
 
-`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
+`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode, Hetzner and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
 
 .. note::
 
-   This step is optional. Only override a Netplan configuration if necessary. For example, Hetzner's `installimage <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__ script creates a `configuration file <https://github.com/hetzneronline/installimage/blob/84883efa372b9c9ecef2bb7703d696221b4e1093/network_config.functions.sh#L560>`__.
+   This step is optional. Only override a Netplan configuration if necessary. For example, Hetzner's `installimage <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__ script creates a `configuration file <https://github.com/hetzneronline/installimage/blob/84883efa372b9c9ecef2bb7703d696221b4e1093/network_config.functions.sh#L560>`__ that works as-is.
 
 In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and set ``network.netplan.configuration``:
 
