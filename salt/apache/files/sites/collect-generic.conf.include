@@ -1,0 +1,5 @@
+DocumentRoot {{ documentroot }}
+
+<Directory {{ documentroot }}>
+    Options -Indexes
+</Directory>

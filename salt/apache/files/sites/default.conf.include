@@ -9,7 +9,7 @@ ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined
 
 {%- if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
-<Directory {{ pillar.apache.modules.mod_autoindex.get('directory', '/var/www/html') }}>
+<Directory /var/www/html>
     Options -Indexes
 </Directory>
 {%- endif %}
