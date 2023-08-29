@@ -134,6 +134,12 @@ Acquire SSL certificates
 
 If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ is used to acquire SSL certificates from Let's Encrypt. If the server name is new, you must:
 
+#. :ref:`Add a CNAME record<update-external-services>`.
+
+   .. warning::
+
+      Let's Encrypt will reach a `Failed Validation <https://letsencrypt.org/docs/failed-validation-limit/>`__ limit if DNS is not propagated.
+
 #. :doc:`Deploy the service<../../deploy/deploy>`, if not already done.
 #. ``mod_md`` will request a certificate from Let's Encrypt. Check for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
 

@@ -343,6 +343,8 @@ Redmine
 
       rsync -avz ocp99:/home/redmine/public_html/files/ /home/redmine/public_html/files/
 
+.. _update-external-services:
+
 6. Update external services
 ---------------------------
 
