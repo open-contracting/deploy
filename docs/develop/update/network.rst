@@ -21,7 +21,7 @@ Linux networking
 systemd-networkd
 ~~~~~~~~~~~~~~~~
 
-`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode instances. Configurations are available for Linode and other hosts. The configuration is written to ``/etc/systemd/network/05-eth0.network``.
+`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode instances. The configuration is written to ``/etc/systemd/network/05-eth0.network``. A configuration template is available for Linode.
 
 Linode template
 ^^^^^^^^^^^^^^^
@@ -97,7 +97,7 @@ In the server's Pillar file, set ``network.networkd.template`` to ``custom`` and
 Netplan
 ~~~~~~~
 
-`Netplan <https://netplan.io>`__ uses YAML files for configuration. Configurations are available for Linode, Hetzner and other hosts. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``.
+`Netplan <https://netplan.io>`__ uses YAML files for configuration. The configuration is written to ``/etc/netplan/10-salt-networking.yaml``. A configuration template is available for Linode.
 
 .. note::
 
