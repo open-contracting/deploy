@@ -348,6 +348,10 @@ Redmine
 6. Update external services
 ---------------------------
 
+.. note::
+
+    DNS standards can be found on :doc:`dns.rst`.
+
 #. :doc:`Add the server to Prometheus<prometheus>`
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
