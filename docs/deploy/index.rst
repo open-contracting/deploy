@@ -27,6 +27,7 @@ Deployment Guides
    :caption: External service tasks
    :maxdepth: 2
 
+   dns.rst
    aws.rst
    azure.rst
    google.rst

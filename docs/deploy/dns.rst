@@ -1,25 +1,25 @@
-DNS Configuration
-=================
+DNS
+===
 
-DNS is currently hosted with `GoDaddy <https://sso.godaddy.com>`__
+DNS is hosted with `GoDaddy <https://sso.godaddy.com>`__.
 
-TTL Standardisation
+TTL standardisation
 -------------------
 
-When creating new DNS records the Time To Live (TTL) should be set matching the below standards. This value sets how long clients cache the DNS record.
+The Time to Live (TTL) of a DNS record indicates how long DNS clients should cache the DNS record. Set the TTL as follows:
 
 .. list-table::
    :header-rows: 1
 
    * - Purpose
-     - Record Type
-     - TTL Value
-   * - Server hostname records
-     - A and AAAA records
-     - 1 day (86400 Seconds)
-   * - High Availability Application
+     - Record type
+     - TTL
+   * - Hostname
+     - A and AAAA
+     - 1 day (86400 seconds)
+   * - High availability service
      - CNAME
-     - 5 min (300 Seconds)
-   * - Non-HA Application / All other records
+     - 5 min (300 seconds)
+   * - Other
      - CNAME
-     - 1 hour (3600 Seconds)
+     - 1 hour (3600 seconds)
