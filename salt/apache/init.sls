@@ -96,7 +96,7 @@ disable site 000-default.conf:
     - watch_in:
       - module: apache2-reload
 
-enable customization config:
+enable conf zz-customization.conf:
   apache_conf.enabled:
     - name: zz-customization
     - require:
