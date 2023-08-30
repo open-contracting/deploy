@@ -194,7 +194,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    #. Select "A" from the *Type* dropdown
    #. Enter the hostname in *Host* (``ocp42``, for example)
    #. Enter the IPv4 address in *Points to*
-   #. Leave *TTL* at the 1 Hour default
+   #. Set *TTL* to 1 Day
    #. Click the *Save* button
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
@@ -203,8 +203,12 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
    #. Select "AAAA" from the *Type* dropdown
    #. Enter the hostname in *Host* (``ocp42``, for example)
    #. Enter the IPv6 address in *Points to* (use ``2`` as the last group of digits)
-   #. Leave *TTL* at the 1 Hour default
+   #. Set *TTL* to 1 Day
    #. Click the *Save* button
+
+.. seealso::
+
+    :doc:`dns.rst`
 
 3. Apply core changes
 ---------------------
@@ -348,10 +352,6 @@ Redmine
 6. Update external services
 ---------------------------
 
-.. note::
-
-    DNS standards can be found on :doc:`dns.rst`.
-
 #. :doc:`Add the server to Prometheus<prometheus>`
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
@@ -361,6 +361,10 @@ Redmine
    #. Enter the internal hostname in *Points to* (``ocp42.open-contracting.org``, for example)
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
+
+   .. seealso::
+
+       :doc:`dns.rst`
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
