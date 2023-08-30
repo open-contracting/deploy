@@ -19,7 +19,7 @@ services:
     links:
       - server:redash
     volumes:
-      - /data/deploy/redash/files/nginx-security.conf:/etc/nginx/conf.d/security.conf
+      - {{ directory }}/files/nginx-security.conf:/etc/nginx/conf.d/security.conf
     restart: always
   redis:
     image: bitnami/redis:6.2

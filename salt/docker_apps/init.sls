@@ -16,6 +16,8 @@ include:
     - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+    - context:
+        directory: {{ directory }}
 
 {{ directory }}/.env:
   file.managed:
