@@ -11,6 +11,8 @@ include:
   file.managed:
     - source: salt://docker_apps/files/{{ name }}.yaml
     - template: jinja
+    - context:
+        directory: {{ directory }}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True
