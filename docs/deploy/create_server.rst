@@ -208,7 +208,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
 .. seealso::
 
-    :doc:`dns.rst`
+    :doc:`dns`
 
 3. Apply core changes
 ---------------------
@@ -364,7 +364,7 @@ Redmine
 
    .. seealso::
 
-       :doc:`dns.rst`
+       :doc:`dns`
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
