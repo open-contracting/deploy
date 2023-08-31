@@ -15,7 +15,7 @@ allow Apache access to {{ userdir }}:
     - name: {{ userdir }}
     - mode: 755
     - require:
-      - user: {{ user }}_user_exists
+      - user: {{ entry.user }}_user_exists
 
 {{ userdir }}/data:
   file.directory:
