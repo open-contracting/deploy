@@ -1,18 +1,10 @@
 Data support tasks
 ==================
 
-#. Notify RBC Group of the new domain name for the new PostgreSQL server
-#. Add or update the [Redash data source](https://redash.open-contracting.org/data_sources) for the new PostgreSQL server
-#. Add the Redash data source, if new, to the [`unrestricted` Redash group](https://redash.open-contracting.org/groups/5/data_sources)
-
-Create a data support replica server
-------------------------------------
-
-#. Update ``postgres.replica_ipv4`` (and ``postgres.replica_ipv6``, if applicable) in the ``pillar/kingfisher_main.sls`` file.
-
 Create a data support main server
 ---------------------------------
 
+#. Notify RBC Group of the new domain name for the new PostgreSQL server, for monitoring
 #. Adjust reserved disk space to 1% for large disks:
 
    .. code-block:: bash
@@ -22,13 +14,15 @@ Create a data support main server
 Dependent services
 ~~~~~~~~~~~~~~~~~~
 
-#. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
-#. Deploy the ``docs`` service, when ready
-
-If applicable:
-
-#. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
-#. Deploy the ``kingfisher-replica`` service, when ready
+Redash
+  #. Add or update the `Redash data source <https://redash.open-contracting.org/data_sources>`__ for the new PostgreSQL server
+  #. Add the Redash data source, if new, to the `unrestricted Redash group <https://redash.open-contracting.org/groups/5/data_sources>`__
+Tinyproxy
+  #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
+  #. Deploy the ``docs`` service, when ready
+Replica, if applicable
+  #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
+  #. Deploy the ``kingfisher-replica`` service, when ready
 
 Docker
 ~~~~~~
@@ -151,3 +145,8 @@ Kingfisher Collect
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<deploy>`.
 #. :ref:`update-spiders`.
+
+Create a data support replica server
+------------------------------------
+
+#. Update ``postgres.replica_ipv4`` (and ``postgres.replica_ipv6``, if applicable) in the ``pillar/kingfisher_main.sls`` file.

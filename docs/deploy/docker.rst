@@ -5,6 +5,9 @@ Docker tasks
 
    The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
 
+Initialize applications
+-----------------------
+
 Change to the application's directory, replacing ``APP``:
 
 .. code-block:: bash
@@ -18,7 +21,7 @@ Change to the application's directory, replacing ``APP``:
    docker compose pull
    docker compose up -d
 
-Create a superuser:
+Create a superuser, if applicable:
 
 .. code-block:: bash
 
@@ -29,12 +32,6 @@ Migrate the database:
 .. code-block:: bash
 
    docker compose run --rm web python manage.py migrate
-
-.. note::
-
-   If you are using a `postgres <https://hub.docker.com/_/postgres/>`__ image, see its "Arbitrary ``--user`` Notes" section.
-
-   Remember that volume names are, by default, prefixed by the directory name: for example, ``spoonbill_postgresql-data``.
 
 Load data
 ---------

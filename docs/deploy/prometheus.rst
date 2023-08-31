@@ -41,7 +41,7 @@ We set the version numbers of the Prometheus software in the ``pillar/prometheus
 -  ``prometheus.alertmanager.version``
 -  ``prometheus.node_exporter.version``
 
-Our practice is to upgrade annually to an [LTS version](https://prometheus.io/docs/introduction/release-cycle/). We can upgrade sooner if there is a release with a bugfix or feature that we want.
+Our practice is to upgrade annually to an `LTS version <https://prometheus.io/docs/introduction/release-cycle/>`__. We can upgrade sooner if there is a release with a bugfix or feature that we want.
 
 Setup
 ~~~~~
