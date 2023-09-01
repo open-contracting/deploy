@@ -29,6 +29,13 @@ base:
     - private.credere
     - private.credere_dev
 
+  'credere-staging':
+    - credere_staging
+    - credere_dev
+    - credere_staging_maintenance
+    - private.credere
+    - private.credere_dev
+
   'docs':
     - docs
     - private.docs

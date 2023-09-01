@@ -1,19 +1,17 @@
 network:
-  host_id: ocp24
-  ipv4: 213.52.130.126
-  #ipv6: "2a01:7e00:e000:04e8::"
+  host_id: ocp22
+  ipv4: 178.79.139.218
+  ipv6: "2a01:7e00:e000:04e8::"
   networkd:
     template: linode
-    #ddresses:
-    # - 2a01:7e00:e000:04e8::/64
-    gateway4: 213.52.130.1
+    gateway4: 178.79.139.1
 
 apache:
   public_access: True
   sites:
     credere:
       configuration: proxy
-      servername: ocp24.open-contracting.org
+      servername: ocp22.open-contracting.org
       # servername: credere.open-contracting.org
       context:
         proxypass: http://localhost:8000/
@@ -28,7 +26,7 @@ docker_apps:
   credere:
     target: credere
     env:
-      FRONTEND_URL: https://ocp24.open-contracting.org # https://credere.open-contracting.org
+      FRONTEND_URL: https://ocp22.open-contracting.org # https://credere.open-contracting.org
       EMAIL_TEMPLATE_LANG: en
       ENVIRONMENT: development
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
@@ -45,14 +43,14 @@ docker_apps:
       # Email templates
       FACEBOOK_LINK: www.facebook.com
       TWITTER_LINK: www.twitter.com
-      LINK_LINK: https://ocp24.open-contracting.org # https://credere.open-contracting.org
-      IMAGES_BASE_URL: https://ocp24.open-contracting.org/images # https://credere.open-contracting.org/images
+      LINK_LINK: https://ocp22.open-contracting.org # https://credere.open-contracting.org
+      IMAGES_BASE_URL: https://ocp22.open-contracting.org/images # https://credere.open-contracting.org/images
       # Vite
-      VITE_API_URL: https://ocp24.open-contracting.org/api # https://credere.open-contracting.org/api
+      VITE_API_URL: https://ocp22.open-contracting.org/api # https://credere.open-contracting.org/api
       VITE_APP_VERSION: 0.1.5
       VITE_CURRENCY: COP
       VITE_DEFAULT_LANG: es
-      VITE_HOST: ocp24.open-contracting.org # credere.open-contracting.org
+      VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
       VITE_LOCALE: es-CO
       VITE_MAX_FILE_SIZE_MB: 5
       VITE_MORE_INFO_OCP_URL: https://www.open-contracting.org/es/
