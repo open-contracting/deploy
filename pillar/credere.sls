@@ -1,11 +1,9 @@
 network:
   host_id: ocp24
   ipv4: 213.52.130.126
-  #ipv6: "2a01:7e00:e000:04e8::"
+  ipv6: "2a01:7e00:e000:06e6::"
   networkd:
     template: linode
-    #ddresses:
-    # - 2a01:7e00:e000:04e8::/64
     gateway4: 213.52.130.1
 
 apache:
