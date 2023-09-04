@@ -24,15 +24,13 @@ base:
 
   'credere':
     - credere
-    - credere_dev
     - credere_maintenance
     - private.credere
     - private.credere_dev
 
-  'credere-staging':
-    - credere_staging
+  'credere-dev':
     - credere_dev
-    - credere_staging_maintenance
+    - credere_dev_maintenance
     - private.credere
     - private.credere_dev
 
