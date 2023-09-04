@@ -15,7 +15,7 @@ scrape_configs:
     'cove-oc4ids-2': 'ocp17.open-contracting.org',
     'cove-ocds-2': 'ocp18.open-contracting.org',
     'credere': 'ocp24.open-contracting.org',
-    'credere-staging': 'ocp22.open-contracting.org',
+    'credere-dev': 'ocp22.open-contracting.org',
     'kingfisher-main': 'ocp23.open-contracting.org',
     'kingfisher-replica': 'ocp05.open-contracting.org',
     'ocds-live.docs': 'ocp19.open-contracting.org',
