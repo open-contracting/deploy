@@ -28,7 +28,7 @@ base:
   'cove-oc4ids':
     - memcached
 
-  'credere':
+  'credere*':
     - docker_apps
 
   'docs':
