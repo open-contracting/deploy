@@ -16,6 +16,12 @@ function echo_verbose {
     [ "$VERBOSE" == "true" ] && echo "**** $* ****"
 }
 
+echo_verbose "Check user is root"
+if [ "$LOGNAME" != "root" ]; then
+    echo "User is not root!"
+    exit 4
+fi
+
 echo_verbose "Get OS version"
 if [ -f /etc/os-release ]; then
     # shellcheck disable=SC1091
