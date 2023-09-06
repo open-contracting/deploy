@@ -210,6 +210,42 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
     :doc:`dns`
 
+Configure Reverse DNS
+~~~~~~~~~~~~~~~~~~~~~
+
+Linode
+^^^^^^
+
+#. `Log into Linode <https://login.linode.com/login>`__
+#. Select the new server
+#. On the *Network* tab:
+
+   #. Click *Edit RDNS* for the *IPv4 – Public* address.
+
+      #. Set Reverse DNS to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+
+   #. If the server has an IPv6 /64 block, click *Edit RDNS* for the *IPv6 – Range* IP block.
+
+      #. Set *Enter a domain name* to to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+
+
+Hetzner
+^^^^^^^
+
+#. `Log into Hetzner <Enter an IPv6 address>`__
+#. Select then new server
+#. On the *IPs* tab
+
+   #. Under *IP addresses*, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+
+   #. If the server has an IPv6 /64 block:
+
+      #. Under the *Subnets* heading, click the *⊕* symbol next to the IPv6 subnet.
+      #. *Add new Reverse DNS entry*
+
+         #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits.
+         #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+
 3. Apply core changes
 ---------------------
 
