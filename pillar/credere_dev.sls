@@ -23,14 +23,12 @@ apache:
 docker_apps:
   credere_frontend:
     target: credere-frontend
-    port: 8000
     env:
       # Vite
       VITE_API_URL: https://ocp22.open-contracting.org/api
       VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
   credere_backend:
     target: credere-backend
-    port: 3000
     env:
       FRONTEND_URL: https://ocp22.open-contracting.org
       ENVIRONMENT: development

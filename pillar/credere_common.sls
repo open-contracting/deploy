@@ -3,15 +3,11 @@ apache:
   sites:
     credere:
       configuration: proxy
-      # servername: credere.open-contracting.org
       context:
         proxypass: http://localhost:8000/
-        # authname: Credere Staging
 
 docker:
   user: deployer
-  docker_compose:
-    version: v2.19.0
 
 docker_apps:
   credere_frontend:
@@ -27,9 +23,9 @@ docker_apps:
       VITE_MORE_INFO_OCP_URL: https://www.open-contracting.org/es/
   credere_backend:
     target: credere-backend
-    port: 3000
+    port: 8001
     env:
-      EMAIL_TEMPLATE_LANG: en
+      EMAIL_TEMPLATE_LANG: es
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org

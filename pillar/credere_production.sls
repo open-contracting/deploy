@@ -1,3 +1,11 @@
+network:
+  host_id: ocp24
+  ipv4: 213.52.130.126
+  ipv6: "2a01:7e00:e000:06e6::"
+  networkd:
+    template: linode
+    gateway4: 213.52.130.1
+
 apache:
   sites:
     credere:
@@ -6,14 +14,12 @@ apache:
 docker_apps:
   credere_frontend:
     target: credere-frontend
-    port: 8000
     env:
       # Vite
       VITE_API_URL: https://ocp24.open-contracting.org/api # https://credere.open-contracting.org/api
       VITE_HOST: ocp24.open-contracting.org # credere.open-contracting.org
   credere_backend:
     target: credere-backend
-    port: 3000
     env:
       FRONTEND_URL: https://ocp24.open-contracting.org # https://credere.open-contracting.org
       ENVIRONMENT: production
