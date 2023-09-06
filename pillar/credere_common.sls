@@ -8,6 +8,11 @@ apache:
         proxypass: http://localhost:8000/
         # authname: Credere Staging
 
+docker:
+  user: deployer
+  docker_compose:
+    version: v2.19.0
+
 docker_apps:
   credere_frontend:
     target: credere-frontend
