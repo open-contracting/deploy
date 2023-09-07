@@ -9,14 +9,14 @@ network:
 apache:
   sites:
     credere:
-      servername: ocp24.open-contracting.org
+      servername: credere.open-contracting.org
 
 docker_apps:
   credere_frontend:
     target: credere-frontend
     env:
       VITE_API_URL: https://credere.open-contracting.org/api
-      VITE_HOST: ocp24.open-contracting.org # credere.open-contracting.org
+      VITE_HOST: credere.open-contracting.org
   credere_backend:
     target: credere-backend
     env:
