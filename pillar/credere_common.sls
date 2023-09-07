@@ -8,7 +8,7 @@ apache:
 
 docker:
   user: deployer
-  uid: 1002
+  uid: 1000
 
 docker_apps:
   credere_frontend:
