@@ -371,7 +371,7 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
     ProxyPassReverse http://localhost:9200/$1
     # Allow GitHub Actions.
     # https://www.elastic.co/guide/en/elasticsearch/reference/8.7/modules-network.html
-    Header add "Access-Control-Allow-Origin" "*"
-    Header Add "Access-Control-Allow-Methods" "OPTIONS, GET, POST"
-    Header add "Access-Control-Allow-Headers" "X-Requested-With, Content-Type, Content-Length, Authorization"
+    Header set "Access-Control-Allow-Origin" "*"
+    Header set "Access-Control-Allow-Methods" "OPTIONS, GET, POST"
+    Header set "Access-Control-Allow-Headers" "X-Requested-With, Content-Type, Content-Length, Authorization"
 </LocationMatch>
