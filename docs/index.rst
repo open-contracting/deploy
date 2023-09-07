@@ -14,6 +14,10 @@ This documentation is split into:
 :doc:`Reference<reference/index>`
    Infrequently accessed reference material.
 
+.. note::
+
+   We refer to "Linode", as it was named before becoming `Akamai Connected Cloud <https://www.linode.com/blog/linode/a-bold-new-approach-to-the-cloud/>`__.
+
 Development Guides
 ------------------
 
