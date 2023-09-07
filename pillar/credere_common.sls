@@ -14,7 +14,6 @@ docker_apps:
     target: credere-frontend
     port: 8000
     env:
-      # Vite
       VITE_APP_VERSION: 0.1.5
       VITE_CURRENCY: COP
       VITE_DEFAULT_LANG: es

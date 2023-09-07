@@ -24,7 +24,6 @@ docker_apps:
   credere_frontend:
     target: credere-frontend
     env:
-      # Vite
       VITE_API_URL: https://ocp22.open-contracting.org/api
       VITE_HOST: ocp22.open-contracting.org # credere.open-contracting.org
   credere_backend:
