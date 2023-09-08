@@ -61,7 +61,8 @@ apache2-utils:
   file.managed:
     - source: salt://apache/files/404.html
 
-{{ apache('default', {'configuration': 'default', 'servername': ''}) }}
+# Ensure this configuration is loaded first.
+{{ apache('00-default', {'configuration': 'default', 'servername': ''}) }}
 
 {% if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
 autoindex:
