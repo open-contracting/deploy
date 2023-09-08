@@ -4,22 +4,17 @@ apache:
     credere:
       configuration: credere
       context:
-        # Need to sync with `docker_apps.credere_backend.port`.
         port: 8001
-        # Need to sync with `docker_apps.credere_frontend.port`.
-        port_static: 8000
+        static_port: 8000
 
 docker:
   user: deployer
-  uid: 1000
 
 docker_apps:
   credere_frontend:
     target: credere-frontend
-    port: 8000
   credere_backend:
     target: credere-backend
-    port: 8001
     env:
       EMAIL_TEMPLATE_LANG: en
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB

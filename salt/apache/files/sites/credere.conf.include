@@ -3,6 +3,5 @@ RequestHeader set X-Forwarded-Proto https env=HTTPS
 
 ProxyPass /api http://127.0.0.1:{{ port }}
 ProxyPassReverse /api http://127.0.0.1:{{ port }}
-
-ProxyPass / http://127.0.0.1:{{port_static}}/
-ProxyPassReverse / http://127.0.0.1:{{port_static}}/
+ProxyPass / http://127.0.0.1:{{ static_port }}/
+ProxyPassReverse / http://127.0.0.1:{{ static_port }}/
