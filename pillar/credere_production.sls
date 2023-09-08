@@ -12,11 +12,6 @@ apache:
       servername: credere.open-contracting.org
 
 docker_apps:
-  credere_frontend:
-    target: credere-frontend
-    env:
-      VITE_API_URL: https://credere.open-contracting.org/api
-      VITE_HOST: credere.open-contracting.org
   credere_backend:
     target: credere-backend
     env:

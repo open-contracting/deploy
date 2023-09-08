@@ -29,7 +29,7 @@ base:
     - memcached
 
   'credere*':
-    - docker_apps
+    - credere
 
   'docs':
     - docs
