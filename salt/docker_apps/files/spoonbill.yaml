@@ -32,7 +32,7 @@ services:
   web:
     <<: *django
     ports:
-      - {{ pillar.docker_apps.spoonbill.port }}:8000
+      - {{ pillar.apache.sites.spoonbill.context.port }}:8000
   celery_worker:
     <<: *django
     command: celery -A spoonbill_web worker -l INFO --concurrency=4

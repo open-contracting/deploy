@@ -57,7 +57,6 @@ apache:
       configuration: registry
       servername: data.open-contracting.org
       context:
-        # Need to sync with `docker_apps.registry.port`.
         port: 8002
         static_port: 8003
         timeout: 300
@@ -65,7 +64,6 @@ apache:
       configuration: spoonbill
       servername: flatten.open-contracting.org
       context:
-        # Need to sync with `docker_apps.spoonbill.port`.
         port: 8005
         static_port: 8006
         timeout: 300
@@ -116,7 +114,6 @@ kingfisher_collect:
 docker_apps:
   registry:
     target: data-registry
-    port: 8002
     exporter_host_dir: /data/storage/exporter_dumps
     env:
       DJANGO_PROXY: True
@@ -165,7 +162,6 @@ docker_apps:
       MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
-    port: 8005
     host_dir: /data/storage/spoonbill
     env:
       DJANGO_PROXY: True

@@ -18,7 +18,7 @@ services:
   web:
     <<: *django
     ports: 
-      - {{ pillar.docker_apps.registry.port }}:8000
+      - {{ pillar.apache.sites.registry.context.port }}:8000
   exporter:
     <<: *django
     command: "python manage.py exporter"
