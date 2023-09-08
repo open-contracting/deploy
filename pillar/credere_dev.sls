@@ -18,13 +18,13 @@ ssh:
 apache:
   sites:
     credere:
-      servername: ocp22.open-contracting.org
+      servername: dev.credere.open-contracting.org
 
 docker_apps:
   credere_backend:
     target: credere-backend
     env:
-      FRONTEND_URL: https://ocp22.open-contracting.org
+      FRONTEND_URL: https://dev.credere.open-contracting.org
       ENVIRONMENT: development
       # Timeline
       APPLICATION_EXPIRATION_DAYS: 7
@@ -32,5 +32,5 @@ docker_apps:
       DAYS_TO_ERASE_BORROWERS_DATA: 1
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 2
-      LINK_LINK: https://ocp22.open-contracting.org # https://credere.open-contracting.org
-      IMAGES_BASE_URL: https://ocp22.open-contracting.org/images # https://credere.open-contracting.org/images
+      LINK_LINK: https://dev.credere.open-contracting.org
+      IMAGES_BASE_URL: https://dev.credere.open-contracting.org/images
