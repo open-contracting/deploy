@@ -8,6 +8,7 @@
 
 include:
   - apache
+  - apache.modules.headers # Header
   - apache.modules.passenger
   - mysql
   - rvm

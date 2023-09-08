@@ -14,3 +14,5 @@ DocumentRoot /home/redmine/public_html/public
 
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
