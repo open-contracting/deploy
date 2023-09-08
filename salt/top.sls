@@ -74,6 +74,10 @@ base:
   # All public web servers should use SSL certificates.
   'I@apache:public_access:true':
     - apache.letsencrypt
+    # Enable response headers on the default site.
+    - apache.modules.headers
+    # Enable HTTPS redirects on the default site.
+    - apache.modules.rewrite
 
   'I@redmine:backup':
     - redmine.backup
