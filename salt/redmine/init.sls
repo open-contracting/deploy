@@ -108,6 +108,14 @@ set redmine file permissions:
     - watch_in:
       - service: apache2
 
+{{ userdir }}/public_html/config/environments/production.rb:
+  file.replace:
+    - pattern: '# config.force_ssl = true'
+    - repl: 'config.force_ssl = true'
+    - backup: False
+    - watch_in:
+      - service: apache2
+
 {{ userdir }}/public_html/public/themes/{{ theme }}:
   file.recurse:
     - source: salt://private/files/redmine/{{ theme }}
