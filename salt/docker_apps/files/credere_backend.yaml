@@ -7,4 +7,4 @@ services:
     restart: unless-stopped
     image: "ghcr.io/open-contracting/credere-backend:latest"
     ports:
-      - {{ pillar.docker_apps.credere_backend.port }}:8000
+      - {{ pillar.apache.sites.credere.context.port }}:8000
