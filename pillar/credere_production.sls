@@ -11,6 +11,9 @@ apache:
     credere:
       servername: credere.open-contracting.org
 
+docker:
+  uid: 1000
+
 docker_apps:
   credere_backend:
     target: credere-backend
