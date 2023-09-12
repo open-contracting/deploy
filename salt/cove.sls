@@ -40,3 +40,4 @@ clean up tmp data when python errors:
     - name: /etc/tmpreaper.conf
     - pattern: "^SHOWWARNING=true"
     - repl: "#SHOWWARNING=true"
+    - backup: False

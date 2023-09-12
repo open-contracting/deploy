@@ -14,8 +14,6 @@ iptables-persistent:
     - require:
       - file: /home/sysadmin-tools/bin
 
-# These must be set with file.replace, because the ID that creates the file uses file.managed with `replace: False`.
-
 {% set ssh_ipv4_ips = pillar.firewall.ssh_ipv4 + salt['pillar.get']('firewall:additional_ssh_ipv4', []) %}
 {% set ssh_ipv6_ips = pillar.firewall.ssh_ipv6 + salt['pillar.get']('firewall:additional_ssh_ipv6', []) %}
 

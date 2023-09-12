@@ -8,6 +8,7 @@
 
 include:
   - apache
+  - apache.modules.headers # Header
   - apache.modules.passenger
   - mysql
   - rvm
@@ -104,6 +105,14 @@ set redmine file permissions:
     - mode: 640
     - require:
       - svn: redmine
+    - watch_in:
+      - service: apache2
+
+{{ userdir }}/public_html/config/environments/production.rb:
+  file.replace:
+    - pattern: '# config.force_ssl = true'
+    - repl: 'config.force_ssl = true'
+    - backup: False
     - watch_in:
       - service: apache2
 

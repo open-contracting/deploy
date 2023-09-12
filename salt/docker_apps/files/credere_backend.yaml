@@ -1,5 +1,5 @@
 services:
-  backend:
+  web:
     env_file: .env
     user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     extra_hosts:
