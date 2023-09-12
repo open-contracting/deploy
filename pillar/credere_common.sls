@@ -16,7 +16,7 @@ docker_apps:
   credere_backend:
     target: credere-backend
     env:
-      EMAIL_TEMPLATE_LANG: en
+      EMAIL_TEMPLATE_LANG: es
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org

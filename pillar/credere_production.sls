@@ -26,6 +26,7 @@ docker_apps:
       DAYS_TO_ERASE_BORROWERS_DATA: 7
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 3
+      SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
       # Email templates
       LINK_LINK: https://credere.open-contracting.org
       IMAGES_BASE_URL: https://credere.open-contracting.org/images
