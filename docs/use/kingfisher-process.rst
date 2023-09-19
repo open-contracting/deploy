@@ -45,7 +45,7 @@ Load local data
 
    .. code-block:: bash
 
-      rsynz -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
+      rsync -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
 #. Load the data. For example:
 
