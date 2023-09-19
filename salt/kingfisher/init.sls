@@ -25,6 +25,7 @@ useful packages for data support:
     - names:
       - flattentool
       - ocdskit
+      - py-spy
     - upgrade: True
     - require:
       - pip: pip

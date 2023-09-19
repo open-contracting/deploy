@@ -46,7 +46,8 @@ include:
     {
       'identifier': 'DOMINICAN_REPUBLIC',
       'spider': 'dominican_republic_api',
-      'start_date': '2018-01-01',
+      'start_date': '2023-07-13',
+      'day': '*/14',
       'options': '-a compile_releases=true',
     },
     {
@@ -71,7 +72,7 @@ cd {{ directory }}; .ve/bin/scrapy crawl {{ crawl.spider }}{% if 'options' in cr
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
     - user: {{ entry.user }}
     {% if 'day' in crawl %}
-    - daymonth: {{ crawl.day }}
+    - daymonth: '{{ crawl.day }}'
     {% endif %}
     - hour: 0
     - minute: 15
