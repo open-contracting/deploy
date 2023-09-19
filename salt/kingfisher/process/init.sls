@@ -60,6 +60,13 @@ create reference.mapping_sheets table:
     - mode: 400
     - require:
       - user: {{ user }}_user_exists
+
+/home/{{ user }}/local-load:
+  file.directory:
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - user: {{ user }}_user_exists
 {% endfor %}
 
 {% for command in ['addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load'] %}
