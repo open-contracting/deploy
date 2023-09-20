@@ -47,11 +47,13 @@ Load local data
 
       rsync -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
 
-#. Load the data. For example:
+#. Load the data. For example, to create compiled releases and run structural checks:
 
    .. code-block:: bash
 
       sudo -u deployer /opt/kingfisher-process/load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+
+   If loading data from the Data Registry, omit the ``--compile`` and ``--upgrade`` flags.
 
    If you don't need to check for structural errors, omit the ``--check`` flag. For a description of all options, run:
 
