@@ -46,6 +46,12 @@ base:
     - tinyproxy
     - kingfisher_main_maintenance
 
+  'kingfisher-test':
+    - kingfisher_test
+    - private.kingfisher_test
+    - tinyproxy
+    - kingfisher_test_maintenance
+
   'prometheus':
     - prometheus_server
     - private.smtp
