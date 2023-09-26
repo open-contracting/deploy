@@ -12,6 +12,8 @@ docs:
   host: ocp19.open-contracting.org
 kingfisher-main:
   host: ocp23.open-contracting.org
+kingfisher-test:
+  host: ocp25.open-contracting.org
 prometheus:
   host: ocp20.open-contracting.org
 redash:
