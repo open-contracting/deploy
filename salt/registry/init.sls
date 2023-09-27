@@ -29,3 +29,8 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py
     - group: {{ pillar.docker.user }}
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+
+useful commands for registry maintenance:
+  pkg.installed:
+    - pkgs:
+      - ripgrep
