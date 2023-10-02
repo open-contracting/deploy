@@ -7,7 +7,7 @@ ErrorDocument 403 /404.html
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined
 
-Header set Content-Security-Policy "frame-ancestors 'none'"
+Header set Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'"
 Header set X-Content-Type-Options "nosniff"
 Header set X-Frame-Options "DENY"
 
