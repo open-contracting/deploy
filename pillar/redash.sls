@@ -50,3 +50,4 @@ docker_apps:
       REDASH_MAIL_DEFAULT_SENDER: noreply@noreply.open-contracting.org
       REDASH_HOST: https://redash.open-contracting.org
       REDASH_SERVER_NAME: https://redash.open-contracting.org
+      REDASH_ENFORCE_HTTPS: 'true'
