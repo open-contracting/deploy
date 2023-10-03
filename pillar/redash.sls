@@ -51,3 +51,5 @@ docker_apps:
       REDASH_HOST: https://redash.open-contracting.org
       REDASH_SERVER_NAME: https://redash.open-contracting.org
       REDASH_ENFORCE_HTTPS: 'true'
+      REDASH_HSTS_INCLUDE_SUBDOMAINS: 'true'
+      REDASH_HSTS_PRELOAD: 'true'
