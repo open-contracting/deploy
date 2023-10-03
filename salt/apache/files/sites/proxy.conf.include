@@ -1,3 +1,6 @@
+RequestHeader unset X-Forwarded-Proto
+RequestHeader set X-Forwarded-Proto https env=HTTPS
+
 {%- if documentroot is defined %}
 DocumentRoot {{ documentroot }}
 
