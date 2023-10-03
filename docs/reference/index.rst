@@ -59,9 +59,13 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
 Unmanaged services are:
 
--  GitHub Pages for the `Extension Explorer <https://extensions.open-contracting.org/>`__
+-  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites, including the `Extension Explorer <https://extensions.open-contracting.org/>`__
 
    -  `Network status <https://www.githubstatus.com>`__
+
+   .. admonition:: Why not GitHub Pages?
+
+      GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/platform/headers>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
 -  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__
 
