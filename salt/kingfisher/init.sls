@@ -23,6 +23,7 @@ pip:
 useful packages for data support:
   pip.installed:
     - names:
+      - csvkit
       - flattentool
       - ocdskit
       - py-spy
