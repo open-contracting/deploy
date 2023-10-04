@@ -47,7 +47,7 @@ include:
       'identifier': 'DOMINICAN_REPUBLIC',
       'spider': 'dominican_republic_api',
       'start_date': '2023-07-13',
-      'day': '*/14',
+      'day': '1,15',
       'options': '-a compile_releases=true',
     },
     {
