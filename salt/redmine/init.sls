@@ -108,10 +108,20 @@ set redmine file permissions:
     - watch_in:
       - service: apache2
 
-{{ userdir }}/public_html/config/environments/production.rb:
+redmine require https:
   file.replace:
+    - name: {{ userdir }}/public_html/config/environments/production.rb
     - pattern: '# config.force_ssl = true'
     - repl: 'config.force_ssl = true'
+    - backup: False
+    - watch_in:
+      - service: apache2
+
+redmine configure hsts:
+  file.blockreplace:
+    - name: {{ userdir }}/public_html/config/environments/production.rb
+    - content: '  config.ssl_options = { hsts: { expires: 31536000, subdomains: true, preload: true } }'
+    - insert_after_match: 'config.force_ssl = true'
     - backup: False
     - watch_in:
       - service: apache2
