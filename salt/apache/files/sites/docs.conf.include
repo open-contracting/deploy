@@ -89,6 +89,13 @@ SetEnv BANNER /includes/banner_live.html
     # https://httpd.apache.org/docs/current/howto/ssi.html#configuring
     AddOutputFilter INCLUDES .html
 
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+    # docson needs unsafe-eval and frame-ancestors. infrastructure uses Google Fonts. standard, infrastructure, and public-private-partnerships use <iframe>.
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com https://use.typekit.net; frame-src 'self' https://www.youtube-nocookie.com https://docs.google.com https://open-contracting.github.io; object-src 'none'; worker-src 'none'; frame-ancestors 'self'"
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+
     # OCDS Show: https://github.com/open-contracting-extensions/public-private-partnerships/issues/211
     Header set Access-Control-Allow-Origin "*"
 
@@ -231,51 +238,51 @@ RewriteRule . %1/%2 [R=301,L]
 ####################
 
 # Extensions
-RedirectMatch /{{ version }}/{{ lang }}/extensions/community/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/developing/?                https://extensions.open-contracting.org/{{ lang }}/extensions/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/party_details/?             https://extensions.open-contracting.org/{{ lang }}/extensions/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/bids/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/enquiries/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/location/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/lots/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/milestone_documents/?       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/participation_fee/?         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/process_title/?             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/community/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/developing/?                https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/party_details/?             https://extensions.open-contracting.org/{{ lang }}/extensions/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/bids/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/bids/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/enquiries/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/location/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/lots/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/milestone_documents/?       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/participation_fee/?         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/process_title/?             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
 
 # Iterative improvements from OCDS 1.1.4 and up
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/building_blocks/?                /{{ version }}/{{ lang }}/primer/how/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/contracting_process/?            /{{ version }}/{{ lang }}/primer/how/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/publication_patterns/?           /{{ version }}/{{ lang }}/guidance/build/hosting/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/quality/?                        /{{ version }}/{{ lang }}/guidance/publish/quality/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/releases_and_records/?           /{{ version }}/{{ lang }}/primer/releases_and_records/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/use_cases/?                      /{{ version }}/{{ lang }}/guidance/design/user_needs/
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/validation/?                     /{{ version }}/{{ lang }}/guidance/build/#check-your-data
-RedirectMatch /{{ version }}/{{ lang }}/getting_started/?                                /{{ version }}/{{ lang }}/primer/
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/awards_contracts_buyers_suppliers/? /{{ version }}/{{ lang }}/guidance/map/awards_contracts/
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/award_notices_decisions/?           /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-award-notices
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts/?          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/purchase_orders/?                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/consortia/?                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/related_processes/?                 /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender/?               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
-RedirectMatch /{{ version }}/{{ lang }}/guidance/map/catalogs/?                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
-RedirectMatch /{{ version }}/{{ lang }}/extensions/?                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/amendments/?                      /{{ version }}/{{ lang }}/guidance/map/amendments/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/hosting/?                         /{{ version }}/{{ lang }}/guidance/build/hosting/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/levels/?                          /{{ version }}/{{ lang }}/guidance/publish/quality/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/licensing/?                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
-RedirectMatch /{{ version }}/{{ lang }}/implementation/publication_policy/?              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
-RedirectMatch /{{ version }}/{{ lang }}/implementation/registration/?                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
-RedirectMatch /{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/serialization/?                   /{{ version }}/{{ lang }}/guidance/build/serialization/
-RedirectMatch /{{ version }}/{{ lang }}/implementation/?                                 /{{ version }}/{{ lang }}/guidance/
-RedirectMatch /{{ version }}/{{ lang }}/schema/changelog/?                               /{{ version }}/{{ lang }}/history/changelog/
-RedirectMatch /{{ version }}/{{ lang }}/schema/deprecation/?                             /{{ version }}/{{ lang }}/governance/deprecation/
-RedirectMatch /{{ version }}/{{ lang }}/support/credits/?                                /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
-RedirectMatch /{{ version }}/{{ lang }}/support/governance/?                             /{{ version }}/{{ lang }}/governance/
-RedirectMatch /{{ version }}/{{ lang }}/support/history_and_development/?                /{{ version }}/{{ lang }}/history/history_and_development/
-RedirectMatch /{{ version }}/{{ lang }}/support/tools/?                                  /{{ version }}/{{ lang }}/support/#ocds-tools
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/building_blocks/?                /{{ version }}/{{ lang }}/primer/how/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/contracting_process/?            /{{ version }}/{{ lang }}/primer/how/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/publication_patterns/?           /{{ version }}/{{ lang }}/guidance/build/hosting/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/quality/?                        /{{ version }}/{{ lang }}/guidance/publish/quality/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/releases_and_records/?           /{{ version }}/{{ lang }}/primer/releases_and_records/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/use_cases/?                      /{{ version }}/{{ lang }}/guidance/design/user_needs/
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/validation/?                     /{{ version }}/{{ lang }}/guidance/build/#check-your-data
+RedirectMatch ^/{{ version }}/{{ lang }}/getting_started/?                                /{{ version }}/{{ lang }}/primer/
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/awards_contracts_buyers_suppliers/? /{{ version }}/{{ lang }}/guidance/map/awards_contracts/
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/award_notices_decisions/?           /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-award-notices
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/mapping_awards_contracts/?          /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#awards-and-contracts
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/purchase_orders/?                   /{{ version }}/{{ lang }}/guidance/map/awards_contracts/#purchase-orders
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/consortia/?                         /{{ version }}/{{ lang }}/guidance/map/buyers_suppliers/#consortia-suppliers
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/frameworks/?                        /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/related_processes/?                 /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/unsuccessful_tender/?               /{{ version }}/{{ lang }}/guidance/map/unsuccessful_processes/
+RedirectMatch ^/{{ version }}/{{ lang }}/guidance/map/catalogs/?                          /{{ version }}/{{ lang }}/guidance/map/electronic_catalogues/
+RedirectMatch ^/{{ version }}/{{ lang }}/extensions/?                                     /{{ version }}/{{ lang }}/guidance/map/extensions/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/amendments/?                      /{{ version }}/{{ lang }}/guidance/map/amendments/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/hosting/?                         /{{ version }}/{{ lang }}/guidance/build/hosting/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/levels/?                          /{{ version }}/{{ lang }}/guidance/publish/quality/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/licensing/?                       /{{ version }}/{{ lang }}/guidance/publish/#license-your-data
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/publication_policy/?              /{{ version }}/{{ lang }}/guidance/publish/#finalize-your-publication-policy
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/registration/?                    /{{ version }}/{{ lang }}/guidance/build/#register-an-ocid-prefix
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/related_processes/?               /{{ version }}/{{ lang }}/guidance/map/framework_agreements/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/serialization/?                   /{{ version }}/{{ lang }}/guidance/build/serialization/
+RedirectMatch ^/{{ version }}/{{ lang }}/implementation/?                                 /{{ version }}/{{ lang }}/guidance/
+RedirectMatch ^/{{ version }}/{{ lang }}/schema/changelog/?                               /{{ version }}/{{ lang }}/history/changelog/
+RedirectMatch ^/{{ version }}/{{ lang }}/schema/deprecation/?                             /{{ version }}/{{ lang }}/governance/deprecation/
+RedirectMatch ^/{{ version }}/{{ lang }}/support/credits/?                                /{{ version }}/{{ lang }}/history/history_and_development/#appreciation
+RedirectMatch ^/{{ version }}/{{ lang }}/support/governance/?                             /{{ version }}/{{ lang }}/governance/
+RedirectMatch ^/{{ version }}/{{ lang }}/support/history_and_development/?                /{{ version }}/{{ lang }}/history/history_and_development/
+RedirectMatch ^/{{ version }}/{{ lang }}/support/tools/?                                  /{{ version }}/{{ lang }}/support/#ocds-tools
     {%- endfor %}
 {%- endfor %}
 
@@ -291,7 +298,6 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/budget_project/?
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/charges/?                https://extensions.open-contracting.org/{{ lang }}/extensions/charges/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/documentation_details/?  https://extensions.open-contracting.org/{{ lang }}/extensions/documentation_details/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/finance/?                https://extensions.open-contracting.org/{{ lang }}/extensions/finance/
-RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/index/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/index/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/location/?               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/metrics/?                https://extensions.open-contracting.org/{{ lang }}/extensions/metrics/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/milestone_documents/?    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
