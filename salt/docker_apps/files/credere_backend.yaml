@@ -6,10 +6,9 @@ x-shared: &shared
     - "host.docker.internal:host-gateway"
   restart: unless-stopped
 
-
 services:
   web:
-     <<: *shared
+    <<: *shared
     ports:
       - {{ pillar.apache.sites.credere.context.port }}:8000
   cron:
