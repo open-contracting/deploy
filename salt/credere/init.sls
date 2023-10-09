@@ -39,7 +39,7 @@ include:
   ]
 %}
 
-{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+{{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org") }}
 
 {% for crawl in crawls %}
 # docker compose does not have a quiet option: https://github.com/docker/compose/issues/6026
