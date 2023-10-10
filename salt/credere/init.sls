@@ -43,7 +43,7 @@ include:
 
 {% for crawl in crawls %}
 # docker compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python -m app.commands {{ crawl.command }} 2> /dev/null:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python -m app.commands {{ crawl.command }}:
   cron.present:
     - identifier: CREDERE_{{ crawl.identifier }}
     - user: {{ pillar.docker.user }}
