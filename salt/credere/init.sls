@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user, set_cron_env %}
+{% from 'lib.sls' import set_cron_env %}
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
@@ -47,7 +47,7 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron pytho
   cron.present:
     - identifier: CREDERE_{{ crawl.identifier }}
     - user: {{ pillar.docker.user }}
-    # 9 am in Colombia
+    # 9AM in Colombia (no daylight saving time).
     - hour: 14
     - minute: 0
     - require:
