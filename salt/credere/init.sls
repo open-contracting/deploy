@@ -14,27 +14,36 @@ include:
   set crawls = [
     {
       'identifier': 'FETCH_AWARDS',
-      'command': 'fetch-awards'
-    },
-    {
-      'identifier': 'REMOVE_LAPSED_APPLICATIONS',
-      'command': 'remove-dated-application-data'
-    },
-    {
-      'identifier': 'LAPSE_APPLICATIONS',
-      'command': 'update-applications-to-lapsed'
+      'command': 'fetch-awards',
+      # 9AM in Colombia (no daylight saving time).
+      'hour': 14
     },
     {
       'identifier': 'REMIND_MSME',
-      'command': 'send-reminders'
+      'command': 'send-reminders',
+      # 10AM in Colombia (no daylight saving time).
+      'hour': 15
     },
     {
       'identifier': 'REMIND_FI',
-      'command': 'sla-overdue-applications'
+      'command': 'sla-overdue-applications',
+      # 08AM in Colombia (no daylight saving time).
+      'hour': 13
+    },
+    {
+      'identifier': 'LAPSE_APPLICATIONS',
+      'command': 'update-applications-to-lapsed',
+      'hour': 1
+    },
+    {
+      'identifier': 'REMOVE_LAPSED_APPLICATIONS',
+      'command': 'remove-dated-application-data',
+      'hour': 2
     },
     {
       'identifier': 'UPDATE_STATISTICS',
-      'command': 'update-statistics'
+      'command': 'update-statistics',
+      'hour': 3
     },
   ]
 %}
@@ -47,8 +56,7 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron pytho
   cron.present:
     - identifier: CREDERE_{{ crawl.identifier }}
     - user: {{ pillar.docker.user }}
-    # 9AM in Colombia (no daylight saving time).
-    - hour: 14
+    - hour: {{ crawl.hour }}
     - minute: 0
     - require:
       - file: {{ directory }}/docker-compose.yaml
