@@ -104,6 +104,60 @@ Hetzner
 
 #. Wait to be notified via email that the server is ready.
 
+Azure
+~~~~~~
+
+#. `Log into Azure <https://login.microsoftonline.com>`__
+#. Click *Virtual machines*
+#. Click *Create* then select *Azure virtual machine*
+
+
+   #. Set *Subscription* to *Microsoft Azure Sponsorship*
+   #. Set *Resource Group* to the appropriate group (e.g. kingfisher).
+      #. Create a new "Resource Group" if required
+   #. Set *Virtual Machine Name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
+   #. Set *Region* to *UK South*
+   #. Set *Images* to the latest Ubuntu LTS version
+   #. Set *Size* to an appropriate size. Standard 'starting' size is B2s
+   #. Select *Authentication type* to *Password*
+   #. Set *Username* to ocpadmin
+   #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+
+   #. Select a *Next: Disks >*
+   #. Set *OS Disk Type* to *Standard SSD* 
+      #. Create and attach an additional disk if required with the *Size* of *Standard SSD*
+
+   #. Select a *Next: Networking >*
+   #. Set *Virtual Network* to *SensibleName-vnet (e.g. kingfisher-vnet)*   
+   #. Set *Subnet* to use an IP range that does not overlap an already exisitng *Virtual Machine* in the same *Resource Group*    
+   #. Set *Public IP* to * Use the server’s FQDN (e.g. ocp25.open-contracting.org)*  
+   #. Set *NIC network security group* to *Advanced*  
+      #. Click *Create new* 
+      #. Set *Name* to *Server’s FQDN-nsg (e.g. ocp25.open-contracting.org-nsg)*
+      #. Delete all default rules
+      #. *+ Add an inbound rule* for each individual item below:
+		Allow-SSH - Port 22 - Protocol TCP - Source Any - Priority 1030
+		Allow-HTTP - Port 80 - Protocol TCP - Source Any - Priority 1040
+		Allow-HTTPS - Port 443 - Protocol TCP - Source Any - Priority 1050 
+		Allow-ICMP - Port Any - Protocol ICMP - Source Any - Priority 1060 
+		Allow-Prometheus - Port 7231 - Protocol TCP - Source 139.162.253.17/32 - Priority 1080 
+		Allow-Prometheus-IPv6 - Port 7231 - Protocol TCP - Source 2a01:7e00::f03c:93ff:fe13:a12c/128 - Priority 1100
+      .. note::
+      If using Docker, configure an external firewall - https://ocdsdeploy.readthedocs.io/en/latest/develop/update/firewall.html#linode-firewall)
+
+   #. Select a *Next: Management >*   
+   #. Check *Backups*
+   #. Set *Recovery Services Vault* to *SensibleName-backups (e.g. kingfisher-backups)*    
+   #. Set *Backup Policy* to *OCP-Standard-Backups*
+   
+   #. Select a *Next: Monitoring >*   
+   #. Select a *Next: Advanced >*      
+   #. Select a *Next: Tags >*   
+   #. Set tag *Name* to *Server short name (e.g. ocp25)*   
+
+   #. Select a *Next: Review + create >*      
+   #. Click *Create* and wait a few minutes for the server to power on
+
 .. _install-ubuntu:
 
 Install Ubuntu
