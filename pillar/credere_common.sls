@@ -16,6 +16,7 @@ docker_apps:
   credere_backend:
     target: credere-backend
     env:
+      LOG_LEVEL: WARNING
       EMAIL_TEMPLATE_LANG: es
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
