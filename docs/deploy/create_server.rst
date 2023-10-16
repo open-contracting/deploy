@@ -117,7 +117,7 @@ Azure
       #. Create a new "Resource Group" if required
    #. Set *Virtual Machine Name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
    #. Set *Region* to *UK South*
-   #. Set *Images* to the latest Ubuntu LTS version
+   #. Set *Image* to the latest Ubuntu LTS version
    #. Set *Size* to an appropriate size. Standard 'starting' size is B2s
    #. Select *Authentication type* to *Password*
    #. Set *Username* to ocpadmin
