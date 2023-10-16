@@ -189,7 +189,7 @@ Azure
               - Custom
               - 7231
               - TCP
-              - 1040
+              - 1050
               - AllowPrometheusIPv6Inbound
 
             .. Combining the Prometheus rules causes "Validation failed":
