@@ -111,7 +111,7 @@ Azure
 #. Click the *Virtual machines* icon
 #. Click the *Create* menu then the *Azure virtual machine* menu item
 
-   #. Set *Subscription* to *Microsoft Azure Sponsorship*
+   #. Set *Subscription* to *Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)*
    #. Set *Resource group* to the appropriate group (e.g. ``kingfisher``)
 
       #. Create a new resource group, as needed
