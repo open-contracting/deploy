@@ -104,118 +104,6 @@ Hetzner
 
 #. Wait to be notified via email that the server is ready.
 
-Azure
-~~~~~~
-
-#. `Log into Azure <https://portal.azure.com>`__
-#. Click the *Virtual machines* icon
-#. Click the *Create* menu then the *Azure virtual machine* menu item
-
-   #. Set *Subscription* to *Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)*
-   #. Set *Resource group* to the appropriate group (e.g. ``kingfisher``)
-
-      #. Create a new resource group, as needed
-
-   #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
-   #. Set *Region* to *(Europe) UK South*
-   #. Set *Image* to the latest Ubuntu LTS version
-   #. Set *Size* to the appropriate size (e.g. ``B2s``)
-   #. Set *Authentication type* to "Password"
-   #. Set *Username* to "ocpadmin"
-   #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
-
-#. Click the *Next : Disks >* button
-
-   #. Set *OS disk type* to *Standard SSD*
-   #. Add additional disks, if appropriate:
-
-      #. Click the *Create and attach a new disk* link
-      #. Click the *Change size* link
-      #. Select "Standard SSD" from the *Storage type* dropdown
-      #. Click the desired size
-      #. Click the *OK* button
-
-#. Click the *Next : Networking >* button
-
-   #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
-   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same resource group
-   #. Set *Public IP* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
-   #. Set *NIC network security group* to *Advanced*
-
-      #. Click *Create new*
-      #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp25.open-contracting.org-nsg``) (default)
-      #. Click the * + Add an inbound rule* link, to create a ruleset matching the following:
-
-         .. list-table::
-            :header-rows: 1
-
-            * - Source
-              - Service
-              - Destination port ranges
-              - Protocol
-              - Priority
-              - Name
-            * - Any
-              - SSH
-              - 22
-              - TCP
-              - 1000
-              - default-allow-ssh
-            * - Any
-              - HTTP
-              - 80
-              - TCP
-              - 1010
-              - AllowAnyHTTPInbound
-            * - Any
-              - HTTPS
-              - 443
-              - TCP
-              - 1020
-              - AllowAnyHTTPSInbound
-            * - Any
-              - Custom
-              - *
-              - ICMP
-              - 1030
-              - AllowAnyICMPInbound
-            * - IP Addresses: 139.162.253.17/32
-              - Custom
-              - 7231
-              - TCP
-              - 1040
-              - AllowPrometheusIPv4Inbound
-            * - IP Addresses: 2a01:7e00::f03c:93ff:fe13:a12c/128
-              - Custom
-              - 7231
-              - TCP
-              - 1050
-              - AllowPrometheusIPv6Inbound
-
-            .. Combining the Prometheus rules causes "Validation failed":
-               "All IP addresses or prefixes in the resource should belong to the same address family."
-
-      #. Click the *OK* button
-
-      .. note::
-
-         If using Docker, configure an external firewall.
-
-#. Click the *Next : Management >* button
-
-   #. Check the *Enable backup* box
-   #. Set *Recovery Services vault* to an appropriate name (e.g. ``kingfisher-backups``)
-   #. Set *Backup policy* to *OCP-Standard-Backups*
-
-#. Click the *Next : Monitoring >* button
-#. Click the *Next : Advanced >* button
-#. Click the *Next : Tags >* button
-
-   #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp25``)
-
-#. Click the *Next : Review + create >* button
-#. Click the *Create* button and wait a few minutes for the server to power on
-
 .. _install-ubuntu:
 
 Install Ubuntu
@@ -289,6 +177,119 @@ Reference:
 
 -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
 -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+
+Azure
+~~~~~
+
+#. `Log into Azure <https://portal.azure.com>`__
+#. Click the *Virtual machines* icon
+#. Click the *Create* menu
+#. Click the *Azure virtual machine* menu item
+
+   #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
+   #. Set *Resource group* to the appropriate group (e.g. ``kingfisher``)
+
+      #. Create a new resource group, as needed
+
+   #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
+   #. Set *Region* to "(Europe) UK South"
+   #. Set *Image* to the latest Ubuntu LTS version
+   #. Set *Size* to the appropriate size (e.g. ``B2s``)
+   #. Set *Authentication type* to "Password"
+   #. Set *Username* to "ocpadmin"
+   #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+
+#. Click the *Next : Disks >* button
+
+   #. Set *OS disk type* to *Standard SSD*
+   #. Add additional disks, if appropriate:
+
+      #. Click the *Create and attach a new disk* link
+      #. Click the *Change size* link
+      #. Select "Standard SSD" from the *Storage type* dropdown
+      #. Click the desired size
+      #. Click the *OK* button
+
+#. Click the *Next : Networking >* button
+
+   #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
+   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same resource group
+   #. Set *Public IP* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
+   #. Set *NIC network security group* to *Advanced*
+
+      #. Click *Create new*
+      #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp25.open-contracting.org-nsg``)
+      #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Source
+              - Service
+              - Destination port ranges
+              - Protocol
+              - Priority
+              - Name
+            * - Any
+              - SSH
+              - 22
+              - TCP
+              - 1000
+              - default-allow-ssh
+            * - Any
+              - HTTP
+              - 80
+              - TCP
+              - 1010
+              - AllowAnyHTTPInbound
+            * - Any
+              - HTTPS
+              - 443
+              - TCP
+              - 1020
+              - AllowAnyHTTPSInbound
+            * - Any
+              - Custom
+              - ``*``
+              - ICMP
+              - 1030
+              - AllowAnyICMPInbound
+            * - 139.162.253.17/32
+              - Custom
+              - 7231
+              - TCP
+              - 1040
+              - AllowPrometheusIPv4Inbound
+            * - 2a01:7e00::f03c:93ff:fe13:a12c/128
+              - Custom
+              - 7231
+              - TCP
+              - 1050
+              - AllowPrometheusIPv6Inbound
+
+         .. Combining the Prometheus rules causes "Validation failed":
+            "All IP addresses or prefixes in the resource should belong to the same address family."
+
+      #. Click the *OK* button
+
+      .. note::
+
+         If using Docker, configure an external firewall.
+
+#. Click the *Next : Management >* button
+
+   #. Check the *Enable backup* box
+   #. Set *Recovery Services vault* to an appropriate name (e.g. ``kingfisher-backups``)
+   #. Set *Backup policy* to *OCP-Standard-Backups*
+
+#. Click the *Next : Monitoring >* button
+#. Click the *Next : Advanced >* button
+#. Click the *Next : Tags >* button
+
+   #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp25``)
+
+#. Click the *Next : Review + create >* button
+#. Click the *Create* button and wait a few minutes for the server to power on
 
 .. _create-dns-records:
 
