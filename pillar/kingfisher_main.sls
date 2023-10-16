@@ -182,6 +182,24 @@ python_apps:
       url: https://github.com/open-contracting/kingfisher-collect.git
       branch: main
       target: kingfisher-collect
+    crawls:
+      - identifier: CHILE
+        spider: chile_compra_api_records
+        start_date: '2021-12-03'
+        day: '1'
+        options: -a compile_releases=true
+      - identifier: DOMINICAN_REPUBLIC
+        spider: dominican_republic_api
+        start_date: '2023-07-13'
+        day: '1,15'
+        options: -a compile_releases=true
+      - identifier: ECUADOR
+        spider: ecuador_sercop_bulk
+        start_date: '2015-01-01'
+      - identifier: MOLDOVA
+        spider: moldova
+        start_date: '2021-06-11'
+
   kingfisher_summarize:
     user: summarize
     git:
