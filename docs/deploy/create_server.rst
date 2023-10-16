@@ -129,7 +129,7 @@ Azure
 
    #. Select a *Next: Networking >*
    #. Set *Virtual Network* to *SensibleName-vnet (e.g. kingfisher-vnet)*   
-   #. Set *Subnet* to use an IP range that does not overlap an already exisitng *Virtual Machine* in the same *Resource Group*    
+   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same *Resource Group*    
    #. Set *Public IP* to * Use the server’s FQDN (e.g. ocp25.open-contracting.org)*  
    #. Set *NIC network security group* to *Advanced*  
       #. Click *Create new* 
