@@ -107,56 +107,105 @@ Hetzner
 Azure
 ~~~~~~
 
-#. `Log into Azure <https://login.microsoftonline.com>`__
-#. Click *Virtual machines*
-#. Click *Create* then select *Azure virtual machine*
-
+#. `Log into Azure <https://portal.azure.com>`__
+#. Click the *Virtual machines* icon
+#. Click the *Create* menu then the *Azure virtual machine* menu item
 
    #. Set *Subscription* to *Microsoft Azure Sponsorship*
-   #. Set *Resource Group* to the appropriate group (e.g. kingfisher).
-      #. Create a new "Resource Group" if required
-   #. Set *Virtual Machine Name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
-   #. Set *Region* to *UK South*
+   #. Set *Resource group* to the appropriate group (e.g. ``kingfisher``)
+
+      #. Create a new resource group, as needed
+
+   #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
+   #. Set *Region* to *(Europe) UK South*
    #. Set *Image* to the latest Ubuntu LTS version
-   #. Set *Size* to an appropriate size. Standard 'starting' size is B2s
-   #. Select *Authentication type* to *Password*
-   #. Set *Username* to ocpadmin
-   #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+   #. Set *Size* to the appropriate size (e.g. ``B2s``)
+   #. Set *Authentication type* to "Password"
+   #. Set *Username* to "ocpadmin"
+   #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
 
-   #. Select a *Next: Disks >*
-   #. Set *OS Disk Type* to *Standard SSD* 
-      #. Create and attach an additional disk if required with the *Size* of *Standard SSD*
+#. Click the *Next : Disks >* button
 
-   #. Select a *Next: Networking >*
-   #. Set *Virtual Network* to *SensibleName-vnet (e.g. kingfisher-vnet)*   
-   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same *Resource Group*    
-   #. Set *Public IP* to * Use the server’s FQDN (e.g. ocp25.open-contracting.org)*  
-   #. Set *NIC network security group* to *Advanced*  
-      #. Click *Create new* 
-      #. Set *Name* to *Server’s FQDN-nsg (e.g. ocp25.open-contracting.org-nsg)*
-      #. Delete all default rules
-      #. *+ Add an inbound rule* for each individual item below:
-		Allow-SSH - Port 22 - Protocol TCP - Source Any - Priority 1030
-		Allow-HTTP - Port 80 - Protocol TCP - Source Any - Priority 1040
-		Allow-HTTPS - Port 443 - Protocol TCP - Source Any - Priority 1050 
-		Allow-ICMP - Port Any - Protocol ICMP - Source Any - Priority 1060 
-		Allow-Prometheus - Port 7231 - Protocol TCP - Source 139.162.253.17/32 - Priority 1080 
-		Allow-Prometheus-IPv6 - Port 7231 - Protocol TCP - Source 2a01:7e00::f03c:93ff:fe13:a12c/128 - Priority 1100
+   #. Set *OS disk type* to *Standard SSD*
+   #. Add additional disks, if appropriate:
+
+      #. Click the *Create and attach a new disk* link
+      #. Click the *Change size* link
+      #. Select "Standard SSD" from the *Storage type* dropdown
+      #. Click the desired size
+      #. Click the *OK* button
+
+#. Click the *Next : Networking >* button
+
+   #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
+   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same resource group
+   #. Set *Public IP* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
+   #. Set *NIC network security group* to *Advanced*
+
+      #. Click *Create new*
+      #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp25.open-contracting.org-nsg``) (default)
+      #. Click the * + Add an inbound rule* link, to create a ruleset matching the following:
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Source
+              - Service
+              - Destination port ranges
+              - Protocol
+              - Priority
+              - Name
+            * - Any
+              - SSH
+              - 22
+              - TCP
+              - 1000
+              - default-allow-ssh
+            * - Any
+              - HTTP
+              - 80
+              - TCP
+              - 1010
+              - AllowAnyHTTPInbound
+            * - Any
+              - HTTPS
+              - 443
+              - TCP
+              - 1020
+              - AllowAnyHTTPSInbound
+            * - Any
+              - Custom
+              - *
+              - ICMP
+              - 1030
+              - AllowAnyICMPInbound
+            * - IP Addresses: 139.162.253.17/32,2a01:7e00::f03c:93ff:fe13:a12c/128
+              - Custom
+              - 7231
+              - TCP
+              - 1040
+              - AllowPrometheusInbound
+
+      #. Click the *OK* button
+
       .. note::
-      If using Docker, configure an external firewall - https://ocdsdeploy.readthedocs.io/en/latest/develop/update/firewall.html#linode-firewall)
 
-   #. Select a *Next: Management >*   
-   #. Check *Backups*
-   #. Set *Recovery Services Vault* to *SensibleName-backups (e.g. kingfisher-backups)*    
-   #. Set *Backup Policy* to *OCP-Standard-Backups*
-   
-   #. Select a *Next: Monitoring >*   
-   #. Select a *Next: Advanced >*      
-   #. Select a *Next: Tags >*   
-   #. Set tag *Name* to *Server short name (e.g. ocp25)*   
+         If using Docker, configure an external firewall.
 
-   #. Select a *Next: Review + create >*      
-   #. Click *Create* and wait a few minutes for the server to power on
+#. Click the *Next : Management >* button
+
+   #. Check the *Enable backup* box
+   #. Set *Recovery Services vault* to an appropriate name (e.g. ``kingfisher-backups``)
+   #. Set *Backup policy* to *OCP-Standard-Backups*
+
+#. Click the *Next : Monitoring >* button
+#. Click the *Next : Advanced >* button
+#. Click the *Next : Tags >* button
+
+   #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp25``)
+
+#. Click the *Next : Review + create >* button
+#. Click the *Create* button and wait a few minutes for the server to power on
 
 .. _install-ubuntu:
 
