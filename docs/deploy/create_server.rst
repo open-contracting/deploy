@@ -179,12 +179,21 @@ Azure
               - ICMP
               - 1030
               - AllowAnyICMPInbound
-            * - IP Addresses: 139.162.253.17/32,2a01:7e00::f03c:93ff:fe13:a12c/128
+            * - IP Addresses: 139.162.253.17/32
               - Custom
               - 7231
               - TCP
               - 1040
-              - AllowPrometheusInbound
+              - AllowPrometheusIPv4Inbound
+            * - IP Addresses: 2a01:7e00::f03c:93ff:fe13:a12c/128
+              - Custom
+              - 7231
+              - TCP
+              - 1040
+              - AllowPrometheusIPv6Inbound
+
+            .. Combining the Prometheus rules causes "Validation failed":
+               "All IP addresses or prefixes in the resource should belong to the same address family."
 
       #. Click the *OK* button
 
