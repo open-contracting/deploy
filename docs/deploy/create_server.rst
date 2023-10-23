@@ -213,7 +213,7 @@ Azure
 #. Click the *Next : Networking >* button
 
    #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
-   #. Set *Subnet* to use an IP range that does not overlap an already existing *Virtual Machine* in the same resource group
+   #. Set *Subnet*
    #. Set *Public IP* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
    #. Set *NIC network security group* to *Advanced*
 
