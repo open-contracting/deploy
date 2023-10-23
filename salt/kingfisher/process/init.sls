@@ -69,7 +69,7 @@ create reference.mapping_sheets table:
       - user: {{ user }}_user_exists
 {% endfor %}
 
-{% for command in ['addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load'] %}
+{% for command in ['addchecks', 'addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load'] %}
 /opt/kingfisher-process/{{ command }}.sh:
   file.managed:
     - source: salt://kingfisher/process/files/kingfisher-process.sh

@@ -72,6 +72,18 @@ Load local data
 
 #. Delete the data directory once you're satisfied that it loaded correctly.
 
+Add structural checks
+---------------------
+
+If you :ref:`skipped structural checks<collect-data>` in Kingfisher Collect, you can reschedule them in Kingfisher Process:
+
+#. :ref:`Connect to the data support server<connect-kingfisher-server>`.
+#. Add structural checks to a collection:
+
+   .. code-block:: bash
+
+      sudo -u deployer /opt/kingfisher-process/addchecks.sh 123
+
 Remove a collection
 -------------------
 
