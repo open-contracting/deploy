@@ -48,16 +48,16 @@ base:
     - pelican.backend
     - pelican.frontend
 
-#  'kingfisher-test':
-#    - rabbitmq
-#    - kingfisher
-#    - kingfisher.collect
-#    - kingfisher.collect.incremental
-#    - kingfisher.collect_generic
-#    - kingfisher.process
-#    - kingfisher.summarize
-#    - pelican.backend
-#    - pelican.frontend
+  'kingfisher-test':
+    - rabbitmq-test
+    - kingfisher-test
+    - kingfisher-test.collect
+    - kingfisher-test.collect.incremental
+    - kingfisher-test.collect_generic
+    - kingfisher-test.process
+    - kingfisher-test.summarize
+    - pelican-test.backend
+    - pelican-test.frontend
 
   'prometheus':
     - prometheus

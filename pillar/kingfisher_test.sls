@@ -1,7 +1,6 @@
 network:
-  host_id: ocp23
-  ipv4: 65.109.102.188
-  ipv6: 2a01:4f9:3080:2792::2
+  host_id: ocp25
+  ipv4: 20.0.176.217
 
 # Linux and PostgreSQL user names must match. PostgreSQL users should be in the kingfisher_process_read
 # and kingfisher_summarize_read groups.
@@ -22,12 +21,6 @@ users:
 
 vm:
   nr_hugepages: 8219
-
-ntp:
-  - 0.fi.pool.ntp.org
-  - 1.fi.pool.ntp.org
-  - 2.fi.pool.ntp.org
-  - 3.fi.pool.ntp.org
 
 #prometheus:
 #  node_exporter:
@@ -130,28 +123,29 @@ postgres:
 
         # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
         cursor_tuple_fraction = 1.0
-  backup:
-    stanza: kingfisher-2023
-    retention_full: 4
-    s3_bucket: ocp-db-backup
-    s3_endpoint: s3.eu-central-1.amazonaws.com
-    s3_region: eu-central-1
-    repo_path: /kingfisher
-    configuration: kingfisher-main1
-    process_max: 4
-    # The `grep -v` command means `root` will receive mail if there is more than 1 error.
-    #
-    # To check whether the error message in the grep command is up-to-date:
-    # "unable to remove file '%s'"
-    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43
-    # "expire command encountered %u error(s), check the log file for details"
-    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078
-    cron: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher-2023
-        # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
+## Removed backups from test server ##
+#  backup:
+#    stanza: kingfisher-2023
+#    retention_full: 4
+#    s3_bucket: ocp-db-backup
+#    s3_endpoint: s3.eu-central-1.amazonaws.com
+#    s3_region: eu-central-1
+#    repo_path: /kingfisher
+#    configuration: kingfisher-main1
+#    process_max: 4
+#    # The `grep -v` command means `root` will receive mail if there is more than 1 error.
+#    #
+#    # To check whether the error message in the grep command is up-to-date:
+#    # "unable to remove file '%s'"
+#    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43
+#    # "expire command encountered %u error(s), check the log file for details"
+#    # https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078
+#    cron: |
+#        MAILTO=root
+#        # Daily incremental backup
+#        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher-2023
+#        # Weekly full backup
+#        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
 docker:
   user: deployer
