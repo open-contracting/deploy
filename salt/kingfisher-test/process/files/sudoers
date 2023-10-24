@@ -1,1 +1,0 @@
-{{ pillar.users|join(', ') }} ALL=({{ pillar.docker.user }}) NOPASSWD: /opt/kingfisher-process/*.sh
