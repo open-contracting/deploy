@@ -10,14 +10,15 @@ Make changes
    network.rst
    firewall.rst
    ssl.rst
+   cron.rst
    awscli.rst
    apache.rst
    elasticsearch.rst
    postgres.rst
    mysql.rst
    rabbitmq.rst
-   python.rst
    docker.rst
+   python.rst
    wordpress.rst
    languages.rst
    logs.rst

@@ -6,7 +6,7 @@ Order the top-level keys in these layers:
 -  Meta
 
    -  System administration: ``maintenance``, ``system_contacts``
-   -  Third-party service credentials: ``aws``, ``github``, ``google``, ``smtp``
+   -  Third-party service credentials: ``github``, ``google``, ``smtp``
 
 -  Universal services
 
@@ -19,6 +19,7 @@ Order the top-level keys in these layers:
 
 -  Application services
 
+   -  Infrastructure: ``aws``
    -  Web access: ``apache``
    -  Services: ``elasticsearch``, ``postgres``, ``mysql``, ``rabbitmq``
    -  Environments: ``docker``, ``nodejs``, ``rvm``

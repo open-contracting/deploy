@@ -34,7 +34,7 @@ Configure Ruby
 
 `Ruby Version Manager (RVM) <https://rvm.io>`__ is used instead of `apt <https://ubuntu.com/server/docs/package-management>`__, to install any `version of Ruby <https://www.ruby-lang.org/en/downloads/releases/>`__.
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
