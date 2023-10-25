@@ -27,6 +27,9 @@ docker_apps:
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 3
       SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
+      # Email addresses
+      TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
+      OCP_EMAIL_GROUP: credereadmin@open-contracting.org
       # Email templates
       LINK_LINK: https://credere.open-contracting.org
       IMAGES_BASE_URL: https://credere.open-contracting.org/images

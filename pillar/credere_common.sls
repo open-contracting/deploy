@@ -21,8 +21,6 @@ docker_apps:
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
-      TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
-      OCP_EMAIL_GROUP: credereadmin@open-contracting.org
       # Email templates
       FACEBOOK_LINK: https://www.facebook.com/OpenContracting/
       TWITTER_LINK: https://twitter.com/opencontracting
