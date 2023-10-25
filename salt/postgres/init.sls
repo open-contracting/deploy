@@ -232,7 +232,7 @@ revoke public schema privileges on {{ database }} database:
     - require:
       - postgres_database: {{ database }}_sql_database
 
-# GRANT all schema privileges to the user
+# GRANT all schema privileges to the owner
 # Note: These states always report changes.
 # https://www.postgresql.org/docs/current/sql-grant.html
 # https://www.postgresql.org/docs/current/ddl-priv.html
@@ -259,12 +259,31 @@ grant {{ entry.user }} schema privileges:
       - postgres_database: {{ database }}_sql_database
 {% endfor %} {# schemas #}
 
-{% for schema, groups in entry.privileges|items %}
-{% for group in groups %}
-# GRANT the USAGE privilege on the schema to the group
-grant {{ group }} schema privileges in {{ schema }}:
+{% for schema, roles in entry.privileges|items %}
+{% for role, tables in roles.items() %}
+{% if tables %}
+{% for table in tables %}
+# GRANT the SELECT privilege on selected tables in the schema to the role
+grant {{ role }} table privileges to {{ table }} in {{ schema }}:
   postgres_privileges.present:
-    - name: {{ group }}
+    - name: {{ role }}
+    - privileges:
+      - SELECT
+    - object_type: table
+    - object_name: {{ table }}
+    - prepend: {{ schema }}
+    - maintenance_db: {{ database }}
+    - require:
+      - postgres_database: {{ database }}_sql_database
+  {% if schema != 'public' %}
+      - postgres_schema: {{ schema }}_sql_schema
+  {% endif %}
+{% endfor %}
+{% else %}
+# GRANT the USAGE privilege on the schema to the role
+grant {{ role }} schema privileges in {{ schema }}:
+  postgres_privileges.present:
+    - name: {{ role }}
     - privileges:
       - USAGE
     - object_type: schema
@@ -276,10 +295,10 @@ grant {{ group }} schema privileges in {{ schema }}:
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
 
-# GRANT the SELECT privilege on all tables in the schema to the group
-grant {{ group }} table privileges in {{ schema }}:
+# GRANT the SELECT privilege on all tables in the schema to the role
+grant {{ role }} table privileges in {{ schema }}:
   postgres_privileges.present:
-    - name: {{ group }}
+    - name: {{ role }}
     - privileges:
       - SELECT
     - object_type: table
@@ -292,17 +311,17 @@ grant {{ group }} table privileges in {{ schema }}:
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
 
-/opt/default-privileges/{{ group }}-{{ schema }}.sql:
+/opt/default-privileges/{{ role }}-{{ schema }}.sql:
   file.managed:
-    - name: /opt/default-privileges/{{ group }}-{{ schema }}.sql
-    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ entry.user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ group }};"
+    - name: /opt/default-privileges/{{ role }}-{{ schema }}.sql
+    - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ entry.user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ role }};"
     - makedirs: True
 
-# ALTER default privileges such that, when the user creates a table in the schema, the SELECT privilege is granted to the group.
+# ALTER default privileges such that, when the user creates a table in the schema, the SELECT privilege is granted to the role.
 # Can replace after `postgres_default_privileges` function becomes available. https://github.com/saltstack/salt/pull/56808
-alter {{ group }} default privileges in {{ schema }}:
+alter {{ role }} default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -f /opt/default-privileges/{{ group }}-{{ schema }}.sql {{ database }}
+    - name: psql -f /opt/default-privileges/{{ role }}-{{ schema }}.sql {{ database }}
     - runas: postgres
     - require:
       - postgres_database: {{ database }}_sql_database
@@ -310,9 +329,10 @@ alter {{ group }} default privileges in {{ schema }}:
       - postgres_schema: {{ schema }}_sql_schema
   {% endif %}
     - onchanges:
-      - file: /opt/default-privileges/{{ group }}-{{ schema }}.sql
+      - file: /opt/default-privileges/{{ role }}-{{ schema }}.sql
       # If a database is re-created, re-run the default privileges statement.
       - postgres_database: {{ database }}_sql_database
+{% endif %}
 {% endfor %}
 {% endfor %} {# privileges #}
 
