@@ -43,6 +43,13 @@ logrotate:
   conf:
     kingfisher-summarize.conf: kingfisher-summarize
 
+cron:
+  incremental:
+    do_excluded_supplier.sh:
+      identifier: DOMINICAN_REPUBLIC_EXCLUDED_SUPPLIER
+      hour: 1
+      minute: random
+
 apache:
   public_access: True
   modules:
@@ -199,7 +206,6 @@ python_apps:
       - identifier: MOLDOVA
         spider: moldova
         start_date: '2021-06-11'
-
   kingfisher_summarize:
     user: summarize
     git:

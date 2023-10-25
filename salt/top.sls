@@ -47,6 +47,7 @@ base:
     - kingfisher.summarize
     - pelican.backend
     - pelican.frontend
+    - cron
 
   'prometheus':
     - prometheus
