@@ -92,7 +92,7 @@ SetEnv BANNER /includes/banner_live.html
     Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
     # docson needs unsafe-eval and frame-ancestors. infrastructure uses Google Fonts. standard, infrastructure, and public-private-partnerships use <iframe>.
-    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com https://use.typekit.net; frame-src 'self' https://www.youtube-nocookie.com https://docs.google.com https://open-contracting.github.io; object-src 'none'; worker-src 'none'; frame-ancestors 'self'"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com https://use.typekit.net; frame-src 'self' https://www.youtube-nocookie.com https://docs.google.com https://open-contracting.github.io; connect-src https://raw.githubusercontent.com/open-contracting/extension_registry/main/build/extensions.json; object-src 'none'; worker-src 'none'; frame-ancestors 'self'"
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "DENY"
 
