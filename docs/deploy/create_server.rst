@@ -355,6 +355,15 @@ Hetzner
       #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits
       #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
 
+Azure
+^^^^^^^
+#. `Log into Azure <https://portal.azure.com>`__
+#. Select the new server
+#. Click on the public IP address:
+   #. Set *DNS name label (optional)* to "hostname" (``ocp25``, for example)
+   # Click *Save*
+#. Create an A record in GoDaddy for the configuration (e.g. ``ocp25..uksouth.cloudapp.azure.com``)
+
 3. Apply core changes
 ---------------------
 
