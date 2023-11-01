@@ -215,8 +215,12 @@ Azure
    #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
    #. Set *Subnet* to *default 10.0.0.0/24*
    #. Set *Public IP* to the server's FQDN (e.g. ``ocp25.open-contracting.org``)
-   #. Set *NIC network security group* to *Advanced*
 
+   #. If not using Docker:
+   #. Set *NIC network security group* to *None*
+
+   #. If you are using Docker:
+   #. Set *NIC network security group* to *Advanced*
       #. Click *Create new*
       #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp25.open-contracting.org-nsg``)
       #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
@@ -271,10 +275,6 @@ Azure
             "All IP addresses or prefixes in the resource should belong to the same address family."
 
       #. Click the *OK* button
-
-      .. note::
-
-         If using Docker, configure an external firewall.
 
 #. Click the *Next : Management >* button
 
