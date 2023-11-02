@@ -33,74 +33,74 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 
       Hetzner Cloud offers two recovery methods.
 
-      Console
-      ^^^^^^^
+      .. tab-set::
 
-      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
-      #. Click the *Default* project
-      #. Select the server you want to access
-      #. Click the *Actions* button
-      #. Click the *Console* menu item
+         .. tab-item:: Console
 
-      Hetzner Rescue System
-      ^^^^^^^^^^^^^^^^^^^^^
+            #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+            #. Click the *Default* project
+            #. Select the server you want to access
+            #. Click the *Actions* button
+            #. Click the *Console* menu item
 
-      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
-      #. Click the *Default* project
-      #. Select the server you want to access
-      #. Activate the rescue system:
+         .. tab-item:: Hetzner Rescue System
 
-         #. Click the *Rescue* tab
-         #. Click the *Enable rescue & power cycle* button
-         #. Set *Choose a Rescue OS* to *linux64*
-         #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
-         #. Click the *Enable rescue* button
+            #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+            #. Click the *Default* project
+            #. Select the server you want to access
+            #. Activate the rescue system:
 
-      #. Connect to the server as the ``root`` user using SSH
+               #. Click the *Rescue* tab
+               #. Click the *Enable rescue & power cycle* button
+               #. Set *Choose a Rescue OS* to *linux64*
+               #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
+               #. Click the *Enable rescue* button
+
+            #. Connect to the server as the ``root`` user using SSH
 
    .. tab-item:: Hetzner Dedicated
 
       Hetzner Dedicated offers two recovery methods.
 
-      Hetzner Rescue System
-      ^^^^^^^^^^^^^^^^^^^^^
+      .. tab-set::
 
-      The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
+         .. tab-item:: Hetzner Rescue System
 
-      #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
-      #. Select the server you want to access
-      #. Activate the rescue system:
+            The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-         #. Click the *Rescue* tab
-         #. Set *Operating system* to *Linux*
-         #. Set *Architecture* to *64 bit*
-         #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
-         #. Click the *Activate rescue system* button
+            #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+            #. Select the server you want to access
+            #. Activate the rescue system:
 
-      #. Reboot the server:
+               #. Click the *Rescue* tab
+               #. Set *Operating system* to *Linux*
+               #. Set *Architecture* to *64 bit*
+               #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
+               #. Click the *Activate rescue system* button
 
-         #. Click the *Reset* tab
-         #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
-         #. Click the *Send* button
+            #. Reboot the server:
 
-         It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
+               #. Click the *Reset* tab
+               #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
+               #. Click the *Send* button
 
-      #. Connect to the server as the ``root`` user using SSH
+               It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
 
-      #. Mount the drive(s):
+            #. Connect to the server as the ``root`` user using SSH
 
-         .. code-block:: bash
+            #. Mount the drive(s):
 
-            mount /dev/md/2 /mnt
+               .. code-block:: bash
 
-      #. Optionally, ``chroot`` into the operating system:
+                  mount /dev/md/2 /mnt
 
-         .. code-block:: bash
+            #. Optionally, ``chroot`` into the operating system:
 
-            chroot-prepare /mnt
-            chroot /mnt
+               .. code-block:: bash
 
-      KVM Console
-      ^^^^^^^^^^^
+                  chroot-prepare /mnt
+                  chroot /mnt
 
-      Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
+         .. tab-item:: KVM Console
+
+            Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
