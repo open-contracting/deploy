@@ -1,6 +1,8 @@
 Hosting
 =======
 
+.. _rescale-server:
+
 Rescale a server
 ----------------
 
