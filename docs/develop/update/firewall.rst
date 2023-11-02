@@ -74,7 +74,84 @@ When using Docker
 
 The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
-.. _hetzner-firewall:
+.. _linode-firewall:
+
+Linode
+~~~~~~
+
+Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+
+You can configure a Linode Cloud Firewall as follows:
+
+#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
+#. `Log into Linode <https://login.linode.com/login>`__
+#. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
+#. Click *Create Firewall*
+
+   #. Set *Label* to the server name
+   #. Set *Linodes* to the server
+   #. Click *Create Firewall*
+
+#. Click on the label for the new firewall
+
+   #. Set *Default inbound policy* to *Drop*
+   #. Add an inbound rule. The recommended minimum is:
+
+      .. list-table::
+         :header-rows: 1
+
+         * - Label
+           - Protocol
+           - Ports
+           - Sources
+           - Action
+         * - Allow-SSH
+           - TCP
+           - SSH (22)
+           - All IPv4, All IPv6
+           - Accept
+         * - Allow-ICMP
+           - ICMP
+           -
+           - All IPv4, All IPv6
+           - Accept
+         * - Allow-Prometheus
+           - TCP
+           - 7231
+           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
+           - Accept
+
+      Most servers will also have:
+
+      .. list-table::
+         :header-rows: 1
+
+         * - Label
+           - Protocol
+           - Ports
+           - Sources
+           - Action
+         * - Allow-HTTP
+           - TCP
+           - HTTP (80), HTTPS (443)
+           - All IPv4, All IPv6
+           - Accept
+
+   #. Click *Save Changes*
+
+#. Reset the server-side firewall:
+
+   .. code-block:: bash
+
+      /home/sysadmin-tools/bin/firewall_reset.sh
+
+#. Restart the Docker service, if running:
+
+   .. code-block:: bash
+
+      systemctl restart docker
+
+.. _hetzner-dedicated-firewall:
 
 Hetzner Dedicated
 ~~~~~~~~~~~~~~~~~
@@ -150,83 +227,6 @@ You can configure a Hetzner firewall as follows:
         - accept
 
 #. Click *Save* and wait for the configuration to be applied.
-
-#. Reset the server-side firewall:
-
-   .. code-block:: bash
-
-      /home/sysadmin-tools/bin/firewall_reset.sh
-
-#. Restart the Docker service, if running:
-
-   .. code-block:: bash
-
-      systemctl restart docker
-
-.. _linode-firewall:
-
-Linode
-~~~~~~
-
-Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
-
-You can configure a Linode Cloud Firewall as follows:
-
-#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
-#. Click *Create Firewall*
-
-   #. Set *Label* to the server name
-   #. Set *Linodes* to the server
-   #. Click *Create Firewall*
-
-#. Click on the label for the new firewall
-
-   #. Set *Default inbound policy* to *Drop*
-   #. Add an inbound rule. The recommended minimum is:
-   
-      .. list-table::
-         :header-rows: 1
-   
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-SSH
-           - TCP
-           - SSH (22)
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-ICMP
-           - ICMP
-           -
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-Prometheus
-           - TCP
-           - 7231
-           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
-           - Accept
-   
-      Most servers will also have:
-   
-      .. list-table::
-         :header-rows: 1
-   
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-HTTP
-           - TCP
-           - HTTP (80), HTTPS (443)
-           - All IPv4, All IPv6
-           - Accept
-
-   #. Click *Save Changes*
 
 #. Reset the server-side firewall:
 

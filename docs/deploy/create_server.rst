@@ -77,22 +77,25 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. Go to the `Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
       #. Click the *Default* project
       #. Click the *Add Server* button
-      #. Click the *Falkenstein* location
-      #. Click the *Ubuntu* image
-      #. Select a *Type*
-      #. Click the *Add SSH key* button
 
-         #. Enter :ref:`your public SSH key<add-public-key>` in *SSH key*
-         #. Enter your full name in *Name*
+         #. Click the *Falkenstein* location
+         #. Click the *Ubuntu* image
+         #. Select a *Type*
          #. Click the *Add SSH key* button
 
-         .. note::
+            #. Enter :ref:`your public SSH key<add-public-key>` in *SSH key*
+            #. Enter your full name in *Name*
+            #. Click the *Add SSH key* button
 
-            This adds your public SSH key to ``/root/.ssh/authorized_keys``.
+            .. note::
 
-      #. Check the *Backups* box
-      #. Enter the hostname in *Server name* (``ocp42``, for example)
-      #. Click the *Create & Buy now* button
+               This adds your public SSH key to ``/root/.ssh/authorized_keys``.
+
+         #. Check the *Backups* box
+         #. Enter the hostname in *Server name* (``ocp42``, for example)
+         #. Click the *Create & Buy now* button
+
+      #. If using Docker, :ref:`configure an external firewall<hetzner-cloud-firewall>`.
 
    .. tab-item:: Hetzner Dedicated
       :sync: hetzner-dedicated
@@ -191,7 +194,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
             reboot
 
-      #. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+      #. If using Docker, :ref:`configure an external firewall<hetzner-dedicated-firewall>`.
 
       .. _install-windows:
 
