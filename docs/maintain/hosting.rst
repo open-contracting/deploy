@@ -25,13 +25,43 @@ Linode
 
 #. `Log into Linode <https://login.linode.com/login>`__
 #. Select the server you want to access
-#. Click *Launch LISH Console*
+#. Click the *Launch LISH Console* link
 #. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
+
+Hetzner Cloud
+~~~~~~~~~~~~~
+
+Hetzner Cloud offers two recovery methods.
+
+Console
+^^^^^^^
+
+#. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+#. Click the *Default* project
+#. Select the server you want to access
+#. Click the *Actions* button
+#. Click the *Console* menu item
+
+Hetzner Rescue System
+^^^^^^^^^^^^^^^^^^^^^
+
+#. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+#. Click the *Default* project
+#. Select the server you want to access
+#. Activate the rescue system:
+
+   #. Click the *Rescue* tab
+   #. Click the *Enable rescue & power cycle* button
+   #. Set *Choose a Rescue OS* to *linux64*
+   #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
+   #. Click the *Enable rescue* button
+
+#. Connect to the server as the ``root`` user using SSH
 
 Hetzner Dedicated
 ~~~~~~~~~~~~~~~~~
 
-Hetzner offers two recovery methods.
+Hetzner Dedicated offers two recovery methods.
 
 Hetzner Rescue System
 ^^^^^^^^^^^^^^^^^^^^^
@@ -46,13 +76,13 @@ The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/trou
    #. Set *Operating system* to *Linux*
    #. Set *Architecture* to *64 bit*
    #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
-   #. Click *Activate rescue system*
+   #. Click the *Activate rescue system* button
 
 #. Reboot the server:
 
    #. Click the *Reset* tab
    #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
-   #. Click *Send*
+   #. Click the *Send* button
 
    It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
 
