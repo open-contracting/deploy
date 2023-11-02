@@ -69,7 +69,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
             Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
 
-      #. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
+      #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
 
    .. tab-item:: Hetzner Cloud
       :sync: hetzner-cloud
@@ -95,7 +95,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Enter the hostname in *Server name* (``ocp42``, for example)
          #. Click the *Create & Buy now* button
 
-      #. If using Docker, :ref:`configure an external firewall<hetzner-cloud-firewall>`.
+      #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
 
    .. tab-item:: Hetzner Dedicated
       :sync: hetzner-dedicated
@@ -114,7 +114,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
             .. note::
 
-               If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps. Servers from the Server Auction are delivered in the `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
+               If Ubuntu isn't an option, you will need to install Ubuntu after these steps. Servers from the Server Auction are delivered in the `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
 
          #. Set *Drives* as needed
          #. Click the *Order Now* button
@@ -132,79 +132,75 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
       #. Wait to be notified via email that the server is ready.
 
-      .. _install-ubuntu:
+      .. tab-set::
 
-      Install Ubuntu
-      ^^^^^^^^^^^^^^
+         .. tab-item:: Install Ubuntu
 
-      If Ubuntu wasn't an option, follow these steps to install Ubuntu:
+            If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
-      #. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
-      #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
-      #. Test the server hardware:
+            #. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
+            #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
+            #. Test the server hardware:
 
-         #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
+               #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
 
-            .. code-block:: bash
+                  .. code-block:: bash
 
-               smartctl -t long /dev/<device>
-               smartctl -a /dev/<device>
+                     smartctl -t long /dev/<device>
+                     smartctl -a /dev/<device>
 
-         #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
+               #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
 
-      #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
+            #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
 
-         .. code-block:: bash
+               .. code-block:: bash
 
-            installimage
+                  installimage
 
-         #. Select the latest Ubuntu LTS version.
+               #. Select the latest Ubuntu LTS version.
 
-         #. The installer opens a configuration file.
+               #. The installer opens a configuration file.
 
-            #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+                  #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
-               .. code-block:: none
+                     .. code-block:: none
 
-                  DRIVE1 /dev/sdb
-                  DRIVE2 /dev/sdd
+                        DRIVE1 /dev/sdb
+                        DRIVE2 /dev/sdd
 
-            #. Set ``SWRAIDLEVEL 1``
-            #. Set the hostname (see more under :ref:`create-dns-records`). For example:
+                  #. Set ``SWRAIDLEVEL 1``
+                  #. Set the hostname (see more under :ref:`create-dns-records`). For example:
 
-               .. code-block:: none
+                     .. code-block:: none
 
-                  HOSTNAME ocp##.open-contracting.org
+                        HOSTNAME ocp##.open-contracting.org
 
-            #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
+                  #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
 
-               .. code-block:: none
+                     .. code-block:: none
 
-                  PART swap swap 16G
-                  PART /boot ext2 1G
-                  PART / ext4 all
+                        PART swap swap 16G
+                        PART /boot ext2 1G
+                        PART / ext4 all
 
-         #. Press ``F2`` to save
+               #. Press ``F2`` to save
 
-         #. Confirm that you want to overwrite the drives, when prompted
+               #. Confirm that you want to overwrite the drives, when prompted
 
-      #. Reboot the server:
+            #. Reboot the server:
 
-         .. code-block:: bash
+               .. code-block:: bash
 
-            reboot
+                  reboot
 
-      #. If using Docker, :ref:`configure an external firewall<hetzner-dedicated-firewall>`.
+            #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
 
-      .. _install-windows:
+         .. tab-item:: Install Windows
 
-      Install Windows
-      ^^^^^^^^^^^^^^^
+            Reference:
 
-      Reference:
-
-      -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
-      -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+            -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
+            -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
 .. _create-dns-records:
 

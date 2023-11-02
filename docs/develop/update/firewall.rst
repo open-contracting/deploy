@@ -69,6 +69,8 @@ When making changes to firewall settings or port assignments, you might want to:
 
       ss -tupln # netstat -tupln
 
+.. _docker-firewall:
+
 When using Docker
 -----------------
 
@@ -78,11 +80,7 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
    .. tab-item:: Linode
 
-      .. _linode-firewall:
-
       Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
-
-      You can configure a Linode Cloud Firewall as follows:
 
       #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
       #. `Log into Linode <https://login.linode.com/login>`__
@@ -154,11 +152,7 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
    .. tab-item:: Hetzner Dedicated
 
-      .. _hetzner-dedicated-firewall:
-
-      Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
-
-      You can configure a Hetzner firewall as follows:
+      Hetzner Dedicated provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
       #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
       #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
