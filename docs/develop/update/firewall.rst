@@ -76,13 +76,14 @@ When using Docker
 
 The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
+#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
+
 .. tab-set::
 
    .. tab-item:: Linode
 
       Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
-      #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
       #. `Log into Linode <https://login.linode.com/login>`__
       #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
       #. Click *Create Firewall*
@@ -138,23 +139,61 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
          #. Click *Save Changes*
 
-      #. Reset the server-side firewall:
+   .. tab-item:: Hetzner Cloud
 
-         .. code-block:: bash
+      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. Select the server you want to access
+      #. Click the *Firewalls* tab, and either:
 
-            /home/sysadmin-tools/bin/firewall_reset.sh
+         #. Click the *Apply Firewall* button to reuse existing firewalls
 
-      #. Restart the Docker service, if running:
+            #. Click the *default* firewall
+            #. Click the *web* firewall, if appropriate
+            #. Click the *Apply # Firewall(s)* button
 
-         .. code-block:: bash
+         #. Click the *Create Firewall* button to create a new firewall
 
-            systemctl restart docker
+            #. Click the *Add rule* button under the *Inbound rules* heading. The *default* firewall is:
+
+               .. list-table::
+                  :header-rows: 1
+
+                  * - IPs
+                    - Protocol
+                    - Port
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 22
+                  * - Any IPv4, Any IPv6
+                    - ICMP
+                    -
+                  * - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
+                    - TCP
+                    - 7231
+
+               The *web* firewall is:
+
+               .. list-table::
+                  :header-rows: 1
+
+                  * - IPs
+                    - Protocol
+                    - Port
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 80
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 443
+
+            #. Enter a name in *Firewall name* ("postgres", for example)
+            #. Click the *Create Firewall* button
 
    .. tab-item:: Hetzner Dedicated
 
       Hetzner Dedicated provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
-      #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
       #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
       #. Select your server and go to the *Firewall* tab
       #. Set *Status* to active
@@ -222,14 +261,16 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
       #. Click *Save* and wait for the configuration to be applied.
 
-      #. Reset the server-side firewall:
+After configuring the external firewall:
 
-         .. code-block:: bash
+#. Reset the server-side firewall:
 
-            /home/sysadmin-tools/bin/firewall_reset.sh
+   .. code-block:: bash
 
-      #. Restart the Docker service, if running:
+      /home/sysadmin-tools/bin/firewall_reset.sh
 
-         .. code-block:: bash
+#. Restart the Docker service, if running:
 
-            systemctl restart docker
+   .. code-block:: bash
+
+      systemctl restart docker
