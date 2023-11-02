@@ -19,7 +19,7 @@ x-filesystem: &filesystem
 services:
   web:
     <<: *filesystem
-    ports: 
+    ports:
       - {{ pillar.docker_apps.kingfisher_process.port }}:8000
   api_loader:
     <<: *filesystem

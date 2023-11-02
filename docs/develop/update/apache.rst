@@ -228,7 +228,7 @@ apache.modules.passenger
 apache.modules.proxy
   Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
 apache.modules.proxy_fcgi
-  Provides supports for the `FastCGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_fcgi.html>`__. Included by the ``php-fpm`` state file.  
+  Provides supports for the `FastCGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_fcgi.html>`__. Included by the ``php-fpm`` state file.
 apache.modules.proxy_http
   Provides support for `HTTP/HTTPS requests in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_http.html>`__. Included by the ``python_apps`` state file.
 apache.modules.proxy_uwsgi

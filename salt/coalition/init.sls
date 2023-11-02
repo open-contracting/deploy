@@ -1,5 +1,5 @@
 {% from 'lib.sls' import create_user %}
-  
+
 {% set user = 'coalition' %}
 {% set userdir = '/home/' + user %}
 

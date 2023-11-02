@@ -17,7 +17,7 @@ x-django: &django
 services:
   web:
     <<: *django
-    ports: 
+    ports:
       - {{ pillar.apache.sites.registry.context.port }}:8000
   exporter:
     <<: *django

@@ -34,7 +34,7 @@ groups:
           summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
 
-      ## Memory 
+      ## Memory
 
       - alert: AvailableMemoryLow90PerCent
         expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes < 0.1
