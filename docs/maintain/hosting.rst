@@ -26,8 +26,8 @@ Linode
 #. Click *Launch LISH Console*
 #. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
 
-Hetzner
-~~~~~~~
+Hetzner Dedicated
+~~~~~~~~~~~~~~~~~
 
 Hetzner offers two recovery methods.
 
@@ -36,7 +36,7 @@ Hetzner Rescue System
 
 The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-#. `Log into Hetzner <https://robot.hetzner.com/server>`__
+#. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
 #. Select the server you want to access
 #. Activate the rescue system:
 

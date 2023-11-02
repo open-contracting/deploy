@@ -76,15 +76,15 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
 .. _hetzner-firewall:
 
-Hetzner (hardware servers)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+Hetzner Dedicated
+~~~~~~~~~~~~~~~~~
 
 Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
 You can configure a Hetzner firewall as follows:
 
 #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Hetzner <https://robot.hetzner.com/server>`__
+#. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
 #. Select your server and go to the *Firewall* tab
 #. Set *Status* to active
 #. Enable *Hetzner Services*
@@ -165,8 +165,8 @@ You can configure a Hetzner firewall as follows:
 
 .. _linode-firewall:
 
-Linode (VPS servers)
-~~~~~~~~~~~~~~~~~~~~
+Linode
+~~~~~~
 
 Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 

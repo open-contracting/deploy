@@ -10,180 +10,205 @@ As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before 
 
 Create the server via the :ref:`host<hosting>`'s interface.
 
-Linode
-~~~~~~
+.. tab-set::
 
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Click *Create Linode*
+   .. tab-item:: Linode
+      :sync: linode
 
-   #. Set *Images* to the latest Ubuntu LTS version
-   #. Set *Region* to *London UK*
-   #. Select a *Linode Plan*
-   #. Set *Linode Label* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
-   #. Set *Add Tags* to either *Production* or *Development*
-   #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
-   #. Check *Backups*
-   #. Click *Create Linode* and wait a few minutes for the server to power on
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Click *Create Linode*
 
-#. From the `Linodes <https://cloud.linode.com/linodes>`__ list:
+         #. Set *Images* to the latest Ubuntu LTS version
+         #. Set *Region* to *London UK*
+         #. Select a *Linode Plan*
+         #. Set *Linode Label* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Add Tags* to either *Production* or *Development*
+         #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+         #. Check *Backups*
+         #. Click *Create Linode* and wait a few minutes for the server to power on
 
-   #. Click on the label for the new server
-   #. Click *Power Off* and wait for the server to power off
-   #. On the *Storage* tab:
+      #. From the `Linodes <https://cloud.linode.com/linodes>`__ list:
 
-      #. Resize the "Swap Image" disk to the appropriate size
+         #. Click on the label for the new server
+         #. Click *Power Off* and wait for the server to power off
+         #. On the *Storage* tab:
 
-         The swap size should be at most 200% of RAM and:
+            #. Resize the "Swap Image" disk to the appropriate size
 
-         -  If RAM is less than 2 GB: at least 100% of RAM
-         -  If RAM is less than 32 GB: at least 50% of RAM
-         -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
+               The swap size should be at most 200% of RAM and:
+
+               -  If RAM is less than 2 GB: at least 100% of RAM
+               -  If RAM is less than 32 GB: at least 50% of RAM
+               -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
+
+               .. note::
+
+                  If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
+
+            #. Rename the "Swap Image" disk to "### MB Swap Image"
+            #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+
+         #. On the *Configurations* tab:
+
+            #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
+            #. Uncheck *Auto-configure networking*
+            #. Click *Save Changes*
+
+         #. Click *Power On*
+         #. Copy *SSH Access* to your clipboard
+
+      #. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign an IPv6 /64 block to the new server.
+
+            Hello,
+
+            Please assign an IPv6 /64 block to the server ocp##.open-contracting.org.
+
+            Thank you,
 
          .. note::
 
-            If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
+            Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
 
-      #. Rename the "Swap Image" disk to "### MB Swap Image"
-      #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
+      #. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
 
-   #. On the *Configurations* tab:
+   .. tab-item:: Hetzner Cloud
+      :sync: hetzner-cloud
 
-      #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
-      #. Uncheck *Auto-configure networking*
-      #. Click *Save Changes*
+      #. Go to the `Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. Click the *Add Server* button
+      #. Click the *Falkenstein* location
+      #. Click the *Ubuntu* image
+      #. Select a *Type*
+      #. Click the *Add SSH key* button
 
-   #. Click *Power On*
-   #. Copy *SSH Access* to your clipboard
+         #. Enter :ref:`your public SSH key<add-public-key>` in *SSH key*
+         #. Enter your full name in *Name*
+         #. Click the *Add SSH key* button
 
-#. `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to assign an IPv6 /64 block to the new server.
+         .. note::
 
-      Hello,
+            This adds your public SSH key to ``/root/.ssh/authorized_keys``.
 
-      Please assign an IPv6 /64 block to the server ocp##.open-contracting.org.
+      #. Check the *Backups* box
+      #. Enter the hostname in *Server name* (``ocp42``, for example)
+      #. Click the *Create & Buy now* button
 
-      Thank you,
-
-   .. note::
-
-      Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
-
-#. If using Docker, :ref:`configure an external firewall<linode-firewall>`.
-
-Hetzner
-~~~~~~~
-
-.. note::
-
-   Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed, as some servers may not be available for several days.
-
-#. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
-#. Click the *Dedicated* menu to browser for a suitable server
-#. Check the `Server Auction <https://www.hetzner.com/sb>`__ for a comparable server
-#. Click the *Order* button for the chosen server
-
-   #. Set *Server Location* (no issues to date with the lowest price option)
-   #. Set *Operating System* to the latest Ubuntu LTS version
+   .. tab-item:: Hetzner Dedicated
+      :sync: hetzner-dedicated
 
       .. note::
 
-         If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps. Servers from the Server Auction are delivered in the `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
+         Hetzner dedicated servers are physical servers, and are commissioned to order. Pay attention to any wait times displayed, as some servers may not be available for several days.
 
-   #. Set *Drives* as needed
-   #. Click the *Order Now* button
-   #. In the *Server Login Details* panel, set *Type* to "Public key" and enter :ref:`your public SSH key<add-public-key>`
+      #. Go to `Hetzner <https://www.hetzner.com/?country=us>`__
+      #. Click the *Dedicated* menu to browser for a suitable server
+      #. Check the `Server Auction <https://www.hetzner.com/sb>`__ for a comparable server
+      #. Click the *Order* button for the chosen server
 
-      .. note::
+         #. Set *Server Location* (no issues to date with the lowest price option)
+         #. Set *Operating System* to the latest Ubuntu LTS version
 
-         This adds your public SSH key to ``/root/.ssh/authorized_keys``.
+            .. note::
 
-   #. Click the *Save* button
-   #. Review the order and click the *Checkout* button
-   #. If prompted, login using OCP's credentials
-   #. Check the "I have read your Terms and Conditions as well as your Privacy Policy and I agree to them." box
-   #. Click the *Order in obligation* button
+               If Ubuntu isn't an option, you will need to :ref:`install-ubuntu` after these steps. Servers from the Server Auction are delivered in the `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__.
 
-#. Wait to be notified via email that the server is ready.
+         #. Set *Drives* as needed
+         #. Click the *Order Now* button
+         #. In the *Server Login Details* panel, set *Type* to "Public key" and enter :ref:`your public SSH key<add-public-key>`
 
-.. _install-ubuntu:
+            .. note::
 
-Install Ubuntu
-^^^^^^^^^^^^^^
+               This adds your public SSH key to ``/root/.ssh/authorized_keys``.
 
-If Ubuntu wasn't an option, follow these steps to install Ubuntu:
+         #. Click the *Save* button
+         #. Review the order and click the *Checkout* button
+         #. If prompted, login using OCP's credentials
+         #. Check the "I have read your Terms and Conditions as well as your Privacy Policy and I agree to them." box
+         #. Click the *Order in obligation* button
 
-#. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
-#. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
-#. Test the server hardware:
+      #. Wait to be notified via email that the server is ready.
 
-   #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
+      .. _install-ubuntu:
 
-      .. code-block:: bash
+      Install Ubuntu
+      ^^^^^^^^^^^^^^
 
-         smartctl -t long /dev/<device>
-         smartctl -a /dev/<device>
+      If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
-   #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
+      #. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
+      #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
+      #. Test the server hardware:
 
-#. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
+         #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
 
-   .. code-block:: bash
+            .. code-block:: bash
 
-      installimage
+               smartctl -t long /dev/<device>
+               smartctl -a /dev/<device>
 
-   #. Select the latest Ubuntu LTS version.
+         #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
 
-   #. The installer opens a configuration file.
+      #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
 
-      #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+         .. code-block:: bash
 
-         .. code-block:: none
+            installimage
 
-            DRIVE1 /dev/sdb
-            DRIVE2 /dev/sdd
+         #. Select the latest Ubuntu LTS version.
 
-      #. Set ``SWRAIDLEVEL 1``
-      #. Set the hostname (see more under :ref:`create-dns-records`). For example:
+         #. The installer opens a configuration file.
 
-         .. code-block:: none
+            #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
-            HOSTNAME ocp##.open-contracting.org
+               .. code-block:: none
 
-      #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
+                  DRIVE1 /dev/sdb
+                  DRIVE2 /dev/sdd
 
-         .. code-block:: none
+            #. Set ``SWRAIDLEVEL 1``
+            #. Set the hostname (see more under :ref:`create-dns-records`). For example:
 
-            PART swap swap 16G
-            PART /boot ext2 1G
-            PART / ext4 all
+               .. code-block:: none
 
-   #. Press ``F2`` to save
+                  HOSTNAME ocp##.open-contracting.org
 
-   #. Confirm that you want to overwrite the drives, when prompted
+            #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
 
-#. Reboot the server:
+               .. code-block:: none
 
-   .. code-block:: bash
+                  PART swap swap 16G
+                  PART /boot ext2 1G
+                  PART / ext4 all
 
-      reboot
+         #. Press ``F2`` to save
 
-#. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+         #. Confirm that you want to overwrite the drives, when prompted
 
-.. _install-windows:
+      #. Reboot the server:
 
-Install Windows
-^^^^^^^^^^^^^^^
+         .. code-block:: bash
 
-Reference:
+            reboot
 
--  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
--  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+      #. If using Docker, :ref:`configure an external firewall<hetzner-firewall>`.
+
+      .. _install-windows:
+
+      Install Windows
+      ^^^^^^^^^^^^^^^
+
+      Reference:
+
+      -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
+      -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
 .. _create-dns-records:
 
 2. Create DNS records
 ---------------------
 
-Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Increment the number by 1 for each new server, to ensure the hostname is unique and used only once. To determine the greatest number, refer to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file.
+Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
 
 #. Login to `GoDaddy <https://sso.godaddy.com>`__
 #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
@@ -213,34 +238,58 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 Configure reverse DNS
 ~~~~~~~~~~~~~~~~~~~~~
 
-Linode
-^^^^^^
+.. tab-set::
 
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Select the new server
-#. On the *Network* tab:
+   .. tab-item:: Linode
+      :sync: linode
 
-   #. Click *Edit RDNS* for the *IPv4 – Public* address
-   #. Set Reverse DNS to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
-   #. If the server has an IPv6 /64 block:
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Select the new server
+      #. On the *Network* tab:
 
-      #. Click *Edit RDNS* for the *IPv6 – Range* IP block
-      #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+         #. Click *Edit RDNS* for the *IPv4 – Public* address
+         #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Click the *Save* button
+         #. If the server has an IPv6 /64 block:
 
-Hetzner
-^^^^^^^
+            #. Click *Edit RDNS* for the *IPv6 – Range* IP block
+            #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Click the *Save* button
 
-#. `Log into Hetzner <https://robot.hetzner.com/server>`__
-#. Select the new server
-#. On the *IPs* tab (default tab):
+   .. tab-item:: Hetzner Cloud
+      :sync: hetzner-cloud
 
-   #. Under *IP addresses:* heading, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
-   #. If the server has an IPv6 /64 block:
+      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. On the *Primary IPs* tab:
 
-      #. Under the *Subnets:* heading, click the *⊕* symbol on the left
-      #. Click the *Add new Reverse DNS entry* link
-      #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits
-      #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp12.open-contracting.org``)
+         #. Click the *...* button for the server's IPv4 address
+         #. Click the *Edit Reverse DNS* menu item
+         #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Click the *Edit Reverse DNS* button
+         #. If the server has an IPv6 /64 block:
+
+            #. Click the *...* button for the server's IPv6 address
+            #. Click the *Edit Reverse DNS* menu item
+            #. Set the end of the IPv6 address to "::"
+            #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Click the *Edit Reverse DNS* button
+
+   .. tab-item:: Hetzner Dedicated
+      :sync: hetzner-dedicated
+
+      #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+      #. Select the new server
+      #. On the *IPs* tab (default tab):
+
+         #. Under *IP addresses:* heading, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. If the server has an IPv6 /64 block:
+
+            #. Under the *Subnets:* heading, click the *⊕* symbol on the left
+            #. Click the *Add new Reverse DNS entry* link
+            #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits
+            #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Click the *Create* button
 
 3. Apply core changes
 ---------------------
