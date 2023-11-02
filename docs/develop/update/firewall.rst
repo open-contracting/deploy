@@ -74,168 +74,168 @@ When using Docker
 
 The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
-.. _linode-firewall:
+.. tab-set::
 
-Linode
-~~~~~~
+   .. tab-item:: Linode
 
-Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+      .. _linode-firewall:
 
-You can configure a Linode Cloud Firewall as follows:
+      Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
-#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
-#. Click *Create Firewall*
+      You can configure a Linode Cloud Firewall as follows:
 
-   #. Set *Label* to the server name
-   #. Set *Linodes* to the server
-   #. Click *Create Firewall*
+      #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
+      #. Click *Create Firewall*
 
-#. Click on the label for the new firewall
+         #. Set *Label* to the server name
+         #. Set *Linodes* to the server
+         #. Click *Create Firewall*
 
-   #. Set *Default inbound policy* to *Drop*
-   #. Add an inbound rule. The recommended minimum is:
+      #. Click on the label for the new firewall
 
-      .. list-table::
-         :header-rows: 1
+         #. Set *Default inbound policy* to *Drop*
+         #. Add an inbound rule. The recommended minimum is:
 
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-SSH
-           - TCP
-           - SSH (22)
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-ICMP
-           - ICMP
-           -
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-Prometheus
-           - TCP
-           - 7231
-           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
-           - Accept
+            .. list-table::
+               :header-rows: 1
 
-      Most servers will also have:
+               * - Label
+                 - Protocol
+                 - Ports
+                 - Sources
+                 - Action
+               * - Allow-SSH
+                 - TCP
+                 - SSH (22)
+                 - All IPv4, All IPv6
+                 - Accept
+               * - Allow-ICMP
+                 - ICMP
+                 -
+                 - All IPv4, All IPv6
+                 - Accept
+               * - Allow-Prometheus
+                 - TCP
+                 - 7231
+                 - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
+                 - Accept
 
-      .. list-table::
-         :header-rows: 1
+            Most servers will also have:
 
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-HTTP
-           - TCP
-           - HTTP (80), HTTPS (443)
-           - All IPv4, All IPv6
-           - Accept
+            .. list-table::
+               :header-rows: 1
 
-   #. Click *Save Changes*
+               * - Label
+                 - Protocol
+                 - Ports
+                 - Sources
+                 - Action
+               * - Allow-HTTP
+                 - TCP
+                 - HTTP (80), HTTPS (443)
+                 - All IPv4, All IPv6
+                 - Accept
 
-#. Reset the server-side firewall:
+         #. Click *Save Changes*
 
-   .. code-block:: bash
+      #. Reset the server-side firewall:
 
-      /home/sysadmin-tools/bin/firewall_reset.sh
+         .. code-block:: bash
 
-#. Restart the Docker service, if running:
+            /home/sysadmin-tools/bin/firewall_reset.sh
 
-   .. code-block:: bash
+      #. Restart the Docker service, if running:
 
-      systemctl restart docker
+         .. code-block:: bash
 
-.. _hetzner-dedicated-firewall:
+            systemctl restart docker
 
-Hetzner Dedicated
-~~~~~~~~~~~~~~~~~
+   .. tab-item:: Hetzner Dedicated
 
-Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+      .. _hetzner-dedicated-firewall:
 
-You can configure a Hetzner firewall as follows:
+      Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
-#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
-#. Select your server and go to the *Firewall* tab
-#. Set *Status* to active
-#. Enable *Hetzner Services*
-#. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
+      You can configure a Hetzner firewall as follows:
 
-   .. list-table::
-      :header-rows: 1
+      #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
+      #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+      #. Select your server and go to the *Firewall* tab
+      #. Set *Status* to active
+      #. Enable *Hetzner Services*
+      #. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
 
-      * - Name
-        - Protocol
-        - Destination port
-        - TCP flags
-        - Action
-      * - icmp
-        - icmp
-        - 0-65535
-        -
-        - accept
-      * - ssh
-        - tcp
-        - 22
-        -
-        - accept
-      * - tcp established
-        - tcp
-        - 32768-65535
-        - ack
-        - accept
+         .. list-table::
+            :header-rows: 1
 
-   Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
+            * - Name
+              - Protocol
+              - Destination port
+              - TCP flags
+              - Action
+            * - icmp
+              - icmp
+              - 0-65535
+              -
+              - accept
+            * - ssh
+              - tcp
+              - 22
+              -
+              - accept
+            * - tcp established
+              - tcp
+              - 32768-65535
+              - ack
+              - accept
 
-   .. list-table::
-      :header-rows: 1
+         Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
 
-      * - Name
-        - Protocol
-        - Destination port
-        - TCP flags
-        - Action
-      * - http
-        - tcp
-        - 80,443
-        -
-        - accept
+         .. list-table::
+            :header-rows: 1
 
-   .. note::
+            * - Name
+              - Protocol
+              - Destination port
+              - TCP flags
+              - Action
+            * - http
+              - tcp
+              - 80,443
+              -
+              - accept
 
-      *Destination IP* and *Source port* are never set.
+         .. note::
 
-#. Add additional firewall rules. The recommended minimum is to also add:
+            *Destination IP* and *Source port* are never set.
 
-      * - Name
-        - Protocol
-        - Source IP
-        - Destination port
-        - TCP flags
-        - Action
-      * - prometheus
-        - tcp
-        - 139.162.253.17/32
-        - 7231
-        -
-        - accept
+      #. Add additional firewall rules. The recommended minimum is to also add:
 
-#. Click *Save* and wait for the configuration to be applied.
+            * - Name
+              - Protocol
+              - Source IP
+              - Destination port
+              - TCP flags
+              - Action
+            * - prometheus
+              - tcp
+              - 139.162.253.17/32
+              - 7231
+              -
+              - accept
 
-#. Reset the server-side firewall:
+      #. Click *Save* and wait for the configuration to be applied.
 
-   .. code-block:: bash
+      #. Reset the server-side firewall:
 
-      /home/sysadmin-tools/bin/firewall_reset.sh
+         .. code-block:: bash
 
-#. Restart the Docker service, if running:
+            /home/sysadmin-tools/bin/firewall_reset.sh
 
-   .. code-block:: bash
+      #. Restart the Docker service, if running:
 
-      systemctl restart docker
+         .. code-block:: bash
+
+            systemctl restart docker

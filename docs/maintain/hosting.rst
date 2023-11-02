@@ -18,90 +18,89 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 1. Reboot the server. This often restores access, as unsaved changes to firewall rules are reset, system resources are freed, and running processes are restarted.
 2. Use a recovery system to restore access if the server remains inaccessible.
 
-Linode
-~~~~~~
+.. tab-set::
 
-`Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+   .. tab-item:: Linode
 
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Select the server you want to access
-#. Click the *Launch LISH Console* link
-#. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
+      `Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
 
-Hetzner Cloud
-~~~~~~~~~~~~~
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Select the server you want to access
+      #. Click the *Launch LISH Console* link
+      #. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
 
-Hetzner Cloud offers two recovery methods.
+   .. tab-item:: Hetzner Cloud
 
-Console
-^^^^^^^
+      Hetzner Cloud offers two recovery methods.
 
-#. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
-#. Click the *Default* project
-#. Select the server you want to access
-#. Click the *Actions* button
-#. Click the *Console* menu item
+      Console
+      ^^^^^^^
 
-Hetzner Rescue System
-^^^^^^^^^^^^^^^^^^^^^
+      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. Select the server you want to access
+      #. Click the *Actions* button
+      #. Click the *Console* menu item
 
-#. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
-#. Click the *Default* project
-#. Select the server you want to access
-#. Activate the rescue system:
+      Hetzner Rescue System
+      ^^^^^^^^^^^^^^^^^^^^^
 
-   #. Click the *Rescue* tab
-   #. Click the *Enable rescue & power cycle* button
-   #. Set *Choose a Rescue OS* to *linux64*
-   #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
-   #. Click the *Enable rescue* button
+      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. Select the server you want to access
+      #. Activate the rescue system:
 
-#. Connect to the server as the ``root`` user using SSH
+         #. Click the *Rescue* tab
+         #. Click the *Enable rescue & power cycle* button
+         #. Set *Choose a Rescue OS* to *linux64*
+         #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
+         #. Click the *Enable rescue* button
 
-Hetzner Dedicated
-~~~~~~~~~~~~~~~~~
+      #. Connect to the server as the ``root`` user using SSH
 
-Hetzner Dedicated offers two recovery methods.
+   .. tab-item:: Hetzner Dedicated
 
-Hetzner Rescue System
-^^^^^^^^^^^^^^^^^^^^^
+      Hetzner Dedicated offers two recovery methods.
 
-The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
+      Hetzner Rescue System
+      ^^^^^^^^^^^^^^^^^^^^^
 
-#. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
-#. Select the server you want to access
-#. Activate the rescue system:
+      The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-   #. Click the *Rescue* tab
-   #. Set *Operating system* to *Linux*
-   #. Set *Architecture* to *64 bit*
-   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
-   #. Click the *Activate rescue system* button
+      #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+      #. Select the server you want to access
+      #. Activate the rescue system:
 
-#. Reboot the server:
+         #. Click the *Rescue* tab
+         #. Set *Operating system* to *Linux*
+         #. Set *Architecture* to *64 bit*
+         #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
+         #. Click the *Activate rescue system* button
 
-   #. Click the *Reset* tab
-   #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
-   #. Click the *Send* button
+      #. Reboot the server:
 
-   It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
+         #. Click the *Reset* tab
+         #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
+         #. Click the *Send* button
 
-#. Connect to the server as the ``root`` user using SSH
+         It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
 
-#. Mount the drive(s):
+      #. Connect to the server as the ``root`` user using SSH
 
-   .. code-block:: bash
+      #. Mount the drive(s):
 
-      mount /dev/md/2 /mnt
+         .. code-block:: bash
 
-#. Optionally, ``chroot`` into the operating system:
+            mount /dev/md/2 /mnt
 
-   .. code-block:: bash
+      #. Optionally, ``chroot`` into the operating system:
 
-      chroot-prepare /mnt
-      chroot /mnt
+         .. code-block:: bash
 
-KVM Console
-^^^^^^^^^^^
+            chroot-prepare /mnt
+            chroot /mnt
 
-Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
+      KVM Console
+      ^^^^^^^^^^^
+
+      Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
