@@ -40,6 +40,9 @@ base:
     - tinyproxy
     - docs_maintenance
 
+  'dream-bi':
+    - dream_bi
+
   'kingfisher-main':
     - kingfisher_main
     - private.kingfisher_main
