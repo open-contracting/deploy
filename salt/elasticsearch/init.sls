@@ -21,8 +21,8 @@ set jvm heap size:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/memory.options
     - contents: |
-       -Xms{{ grains.mem_total // 5 * 2 }}m
-       -Xmx{{ grains.mem_total // 5 * 2 }}m
+        -Xms{{ grains.mem_total // 5 * 2 }}m
+        -Xmx{{ grains.mem_total // 5 * 2 }}m
     - group: elasticsearch
     - watch_in:
       - service: elasticsearch
