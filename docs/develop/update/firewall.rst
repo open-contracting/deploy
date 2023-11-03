@@ -246,6 +246,9 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
 
       #. Add additional firewall rules. The recommended minimum is to also add:
 
+         .. list-table::
+            :header-rows: 1
+
             * - Name
               - Protocol
               - Source IP
