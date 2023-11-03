@@ -34,39 +34,10 @@ include:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{%
-  set crawls = [
-    {
-      'identifier': 'CHILE',
-      'spider': 'chile_compra_api_records',
-      'start_date': '2021-12-03',
-      'day': 1,
-      'options': '-a compile_releases=true',
-    },
-    {
-      'identifier': 'DOMINICAN_REPUBLIC',
-      'spider': 'dominican_republic_api',
-      'start_date': '2023-07-13',
-      'day': '1,15',
-      'options': '-a compile_releases=true',
-    },
-    {
-      'identifier': 'ECUADOR',
-      'spider': 'ecuador_sercop_bulk',
-      'start_date': '2015-01-01',
-    },
-    {
-      'identifier': 'MOLDOVA',
-      'spider': 'moldova',
-      'start_date': '2021-06-11',
-    },
-  ]
-%}
-
 {{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
 
 # Note that "%" has special significance in cron, so it must be escaped.
-{% for crawl in crawls %}
+{% for crawl in entry.crawls %}
 cd {{ directory }}; .ve/bin/scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect -s FILES_STORE={{ userdir }}/data:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}

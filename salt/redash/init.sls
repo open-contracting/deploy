@@ -9,7 +9,7 @@ include:
 {{ directory }}/files/nginx-security.conf:
   file.managed:
     - contents: |
-       server_tokens off;
+        server_tokens off;
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True

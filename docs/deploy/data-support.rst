@@ -4,7 +4,7 @@ Data support tasks
 Create a data support main server
 ---------------------------------
 
-#. Notify RBC Group of the new domain name for the new PostgreSQL server, for monitoring
+#. Notify RBC Group of the new domain name for the new PostgreSQL server
 #. Adjust reserved disk space to 1% for large disks:
 
    .. code-block:: bash

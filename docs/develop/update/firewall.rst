@@ -69,164 +69,199 @@ When making changes to firewall settings or port assignments, you might want to:
 
       ss -tupln # netstat -tupln
 
+.. _docker-firewall:
+
 When using Docker
 -----------------
 
 The `firewall.sh` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the `firewall.sh` script exits if the `docker` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
-.. _hetzner-firewall:
-
-Hetzner (hardware servers)
-~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Hetzner provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
-
-You can configure a Hetzner firewall as follows:
-
 #. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Hetzner <https://robot.hetzner.com/server>`__
-#. Select your server and go to the *Firewall* tab
-#. Set *Status* to active
-#. Enable *Hetzner Services*
-#. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
 
-   .. list-table::
-      :header-rows: 1
+.. tab-set::
 
-      * - Name
-        - Protocol
-        - Destination port
-        - TCP flags
-        - Action
-      * - icmp
-        - icmp
-        - 0-65535
-        -
-        - accept
-      * - ssh
-        - tcp
-        - 22
-        -
-        - accept
-      * - tcp established
-        - tcp
-        - 32768-65535
-        - ack
-        - accept
+   .. tab-item:: Linode
 
-   Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
+      Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
-   .. list-table::
-      :header-rows: 1
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
+      #. Click *Create Firewall*
 
-      * - Name
-        - Protocol
-        - Destination port
-        - TCP flags
-        - Action
-      * - http
-        - tcp
-        - 80,443
-        -
-        - accept
+         #. Set *Label* to the server name
+         #. Set *Linodes* to the server
+         #. Click *Create Firewall*
 
-   .. note::
+      #. Click on the label for the new firewall
 
-      *Destination IP* and *Source port* are never set.
+         #. Set *Default inbound policy* to *Drop*
+         #. Add an inbound rule. The recommended minimum is:
 
-#. Add additional firewall rules. The recommended minimum is to also add:
+            .. list-table::
+               :header-rows: 1
 
-      * - Name
-        - Protocol
-        - Source IP
-        - Destination port
-        - TCP flags
-        - Action
-      * - prometheus
-        - tcp
-        - 139.162.253.17/32
-        - 7231
-        -
-        - accept
+               * - Label
+                 - Protocol
+                 - Ports
+                 - Sources
+                 - Action
+               * - Allow-SSH
+                 - TCP
+                 - SSH (22)
+                 - All IPv4, All IPv6
+                 - Accept
+               * - Allow-ICMP
+                 - ICMP
+                 -
+                 - All IPv4, All IPv6
+                 - Accept
+               * - Allow-Prometheus
+                 - TCP
+                 - 7231
+                 - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
+                 - Accept
 
-#. Click *Save* and wait for the configuration to be applied.
+            Most servers will also have:
 
-#. Reset the server-side firewall:
+            .. list-table::
+               :header-rows: 1
 
-   .. code-block:: bash
+               * - Label
+                 - Protocol
+                 - Ports
+                 - Sources
+                 - Action
+               * - Allow-HTTP
+                 - TCP
+                 - HTTP (80), HTTPS (443)
+                 - All IPv4, All IPv6
+                 - Accept
 
-      /home/sysadmin-tools/bin/firewall_reset.sh
+         #. Click *Save Changes*
 
-#. Restart the Docker service, if running:
+   .. tab-item:: Hetzner Cloud
 
-   .. code-block:: bash
+      #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+      #. Click the *Default* project
+      #. Select the server you want to access
+      #. Click the *Firewalls* tab, and either:
 
-      systemctl restart docker
+         #. Click the *Apply Firewall* button to reuse existing firewalls
 
-.. _linode-firewall:
+            #. Click the *default* firewall
+            #. Click the *web* firewall, if appropriate
+            #. Click the *Apply # Firewall(s)* button
 
-Linode (VPS servers)
-~~~~~~~~~~~~~~~~~~~~
+         #. Click the *Create Firewall* button to create a new firewall
 
-Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+            #. Click the *Add rule* button under the *Inbound rules* heading. The *default* firewall is:
 
-You can configure a Linode Cloud Firewall as follows:
+               .. list-table::
+                  :header-rows: 1
 
-#. :doc:`Connect to the server<../../use/ssh>`, to reset the server-side firewall after configuring the external firewall
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
-#. Click *Create Firewall*
+                  * - IPs
+                    - Protocol
+                    - Port
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 22
+                  * - Any IPv4, Any IPv6
+                    - ICMP
+                    -
+                  * - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
+                    - TCP
+                    - 7231
 
-   #. Set *Label* to the server name
-   #. Set *Linodes* to the server
-   #. Click *Create Firewall*
+               The *web* firewall is:
 
-#. Click on the label for the new firewall
+               .. list-table::
+                  :header-rows: 1
 
-   #. Set *Default inbound policy* to *Drop*
-   #. Add an inbound rule. The recommended minimum is:
-   
-      .. list-table::
-         :header-rows: 1
-   
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-SSH
-           - TCP
-           - SSH (22)
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-ICMP
-           - ICMP
-           -
-           - All IPv4, All IPv6
-           - Accept
-         * - Allow-Prometheus
-           - TCP
-           - 7231
-           - 139.162.253.17/32, 2a01:7e00::f03c:93ff:fe13:a12c/128
-           - Accept
-   
-      Most servers will also have:
-   
-      .. list-table::
-         :header-rows: 1
-   
-         * - Label
-           - Protocol
-           - Ports
-           - Sources
-           - Action
-         * - Allow-HTTP
-           - TCP
-           - HTTP (80), HTTPS (443)
-           - All IPv4, All IPv6
-           - Accept
+                  * - IPs
+                    - Protocol
+                    - Port
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 80
+                  * - Any IPv4, Any IPv6
+                    - TCP
+                    - 443
 
-   #. Click *Save Changes*
+            #. Enter a name in *Firewall name* ("postgres", for example)
+            #. Click the *Create Firewall* button
+
+   .. tab-item:: Hetzner Dedicated
+
+      Hetzner Dedicated provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
+
+      #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+      #. Select your server and go to the *Firewall* tab
+      #. Set *Status* to active
+      #. Enable *Hetzner Services*
+      #. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Name
+              - Protocol
+              - Destination port
+              - TCP flags
+              - Action
+            * - icmp
+              - icmp
+              - 0-65535
+              -
+              - accept
+            * - ssh
+              - tcp
+              - 22
+              -
+              - accept
+            * - tcp established
+              - tcp
+              - 32768-65535
+              - ack
+              - accept
+
+         Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
+
+         .. list-table::
+            :header-rows: 1
+
+            * - Name
+              - Protocol
+              - Destination port
+              - TCP flags
+              - Action
+            * - http
+              - tcp
+              - 80,443
+              -
+              - accept
+
+         .. note::
+
+            *Destination IP* and *Source port* are never set.
+
+      #. Add additional firewall rules. The recommended minimum is to also add:
+
+            * - Name
+              - Protocol
+              - Source IP
+              - Destination port
+              - TCP flags
+              - Action
+            * - prometheus
+              - tcp
+              - 139.162.253.17/32
+              - 7231
+              -
+              - accept
+
+      #. Click *Save* and wait for the configuration to be applied.
+
+After configuring the external firewall:
 
 #. Reset the server-side firewall:
 

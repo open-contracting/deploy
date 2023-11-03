@@ -10,6 +10,8 @@ credere-dev:
   host: ocp22.open-contracting.org
 docs:
   host: ocp19.open-contracting.org
+dream-bi:
+  host: ocp25.open-contracting.org
 kingfisher-main:
   host: ocp23.open-contracting.org
 prometheus:

@@ -5,7 +5,7 @@ from urllib.parse import urlsplit
 import pytest
 import requests
 
-fqdn = os.environ.get('FQDN', 'standard.open-contracting.org')
+fqdn = os.getenv('FQDN', 'standard.open-contracting.org')
 base_url = f'https://{fqdn}'
 
 versions = {

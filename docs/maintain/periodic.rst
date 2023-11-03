@@ -98,8 +98,6 @@ To show the packages that were removed but not purged, run:
 
    ./run.py '*' pkg.list_pkgs removed=True
 
-.. _rescale-server:
-
 Upgrade Ubuntu
 --------------
 

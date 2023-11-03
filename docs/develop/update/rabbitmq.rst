@@ -73,7 +73,7 @@ The `RabbitMQ management plugin <https://www.rabbitmq.com/management.html>`__ is
 
 The management interface can be accessed at all times by :ref:`using an SSH tunnel<rabbitmq-ssh-tunnel>`.
 
-To proxy traffic through :doc:`Apache<apache>` instead, add to your service's Pillar file, replacing ``SERVERNAME``:
+To proxy traffic through :doc:`Apache<apache>` instead, add to your server's Pillar file, replacing ``SERVERNAME``:
 
 .. code-block:: yaml
 

@@ -26,6 +26,9 @@ docker_apps:
       DAYS_TO_ERASE_BORROWERS_DATA: 1
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 2
+      # Email addresses
+      TEST_MAIL_RECEIVER: ylisnichuk@open-contracting.org
+      OCP_EMAIL_GROUP: ylisnichuk@open-contracting.org
       # Email templates
       LINK_LINK: https://dev.credere.open-contracting.org
       IMAGES_BASE_URL: https://dev.credere.open-contracting.org/images

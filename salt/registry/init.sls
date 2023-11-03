@@ -33,4 +33,5 @@ cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py
 useful commands for registry maintenance:
   pkg.installed:
     - pkgs:
+      - jq
       - ripgrep

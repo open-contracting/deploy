@@ -15,6 +15,7 @@ Order the top-level keys in these layers:
    -  Time: ``ntp``
    -  Monitoring: ``prometheus``
    -  Logging: ``rsyslog``, ``logrotate``
+   -  Scheduling: ``cron``
 
 -  Application services
 

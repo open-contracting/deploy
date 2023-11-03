@@ -25,9 +25,9 @@ include:
 /home/sysadmin-tools/mysql-defaults.cnf:
   file.managed:
     - contents: |
-       [client]
-       user = root
-       password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
+        [client]
+        user = root
+        password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
     - mode: 600
     - require:
       - file: /home/sysadmin-tools/bin

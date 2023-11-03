@@ -1,6 +1,8 @@
 Hosting
 =======
 
+.. _rescale-server:
+
 Rescale a server
 ----------------
 
@@ -16,60 +18,89 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 1. Reboot the server. This often restores access, as unsaved changes to firewall rules are reset, system resources are freed, and running processes are restarted.
 2. Use a recovery system to restore access if the server remains inaccessible.
 
-Linode
-~~~~~~
+.. tab-set::
 
-`Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+   .. tab-item:: Linode
 
-#. `Log into Linode <https://login.linode.com/login>`__
-#. Select the server you want to access
-#. Click *Launch LISH Console*
-#. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
+      `Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
 
-Hetzner
-~~~~~~~
+      #. `Log into Linode <https://login.linode.com/login>`__
+      #. Select the server you want to access
+      #. Click the *Launch LISH Console* link
+      #. Login as ``root``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
 
-Hetzner offers two recovery methods.
+   .. tab-item:: Hetzner Cloud
 
-Hetzner Rescue System
-^^^^^^^^^^^^^^^^^^^^^
+      Hetzner Cloud offers two recovery methods.
 
-The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
+      .. tab-set::
 
-#. `Log into Hetzner <https://robot.hetzner.com/server>`__
-#. Select the server you want to access
-#. Activate the rescue system:
+         .. tab-item:: Console
 
-   #. Click the *Rescue* tab
-   #. Set *Operating system* to *Linux*
-   #. Set *Architecture* to *64 bit*
-   #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
-   #. Click *Activate rescue system*
+            #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+            #. Click the *Default* project
+            #. Select the server you want to access
+            #. Click the *Actions* button
+            #. Click the *Console* menu item
 
-#. Reboot the server:
+         .. tab-item:: Hetzner Rescue System
 
-   #. Click the *Reset* tab
-   #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
-   #. Click *Send*
+            #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
+            #. Click the *Default* project
+            #. Select the server you want to access
+            #. Activate the rescue system:
 
-   It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
+               #. Click the *Rescue* tab
+               #. Click the *Enable rescue & power cycle* button
+               #. Set *Choose a Rescue OS* to *linux64*
+               #. Select your key for *SSH key* (if missing, add it via the project's *Security* menu item)
+               #. Click the *Enable rescue* button
 
-#. Connect to the server as the ``root`` user using SSH
+            #. Connect to the server as the ``root`` user using SSH
 
-#. Mount the drive(s):
+   .. tab-item:: Hetzner Dedicated
 
-   .. code-block:: bash
+      Hetzner Dedicated offers two recovery methods.
 
-      mount /dev/md/2 /mnt
+      .. tab-set::
 
-#. Optionally, ``chroot`` into the operating system:
+         .. tab-item:: Hetzner Rescue System
 
-   .. code-block:: bash
+            The `Hetzner Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__ boots the server using a temporary recovery image, from which we can mount the server drives to fix issues.
 
-      chroot-prepare /mnt
-      chroot /mnt
+            #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
+            #. Select the server you want to access
+            #. Activate the rescue system:
 
-KVM Console
-^^^^^^^^^^^
+               #. Click the *Rescue* tab
+               #. Set *Operating system* to *Linux*
+               #. Set *Architecture* to *64 bit*
+               #. Select your key for *Public key* (if missing, add it in `Key management <https://robot.hetzner.com/key/index>`__)
+               #. Click the *Activate rescue system* button
 
-Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
+            #. Reboot the server:
+
+               #. Click the *Reset* tab
+               #. Set *Reset type* to *Press power button of server* or *Send CTRL+ALT+DEL to the server*
+               #. Click the *Send* button
+
+               It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
+
+            #. Connect to the server as the ``root`` user using SSH
+
+            #. Mount the drive(s):
+
+               .. code-block:: bash
+
+                  mount /dev/md/2 /mnt
+
+            #. Optionally, ``chroot`` into the operating system:
+
+               .. code-block:: bash
+
+                  chroot-prepare /mnt
+                  chroot /mnt
+
+         .. tab-item:: KVM Console
+
+            Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.

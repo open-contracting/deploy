@@ -99,7 +99,7 @@ To configure the database for an application:
             user: USERNAME
             privileges:
               SCHEMA:
-                - APPLICATION_read
+                APPLICATION_read:
 
    .. note::
 

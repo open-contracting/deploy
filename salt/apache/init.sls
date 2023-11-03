@@ -91,8 +91,8 @@ disable site 000-default.conf:
 /etc/apache2/conf-available/zz-customization.conf:
   file.managed:
     - contents: |
-       ServerTokens Prod
-       ServerSignature Off
+        ServerTokens Prod
+        ServerSignature Off
     - require:
       - pkg: apache2
     - watch_in:

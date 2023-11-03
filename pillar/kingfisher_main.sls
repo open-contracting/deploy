@@ -7,7 +7,7 @@ network:
 # and kingfisher_summarize_read groups.
 users:
   ahazin:
-    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC/etrZ2uWMPgeK9nOB1Q7y22aPyvcWprR2KlIW0MVFLusp1p6s9ZCsehcIbmLps3pYGqoswur1VSAyzxFmd78TWzwFsze6yAydfmN0Q5HM8ZNzpAM6gEd8HgwyX1rEH+1EpZVQ8iiBAebc9aAuUyufz8m4ElybWPvKwNGpTSI0i7eGBJuJ1lSL7mQrnHUaesxBw/38rHvmzO28yHrktn23fHClUOJ2tCCiFh+1mPgh6YTq0yqxtyLGH2F/qvIpzsKRMEoqQ2ETmaRnc8oVLFi7otSM2K7EV7DuKSFJW5FRv5EA67gDOcBHMxUhdg+5E+1WMPZYSyNasEvgAgseFw/JczPeVwjtV0zhTxRQrwrrIkm38lifz/wiUtj9gVb1SmOIOfepY2oxSNM9633Biy7bc5/c7nvvBRHmeHKXZy04bFC77K5pTwVK2eXM9xZE040WuGnhwkum12bJiMwgmF9mbzIHzNSQQ9KY0jqOg8Tc3OqrSv9k6T546TjfuBW2ozM= Andrii (OCP)
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC1zsfXvo9TTdF1YCMCtbvqIAMAtMHMSM+dTC/NYz+4rUF7hUMbTWbNaiezL35YVL2Fuwlerc82z7ktNyTYGtZTrtGdYa4MH/qtBXlHxdRrRz9bbza8DXcrSAEVosbGLe9m7eQMRfqh75m6tag/wXppx12f71K542Qm+/oJs83euHjP7urQa0Z7i9t0vjDqWw/JV39rpPx6F/GrplisyTokoXwVaoXXV9j3/ecBvYrzTI0v81OM7uiKegido4F2IC9xP6QHLuYNiYpYan+qZ/PwGfuMRrKtVof4d6xuJUlNoUKDx8VQGejMrTnTJnmuhdMZUCQ/nAJDfugDkFRpINyDAjt8E7jexLyIQVnqAYwAoIULKDB+Rp8vttSVBZVw0lTVjnopb+bIUE0sTAg3qeN0CDZAfjl/aMt7yFcF2LiZWLb9r+A9eoGo//q14VKD7ztKVQZavdqzR8oSVFwqFbz3+hziMPOl+83j3Mh3G6Rq9+QC3n7IfG/9sU/kk1kNHKU= Andrii (OCP)
   csalazar:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDJs4s1TkcqJg7RsjrpWib7UzHbUYIwnvr+8uK2r4wnZugoj4354jGTSlFlOGc5EQ4FkkNXIOUyOB0i1xxr8piC3VbapkEj/WfMSuElpGdWip3p/UonuNOAxheKna9SqdUvX+Yge/a/M5ElkBoQVZVng5n37e3mU70iveL4VqUzLqqXIY+lzcMlR3VBbuae1O+/T4ug2Teq2B3xL3uiuR+WYlGH9dZLapb+INiohtFImIBcVizdmRtKZRhKfAsh0h2mVp4mfJajz3LHcYkum1c0NvapgmxKIKyR8S2c6QB5jZjrldAFeHV/1mKF99KcmRf89JwkAnbbFT4+Zjks2g8P Camila (OCP)
   fpenna:
@@ -42,6 +42,13 @@ rsyslog:
 logrotate:
   conf:
     kingfisher-summarize.conf: kingfisher-summarize
+
+cron:
+  incremental:
+    do_excluded_supplier.sh:
+      identifier: DOMINICAN_REPUBLIC_EXCLUDED_SUPPLIER
+      hour: 1
+      minute: random
 
 apache:
   public_access: True
@@ -182,6 +189,23 @@ python_apps:
       url: https://github.com/open-contracting/kingfisher-collect.git
       branch: main
       target: kingfisher-collect
+    crawls:
+      - identifier: CHILE
+        spider: chile_compra_api_records
+        start_date: '2021-12-03'
+        day: '1'
+        options: -a compile_releases=true
+      - identifier: DOMINICAN_REPUBLIC
+        spider: dominican_republic_api
+        start_date: '2023-07-13'
+        day: '1,15'
+        options: -a compile_releases=true
+      - identifier: ECUADOR
+        spider: ecuador_sercop_bulk
+        start_date: '2015-01-01'
+      - identifier: MOLDOVA
+        spider: moldova
+        start_date: '2021-06-11'
   kingfisher_summarize:
     user: summarize
     git:
