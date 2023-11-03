@@ -37,6 +37,9 @@ base:
     - elasticsearch.plugins.readonlyrest
     - tinyproxy
 
+  'dream-bi':
+    - nginx
+
   'kingfisher-main':
     - rabbitmq
     - kingfisher
@@ -79,6 +82,10 @@ base:
     - apache.modules.headers
     # Enable HTTPS redirects on the default site.
     - apache.modules.rewrite
+
+  # All public web servers should use SSL certificates.
+  'I@nginx:public_access:true':
+    - nginx.letsencrypt
 
   'I@redmine:backup':
     - redmine.backup
