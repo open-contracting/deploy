@@ -211,11 +211,11 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. Click the *Azure virtual machine* menu item
 
          #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
-         #. Set *Resource group* to the appropriate group (e.g. ``kingfisher``), creating a new resource group, if needed
+         #. Set *Resource group* to "default"
          #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. Set *Region* to "(Europe) UK South"
          #. Set *Image* to the latest Ubuntu LTS version
-         #. Set *Size* to the appropriate size (e.g. ``B2s``)
+         #. Set *Size* to an appropriate size (e.g. ``B2s``)
          #. Set *Authentication type* to "Password"
          #. Set *Username* to "ocpadmin"
          #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
@@ -236,12 +236,10 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
          #. Set *Subnet* to *default (10.0.0.0/24)*
          #. Set *Public IP* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
-
-         #. If not using Docker, set *NIC network security group* to *None*.
-
+         #. If not using Docker, set *NIC network security group* to *None*
          #. If using Docker, set *NIC network security group* to *Advanced*
 
-            #. Click *Create new*
+            #. Click the *Create new* link
             #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp42.open-contracting.org-nsg``)
             #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
 
