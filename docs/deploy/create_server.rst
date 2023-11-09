@@ -328,6 +328,7 @@ Configure reverse DNS
 
       #. Suffix ``-test`` to the target's name in the ``salt-config/roster`` file
       #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
+      #. If configuring Apache, edit the ``salt/apache/files/404.html`` file
 
       The service's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
