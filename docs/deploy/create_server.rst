@@ -324,7 +324,13 @@ Configure reverse DNS
 
    .. note::
 
-      If configuring a non-OCP server, replace ``en_GB`` with ``en_US`` in the ``salt/core/locale.sls`` file.
+      If configuring a non-OCP server:
+
+      #. Suffix ``-test`` to the target's name in the ``salt-config/roster`` file
+      #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
+      #. Replace ``en_GB`` with ``en_US`` in the ``salt/core/locale.sls`` file
+
+      The service's Pillar file needs ``ntp``, ``system_contacts``, ``ssh.admin`` and, preferably, ``maintenance`` sections.
 
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
