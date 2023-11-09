@@ -54,9 +54,9 @@ Update the server's Pillar file:
      ipv6: "2001:db8::"
      networkd:
        template: linode
+       gateway4: 198.51.100.1
        addresses:
          - 2001:db8::/64
-       gateway4: 198.51.100.1
 
 To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
 

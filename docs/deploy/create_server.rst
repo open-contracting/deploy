@@ -322,6 +322,10 @@ Configure reverse DNS
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
 
+   .. note::
+
+      If configuring a non-OCP server, replace ``en_GB`` with ``en_US`` in the ``salt/core/locale.sls`` file.
+
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash

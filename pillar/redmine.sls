@@ -4,9 +4,9 @@ network:
   ipv6: "2a01:7e00:e000:07fd::"
   netplan:
     template: linode
+    gateway4: 139.162.219.1
     addresses:
       - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
-    gateway4: 139.162.219.1
 
 apache:
   public_access: True
