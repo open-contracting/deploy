@@ -51,7 +51,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. On the *Configurations* tab:
 
             #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
-            #. Uncheck *Auto-configure networking*
+            #. Uncheck *Auto-configure networking* (skip if configuring a non-OCP server)
             #. Click *Save Changes*
 
          #. Click *Power On*
@@ -330,7 +330,7 @@ Configure reverse DNS
       #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
       #. Replace ``en_GB`` with ``en_US`` in the ``salt/core/locale.sls`` file
 
-      The service's Pillar file needs ``ntp``, ``system_contacts``, ``ssh.admin`` and, preferably, ``maintenance`` sections.
+      The service's Pillar file needs ``ntp``, ``system_contacts``, ``network.domain``, ``ssh.admin`` and, preferably, ``maintenance`` sections.
 
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 

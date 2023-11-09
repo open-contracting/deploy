@@ -11,6 +11,9 @@ system_contacts:
   # For cron jobs.
   cron_admin: sysadmin@open-contracting.org,sysadmin@dogsbody.com
 
+network:
+  domain: open-contracting.org
+
 ssh:
   # Public keys of users with root access to all servers.
   admin:
