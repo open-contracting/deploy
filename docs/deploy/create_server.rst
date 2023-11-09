@@ -328,9 +328,8 @@ Configure reverse DNS
 
       #. Suffix ``-test`` to the target's name in the ``salt-config/roster`` file
       #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
-      #. Replace ``en_GB`` with ``en_US`` in the ``salt/core/locale.sls`` file
 
-      The service's Pillar file needs ``ntp``, ``system_contacts``, ``network.domain``, ``ssh.admin`` and, preferably, ``maintenance`` sections.
+      The service's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
