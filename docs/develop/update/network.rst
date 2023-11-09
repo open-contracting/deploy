@@ -39,7 +39,7 @@ Linux networking
 
 .. note::
 
-   This step is required on Linode if *Auto-configure networking* was unchecked in :doc:`create_server`.
+   This step is required on Linode if *Auto-configure networking* was unchecked in :doc:`../../deploy/create_server`.
 
 systemd-networkd
 ~~~~~~~~~~~~~~~~
