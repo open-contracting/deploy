@@ -310,7 +310,7 @@ Configure reverse DNS
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. :doc:`../develop/update/network`.
+#. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
