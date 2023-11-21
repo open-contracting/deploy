@@ -32,13 +32,13 @@ For OCDS, run (takes about 4 minutes):
 .. code-block:: bash
 
    for file in $FILES; do
-     jq -rn 'input | (if .releases then .releases else .records end)[0].ocid // ""' $file; done | cut -d- -f1-2 | sort | uniq -c;
-   done
+     jq -rn 'input | (if .releases then .releases else .records end)[0].ocid // ""' $file;
+   done | cut -d- -f1-2 | sort | uniq -c
 
 For OC4IDS, run:
 
 .. code-block:: bash
 
    for file in $FILES; do
-     jq -rn 'input | .projects[0].id // ""' $file; done | cut -c-11 | sort | uniq -c | sort -n;
-   done
+     jq -rn 'input | .projects[0].id // ""' $file;
+   done | cut -d- -f1-2 | sort | uniq -c
