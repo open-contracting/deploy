@@ -19,8 +19,7 @@ include:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-# docker compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py update-exchange-rates 2> /dev/null:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm -e LOG_LEVEL=WARNING cron python manage.py update-exchange-rates:
   cron.present:
     - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
     - user: {{ pillar.docker.user }}
