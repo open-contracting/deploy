@@ -42,3 +42,24 @@ For OC4IDS, run:
    for file in $FILES; do
      jq -rn 'input | .projects[0].id // ""' $file;
    done | cut -d- -f1-2 | sort | uniq -c
+
+Search files
+------------
+
+For example:
+
+.. code-block:: bash
+
+   rg -c 'my search string' /home/cove/cove/media
+
+To exclude generated files, add:
+
+.. code-block:: none
+
+   -g '!{metatab,unflattened,validation_errors-3}.json'
+
+To exclude generated files and CoVE OCDS' test fixtures, add:
+
+.. code-block:: none
+
+   -g '!{bad_toplevel_list,badfile_all_validation_errorsbadfile_extension_validation_errors,basic_release_empty_fields,extended_many_jsonschema_keys,full_record,latin1,ocds_release_nulls,record_minimal_valid,release_aggregate,tenders_1_release_with_extensions_1_1_missing_party_scale,tenders_records_1_record_with_invalid_extensions,tenders_releases_1_release_unpackaged,tenders_releases_1_release_with_all_invalid_extensions,tenders_releases_1_release_with_closed_codelist,tenders_releases_1_release_with_extension_broken_json_ref,tenders_releases_1_release_with_extensions_1_1tenders_releases_1_release_with_extensions_new_layout,tenders_releases_1_release_with_invalid_extensions,tenders_releases_1_release_with_patch_in_version,tenders_releases_1_release_with_tariff_codelist,tenders_releases_1_release_with_unrecognized_version,tenders_releases_1_release_with_various_codelists,tenders_releases_1_release_with_wrong_version_type,tenders_releases_2_releases,tenders_releases_2_releases_1_1_tenderers_with_missing_ids,tenders_releases_2_releases_codelists,tenders_releases_2_releases_invalid,tenders_releases_2_releases_not_json,tenders_releases_7_releases_check_ocids,tenders_releases_deprecated_fields_against_1_1_live,tenders_releases_extra_data,unconvertable_json,utf8,utf-16,ocds-213czf-000-00001-02-tender,metatab,unflattened,validation_errors-3}.json'
