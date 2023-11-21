@@ -46,3 +46,4 @@ useful commands for CoVE analysis:
   pkg.installed:
     - pkgs:
       - jq
+      - ripgrep

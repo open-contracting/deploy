@@ -17,6 +17,7 @@ Deployment Guides
    :maxdepth: 2
 
    docker.rst
+   cove.rst
    docs.rst
    prometheus.rst
    data-support.rst
