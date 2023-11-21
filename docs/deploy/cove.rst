@@ -27,7 +27,7 @@ Find the files as above, and store the output. For example:
 
    FILES=$(find /home/cove/cove/media -mindepth 3 -name '*.json')
 
-For OCDS, run (takes ):
+For OCDS, run (takes about 4 minutes):
 
 .. code-block:: bash
 
