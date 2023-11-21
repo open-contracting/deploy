@@ -41,3 +41,8 @@ clean up tmp data when python errors:
     - pattern: "^SHOWWARNING=true"
     - repl: "#SHOWWARNING=true"
     - backup: False
+
+useful commands for CoVE analysis:
+  pkg.installed:
+    - pkgs:
+      - jq
