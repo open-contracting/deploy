@@ -16,7 +16,7 @@ CoVE OCDS' tests are run against the server, which submit many known filenames, 
 
 .. You can visualize the regular expression with https://www.debuggex.com.
 
-To count unique basenames, add: `` -exec basename '{}' \; | sort | uniq -c | sort -n``
+To count unique basenames, add: ``-exec basename '{}' \; | sort | uniq -c | sort -n``
 
 Find prefixes
 -------------
