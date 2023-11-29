@@ -46,9 +46,7 @@ nginx-reload:
   file.managed:
     - source: salt://nginx/files/sites/{{ entry.configuration }}.conf
     - template: jinja
-    - context:
-        servername: {{ entry.servername }}
-        serveraliases: {{ entry.serveraliases|default([])|yaml }}
+    - context: {{ dict(context, servername=entry.servername, serveraliases=entry.get('serveraliases', []), **entry.get('context', {}))|yaml }}
     - require:
       - pkg: nginx
     - watch_in:

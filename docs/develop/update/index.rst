@@ -13,6 +13,7 @@ Make changes
    cron.rst
    awscli.rst
    apache.rst
+   nginx.rst
    elasticsearch.rst
    postgres.rst
    mysql.rst

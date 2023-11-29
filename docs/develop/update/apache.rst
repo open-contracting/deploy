@@ -57,7 +57,7 @@ Add to your service's Pillar file:
 
 This will:
 
--  Create a ``/etc/apache2/sites-available/{site}.conf`` file that includes a ``/etc/apache2/sites-available/{site}.conf.include`` file, which, together:
+-  Create a ``/etc/apache2/sites-available/ocds-docs-live.conf`` file that includes a ``/etc/apache2/sites-available/ocds-docs-live.conf.include`` file, which, together, will:
 
    -  If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``:
 
@@ -68,7 +68,7 @@ This will:
       -  Create a virtual host serving port 443
 
    -  Create a virtual host serving port 80
-   -  Set the virtual hosts' ``servername`` and ``serveraliases``, if any
+   -  Set the virtual host's ``servername`` and ``serveraliases``, if any
 
 -  Symlink the new files from the ``etc/apache2/sites-enabled`` directory
 -  Reload the Apache service if the configuration changed
