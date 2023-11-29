@@ -164,10 +164,10 @@ Delete an htpasswd entry
 
 #. Remove the temporary state
 
-.. _delete-virtual-host:
+.. _delete-apache-virtual-host:
 
-Delete a virtual host
----------------------
+Delete an Apache virtual host
+-----------------------------
 
 Run, for example:
 

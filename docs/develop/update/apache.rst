@@ -62,22 +62,22 @@ This will:
    -  If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``:
 
       -  :ref:`ssl-certificates`
+      -  Create a virtual host serving port 443
       -  Configure a HTTP to HTTPS permanent redirect
       -  Add a ``Strict-Transport-Security`` header
       -  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__
-      -  Create a virtual host serving port 443
 
    -  Create a virtual host serving port 80
    -  Set the virtual host's ``servername`` and ``serveraliases``, if any
 
--  Symlink the new files from the ``etc/apache2/sites-enabled`` directory
+-  Symlink the new file from the ``/etc/apache2/sites-enabled`` directory
 -  Reload the Apache service if the configuration changed
 
 The example above uses the `docs <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/docs.conf.include>`__ configuration. The keys of the ``context`` mapping are made available as variables in the configuration template.
 
 .. note::
 
-   To delete a virtual host, :ref:`follow these instructions<delete-virtual-host>`.
+   To delete a virtual host, :ref:`follow these instructions<delete-apache-virtual-host>`.
 
 Reference: `What to use When <https://httpd.apache.org/docs/2.4/sections.html#whichwhen>`__
 
