@@ -12,8 +12,7 @@ include:
 
 {{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "registry") }}
 
-# docker-compose does not have a quiet option: https://github.com/docker/compose/issues/6026
-cd {{ directory }}; /usr/local/bin/docker-compose run --rm cron python manage.py manageprocess 2> /dev/null:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python manage.py manageprocess 2> /dev/null:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}
