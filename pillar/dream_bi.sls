@@ -11,9 +11,9 @@ ssh:
 nginx:
   public_access: True
   sites:
-    dream-bi:
+    bi.dream.gov.ua:
       configuration: dream-bi
-      servername: ocp25.open-contracting.org
+      servername: bi.dream.gov.ua
 
 ntp:
   - 0.de.pool.ntp.org
