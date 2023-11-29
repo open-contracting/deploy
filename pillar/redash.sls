@@ -33,8 +33,6 @@ postgres:
 
 docker:
   user: deployer
-  docker_compose:
-    version: 1.29.2
 
 docker_apps:
   redash:

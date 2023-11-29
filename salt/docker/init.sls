@@ -47,12 +47,3 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 {% endif %}
-
-{% if salt['pillar.get']('docker:docker_compose:version') %}
-# https://docs.docker.com/compose/install/
-/usr/local/bin/docker-compose:
-  file.managed:
-    - source: https://github.com/docker/compose/releases/download/{{ pillar.docker.docker_compose.version }}/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}
-    - source_hash: https://github.com/docker/compose/releases/download/{{ pillar.docker.docker_compose.version }}/docker-compose-{{ grains.kernel }}-{{ grains.cpuarch }}.sha256
-    - mode: 755
-{% endif %}
