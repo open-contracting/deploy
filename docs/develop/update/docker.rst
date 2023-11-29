@@ -40,33 +40,8 @@ This will:
 
 -  Add a non-root user to the ``docker`` group
 
-Configure Docker Compose
-------------------------
-
-.. admonition:: One-time setup
-
-   Do this only once per server.
-
-In the service's Pillar file, add, for example:
-
-.. code-block:: yaml
-   :emphasize-lines: 3-4
-
-   docker:
-     user: deployer
-     docker_compose:
-       version: 1.29.2
-
-This will:
-
--  Install the Docker Compose binary
-
 Add Docker Compose file
 -----------------------
-
-.. note::
-
-   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
 
 Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com/open-contracting/deploy/tree/main/salt/docker_apps/files>`__ directory. For example:
 
