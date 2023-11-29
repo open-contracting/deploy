@@ -14,6 +14,9 @@ nginx:
     bi.dream.gov.ua:
       configuration: dream-bi
       servername: bi.dream.gov.ua
+      context:
+        proxypass: 159.69.67.60
+        app: bbd2ec1f-dbb4-4606-9e17-4fb23d87f4e9
 
 ntp:
   - 0.de.pool.ntp.org

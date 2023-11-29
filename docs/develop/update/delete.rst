@@ -179,6 +179,19 @@ Run, for example:
 
 A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
 
+.. _delete-nginx-virtual-host:
+
+Delete an Nginx virtual host
+----------------------------
+
+Run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-enabled/mysite.conf
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf.include
+
 .. _delete-postgresql-user:
 
 Delete a PostgreSQL user

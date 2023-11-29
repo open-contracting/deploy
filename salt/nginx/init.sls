@@ -1,4 +1,4 @@
-{% from 'lib.sls' import set_firewall, unset_firewall %}
+{% from 'lib.sls' import nginx, set_firewall, unset_firewall %}
 
 {% if salt['pillar.get']('nginx:public_access') %}
   {{ set_firewall("PUBLIC_HTTP") }}
@@ -32,6 +32,18 @@ nginx-reload:
     - watch_in:
       - service: nginx
 
+# For comparison, /var/www/html/index.html is 644 and owned by root.
+/var/www/html/404.html:
+  file.managed:
+    - source: salt://apache/files/404.html  # Note: Reuse Apache file.
+
+{{ nginx('00-default', {'configuration': 'ip', 'servername': ''}) }}
+{{ nginx('fqdn', {'include': 'default', 'servername': grains.fqdn}) }}
+
+disable site default:
+  file.absent:
+    - name: /etc/nginx/sites-enabled/default
+
 /etc/nginx/conf.d/zz-customization.conf:
   file.managed:
     - contents: |
@@ -42,17 +54,5 @@ nginx-reload:
       - module: nginx-reload
 
 {% for name, entry in salt['pillar.get']('nginx:sites', {}).items() %}
-/etc/nginx/sites-available/{{ name }}.conf:
-  file.managed:
-    - source: salt://nginx/files/sites/{{ entry.configuration }}.conf
-    - template: jinja
-    - context: {{ dict(context, servername=entry.servername, serveraliases=entry.get('serveraliases', []), **entry.get('context', {}))|yaml }}
-    - require:
-      - pkg: nginx
-    - watch_in:
-      - module: nginx-reload
-
-/etc/nginx/sites-enabled/{{ name }}.conf:
-  file.symlink:
-    - target: /etc/nginx/sites-available/{{ name }}.conf
+{{ nginx(name, entry) }}
 {% endfor %}

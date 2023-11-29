@@ -24,34 +24,72 @@ This will:
 Add sites
 ---------
 
-Prepare domain validation
-~~~~~~~~~~~~~~~~~~~~~~~~~
+You can configure a site with the default configuration, or a custom configuration. Either case will end with:
+
+-  Symlink the new file from the ``/etc/nginx/sites-enabled`` directory
+-  Reload the Nginx service if the configuration changed
+
+.. note::
+
+   To delete a virtual host, :ref:`follow these instructions<delete-nginx-virtual-host>`.
+
+Default configuration
+~~~~~~~~~~~~~~~~~~~~~
 
 Add to your service's Pillar file:
 
 .. code-block:: yaml
-   :emphasize-lines: 3-7
+   :emphasize-lines: 3-9
 
    apache:
      public_access: True
      sites:
        mysite:
-         configuration: acme
+         include: default
          servername: myname.open-contracting.org
          serveraliases: ['myalias.open-contracting.org']
+         context:
+           mykey: myvalue
 
 This will:
 
--  Create a ``/etc/nginx/sites-available/mysite.conf`` file, which will:
+-  Create a ``/etc/nginx/sites-available/mysite.conf`` file that includes a ``/etc/nginx/sites-available/mysite.conf.include`` file, which, together, will:
 
-   -  Create a virtual host serving port 80
-   -  Set the virtual host's ``servername`` and ``serveraliases``, if any
+   -  Configure TLS certificates
+   -  Create virtual hosts serving ports 80 and 443
+   -  Set the virtual hosts' ``servername`` and ``serveraliases``, if any
+   -  Configure a HTTP to HTTPS permanent redirect
+   -  Add a ``Strict-Transport-Security`` header
+   -  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__
 
--  Symlink the new file from the ``etc/nginx/sites-enabled`` directory
--  Reload the Nginx service if the configuration changed
+Here, the ``/etc/nginx/sites-available/mysite.conf.include`` file uses the ``salt/nginx/files/sites/default.conf.include`` template with a ``mykey`` variable.
+
+Custom configuration
+~~~~~~~~~~~~~~~~~~~~
+
+Instead, add to your service's Pillar file:
+
+.. code-block:: yaml
+   :emphasize-lines: 5
+
+   apache:
+     public_access: True
+     sites:
+       mysite:
+         configuration: mycustom
+         servername: myname.open-contracting.org
+         serveraliases: ['myalias.open-contracting.org']
+         context:
+           mykey: myvalue
+
+This will:
+
+-  Create a ``/etc/nginx/sites-available/mysite.conf`` file
+
+Here, The ``/etc/nginx/sites-available/mysite.conf`` file uses the ``salt/nginx/files/sites/mycustom.conf`` template with ``servername``, ``serveraliases`` and ``mykey`` variables.
 
 Acquire SSL certificates
-~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------
 
 If the server name is new, you must:
 
@@ -74,30 +112,3 @@ The service should now be available at its ``https://`` web address. Certbot wil
 .. tip::
 
    If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__.
-
-Configure site
-~~~~~~~~~~~~~~
-
-You can now use your own configuration, instead of ``acme``:
-
-.. code-block:: yaml
-   :emphasize-lines: 5,8-9
-
-   apache:
-     public_access: True
-     sites:
-       mysite:
-         configuration: myconfig
-         servername: myname.open-contracting.org
-         serveraliases: ['myalias.open-contracting.org']
-         context:
-           mykey: myvalue
-
-The keys of the ``context`` mapping are made available as variables in the configuration template.
-
-Adapt the `basic <https://github.com/open-contracting/deploy/blob/main/salt/nginx/files/sites/basic.conf>`__ configuration, which will:
-
--  Create a virtual host serving port 443
--  Configure a HTTP to HTTPS permanent redirect
--  Add a ``Strict-Transport-Security`` header
--  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__

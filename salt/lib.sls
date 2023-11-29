@@ -210,3 +210,54 @@ add .htpasswd-{{ name }}-{{ username }}:
       - pkg: apache2
 {% endfor %}
 {% endmacro %}
+
+{#
+  Accepts a `name` string used to name configuration files, an `entry` object with Nginx configuration, and a
+  `context` object, whose keys are made available as variables in the configuration template.
+
+  See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/nginx.html
+#}
+{% macro nginx(name, entry, context={}) %}
+{% if 'include' in entry %}
+/etc/nginx/sites-available/{{ name }}.conf.include:
+  file.managed:
+    - source: salt://nginx/files/sites/{{ entry.include }}.conf.include
+    - template: jinja
+    - context: {{ dict(context, name=name, **entry.get('context', {}))|yaml }}
+    - require:
+      - pkg: nginx
+    - watch_in:
+      - module: nginx-reload
+
+/etc/nginx/sites-available/{{ name }}.conf:
+  file.managed:
+    - source: salt://nginx/files/sites/_common.conf
+    - template: jinja
+    - context:
+        includefile: /etc/nginx/sites-available/{{ name }}.conf.include
+        servername: {{ entry.servername }}
+        serveraliases: {{ entry.serveraliases|default([])|yaml }}
+    - require:
+      - file: /etc/nginx/sites-available/{{ name }}.conf.include
+    - watch_in:
+      - module: nginx-reload
+{% else %}
+/etc/nginx/sites-available/{{ name }}.conf:
+  file.managed:
+    - source: salt://nginx/files/sites/{{ entry.configuration }}.conf
+    - template: jinja
+    - context: {{ dict(context, servername=entry.servername, serveraliases=entry.get('serveraliases', []), **entry.get('context', {}))|yaml }}
+    - require:
+      - pkg: nginx
+    - watch_in:
+      - module: nginx-reload
+{% endif %}
+
+/etc/nginx/sites-enabled/{{ name }}.conf:
+  file.symlink:
+    - target: /etc/nginx/sites-available/{{ name }}.conf
+    - require:
+      - file: /etc/nginx/sites-available/{{ name }}.conf
+    - watch_in:
+      - module: nginx-reload
+{% endmacro %}
