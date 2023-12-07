@@ -72,7 +72,7 @@ Follow the OCDS Development Handbook's `deployment guide <https://ocds-standard-
 
 Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatted-dev-branch}``, ``{version}`` and ``{name}``. For example: ``ppp``, ``latest``, ``1.0-dev``, ``1.0 Dev``, ``1.0.0.beta`` and ``OCDS for PPPs``.
 
-If this is the first numbered version of a profile:
+**If this is the first numbered version of a profile:**
 
 #. :ref:`Update salt/docs/robots.txt<add-new-profile>`.
 #. In ``salt/apache/files/sites/docs.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
@@ -92,11 +92,11 @@ If this is the first numbered version of a profile:
           This is a development copy of the {name} docs, the <a href="/profiles/{root}/{latest-branch}/en/">latest live version is here</a>.
       </div>
 
-Otherwise:
+**Otherwise:**
 
 #. In the appropriate ``salt/docs/includes/version-options*.html`` file, update the version number in the text of the first ``option`` element.
 
-If this is a new major or minor version:
+**If this is a new major or minor version:**
 
 #. In ``salt/docs/robots.txt``, disallow the minor branch and its dev branch, for example:
 
