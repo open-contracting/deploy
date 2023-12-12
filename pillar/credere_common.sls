@@ -16,7 +16,7 @@ docker_apps:
   credere_backend:
     target: credere-backend
     env:
-      LOG_LEVEL: 30 # 2023-10-13: Change to WARNING after the next `docker pull`
+      LOG_LEVEL: WARNING
       EMAIL_TEMPLATE_LANG: es
       MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
