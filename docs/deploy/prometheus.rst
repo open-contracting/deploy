@@ -30,7 +30,7 @@ Test Alert Manager
 
    curl --json '[{"labels":{"alertname":"TestAlert"}}]' localhost:9095/api/v1/alerts
 
-Reference: `StackOverflow <https://github.com/prometheus/alertmanager/issues/437>`__
+Reference: `GitHub issue <https://github.com/prometheus/alertmanager/issues/437#issuecomment-263413632>`__
 
 Upgrade Prometheus
 ------------------
