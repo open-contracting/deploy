@@ -12,7 +12,7 @@ include:
 
 {{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "registry") }}
 
-cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python manage.py manageprocess 2> /dev/null:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python manage.py manageprocess:
   cron.present:
     - identifier: DATA_REGISTRY_CBOM
     - user: {{ pillar.docker.user }}
