@@ -230,7 +230,6 @@ RewriteEngine on
 RewriteCond %{THE_REQUEST} ^GET\s(.*)/{2,}(.*)\s
 RewriteRule . %1/%2 [R=301,L]
 
-# See: https://crm.open-contracting.org/issues/4401
 {%- for lang in options[''].languages %}
     {%- for version in ['latest', '1.1'] %}
 ####################

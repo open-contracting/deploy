@@ -22,7 +22,6 @@ Deployment Guides
    prometheus.rst
    data-support.rst
    redash.rst
-   redmine.rst
 
 .. toctree::
    :caption: External service tasks

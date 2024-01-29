@@ -107,10 +107,3 @@ Redash
 There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP only.
 
 Users should belong to a single group. Non-admin staff of OCP should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
-
-Redmine CRM
-~~~~~~~~~~~
-
-There should be a minimum of two `Administrator <https://crm.open-contracting.org/users?sort=admin%3Adesc%2Clogin>`__ roles from OCP only.
-
-See the `process documentation <https://docs.google.com/document/d/1h68dx7fSszAJMkNjR0_rIK2iivzv4s5Nvu-C0fUj380/edit>`__ for access to Redmine CRM.
