@@ -9,7 +9,6 @@ jobs:
       - name: Install shellcheck
         run: |
           sudo apt update
-          sudo apt install shellcheck
-      - run: sudo snap install shfmt
+          sudo apt install shellcheck shfmt
       - run: shellcheck $(shfmt -f .)
       - run: shfmt -d -i 4 -sr $(shfmt -f .)
