@@ -27,7 +27,7 @@ docker_apps:
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 2
       # Email addresses
-      TEST_MAIL_RECEIVER: ylisnichuk@open-contracting.org
+      TEST_MAIL_RECEIVER: crederedev@open-contracting.org
       OCP_EMAIL_GROUP: ylisnichuk@open-contracting.org
       # Email templates
       LINK_LINK: https://dev.credere.open-contracting.org
