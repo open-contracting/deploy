@@ -211,7 +211,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. Click the *Azure virtual machine* menu item
 
          #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
-         #. Set *Resource group* to "default"
+         #. Set `Resource group <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal>`__ to "default"
          #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. Set *Region* to "(Europe) UK South"
          #. Set *Image* to the latest Ubuntu LTS version
@@ -233,9 +233,9 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
       #. Click the *Next : Networking >* button
 
-         #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``kingfisher-vnet``)
+         #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``ocp42.open-contracting.org-vnet``)
          #. Set *Subnet* to *default (10.0.0.0/24)*
-         #. Set *Public IP* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Public IP* to the server's FQDN (e.g. ``ocp42.open-contracting.org-ip``)
          #. If not using Docker, set *NIC network security group* to *None*
          #. If using Docker, set *NIC network security group* to *Advanced*
 
@@ -297,8 +297,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. Click the *Next : Management >* button
 
          #. Check the *Enable backup* box
-         #. Set *Recovery Services vault* to an appropriate name (e.g. ``kingfisher-backups``)
-         #. Set *Backup policy* to *OCP-Standard-Backups*
+         #. Set `Recovery Services vault <https://learn.microsoft.com/en-us/azure/backup/backup-azure-recovery-services-vault-overview>`__ to "default-backups"
 
       #. Click the *Next : Monitoring >* button
       #. Click the *Next : Advanced >* button
