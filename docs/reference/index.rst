@@ -39,34 +39,30 @@ Hosting
 
 All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
 
--  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers, including Kingfisher and Registry
+-  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers (`Network status <https://status.hetzner.com>`__)
 
-   -  `Network status <https://status.hetzner.com>`__
-
--  `Linode <https://cloud.linode.com/>`__ for VPS servers provisioned after August 2021
+-  `Linode <https://cloud.linode.com/>`__ for VPS servers
 
    -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
-   -  **Backups**: It is configured to have one daily backup and two weekly backups. Dogsbody also configured daily and weekly backups to `Google Cloud Platform <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloud-platform>`__.
+   -  **Backups**: It is configured to have one daily backup and two weekly backups.
 
 Unmanaged services are:
 
--  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites, including the `Extension Explorer <https://extensions.open-contracting.org/>`__
-
-   -  `Network status <https://www.githubstatus.com>`__
+-  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites (`Network status <https://www.githubstatus.com>`__)
 
    .. admonition:: Why not GitHub Pages?
 
       GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/platform/headers>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
--  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__
-
-   -  `Network status <https://status.heroku.com>`__
+-  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ (`Network status <https://status.heroku.com>`__)
 
 Administrative access
 ---------------------
 
-See the `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html>`__ for access to third-party services.
+.. seealso::
+
+   `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html>`__, for access to third-party services
 
 The staff of the following organizations have had administrative roles:
 
@@ -81,17 +77,11 @@ The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pilla
 Root access
 ~~~~~~~~~~~
 
-Server owners (OCP) and server managers (Dogsbody) should have root access to all servers. Otherwise, only developers who are reasonably expected to deploy to a server should have root access to that server.
+Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) should have root access. Otherwise, only developers who are reasonably expected to deploy to a server should have root access to that server; anyone with root access can grant that developer root access.
 
-If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
-
-If a developer intends to deploy to a server, anyone with root access can grant that developer root access to that server.
-
-Root access should be :ref:`routinely reviewed<review-root-access>`.
+Root access should be :ref:`routinely reviewed<review-root-access>`. If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
 
 Redash
 ~~~~~~
 
-There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP only.
-
-Users should belong to a single group. Non-admin staff of OCP should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
+There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP only. Users should belong to a single group. Non-admin staff of OCP should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
