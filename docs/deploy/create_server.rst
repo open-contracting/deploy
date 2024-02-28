@@ -202,6 +202,112 @@ Create the server via the :ref:`host<hosting>`'s interface.
             -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
             -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
+   .. tab-item:: Azure
+      :sync: azure
+
+      #. `Log into Azure <https://portal.azure.com>`__
+      #. Click the *Virtual machines* icon
+      #. Click the *Create* menu
+      #. Click the *Azure virtual machine* menu item
+
+         #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
+         #. Set `Resource group <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal>`__ to "default"
+         #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Region* to "(Europe) UK South"
+         #. Set *Image* to the latest Ubuntu LTS version
+         #. Set *Size* to an appropriate size (e.g. ``B2s``)
+         #. Set *Authentication type* to "Password"
+         #. Set *Username* to "ocpadmin"
+         #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+
+      #. Click the *Next : Disks >* button
+
+         #. Set *OS disk type* to *Standard SSD*
+         #. Add additional disks, if appropriate:
+
+            #. Click the *Create and attach a new disk* link
+            #. Click the *Change size* link
+            #. Select "Standard SSD" from the *Storage type* dropdown
+            #. Click the desired size
+            #. Click the *OK* button
+
+      #. Click the *Next : Networking >* button
+
+         #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``ocp42.open-contracting.org-vnet``)
+         #. Set *Subnet* to *default (10.0.0.0/24)*
+         #. Set *Public IP* to the server's FQDN (e.g. ``ocp42.open-contracting.org-ip``)
+         #. If not using Docker, set *NIC network security group* to *None*
+         #. If using Docker, set *NIC network security group* to *Advanced*
+
+            #. Click the *Create new* link
+            #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp42.open-contracting.org-nsg``)
+            #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
+
+               .. list-table::
+                  :header-rows: 1
+
+                  * - Source
+                    - Service
+                    - Destination port ranges
+                    - Protocol
+                    - Priority
+                    - Name
+                  * - Any
+                    - SSH
+                    - 22
+                    - TCP
+                    - 1000
+                    - default-allow-ssh
+                  * - Any
+                    - HTTP
+                    - 80
+                    - TCP
+                    - 1010
+                    - AllowAnyHTTPInbound
+                  * - Any
+                    - HTTPS
+                    - 443
+                    - TCP
+                    - 1020
+                    - AllowAnyHTTPSInbound
+                  * - Any
+                    - Custom
+                    - ``*``
+                    - ICMP
+                    - 1030
+                    - AllowAnyICMPInbound
+                  * - 139.162.253.17/32
+                    - Custom
+                    - 7231
+                    - TCP
+                    - 1040
+                    - AllowPrometheusIPv4Inbound
+                  * - 2a01:7e00::f03c:93ff:fe13:a12c/128
+                    - Custom
+                    - 7231
+                    - TCP
+                    - 1050
+                    - AllowPrometheusIPv6Inbound
+
+               .. Combining the Prometheus rules causes "Validation failed":
+                  "All IP addresses or prefixes in the resource should belong to the same address family."
+
+            #. Click the *OK* button
+
+      #. Click the *Next : Management >* button
+
+         #. Check the *Enable backup* box
+         #. Set `Recovery Services vault <https://learn.microsoft.com/en-us/azure/backup/backup-azure-recovery-services-vault-overview>`__ to "default-backups"
+
+      #. Click the *Next : Monitoring >* button
+      #. Click the *Next : Advanced >* button
+      #. Click the *Next : Tags >* button
+
+         #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp42``)
+
+      #. Click the *Next : Review + create >* button
+      #. Click the *Create* button and wait a few minutes for the server to power on
+
 .. _create-dns-records:
 
 2. Create DNS records
@@ -289,6 +395,18 @@ Configure reverse DNS
             #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits
             #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
             #. Click the *Create* button
+
+   .. tab-item:: Azure
+      :sync: azure
+
+      #. `Log into Azure <https://portal.azure.com>`__
+      #. Select the new server
+      #. Click on the public IP address:
+
+         #. Set *DNS name label (optional)* to "hostname" (``ocp42``, for example)
+         # Click *Save*
+
+      #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42..uksouth.cloudapp.azure.com``)
 
 3. Apply core changes
 ---------------------
