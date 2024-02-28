@@ -11,6 +11,10 @@ Reference
 Monitoring
 ----------
 
+.. seealso::
+
+   :doc:`../deploy/google`
+
 Prometheus
 ~~~~~~~~~~
 
@@ -21,24 +25,12 @@ Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used t
 
 Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 
-DMARC Analyzer
-~~~~~~~~~~~~~~
-
-OCP's `DMARC policy <https://support.google.com/a/answer/2466563>`__ (``dig TXT _dmarc.open-contracting.org``) sends aggregate and forensic reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__.
-
-Google Postmaster Tools
-~~~~~~~~~~~~~~~~~~~~~~~
-
-`Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ can be used to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
-
 .. _sentry:
 
 Sentry
 ~~~~~~
 
-Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
-
-See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry.
+Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry. See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry.
 
 .. _hosting:
 
