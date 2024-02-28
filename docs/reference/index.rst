@@ -71,12 +71,8 @@ See the `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/lat
 The staff of the following organizations have had administrative roles:
 
 -  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
--  `Centro de Desarrollo Sostenible <https://www.cds.com.py>`__ (CDS)
--  `Datlab <https://datlab.eu>`__
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
--  `Open Data Services Co-operative <https://opendataservices.coop>`__ (ODS)
--  `Quintagroup <https://quintagroup.com>`__
--  `Young Innovations <https://younginnovations.com.np>`__
+-  `RBC Group <https://www.rbcgrp.com>`__
 
 The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
 
