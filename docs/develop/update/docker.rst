@@ -40,33 +40,8 @@ This will:
 
 -  Add a non-root user to the ``docker`` group
 
-Configure Docker Compose
-------------------------
-
-.. admonition:: One-time setup
-
-   Do this only once per server.
-
-In the service's Pillar file, add, for example:
-
-.. code-block:: yaml
-   :emphasize-lines: 3-4
-
-   docker:
-     user: deployer
-     docker_compose:
-       version: 1.29.2
-
-This will:
-
--  Install the Docker Compose binary
-
 Add Docker Compose file
 -----------------------
-
-.. note::
-
-   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
 
 Create an ``{app}.yaml`` file in the `salt/docker_apps/files <https://github.com/open-contracting/deploy/tree/main/salt/docker_apps/files>`__ directory. For example:
 
@@ -95,7 +70,7 @@ Validate the file, for example:
 
    To run a one-off command, like a database migration, use `docker compose run <https://docs.docker.com/engine/reference/commandline/compose_run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
 
-   If you need to run a scheduled task in a cron job, use ``docker compose run`` and redirect the output with ``2> /dev/null``, since there's no `quiet option <https://github.com/docker/compose/issues/6026>`__.
+   If you need to run a scheduled task in a cron job, use ``docker compose --progress=quiet run --rm``. If needed, change the log level by adding ``-e LOG_LEVEL=WARNING``, for example.
 
    Confirm the meaning of a cron expression using `Cronhub <https://crontab.cronhub.io>`__.
 

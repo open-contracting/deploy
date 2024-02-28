@@ -12,6 +12,7 @@ Order the top-level keys in these layers:
 
    -  Server access: ``network``, ``firewall``, ``ssh``
    -  Kernel: ``vm``
+   -  Locale: ``locale``
    -  Time: ``ntp``
    -  Monitoring: ``prometheus``
    -  Logging: ``rsyslog``, ``logrotate``

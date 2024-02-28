@@ -8,7 +8,7 @@ assignees: jpmckinney
 
 **Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out?**
 
-If yes, instead of creating a GitHub issue, open a CRM ticket in the Internal (https://crm.open-contracting.org/projects/ocds/issues?set_filter=1&tracker_id=7) tracker, and send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
+If yes, instead of creating a GitHub issue, send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
 
 **Which service is affected?**
 

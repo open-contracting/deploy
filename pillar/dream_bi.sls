@@ -11,6 +11,15 @@ ssh:
 nginx:
   public_access: True
   sites:
-    dream-bi:
+    bi.dream.gov.ua:
       configuration: dream-bi
-      servername: ocp25.open-contracting.org
+      servername: bi.dream.gov.ua
+      context:
+        proxypass: 159.69.67.60
+        app: bbd2ec1f-dbb4-4606-9e17-4fb23d87f4e9
+
+ntp:
+  - 0.de.pool.ntp.org
+  - 1.de.pool.ntp.org
+  - 2.de.pool.ntp.org
+  - 3.de.pool.ntp.org

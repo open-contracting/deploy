@@ -15,8 +15,31 @@ Update the server's Pillar file:
 
 ``ipv6`` is optional.
 
+Time servers
+------------
+
+`systemd-timesyncd <https://www.man7.org/linux/man-pages/man8/systemd-timesyncd.8.html>`__ synchronizes the local system clock with remote `NTP <https://en.wikipedia.org/wiki/Network_Time_Protocol>`__ servers.
+
+You should select NTP servers from the `NTP Pool Project <https://www.ntppool.org/zone/@>`__ that are close to the server's location, in order to mitigate network latency and improve time accuracy.
+
+For example, to use the `NTP servers in Finland <https://www.ntppool.org/zone/fi>`__, add to the server's Pillar file:
+
+.. code-block:: yaml
+
+   ntp:
+     - 0.fi.pool.ntp.org
+     - 1.fi.pool.ntp.org
+     - 2.fi.pool.ntp.org
+     - 3.fi.pool.ntp.org
+
+By default, the NTP servers in the UK are used.
+
 Linux networking
 ----------------
+
+.. note::
+
+   This step is required on Linode if *Auto-configure networking* was unchecked in :doc:`../../deploy/create_server`.
 
 systemd-networkd
 ~~~~~~~~~~~~~~~~
@@ -47,6 +70,7 @@ This configuration disables automatic IP configuration and configures static net
 Update the server's Pillar file:
 
 .. code-block:: yaml
+   :emphasize-lines: 5-9
 
    network:
      host_id: ocp12
@@ -54,9 +78,9 @@ Update the server's Pillar file:
      ipv6: "2001:db8::"
      networkd:
        template: linode
+       gateway4: 198.51.100.1
        addresses:
          - 2001:db8::/64
-       gateway4: 198.51.100.1
 
 To fill in the above, from the *Network* tab on the `Linode's <https://cloud.linode.com/linodes>`__ page, collect:
 
@@ -74,25 +98,33 @@ Custom template
 
    Only use a ``custom`` template if your needs are not met by any other template.
 
-In the server's Pillar file, set ``network.networkd.template`` to ``custom`` and set ``network.networkd.configuration``:
+Update the server's Pillar file:
 
 .. code-block:: yaml
+   :emphasize-lines: 5-22
 
-   [Match]
-   Name=eth0
+   network:
+     host_id: ocp12
+     ipv4: 198.51.100.34
+     ipv6: "2001:db8::"
+     networkd:
+       template: custom
+       network.networkd.configuration: |
+         [Match]
+         Name=eth0
 
-   [Network]
-   DHCP=no
-   DNS=203.0.113.1 203.0.113.2 2001:db8::32 2001:db8::64
-   Domains=open-contracting.org
-   IPv6PrivacyExtensions=false
-   IPv6AcceptRA=false
+         [Network]
+         DHCP=no
+         DNS=203.0.113.1 203.0.113.2 2001:db8::32 2001:db8::64
+         Domains=open-contracting.org
+         IPv6PrivacyExtensions=false
+         IPv6AcceptRA=false
 
-   Address=198.51.100.34/24
-   Address=2001:db8::12/64
+         Address=198.51.100.34/24
+         Address=2001:db8::12/64
 
-   Gateway=Address=198.51.100.1
-   Gateway=fe80::1
+         Gateway=Address=198.51.100.1
+         Gateway=fe80::1
 
 Netplan
 ~~~~~~~
@@ -103,9 +135,10 @@ Netplan
 
    This step is optional. Only override a Netplan configuration if necessary. For example, Hetzner's `installimage <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__ script creates a `configuration file <https://github.com/hetzneronline/installimage/blob/84883efa372b9c9ecef2bb7703d696221b4e1093/network_config.functions.sh#L560>`__ that works as-is.
 
-In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and set ``network.netplan.configuration``:
+Update the server's Pillar file:
 
 .. code-block:: yaml
+   :emphasize-lines: 5-15
 
    network:
      host_id: ocp12
@@ -122,22 +155,3 @@ In the server's Pillar file, set ``network.netplan.template`` to ``custom`` and 
                addresses:
                  - 198.51.100.34/32
                  ...
-
-Time servers
-------------
-
-`systemd-timesyncd <https://www.man7.org/linux/man-pages/man8/systemd-timesyncd.8.html>`__ synchronizes the local system clock with remote `NTP <https://en.wikipedia.org/wiki/Network_Time_Protocol>`__ servers.
-
-You should select NTP servers from the `NTP Pool Project <https://www.ntppool.org/zone/@>`__ that are close to the server's location, in order to mitigate network latency and improve time accuracy.
-
-For example, to use the `NTP servers in Finland <https://www.ntppool.org/zone/fi>`__, add to the server's Pillar file:
-
-.. code-block:: yaml
-
-   ntp:
-     - 0.fi.pool.ntp.org
-     - 1.fi.pool.ntp.org
-     - 2.fi.pool.ntp.org
-     - 3.fi.pool.ntp.org
-
-By default, the NTP servers in the UK are used.

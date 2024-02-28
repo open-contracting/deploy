@@ -85,16 +85,16 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
       Linode provide a stateful `Cloud Firewall <https://www.linode.com/docs/products/networking/cloud-firewall/get-started/>`__. Stateful firewalls can store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
       #. `Log into Linode <https://login.linode.com/login>`__
-      #. Open the `Firewalls <https://cloud.linode.com/firewalls>`__ list
-      #. Click *Create Firewall*
+      #. Click the `Firewalls <https://cloud.linode.com/firewalls>`__ menu item
+      #. Click the *Create Firewall* button
 
-         #. Set *Label* to the server name
-         #. Set *Linodes* to the server
-         #. Click *Create Firewall*
+         #. Enter the server name in *Label*
+         #. Select the server from the *Linodes* dropdown
+         #. Click the *Create Firewall* button
 
-      #. Click on the label for the new firewall
+      #. Click the new firewall's label
 
-         #. Set *Default inbound policy* to *Drop*
+         #. Select "Drop" from the *Default inbound policy* dropdown
          #. Add an inbound rule. The recommended minimum is:
 
             .. list-table::
@@ -137,13 +137,13 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
                  - All IPv4, All IPv6
                  - Accept
 
-         #. Click *Save Changes*
+         #. Click the *Save Changes* button
 
    .. tab-item:: Hetzner Cloud
 
       #. `Log into Hetzner Cloud Console <https://console.hetzner.cloud/projects>`__
       #. Click the *Default* project
-      #. Select the server you want to access
+      #. Select the server
       #. Click the *Firewalls* tab, and either:
 
          #. Click the *Apply Firewall* button to reuse existing firewalls
@@ -195,9 +195,11 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
       Hetzner Dedicated provide a free `stateless firewall <https://docs.hetzner.com/robot/dedicated-server/firewall/>`__ for each dedicated server. "Stateless" means that the firewall does not store information about connections over time, which is required for HTTP sessions and port knocking, for example.
 
       #. `Log into Hetzner Robot <https://robot.hetzner.com/server>`__
-      #. Select your server and go to the *Firewall* tab
-      #. Set *Status* to active
-      #. Enable *Hetzner Services*
+      #. Select the server
+      #. Click the *Firewall* tab
+      #. Select "active" from the *Status* dropdown
+      #. Check the *Filter IPv6 packets* box
+      #. Check the *Hetzner Services (incoming)* box
       #. Select "SSH" from the *Firewall template:* dropdown and click *Apply* to fill in:
 
          .. list-table::
@@ -240,11 +242,10 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
               -
               - accept
 
-         .. note::
-
-            *Destination IP* and *Source port* are never set.
-
       #. Add additional firewall rules. The recommended minimum is to also add:
+
+         .. list-table::
+            :header-rows: 1
 
             * - Name
               - Protocol
@@ -259,7 +260,17 @@ The `firewall.sh` script rewrites all iptables rules. However, Docker needs to a
               -
               - accept
 
+      #. Duplicate each firewall rule, suffixing *-v6* to *Name* and setting *Version* to *ipv6*.
+
+         .. note::
+
+            Rules are duplicated, because *Protocol* can't be set if *Version* is ``*``. Skip the *icmp* and *prometheus* rules for *ipv6* due to `Hetzner limitations <https://docs.hetzner.com/robot/dedicated-server/firewall/#limitations-ipv6>`__.
+
       #. Click *Save* and wait for the configuration to be applied.
+
+      .. note::
+
+         *Destination IP* and *Source port* are never set.
 
 After configuring the external firewall:
 

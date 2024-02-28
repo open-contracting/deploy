@@ -14,8 +14,11 @@ prometheus:
     version: 2.45.0
     local_storage_retention: 120d
     config:
+      # Key must match --config.file in prometheus-server.service template.
       conf-prometheus.yml: salt://prometheus/files/conf-prometheus.yml
+      # Key must match rule_files in conf-prometheus.yml template.
       conf-prometheus-rules.yml: salt://prometheus/files/conf-prometheus-rules.yml
+      # Key must match ca_file in conf-prometheus.yml template.
       node_exporter.pem: prometheus:node_exporter:ssl:pubcert
   alertmanager:
     service: prometheus-alertmanager

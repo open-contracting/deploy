@@ -21,7 +21,7 @@ Notification mechanisms
 
 Notifications should be sent to servers-status@open-contracting.org, to coordinate with and notify other users that maintain servers. Subscribers include members of OCP and Dogsbody.
 
-For urgent decisions requiring OCP approval (notably, new expenditures relating to provisioning or upgrading servers), communicate via Slack or email and, if needed, send a 'ping' via WhatsApp or SMS to James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) or, if no response, Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__) (contact details in CRM).
+For urgent decisions requiring OCP approval (notably, new expenditures relating to provisioning or upgrading servers), communicate via Slack or email and, if needed, send a 'ping' via WhatsApp or SMS to James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) or, if no response, Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__).
 
 Protocol
 --------

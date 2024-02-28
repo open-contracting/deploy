@@ -17,11 +17,11 @@ Deployment Guides
    :maxdepth: 2
 
    docker.rst
+   cove.rst
    docs.rst
    prometheus.rst
    data-support.rst
    redash.rst
-   redmine.rst
 
 .. toctree::
    :caption: External service tasks

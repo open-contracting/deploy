@@ -51,7 +51,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. On the *Configurations* tab:
 
             #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
-            #. Uncheck *Auto-configure networking*
+            #. Uncheck *Auto-configure networking* (skip if configuring a non-OCP server)
             #. Click *Save Changes*
 
          #. Click *Power On*
@@ -428,7 +428,7 @@ Configure reverse DNS
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-#. :doc:`../develop/update/network`.
+#. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
 
@@ -439,6 +439,16 @@ Configure reverse DNS
    .. note::
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
+
+   .. note::
+
+      If configuring a non-OCP server:
+
+      #. Suffix ``-test`` to the target's name in the ``salt-config/roster`` file
+      #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
+      #. If configuring Apache, edit the ``salt/apache/files/404.html`` file
+
+      The service's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -535,15 +545,6 @@ Redash
 ~~~~~~
 
 See :doc:`redash`.
-
-Redmine
-~~~~~~~
-
-#. Copy the ``/home/redmine/public_html/files`` directory. For example:
-
-   .. code-block:: bash
-
-      rsync -avz ocp99:/home/redmine/public_html/files/ /home/redmine/public_html/files/
 
 .. _update-external-services:
 

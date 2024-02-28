@@ -164,10 +164,10 @@ Delete an htpasswd entry
 
 #. Remove the temporary state
 
-.. _delete-virtual-host:
+.. _delete-apache-virtual-host:
 
-Delete a virtual host
----------------------
+Delete an Apache virtual host
+-----------------------------
 
 Run, for example:
 
@@ -178,6 +178,19 @@ Run, for example:
    ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
 
 A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
+
+.. _delete-nginx-virtual-host:
+
+Delete an Nginx virtual host
+----------------------------
+
+Run, for example:
+
+.. code-block:: bash
+
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-enabled/mysite.conf
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf
+   ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf.include
 
 .. _delete-postgresql-user:
 

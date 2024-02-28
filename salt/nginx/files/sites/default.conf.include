@@ -1,0 +1,2 @@
+root /var/www/html;
+error_page 404 403 /404.html;

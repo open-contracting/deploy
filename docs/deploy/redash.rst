@@ -70,7 +70,7 @@ Load the new server's database
 
 #. Start the containers:
 
-      docker-compose up -d
+      docker compose up -d
 
 Upgrade the Redash service
 --------------------------
@@ -90,24 +90,24 @@ Upgrade the Redash service
 
    .. code-block:: bash
 
-      docker-compose pull
+      docker compose pull
 
 #. Stop the Redash containers:
 
    .. code-block:: bash
 
-      docker-compose stop server scheduler scheduled_worker adhoc_worker worker
+      docker compose stop server scheduler scheduled_worker adhoc_worker worker
 
 #. Run database migrations, if required:
 
    .. code-block:: bash
 
-      docker-compose run --rm server manage db upgrade
+      docker compose run --rm server manage db upgrade
 
 #. Start the Redash containers:
 
    .. code-block:: bash
 
-      docker-compose up -d
+      docker compose up -d
 
 #. Check that the new version is running by viewing the `System Status <https://redash.open-contracting.org/admin/status>`__ page and reading the *Version*. You may need to log in to Redash to access this page.

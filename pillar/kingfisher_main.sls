@@ -163,8 +163,6 @@ postgres:
 docker:
   user: deployer
   uid: 1005
-  docker_compose:
-    version: v2.18.1
 
 kingfisher_collect:
   user: collect

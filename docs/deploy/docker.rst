@@ -1,10 +1,6 @@
 Docker tasks
 ============
 
-.. note::
-
-   The commands assume Compose V2, which uses ``docker compose``. For Compose V1, use ``docker-compose`` (with hyphen).
-
 Initialize applications
 -----------------------
 

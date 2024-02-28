@@ -7,7 +7,7 @@
   host.only:
     - order: 5
     - hostnames:
-      - {{ pillar.network.host_id }}.open-contracting.org
+      - {{ pillar.network.host_id }}.{{ pillar.network.domain }}
       - {{ pillar.network.host_id }}
 
 {% if 'ipv6' in pillar.network %}
@@ -15,14 +15,14 @@
   host.only:
     - order: 5
     - hostnames:
-      - {{ pillar.network.host_id }}.open-contracting.org
+      - {{ pillar.network.host_id }}.{{ pillar.network.domain }}
       - {{ pillar.network.host_id }}
 {% endif %}
 
 /etc/mailname:
   file.managed:
     - order: 5
-    - contents: "{{ pillar.network.host_id }}.open-contracting.org"
+    - contents: "{{ pillar.network.host_id }}.{{ pillar.network.domain }}"
 
 # Salt's `network` module uses Debian's `/etc/network/interfaces` file, not Netplan (from reading its code).
 # https://github.com/open-contracting/deploy/issues/278#issuecomment-924485063
@@ -30,7 +30,7 @@
 set hostname:
   cmd.run:
     - order: 10
-    - name: hostnamectl set-hostname "{{ pillar.network.host_id }}.open-contracting.org"
+    - name: hostnamectl set-hostname "{{ pillar.network.host_id }}.{{ pillar.network.domain }}"
     - onchanges:
       - file: /etc/mailname
 

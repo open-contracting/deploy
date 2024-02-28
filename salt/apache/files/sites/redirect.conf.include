@@ -1,0 +1,2 @@
+RewriteEngine on
+RewriteRule ^ https://{{ domain }}%{REQUEST_URI} [R={% if permanent is defined and permanent %}301{% else %}302{% endif %},L]

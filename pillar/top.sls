@@ -42,6 +42,7 @@ base:
 
   'dream-bi':
     - dream_bi
+    - dream_bi_maintenance
 
   'kingfisher-main':
     - kingfisher_main

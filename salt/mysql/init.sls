@@ -14,13 +14,13 @@ percona-release:
       - percona-release: https://repo.percona.com/apt/percona-release_latest.{{ salt['grains.get']('lsb_distrib_codename') }}_all.deb
   cmd.run:
     - name: percona-release setup ps{{ mysql_version|replace('.', '') }}
-    - creates: /etc/apt/sources.list.d/percona-ps-80-release.list
+    - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-release.list
     - require:
       - pkg: percona-release
 
 percona-mysql:
   pkg.installed:
-    - name: percona-server-server
+    - name: percona-server-server-{{ mysql_version }}
     - require:
       - pkg: percona-release
   service.running:

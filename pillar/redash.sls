@@ -4,9 +4,9 @@ network:
   ipv6: 2a01:7e00:e000:02cc::14
   netplan:
     template: linode
+    gateway4: 139.162.199.1
     addresses:
       - 2a01:7e00::f03c:92ff:fea5:0e5f/64 # SLAAC
-    gateway4: 139.162.199.1
 
 vm:
   nr_hugepages: 128
@@ -33,8 +33,6 @@ postgres:
 
 docker:
   user: deployer
-  docker_compose:
-    version: 1.29.2
 
 docker_apps:
   redash:
