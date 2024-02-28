@@ -11,7 +11,14 @@ These services send email from open-contracting.org:
 -  :doc:`aws`
 -  `Mailchimp <https://mailchimp.com/help/set-up-email-domain-authentication/>`__
 -  `Salesforce <https://help.salesforce.com/s/articleView?id=000354353&language=en_US&type=1>`__: `SPF <https://help.salesforce.com/s/articleView?language=en_US&id=sf.emailadmin_spf_include_salesforce.htm&type=5>`__ and `DKIM <https://help.salesforce.com/s/articleView?language=en_US&id=sf.emailadmin_create_secure_dkim.htm&type=5>`__
--  `Trolley <https://help.trolley.com/en/articles/2447559-how-to-set-up-white-label-emails>`__
+
+These services send email from noreply.open-contracting.org:
+
+-  :doc:`aws`
+
+These services send email from payments.open-contracting.org:
+
+-  `Trolley <https://support.trolley.com/s/article/How-to-set-up-White-Label-Emails>`__ (using `SendGrid <https://docs.sendgrid.com/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
 
 Check DNS configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -31,15 +38,12 @@ Similar tools include `mail-tester <https://www.mail-tester.com>`__ and `Postmar
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
 
-open-contracting.org's DMARC policy sends reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__:
+open-contracting.org's `DMARC policy <https://support.google.com/a/answer/2466563>`__ sends aggregate and forensic reports to no destination, presently:
 
-.. code-block:: bash
+.. code-block:: shell-session
 
-   dig TXT _dmarc.open-contracting.org
-
-.. code-block:: none
-
-   v=DMARC1; p=none; rua=mailto:e57de3ae23df489@rep.dmarcanalyzer.com; ruf=mailto:e57de3ae23df489@for.dmarcanalyzer.com; fo=1;
+   $ dig TXT _dmarc.open-contracting.org
+   v=DMARC1; p=none; fo=1;
 
 DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Failures should be 3% or less.
 
