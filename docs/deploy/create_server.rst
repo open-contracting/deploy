@@ -214,6 +214,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set `Resource group <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal>`__ to "default"
          #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. Set *Region* to "(Europe) UK South"
+         #. Leave *Security type* as `Trusted launch virtual machines <https://learn.microsoft.com/en-ca/azure/virtual-machines/trusted-launch>`__
          #. Set *Image* to the latest Ubuntu LTS version
          #. Set *Size* to an appropriate size (e.g. ``B2s``)
          #. Set *Authentication type* to "Password"
