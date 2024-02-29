@@ -38,12 +38,17 @@ Similar tools include `mail-tester <https://www.mail-tester.com>`__ and `Postmar
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
 
-open-contracting.org's `DMARC policy <https://support.google.com/a/answer/2466563>`__ sends aggregate and forensic reports to no destination, presently:
+open-contracting.org's `DMARC policy <https://support.google.com/a/answer/2466563>`__ sends aggregate and forensic reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__ (defaults to reporting today only):
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-contracting.org
-   v=DMARC1; p=none; fo=1;
+   v=DMARC1; p=none; fo=1; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com; ruf=mailto:e57de3ae23df489@for.dmarcanalyzer.com;
+
+.. code-block:: shell-session
+
+   $ dig TXT _dmarc.noreply.open-contracting.org
+   v=DMARC1; p=none; fo=1; rua=mailto:e57de3ae23df489@rep.dmarcanalyzer.com; ruf=mailto:e57de3ae23df489@for.dmarcanalyzer.com;
 
 DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Failures should be 3% or less.
 

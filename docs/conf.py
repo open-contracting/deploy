@@ -63,7 +63,7 @@ linkcheck_ignore = [
     r'^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/',
     r'^https://(?:ocp-library\.herokuapp|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com',
     r'^https://(?:postmaster|search)\.google\.com',
-    r'^https://app\.(usefathom)\.com',
+    r'^https://app\.(dmarcanalyzer|usefathom)\.com',
     r'^https://github\.com/open-contracting/[^/]+/issues/new',
     r'^https://sentry.io/organizations/open-contracting-partnership/',
     # Private repositories return not found.
