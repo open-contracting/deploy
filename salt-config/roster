@@ -36,8 +36,8 @@ registry:
 # ocp05 was kingfisher-replica on Ubuntu 18
 # ocp06 was covid19-dev
 # ocp07 was docs on Ubuntu 18
-# ocp08 was redash.open-contracting.org on Ubuntu 18
-# ocp09 was toucan.open-contracting.org
-# ocp10 was archive.kingfisher.open-contracting.org
-# ocp11 was www.open-contracting.health (covid19)
+# ocp08 was redash on Ubuntu 18
+# ocp09 was toucan (toucan.open-contracting.org)
+# ocp10 was kingfisher-archive (archive.kingfisher.open-contracting.org)
+# ocp11 was covid19 (www.open-contracting.health)
 # ocp12 was spoonbill-dev
