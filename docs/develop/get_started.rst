@@ -12,13 +12,29 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
 .. note::
 
-   On at least macOS, you should stop the Salt minion service:
+   On at least macOS, you should:
 
-   .. code-block:: bash
+   # Change your login shell to ``/bin/sh``:
 
-      launchctl stop com.saltstack.salt.minion
+      .. code-block:: bash
 
-   and disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items).
+         chsh -s /bin/sh
+
+      .. note::
+
+         If you use Terminal, also:
+
+         #. Open the *Settings...* menu
+         #. Set *Shells open with:* to *Command (complete path):*
+         #. Enter the complete path to your preferred shell (for example, ``/opt/homebrew/bin/fish``)
+
+   #. Stop the Salt minion service:
+
+      .. code-block:: bash
+
+         launchctl stop com.saltstack.salt.minion
+
+   #. Disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items)
 
 `Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
 
