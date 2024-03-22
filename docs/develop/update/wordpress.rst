@@ -21,6 +21,8 @@ In the service's Pillar file, add, for example:
            user: coalition
            socket: /var/run/php/php-fpm-coalition.sock
 
+.. _wordpress-mysql-php:
+
 MySQL and PHP
 -------------
 
@@ -78,11 +80,17 @@ WordPress
 
       wp core download --locale=en_US
 
-#. Configure WordPress' database connection, to correspond to the MySQL configuration. For example:
+#. Create the ``wp-config.php`` file, and configure the database connection, to correspond to the :ref:`MySQL configuration<wordpress-mysql-php>`. For example:
 
    .. code-block:: bash
 
-      wp core config --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
+      wp config create --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
+
+#. Set `WP_AUTO_UPDATE_CORE <https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#update-configuration>`__, to enable minor WordPress updates only.
+
+   .. code-block:: bash
+
+      wp config set WP_AUTO_UPDATE_CORE minor
 
 #. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
 
