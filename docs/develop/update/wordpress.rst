@@ -86,7 +86,7 @@ WordPress
 
       wp config create --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
 
-#. Set `WP_AUTO_UPDATE_CORE <https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#update-configuration>`__, to enable minor WordPress updates only.
+#. Set `WP_AUTO_UPDATE_CORE <https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates>`__, to enable minor WordPress updates only.
 
    .. code-block:: bash
 
@@ -103,6 +103,33 @@ WordPress
    .. code-block:: bash
 
       wp plugin uninstall hello
+
+#. Add a `must-use plugin <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__ to auto-update plugins for non-major versions only:
+
+   .. code-block:: bash
+
+      mkdir -p wp-content/mu-plugins
+      cat > wp-content/mu-plugins/opencontracting_auto_update_plugin.php <<'END'
+      // https://core.trac.wordpress.org/ticket/51126
+      function opencontracting_auto_update_plugin( $value, $item ) {
+              // https://developer.wordpress.org/reference/functions/wp_plugin_directory_constants/
+              $plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $item->plugin , false, false );
+
+              // https://developer.wordpress.org/reference/functions/get_plugin_data/#return
+              $old_version = explode( '.', $plugin_data['Version'] );
+              $new_version = explode( '.', $item->new_version );
+
+              if ( $old_version[0] === $new_version[0] && ( $old_version[0] !== '0' || $old_version[1] === $new_version[1] ) ) {
+                      return true;
+              }
+              return $value;
+      }
+
+      // https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#configuration-via-filters
+      // https://developer.wordpress.org/reference/functions/add_filter/
+      // https://developer.wordpress.org/reference/hooks/auto_update_type/
+      add_filter( 'auto_update_plugin', 'opencontracting_auto_update_plugin', 10, 2 );
+      END
 
 #. If you have a custom theme, download and activate it. For example:
 
