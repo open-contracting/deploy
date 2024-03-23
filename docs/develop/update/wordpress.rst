@@ -119,6 +119,7 @@ WordPress
               $old_version = explode( '.', $plugin_data['Version'] );
               $new_version = explode( '.', $item->new_version );
 
+              // https://github.com/dependabot/fetch-metadata/blob/924483a/src/dependabot/update_metadata.ts#L77-L94
               if ( $old_version[0] === $new_version[0] && ( $old_version[0] !== '0' || $old_version[1] === $new_version[1] ) ) {
                       return true;
               }
