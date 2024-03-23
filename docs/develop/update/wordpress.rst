@@ -108,7 +108,7 @@ WordPress
 
    .. note::
 
-      `WP Rocket can't auto-update <https://docs.wp-rocket.me/article/1446-why-are-wp-rocket-auto-updates-disabled>`__.
+      `WP Rocket can't auto-update. <https://docs.wp-rocket.me/article/1446-why-are-wp-rocket-auto-updates-disabled>`__ See the `changelog <https://wp-rocket.me/changelog/>`__.
 
    .. code-block:: bash
 
