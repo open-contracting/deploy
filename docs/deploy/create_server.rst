@@ -9,7 +9,17 @@ A server is created either when a service is moving to a new server, or when a s
 
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
 
-1. Create the new server
+1. Collect server requirements
+------------------------------
+
+-  Number of CPUs
+-  GBs of RAM
+-  GBs of disk
+-  Whether Docker is used
+-  What DNS to configure (e.g. subdomain)
+-  What :doc:`services<../develop/update/index>` to configure
+
+2. Create the new server
 ------------------------
 
 Create the server via the :ref:`host<hosting>`'s interface.
@@ -223,22 +233,28 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
          #. Set `Resource group <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal>`__ to "default"
          #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
-         #. Set *Region* to "(Europe) UK South"
+         #. Set *Region* to "(Europe) UK South" (or "(US) East US" or "(US) West US 2")
          #. Leave *Security type* as `Trusted launch virtual machines <https://learn.microsoft.com/en-ca/azure/virtual-machines/trusted-launch>`__
          #. Set *Image* to the latest Ubuntu LTS version
-         #. Set *Size* to an appropriate size (e.g. ``B2s``)
+         #. Set *Size* to an appropriate size (e.g. ``B2s``) (Select *No grouping* when browsing)
          #. Set *Authentication type* to "Password"
          #. Set *Username* to "ocpadmin"
          #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
 
       #. Click the *Next : Disks >* button
 
-         #. Set *OS disk type* to *Standard SSD*
+         #. Change *OS disk size*, if appropriate
+
+            .. seealso::
+
+               `Expand virtual hard disks on a Linux VM <https://learn.microsoft.com/en-ca/azure/virtual-machines/linux/expand-disks?tabs=ubuntu>`__
+
+         #. Set *OS disk type* to *Standard SSD* (or *Standard HDD* in development)
          #. Add additional disks, if appropriate:
 
             #. Click the *Create and attach a new disk* link
             #. Click the *Change size* link
-            #. Select "Standard SSD" from the *Storage type* dropdown
+            #. Set *Storage type* to "Standard SSD"
             #. Click the desired size
             #. Click the *OK* button
 
@@ -321,7 +337,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
 .. _create-dns-records:
 
-2. Create DNS records
+3. Create DNS records
 ---------------------
 
 Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
@@ -419,7 +435,7 @@ Configure reverse DNS
 
       #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42..uksouth.cloudapp.azure.com``)
 
-3. Apply core changes
+4. Apply core changes
 ---------------------
 
 #. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
@@ -477,7 +493,7 @@ Configure reverse DNS
 
    As such, DNS records that match the hostname must be maintained, until the server is decommissioned.
 
-4. Deploy the service
+5. Deploy the service
 ---------------------
 
 #. If the service is being introduced, add the target to the ``salt/top.sls`` and ``pillar/top.sls`` files, and include any new state or Pillar files you authored for the service.
@@ -496,7 +512,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
 .. _migrate-server:
 
-5. Migrate from the old server
+6. Migrate from the old server
 ------------------------------
 
 #. :ref:`check-mail` for the root user and, if applicable, each app user
@@ -559,7 +575,7 @@ See :doc:`redash`.
 
 .. _update-external-services:
 
-6. Update external services
+7. Update external services
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<prometheus>`
