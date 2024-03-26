@@ -10,6 +10,36 @@ Linode makes it easy to scale/resize a server (number of cores and GiB of RAM).
 
 You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elasticsearch, PostgreSQL and/or uWSGI.
 
+Manager cloud services
+----------------------
+
+.. tab-set::
+
+   .. tab-item:: Azure
+
+      #. Install the `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/>`__
+      #. Log in to Azure:
+
+         .. code-block:: bash
+
+            az login
+
+      #. Set the default subscription:
+
+         .. code-block:: bash
+
+            az account set --subscription 4e98b5b1-1619-44be-a38e-90cdb8e4bc95
+
+      #. Set the default resource group:
+
+         .. code-block:: bash
+
+            az configure --defaults group=default
+
+      .. seealso::
+
+         `Commands <https://learn.microsoft.com/en-us/cli/azure/reference-index>`__
+
 .. _recover-server:
 
 Recover a server
