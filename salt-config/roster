@@ -23,6 +23,10 @@ redmine:
 registry:
   host: ocp13.open-contracting.org
   port: 2223
+portland-dev:
+  host: ocp26.open-contracting.org
+  user: ocpadmin
+  sudo: true
 
 # ocp15 is bi.open-contracting.org
 

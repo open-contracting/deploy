@@ -1,0 +1,2 @@
+include:
+  - docker_apps

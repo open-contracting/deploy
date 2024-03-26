@@ -50,6 +50,9 @@ base:
     - tinyproxy
     - kingfisher_main_maintenance
 
+  'portland-dev':
+    - portland_dev
+
   'prometheus':
     - prometheus_server
     - private.smtp
