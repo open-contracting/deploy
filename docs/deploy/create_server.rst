@@ -447,7 +447,7 @@ Configure reverse DNS
 
 #. Connect to the server as the ``root`` user (``ocpadmin`` user, if Azure) using SSH, to add it to your known hosts. Then, disconnect.
 
-   .. warning::
+   .. attention::
 
       On macOS, run the ``ssh`` command with ``sudo``.
 
@@ -464,9 +464,9 @@ Configure reverse DNS
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
-   .. note::
+   .. attention::
 
-      On Azure, add ``user: ocpadmin`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
+      On Azure, add ``user: ocpadmin`` and ``sudo: true`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
 
 #. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
