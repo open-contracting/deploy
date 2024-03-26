@@ -266,7 +266,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. If not using Docker, set *NIC network security group* to *None*
          #. If using Docker, set *NIC network security group* to *Advanced*
 
-            #. Click the *Create new* link
+            #. Click the *Create new* link for *Configure network security group*
             #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp42.open-contracting.org-nsg``)
             #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
 
@@ -325,6 +325,10 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
          #. Check the *Enable backup* box
          #. Set `Recovery Services vault <https://learn.microsoft.com/en-us/azure/backup/backup-azure-recovery-services-vault-overview>`__ to "default-backups"
+         #. Click the *Create new* link for *Backup policy*
+         #. Set *Policy name* to "default-backups-daily"
+         #. Set *Frequency* to "Daily"
+         #. Set *Instant restore* to 1
 
       #. Click the *Next : Monitoring >* button
       #. Click the *Next : Advanced >* button
