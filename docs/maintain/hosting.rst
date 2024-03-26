@@ -17,6 +17,15 @@ Manager cloud services
 
    .. tab-item:: Azure
 
+      Configure Azure portal
+      ~~~~~~~~~~~~~~~~~~~~~~
+
+      #. Open the `Directories + subscriptions <https://portal.azure.com/#settings/directory>`__ settings
+      #. Set *Default subscription filter* to "All subscriptions"
+
+      Configure Azure CLI
+      ~~~~~~~~~~~~~~~~~~~
+
       #. Install the `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/>`__
       #. Log in to Azure:
 
