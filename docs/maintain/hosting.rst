@@ -13,41 +13,40 @@ You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elast
 Manager cloud services
 ----------------------
 
-.. tab-set::
+Azure
+~~~~~
 
-   .. tab-item:: Azure
+Configure Azure portal
+^^^^^^^^^^^^^^^^^^^^^^
 
-      Configure Azure portal
-      ~~~~~~~~~~~~~~~~~~~~~~
+#. Open the `Directories + subscriptions <https://portal.azure.com/#settings/directory>`__ settings
+#. Set *Default subscription filter* to "All subscriptions"
 
-      #. Open the `Directories + subscriptions <https://portal.azure.com/#settings/directory>`__ settings
-      #. Set *Default subscription filter* to "All subscriptions"
+Configure Azure CLI
+^^^^^^^^^^^^^^^^^^^
 
-      Configure Azure CLI
-      ~~~~~~~~~~~~~~~~~~~
+#. Install the `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/>`__
+#. Log in to Azure:
 
-      #. Install the `Azure CLI <https://learn.microsoft.com/en-us/cli/azure/>`__
-      #. Log in to Azure:
+   .. code-block:: bash
 
-         .. code-block:: bash
+      az login
 
-            az login
+#. Set the default subscription:
 
-      #. Set the default subscription:
+   .. code-block:: bash
 
-         .. code-block:: bash
+      az account set --subscription 4e98b5b1-1619-44be-a38e-90cdb8e4bc95
 
-            az account set --subscription 4e98b5b1-1619-44be-a38e-90cdb8e4bc95
+#. Set the default resource group:
 
-      #. Set the default resource group:
+   .. code-block:: bash
 
-         .. code-block:: bash
+      az configure --defaults group=default
 
-            az configure --defaults group=default
+.. seealso::
 
-      .. seealso::
-
-         `Commands <https://learn.microsoft.com/en-us/cli/azure/reference-index>`__
+   `Commands <https://learn.microsoft.com/en-us/cli/azure/reference-index>`__
 
 .. _recover-server:
 
