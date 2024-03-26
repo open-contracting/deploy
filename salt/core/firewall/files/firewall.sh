@@ -23,7 +23,7 @@ function echo_verbose {
     [ "$VERBOSE" == "true" ] && echo "**** $* ****"
 }
 
-if [ -x "$(command -v docker)" ]; then
+if [ -x "$(command -v docker)" ] || [ -n "$DOCKER" ]; then
     echo "Docker is not supported. Please configure iptables manually."
     exit 3
 fi

@@ -211,10 +211,10 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
          .. tab-item:: Install Windows
 
-            Reference:
+            .. seealso::
 
-            -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
-            -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+               -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
+               -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
    .. tab-item:: Azure
       :sync: azure
@@ -460,17 +460,21 @@ Configure reverse DNS
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
-   .. note::
-
-      If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
-
    .. attention::
 
       On Azure, add ``user: ocpadmin`` and ``sudo: true`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
 
+   .. tip::
+
+      If DNS is not propagated, temporarily set ``host`` to the server's IP address instead of its hostname.
+
 #. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
-#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration (replace ``TARGET``).
+   .. attention::
+
+      If using Docker, add ``docker:`` to the service's Pillar file, to not configure a server-side :doc:`firewall<../develop/update/firewall>`.
+
+#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files (replace ``TARGET``).
 
    .. code-block:: bash
 
@@ -480,7 +484,7 @@ Configure reverse DNS
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
 
-   .. note::
+   .. tip::
 
       If configuring a non-OCP server:
 
