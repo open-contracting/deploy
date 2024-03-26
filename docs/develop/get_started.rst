@@ -50,7 +50,7 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
       .. code-block:: none
 
-         %admin          ALL = (root) NOPASSWD: /usr/bin/ssh, /path/to/deploy/run.py
+         %admin          ALL = (root) NOPASSWD: /usr/bin/ssh, /opt/salt/salt-ssh, /path/to/deploy/run.py
 
 `Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
 

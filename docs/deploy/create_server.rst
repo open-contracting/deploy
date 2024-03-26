@@ -445,7 +445,7 @@ Configure reverse DNS
 4. Apply core changes
 ---------------------
 
-#. Connect to the server as the ``root`` user (``ocpadmin`` user, if Azure) using SSH, to add it to your known hosts. Then, disconnect.
+#. Connect to the server's FQDN as the ``root`` user (``ocpadmin`` user, if Azure) using SSH, to add it to your known hosts. Then, disconnect.
 
    .. warning::
 
