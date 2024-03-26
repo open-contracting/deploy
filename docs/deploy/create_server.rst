@@ -37,7 +37,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Select a *Linode Plan*
          #. Set *Linode Label* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
-         #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+         #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
          #. Check *Backups*
          #. Click *Create Linode* and wait a few minutes for the server to power on
 
@@ -239,7 +239,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Size* to an appropriate size (e.g. ``B2s``) (Select *No grouping* when browsing)
          #. Set *Authentication type* to "Password"
          #. Set *Username* to "ocpadmin"
-         #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__
+         #. Set *Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
 
       #. Click the *Next : Disks >* button
 
@@ -346,12 +346,15 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
 Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
 
+Add A and AAAA records
+~~~~~~~~~~~~~~~~~~~~~~
+
 #. Login to `GoDaddy <https://sso.godaddy.com>`__
 #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
 #. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
 #. Add an A record for the hostname:
 
-   #. Click *ADD*
+   #. Click the *Add New Record* button
    #. Select "A" from the *Type* dropdown
    #. Enter the hostname in *Host* (``ocp42``, for example)
    #. Enter the IPv4 address in *Points to*
@@ -360,7 +363,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
 
-   #. Click *ADD*
+   #. Click the *Add New Record* button
    #. Select "AAAA" from the *Type* dropdown
    #. Enter the hostname in *Host* (``ocp42``, for example)
    #. Enter the IPv6 address in *Points to* (use ``2`` as the last group of digits)
@@ -434,15 +437,15 @@ Configure reverse DNS
       #. Select the new server
       #. Click on the public IP address:
 
-         #. Set *DNS name label (optional)* to "hostname" (``ocp42``, for example)
-         #. Click *Save*
+         #. Enter the hostname in *DNS name label (optional)* (``ocp42``, for example)
+         #. Click the *Save* button (at the top)
 
       #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42..uksouth.cloudapp.azure.com``)
 
 4. Apply core changes
 ---------------------
 
-#. Connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
+#. On Hetzner, connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
    .. note::
 
@@ -450,18 +453,22 @@ Configure reverse DNS
 
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 
-   - If the service is moving to a new server, you can use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
-   - If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
-   - If the environment is development, add a ``-dev`` suffix.
-   - Do not include an integer suffix in the target name.
+   -  If the service is moving to a new server, use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
+   -  If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
+   -  If the environment is development, add a ``-dev`` suffix.
+   -  Do not include an integer suffix in the target name.
 
    .. note::
 
       If the DNS records have not yet propagated, you can temporarily use the server's IP address instead of its hostname in the roster.
 
+   .. note::
+
+      On Azure, add ``user: ocpadmin`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
+
 #. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
-#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration.
+#. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files, which upgrade all packages, configure the hostname and apply the base configuration (replace ``TARGET``).
 
    .. code-block:: bash
 
@@ -585,7 +592,7 @@ See :doc:`redash`.
 #. :doc:`Add the server to Prometheus<prometheus>`
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
-   #. Click *ADD*
+   #. Click the *Add New Record* button
    #. Select "CNAME" from the *Type* dropdown
    #. Enter the public hostname in *Host* (``standard``, for example)
    #. Enter the internal hostname in *Points to* (``ocp42.open-contracting.org``, for example)
