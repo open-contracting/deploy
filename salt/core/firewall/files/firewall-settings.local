@@ -2,7 +2,6 @@
 # If this file must be edited, see the instructions in firewall/init.sls.
 
 VERBOSE="true"
-DOCKER="{{ 'docker' in pillar }}"
 
 # Paths to executables and files.
 IPCMD="/sbin/ip"

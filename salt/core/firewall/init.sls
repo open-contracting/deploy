@@ -17,6 +17,7 @@ iptables-persistent:
 {% set ssh_ipv4_ips = salt['pillar.get']('firewall:ssh_ipv4', []) + salt['pillar.get']('firewall:additional_ssh_ipv4', []) %}
 {% set ssh_ipv6_ips = salt['pillar.get']('firewall:ssh_ipv6', []) + salt['pillar.get']('firewall:additional_ssh_ipv6', []) %}
 
+{{ set_firewall('DOCKER', 'true' if 'docker' in pillar else '') }}
 {{ set_firewall("SSH_IPV4", ssh_ipv4_ips|join(' ')) }}
 {{ set_firewall("SSH_IPV6", ssh_ipv6_ips|join(' ')) }}
 
