@@ -445,11 +445,13 @@ Configure reverse DNS
 4. Apply core changes
 ---------------------
 
-#. On Hetzner, connect to the server as the ``root`` user using SSH, and change its password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
+#. Connect to the server as the ``root`` user (``ocpadmin`` user, if Azure) using SSH, to add it to your known hosts. Then, disconnect.
 
-   .. note::
+   .. warning::
 
-      The root password is needed if you can't login via SSH (for example, due to a broken configuration).
+      On macOS, run the ``ssh`` command with ``sudo``.
+
+   #. On Hetzner, change the root password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 
