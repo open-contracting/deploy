@@ -1,6 +1,10 @@
 Create a server
 ===============
 
+.. note::
+
+   Dogsbody Technology requires a lead time of six weeks for new servers. This means OCP typically creates new servers.
+
 A server is created either when a service is moving to a new server, or when a service is being introduced.
 
 As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
@@ -204,6 +208,12 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
    .. tab-item:: Azure
       :sync: azure
+
+      .. seealso::
+
+         -  `Pricing calculator <https://azure.microsoft.com/en-us/pricing/calculator/>`__, to estimate costs
+         -  `Virtual machine series <https://azure.microsoft.com/en-gb/pricing/details/virtual-machines/series/>`__
+         -  `Virtual machine sizes naming conventions <https://learn.microsoft.com/en-us/azure/virtual-machines/vm-naming-conventions>`__
 
       #. `Log into Azure <https://portal.azure.com>`__
       #. Click the *Virtual machines* icon
@@ -568,7 +578,7 @@ See :doc:`redash`.
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
-#. Contact Dogsbody Technology Ltd to set up maintenance (`see readme <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
+#. Contact Dogsbody Technology to set up maintenance (`see readme <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
 #. :doc:`Delete the old server<delete_server>`
 
 If the service is being introduced:

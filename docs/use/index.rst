@@ -14,7 +14,7 @@ User Guides
    -  Dogsbody Technology Ltd (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) about server maintenance
    -  Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__) for anything else
 
-   Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask Dogsbody to grant you root access, linking to this policy.
+   Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask Dogsbody Technology to grant you root access, linking to this policy.
 
 .. toctree::
 
