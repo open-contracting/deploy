@@ -369,7 +369,7 @@ Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.).
 
 .. seealso::
 
-    :doc:`dns`
+    :doc:`dns` TTL standardization
 
 Configure reverse DNS
 ~~~~~~~~~~~~~~~~~~~~~
@@ -435,7 +435,7 @@ Configure reverse DNS
       #. Click on the public IP address:
 
          #. Set *DNS name label (optional)* to "hostname" (``ocp42``, for example)
-         # Click *Save*
+         #. Click *Save*
 
       #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42..uksouth.cloudapp.azure.com``)
 
