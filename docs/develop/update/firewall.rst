@@ -285,3 +285,21 @@ The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to
    .. code-block:: bash
 
       systemctl restart docker
+
+Troubleshoot
+~~~~~~~~~~~~
+
+If you configure an external firewall without resetting the server-side firewall, you cannot connect to the server. Either:
+
+Recovery
+  -  :ref:`Recover the server<recover-server>`
+  -  Run ``/home/sysadmin-tools/bin/firewall_reset.sh`` as the ``root`` user
+Firewall
+  -  Open port 8255 in the external firewall
+  -  :doc:`Connect to the server<../../use/ssh>` as the ``root`` user
+  -  Run ``/home/sysadmin-tools/bin/firewall_reset.sh``
+  -  Close port 8255 in the external firewall
+
+.. note::
+
+   On Azure, instead of the ``root`` user, use the ``ocpadmin`` user, and run commands with ``sudo``.

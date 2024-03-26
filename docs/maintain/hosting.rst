@@ -145,3 +145,17 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
          .. tab-item:: KVM Console
 
             Hetzner technicians attach a remote console (`KVM Console <https://docs.hetzner.com/robot/dedicated-server/maintainance/kvm-console/>`__) to a dedicated server. This option is slow to set up, but might be required if the issue is with the network, firewall or SSH configuration.
+
+   .. tab-item:: Azure
+
+      #. `Log into Azure <https://portal.azure.com>`__
+      #. Click the *Virtual machines* icon
+      #. Select the server you want to access
+      #. Click the *Connect* menu item
+      #. Expand the *More ways to connect* detail
+      #. Click the *Go to serial console* button
+      #. Login as ``ocpadmin``, using the password from OCP's `LastPass <https://www.lastpass.com>`__ account
+
+      .. seealso::
+
+         `Azure Serial Console <https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/serial-console-overview>`__
