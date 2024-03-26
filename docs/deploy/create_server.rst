@@ -447,7 +447,7 @@ Configure reverse DNS
 
 #. Connect to the server as the ``root`` user (``ocpadmin`` user, if Azure) using SSH, to add it to your known hosts. Then, disconnect.
 
-   .. attention::
+   .. warning::
 
       On macOS, run the ``ssh`` command with ``sudo``.
 
@@ -460,7 +460,7 @@ Configure reverse DNS
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
-   .. attention::
+   .. warning::
 
       On Azure, add ``user: ocpadmin`` and ``sudo: true`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
 

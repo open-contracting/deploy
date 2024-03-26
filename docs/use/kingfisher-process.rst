@@ -152,7 +152,7 @@ Check the number of compiled releases to be exported. For example:
 
    SELECT cached_compiled_releases_count FROM collection WHERE id = 123;
 
-.. attention::
+.. warning::
 
    The ``cached_compiled_releases_count`` column is not yet populated in version 2 of Kingfisher Process (`#370 <https://github.com/open-contracting/kingfisher-process/issues/370>`__). In the meantime, you can run:
 

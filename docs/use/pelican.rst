@@ -21,9 +21,9 @@ To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Se
 
 After a few seconds, you should see your report being processed at https://pelican.open-contracting.org.
 
-.. attention::
+.. note::
 
-   Pelican is more robust to structural errors in OCDS data than it was in 2021. That said, it might still fail on structural errors. If so, :ref:`sentry` is expected to notify James and Yohanna.
+   Pelican is more robust to structural errors in OCDS data than it was in 2021. That said, it could fail (stall) on structural errors. If so, :ref:`sentry` will notify James and Yohanna.
 
 .. seealso::
 

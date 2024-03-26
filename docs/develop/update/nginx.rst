@@ -95,7 +95,7 @@ If the server name is new, you must:
 
 #. :ref:`Add a CNAME record<update-external-services>`.
 
-   .. warning::
+   .. attention::
 
       Let's Encrypt will reach a `Failed Validation <https://letsencrypt.org/docs/failed-validation-limit/>`__ limit if DNS is not propagated.
 

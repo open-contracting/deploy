@@ -49,7 +49,7 @@ Docker apps
 Pelican backend
 ~~~~~~~~~~~~~~~
 
-.. warning::
+.. attention::
 
    A cron job updates the ``exchange_rates`` table every 12 hours. Complete this step before the next run.
 

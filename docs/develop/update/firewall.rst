@@ -289,7 +289,7 @@ The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to
 Troubleshoot
 ~~~~~~~~~~~~
 
-If you configure an external firewall without resetting the server-side firewall, you cannot connect to the server. Either:
+If you configure an external firewall without resetting the server-side firewall, the server becomes inaccessible. Either:
 
 Recovery
   -  :ref:`Recover the server<recover-server>`
