@@ -10,7 +10,7 @@ include:
 {% set entry = pillar.docker_apps.credere_backend %}
 {% set directory = docker_apps_directory + entry.target %}
 
-{{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org") }}
+{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
 
 {% for job in entry.cron|default([]) %}
 cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python -m app.commands {{ job.command }}:

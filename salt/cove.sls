@@ -19,7 +19,7 @@ allow {{ userdir }} access:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
 
 cd {{ directory }}; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" .ve/bin/python manage.py expire_files --settings {{ entry.django.app }}.settings:
   cron.present:

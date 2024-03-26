@@ -4,7 +4,7 @@
 include:
   - aws
 
-{{ set_config("aws-settings.local", "S3_SITE_BACKUP_BUCKET", pillar.redmine.backup.location) }}
+{{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', pillar.redmine.backup.location) }}
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:

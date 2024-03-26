@@ -7,7 +7,7 @@ include:
 {% set entry = pillar.docker_apps.pelican_backend %}
 {% set directory = docker_apps_directory + entry.target %}
 
-{{ set_cron_env(pillar.docker.user, "MAILTO", "sysadmin@open-contracting.org", "pelican.backend") }}
+{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'pelican.backend') }}
 
 /home/{{ pillar.docker.user }}/.pgpass:
   file.managed:

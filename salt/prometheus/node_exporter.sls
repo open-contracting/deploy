@@ -6,9 +6,9 @@ include:
 {% set user = pillar.prometheus.node_exporter.user %}
 {% set userdir = '/home/' + user %}
 
-{{ set_firewall("PRIVATE_PROMETHEUS_CLIENT") }}
-{{ set_firewall("PROMETHEUS_IPV4", pillar.firewall.prometheus_ipv4) }}
-{{ set_firewall("PROMETHEUS_IPV6", pillar.firewall.prometheus_ipv6) }}
+{{ set_firewall('PRIVATE_PROMETHEUS_CLIENT') }}
+{{ set_firewall('PROMETHEUS_IPV4', pillar.firewall.prometheus_ipv4) }}
+{{ set_firewall('PROMETHEUS_IPV6', pillar.firewall.prometheus_ipv6) }}
 
 # The same self-signed certificate is used on multiple machines. Since it's only for Node Exporter, that's OK.
 #

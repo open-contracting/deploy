@@ -43,7 +43,7 @@ You might need to set variables if you're working in a development environment. 
 
    .. code-block:: yaml
 
-      {{ set_firewall("PUBLIC_SSH") }}
+      {{ set_firewall('PUBLIC_SSH') }}
 
 This sets ``PUBLIC_SSH="yes"`` in the ``firewall-settings.local`` file.
 

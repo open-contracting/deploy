@@ -6,21 +6,21 @@ include:
 {% endif %}
 
 {% if pillar.postgres.get('public_access') %}
-  {{ set_firewall("PUBLIC_POSTGRESQL") }}
-  {{ unset_firewall("PRIVATE_POSTGRESQL") }}
-  {{ unset_firewall("REPLICA_IPV4") }}
-  {{ unset_firewall("REPLICA_IPV6") }}
+  {{ set_firewall('PUBLIC_POSTGRESQL') }}
+  {{ unset_firewall('PRIVATE_POSTGRESQL') }}
+  {{ unset_firewall('REPLICA_IPV4') }}
+  {{ unset_firewall('REPLICA_IPV6') }}
 {% else %}
-  {{ unset_firewall("PUBLIC_POSTGRESQL") }}
-  {{ set_firewall("PRIVATE_POSTGRESQL") }}
+  {{ unset_firewall('PUBLIC_POSTGRESQL') }}
+  {{ set_firewall('PRIVATE_POSTGRESQL') }}
   {% if 'replica_ipv4' in pillar.postgres %}
-    {{ set_firewall("REPLICA_IPV4", pillar.postgres.replica_ipv4|join(' ')) }}
+    {{ set_firewall('REPLICA_IPV4', pillar.postgres.replica_ipv4|join(' ')) }}
   {% endif %}
   {% if 'replica_ipv6' in pillar.postgres %}
-    {{ set_firewall("REPLICA_IPV6", pillar.postgres.replica_ipv6|join(' ')) }}
+    {{ set_firewall('REPLICA_IPV6', pillar.postgres.replica_ipv6|join(' ')) }}
   {% endif %}
   {% if salt['pillar.get']('maintenance:enabled') %}
-    {{ set_firewall("MONITOR_APPBEAT") }}
+    {{ set_firewall('MONITOR_APPBEAT') }}
   {% endif %}
 {% endif %}
 
@@ -83,7 +83,7 @@ pgbadger:
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
-    {% if grains.osmajorrelease | string in ("18", "20") %}
+    {% if grains.osmajorrelease | string in ('18', '20') %}
     - name: deb https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main
     {% else %}
     - name: deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main

@@ -1,11 +1,11 @@
 {% from 'lib.sls' import nginx, set_firewall, unset_firewall %}
 
 {% if salt['pillar.get']('nginx:public_access') %}
-  {{ set_firewall("PUBLIC_HTTP") }}
-  {{ set_firewall("PUBLIC_HTTPS") }}
+  {{ set_firewall('PUBLIC_HTTP') }}
+  {{ set_firewall('PUBLIC_HTTPS') }}
 {% else %}
-  {{ unset_firewall("PUBLIC_HTTP") }}
-  {{ unset_firewall("PUBLIC_HTTPS") }}
+  {{ unset_firewall('PUBLIC_HTTP') }}
+  {{ unset_firewall('PUBLIC_HTTPS') }}
 {% endif %}
 
 nginx:

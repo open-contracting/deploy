@@ -164,7 +164,7 @@ redmine configure hsts:
     - require:
       - file: /home/sysadmin-tools/bin
 
-{{ create_user("report_user", authorized_keys=salt['pillar.get']('ssh:report_user', [])) }}
+{{ create_user('report_user', authorized_keys=salt['pillar.get']('ssh:report_user', [])) }}
 
 grant report user readonly privileges:
   mysql_grants.present:

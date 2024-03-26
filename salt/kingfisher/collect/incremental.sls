@@ -34,7 +34,7 @@ include:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{{ set_cron_env(entry.user, "MAILTO", "sysadmin@open-contracting.org") }}
+{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
 
 # Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in entry.crawls %}

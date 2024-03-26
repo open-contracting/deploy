@@ -34,11 +34,11 @@ unset {{ setting_name }} in {{ filename }}:
 {% endmacro %}
 
 {% macro set_firewall(setting_name, setting_value="yes") %}
-{{ set_config("firewall-settings.local", setting_name, setting_value) }}
+{{ set_config('firewall-settings.local', setting_name, setting_value) }}
 {% endmacro %}
 
 {% macro unset_firewall(setting_name) %}
-{{ unset_config("firewall-settings.local", setting_name) }}
+{{ unset_config('firewall-settings.local', setting_name) }}
 {% endmacro %}
 
 # It is safe to use `[]` as a default value, because the default value is never mutated.

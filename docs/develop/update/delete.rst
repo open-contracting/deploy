@@ -113,7 +113,7 @@ Delete a firewall setting
 
    .. code-block:: jinja
 
-      {{ unset_firewall("PUBLIC_POSTGRESQL") }}
+      {{ unset_firewall('PUBLIC_POSTGRESQL') }}
 
 #. Deploy the relevant service, for example:
 
