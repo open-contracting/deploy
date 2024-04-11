@@ -52,7 +52,7 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
 Kingfisher Collect, by default, instructs Kingfisher Process to only create compiled releases. If you need something different:
 
 - Also perform structural checks (slow), by adding ``-d steps=check,compile`` to the command
-- Perform structural checks (slow) only, adding ``-d steps=check`` to the command
+- Only perform structural checks (slow), by adding ``-d steps=check`` to the command
 - Skip both, by adding ``-d steps=`` to the command
 
 To cancel a crawl, replace ``JOBID`` with the job ID from the response or from Scrapyd's `jobs page <https://collect.kingfisher.open-contracting.org/jobs>`__:
