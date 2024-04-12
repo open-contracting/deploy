@@ -152,14 +152,6 @@ Check the number of compiled releases to be exported. For example:
 
    SELECT cached_compiled_releases_count FROM collection WHERE id = 123;
 
-.. warning::
-
-   The ``cached_compiled_releases_count`` column is not yet populated in version 2 of Kingfisher Process (`#370 <https://github.com/open-contracting/kingfisher-process/issues/370>`__). In the meantime, you can run:
-
-   .. code:: sql
-
-      SELECT COUNT(*) FROM compiled_release WHERE collection_id = 123;
-
 Change to the directory in which you want to write the files.
 
 .. tip::
