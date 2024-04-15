@@ -73,7 +73,7 @@ Administrative access
 
 .. seealso::
 
-   `Software Development Handbook <https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html>`__, for access to third-party services
+   `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html>`__, for access to third-party services
 
 The staff of the following organizations have had administrative roles:
 
@@ -81,16 +81,16 @@ The staff of the following organizations have had administrative roles:
 -  `Dogsbody Technology <https://www.dogsbody.com>`__
 -  `RBC Group <https://www.rbcgrp.com>`__
 
-The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
-
 .. _root-access-policy:
 
 Root access
 ~~~~~~~~~~~
 
-Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) should have root access. Otherwise, only developers who are reasonably expected to deploy to a server should have root access to that server; anyone with root access can grant that developer root access.
+Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) should have root access. Otherwise, only developers who are reasonably expected to deploy to a **development server** should have root access to that server; anyone with root access can grant that developer root access.
 
 Root access should be :ref:`routinely reviewed<review-root-access>`. If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
+
+The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
 
 Redash
 ~~~~~~
