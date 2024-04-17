@@ -228,6 +228,7 @@ docker_apps:
       LOCAL_ACCESS: True
       ALLOWED_HOSTS: '*'
       RABBIT_EXCHANGE_NAME: *KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME
+      SCRAPYD_URL: http://host.docker.internal:6800
       # This is set to be the same size as the prefetch_count argument.
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
