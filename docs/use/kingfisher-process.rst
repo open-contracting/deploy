@@ -9,6 +9,8 @@ Kingfisher Process
 
    Is the service unresponsive or erroring? :doc:`Follow these instructions<index>`.
 
+.. _kingfisher-process-load:
+
 Load local data
 ---------------
 
@@ -75,7 +77,7 @@ Load local data
 Add structural checks
 ---------------------
 
-If you :ref:`skipped structural checks<collect-data>` in Kingfisher Collect, you can reschedule them in Kingfisher Process:
+If you :ref:`skipped structural checks<collect-data>` in Kingfisher Collect or when :ref:`loading local data<kingfisher-process-load>`, you can reschedule them in Kingfisher Process:
 
 #. :ref:`Connect to the data support server<connect-kingfisher-server>`.
 #. Add structural checks to a collection:
