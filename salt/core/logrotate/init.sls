@@ -6,7 +6,7 @@ include:
 /etc/logrotate.d/{{ filename }}:
   file.managed:
     - source: salt://core/logrotate/files/{{ entry.source }}
-{% if "context" in entry %}
+{% if 'context' in entry %}
     - template: jinja
     - context: {{ entry.context|yaml }}
 {% endif %}

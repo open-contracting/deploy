@@ -6,6 +6,13 @@ network:
     template: linode
     gateway4: 139.162.211.1
 
+logrotate:
+  conf:
+    php-site-logs:
+      source:  php-site-logs
+      context:
+        php_version: '8.1'
+
 apache:
   public_access: True
   sites:
@@ -16,6 +23,13 @@ apache:
       context:
         user: coalition
         socket: /var/run/php/php-fpm-coalition.sock
+
+mysql:
+  version: '8.0'
+  configuration: False
+  databases:
+    coalition_wp:
+      user: coalition
 
 php:
   version: '8.1'
@@ -28,20 +42,6 @@ phpfpm:
         user: coalition
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
-
-logrotate:
-  conf:
-    php-site-logs:
-      source:  php-site-logs
-      context:
-        php_version: '8.1'
-
-mysql:
-  version: '8.0'
-  configuration: False
-  databases:
-    coalition_wp:
-      user: coalition
 
 wordpress:
   cli_version: 2.7.1
