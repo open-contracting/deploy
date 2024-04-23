@@ -29,6 +29,13 @@ phpfpm:
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
 
+logrotate:
+  conf:
+    php-site-logs:
+      source:  php-site-logs
+      context:
+        php_version: '8.1'
+
 mysql:
   version: '8.0'
   configuration: False
