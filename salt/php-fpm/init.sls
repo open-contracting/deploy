@@ -24,7 +24,6 @@ php-fpm-reload:
 
 /var/log/php-fpm:
   file.directory:
-    - name: /var/log/php-fpm/
     - makedirs: True
 
 /etc/logrotate.d/php-site-logs:
@@ -39,9 +38,8 @@ php-fpm-reload:
       - file: /var/log/php-fpm
 
 {% for name, entry in pillar.phpfpm.sites.items() %}
-/var/log/php-fpm/{{ entry.context.user }}:
+/var/log/php-fpm/{{ name }}:
   file.directory:
-    - name: /var/log/php-fpm/{{ entry.context.user }}
     - user: {{ entry.context.user }}
     - group: {{ entry.context.user }}
     - makedirs: True
@@ -53,10 +51,10 @@ php-fpm-reload:
     - name: /etc/php/{{ php_version }}/fpm/pool.d/{{ name }}.conf
     - source: salt://php-fpm/files/{{ entry.configuration }}.conf
     - template: jinja
-    - context: {{ entry.context|yaml }}
+    - context: {{ dict(name=name, **entry.context)|yaml }}
     - require:
       - pkg: php-fpm
-      - file: /var/log/php-fpm/{{ entry.context.user }}
+      - file: /var/log/php-fpm/{{ name }}
     - watch_in:
       - module: php-fpm-reload
 {% endfor %}
