@@ -41,7 +41,8 @@ rsyslog:
 
 logrotate:
   conf:
-    kingfisher-summarize.conf: kingfisher-summarize
+    kingfisher-summarize.conf:
+      source: kingfisher-summarize
 
 cron:
   incremental:
