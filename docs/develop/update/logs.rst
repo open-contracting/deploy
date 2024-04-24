@@ -35,6 +35,9 @@ For example:
 
    logrotate:
      conf:
-       kingfisher-summarize: kingfisher-summarize
+       kingfisher-summarize:
+         source: kingfisher-summarize
+         context:
+           mykey: myvalue
 
 The ``kingfisher-summarize`` file in ``salt/core/logrotate/files`` will be written to ``/etc/logrotate.d/kingfisher-summarize``.

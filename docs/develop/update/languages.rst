@@ -15,6 +15,18 @@ To override or lock the version, update the server's Pillar file:
    php:
      version: '8.1'
 
+Add, :doc:`Logrotate<logs>` configuration to manage PHP site logs:
+
+.. code-block:: yaml
+
+   logrotate:
+     conf:
+       php-site-logs:
+         source:  php-site-logs
+         context:
+           php_version: '8.1'
+
+
 Configure Node.js
 -----------------
 
