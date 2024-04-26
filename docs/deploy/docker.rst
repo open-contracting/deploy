@@ -1,8 +1,8 @@
 Docker tasks
 ============
 
-Initialize applications
------------------------
+Update applications
+-------------------
 
 Change to the application's directory, replacing ``APP``:
 
@@ -17,17 +17,19 @@ Change to the application's directory, replacing ``APP``:
    docker compose pull
    docker compose up -d
 
-Create a superuser, if applicable:
-
-.. code-block:: bash
-
-   docker compose run --rm web python manage.py createsuperuser
-
-Migrate the database:
+Migrate the database, for example:
 
 .. code-block:: bash
 
    docker compose run --rm web python manage.py migrate
+
+.. admonition:: One-time setup
+
+   Create a superuser, if applicable:
+
+   .. code-block:: bash
+
+      docker compose run --rm web python manage.py createsuperuser
 
 Load data
 ---------
