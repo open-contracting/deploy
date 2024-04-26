@@ -36,9 +36,10 @@ btree_gin:
     - require:
       - postgres_database: pelican_backend_sql_database
 
+# If a `shasum -a 256` is incorrect, delete the files on the server, before trying again.
 {%
   for basename, source_hash in [
-    ('001_base', '2b195c9983988080c5563ae0af4f722cfe51ece9882fe0e0ade5c324bd2eefab'),
+    ('001_base', '52e526e13663b3029b17b08722af2792787bcb02a8fb9c8d259a3663d96b4d82'),
     ('002_constraints', 'f298f0b8cb20d47f390b480d44d12c097e83b177dde56234dcbebc6ad3dcf229'),
   ]
 %}
