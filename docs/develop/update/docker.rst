@@ -144,7 +144,7 @@ Then, under the ``env`` key in the service's Pillar file, use ``host.docker.inte
      myapp:
        target: mytarget
        env:
-         DATABASE_URL: "postgresql://user:pass@host.docker.internal:5432/name"
+         DATABASE_URL: "postgresql://USERNAME:PASSWORD@host.docker.internal:5432/name"
 
 Reference:
 

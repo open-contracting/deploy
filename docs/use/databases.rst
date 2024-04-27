@@ -39,7 +39,7 @@ Instead of entering your password each time, you can add your credentials to the
 
 .. code-block:: bash
 
-   echo 'postgres.kingfisher.open-contracting.org:5432:kingfisher_process:USER:PASS' >> ~/.pgpass
+   echo 'postgres.kingfisher.open-contracting.org:5432:kingfisher_process:USERNAME:PASSWORD' >> ~/.pgpass
 
 Then, set the permissions of the ``~/.pgpass`` file:
 
@@ -113,7 +113,7 @@ For security, remember to set ``sslmode`` to ``'require'``.
 
 .. code-block:: none
 
-   %sql postgresql://USER:PASSWORD@postgres.kingfisher.open-contracting.org/kingfisher_process?sslmode=require
+   %sql postgresql://USERNAME:PASSWORD@postgres.kingfisher.open-contracting.org/kingfisher_process?sslmode=require
 
 .. note::
 
