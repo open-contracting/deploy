@@ -32,6 +32,20 @@ Sentry
 
 Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry. See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry.
 
+.. tip::
+
+   From the *All Events* tab of an issue, to filter out frequent events to find infrequent events:
+
+   #. Click the … button in the *TITLE* column
+   #. Click the *Exclude from filter* menu item
+   #. If needed, replace the end of the title with the wildcard character ``*``
+
+   You can also type a negated key like ``!message:``, and Sentry will display autocomplete options.
+
+.. seealso::
+
+   `Sentry search reference <https://docs.sentry.io/product/reference/search/>`__
+
 SecurityScorecard
 ~~~~~~~~~~~~~~~~~
 
