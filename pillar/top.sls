@@ -72,6 +72,7 @@ base:
   'registry':
     - registry
     - private.registry
+    - tinyproxy
     - registry_maintenance
 
   # Don't install the Prometheus Node Exporter on development or test servers.
