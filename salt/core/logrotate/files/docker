@@ -1,0 +1,8 @@
+/var/log/docker-ocp/*.log {
+        rotate 14
+        daily
+        missingok
+        notifempty
+        compress
+        delaycompress
+}
