@@ -11,6 +11,14 @@ network:
 vm:
   nr_hugepages: 128
 
+rsyslog:
+  conf:
+    80-docker.conf: docker.conf
+
+logrotate:
+  conf:
+    docker: docker
+
 apache:
   public_access: True
   sites:
@@ -33,6 +41,7 @@ postgres:
 
 docker:
   user: deployer
+  syslog_logging: True
 
 docker_apps:
   redash:

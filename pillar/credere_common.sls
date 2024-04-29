@@ -7,8 +7,17 @@ apache:
         port: 8001
         static_port: 8000
 
+rsyslog:
+  conf:
+    80-docker.conf: docker.conf
+
+logrotate:
+  conf:
+    docker: docker
+
 docker:
   user: deployer
+  syslog_logging: True
 
 docker_apps:
   credere_frontend:

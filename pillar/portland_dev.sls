@@ -13,6 +13,14 @@ ntp:
   - 2.us.pool.ntp.org
   - 3.us.pool.ntp.org
 
+rsyslog:
+  conf:
+    80-docker.conf: docker.conf
+
+logrotate:
+  conf:
+    docker: docker
+
 apache:
   public_access: True
   sites:
@@ -22,6 +30,7 @@ apache:
 
 docker:
   user: deployer
+  syslog_logging: True
 
 postgres:
   version: 16

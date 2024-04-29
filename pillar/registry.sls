@@ -40,6 +40,14 @@ prometheus:
   node_exporter:
     smartmon: True
 
+rsyslog:
+  conf:
+    80-docker.conf: docker.conf
+
+logrotate:
+  conf:
+    docker: docker
+
 apache:
   public_access: True
   modules:
@@ -92,6 +100,7 @@ postgres:
 docker:
   user: deployer
   uid: 1002
+  syslog_logging: True
 
 python:
   version: '3.10'
