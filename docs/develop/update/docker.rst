@@ -33,12 +33,26 @@ In the service's Pillar file, add, for example:
 
 .. code-block:: yaml
 
+   rsyslog:
+     conf:
+       80-docker.conf: docker.conf
+
+   logrotate:
+     conf:
+       docker: docker
+
    docker:
      user: deployer
+     syslog_logging: True
 
 This will:
 
 -  Add a non-root user to the ``docker`` group
+-  Configures Docker container logging to:
+
+   - Stored log files in: ``/var/log/docker-ocp/{image_name}.log``
+   - Split log files by the Docker image name.
+   - Rotate log files daily, retaining 14 logs.
 
 Add Docker Compose file
 -----------------------
