@@ -5,6 +5,7 @@
 	notifempty
 	compress
 	delaycompress
+	sharedscripts
 	postrotate
 		if [ -x /usr/lib/php/php{{ php_version }}-fpm-reopenlogs ]; then
 			/usr/lib/php/php{{ php_version }}-fpm-reopenlogs;
