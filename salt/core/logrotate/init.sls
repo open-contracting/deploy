@@ -2,8 +2,12 @@
 include:
   - core.rsyslog
 
-{% for filename, source in salt['pillar.get']('logrotate:conf', {}).items() %}
+{% for filename, entry in salt['pillar.get']('logrotate:conf', {}).items() %}
 /etc/logrotate.d/{{ filename }}:
   file.managed:
-    - source: salt://core/logrotate/files/{{ source }}
+    - source: salt://core/logrotate/files/{{ entry.source }}
+{% if 'context' in entry %}
+    - template: jinja
+    - context: {{ entry.context|yaml }}
+{% endif %}
 {% endfor %}

@@ -48,6 +48,27 @@ Configure `PHP-FPM <https://www.php.net/manual/en/install.fpm.php>`__ to corresp
            listen_user: www-data
            socket: /var/run/php/php-fpm-coalition.sock
 
+This will:
+
+-  Enable the :ref:`proxy_fcgi<apache-modules>` Apache module
+-  Install the PHP-FPM service
+-  Create a ``/var/log/php-fpm/coalition/`` log directory
+-  Create a ``/etc/php/-/fpm/pool.d/coalition.conf`` configuration file
+-  Install PHP packages
+
+The configuration file enables `log_errors <https://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors>`__ and sets `error_log <https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log>`__ to ``/var/log/php-fpm/coalition/coalition.log``.
+
+Configure :doc:`logrotate<logs>` for the log files:
+
+.. code-block:: yaml
+
+   logrotate:
+     conf:
+       php-site-logs:
+         source:  php-site-logs
+         context:
+           php_version: '8.1'
+
 .. note::
 
    You can create a custom configuration, if needed.

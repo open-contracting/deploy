@@ -22,15 +22,28 @@ php-fpm-reload:
     - name: service.reload
     - m_name: php{{ php_version }}-fpm.service
 
+/var/log/php-fpm:
+  file.directory:
+    - makedirs: True
+
 {% for name, entry in pillar.phpfpm.sites.items() %}
+/var/log/php-fpm/{{ name }}:
+  file.directory:
+    - user: {{ entry.context.user }}
+    - group: {{ entry.context.user }}
+    - makedirs: True
+    - require:
+      - file: /var/log/php-fpm
+
 /etc/php/-/fpm/pool.d/{{ name }}.conf:
   file.managed:
     - name: /etc/php/{{ php_version }}/fpm/pool.d/{{ name }}.conf
     - source: salt://php-fpm/files/{{ entry.configuration }}.conf
     - template: jinja
-    - context: {{ entry.context|yaml }}
+    - context: {{ dict(name=name, **entry.context)|yaml }}
     - require:
       - pkg: php-fpm
+      - file: /var/log/php-fpm/{{ name }}
     - watch_in:
       - module: php-fpm-reload
 {% endfor %}
