@@ -32,7 +32,7 @@ mysql:
       user: coalition
 
 php:
-  version: '8.1'
+  version: '8.1'  # sync with logrotate above
 
 phpfpm:
   sites:
