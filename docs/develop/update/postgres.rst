@@ -208,65 +208,69 @@ Use CA certificates
 Set up backups
 --------------
 
-We use `pgBackRest <https://pgbackrest.org>`__ to create and manage offsite backups.
-Salt will install and configure pgBackRest if ``postgres:backup`` is defined in Pillar data.
+.. seealso::
 
-#. Create an S3 bucket and API Keys.
+   :ref:`pg-recover-backup`
 
-   .. note::
+`pgBackRest <https://pgbackrest.org>`__ is used to create and manage offsite backups.
 
-      pgBackRest supports any S3-compatible storage, including AWS and BackBlaze.
+#. Create an `S3 bucket <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__
+#. Create an `IAM user <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__ with API keys
 
-   If you are using AWS you will need to `create an S3 Bucket <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__ and `set up an IAM user <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__.
+   .. seealso::
 
-   You can find an example IAM permissions policy in the `pgBackRest documentation <https://pgbackrest.org/user-guide.html#s3-support>`__.
+      `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
 
-#. Create pgbackrest pillar config.
+#. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory
+#. Install and configure pgBackRest. Add to your service's Pillar file, for example:
 
    .. code-block:: yaml
 
       postgres:
         backup:
-          # The configuration file for pgbackrest, this is loaded from ``salt/postgres/files/pgbackrest/``.
           configuration: kingfisher-main1
-          # Unique identifier for backup configuration
+          # The rest are specific to your configuration file.
           stanza: kingfisher
-          # Concurrent processes for run pgbackrest with (backup speed vs CPU usage).
-          # Optional.
-          process_max: 4
-          # Backup bucket region.
-          s3_region: eu-central-1
-          # Backup bucket name.
-          s3_bucket: ocp-db-backup
-          # s3 endpoint - `AWS S3 endpoints <https://docs.aws.amazon.com/general/latest/gr/s3.html>`__.
-          s3_endpoint: s3.eu-west-1.amazonaws.com
-          # API Access Key.
-          s3_key: redacted
-          # API Secret Key.
-          s3_key_secret: redacted
-          # Total full backups to store.
-          total_full_backups: 4
-          # Backup directory structure.
+          retention_full: 4
           repo_path=/kingfisher
+          process_max: 4
+          cron: |
+              MAILTO=root
+              # Daily incremental backup
+              15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher-2023
+              # Weekly full backup
+              15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
-   .. note::
+   .. seealso::
 
-      Incremental backups are taken daily (storing only the changes since the last full backup).
-      Full backups are taken weekly, currently this runs on Sunday.
-      So if ``total_full_backups`` is set to 4, backups will be stored for four weeks.
+      -  `Configure Cluster Stanza <https://pgbackrest.org/user-guide.html#quickstart/configure-stanza>`__
+      -  `Configuration Reference <https://pgbackrest.org/configuration.html>`__
 
-#. Create stanza.
+#. Add, in a private Pillar file:
 
-   If this backup stanza has already been created you can skip this step.
+   .. code-block:: yaml
+
+      postgres:
+        backup:
+          s3_bucket: ocp-db-backup
+          s3_region: eu-central-1
+          s3_endpoint: s3.eu-west-1.amazonaws.com
+          s3_key: ...
+          s3_key_secret: ...
+
+   .. seealso::
+
+      `Amazon S3 regular endpoints <https://docs.aws.amazon.com/general/latest/gr/s3.html>`__
+
+#. Create the stanza, if it doesn't exist yet:
 
    .. code-block:: bash
 
-      su - postgres
-      pgbackrest stanza-create --stanza=example
+      su -u postgres pgbackrest stanza-create --stanza=example
 
-.. note::
+   .. seealso::
 
-   For information on using the pgbackrest tool to restore data, see :ref:`pg-recover-backup`.
+      `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
 
 Additional steps for replica servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
