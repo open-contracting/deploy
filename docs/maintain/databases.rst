@@ -431,15 +431,11 @@ Find unexpected tables in the public schema:
 Restore from backup
 -------------------
 
-PostgreSQL databases are backed up offsite. Backup and restoration are managed by `pgBackRest <https://pgbackrest.org/>`__.
-These are the main commands for working with pgbackrest.
+.. seealso::
 
-.. note::
+   :ref:`pg-setup-backups`
 
-   For more information on setting up backups, see :ref:`pg-setup-backups`.
-
-The stanza name is defined in pillar ``postgres:backup:stanza``.
-You can also find it in the pgbackrest config ``/etc/pgbackrest/pgbackrest.conf``.
+Get the stanza name from the ``postgres:backup:stanza`` key in the Pillar data, or from the ``/etc/pgbackrest/pgbackrest.conf`` file on the server.
 
 View current backups:
 
@@ -447,28 +443,43 @@ View current backups:
 
    pgbackrest info --stanza=example
 
-Restore from backup:
+#. Stop the PostgreSQL cluster:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   pgbackrest restore --stanza=example --delta
+      pg_ctlcluster 15 main stop
 
-Restore specific backup by timestamp:
+#. In most cases, restore using the ``--delta`` option, as it saves time by using hashes to restore only files that differ:
 
-.. code-block:: bash
+   .. code-block:: bash
 
-   pgbackrest restore --stanza=example --set=20210315-145357F_20210315-145459I --delta
+      sudo -u postgres pgbackrest restore --stanza=example --delta
 
-The ``--delta`` flag saves time when restoring by checking file hashes and only restoring the files it needs to.
-If you want to restore every file from the backup, for example if you are restoring to a new server, it may be quicker to not use deltas.
+   To restore from a backup other than the latest:
 
-You can run a full restore following this process:
+   .. code-block:: bash
 
-.. code-block:: bash
+      sudo -u postgres pgbackrest restore --stanza=example --delta --set=20210315-145357F_20210315-145459I
 
-   rm -rf /var/lib/postgresql/11/main
-   mkdir /var/lib/postgresql/11/main
-   pgbackrest restore --stanza=example
+   To restore every file:
+
+   .. code-block:: bash
+
+      rm -rf /var/lib/postgresql/15/main
+      mkdir /var/lib/postgresql/15/main
+      sudo -u postgres pgbackrest restore --stanza=example
+
+#. Start the PostgreSQL cluster:
+
+   .. code-block:: bash
+
+      pg_ctlcluster 15 main start
+
+.. seealso::
+
+   -  `Restore <https://pgbackrest.org/user-guide.html#restore>`__
+   -  `Delta Option <https://pgbackrest.org/user-guide.html#restore/option-delta>`__
+   -  `Restore a Backup <https://pgbackrest.org/user-guide.html#quickstart/perform-restore>`__
 
 .. _pg-recover-replica:
 
