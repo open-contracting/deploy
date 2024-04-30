@@ -19,7 +19,8 @@ rsyslog:
 
 logrotate:
   conf:
-    docker: docker
+    docker:
+      source: docker
 
 apache:
   public_access: True

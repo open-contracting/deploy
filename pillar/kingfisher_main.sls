@@ -43,7 +43,8 @@ rsyslog:
 logrotate:
   conf:
     kingfisher-summarize.conf: kingfisher-summarize
-    docker: docker
+    docker:
+      source: docker
 
 cron:
   incremental:

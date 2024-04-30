@@ -39,7 +39,8 @@ In the service's Pillar file, add, for example:
 
    logrotate:
      conf:
-       docker: docker
+       docker:
+         source: docker
 
    docker:
      user: deployer

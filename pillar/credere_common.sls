@@ -13,7 +13,8 @@ rsyslog:
 
 logrotate:
   conf:
-    docker: docker
+    docker:
+      source: docker
 
 docker:
   user: deployer
