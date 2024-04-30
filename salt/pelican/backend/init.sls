@@ -58,6 +58,7 @@ run pelican migration {{ basename }}:
     - name: psql -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend
     - runas: {{ pillar.docker.user }}
     - require:
+      - postgres_user: pelican_backend_sql_user
       - postgres_database: pelican_backend_sql_database
       - file: /home/{{ pillar.docker.user }}/.pgpass
     - onchanges:

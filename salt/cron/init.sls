@@ -18,8 +18,8 @@
 
 add {{ arguments.identifier }} cron job in {{ user }} crontab:
   cron.present:
-    - user: {{ user }}
     - name: /home/{{ user }}/bin/{{ command }}
+    - user: {{ user }}
   {% for argument, value in arguments.items() %}
     - {{ argument }}: {{ value }}
   {% endfor %}
