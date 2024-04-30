@@ -30,6 +30,7 @@ docker:
 /etc/docker/daemon.json:
   file.managed:
     {% if pillar.docker.get('syslog_logging') %}
+    # https://docs.docker.com/config/containers/logging/log_tags/
     - source: salt://docker/files/daemon-logging.json
     {% else %}
     - source: salt://docker/files/daemon.json

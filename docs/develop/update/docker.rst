@@ -49,11 +49,7 @@ In the service's Pillar file, add, for example:
 This will:
 
 -  Add a non-root user to the ``docker`` group
--  Configures Docker container logging to:
-
-   - Stored log files in: ``/var/log/docker-ocp/{image_name}.log``
-   - Split log files by the Docker image name.
-   - Rotate log files daily, retaining 14 logs.
+-  Configure `container logs <https://docs.docker.com/config/containers/logging/>`__ to be written to ``/var/log/docker-ocp/{ImageName}.log``, with rotation
 
 Add Docker Compose file
 -----------------------
