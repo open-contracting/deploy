@@ -1,4 +1,3 @@
--- Another process populates this table.
 CREATE TABLE IF NOT EXISTS {{ spider }}_result (
     id serial, -- an auto-incrementing ID that has no semantics
     ocid text, -- matches /ocid in the compiled release JSON
