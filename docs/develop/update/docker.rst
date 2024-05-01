@@ -49,7 +49,7 @@ In the service's Pillar file, add, for example:
 This will:
 
 -  Add a non-root user to the ``docker`` group
--  Configure `container logs <https://docs.docker.com/config/containers/logging/>`__ to be written to ``/var/log/docker-custom/{ImageName}.log``, with rotation
+-  Configure `container logs <https://docs.docker.com/config/containers/logging/>`__ to be written to ``/var/log/docker-custom/CONTAINER_NAME.log``, with rotation
 
 Add Docker Compose file
 -----------------------
