@@ -189,11 +189,11 @@ python_apps:
       branch: main
       target: kingfisher-collect
     crawls:
-      - identifier: CHILE
-        spider: chile_compra_api_records
-        start_date: '2021-12-03'
-        day: '1'
-        options: -a compile_releases=true
+      # - identifier: CHILE
+      #   spider: chile_compra_api_records
+      #   start_date: '2021-12-03'
+      #   day: '1'
+      #   options: -a compile_releases=true
       - identifier: DOMINICAN_REPUBLIC
         spider: dominican_republic_api
         start_date: '2023-07-13'
