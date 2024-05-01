@@ -204,9 +204,9 @@ python_apps:
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
-      - identifier: MOLDOVA
-        spider: moldova
-        start_date: '2021-06-11'
+      # - identifier: MOLDOVA
+      #   spider: moldova
+      #   start_date: '2021-06-11'
   kingfisher_summarize:
     user: summarize
     git:
