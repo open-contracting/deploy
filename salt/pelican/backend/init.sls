@@ -37,6 +37,7 @@ btree_gin:
       - postgres_database: pelican_backend_sql_database
 
 # If a `shasum -a 256` is incorrect, delete the files on the server, before trying again.
+# See also https://github.com/open-contracting/pelican-backend/issues/112
 {%
   for basename, source_hash in [
     ('001_base', '52e526e13663b3029b17b08722af2792787bcb02a8fb9c8d259a3663d96b4d82'),
