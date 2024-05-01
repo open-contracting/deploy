@@ -8,6 +8,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 {% set sqldir = userdir + '/bi/sql' %}
+{% set settingsdir = userdir + '/bi/settings' %}
 
 {{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
 
@@ -46,6 +47,29 @@ allow {{ userdir }} access:
 {{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
 
 {% if entry.crawls|selectattr('powerbi', 'defined')|first|default %}
+rustup:
+  cmd.run:
+    - name: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly"
+    - runas: {{ entry.user }}
+    - creates: /home/{{ entry.user }}/.cargo/bin/rustup
+
+cardinal:
+  cmd.run:
+    - name: cargo install --git https://github.com/open-contracting/cardinal-rs.git
+    - runas: {{ entry.user }}
+    - unless: 'test "$(ocdscardinal --version)" = "ocdscardinal {{ pillar.cardinal.version }}"'
+
+{{ userdir }}/bin/manage.py:
+  file.managed:
+    - source: https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py
+    - source_hash: 0135cf408ec098c9edf8748c02912d2285722a8ba5cd9cf371405604fee809c1
+    - makedirs: True
+    - mode: 755
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
+
 {% for basename, source_hash in [
   ('codelist', 'c4387a4b1a600843413525f41bcdd0f63e074f060c4d053035cba03984a26de4'),
   ('indicator', '281065a1709ebde2ce2cad369ac53c7238aae51c860cb630e981d4a3eea5cf1b'),
@@ -138,6 +162,16 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
       - file: {{ userdir }}/logs
 
 {% if crawl.get('powerbi') %}
+{{ settingsdir }}/{{ crawl.spider }}.ini:
+  file.managed:
+    - source: https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/{{ crawl.spider }}.ini
+    - source_hash: {{ crawl.source_hash }}
+    - makedirs: True
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
+
 {{ sqldir }}/{{ crawl.spider }}_result.sql:
   file.managed:
     - source: salt://kingfisher/collect/files/bi/result.sql

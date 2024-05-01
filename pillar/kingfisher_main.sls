@@ -162,6 +162,9 @@ docker:
   user: deployer
   uid: 1005
 
+cardinal:
+  version: 0.0.5
+
 kingfisher_collect:
   user: collect
   group: deployer
@@ -197,6 +200,7 @@ python_apps:
         day: '1,15'
         options: -a compile_releases=true
         powerbi: True
+        source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
