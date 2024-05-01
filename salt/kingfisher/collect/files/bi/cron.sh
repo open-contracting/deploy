@@ -13,7 +13,7 @@ env SENTRY_DSN={{ SENTRY_DSN }} .ve/bin/scrapy crawl \
     --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
 
 # shellcheck disable=all
-{%- if crawl.powerbi %}
+{%- if 'powerbi' in crawl and crawl.powerbi %}
 psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider }}' -o {{ scratchdir }}/{{ crawl.spider }}.jsonl
 
 ocdscardinal prepare \
@@ -32,6 +32,9 @@ ocdscardinal indicators \
 {{ userdir }}/bin/manage.py json-to-csv {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
 
 psql postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+    -c "BEGIN" \
+    -c "DELETE FROM {{ crawl.spider }}_result" \
     -c "\copy {{ crawl.spider }}_result (ocid, subject, code, result, buyer_id, procuring_entity_id, tenderer_id, created_at) FROM stdin DELIMITER ',' CSV HEADER" \
+    -c "END" \
     < {{scratchdir}}/{{crawl.spider}}.csv
 {%- endif %}
