@@ -108,12 +108,24 @@ run {{ sqldir }}/excluded_supplier.sql:
       - file: {{ userdir }}/.pgpass
 {% endif %}
 
-# Note that "%" has special significance in cron, so it must be escaped.
 {% for crawl in entry.crawls %}
+{{ userdir }}/bin/{{ crawl.spider }}.sh:
+  file.managed:
+    - source: salt://kingfisher/collect/files/bi/cron.sh
+    - template: jinja
+    - context:
+        directory: {{ directory }}
+        userdir: {{ userdir }}
+        crawl: {{ crawl }}
+    - makedirs: True
+    - mode: 755
+    - require:
+      - user: {{ entry.user }}_user_exists
 
-cd {{ directory }}; .ve/bin/scrapy crawl {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} -a crawl_time={{ crawl.start_date }}T00:00:00 --logfile={{ userdir }}/logs/{{ crawl.spider }}-$(date +\%F).log -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect -s FILES_STORE={{ userdir }}/data:
+add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} crontab:
   cron.present:
     - identifier: OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }}
+    - name: {{ userdir }}/bin/{{ crawl.spider }}.sh
     - user: {{ entry.user }}
     {% if 'day' in crawl %}
     - daymonth: '{{ crawl.day }}'
