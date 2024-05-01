@@ -198,7 +198,7 @@ python_apps:
         spider: dominican_republic_api
         start_date: '2023-07-13'
         day: '1,15'
-        options: -a compile_releases=true
+        options: -a compile_releases=true -a ignore_version=true
         powerbi: True
         source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
       - identifier: ECUADOR

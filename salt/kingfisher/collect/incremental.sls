@@ -9,6 +9,7 @@ include:
 {% set directory = userdir + '/' + entry.git.target %}
 {% set sqldir = userdir + '/bi/sql' %}
 {% set settingsdir = userdir + '/bi/settings' %}
+{% set scratchdir = userdir + '/bi/scratch' %}
 
 {{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
 
@@ -58,6 +59,13 @@ cardinal:
     - name: cargo install --git https://github.com/open-contracting/cardinal-rs.git
     - runas: {{ entry.user }}
     - unless: 'test "$(ocdscardinal --version)" = "ocdscardinal {{ pillar.cardinal.version }}"'
+
+{{ scratchdir }}:
+  file.directory:
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
 
 {{ userdir }}/bin/manage.py:
   file.managed:
@@ -144,7 +152,7 @@ run {{ sqldir }}/excluded_supplier.sql:
         crawl: {{ crawl }}
         # Power BI
         settingsdir: {{ settingsdir }}
-        scratchdir: {{ userdir }}/bi/scratch
+        scratchdir: {{ scratchdir }}
     - makedirs: True
     - mode: 755
     - require:
