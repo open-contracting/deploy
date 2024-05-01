@@ -70,7 +70,7 @@ cardinal:
 {{ userdir }}/bin/manage.py:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py
-    - source_hash: 0135cf408ec098c9edf8748c02912d2285722a8ba5cd9cf371405604fee809c1
+    - source_hash: 8d6241ec40bd4dc798d340c0fddf5abbf7358ca232a809efd0a14c4c028ac85d
     - makedirs: True
     - mode: 755
     - user: {{ entry.user }}
