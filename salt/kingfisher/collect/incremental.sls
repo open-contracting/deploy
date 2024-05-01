@@ -76,7 +76,7 @@ allow {{ userdir }} access:
 
 run {{ sqldir }}/{{ basename }}.sql:
   cmd.run:
-    - name: psql -f {{ sqldir }}/{{ basename }}.sql kingfisher_collect
+    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/{{ basename }}.sql kingfisher_collect
     - runas: {{ entry.user }}
     - require:
       - postgres_user: kingfisher_collect_sql_user
@@ -98,7 +98,7 @@ run {{ sqldir }}/{{ basename }}.sql:
 
 run {{ sqldir }}/excluded_supplier.sql:
   cmd.run:
-    - name: psql -f {{ sqldir }}/excluded_supplier.sql kingfisher_collect
+    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/excluded_supplier.sql kingfisher_collect
     - runas: {{ entry.user }}
     - require:
       - postgres_user: kingfisher_collect_sql_user
@@ -152,7 +152,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
 
 run {{ sqldir }}/{{ crawl.spider }}_result.sql:
   cmd.run:
-    - name: psql -f {{ sqldir }}/{{ crawl.spider }}_result.sql kingfisher_collect
+    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/{{ crawl.spider }}_result.sql kingfisher_collect
     - runas: {{ entry.user }}
     - require:
       - postgres_user: kingfisher_collect_sql_user
