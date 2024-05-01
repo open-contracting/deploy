@@ -138,6 +138,7 @@ run {{ sqldir }}/excluded_supplier.sql:
     - source: salt://kingfisher/collect/files/bi/cron.sh
     - template: jinja
     - context:
+        SENTRY_DSN: {{ pillar.kingfisher_collect.env.SENTRY_DSN }}
         directory: {{ directory }}
         userdir: {{ userdir }}
         crawl: {{ crawl }}
