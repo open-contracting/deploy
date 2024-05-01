@@ -42,7 +42,8 @@ rsyslog:
 
 logrotate:
   conf:
-    kingfisher-summarize.conf: kingfisher-summarize
+    kingfisher-summarize.conf:
+      source: kingfisher-summarize
     docker:
       source: docker
 
@@ -141,13 +142,10 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
         cursor_tuple_fraction = 1.0
   backup:
+    configuration: kingfisher-main1
     stanza: kingfisher-2023
     retention_full: 4
-    s3_bucket: ocp-db-backup
-    s3_endpoint: s3.eu-central-1.amazonaws.com
-    s3_region: eu-central-1
     repo_path: /kingfisher
-    configuration: kingfisher-main1
     process_max: 4
     # The `grep -v` command means `root` will receive mail if there is more than 1 error.
     #
@@ -167,6 +165,9 @@ docker:
   user: deployer
   uid: 1005
   syslog_logging: True
+
+cardinal:
+  version: 0.0.5
 
 kingfisher_collect:
   user: collect
@@ -201,7 +202,9 @@ python_apps:
         spider: dominican_republic_api
         start_date: '2023-07-13'
         day: '1,15'
-        options: -a compile_releases=true
+        options: -a compile_releases=true -a ignore_version=true
+        powerbi: True
+        source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1083
+
+set -euo pipefail
+
+cd {{ directory }}
+
+env SENTRY_DSN={{ SENTRY_DSN }} .ve/bin/scrapy crawl \
+    {{ crawl.spider }}{% if 'options' in crawl %} {{ crawl.options }}{% endif %} \
+    -a crawl_time={{ crawl.start_date }}T00:00:00 \
+    -s FILES_STORE={{ userdir }}/data \
+    -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+    --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
+
+# shellcheck disable=all
+{%- if crawl.powerbi %}
+psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider }}' -o {{ scratchdir }}/{{ crawl.spider }}.jsonl
+
+ocdscardinal prepare \
+    -s {{ settingsdir }}/{{ crawl.spider }}.ini \
+    -o {{ scratchdir }}/{{ crawl.spider }}.out.jsonl \
+    -e {{ scratchdir }}/{{ crawl.spider }}.err.csv \
+    {{ scratchdir }}/{{ crawl.spider }}.jsonl
+
+ocdscardinal indicators \
+    -s {{ settingsdir }}/{{ crawl.spider }}.ini \
+    --count \
+    --map \
+    {{ scratchdir }}/{{ crawl.spider }}.out.jsonl \
+    > {{scratchdir}}/{{crawl.spider}}.json
+
+{{ userdir }}/bin/manage.py json-to-csv {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
+
+psql postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+    -c "\copy {{ crawl.spider }}_result (ocid, subject, code, result, buyer_id, procuring_entity_id, tenderer_id, created_at) FROM stdin DELIMITER ',' CSV HEADER" \
+    < {{scratchdir}}/{{crawl.spider}}.csv
+{%- endif %}
