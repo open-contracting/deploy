@@ -67,7 +67,7 @@ netplan_apply:
   cmd.run:
     - name: netplan generate && netplan apply
     - onchanges:
-        - file: /etc/netplan/10-salt-networking.yaml
+      - file: /etc/netplan/10-salt-networking.yaml
 {% endif %}
 
 {% endif %}
