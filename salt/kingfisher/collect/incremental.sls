@@ -141,6 +141,9 @@ run {{ sqldir }}/excluded_supplier.sql:
         directory: {{ directory }}
         userdir: {{ userdir }}
         crawl: {{ crawl }}
+        # Power BI
+        settingsdir: {{ settingsdir }}
+        scratchdir: {{ userdir }}/bi/scratch
     - makedirs: True
     - mode: 755
     - require:
