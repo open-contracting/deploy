@@ -1,4 +1,5 @@
 # At present, this file only needs to be included for data support. It doesn't need to be used on, for example, the data registry.
+{% from 'lib.sls' import set_cron_env %}
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
@@ -6,6 +7,8 @@ include:
 
 {% set entry = pillar.docker_apps.kingfisher_process %}
 {% set directory = docker_apps_directory + entry.target %}
+
+{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kinfisher.process') }}
 
 # https://github.com/open-contracting/deploy/issues/117 for analysts to create pivot tables.
 # https://github.com/open-contracting/deploy/issues/237 for analysts to match similar strings.
@@ -63,6 +66,45 @@ pgpass-kingfisher_process:
     - backup: False
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+
+# Delete collections that ended over a year ago, while retaining one set of collections per source from over a year ago.
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm -e LOG_LEVEL=WARNING cron python manage.py deletecollection {}:
+  cron.present:
+    - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
+    - user: {{ pillar.docker.user }}
+    - daymonth: 1
+    - hour: 3
+    - minute: 0
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
+      - file: pgpass-kingfisher_process
+
+# Delete collections that never ended and started over 2 months ago.
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_start_at < date_trunc('day', NOW() - interval '2 month') AND store_end_at IS NULL ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm -e LOG_LEVEL=WARNING cron python manage.py deletecollection {}:
+  cron.present:
+    - identifier: KINGFISHER_PROCESS_UNFINISHED_COLLECTIONS
+    - user: {{ pillar.docker.user }}
+    - daymonth: 1
+    - hour: 3
+    - minute: 15
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
+      - file: pgpass-kingfisher_process
+
+# Delete collections that ended over 2 months ago and have no data.
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_end_at < date_trunc('day', NOW() - interval '2 month') AND COALESCE(NULLIF(cached_releases_count, 0), NULLIF(cached_records_count, 0), cached_compiled_releases_count) = 0 ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm -e LOG_LEVEL=WARNING cron python manage.py deletecollection {}:
+  cron.present:
+    - identifier: KINGFISHER_PROCESS_EMPTY_COLLECTIONS
+    - user: {{ pillar.docker.user }}
+    - daymonth: 1
+    - hour: 3
+    - minute: 30
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
+      - file: pgpass-kingfisher_process
 
 # Sudoers
 
