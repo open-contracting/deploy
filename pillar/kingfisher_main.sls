@@ -38,11 +38,14 @@ prometheus:
 rsyslog:
   conf:
     91-kingfisher-summarize.conf: kingfisher-summarize.conf
+    80-docker.conf: docker.conf
 
 logrotate:
   conf:
     kingfisher-summarize.conf:
       source: kingfisher-summarize
+    docker:
+      source: docker
 
 cron:
   incremental:
@@ -161,6 +164,7 @@ postgres:
 docker:
   user: deployer
   uid: 1005
+  syslog_logging: True
 
 cardinal:
   version: 0.0.5

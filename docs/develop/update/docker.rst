@@ -33,12 +33,23 @@ In the service's Pillar file, add, for example:
 
 .. code-block:: yaml
 
+   rsyslog:
+     conf:
+       80-docker.conf: docker.conf
+
+   logrotate:
+     conf:
+       docker:
+         source: docker
+
    docker:
      user: deployer
+     syslog_logging: True
 
 This will:
 
 -  Add a non-root user to the ``docker`` group
+-  Configure `container logs <https://docs.docker.com/config/containers/logging/>`__ to be written to ``/var/log/docker-custom/CONTAINER_NAME.log``, with rotation
 
 Add Docker Compose file
 -----------------------
