@@ -1,4 +1,8 @@
+{% from 'lib.sls' import set_cron_env %}
+
 {% for user, commands in pillar.cron|items %}
+{{ set_cron_env(user, 'MAILTO', 'sysadmin@open-contracting.org', 'cron') }}
+
 /home/{{ user }}/bin:
   file.directory:
     - user: {{ user }}

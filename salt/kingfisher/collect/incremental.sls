@@ -45,7 +45,7 @@ allow {{ userdir }} access:
     - require:
       - user: {{ entry.user }}_user_exists
 
-{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
+{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.collect.incremental') }}
 
 {% if entry.crawls|selectattr('powerbi', 'defined')|first|default %}
 rustup:

@@ -74,7 +74,7 @@ allow {{ userdir }} access:
 
 {{ systemd({'service': 'scrapyd', 'user': user, 'group': group, 'appdir': directory}) }}
 
-{{ set_cron_env(user, 'MAILTO', 'sysadmin@open-contracting.org') }}
+{{ set_cron_env(user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.collect') }}
 
 {% if entry.get('summarystats') %}
 find {{ userdir }}/scrapyd/logs/ -type f -name "*.log" -exec sh -c 'if [ ! -f {}.stats ]; then result=$(tac {} | head -n99 | grep -m1 -B99 statscollectors | tac); if [ ! -z "$result" ]; then echo "$result" > {}.stats; fi; fi' \;:

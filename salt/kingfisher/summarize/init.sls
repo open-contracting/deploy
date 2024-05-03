@@ -54,7 +54,7 @@ grant kingfisher_summarize database privileges:
       - postgres_user: kingfisher_summarize_sql_user
       - postgres_database: kingfisher_process_sql_database
 
-{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
+{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.summarize') }}
 
 # Delete schema whose selected collections no longer exist.
 cd {{ directory }}; .ve/bin/python manage.py -q dev stale | xargs -I{} .ve/bin/python manage.py --quiet remove {}:
