@@ -53,7 +53,7 @@ Setup
 Deploy
 ~~~~~~
 
-Once you're ready to upgrade, as with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
+Once you're ready to upgrade, as with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
 
 #. Change the version numbers in the ``pillar/prometheus_client.sls`` and ``pillar/prometheus_server.sls`` files. (To test locally, you can :ref:`use to a virtual machine<using-a-virtual-machine>`.)
 

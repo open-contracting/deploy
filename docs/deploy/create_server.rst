@@ -7,7 +7,7 @@ Create a server
 
 A server is created either when a service is moving to a new server, or when a service is being introduced.
 
-As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
+As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
 
 1. Collect server requirements
 ------------------------------

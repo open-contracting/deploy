@@ -3,7 +3,7 @@ Delete a server
 
 A server is deleted either when a service is moving to a new server (:doc:`create the new server<create_server>`, first), or when a service is being retired.
 
-As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below.
+As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
 
 #. If appropriate, notify relevant users of the change
 #. Remove the server from ``salt/prometheus/files/conf-prometheus.yml``

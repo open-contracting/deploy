@@ -1,7 +1,7 @@
 Deploy a service
 ================
 
-As with other deployment tasks, do the :ref:`setup tasks<generic-setup>` before (and the :ref:`cleanup tasks<generic-cleanup>` after) the steps below. If you run into trouble, read the :doc:`troubleshoot` guide.
+As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below. If you run into trouble, read the :doc:`troubleshoot` guide.
 
 1. Run Salt function
 --------------------
