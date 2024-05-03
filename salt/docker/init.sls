@@ -23,6 +23,14 @@ docker:
     - require:
       - pkg: docker
 
+{% if pillar.docker.get('syslog_logging') %}
+/var/log/docker-custom:
+  file.directory:
+    - user: root
+    - group: syslog
+    - mode: 0775
+{% endif %}
+
 # https://docs.docker.com/config/containers/logging/configure/
 # https://docs.docker.com/config/containers/logging/local/
 # https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
