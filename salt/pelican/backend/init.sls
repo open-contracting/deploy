@@ -9,13 +9,13 @@ include:
 
 {{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'pelican.backend') }}
 
-/home/{{ pillar.docker.user }}/.pgpass:
-  file.managed:
-    - contents: |
-        localhost:5432:pelican_backend:pelican_backend:{{ pillar.postgres.users.pelican_backend.password }}
-    - user: {{ pillar.docker.user }}
-    - group: {{ pillar.docker.user }}
-    - mode: 400
+pgpass-pelican_backend:
+  file.replace:
+    - name: /home/{{ pillar.docker.user }}/.pgpass
+    - pattern: '^localhost:5432:pelican_backend:pelican_backend:.+$'
+    - repl: 'localhost:5432:pelican_backend:pelican_backend:{{ pillar.postgres.users.pelican_backend.password }}'
+    - append_if_not_found: True
+    - backup: False
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
@@ -61,7 +61,7 @@ run pelican migration {{ basename }}:
     - require:
       - postgres_user: pelican_backend_sql_user
       - postgres_database: pelican_backend_sql_database
-      - file: /home/{{ pillar.docker.user }}/.pgpass
+      - file: pgpass-pelican_backend
     - onchanges:
       - file: {{ directory }}/files/{{ basename }}.sql
 {% endfor %}

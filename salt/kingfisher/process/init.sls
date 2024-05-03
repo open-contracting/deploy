@@ -20,6 +20,8 @@ create kingfisher process extensions:
     - require:
       - postgres_database: kingfisher_process_sql_database
 
+# Reference schema
+
 # This file can be updated with:
 #
 #   curl -O https://standard.open-contracting.org/schema/1__1__5/release-schema.json
@@ -49,6 +51,20 @@ create reference.mapping_sheets table:
     - onchanges:
       - file: {{ directory }}/files/mapping-sheet.csv
       - file: {{ directory }}/files/mapping-sheet.sql
+
+# Cron jobs
+
+pgpass-kingfisher_process:
+  file.replace:
+    - name: /home/{{ pillar.docker.user }}/.pgpass
+    - pattern: '^localhost:5432:kingfisher_process:kingfisher_process:.+$'
+    - repl: 'localhost:5432:kingfisher_process:kingfisher_process:{{ pillar.postgres.users.kingfisher_process.password }}'
+    - append_if_not_found: True
+    - backup: False
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+
+# Sudoers
 
 {% for user, authorized_keys in pillar.users.items() %}
 /home/{{ user }}/.pgpass:
