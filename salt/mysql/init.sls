@@ -20,7 +20,7 @@ percona-release:
 
 percona-mysql:
   pkg.installed:
-    - name: percona-server-server-{{ mysql_version }}
+    - name: percona-server-server
     - require:
       - pkg: percona-release
   service.running:
