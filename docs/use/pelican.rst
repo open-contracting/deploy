@@ -13,7 +13,7 @@ Measure a collection
 
    :ref:`Create a ~/.netrc file<netrc>` for the ``pelican.open-contracting.org`` service, using the same credentials as :ref:`access-scrapyd-web-service`.
 
-To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Set ``name`` to the spider's name and the collection date (a.k.a. data version) for easy reference, and set ``collection_id`` to the collection ID for the compiled releases. For example:
+To create a report, submit a POST request to the ``/api/datasets/`` endpoint. Set ``name`` to the spider's name and the collection date (a.k.a. data version) for easy reference, and set ``collection_id`` to the **compiled** collection ID. For example:
 
 .. code-block:: bash
 
