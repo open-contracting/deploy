@@ -18,12 +18,13 @@ x-filesystem: &filesystem
 
 services:
   web:
-    <<: *filesystem
+    <<: *shared
     ports:
       - {{ pillar.docker_apps.kingfisher_process.port }}:8000
   api_loader:
-    <<: *filesystem
+    <<: *shared
     command: "python manage.py api_loader"
+  # file_worker uses open().
   file_worker:
     <<: *filesystem
     command: "python manage.py file_worker"
@@ -47,3 +48,8 @@ services:
   wiper:
     <<: *shared
     command: "python manage.py wiper"
+  # addfiles and load use walk() and os.path.exists().
+  cron:
+    <<: *filesystem
+    profiles:
+      - cron
