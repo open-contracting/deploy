@@ -13,3 +13,5 @@ services:
       - {{ pillar.apache.sites.credere.context.port }}:8000
   cron:
     <<: *shared
+    profiles:
+      - cron
