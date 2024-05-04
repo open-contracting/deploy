@@ -21,7 +21,7 @@ Migrate the database, for example:
 
 .. code-block:: bash
 
-   docker compose run --rm web python manage.py migrate
+   docker compose run --rm --name my-app-migrate cron python manage.py migrate
 
 .. admonition:: One-time setup
 
@@ -29,7 +29,7 @@ Migrate the database, for example:
 
    .. code-block:: bash
 
-      docker compose run --rm web python manage.py createsuperuser
+      docker compose run --rm --name my-app-superuser cron python manage.py createsuperuser
 
 Load data
 ---------

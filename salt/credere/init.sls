@@ -13,7 +13,7 @@ include:
 {{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
 
 {% for job in entry.cron|default([]) %}
-cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm cron python -m app.commands {{ job.command }}:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name credere-backend-cron cron python -m app.commands {{ job.command }}:
   cron.present:
     - identifier: CREDERE_{{ job.identifier }}
     - user: {{ pillar.docker.user }}

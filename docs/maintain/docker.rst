@@ -29,13 +29,13 @@ Open a Bash shell, for example:
 
 .. code-block:: bash
 
-   docker compose run --rm static bash
+   docker compose run --rm --name my-app-shell static bash
 
 Open a Python shell, for example:
 
 .. code-block:: bash
 
-   docker compose run --rm web python manage.py shell
+   docker compose run --rm --name my-app-shell cron python manage.py shell
 
 `Our Python projects <https://ocp-software-handbook.readthedocs.io/en/latest/python/settings.html#word-choice>`__ follow a ``LOG_LEVEL`` environment variable, which you can set with ``-e LOG_LEVEL=DEBUG``, for example.
 

@@ -19,7 +19,7 @@ pgpass-pelican_backend:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm -e LOG_LEVEL=WARNING cron python manage.py update-exchange-rates:
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name pelican-backend-cron -e LOG_LEVEL=WARNING cron python manage.py update-exchange-rates:
   cron.present:
     - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
     - user: {{ pillar.docker.user }}

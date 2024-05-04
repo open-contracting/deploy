@@ -102,7 +102,7 @@ Upgrade the Redash service
 
    .. code-block:: bash
 
-      docker compose run --rm server manage db upgrade
+      docker compose run --rm --name redash-upgrade server manage db upgrade
 
 #. Start the Redash containers:
 

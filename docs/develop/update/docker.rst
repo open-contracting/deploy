@@ -81,7 +81,7 @@ Validate the file, for example:
 
    To run a one-off command, like a database migration, use `docker compose run <https://docs.docker.com/engine/reference/commandline/compose_run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
 
-   If you need to run a scheduled task in a cron job, use ``docker compose --progress=quiet run --rm``. If needed, change the log level by adding ``-e LOG_LEVEL=WARNING``, for example.
+   If you need to run a scheduled task in a cron job, use ``docker compose --progress=quiet run --rm --name my-app-cron``, replacing ``my-app``. If needed, change the log level by adding ``-e LOG_LEVEL=WARNING``, for example.
 
    Confirm the meaning of a cron expression using `Cronhub <https://crontab.cronhub.io>`__.
 
