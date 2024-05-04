@@ -1,14 +1,14 @@
 x-shared: &shared
   env_file: .env
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
-  extra_hosts:
-    - "host.docker.internal:host-gateway"
   restart: unless-stopped
 
 services:
   web:
     <<: *shared
     image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - {{ pillar.docker_apps.pelican_frontend.port }}:8000
 {%- if 'reports' in pillar.docker_apps.pelican_frontend %}
