@@ -346,8 +346,8 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
 Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
 
-Add A and AAAA records
-~~~~~~~~~~~~~~~~~~~~~~
+Add A, AAAA and SPF records
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Login to `GoDaddy <https://sso.godaddy.com>`__
 #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
@@ -356,19 +356,27 @@ Add A and AAAA records
 
    #. Click the *Add New Record* button
    #. Select "A" from the *Type* dropdown
-   #. Enter the hostname in *Host* (``ocp42``, for example)
-   #. Enter the IPv4 address in *Points to*
-   #. Set *TTL* to 1 Day
-   #. Click the *Save* button
+   #. Enter the hostname in *Name* (``ocp42``, for example)
+   #. Enter the IPv4 address in *Value*
+   #. Set *TTL* to 1 **Day**
+
+#. Add an SPF record for the hostname, because cron jobs send mail from this hostname:
+
+   #. Click the *Add More Records* button
+   #. Select "TXT" from the *Type* dropdown
+   #. Enter the hostname in *Name* (``ocp42``, for example)
+   #. Enter the SPF record in *Value* (``v=spf1 a:ocp42.open-contracting.org -all``, for example)
+   #. Set *TTL* to 1 Hour
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
 
-   #. Click the *Add New Record* button
+   #. Click the *Add More Records* button
    #. Select "AAAA" from the *Type* dropdown
-   #. Enter the hostname in *Host* (``ocp42``, for example)
-   #. Enter the IPv6 address in *Points to* (use ``2`` as the last group of digits)
-   #. Set *TTL* to 1 Day
-   #. Click the *Save* button
+   #. Enter the hostname in *Name* (``ocp42``, for example)
+   #. Enter the IPv6 address in *Value* (use ``2`` as the last group of digits)
+   #. Set *TTL* to 1 **Day**
+
+#. Click the *Save* button
 
 .. seealso::
 
@@ -600,8 +608,8 @@ See :doc:`redash`.
 
    #. Click the *Add New Record* button
    #. Select "CNAME" from the *Type* dropdown
-   #. Enter the public hostname in *Host* (``standard``, for example)
-   #. Enter the internal hostname in *Points to* (``ocp42.open-contracting.org``, for example)
+   #. Enter the public hostname in *Name* (``standard``, for example)
+   #. Enter the internal hostname in *Value* (``ocp42.open-contracting.org``, for example)
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
 
