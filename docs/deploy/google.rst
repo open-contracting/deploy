@@ -56,4 +56,15 @@ DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Fail
 
    Mailchimp is `not SPF aligned <https://dmarc.io/source/mailchimp/>`__; therefore, we have no target for SPF alignment. It `sends mail from <https://mailchimp.com/help/my-campaign-from-name-shows-mcsvnet/>`__ ``mcsv.net``, ``mcdlv.net``, ``mailchimpapp.net`` and ``rsgsv.net``.
 
-When filtering per result, sending domains with volumes of less than 10 can be ignored, and SPF misalignment with ``calendar-server.bounces.google.com`` `can be ignored <https://dmarcian.com/google-calendar-invites-dmarc/>`__.
+When filtering per result, sending domains with volumes of less than 10 can be ignored. For ``google.com``:
+
+-  SPF misalignment with ``calendar-server.bounces.google.com`` `can be ignored <https://dmarcian.com/google-calendar-invites-dmarc/>`__.
+-  Google Groups rewrites the ``From`` header `only if <https://support.dmarcdigests.com/article/1233-spf-or-dkim-alignment-issues-with-google>`__ the DMARC policy is "reject" or "quarantine".
+
+..
+   secureserver.net (GoDaddy) https://ca.godaddy.com/help/add-an-spf-record-19218
+     Professional Email, Microsoft 365 from GoDaddy, Linux Hosting, Gen 4 VPS & Dedicated Hosting, and Media Temple Mail
+   outbound.protection.outlook.com (Microsoft 365) https://learn.microsoft.com/en-us/microsoft-365/enterprise/external-domain-name-system-records
+     Exchange Online
+   lsoft.com
+     UNCAC-COALITION@community.lsoft.com. LSOFT might rewrite the From header only if the DMARC policy is "reject" or "quarantine", like Google Groups.
