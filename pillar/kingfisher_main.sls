@@ -197,14 +197,14 @@ python_apps:
       #   spider: chile_compra_api_records
       #   start_date: '2021-12-03'
       #   day: '1'
-      #   options: -a compile_releases=true
+      #   spider_arguments: -a compile_releases=true
       - identifier: DOMINICAN_REPUBLIC
         spider: dominican_republic_api
         start_date: '2023-07-13'
         day: '1,15'
-        options: -a compile_releases=true -a ignore_version=true
+        spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
         powerbi: True
-        source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
+        cardinal_ini_source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
