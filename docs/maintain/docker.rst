@@ -22,14 +22,12 @@ Run, replacing ``CONTAINER``:
 
    docker compose logs -f -t CONTAINER
 
-.. note::
+Container logs are cleared when containers are restarted or recreated.
 
-   Container logs are cleared when containers are restarted.
-   To list and view historic container logs, replacing ``CONTAINER``:
+To read historic container logs, replacing ``CONTAINER``:
 
    .. code-block:: bash
 
-      ls /var/log/docker-custom/CONTAINER*
       less /var/log/docker-custom/CONTAINER.log
 
 Open a shell
