@@ -5,11 +5,12 @@ set -euo pipefail
 
 cd {{ directory }}
 
-env SENTRY_DSN={{ SENTRY_DSN }} .ve/bin/scrapy crawl \
+.ve/bin/scrapy crawl \
     {{ crawl.spider }}{% if 'spider_arguments' in crawl %} {{ crawl.spider_arguments }}{% endif %} \
     -a crawl_time={{ crawl.start_date }}T00:00:00 \
     -s FILES_STORE={{ userdir }}/data \
     -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+    -s SENTRY_DSN={{ SENTRY_DSN }} \
     --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
 
 # shellcheck disable=all
