@@ -26,8 +26,8 @@ groups:
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
 
       - alert: CPUHigh80PercentRegistry
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[5m])) * 100) >= 80
-        for: 8h
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[15m])) * 100) >= 99.992
+        for: 6h
         labels:
           severity: critical
         annotations:
