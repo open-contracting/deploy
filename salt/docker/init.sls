@@ -31,6 +31,19 @@ docker:
     - mode: 0775
 {% endif %}
 
+{% if salt['pillar.get']('rabbitmq') %}
+# If RabbitMQ is installed, ensure it is online before and after Docker.
+/etc/systemd/system/docker.service.d/customization.conf:
+  file.managed:
+    - contents: |
+        [Unit]
+        After=rabbitmq-server.service
+        Wants=rabbitmq-server.service
+    - makedirs: True
+    - watch_in:
+      - service: docker
+{% endif %}
+
 # https://docs.docker.com/config/containers/logging/configure/
 # https://docs.docker.com/config/containers/logging/local/
 # https://docs.docker.com/engine/reference/commandline/dockerd/#daemon-configuration-file
