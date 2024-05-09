@@ -11,5 +11,4 @@ curl -sSk https://api.dgcp.gob.do/opendata/proveedores/proveedores_inhabilitados
     # Prefix the identifier scheme.
     sed -E 's/^(.+),$/DO-RPE-\1/' |
     # Replace the table in a transaction.
-    psql postgresql://kingfisher_collect@localhost/kingfisher_collect -q -c \
-        "BEGIN; DELETE FROM excluded_supplier; COPY excluded_supplier (identifier) FROM stdin; END;"
+    psql -U kingfisher_collect -h localhost -q -c "BEGIN; DELETE FROM excluded_supplier; COPY excluded_supplier (identifier) FROM stdin; END;"

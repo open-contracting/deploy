@@ -32,7 +32,7 @@ ocdscardinal indicators \
 
 {{ userdir }}/bin/manage.py json-to-csv {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
 
-psql postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+psql -U kingfisher_collect -h localhost \
     -c "BEGIN" \
     -c "DELETE FROM {{ crawl.spider }}_result" \
     -c "\copy {{ crawl.spider }}_result (ocid, subject, code, result, buyer_id, procuring_entity_id, tenderer_id, created_at) FROM stdin DELIMITER ',' CSV HEADER" \
