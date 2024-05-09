@@ -70,6 +70,7 @@ cardinal:
 {{ userdir }}/bin/manage.py:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py
+    # curl -sSf https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py | shasum -a 256
     - source_hash: 8d6241ec40bd4dc798d340c0fddf5abbf7358ca232a809efd0a14c4c028ac85d
     - makedirs: True
     - mode: 755
@@ -78,6 +79,10 @@ cardinal:
     - require:
       - user: {{ entry.user }}_user_exists
 
+# curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/codelist.csv  | shasum -a 256
+# curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/indicator.csv  | shasum -a 256
+# curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/cpc.csv  | shasum -a 256
+# curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/unspsc.csv  | shasum -a 256
 {% for basename, source_hash in [
   ('codelist', 'c4387a4b1a600843413525f41bcdd0f63e074f060c4d053035cba03984a26de4'),
   ('indicator', '281065a1709ebde2ce2cad369ac53c7238aae51c860cb630e981d4a3eea5cf1b'),
