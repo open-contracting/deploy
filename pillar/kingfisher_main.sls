@@ -201,7 +201,6 @@ python_apps:
       - identifier: DOMINICAN_REPUBLIC
         spider: dominican_republic_api
         start_date: '2023-07-13'
-        day: '1,15'
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
         powerbi: True
         cardinal_ini_source_hash: 55f439386b8446067257a342d86254953c643fd569fee41a1b63a3b49d4aee6d
