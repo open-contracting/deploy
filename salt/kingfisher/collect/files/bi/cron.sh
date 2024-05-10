@@ -17,13 +17,13 @@ cd {{ directory }}
 {%- if 'powerbi' in crawl and crawl.powerbi %}
 psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider }}' -o {{ scratchdir }}/{{ crawl.spider }}.jsonl
 
-ocdscardinal prepare \
+{{ userdir }}/.cargo/bin/ocdscardinal prepare \
     -s {{ settingsdir }}/{{ crawl.spider }}.ini \
     -o {{ scratchdir }}/{{ crawl.spider }}.out.jsonl \
     -e {{ scratchdir }}/{{ crawl.spider }}.err.csv \
     {{ scratchdir }}/{{ crawl.spider }}.jsonl
 
-ocdscardinal indicators \
+{{ userdir }}/.cargo/bin/ocdscardinal indicators \
     -s {{ settingsdir }}/{{ crawl.spider }}.ini \
     --count \
     --map \
