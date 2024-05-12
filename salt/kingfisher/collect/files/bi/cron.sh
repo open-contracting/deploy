@@ -25,14 +25,13 @@ psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider 
 
 {{ userdir }}/.cargo/bin/ocdscardinal indicators \
     -s {{ settingsdir }}/{{ crawl.spider }}.ini \
-    --count \
     --map \
     {{ scratchdir }}/{{ crawl.spider }}.out.jsonl \
     > {{scratchdir}}/{{crawl.spider}}.json
 
-{{ userdir }}/bin/manage.py json-to-csv {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
+{{ userdir }}/bin/manage.py json-to-csv -q {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
 
-psql -U kingfisher_collect -h localhost \
+psql -U kingfisher_collect -h localhost -q \
     -c "BEGIN" \
     -c "DELETE FROM {{ crawl.spider }}_result" \
     -c "\copy {{ crawl.spider }}_result (ocid, subject, code, result, buyer_id, procuring_entity_id, tenderer_id, created_at) FROM stdin DELIMITER ',' CSV HEADER" \
