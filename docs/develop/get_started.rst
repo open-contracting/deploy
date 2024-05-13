@@ -14,7 +14,7 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    On at least macOS, you should:
 
-   # Change your login shell to ``/bin/sh``:
+   #. Change your login shell to ``/bin/sh``:
 
       .. code-block:: bash
 
