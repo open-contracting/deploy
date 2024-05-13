@@ -26,13 +26,13 @@ groups:
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
 
       - alert: CPUHighRegistry
-        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[15m])) * 100) >= 99.992
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[15m])) * 100) >= 99.975
         for: 6h
         labels:
           severity: critical
         annotations:
-          summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
+          summary: "Endpoint {{ $labels.instance }} has greater than 99.975% CPU usage"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 99.975% CPU usage."
 
       ## Memory
 
