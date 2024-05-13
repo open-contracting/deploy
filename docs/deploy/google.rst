@@ -4,7 +4,7 @@ Google Workspace
 Email
 -----
 
-Use `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to GMail.
+Use `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ to `debug deliverability issues <https://support.google.com/mail/answer/9981691>`__ from AWS to Gmail.
 
 These services send email from open-contracting.org:
 
