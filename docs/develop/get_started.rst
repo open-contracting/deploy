@@ -14,19 +14,17 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    On at least macOS, you should:
 
-   #. Change your login shell to ``/bin/sh``:
+   #. Change your login shell to ``/bin/bash``:
 
       .. code-block:: bash
 
-         chsh -s /bin/sh
+         chsh -s /bin/bash
 
-      .. note::
+   #. If you use Terminal, also:
 
-         If you use Terminal, also:
-
-         #. Open the *Settings...* menu
-         #. Set *Shells open with:* to *Command (complete path):*
-         #. Enter the complete path to your preferred shell (for example, ``/opt/homebrew/bin/fish``)
+      #. Open the *Settings...* menu
+      #. Set *Shells open with:* to *Command (complete path):*
+      #. Enter the complete path to your preferred shell (for example, ``/opt/homebrew/bin/fish``)
 
    #. Stop the Salt minion service:
 
