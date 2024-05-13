@@ -66,13 +66,13 @@ groups:
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 30% disk utilisation on {{ $labels.device }}."
 
       - alert: DiskIOHighRegistry
-        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"data-registry"}[10m]))) * 100 >= 50
+        expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"data-registry"}[10m]))) * 100 >= 30
         for: 1h
         labels:
           severity: critical
         annotations:
-          summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
-          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
+          summary: "Endpoint {{$labels.instance}} has greater than 30% disk utilisation on {{ $labels.device }}"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 30% disk utilisation on {{ $labels.device }}."
 
       ## Disk space
 
