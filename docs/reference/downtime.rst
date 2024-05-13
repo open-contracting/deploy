@@ -19,7 +19,7 @@ Working hours are 9:00-17:00 UK time, Monday-Friday, excluding UK public holiday
 Notification mechanisms
 -----------------------
 
-Notifications should be sent to servers-status@open-contracting.org, to coordinate with and notify other users that maintain servers. Subscribers include members of OCP and Dogsbody Technology.
+Notifications should be sent to sysadmin@open-contracting.org, to coordinate with and notify other users that maintain servers. Subscribers include members of OCP and Dogsbody Technology.
 
 For urgent decisions requiring OCP approval (notably, new expenditures relating to provisioning or upgrading servers), communicate via Slack or email and, if needed, send a 'ping' via WhatsApp or SMS to James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) or, if no response, Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__).
 

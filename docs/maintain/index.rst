@@ -5,7 +5,7 @@ To be responsible for servers, you should:
 
 -  Subscribe to:
 
-   -  `Servers Status <https://groups.google.com/a/open-contracting.org/forum/#!forum/servers-status>`__ mailing list
+   -  `Sysadmin <https://groups.google.com/a/open-contracting.org/forum/#!forum/sysadmin>`__ mailing list (OCP only)
    -  Operating system security announcements (`Ubuntu <https://lists.ubuntu.com/mailman/listinfo/ubuntu-security-announce>`__)
    -  Hosting provider :ref:`network status announcements<hosting>`
 
