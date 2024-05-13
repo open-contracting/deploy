@@ -25,7 +25,7 @@ groups:
           summary: "Endpoint {{ $labels.instance }} has greater than 80% CPU usage"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 80% CPU usage."
 
-      - alert: CPUHigh99.992PercentRegistry
+      - alert: CPUHighRegistry
         expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle", job="data-registry"}[15m])) * 100) >= 99.992
         for: 6h
         labels:
@@ -56,7 +56,7 @@ groups:
           summary: "Endpoint {{$labels.instance}} has greater than 20% disk utilisation on {{ $labels.device }}"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 20% disk utilisation on {{ $labels.device }}."
 
-      - alert: DiskIOHigh20PercentKingfisher
+      - alert: DiskIOHighKingfisher
         expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"kingfisher.*"}[10m]))) * 100 >= 30
         for: 12h
         labels:
@@ -65,7 +65,7 @@ groups:
           summary: "Endpoint {{$labels.instance}} has greater than 30% disk utilisation on {{ $labels.device }}"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has greater than 30% disk utilisation on {{ $labels.device }}."
 
-      - alert: DiskIOHigh50PercentRegistry
+      - alert: DiskIOHighRegistry
         expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"data-registry"}[10m]))) * 100 >= 50
         for: 1h
         labels:
