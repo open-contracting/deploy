@@ -71,7 +71,7 @@ cardinal:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py
     # curl -sSf https://raw.githubusercontent.com/open-contracting/cardinal-rs/main/manage.py | shasum -a 256
-    - source_hash: 8d6241ec40bd4dc798d340c0fddf5abbf7358ca232a809efd0a14c4c028ac85d
+    - source_hash: 05c439e6c12cc84d64c08a1ac1484aac4fdaf3255a7691d0c2cc6790986c8fe7
     - makedirs: True
     - mode: 755
     - user: {{ entry.user }}
