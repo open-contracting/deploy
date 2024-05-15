@@ -347,19 +347,19 @@ Amazon S3
 Create bucket
 ~~~~~~~~~~~~~
 
+
 #. Go to Amazon S3 `Buckets <https://s3.console.aws.amazon.com/s3/buckets>`__
-#. Click *Create bucket*
+#. Select the nearest region to the server from the top-right dropdown
+#. Click the *Create bucket* button
 
    #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
-   #. Set *AWS Region* to the nearest region to the server
-   #. Click *Create bucket*
-
-#. Click the created bucket
+   #. Click the *Create bucket* button
 
 If the bucket is for server backups:
 
-#. Click *Management*
-#. Click *Create lifecycle rule*
+#. Click the created bucket
+#. Click the *Management* tab
+#. Click the *Create lifecycle rule* button
 
    #. *Lifecycle rule name*: ``delete-after-30-days``
    #. *Choose a rule scope*: *Apply to all objects in the bucket*
@@ -375,7 +375,7 @@ If the bucket is for server backups:
 Identity and Access Management (IAM)
 ------------------------------------
 
-.. _aws-iam-backup-user:
+.. _aws-iam-backup-policy:
 
 Create a backup policy
 ~~~~~~~~~~~~~~~~~~~~~~
@@ -413,28 +413,33 @@ Create a backup policy
              ]
          }
 
-   #. Click *Next: Tags*
-   #. Click *Next: Review*
-   #. Enter a *Name* (``redmine-backup``, for example)
-   #. Click *Create policy*
+   #. Click the *Next* button
+   #. Enter a *Policy name* (``redmine-backup``, for example)
+   #. Click the *Create policy* button
 
 Create a backup user
 ~~~~~~~~~~~~~~~~~~~~
 
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
-#. Click *Add Users*
+#. Click the *Create user* button
 
-   #. Enter a *User name* (``redmine-backup``, for example)
-   #. Check *Access key - Programmatic access*
-   #. Click *Next: Permissions*
-   #. Click *Attach existing policies directly*
-
-      .. note::
-
-         Alternatively, create a group, attach the policy to the group, and add the user to the group.
+   #. Enter a *User name* (``redmine-backup``, for example)#z
+   #. Click the *Next* button
+   #. Click the *Attach existing policies directly* radio button
 
    #. Search for and check the policy above
-   #. Click *Next: Tags*
-   #. Click *Next: Review*
-   #. Click *Create user*
-   #. Add the *Access key ID* and *Secret access key* to the :doc:`service's Pillar file<../develop/update/awscli>`
+   #. Click the *Next* button
+   #. Click the *Create user* button
+
+#. Click the created user
+#. Click the *Security credentials* tab
+#. Click the *Create access key* button
+
+   #. Check the *Command Line Interface (CLI)* radio button
+   #. Check the *I understand the above recommendation and want to proceed to create an access key.* box
+   #. Click the *Next* button
+   #. Click the *Create access key* button
+
+.. not::
+
+   If a policy is relevant to many users, instead of attaching policies directly, create a group, attach the policy to the group, and add the user to the group.
