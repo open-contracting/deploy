@@ -439,7 +439,9 @@ Create a backup user
    #. Check the *I understand the above recommendation and want to proceed to create an access key.* box
    #. Click the *Next* button
    #. Click the *Create access key* button
+   #. Copy the *Access key* and *Secret access key*
+   #. Click the *Done* button
 
-.. not::
+.. note::
 
    If a policy is relevant to many users, instead of attaching policies directly, create a group, attach the policy to the group, and add the user to the group.
