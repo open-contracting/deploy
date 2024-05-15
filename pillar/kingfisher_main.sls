@@ -204,7 +204,7 @@ python_apps:
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
         powerbi: True
         # curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/dominican_republic_api.ini | shasum -a 256
-        cardinal_ini_source_hash: a93d0b718d0153bfbf1202c85caaf239cf4061c412d333066b8378a63f7c7fea
+        cardinal_ini_source_hash: 5824e29ce1cc22903f17f4e9adfc212386ba1dbedad3577ba6240d18ef610016
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
