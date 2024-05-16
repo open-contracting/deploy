@@ -54,11 +54,25 @@ rustup:
     - runas: {{ entry.user }}
     - creates: /home/{{ entry.user }}/.cargo/bin/rustup
 
+{{ userdir }}/cardinal-rs:
+  git.latest:
+    - name: https://github.com/open-contracting/cardinal-rs
+    - user: {{ entry.user }}
+    - force_fetch: True
+    - force_reset: True
+    - branch: main
+    - rev: main
+    - target: {{ userdir }}/cardinal-rs
+    - require:
+      - pkg: git
+      - user: {{ entry.user }}_user_exists
+
 cardinal:
   cmd.run:
-    - name: cargo install --git https://github.com/open-contracting/cardinal-rs.git
+    - name: cargo install --path {{ userdir }}/cardinal-rs
     - runas: {{ entry.user }}
-    - unless: 'test "$(ocdscardinal --version)" = "ocdscardinal {{ pillar.cardinal.version }}"'
+    - onchanges:
+      - git: {{ userdir }}/cardinal-rs
 
 {{ scratchdir }}:
   file.directory:

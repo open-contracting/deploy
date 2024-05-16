@@ -166,9 +166,6 @@ docker:
   uid: 1005
   syslog_logging: True
 
-cardinal:
-  version: 0.0.5
-
 kingfisher_collect:
   user: collect
   group: deployer
