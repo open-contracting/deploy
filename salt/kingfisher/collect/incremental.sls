@@ -214,16 +214,5 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
     - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
-
-run {{ sqldir }}/{{ crawl.spider }}_result.sql:
-  cmd.run:
-    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/{{ crawl.spider }}_result.sql kingfisher_collect
-    - runas: {{ entry.user }}
-    - require:
-      - postgres_user: kingfisher_collect_sql_user
-      - postgres_database: kingfisher_collect_sql_database
-    - onchanges:
-      - file: {{ sqldir }}/{{ crawl.spider }}_result.sql
-      - file: {{ userdir }}/.pgpass
 {% endif %}
 {% endfor %}

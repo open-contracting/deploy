@@ -42,7 +42,8 @@ psql -U kingfisher_collect -h localhost -q \
 
 psql -U kingfisher_collect -h localhost -q \
     -c "BEGIN" \
-    -c "DELETE FROM {{ crawl.spider }}_result" \
+    -c "DROP TABLE IF EXISTS {{ crawl.spider }}_result" \
+    -f {{ userdir }}/bi/sql/{{ crawl.spider }}_result.sql \
     -c "\copy {{ crawl.spider }}_result (ocid, subject, code, result, buyer_id, procuring_entity_id, tenderer_id, created_at) FROM stdin DELIMITER ',' CSV HEADER" \
     -c "END" \
     < {{scratchdir}}/{{crawl.spider}}.csv
