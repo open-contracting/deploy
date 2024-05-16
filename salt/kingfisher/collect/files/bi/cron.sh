@@ -35,7 +35,7 @@ psql -U kingfisher_collect -h localhost -q \
     -c "BEGIN" \
     -c "DROP TABLE IF EXISTS {{ crawl.spider }}_clean" \
     -c "CREATE TABLE {{ crawl.spider }}_clean (data jsonb)" \
-    -c "\copy {{ crawl.spider }}_clean (data) FROM stdin" \
+    -c "\copy {{ crawl.spider }}_clean (data) FROM stdin CSV QUOTE e'\x01' DELIMITER e'\x02'" \
     -c "CREATE INDEX idx_{{ crawl.spider }}_clean ON {{ crawl.spider }}_clean (cast(data->>'date' as text))" \
     -c "END" \
     < {{scratchdir}}/{{crawl.spider}}.out.jsonl
