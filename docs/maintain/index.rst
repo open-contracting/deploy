@@ -35,6 +35,7 @@ To be responsible for servers, you should:
    elasticsearch.rst
    rabbitmq.rst
    docker.rst
+   network.rst
    hosting.rst
 
 .. toctree::

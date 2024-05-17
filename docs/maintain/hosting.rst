@@ -1,5 +1,5 @@
-Hosting
-=======
+Hosting tasks
+=============
 
 .. _rescale-server:
 
