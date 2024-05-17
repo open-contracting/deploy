@@ -46,4 +46,3 @@ Troubleshoot
 
 -  Purging a queue does not purge unacked messages. Before purging, stop all consumers to close their channels, which will return the unacked messages to the queue.
 -  If you created a binding in error, you must delete the binding, because bindings are persistent. Deleting the queue also deletes the binding.
--  If RabbitMQ restarts, you must restart all consumers, as most consumers do not re-establish connections (same as with PostgreSQL).
