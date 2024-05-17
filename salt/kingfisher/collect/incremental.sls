@@ -48,7 +48,7 @@ allow {{ userdir }} access:
 {{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.collect.incremental') }}
 
 {% if entry.crawls|selectattr('powerbi', 'defined')|first|default %}
-rustup:
+install rustup:
   cmd.run:
     - name: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly"
     - runas: {{ entry.user }}
@@ -67,7 +67,7 @@ rustup:
       - pkg: git
       - user: {{ entry.user }}_user_exists
 
-cardinal:
+install cardinal:
   cmd.run:
     - name: cargo install --path {{ userdir }}/cardinal-rs
     - runas: {{ entry.user }}
