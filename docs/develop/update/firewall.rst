@@ -227,6 +227,7 @@ The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to
                  - accept
                * - tcp established
                  - tcp
+                 -
                  - 32768-65535
                  - ack
                  - accept
