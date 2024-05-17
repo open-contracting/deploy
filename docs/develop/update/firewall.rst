@@ -209,16 +209,19 @@ The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to
 
                * - Name
                  - Protocol
+                 - Source port
                  - Destination port
                  - TCP flags
                  - Action
                * - icmp
                  - icmp
+                 -
                  - 0-65535
                  -
                  - accept
                * - ssh
                  - tcp
+                 -
                  - 22
                  -
                  - accept
@@ -226,6 +229,12 @@ The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to
                  - tcp
                  - 32768-65535
                  - ack
+                 - accept
+               * - dns
+                 - udp
+                 - 53
+                 -
+                 -
                  - accept
 
             Or, select "Webserver" from the *Firewall template:* dropdown and click *Apply* to also fill in:
