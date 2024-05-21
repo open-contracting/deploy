@@ -32,7 +32,7 @@ pyparsing==2.4.7
     # via packaging
 pytest==7.3.1
     # via -r requirements_test.in
-requests==2.31.0
+requests==2.32.0
     # via -r requirements_test.in
 toml==0.10.2
     # via pep517
