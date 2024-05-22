@@ -30,6 +30,8 @@ mysql:
   databases:
     coalition_wp:
       user: coalition
+  backup:
+    location: ocp-coalition-backup/database
 
 php:
   version: '8.1'  # sync with logrotate above
