@@ -47,3 +47,5 @@ phpfpm:
 
 wordpress:
   cli_version: 2.7.1
+  backup:
+    location: ocp-coalition-backup/site
