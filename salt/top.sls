@@ -88,9 +88,6 @@ base:
   'I@nginx:public_access:true':
     - nginx.letsencrypt
 
-  'I@redmine:backup':
-    - redmine.backup
-
   'I@mysql:configuration':
     - mysql
 
