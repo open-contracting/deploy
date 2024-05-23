@@ -69,7 +69,7 @@ install rustup:
 
 install cardinal:
   cmd.run:
-    - name: cargo install --path {{ userdir }}/cardinal-rs
+    - name: RUSTFLAGS="-Zon-broken-pipe=kill" cargo install --path {{ userdir }}/cardinal-rs
     - runas: {{ entry.user }}
     - onchanges:
       - git: {{ userdir }}/cardinal-rs
