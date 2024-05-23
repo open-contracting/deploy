@@ -7,6 +7,7 @@ Reference
 
    downtime.rst
    docs.rst
+   powerbi.rst
 
 Monitoring
 ----------
