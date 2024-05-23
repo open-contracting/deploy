@@ -1,17 +1,11 @@
 #!/usr/bin/env bash
 #
-# This file is managed by Dogsbody Technology Ltd.
-#   https://www.dogsbody.com/
-#
-# Description:  Backup MySQL databases and upload to AWS S3
-#
-# Usage:  $0
-#
+# Backup MySQL databases and upload to AWS S3
 
 set -euo pipefail
 
 # shellcheck disable=SC1091
-source /home/sysadmin-tools/aws-settings.local
+. /home/sysadmin-tools/aws-settings.local
 
 export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY

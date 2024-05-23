@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # No -e, because diff fails. No -u, because this script handles unset variables.
 
 SALTSSH="./run.py"

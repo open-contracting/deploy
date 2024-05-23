@@ -1,26 +1,22 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
-# This file is managed by Dogsbody Technology Ltd.
-#   https://www.dogsbody.com/
-#
-# Description:  A script to manage iptables rules.
-#
-# Usage:  $0
+# Manage iptables rules
 #
 # Configuration:
-#     See the /home/sysadmin-tools/firewall-settings.local file for details.
-#     On CentOS, make sure that firewalld has been disabled and that iptables has been enabled.
+#   See the /home/sysadmin-tools/firewall-settings.local file for details.
+#   On CentOS, make sure that firewalld has been disabled and that iptables has been enabled.
 #
 # If making changes to this file, check the output when testing the command, because it succeeds
 # even if stderr is non-empty. https://github.com/open-contracting/deploy/issues/202
 
-set -euo pipefail
+# set -o pipefail needs Bash, but the pipelines are unlikely to fail.
+set -eu
 
 # shellcheck disable=SC1091
-source /home/sysadmin-tools/firewall-settings.local
+. /home/sysadmin-tools/firewall-settings.local
 
-function echo_verbose {
-    [ "$VERBOSE" == "true" ] && echo "**** $* ****"
+echo_verbose() {
+    [ "$VERBOSE" = "true" ] && echo "**** $* ****"
 }
 
 if [ -x "$(command -v docker)" ] || [ -n "$DOCKER" ]; then
@@ -37,12 +33,12 @@ fi
 echo_verbose "Get local IP addresses"
 if [ -n "$IPCMD" ] && [ -f "$IPCMD" ]; then
     echo_verbose "  ... using the $IPCMD command"
-    LOCAL_IPV4=$($IPCMD addr | grep "inet " | cut -f 6 -d" " | cut -f 1 -d"/")
-    LOCAL_IPV6=$($IPCMD addr | grep "inet6 " | cut -f 6 -d" " | cut -f 1 -d"/")
+    LOCAL_IPV4=$($IPCMD addr | grep "inet " | cut -d" " -f 6 | cut -d"/" -f 1)
+    LOCAL_IPV6=$($IPCMD addr | grep "inet6 " | cut -d" " -f 6 | cut -d"/" -f 1)
 elif [ -n "$IFCONFIG" ] && [ -f "$IFCONFIG" ]; then
     echo_verbose "  ... using the $IFCONFIG command"
-    LOCAL_IPV4=$($IFCONFIG | grep "inet addr" | cut -f 2 -d":" | cut -f 1 -d" ")
-    LOCAL_IPV6=$($IFCONFIG | grep "inet6 addr" | cut -f 13 -d" " | cut -f 1 -d"/")
+    LOCAL_IPV4=$($IFCONFIG | grep "inet addr" | cut -d":" -f 2 | cut -d" " -f 1)
+    LOCAL_IPV6=$($IFCONFIG | grep "inet6 addr" | cut -d" " -f 13 | cut -d"/" -f 1)
 else
     echo "Failed to get local IP addresses!"
     exit 5
@@ -51,10 +47,10 @@ fi
 echo_verbose "Get OS version"
 if [ -f /etc/os-release ]; then
     # shellcheck disable=SC1091
-    source /etc/os-release
+    . /etc/os-release
 elif [ -f /etc/lsb-release ]; then
     # shellcheck disable=SC1091
-    source /etc/lsb-release
+    . /etc/lsb-release
 elif [ -f /etc/redhat-release ]; then
     ID="redhat-derivative"
     VERSION_ID=""
@@ -79,11 +75,11 @@ centos_7 | redhat-derivative_)
     ;;
 esac
 
-if [ "$MONITOR_APPBEAT" == "yes" ]; then
+if [ "$MONITOR_APPBEAT" = "yes" ]; then
     echo_verbose "Get AppBeat IP addresses"
     # Account for DOS line endings.
-    APPBEAT_IPV4=$(curl -s -S https://www.appbeat.io/probes/ipv4 | tr -d '\r')
-    APPBEAT_IPV6=$(curl -s -S https://www.appbeat.io/probes/ipv6 | tr -d '\r')
+    APPBEAT_IPV4=$(curl -sS https://www.appbeat.io/probes/ipv4 | tr -d '\r')
+    APPBEAT_IPV6=$(curl -sS https://www.appbeat.io/probes/ipv6 | tr -d '\r')
 else
     APPBEAT_IPV4=""
     APPBEAT_IPV6=""
@@ -187,13 +183,13 @@ echo_verbose "Allow traffic from established connections"
 $IPTABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 $IP6TABLES -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-if [ "$PUBLIC_HTTP" == "yes" ]; then
+if [ "$PUBLIC_HTTP" = "yes" ]; then
     echo_verbose "Public HTTP server"
     $IPTABLES -A INPUT -p tcp --dport 80 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 80 -j ACCEPT
 fi
 
-if [ "$PUBLIC_HTTPS" == "yes" ]; then
+if [ "$PUBLIC_HTTPS" = "yes" ]; then
     echo_verbose "Public HTTPS server"
     $IPTABLES -A INPUT -p tcp --dport 443 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 443 -j ACCEPT
@@ -238,7 +234,7 @@ $IP6TABLES -A INPUT -m state --state NEW -m tcp -p tcp --dport 22 -m recent --se
 $IPTABLES -A INPUT -p tcp --dport 22 -j monitor
 $IP6TABLES -A INPUT -p tcp --dport 22 -j monitor
 
-if [ "$PUBLIC_SSH" == "yes" ]; then
+if [ "$PUBLIC_SSH" = "yes" ]; then
     echo_verbose "Public SSH server"
     # Lock new connections out for 10 minutes if 6 connections are made in 30 seconds.
     $IPTABLES -N ssh
@@ -258,13 +254,13 @@ if [ "$PUBLIC_SSH" == "yes" ]; then
     $IP6TABLES -A INPUT -p tcp --dport 22 -j ACCEPT
 fi
 
-if [ "$PUBLIC_POSTGRESQL" == "yes" ]; then
+if [ "$PUBLIC_POSTGRESQL" = "yes" ]; then
     echo_verbose "Public PostgreSQL server"
     $IPTABLES -A INPUT -p tcp --dport 5432 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 5432 -j ACCEPT
 fi
 
-if [ "$PRIVATE_POSTGRESQL" == "yes" ]; then
+if [ "$PRIVATE_POSTGRESQL" = "yes" ]; then
     echo_verbose "Private PostgreSQL server"
     for IP in $LOCAL_IPV4 $REPLICA_IPV4; do
         $IPTABLES -A INPUT -p tcp -s "$IP" --dport 5432 -j ACCEPT
@@ -276,13 +272,13 @@ if [ "$PRIVATE_POSTGRESQL" == "yes" ]; then
     $IP6TABLES -A INPUT -p tcp --dport 5432 -j monitor
 fi
 
-if [ "$PUBLIC_TINYPROXY" == "yes" ]; then
+if [ "$PUBLIC_TINYPROXY" = "yes" ]; then
     echo_verbose "Public Tinyproxy server"
     $IPTABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 8888 -j ACCEPT
 fi
 
-if [ "$PRIVATE_PROMETHEUS_CLIENT" == "yes" ]; then
+if [ "$PRIVATE_PROMETHEUS_CLIENT" = "yes" ]; then
     echo_verbose "Private Prometheus client server"
     for IP in $LOCAL_IPV4 $PROMETHEUS_IPV4; do
         $IPTABLES -A INPUT -p tcp -s "$IP" --dport 7231 -j ACCEPT
@@ -292,7 +288,7 @@ if [ "$PRIVATE_PROMETHEUS_CLIENT" == "yes" ]; then
     done
 fi
 
-if [ "$PUBLIC_ELASTICSEARCH" == "yes" ]; then
+if [ "$PUBLIC_ELASTICSEARCH" = "yes" ]; then
     echo_verbose "Public Elasticsearch server"
     $IPTABLES -A INPUT -p tcp --dport 9200 -j ACCEPT
     $IP6TABLES -A INPUT -p tcp --dport 9200 -j ACCEPT

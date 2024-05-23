@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Configures Salt for a non-root user.
 
-set -euo pipefail
+set -eu
 
 SSH_KEY_PATH=~/.ssh/id_rsa
 SALT_SSH_KEY_DIR=salt-config/pki/ssh

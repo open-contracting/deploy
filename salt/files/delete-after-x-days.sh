@@ -1,22 +1,10 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
-# This file is managed by Dogsbody Technology Ltd.
-#   https://www.dogsbody.com/
+# Remove files older than X days
 #
-# Description:  A script to remove files older than X days
-#
-# Usage:  $0 <how many days to keep files> <path to look under>
-#
-# Future Improvements:
-#   - Leaves the root directory because the delete is updating the timestamp.
+# Usage: $0 <how many days to keep files> <path to look under>
 
-set -euo pipefail
-
-function cleanup {
-    local LC="$BASH_COMMAND" RC=$?
-    [ "$RC" != 0 ] && echo "Command [$LC] exited with code [$RC]"
-}
-trap cleanup EXIT
+set -eu
 
 DAYSTOKEEP=$1
 RMPATH=$2
@@ -26,9 +14,3 @@ touch "$RMPATH"
 
 find "$RMPATH" -mtime +"$DAYSTOKEEP" -type f -delete
 find "$RMPATH" -mtime +"$DAYSTOKEEP" -type d -empty -delete
-
-# Overwrite cleanup function because it is called by the script finishing.
-function cleanup {
-    exit 0
-}
-trap cleanup EXIT

@@ -1,7 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # shellcheck disable=SC1083
 
-set -euo pipefail
+set -eu
 
 cd {{ directory }}
 
