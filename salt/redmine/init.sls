@@ -1,4 +1,4 @@
-{% from 'lib.sls' import aws_site_backup, create_user %}
+{% from 'lib.sls' import create_user %}
 
 {% set user = 'redmine' %}
 {% set userdir = '/home/' + user %}
@@ -10,7 +10,6 @@ include:
   - apache
   - apache.modules.headers # Header
   - apache.modules.passenger
-  - aws
   - mysql
   - rvm
 
@@ -175,7 +174,3 @@ grant report user readonly privileges:
     - require:
       - mysql_user: report_mysql_user
       - mysql_database: redmine_mysql_database
-
-{% if 'backup' in pillar.redmine %}
-{{ aws_site_backup(pillar.redmine.backup.location, [userdir + '/public_html/']) }}
-{% endif %}

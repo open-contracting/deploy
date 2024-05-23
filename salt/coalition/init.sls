@@ -1,11 +1,10 @@
-{% from 'lib.sls' import aws_site_backup, create_user %}
+{% from 'lib.sls' import create_user %}
 
 {% set user = 'coalition' %}
 {% set userdir = '/home/' + user %}
 
 include:
   - apache.modules.rewrite # required by WordPress
-  - aws
   - php-fpm
 
 wp-cli:
@@ -32,7 +31,3 @@ allow {{ userdir }} access:
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
-
-{% if 'backup' in pillar.wordpress %}
-{{ aws_site_backup(pillar.wordpress.backup.location, [userdir + '/public_html/']) }}
-{% endif %}

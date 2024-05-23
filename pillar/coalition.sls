@@ -13,6 +13,11 @@ logrotate:
       context:
         php_version: '8.1'
 
+backup:
+  ocp-coalition-backup/site:
+    # Must match directory in coalition/init.sls.
+    - /home/coalition/public_html/
+
 apache:
   public_access: True
   sites:
@@ -47,5 +52,3 @@ phpfpm:
 
 wordpress:
   cli_version: 2.7.1
-  backup:
-    location: ocp-coalition-backup/site
