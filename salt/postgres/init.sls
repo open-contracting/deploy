@@ -321,7 +321,7 @@ grant {{ role }} table privileges in {{ schema }}:
 # Can replace after `postgres_default_privileges` function becomes available. https://github.com/saltstack/salt/pull/56808
 alter {{ role }} default privileges in {{ schema }}:
   cmd.run:
-    - name: psql -f /opt/default-privileges/{{ role }}-{{ schema }}.sql {{ database }}
+    - name: psql -v ON_ERROR_STOP=1 -f /opt/default-privileges/{{ role }}-{{ schema }}.sql {{ database }}
     - runas: postgres
     - require:
       - postgres_database: {{ database }}_sql_database

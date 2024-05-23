@@ -46,7 +46,7 @@ create kingfisher process extensions:
 
 create reference.mapping_sheets table:
   cmd.run:
-    - name: psql -f {{ directory }}/files/mapping-sheet.sql kingfisher_process
+    - name: psql -v ON_ERROR_STOP=1 -f {{ directory }}/files/mapping-sheet.sql kingfisher_process
     - runas: postgres
     - require:
       - postgres_group: reference_sql_group

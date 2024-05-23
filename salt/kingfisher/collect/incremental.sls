@@ -138,7 +138,7 @@ curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting
 
 run {{ sqldir }}/{{ basename }}.sql:
   cmd.run:
-    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/{{ basename }}.sql kingfisher_collect
+    - name: psql -v ON_ERROR_STOP=1 -U kingfisher_collect -h localhost -f {{ sqldir }}/{{ basename }}.sql kingfisher_collect
     - runas: {{ entry.user }}
     - require:
       - postgres_user: kingfisher_collect_sql_user
@@ -160,7 +160,7 @@ run {{ sqldir }}/{{ basename }}.sql:
 
 run {{ sqldir }}/excluded_supplier.sql:
   cmd.run:
-    - name: psql -U kingfisher_collect -h localhost -f {{ sqldir }}/excluded_supplier.sql kingfisher_collect
+    - name: psql -v ON_ERROR_STOP=1 -U kingfisher_collect -h localhost -f {{ sqldir }}/excluded_supplier.sql kingfisher_collect
     - runas: {{ entry.user }}
     - require:
       - postgres_user: kingfisher_collect_sql_user

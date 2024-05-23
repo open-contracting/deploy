@@ -59,7 +59,7 @@ btree_gin:
 
 run pelican migration {{ basename }}:
   cmd.run:
-    - name: psql -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend
+    - name: psql -v ON_ERROR_STOP=1 -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend
     - runas: {{ pillar.docker.user }}
     - require:
       - postgres_user: pelican_backend_sql_user
