@@ -276,7 +276,7 @@ add .htpasswd-{{ name }}-{{ username }}:
       - file: /home/sysadmin-tools/bin
       - sls: aws
 
-/etc/cron.d/site_file_backup:
+/etc/cron.d/site_backup:
   file.managed:
     - contents: |
         MAILTO=root
