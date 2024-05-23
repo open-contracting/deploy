@@ -261,7 +261,6 @@ add .htpasswd-{{ name }}-{{ username }}:
       - module: nginx-reload
 {% endmacro %}
 
-
 {% macro aws_site_backup(s3_bucket, backup_dirs=[]) %}
 {{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', s3_bucket) }}
 
