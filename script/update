@@ -1,9 +1,9 @@
-#!/usr/bin/env bash
+#!/bin/sh
 # Ensures all repositories are on default branch and up-to-date.
 
-set -xeuo pipefail
+set -xeu
 
-function main {
+main() {
     git checkout main
     git pull --rebase origin main
 

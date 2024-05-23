@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
-set -xeuo pipefail
+set -xeu
 
 # The branch or tag, e.g. "1.0-dev" or "1__0__0".
 REF="$GITHUB_REF_NAME"
@@ -8,7 +8,7 @@ REF="$GITHUB_REF_NAME"
 COMPONENT="${PATH_PREFIX%%/*}"
 
 # If a git tag or live branch is pushed.
-if [ "$PRODUCTION" == "true" ]; then
+if [ "$PRODUCTION" = "true" ]; then
     PREFIX=""
     SUFFIX=-$(date +%s)
 else
@@ -26,12 +26,12 @@ if [ "$RELEASE" != "true" ]; then
     # Index the build directory.
     ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
     ocdsindex index https://standard.open-contracting.org:443/search/ documents.json
-    if [ "$REF" == "$VERSION" ]; then
+    if [ "$REF" = "$VERSION" ]; then
         ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX"latest/ > documents.json
         ocdsindex index https://standard.open-contracting.org:443/search/ documents.json
     fi
 
-    if [ "$PRODUCTION" == "true" ]; then
+    if [ "$PRODUCTION" = "true" ]; then
         # Symlink the live directory.
         curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
         # shellcheck disable=SC2087
@@ -42,7 +42,7 @@ if [ "$RELEASE" != "true" ]; then
     fi
 # If a git tag is pushed, create the schema directory and ZIP file.
 else
-    if [ "$COMPONENT" == "profiles" ]; then
+    if [ "$COMPONENT" = "profiles" ]; then
         DIRECTORY="extension"
     else
         DIRECTORY="schema"
@@ -59,7 +59,7 @@ else
         cd /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/
         zip -r "$REF".zip "$REF"
 
-        if [ "$COMPONENT" == "profiles" ]; then
+        if [ "$COMPONENT" = "profiles" ]; then
             # Deploy the patched directory for the profile.
             mkdir -p /home/ocds-docs/web/"$PATH_PREFIX"schema/"$REF"/
             cp -r /home/ocds-docs/web/"$PATH_PREFIX""$VERSION"/en/_static/patched/* /home/ocds-docs/web/"$PATH_PREFIX"schema/"$REF"/

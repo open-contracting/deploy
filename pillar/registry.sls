@@ -4,6 +4,7 @@ network:
   ipv6: 2a01:4f9:3b:45ca::2
   netplan:
     template: custom
+    # Hetzner, Cloudflare, and OpenDNS resolvers.
     configuration: |
       network:
         version: 2
@@ -26,6 +27,10 @@ network:
                 - 2a01:4f8:0:1::add:9898
                 - 2a01:4f8:0:1::add:9999
                 - 2a01:4f8:0:1::add:1010
+                - 1.1.1.1
+                - 208.67.222.222
+                - 2606:4700:4700::1111
+                - 2620:119:35::35
 
 vm:
   nr_hugepages: 8231

@@ -8,6 +8,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           sudo apt update
-          sudo apt install shellcheck shfmt
+          sudo apt install devscripts shellcheck shfmt
+      # checkbashisms doesn't recognize `set -o pipefail`.
+      - run: checkbashisms $(shfmt -f . | grep -v do_excluded_supplier.sh)
       - run: shellcheck $(shfmt -f .)
       - run: shfmt -d -i 4 -sr $(shfmt -f .)

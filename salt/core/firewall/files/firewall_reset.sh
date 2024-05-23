@@ -1,19 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
-# This file is managed by Dogsbody Technology Ltd.
-#   https://www.dogsbody.com/
-#
-# Description:  A script to reset iptables rules.
-#
-# Usage:  $0
+# Reset iptables rules
 
-set -euo pipefail
+set -eu
 
 # shellcheck disable=SC1091
-source /home/sysadmin-tools/firewall-settings.local
+. /home/sysadmin-tools/firewall-settings.local
 
-function echo_verbose {
-    [ "$VERBOSE" == "true" ] && echo "**** $* ****"
+echo_verbose() {
+    [ "$VERBOSE" = "true" ] && echo "**** $* ****"
 }
 
 echo_verbose "Check user is root"
@@ -25,10 +20,10 @@ fi
 echo_verbose "Get OS version"
 if [ -f /etc/os-release ]; then
     # shellcheck disable=SC1091
-    source /etc/os-release
+    . /etc/os-release
 elif [ -f /etc/lsb-release ]; then
     # shellcheck disable=SC1091
-    source /etc/lsb-release
+    . /etc/lsb-release
 elif [ -f /etc/redhat-release ]; then
     ID="redhat-derivative"
     VERSION_ID=""
