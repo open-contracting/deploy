@@ -4,6 +4,7 @@ network:
   ipv6: 2a01:4f9:3b:45ca::2
   netplan:
     template: custom
+    # Hetzner, Cloudflare, and OpenDNS resolvers.
     configuration: |
       network:
         version: 2
