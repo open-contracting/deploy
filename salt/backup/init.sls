@@ -30,4 +30,5 @@ set BACKUP_DIRECTORIES setting:
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin
+      - sls: aws
 {% endfor %}

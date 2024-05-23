@@ -31,4 +31,3 @@ include:
     - mode: 600
     - require:
       - file: /home/sysadmin-tools/bin
-      - sls: aws
