@@ -4,8 +4,8 @@
 {% set userdir = '/home/' + user %}
 
 include:
-  - aws
   - apache.modules.rewrite # required by WordPress
+  - aws
   - php-fpm
 
 wp-cli:
@@ -34,5 +34,5 @@ allow {{ userdir }} access:
       - user: {{ user }}_user_exists
 
 {% if 'backup' in pillar.wordpress %}
-{{ aws_site_backup(pillar.wordpress.backup.location, [userdir+"/public_html/"]) }}
+{{ aws_site_backup(pillar.wordpress.backup.location, [userdir + '/public_html/']) }}
 {% endif %}

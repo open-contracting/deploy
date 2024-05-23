@@ -261,6 +261,12 @@ add .htpasswd-{{ name }}-{{ username }}:
       - module: nginx-reload
 {% endmacro %}
 
+{#
+  Files using this macro must:
+
+  include:
+    - aws
+#}
 {% macro aws_site_backup(s3_bucket, backup_dirs=[]) %}
 {{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', s3_bucket) }}
 
@@ -284,7 +290,7 @@ set BACKUP_DIRECTORIES setting:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local
     - key: BACKUP_DIRECTORIES
-    - value: '( "{{ backup_dirs | join('" "') }}" )'
+    - value: '( "{{ backup_dirs|join('" "') }}" )'
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin

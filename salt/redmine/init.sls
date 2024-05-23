@@ -7,10 +7,10 @@
 {% set theme = 'circle' %}
 
 include:
-  - aws
   - apache
   - apache.modules.headers # Header
   - apache.modules.passenger
+  - aws
   - mysql
   - rvm
 
@@ -177,5 +177,5 @@ grant report user readonly privileges:
       - mysql_database: redmine_mysql_database
 
 {% if 'backup' in pillar.redmine %}
-{{ aws_site_backup(pillar.redmine.backup.location, [userdir+"/public_html/"]) }}
+{{ aws_site_backup(pillar.redmine.backup.location, [userdir + '/public_html/']) }}
 {% endif %}
