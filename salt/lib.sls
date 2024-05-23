@@ -1,4 +1,5 @@
 # Defines common macros.
+
 {% macro set_cron_env(user, name, value, scope="") %}
 set {{ name }} environment variable in {{ user }} crontab{% if scope %} for {{ scope }}{% endif %}:
   cron.env_present:
