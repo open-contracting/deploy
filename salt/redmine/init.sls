@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import aws_site_backup, create_user %}
 
 {% set user = 'redmine' %}
 {% set userdir = '/home/' + user %}
@@ -7,6 +7,7 @@
 {% set theme = 'circle' %}
 
 include:
+  - aws
   - apache
   - apache.modules.headers # Header
   - apache.modules.passenger

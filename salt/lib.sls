@@ -1,7 +1,4 @@
 # Defines common macros.
-include:
-  - aws
-
 {% macro set_cron_env(user, name, value, scope="") %}
 set {{ name }} environment variable in {{ user }} crontab{% if scope %} for {{ scope }}{% endif %}:
   cron.env_present:
@@ -292,5 +289,4 @@ set BACKUP_DIRECTORIES setting:
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin
-      - sls: aws
 {% endmacro %}

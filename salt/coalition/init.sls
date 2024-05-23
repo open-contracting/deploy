@@ -1,9 +1,10 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import aws_site_backup, create_user %}
 
 {% set user = 'coalition' %}
 {% set userdir = '/home/' + user %}
 
 include:
+  - aws
   - apache.modules.rewrite # required by WordPress
   - php-fpm
 
