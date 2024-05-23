@@ -1,5 +1,5 @@
 #!/bin/sh
-# No -e, because diff fails. No -u, because this script handles unset variables.
+# No -e, because diff uses exit status 1 when differences are found. No -u, because this script handles unset variables.
 
 SALTSSH="./run.py"
 
