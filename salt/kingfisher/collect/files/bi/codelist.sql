@@ -1,13 +1,11 @@
 DROP TABLE IF EXISTS codelist;
 
 CREATE TABLE codelist (
-    id serial,
+    id serial PRIMARY KEY,
     codelist text,
     code text,
     code_es text,
-    PRIMARY KEY (id)
+    UNIQUE (codelist, code)
 );
-
-CREATE UNIQUE INDEX ON codelist (codelist, code);
 
 \copy codelist (codelist, code, code_es) from '{{ path }}' delimiter ',' csv header;

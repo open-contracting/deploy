@@ -1,8 +1,4 @@
 CREATE TABLE IF NOT EXISTS excluded_supplier (
-    id serial,
-    identifier text,
-    PRIMARY KEY (id)
+    id serial PRIMARY KEY,
+    identifier text UNIQUE
 );
-
-CREATE UNIQUE INDEX IF NOT EXISTS ON excluded_supplier (identifier);
-

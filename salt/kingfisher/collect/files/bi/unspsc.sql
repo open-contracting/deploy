@@ -1,13 +1,10 @@
 DROP TABLE IF EXISTS unspsc;
 
 CREATE TABLE unspsc (
-    id serial,
-    code integer,
+    id serial PRIMARY KEY,
+    code integer UNIQUE,
     description text,
-    description_es text,
-    PRIMARY KEY (id)
+    description_es text
 );
-
-CREATE UNIQUE INDEX ON unspsc (code);
 
 \copy unspsc (code, description, description_es) from '{{ path }}' delimiter ',' csv header;
