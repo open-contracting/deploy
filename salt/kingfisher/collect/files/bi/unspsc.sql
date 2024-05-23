@@ -7,4 +7,4 @@ CREATE TABLE unspsc (
     description_es text
 );
 
-\copy unspsc (code, description, description_es) from '{{ path }}' delimiter ',' csv header;
+COPY unspsc (code, description, description_es) from '{{ path }}' delimiter ',' csv header;

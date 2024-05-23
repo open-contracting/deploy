@@ -11,4 +11,4 @@ CREATE TABLE indicator (
     description_es text
 );
 
-\copy codelist (code, category, title, description, category_es, title_es, description_es) from '{{ path }}' delimiter ',' csv header;
+COPY codelist (code, category, title, description, category_es, title_es, description_es) from '{{ path }}' delimiter ',' csv header;
