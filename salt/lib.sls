@@ -262,8 +262,8 @@ add .htpasswd-{{ name }}-{{ username }}:
 {% endmacro %}
 
 
-{% macro aws_site_backup(userdir, backup_location) %}
-{{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', backup_location) }}
+{% macro aws_site_backup(s3_bucket, backup_dirs=[]) %}
+{{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', s3_bucket) }}
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:
@@ -285,7 +285,7 @@ set BACKUP_DIRECTORIES setting:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local
     - key: BACKUP_DIRECTORIES
-    - value: ( "{{ userdir }}/public_html/" )
+    - value: '( "{{ backup_dirs | join('" "') }}" )'
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin

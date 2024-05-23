@@ -34,7 +34,5 @@ allow {{ userdir }} access:
       - user: {{ user }}_user_exists
 
 {% if 'backup' in pillar.wordpress %}
-{% from 'lib.sls' import aws_site_backup %}
-
-{{ aws_site_backup(userdir, pillar.wordpress.backup.location) }}
+{{ aws_site_backup(pillar.wordpress.backup.location, [userdir+"/public_html/"]) }}
 {% endif %}

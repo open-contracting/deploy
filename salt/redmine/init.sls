@@ -177,7 +177,5 @@ grant report user readonly privileges:
       - mysql_database: redmine_mysql_database
 
 {% if 'backup' in pillar.redmine %}
-{% from 'lib.sls' import aws_site_backup %}
-
-{{ aws_site_backup(userdir, pillar.redmine.backup.location) }}
+{{ aws_site_backup(pillar.redmine.backup.location, [userdir+"/public_html/"]) }}
 {% endif %}
