@@ -93,6 +93,15 @@ install cardinal:
     - require:
       - user: {{ entry.user }}_user_exists
 
+# https://www.postgresql.org/docs/current/predefined-roles.html
+grant pg_read_server_files to kingfisher_collect:
+  cmd.run:
+    - name: psql -v ON_ERROR_STOP=1 -c 'GRANT pg_read_server_files to kingfisher_collect' && touch /var/lib/postgresql/grant-pg_read_server_files-kingfisher_collect.lock
+    - runas: postgres
+    - creates: /var/lib/postgresql/grant-pg_read_server_files-kingfisher_collect.lock
+    - require:
+      - postgres_user: kingfisher_collect_sql_user
+
 {#
 curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/codelist.csv  | shasum -a 256
 curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/indicator.csv  | shasum -a 256
