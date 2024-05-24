@@ -88,7 +88,7 @@ base:
   'I@nginx:public_access:true':
     - nginx.letsencrypt
 
-  'I@backup':
+  'I@backup:*':
     - backup
 
   'I@mysql:configuration':
