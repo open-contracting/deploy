@@ -127,7 +127,7 @@ cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -
       - user: {{ user }}_user_exists
 {% endfor %}
 
-{% for command in ['addchecks', 'addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load'] %}
+{% for command in ('addchecks', 'addfiles', 'closecollection', 'collectionstatus', 'deletecollection', 'load') %}
 /opt/kingfisher-process/{{ command }}.sh:
   file.managed:
     - source: salt://kingfisher/process/files/kingfisher-process.sh
