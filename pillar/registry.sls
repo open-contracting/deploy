@@ -5,6 +5,8 @@ network:
   netplan:
     template: custom
     # Hetzner, Cloudflare, and OpenDNS resolvers.
+    # DNSRESOLVER and DNSRESOLVER_V6 in https://github.com/hetzneronline/installimage/blob/master/config.sh
+    # https://docs.hetzner.com/dns-console/dns/general/recursive-name-servers/
     configuration: |
       network:
         version: 2
