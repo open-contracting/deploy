@@ -1,4 +1,4 @@
-{% from 'lib.sls' import aws_site_backup %}
+{% from 'lib.sls' import set_config %}
 
 include:
   - aws
