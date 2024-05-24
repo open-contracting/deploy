@@ -102,22 +102,10 @@ grant pg_read_server_files to kingfisher_collect:
     - require:
       - postgres_user: kingfisher_collect_sql_user
 
-{#
-curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/codelist.csv  | shasum -a 256
-curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/indicator.csv  | shasum -a 256
-curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/cpc.csv  | shasum -a 256
-curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/unspsc.csv  | shasum -a 256
-#}
-{% for basename, source_hash in [
-  ('codelist', 'c4387a4b1a600843413525f41bcdd0f63e074f060c4d053035cba03984a26de4'),
-  ('indicator', '281065a1709ebde2ce2cad369ac53c7238aae51c860cb630e981d4a3eea5cf1b'),
-  ('cpc', '1a1c8d833830326dd6dcd87d236134a32c719a1ad2d8b5ff3206d090076ae3fa'),
-  ('unspsc', '3040466f858d4dd72ecb32c5a6f669ccd9ef62dd3f58f5d1e1b42c61da7e4aee'),
-] %}
+{% for basename in ('codelist', 'indicator', 'cpc', 'unspsc') %}
 {{ sqldir }}/{{ basename }}.csv:
   file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/{{ basename }}.csv
-    - source_hash: {{ source_hash }}
+    - source: salt://kingfisher/collect/files/data/{{ basename }}.csv
     - makedirs: True
     - user: {{ entry.user }}
     - group: {{ entry.user }}
@@ -207,7 +195,6 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
 {{ settingsdir }}/{{ crawl.spider }}.ini:
   file.managed:
     - source: salt://kingfisher/collect/files/cardinal/{{ crawl.spider }}.ini
-    - source_hash: {{ crawl.cardinal_ini_source_hash }}
     - makedirs: True
     - user: {{ entry.user }}
     - group: {{ entry.user }}

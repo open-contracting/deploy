@@ -45,7 +45,7 @@ Purpose
 Update frequency
   As needed, when new indicators are implemented.
 Install
-  Load the `indicator.csv file <https://github.com/open-contracting/bi.open-contracting.org/blob/main/powerbi/indicator.csv>`__, replacing the ``{{ path }}``:
+  Load the `indicator.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/indicator.csv>`__, replacing the ``{{ path }}``:
 
   .. literalinclude:: ../../salt/kingfisher/collect/files/bi/indicator.sql
      :language: sql
@@ -58,7 +58,7 @@ Purpose
 Update frequency
   As needed, when new codes need translations.
 Install
-  Load the `codelist.csv file <https://github.com/open-contracting/bi.open-contracting.org/blob/main/powerbi/codelist.csv>`__, replacing the ``{{ path }}``:
+  Load the `codelist.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/codelist.csv>`__, replacing the ``{{ path }}``:
 
   .. literalinclude:: ../../salt/kingfisher/collect/files/bi/codelist.sql
      :language: sql
@@ -73,7 +73,7 @@ Source
 Update frequency
   Every few years.
 Install
-  Load the `cpc.csv file <https://github.com/open-contracting/bi.open-contracting.org/blob/main/powerbi/cpc.csv>`__, replacing the ``{{ path }}``:
+  Load the `cpc.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/cpc.csv>`__, replacing the ``{{ path }}``:
 
   .. literalinclude:: ../../salt/kingfisher/collect/files/bi/cpc.sql
      :language: sql
@@ -88,7 +88,7 @@ Source
 Update frequency
   Every few years.
 Install
-  Load the `unspsc.csv file <https://github.com/open-contracting/bi.open-contracting.org/blob/main/powerbi/unspsc.csv>`__, replacing the ``{{ path }}``:
+  Load the `unspsc.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/unspsc.csv>`__, replacing the ``{{ path }}``:
 
   .. literalinclude:: ../../salt/kingfisher/collect/files/bi/unspsc.sql
      :language: sql

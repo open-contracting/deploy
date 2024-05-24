@@ -1,0 +1,17 @@
+codelist,code,code_es
+method,open,abierto
+method,selective,selectivo
+method,limited,limitado
+method,direct,directo
+tenderStatus,pending,pendiente
+tenderStatus,active,activo
+tenderStatus,cancelled,cancelado
+tenderStatus,unsuccessful,sin éxito
+bidStatus,pending,pendiente
+bidStatus,valid,calificada
+bidStatus,disqualified,descalificada
+bidStatus,InTreatment,pendiente
+bidStatus,Qualified,calificada
+bidStatus,Disqualified,descalificada
+partyRole,bidder,oferente
+partyRole,supplier,proveedor
