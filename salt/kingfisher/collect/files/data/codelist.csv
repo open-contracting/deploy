@@ -10,8 +10,5 @@ tenderStatus,unsuccessful,sin éxito
 bidStatus,pending,pendiente
 bidStatus,valid,calificada
 bidStatus,disqualified,descalificada
-bidStatus,InTreatment,pendiente
-bidStatus,Qualified,calificada
-bidStatus,Disqualified,descalificada
-partyRole,bidder,oferente
+partyRole,tenderer,oferente
 partyRole,supplier,proveedor
