@@ -200,14 +200,10 @@ python_apps:
         start_date: '2023-07-13'
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
         powerbi: True
-        # curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/dominican_republic_api.ini | shasum -a 256
-        cardinal_ini_source_hash: 1cb2f563fe149536508f5a9e21d6faf8b75e26eb1fcdd0f78900cc86c9280919
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
         powerbi: True
-        # curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/ecuador_sercop_bulk.ini | shasum -a 256
-        cardinal_ini_source_hash: 2b17dbfe228b733b170f157483aaed5e99e27c88ac0acd6d12afac40f24a6e59
       # - identifier: MOLDOVA
       #   spider: moldova
       #   start_date: '2021-06-11'

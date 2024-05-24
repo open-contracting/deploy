@@ -206,7 +206,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
 {% if crawl.get('powerbi') %}
 {{ settingsdir }}/{{ crawl.spider }}.ini:
   file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/bi.open-contracting.org/main/powerbi/{{ crawl.spider }}.ini
+    - source: salt://kingfisher/collect/files/cardinal/{{ crawl.spider }}.ini
     - source_hash: {{ crawl.cardinal_ini_source_hash }}
     - makedirs: True
     - user: {{ entry.user }}
