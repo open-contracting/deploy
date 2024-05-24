@@ -126,7 +126,7 @@ curl -sSf https://raw.githubusercontent.com/open-contracting/bi.open-contracting
 
 {{ sqldir }}/{{ basename }}.sql:
   file.managed:
-    - source: salt://kingfisher/collect/files/bi/{{ basename }}.sql
+    - source: salt://kingfisher/collect/files/sql/{{ basename }}.sql
     - template: jinja
     - context:
         path: {{ sqldir }}/{{ basename }}.csv
@@ -151,7 +151,7 @@ run {{ sqldir }}/{{ basename }}.sql:
 
 {{ sqldir }}/excluded_supplier.sql:
   file.managed:
-    - source: salt://kingfisher/collect/files/bi/excluded_supplier.sql
+    - source: salt://kingfisher/collect/files/sql/excluded_supplier.sql
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - makedirs: True
@@ -173,7 +173,7 @@ run {{ sqldir }}/excluded_supplier.sql:
 {% for crawl in entry.crawls %}
 {{ userdir }}/bin/{{ crawl.spider }}.sh:
   file.managed:
-    - source: salt://kingfisher/collect/files/bi/cron.sh
+    - source: salt://kingfisher/collect/files/cron.sh
     - template: jinja
     - context:
         SENTRY_DSN: {{ pillar.kingfisher_collect.env.SENTRY_DSN }}
@@ -216,7 +216,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
 
 {{ sqldir }}/{{ crawl.spider }}_result.sql:
   file.managed:
-    - source: salt://kingfisher/collect/files/bi/result.sql
+    - source: salt://kingfisher/collect/files/sql/result.sql
     - template: jinja
     - context:
         spider: {{ crawl.spider }}
