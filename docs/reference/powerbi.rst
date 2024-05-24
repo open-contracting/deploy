@@ -20,7 +20,7 @@ Cardinal's `prepare command <https://cardinal.readthedocs.io/en/latest/cli/prepa
 
 Cardinal's `indicators command <https://cardinal.readthedocs.io/en/latest/cli/indicators/index.html>`__ calculates red flags and inserts results into tables. The schema is:
 
-.. literalinclude:: ../../salt/kingfisher/collect/files/bi/result.sql
+.. literalinclude:: ../../salt/kingfisher/collect/files/sql/result.sql
    :language: sql
    :start-after: CREATE
    :end-before: );
@@ -45,10 +45,17 @@ Purpose
 Update frequency
   As needed, when new indicators are implemented.
 Install
-  Load the `indicator.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/indicator.csv>`__, replacing the ``{{ path }}``:
+  Load the ``indicator.csv`` file, replacing the ``{{ path }}``:
 
-  .. literalinclude:: ../../salt/kingfisher/collect/files/bi/indicator.sql
+  .. literalinclude:: ../../salt/kingfisher/collect/files/sql/indicator.sql
      :language: sql
+
+  .. dropdown:: indicator.csv
+     :icon: table
+
+     .. csv-table::
+        :file: ../../salt/kingfisher/collect/files/data/indicator.csv
+        :header-rows: 1
 
 codelist table
 --------------
@@ -58,10 +65,17 @@ Purpose
 Update frequency
   As needed, when new codes need translations.
 Install
-  Load the `codelist.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/codelist.csv>`__, replacing the ``{{ path }}``:
+  Load the ``codelist.csv`` file, replacing the ``{{ path }}``:
 
-  .. literalinclude:: ../../salt/kingfisher/collect/files/bi/codelist.sql
+  .. literalinclude:: ../../salt/kingfisher/collect/files/sql/codelist.sql
      :language: sql
+
+  .. dropdown:: codelist.csv
+     :icon: table
+
+     .. csv-table::
+        :file: ../../salt/kingfisher/collect/files/data/codelist.csv
+        :header-rows: 1
 
 cpc table
 ---------
@@ -73,10 +87,17 @@ Source
 Update frequency
   Every few years.
 Install
-  Load the `cpc.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/cpc.csv>`__, replacing the ``{{ path }}``:
+  Load the ``cpc.csv`` file, replacing the ``{{ path }}``:
 
-  .. literalinclude:: ../../salt/kingfisher/collect/files/bi/cpc.sql
+  .. literalinclude:: ../../salt/kingfisher/collect/files/sql/cpc.sql
      :language: sql
+
+  .. dropdown:: cpc.csv
+     :icon: table
+
+     .. csv-table::
+        :file: ../../salt/kingfisher/collect/files/data/cpc.csv
+        :header-rows: 1
 
 unspsc table
 ------------
@@ -88,10 +109,17 @@ Source
 Update frequency
   Every few years.
 Install
-  Load the `unspsc.csv file <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/data/unspsc.csv>`__, replacing the ``{{ path }}``:
+  Load the ``unspsc.csv`` file, replacing the ``{{ path }}``:
 
-  .. literalinclude:: ../../salt/kingfisher/collect/files/bi/unspsc.sql
+  .. literalinclude:: ../../salt/kingfisher/collect/files/sql/unspsc.sql
      :language: sql
+
+  .. dropdown:: unspsc.csv
+     :icon: table
+
+     .. csv-table::
+        :file: ../../salt/kingfisher/collect/files/data/unspsc.csv
+        :header-rows: 1
 
 excluded_supplier table
 -----------------------
@@ -105,7 +133,7 @@ Update frequency
 Install
   Create the SQL table:
 
-  .. literalinclude:: ../../salt/kingfisher/collect/files/bi/excluded_supplier.sql
+  .. literalinclude:: ../../salt/kingfisher/collect/files/sql/excluded_supplier.sql
      :language: sql
 
   Add the cron job:
