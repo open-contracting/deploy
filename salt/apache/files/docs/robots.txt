@@ -8,6 +8,8 @@ Disallow: /1.0
 Disallow: /legacy
 # Disallow protected development branches.
 Disallow: /staging
+# Disallow Docson page loaded via JavaScript.
+Disallow: */_static/docson/public/
 
 User-Agent: LinkChecker
 Allow: /
