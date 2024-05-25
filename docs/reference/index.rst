@@ -16,6 +16,32 @@ Monitoring
 
    :doc:`../deploy/google`
 
+Ahrefs
+~~~~~~
+
+SEO issues are audited by Ahrefs.com's `Site Audit <https://ahrefs.com/site-audit>`__. Access the `most recent crawl <https://app.ahrefs.com/site-audit/4835895>`__:
+
+-  Review *All Issues*, filtering by *Importance*.
+-  Review the *Crawl log* for URLs that were *Discarded* due to *Monthly page crawl limit reached*. If there are any:
+
+   -  To review the discarded URLs, click *Uncrawled* from the crawl's *Overview*, and set an *Advanced filter* of *Target no-crawl reason = Monthly page crawl limit reached*.
+   -  To exclude URLs from future crawls, click the top-right gear icon, click *Project settings*, click *Crawl settings*, and add one pattern per line to *Don’t crawl URLs matching the pattern*.
+
+      The current patterns are:
+
+      .. code-block:: none
+
+         # OCP's archived corporate website.
+         archive\.open-contracting\.org
+         # Uploads to an archived website.
+         challenge\.open-contracting\.org(/en)?/wp-content/uploads/
+         # Page sources for OCDS documentation.
+         standard\.open-contracting\.org/\S+\.md\.txt$
+         # Sort options on directory listings.
+         standard\.open-contracting\.org/\S+\?C=[DMNS];O=[AD]$
+         # Default WordPress category pages.
+         www\.open-contracting\.org(/(es|ru))?/(audience|author|category|country|events/page|issue|learning-resource-category|open-contracting|region|resource-type|tag)/
+
 Prometheus
 ~~~~~~~~~~
 
