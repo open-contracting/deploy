@@ -29,6 +29,7 @@ psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider 
     {{ scratchdir }}/{{ crawl.spider }}.out.jsonl \
     > {{scratchdir}}/{{crawl.spider}}.json
 
+# This appends to the CSV file, to keep flags consistent over time. Delete it manually if results are incorrect.
 {{ userdir }}/bin/manage.py json-to-csv -q {{ scratchdir }}/{{ crawl.spider }}.json {{ scratchdir }}/{{ crawl.spider }}.csv
 
 psql -U kingfisher_collect -h localhost -q \
