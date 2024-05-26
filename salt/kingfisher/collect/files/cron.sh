@@ -23,6 +23,11 @@ psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider 
     -e {{ scratchdir }}/{{ crawl.spider }}.err.csv \
     {{ scratchdir }}/{{ crawl.spider }}.jsonl
 
+if [ ! -s  {{ scratchdir }}/{{ crawl.spider }}.err.csv ]; then
+    echo "{{ scratchdir }}/{{ crawl.spider }}.jsonl contains new errors"
+    exit 1
+fi
+
 {{ userdir }}/.cargo/bin/ocdscardinal indicators \
     -s {{ settingsdir }}/{{ crawl.spider }}.ini \
     --map \
