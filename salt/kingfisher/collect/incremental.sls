@@ -173,6 +173,8 @@ run {{ sqldir }}/excluded_supplier.sql:
         scratchdir: {{ scratchdir }}
     - makedirs: True
     - mode: 755
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
     - require:
       - user: {{ entry.user }}_user_exists
 
