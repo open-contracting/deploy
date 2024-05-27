@@ -30,7 +30,6 @@ network:
                 - 208.67.222.222
                 - 2620:119:35::35
 
-
 # Linux and PostgreSQL user names must match. PostgreSQL users should be in the kingfisher_process_read
 # and kingfisher_summarize_read groups.
 users:

@@ -4,9 +4,6 @@ network:
   ipv6: 2a01:4f9:3b:45ca::2
   netplan:
     template: custom
-    # Hetzner, Cloudflare, and OpenDNS resolvers.
-    # DNSRESOLVER and DNSRESOLVER_V6 in https://github.com/hetzneronline/installimage/blob/master/config.sh
-    # https://docs.hetzner.com/dns-console/dns/general/recursive-name-servers/
     configuration: |
       network:
         version: 2
@@ -31,8 +28,6 @@ network:
                 - 2606:4700:4700::1111
                 - 208.67.222.222
                 - 2620:119:35::35
-
-
 
 vm:
   nr_hugepages: 8231

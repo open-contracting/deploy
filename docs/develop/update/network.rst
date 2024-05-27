@@ -155,3 +155,7 @@ Update the server's Pillar file:
                addresses:
                  - 198.51.100.34/32
                  ...
+
+If setting ``nameservers:``, use `Hetzner <https://docs.hetzner.com/dns-console/dns/general/recursive-name-servers/>`__, `Cloudflare <https://developers.cloudflare.com/1.1.1.1/ip-addresses/>`__, and `OpenDNS <https://support.opendns.com/hc/en-us/articles/360052884932-OpenDNS-Self-Help-Troubleshooting-Guide#computer>`__ resolvers.
+
+.. DNSRESOLVER and DNSRESOLVER_V6 in https://github.com/hetzneronline/installimage/blob/master/config.sh
