@@ -8,6 +8,11 @@ network:
     addresses:
       - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
 
+backup:
+  ocp-redmine-backup/site:
+    # Must match directory in redmine/init.sls.
+    - /home/redmine/public_html/
+
 apache:
   public_access: True
   sites:
@@ -23,7 +28,3 @@ mysql:
 
 rvm:
   default_version: 3.1.2
-
-redmine:
-  backup:
-    location: ocp-redmine-backup/site

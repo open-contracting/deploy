@@ -1,20 +1,20 @@
 {% from 'lib.sls' import set_config %}
-{% from 'redmine/init.sls' import userdir %}
 
 include:
   - aws
 
-{{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', pillar.redmine.backup.location) }}
+{% for destination, directories in pillar.backup.items() %}
+{{ set_config('aws-settings.local', 'S3_SITE_BACKUP_BUCKET', destination) }}
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:
-    - source: salt://files/site-backup-to-s3.sh
+    - source: salt://backup/files/site-backup-to-s3.sh
     - mode: 750
     - require:
       - file: /home/sysadmin-tools/bin
       - sls: aws
 
-/etc/cron.d/redmine_backup:
+/etc/cron.d/site_backup:
   file.managed:
     - contents: |
         MAILTO=root
@@ -26,8 +26,9 @@ set BACKUP_DIRECTORIES setting:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local
     - key: BACKUP_DIRECTORIES
-    - value: ( "{{ userdir }}/public_html/" )
+    - value: '( "{{ directories|join('" "') }}" )'
     - append_if_not_found: True
     - require:
       - file: /home/sysadmin-tools/bin
       - sls: aws
+{% endfor %}

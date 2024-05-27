@@ -13,6 +13,11 @@ logrotate:
       context:
         php_version: '8.1'
 
+backup:
+  ocp-coalition-backup/site:
+    # Must match directory in coalition/init.sls.
+    - /home/coalition/public_html/
+
 apache:
   public_access: True
   sites:

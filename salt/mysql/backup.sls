@@ -7,7 +7,7 @@ include:
 
 /home/sysadmin-tools/bin/mysql-backup-to-s3.sh:
   file.managed:
-    - source: salt://files/mysql-backup-to-s3.sh
+    - source: salt://mysql/files/mysql-backup-to-s3.sh
     - mode: 750
     - require:
       - file: /home/sysadmin-tools/bin
