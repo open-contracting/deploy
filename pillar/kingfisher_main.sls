@@ -2,6 +2,34 @@ network:
   host_id: ocp23
   ipv4: 65.109.102.188
   ipv6: 2a01:4f9:3080:2792::2
+  netplan:
+    template: custom
+    configuration: |
+      network:
+        version: 2
+        renderer: networkd
+        ethernets:
+          enp6s0:
+            addresses:
+              - 65.109.102.188/32
+              - 2a01:4f9:3080:2792::2/64
+            routes:
+              - on-link: true
+                to: 0.0.0.0/0
+                via: 65.109.102.129
+              - to: default
+                via: fe80::1
+            nameservers:
+              addresses:
+                - 185.12.64.1
+                - 2a01:4ff:ff00::add:1
+                - 185.12.64.2
+                - 2a01:4ff:ff00::add:2
+                - 1.1.1.1
+                - 2606:4700:4700::1111
+                - 208.67.222.222
+                - 2620:119:35::35
+
 
 # Linux and PostgreSQL user names must match. PostgreSQL users should be in the kingfisher_process_read
 # and kingfisher_summarize_read groups.
