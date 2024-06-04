@@ -67,7 +67,7 @@ groups:
 
       - alert: DiskIOHighRegistry
         expr: (avg by(instance, device) (rate(node_disk_io_time_seconds_total{job=~"data-registry"}[10m]))) * 100 >= 50
-        for: 1h
+        for: 4h
         labels:
           severity: critical
         annotations:
