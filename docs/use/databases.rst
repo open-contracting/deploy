@@ -58,7 +58,7 @@ Then, set the permissions of the ``~/.pgpass`` file:
 Beekeeper Studio
 ~~~~~~~~~~~~~~~~
 
-`Beekeeper Studio <https://www.beekeeperstudio.io>`__ is a cross-platform app for querying databases.
+`Beekeeper Studio <https://www.beekeeperstudio.io>`__ is a cross-platform app for querying databases. Use the open-source `Community Edition <https://www.beekeeperstudio.io/get-community>`__.
 
 For security, remember to check *Enable SSL*.
 
