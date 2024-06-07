@@ -2,8 +2,7 @@
 x-shared: &shared
   image: redash/redash:10.1.0.b50633
   depends_on:
-    redis:
-      condition: service_healthy
+    - redis
   env_file: .env
   extra_hosts:
     - "host.docker.internal:host-gateway"
@@ -22,40 +21,41 @@ services:
       - {{ directory }}/files/nginx-security.conf:/etc/nginx/conf.d/security.conf
     restart: always
   redis:
-    image: bitnami/redis:6.2
+    image: bitnami/redis:7.2
     restart: always
     environment:
       ALLOW_EMPTY_PASSWORD: "yes"
-    healthcheck:
-      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
-      interval: 10s
-      timeout: 5s
-      retries: 5
   server:
     <<: *shared
     command: server
     ports:
       - "5000:5000"
     environment:
-      REDASH_WEB_WORKERS: 4
+      REDASH_WEB_WORKERS: 1
   scheduler:
     <<: *shared
     command: scheduler
+    depends_on:
+      - server
   scheduled_worker:
     <<: *shared
     command: worker
+    depends_on:
+      - server
     environment:
       QUEUES: "scheduled_queries,schemas"
       WORKERS_COUNT: 1
   adhoc_worker:
     <<: *shared
     command: worker
+    depends_on:
+      - server
     environment:
       QUEUES: "queries"
-      WORKERS_COUNT: 2
+      WORKERS_COUNT: 1
   worker:
     <<: *shared
     command: worker
     environment:
-      QUEUES: "periodic emails default"
+      QUEUES: "periodic,emails,default"
       WORKERS_COUNT: 1
