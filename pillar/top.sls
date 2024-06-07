@@ -59,11 +59,6 @@ base:
     - private.prometheus_server
     - prometheus_server_maintenance
 
-  'redash':
-    - redash
-    - private.redash
-    - redash_maintenance
-
   'redmine':
     - redmine
     - private.redmine

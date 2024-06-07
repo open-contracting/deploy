@@ -14,9 +14,6 @@ Create a data support main server
 Dependent services
 ~~~~~~~~~~~~~~~~~~
 
-Redash
-  #. Add or update the `Redash data source <https://redash.open-contracting.org/data_sources>`__ for the new PostgreSQL server
-  #. Add the Redash data source, if new, to the `unrestricted Redash group <https://redash.open-contracting.org/groups/5/data_sources>`__
 Tinyproxy
   #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
   #. Deploy the ``docs`` service, when ready

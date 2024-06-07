@@ -56,9 +56,6 @@ base:
   'prometheus':
     - prometheus
 
-  'redash':
-    - redash
-
   'redmine':
     - redmine
 

@@ -12,8 +12,6 @@ Connect to a database
 
    To query the database directly from your personal computer, request a personal SQL user account from James or Yohanna, and configure :ref:`psql`, :ref:`beekeeper` and/or :ref:`pgadmin` to use it.
 
-   For most use cases, you can instead query the database from `Redash <https://redash.open-contracting.org>`__. To request an account, email data@open-contracting.org.
-
 OCP has a main database on the ``postgres.kingfisher.open-contracting.org`` server.
 
 .. _psql:
@@ -174,7 +172,3 @@ To stop a query, run, replacing ``PID`` with the appropriate value from the ``pi
 .. code-block:: sql
 
    SELECT pg_cancel_backend(PID)
-
-.. note::
-
-   If you are running a query via Redash, it will not appear in the results.

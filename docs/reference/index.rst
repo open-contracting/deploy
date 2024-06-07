@@ -132,8 +132,3 @@ Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) sh
 Root access should be :ref:`routinely reviewed<review-root-access>`. If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
 
 The ``ssh.root`` lists in Pillar files and the ``ssh.admin`` list in the ``pillar/common.sls`` file give people access to servers. All people should belong to the above organizations.
-
-Redash
-~~~~~~
-
-There should be a minimum of two `admin <https://redash.open-contracting.org/groups/1>`__ members from OCP only. Users should belong to a single group. Non-admin staff of OCP should belong to the `unrestricted <https://redash.open-contracting.org/groups/5>`__ group.
