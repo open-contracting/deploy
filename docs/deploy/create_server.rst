@@ -593,11 +593,6 @@ Prometheus
 
 #. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
 
-Redash
-~~~~~~
-
-See :doc:`redash`.
-
 .. _update-external-services:
 
 7. Update external services

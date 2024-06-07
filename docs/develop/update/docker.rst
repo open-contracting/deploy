@@ -67,7 +67,7 @@ Validate the file, for example:
 
 .. code-block:: bash
 
-   docker compose config -q salt/docker_apps/files/redash.yaml
+   docker compose config -q salt/docker_apps/files/registry.yaml
 
 .. seealso::
 
