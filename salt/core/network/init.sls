@@ -54,7 +54,7 @@ systemd-networkd:
 /etc/netplan/01-netcfg.yaml:
   file.absent
 
-# Linode-only. https://www.linode.com/docs/guides/linux-static-ip-configuration/#disable-network-helper
+# Linode-only. https://www.linode.com/docs/products/compute/compute-instances/guides/network-helper/#enable-or-disable-network-helper
 /etc/systemd/network/05-eth0.network:
   file.absent
 

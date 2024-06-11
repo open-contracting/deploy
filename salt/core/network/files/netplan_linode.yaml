@@ -1,4 +1,4 @@
-{#- See https://www.linode.com/docs/guides/linux-static-ip-configuration/#ubuntu-1804-and-2004 #}
+{#- See https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ #}
 network:
   version: 2
   renderer: networkd
@@ -15,7 +15,7 @@ network:
       {#- but this causes networkd to prefer its default IPv6 block to our IPv6 /64 block. #}
       {#- https://bugs.launchpad.net/netplan/+bug/1766656 #}
       {#- https://manpages.ubuntu.com/manpages/focal/man5/systemd.network.5.html #}
-      {#- https://www.linode.com/docs/guides/linux-static-ip-configuration/#ubuntu-1804-and-2004 #}
+      {#- https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ #}
         {%- for address in pillar.network.netplan.addresses|default([]) %}
         - {{ address }}
         {%- endfor %}
