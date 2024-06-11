@@ -17,7 +17,8 @@ network:
               - on-link: true
                 to: 0.0.0.0/0
                 via: 65.21.93.129
-            gateway6: fe80::1
+              - to: default
+                via: fe80::1
             nameservers:
               addresses:
                 - 185.12.64.1
