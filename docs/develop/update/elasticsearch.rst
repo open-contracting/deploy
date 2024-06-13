@@ -4,33 +4,33 @@ Configure Elasticsearch
 Check system configuration
 --------------------------
 
-Elasticsearch has instructions under `Important System Configuration <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/system-config.html>`__, most of which don't require any changes. To check if changes are needed:
+Elasticsearch has instructions under `Important System Configuration <https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config.html>`__, most of which don't require any changes. To check if changes are needed:
 
--  `File descriptors <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/file-descriptors.html>`__:
+-  `File descriptors <https://www.elastic.co/guide/en/elasticsearch/reference/current/file-descriptors.html>`__:
 
    .. code-block:: bash
 
       ulimit -n
 
--  `Virtual memory <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/vm-max-map-count.html>`__:
+-  `Virtual memory <https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html>`__:
 
    .. code-block:: bash
 
       sysctl vm.max_map_count
 
--  `Number of threads <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/max-number-of-threads.html>`__:
+-  `Number of threads <https://www.elastic.co/guide/en/elasticsearch/reference/current/max-number-of-threads.html>`__:
 
    .. code-block:: bash
 
       ulimit -u
 
--  `JNA temporary directory isn't mounted with noexec <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/executable-jna-tmpdir.html>`__:
+-  `JNA temporary directory isn't mounted with noexec <https://www.elastic.co/guide/en/elasticsearch/reference/current/executable-jna-tmpdir.html>`__:
 
    .. code-block:: bash
 
       grep tmp /etc/fstab
 
--  `TCP retransmission timeout <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/system-config-tcpretries.html>`__:
+-  `TCP retransmission timeout <https://www.elastic.co/guide/en/elasticsearch/reference/current/system-config-tcpretries.html>`__:
 
    .. code-block:: bash
 
@@ -39,7 +39,7 @@ Elasticsearch has instructions under `Important System Configuration <https://ww
 Set swappiness value
 --------------------
 
-`As recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/setup-configuration-memory.html#swappiness>`__, add to your service's Pillar file:
+`As recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#swappiness>`__, add to your service's Pillar file:
 
 .. code-block:: yaml
 

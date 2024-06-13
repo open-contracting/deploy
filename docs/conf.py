@@ -54,20 +54,29 @@ html_css_files = ['css/custom.css']
 
 # -- Extension configuration -------------------------------------------------
 
+# docs.hetzner.com returns 403, otherwise.
+user_agent = 'curl/8.6.0'
+linkcheck_allow_unauthorized = False
+linkcheck_report_timeouts_as_broken = True
 linkcheck_ignore = [
     # Localhost instructions.
     r'^http://localhost:',
+    # Unauthorized.
+    r'^https://(alertmanager|monitor)\.prometheus\.open-contracting\.org',
     # Redirects to login pages.
     r'^https://(?:account|dcc)\.godaddy\.com',
     r'^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/',
-    r'^https://(?:ocp-library\.herokuapp|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com',
+    r'^https://(?:dash\.cloudflare|ocp-library\.herokuapp|portal\.azure|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com',
     r'^https://(?:postmaster|search)\.google\.com',
-    r'^https://app\.(dmarcanalyzer|usefathom)\.com',
+    r'^https://app\.(ahrefs|dmarcanalyzer|usefathom)\.com',
     r'^https://github\.com/open-contracting/[^/]+/issues/new',
     r'^https://sentry.io/organizations/open-contracting-partnership/',
     # Private repositories return not found.
     r'^https://github\.com/open-contracting/(?:deploy-pillar-private|dogsbody-maintenance)',
 ]
-# Note: GitHub anchors cause false positives (anchors are loaded via JavaScript).
-# Don't ignore these, in case the URLs fail for another reason.
-# Note: Hetzner URLs responds to linkcheck requests with 501 errors.
+linkcheck_anchors_ignore_for_url = (
+    r'^https://github\.com/[^/]+/[^/]+/blob/',
+    r'^https://github\.com/[^/]+/[^/]+/tree/',
+    r'^https://github\.com/icing/mod_md',
+    r'^https://rabbitmq\.kingfisher\.open-contracting\.org',
+)

@@ -15,8 +15,8 @@ elasticsearch:
     - require:
       - pkg: elasticsearch
 
-# https://www.elastic.co/guide/en/elasticsearch/reference/8.8/important-settings.html#heap-size-settings
-# https://www.elastic.co/guide/en/elasticsearch/reference/8.8/advanced-configuration.html#set-jvm-heap-size
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/advanced-configuration.html#set-jvm-heap-size
 set jvm heap size:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/memory.options
@@ -31,16 +31,16 @@ set jvm heap size:
   file.keyvalue:
     - name: /etc/elasticsearch/elasticsearch.yml
     - key_values:
-        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-network.html
+        # https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html
         http.host: 127.0.0.1
         network.bind_host: 127.0.0.1
         network.publish_host: _local_
-        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/query-dsl.html
+        # https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl.html
         search.allow_expensive_queries: 'false'
-        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/modules-scripting-security.html
+        # https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting-security.html
         script.allowed_types: inline
         script.allowed_contexts: ingest
-        # https://www.elastic.co/guide/en/elasticsearch/reference/7.10/bootstrap-checks.html
+        # https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
         discovery.type: single-node
     - separator: ': '
     - append_if_not_found: True

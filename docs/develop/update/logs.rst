@@ -21,7 +21,7 @@ The ``kingfisher-summarize.conf`` file in ``salt/core/rsyslog/files`` will be wr
 
 .. tip::
 
-   To discard a message after writing it to a `regular file <https://www.rsyslog.com/doc/master/configuration/actions.html#regular-file>`__, add `& stop <https://www.rsyslog.com/doc/master/configuration/actions.html#discard-stop>`__ as a second action on a new line.
+   To discard a message after writing it to a `regular file <https://www.rsyslog.com/doc/configuration/actions.html#regular-file>`__, add `& stop <https://www.rsyslog.com/doc/configuration/actions.html#discard-stop>`__ as a second action on a new line.
 
 logrotate
 ---------

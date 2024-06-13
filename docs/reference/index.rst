@@ -71,7 +71,7 @@ Application errors are reported to `Sentry <https://sentry.io/organizations/open
 
 .. seealso::
 
-   `Sentry search reference <https://docs.sentry.io/product/reference/search/>`__
+   `Sentry search reference <https://docs.sentry.io/concepts/search/>`__
 
 SecurityScorecard
 ~~~~~~~~~~~~~~~~~
@@ -105,7 +105,7 @@ Unmanaged services are:
 
    .. admonition:: Why not GitHub Pages?
 
-      GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/platform/headers>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
+      GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
 -  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ (`Network status <https://status.heroku.com>`__)
 

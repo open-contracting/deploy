@@ -24,8 +24,8 @@ The Queues tab is the most relevant, to monitor the progress of work. On each qu
 
 Reference:
 
--  `Production Checklist <https://www.rabbitmq.com/production-checklist.html>`__
--  `Currently Supported Release Series <https://www.rabbitmq.com/versions.html>`__
+-  `Production Checklist <https://www.rabbitmq.com/docs/production-checklist>`__
+-  `Currently Supported Release Series <https://www.rabbitmq.com/release-information>`__
 
 Review log files
 ----------------
@@ -35,11 +35,11 @@ RabbitMQ log files are at ``/var/log/rabbitmq/``. ``rabbit@<hostname>.log`` is t
 Check memory use
 ----------------
 
-If ``erl_crash.dump`` contains "Slogan: eheap_alloc: Cannot allocate 123456789 bytes of memory (of type "heap").", you can `monitor its memory usage <https://www.rabbitmq.com/memory-use.html#breakdown-cli>`__ and `change its memory thresholds <https://www.rabbitmq.com/memory.html>`__ as needed.
+If ``erl_crash.dump`` contains "Slogan: eheap_alloc: Cannot allocate 123456789 bytes of memory (of type "heap").", you can `monitor its memory usage <https://www.rabbitmq.com/docs/memory-use#breakdown-cli>`__ and `change its memory thresholds <https://www.rabbitmq.com/docs/memory>`__ as needed.
 
 .. seealso::
 
-   `Persistence Configuration <https://www.rabbitmq.com/persistence-conf.html>`__
+   `Persistence Configuration <https://www.rabbitmq.com/docs/persistence-conf>`__
 
 Troubleshoot
 ------------

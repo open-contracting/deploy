@@ -27,7 +27,7 @@ After a few seconds, you should see your report being processed at https://pelic
 
 .. seealso::
 
-   `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/swagger-ui/>`__
+   `Pelican frontend's web API documentation <https://pelican.open-contracting.org/api/schema/swagger-ui/>`__
 
 Measure time-based checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~

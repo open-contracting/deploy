@@ -79,7 +79,7 @@ Validate the file, for example:
 
 .. admonition:: One-off commands
 
-   To run a one-off command, like a database migration, use `docker compose run <https://docs.docker.com/engine/reference/commandline/compose_run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
+   To run a one-off command, like a database migration, use `docker compose run <https://docs.docker.com/reference/cli/docker/compose/run/>`__ on the command line, instead of creating a one-time container. See :doc:`../../deploy/docker` for examples.
 
    If you need to run a scheduled task in a cron job, use ``docker compose --progress=quiet run --rm --name my-app-cron``, replacing ``my-app``. If needed, change the log level by adding ``-e LOG_LEVEL=WARNING``, for example.
 
@@ -129,7 +129,7 @@ This will create files in the ``/data/deploy/mytarget`` directory:
 
 Reference:
 
--  `Use an environment file <https://docs.docker.com/compose/environment-variables/env-file/>`__
+-  `Use an environment file <https://docs.docker.com/compose/environment-variables/variable-interpolation/#env-file>`__
 
 Use host services
 ~~~~~~~~~~~~~~~~~

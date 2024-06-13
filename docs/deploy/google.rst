@@ -18,7 +18,7 @@ These services send email from noreply.open-contracting.org:
 
 These services send email from payments.open-contracting.org:
 
--  `Trolley <https://support.trolley.com/s/article/How-to-set-up-White-Label-Emails>`__ (using `SendGrid <https://docs.sendgrid.com/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
+-  `Trolley <https://support.trolley.com/s/article/How-to-set-up-White-Label-Emails>`__ (using `SendGrid <https://www.twilio.com/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
 
 Check DNS configuration
 ~~~~~~~~~~~~~~~~~~~~~~~

@@ -3,7 +3,7 @@ Kingfisher Process
 
 .. warning::
 
-   The documentation for version 2 of Kingfisher Process is not yet ready. In the meantime, the `database structure <https://kingfisher-process.readthedocs.io/en/latest/database-structure.html>`__ remains the same.
+   The documentation for version 2 of Kingfisher Process is not yet ready. In the meantime, the `database structure <https://kingfisher-process.readthedocs.io/en/latest/database.html>`__ remains the same.
 
 .. note::
 

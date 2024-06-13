@@ -10,7 +10,7 @@ Change to the application's directory, replacing ``APP``:
 
    cd /data/deploy/APP
 
-`Pull new images <https://docs.docker.com/engine/reference/commandline/compose_pull/>`__ and `start new containers <https://docs.docker.com/engine/reference/commandline/compose_up/>`__:
+`Pull new images <https://docs.docker.com/reference/cli/docker/compose/pull/>`__ and `start new containers <https://docs.docker.com/reference/cli/docker/compose/up/>`__:
 
 .. code-block:: bash
 

@@ -65,7 +65,7 @@ This configuration disables automatic IP configuration and configures static net
 
       Thank you,
 
-   A /64 block is requested, because `spam blocklists use /64 ranges <https://www.spamhaus.org/organization/statement/012/spamhaus-ipv6-blocklists-strategy-statement>`__.
+   A /64 block is requested, because `spam blocklists use /64 ranges <https://web.archive.org/web/20221217212321/https://www.spamhaus.org/organization/statement/12/spamhaus-ipv6-blocklists-strategy-statement>`__.
 
 Update the server's Pillar file:
 

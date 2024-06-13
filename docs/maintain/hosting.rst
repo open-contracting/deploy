@@ -46,7 +46,7 @@ Configure Azure CLI
 
 .. seealso::
 
-   `Commands <https://learn.microsoft.com/en-us/cli/azure/reference-index>`__
+   `Commands <https://learn.microsoft.com/en-us/cli/azure/reference-index?view=azure-cli-latest>`__
 
 .. _recover-server:
 
@@ -62,7 +62,7 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 
    .. tab-item:: Linode
 
-      `Lish (Linode Shell) <https://www.linode.com/docs/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+      `Lish (Linode Shell) <https://www.linode.com/docs/products/compute/compute-instances/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
 
       #. `Log into Linode <https://login.linode.com/login>`__
       #. Select the server you want to access
@@ -157,4 +157,4 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 
       .. seealso::
 
-         `Azure Serial Console <https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/serial-console-overview>`__
+         `Azure Serial Console <https://learn.microsoft.com/en-us/troubleshoot/azure/virtual-machines/windows/serial-console-overview>`__

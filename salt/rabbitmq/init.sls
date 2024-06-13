@@ -40,11 +40,11 @@ rabbitmq-server:
       - service: rabbitmq-server
 
 # If needed, can increase the maximum open file descriptors via /etc/systemd/system/rabbitmq-server.service.d/limits.conf
-# https://www.rabbitmq.com/configure.html#kernel-limits
+# https://www.rabbitmq.com/docs/configure#kernel-limits
 
 # Can substitute Prometheus for long-term metric storage and a decoupled monitoring system.
-# https://www.rabbitmq.com/monitoring.html
-# https://www.rabbitmq.com/prometheus.html
+# https://www.rabbitmq.com/docs/monitoring
+# https://www.rabbitmq.com/docs/prometheus
 rabbitmq_management:
   rabbitmq_plugin.enabled:
     - name: rabbitmq_management
@@ -52,7 +52,7 @@ rabbitmq_management:
       - service: rabbitmq-server
 
 {% if not salt['pillar.get']('rabbitmq:guest_enabled') %}
-# https://www.rabbitmq.com/access-control.html#default-state
+# https://www.rabbitmq.com/docs/access-control#default-state
 delete guest rabbitmq user:
   rabbitmq_user.absent:
     - name: guest
@@ -68,10 +68,10 @@ create {{ name }} rabbitmq user:
     - password: "{{ entry.password }}"
 {% endif %}
 {% if 'tags' in entry %}
-    # https://www.rabbitmq.com/management.html#permissions
+    # https://www.rabbitmq.com/docs/management#permissions
     - tags: {{ entry.tags|yaml }}
 {% endif %}
-    # https://www.rabbitmq.com/access-control.html#authorisation
+    # https://www.rabbitmq.com/docs/access-control#authorisation
     - perms:
       - '/':
         - {% if entry.get('write') %}'.*'{% else %}'^$'{% endif %} # configure

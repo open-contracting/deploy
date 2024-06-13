@@ -71,7 +71,7 @@ Verify an email address
    #. Click *Create rule*
    #. Click *Set as active*
 
-#. If the domain's MX record points to AWS, go to `S3 <https://s3.console.aws.amazon.com/s3/buckets?region=us-east-1>`__ (otherwise, check your email):
+#. If the domain's MX record points to AWS, go to `S3 <https://us-east-1.console.aws.amazon.com/s3/buckets?region=us-east-1>`__ (otherwise, check your email):
 
    #. Click the bucket name
    #. Click the long alphanumeric string (if there is none, double-check the earlier steps)
@@ -348,7 +348,7 @@ Create bucket
 ~~~~~~~~~~~~~
 
 
-#. Go to Amazon S3 `Buckets <https://s3.console.aws.amazon.com/s3/buckets>`__
+#. Go to Amazon S3 `Buckets <https://us-east-1.console.aws.amazon.com/s3/buckets?region=us-east-1>`__
 #. Select the nearest region to the server from the top-right dropdown
 #. Click the *Create bucket* button
 

@@ -15,7 +15,7 @@ To configure the message broker for an application:
           USERNAME:
             password: "PASSWORD"
 
-#. If the user is an administrative or service account, allow configure and write `operations <https://www.rabbitmq.com/access-control.html#authorisation>`__ on all resources:
+#. If the user is an administrative or service account, allow configure and write `operations <https://www.rabbitmq.com/docs/access-control#authorisation>`__ on all resources:
 
    .. code-block:: yaml
       :emphasize-lines: 5
@@ -38,7 +38,7 @@ To configure the message broker for an application:
             tags:
               - management
 
-#. To give the user access to `memory use <https://www.rabbitmq.com/memory-use.html>`__, add:
+#. To give the user access to `memory use <https://www.rabbitmq.com/docs/memory-use>`__, add:
 
    .. code-block:: yaml
       :emphasize-lines: 7
@@ -69,7 +69,7 @@ To configure the message broker for an application:
 Proxy management interface
 --------------------------
 
-The `RabbitMQ management plugin <https://www.rabbitmq.com/management.html>`__ is enabled by default.
+The `RabbitMQ management plugin <https://www.rabbitmq.com/docs/management>`__ is enabled by default.
 
 The management interface can be accessed at all times by :ref:`using an SSH tunnel<rabbitmq-ssh-tunnel>`.
 

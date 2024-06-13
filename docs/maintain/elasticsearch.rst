@@ -32,7 +32,7 @@ Errors are logged in ``/var/log/elasticsearch/elasticsearch.log``, for example:
       appender.rolling.strategy.action.condition.nested_condition.type = IfAccumulatedFileSize
       appender.rolling.strategy.action.condition.nested_condition.exceeds = 2GB
 
-   To change to a `7-day rotation strategy <https://www.elastic.co/guide/en/elasticsearch/reference/7.10/logging.html>`__, update this repository to replace this with:
+   To change to a `7-day rotation strategy <https://www.elastic.co/guide/en/elasticsearch/reference/current/logging.html>`__, update this repository to replace this with:
 
    .. code-block:: none
 
