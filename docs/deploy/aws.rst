@@ -339,8 +339,8 @@ Relational Database Service (RDS)
 
    #. Click *Create database*
 
-Amazon S3
----------
+Simple Storage Service (S3)
+---------------------------
 
 .. _aws-s3-bucket:
 
