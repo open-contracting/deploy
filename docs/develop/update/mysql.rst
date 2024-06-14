@@ -73,7 +73,7 @@ The configuration file will be in the ``/etc/mysql/conf.d`` directory on the ser
 Set up backups
 --------------
 
-#. Create and configure a :ref:`S3 backup bucket<aws-s3-bucket>`
+#. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<awscli>`
 #. Set ``mysql.backup.location`` in the server's Pillar file, for example:
 

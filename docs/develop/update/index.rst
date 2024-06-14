@@ -10,6 +10,7 @@ Make changes
    network.rst
    firewall.rst
    ssl.rst
+   logs.rst
    cron.rst
    awscli.rst
    apache.rst
@@ -19,10 +20,9 @@ Make changes
    mysql.rst
    rabbitmq.rst
    docker.rst
+   languages.rst
    python.rst
    wordpress.rst
-   languages.rst
-   logs.rst
    delete.rst
    packages.rst
 
