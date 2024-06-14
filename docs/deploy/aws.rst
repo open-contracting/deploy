@@ -357,6 +357,10 @@ Create bucket
 
 If the bucket is for :doc:`file<../develop/update/backup>` or :ref:`MySQL<mysql-backups>` backups:
 
+.. warning::
+
+   Do **not** create lifecycle rules when using :ref:`pgBackRest<pg-setup-backups>`, which manages lifecycle itself.
+
 #. Click the created bucket
 #. Click the *Management* tab
 #. Click the *Create lifecycle rule* button
@@ -388,7 +392,7 @@ Create a backup policy
    #. Click the *JSON* tab
    #. Paste the appropriate content below, replacing ``BUCKET_NAME`` and/or ``PREFIX``:
 
-      pgBackrest backups
+      pgBackRest backups
         .. code-block:: json
 
            {

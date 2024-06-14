@@ -530,7 +530,7 @@ Fix replication
 
    .. note::
 
-      See :ref:`pg-recover-backup` for more information on the pgbackrest restore function.
+      See :ref:`pg-recover-backup` for more information on the pgBackRest restore function.
 
 #. Start PostgreSQL and monitor:
 

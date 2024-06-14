@@ -270,7 +270,7 @@ Set up backups
 Additional steps for replica servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When pgbackrest runs it will try backing up PostgreSQL data from a replica/standby server if any are configured. This is great because it gives us a backup of production while also reducing load during the backup.
+When pgBackRest runs it will try backing up PostgreSQL data from a replica/standby server if any are configured. This is great because it gives us a backup of production while also reducing load during the backup.
 
 .. note::
 
@@ -331,7 +331,7 @@ To configure a main server and a replica server:
             password: example_password
             replication: True
 
-   You will also need to pass this user to the replica server. This is used to populate the ``postgresql.conf`` file via pgbackrest.
+   You will also need to pass this user to the replica server. This is used to populate the ``postgresql.conf`` file via pgBackRest.
 
    .. code-block:: yaml
 
