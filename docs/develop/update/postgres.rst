@@ -214,7 +214,7 @@ Set up backups
 
 `pgBackRest <https://pgbackrest.org>`__ is used to create and manage offsite backups.
 
-#. Create an `S3 bucket <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__
+#. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Create an `IAM user <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__ with API keys
 
    .. seealso::

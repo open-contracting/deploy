@@ -14,7 +14,8 @@ logrotate:
         php_version: '8.1'
 
 backup:
-  ocp-coalition-backup/site:
+  location: ocp-coalition-backup/site
+  directories:
     # Must match directory in coalition/init.sls.
     - /home/coalition/public_html/
 

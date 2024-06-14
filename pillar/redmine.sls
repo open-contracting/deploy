@@ -9,7 +9,8 @@ network:
       - 2a01:7e00::f03c:93ff:fe24:07b9/64 # SLAAC
 
 backup:
-  ocp-redmine-backup/site:
+  location: ocp-redmine-backup/site
+  directories:
     # Must match directory in redmine/init.sls.
     - /home/redmine/public_html/
 

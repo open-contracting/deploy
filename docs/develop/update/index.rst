@@ -12,6 +12,7 @@ Make changes
    ssl.rst
    logs.rst
    cron.rst
+   backup.rst
    awscli.rst
    apache.rst
    nginx.rst

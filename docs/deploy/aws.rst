@@ -355,7 +355,7 @@ Create bucket
    #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
    #. Click the *Create bucket* button
 
-If the bucket is for server backups:
+If the bucket is for :doc:`file<../develop/update/backup>` or :ref:`MySQL<mysql-backups>` backups:
 
 #. Click the created bucket
 #. Click the *Management* tab
@@ -371,6 +371,8 @@ If the bucket is for server backups:
    #. *Number of days*: 7
 
 #. Click *Create rule*
+
+Reference: `Creating a bucket <https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html>`__
 
 Identity and Access Management (IAM)
 ------------------------------------
