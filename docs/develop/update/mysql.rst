@@ -80,7 +80,7 @@ Set up backups
 #. In the server's Pillar file, set ``mysql.backup.location`` to a bucket and prefix, for example:
 
    .. code-block:: yaml
-      :emphasize-lines: 3
+      :emphasize-lines: 2-3
 
       mysql:
         backup:

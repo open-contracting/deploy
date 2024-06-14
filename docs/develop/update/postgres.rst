@@ -215,12 +215,7 @@ Set up backups
 `pgBackRest <https://pgbackrest.org>`__ is used to create and manage offsite backups.
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
-#. Create an `IAM user <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__ with API keys
-
-   .. seealso::
-
-      `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
-
+#. :ref:`Create an IAM backup policy and user<aws-iam-backup-policy>`
 #. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory
 #. Install and configure pgBackRest. Add to your service's Pillar file, for example:
 

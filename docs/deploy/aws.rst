@@ -385,35 +385,96 @@ Create a backup policy
 #. Go to IAM `Policies <https://us-east-1.console.aws.amazon.com/iamv2/home#/policies>`__
 #. Click *Create policy*
 
-   #. Click the *JSON* tab and paste the content below, replacing ``BUCKET_NAME``:
+   #. Click the *JSON* tab
+   #. Paste the appropriate content below, replacing ``BUCKET_NAME`` and/or ``PREFIX``:
 
-      .. code-block:: json
+      pgBackrest backups
+        .. code-block:: json
 
-         {
-             "Version": "2012-10-17",
-             "Statement": [
-                 {
-                     "Effect": "Allow",
-                     "Action": [
-                         "s3:ListBucket"
-                     ],
-                     "Resource": [
-                         "arn:aws:s3:::BUCKET_NAME"
-                     ]
-                 },
-                 {
-                     "Effect": "Allow",
-                     "Action": [
-                         "s3:PutObject",
-                         "s3:GetObject",
-                         "s3:DeleteObject"
-                     ],
-                     "Resource": [
-                         "arn:aws:s3:::BUCKET_NAME/*"
-                     ]
-                 }
-             ]
-         }
+           {
+               "Version": "2012-10-17",
+               "Statement": [
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:ListBucket"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::BUCKET_NAME"
+                       ],
+                       "Condition": {
+                           "StringEquals": {
+                               "s3:prefix": [
+                                   "",
+                                   "PREFIX"
+                               ],
+                               "s3:delimiter": [
+                                   "/"
+                               ]
+                           }
+                       }
+                   },
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:ListBucket"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::BUCKET_NAME"
+                       ],
+                       "Condition": {
+                           "StringLike": {
+                               "s3:prefix": [
+                                   "PREFIX/*"
+                               ]
+                           }
+                       }
+                   },
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:PutObject",
+                           "s3:GetObject",
+                           "s3:DeleteObject"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::BUCKET_NAME/PREFIX/*"
+                       ]
+                   }
+               ]
+           }
+
+        .. seealso::
+
+           `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
+      File and MySQL backups
+        .. code-block:: json
+
+           {
+               "Version": "2012-10-17",
+               "Statement": [
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:ListBucket"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::BUCKET_NAME"
+                       ]
+                   },
+                   {
+                       "Effect": "Allow",
+                       "Action": [
+                           "s3:PutObject",
+                           "s3:GetObject",
+                           "s3:DeleteObject"
+                       ],
+                       "Resource": [
+                           "arn:aws:s3:::BUCKET_NAME/*"
+                       ]
+                   }
+               ]
+           }
 
    #. Click the *Next* button
    #. Enter a *Policy name* (``redmine-backup``, for example)
@@ -421,6 +482,10 @@ Create a backup policy
 
 Create a backup user
 ~~~~~~~~~~~~~~~~~~~~
+
+.. note::
+
+   If a policy is relevant to many users, instead of attaching policies directly, create a group, attach the policy to the group, and add the user to the group.
 
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click the *Create user* button
@@ -444,6 +509,4 @@ Create a backup user
    #. Copy the *Access key* and *Secret access key*
    #. Click the *Done* button
 
-.. note::
-
-   If a policy is relevant to many users, instead of attaching policies directly, create a group, attach the policy to the group, and add the user to the group.
+Reference: `Creating an IAM user in your AWS account <https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html>`__

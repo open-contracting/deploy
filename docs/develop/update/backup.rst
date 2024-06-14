@@ -8,10 +8,9 @@ Configure backups
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<awscli>`
-#. In the server's Pillar file, set ``backup.location`` to a bucket and prefix, and ``backup.directories`` to a list of paths, for example:
+#. In the server's Pillar file, set ``backup.location`` to a bucket and prefix, and ``backup.directories`` to a list of paths. You can annotate what a path must match, for example:
 
    .. code-block:: yaml
-      :emphasize-lines: 3
 
       backup:
         location: ocp-coalition-backup/site
