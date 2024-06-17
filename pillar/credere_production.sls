@@ -52,3 +52,36 @@ docker_apps:
       - identifier: UPDATE_STATISTICS
         command: update-statistics
         hour: 3
+
+postgres:
+  configuration:
+    context:
+      content: |
+        ### pgBackRest
+        # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-LEVEL
+        wal_level = logical
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-MODE
+        archive_mode = on
+
+        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
+        # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
+        archive_command = 'pgbackrest --stanza=credere archive-push %p'
+
+        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
+        max_wal_senders = 4
+  backup:
+    configuration: shared
+    # The rest are specific to your configuration file.
+    stanza: credere
+    retention_full: 4
+    repo_path: /credere
+    process_max: 4
+    cron: |
+        MAILTO=root
+        # Daily incremental backup
+        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=credere
+        # Weekly full backup
+        15 05 * * 3 postgres pgbackrest backup --stanza=credere --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
