@@ -57,7 +57,7 @@ Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 Sentry
 ~~~~~~
 
-Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry. See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry.
+Application errors are reported to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, which notifies individual email addresses. All Salt-managed, OCP-authored services report errors to Sentry.
 
 .. tip::
 
@@ -71,7 +71,8 @@ Application errors are reported to `Sentry <https://sentry.io/organizations/open
 
 .. seealso::
 
-   `Sentry search reference <https://docs.sentry.io/concepts/search/>`__
+   -  `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry
+   -  `Sentry search reference <https://docs.sentry.io/concepts/search/>`__
 
 SecurityScorecard
 ~~~~~~~~~~~~~~~~~
@@ -101,11 +102,15 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
 Unmanaged services are:
 
--  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites (`Network status <https://www.githubstatus.com>`__)
+-  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites (`Network status <https://www.cloudflarestatus.com>`__)
 
    .. admonition:: Why not GitHub Pages?
 
       GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
+
+   .. seealso::
+
+      `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloudflare>`__ for access to Cloudflare
 
 -  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ (`Network status <https://status.heroku.com>`__)
 
