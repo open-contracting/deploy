@@ -169,7 +169,7 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
         cursor_tuple_fraction = 1.0
   backup:
-    configuration: kingfisher-main1
+    configuration: shared
     stanza: kingfisher-2023
     retention_full: 4
     repo_path: /kingfisher
