@@ -96,19 +96,19 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
 -  `Linode <https://cloud.linode.com/>`__ for VPS servers
 
-   -  `Network status <https://status.linode.com/>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
+   -  `Network status <https://status.linode.com>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
    -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
    -  **Backups**: It is configured to have one daily backup and two weekly backups.
 
 Unmanaged services are:
 
--  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites (`Network status <https://www.cloudflarestatus.com>`__)
+-  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites
 
    .. admonition:: Why not GitHub Pages?
 
       GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
--  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ (`Network status <https://status.heroku.com>`__)
+-  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__
 
 .. seealso::
 
