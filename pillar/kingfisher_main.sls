@@ -136,6 +136,9 @@ postgres:
       # Kingfisher Process always uses all results from iterator(), so we set cursor_tuple_fraction to 1.0.
       # https://docs.djangoproject.com/en/4.2/ref/databases/#server-side-cursors
       content: |
+        # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
+        cursor_tuple_fraction = 1.0
+
         # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-MAX-WAL-SIZE
         # https://github.com/open-contracting/deploy/issues/158
         max_wal_size = 10GB
@@ -165,9 +168,6 @@ postgres:
 
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 5
-
-        # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
-        cursor_tuple_fraction = 1.0
   backup:
     configuration: shared
     stanza: kingfisher-2023
