@@ -216,14 +216,14 @@ Set up backups
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. :ref:`Create an IAM backup policy and user<aws-iam-backup-policy>`
-#. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory
+#. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory. In most cases, you should use the ``shared`` configuration.
 #. Install and configure pgBackRest. Add to your service's Pillar file, for example:
 
    .. code-block:: yaml
 
       postgres:
         backup:
-          configuration: kingfisher-main1
+          configuration: shared
           # The rest are specific to your configuration file.
           stanza: kingfisher
           retention_full: 4
