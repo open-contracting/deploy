@@ -79,6 +79,7 @@ SecurityScorecard
 
 Cybersecurity issues are monitored by `SecurityScorecard <https://platform.securityscorecard.io>`__. `Patching cadence issues <https://support.securityscorecard.com/hc/en-us/articles/115002965683-Patching-cadence-issue-resolution>`__ are mostly false positives. To dismiss such issues:
 
+#. `Check whether the CVE was resolved by Ubuntu <https://ubuntu.com/security/cves>`__
 #. Check the checkboxes in the table
 #. Click the *Other resolutions* dropdown
 #. Click the *I cannot reproduce this issue and I think it's incorrect* item
