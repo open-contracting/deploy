@@ -108,11 +108,11 @@ Unmanaged services are:
 
       GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
-   .. seealso::
-
-      `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloudflare>`__ for access to Cloudflare
-
 -  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ (`Network status <https://status.heroku.com>`__)
+
+.. seealso::
+
+   `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html>`__ for access to Cloudflare and Heroku
 
 Administrative access
 ---------------------
