@@ -227,7 +227,7 @@ Set up backups
           # The rest are specific to your configuration file.
           stanza: kingfisher
           retention_full: 4
-          repo_path=/kingfisher
+          repo_path: /kingfisher
           process_max: 4
           cron: |
               MAILTO=root
