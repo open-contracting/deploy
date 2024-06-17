@@ -102,17 +102,17 @@ All servers (not services) are managed by `Dogsbody Technology <https://www.dogs
 
 Unmanaged services are:
 
--  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites
+-  `Cloudflare Pages <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/workers-and-pages>`__ for static websites (`Network status <https://www.cloudflarestatus.com>`__)
 
    .. admonition:: Why not GitHub Pages?
 
       GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
 
--  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__
+   .. seealso::
 
-.. seealso::
+      `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloudflare>`__ for access to Cloudflare
 
-   `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html>`__ for access to Cloudflare and Heroku
+-  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__ (`Network status <https://status.heroku.com>`__)
 
 Administrative access
 ---------------------
