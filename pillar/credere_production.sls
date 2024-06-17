@@ -74,7 +74,6 @@ postgres:
         max_wal_senders = 4
   backup:
     configuration: shared
-    # The rest are specific to your configuration file.
     stanza: credere
     retention_full: 4
     repo_path: /credere

@@ -236,6 +236,14 @@ Set up backups
               # Weekly full backup
               15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
+   .. note::
+
+      The ``grep -v`` command means ``root`` receives mail if there is more than 1 error. To check whether the error message in the ``grep`` command is up-to-date:
+
+      -  `unable to remove file '%s' <https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43>`__
+      -  `expire command encountered %u error(s), check the log file for details <https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078>`__
+      -  "We encountered an internal error. Please try again." is from AWS.
+
    .. seealso::
 
       -  `Configure Cluster Stanza <https://pgbackrest.org/user-guide.html#quickstart/configure-stanza>`__
