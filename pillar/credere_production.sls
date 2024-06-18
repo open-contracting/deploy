@@ -40,9 +40,6 @@ docker_apps:
       - identifier: REMIND_MSME
         command: send-reminders
         hour: 15
-      - identifier: REMIND_FI
-        command: sla-overdue-applications
-        hour: 13
       - identifier: LAPSE_APPLICATIONS
         command: update-applications-to-lapsed
         hour: 1
