@@ -53,11 +53,13 @@ Load local data
 
    .. code-block:: bash
 
-      sudo -u deployer /opt/kingfisher-process/load.sh --source moldova_covid19 --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+      sudo -u deployer /opt/kingfisher-process/load.sh --source moldova --note "Added by NAME" --compile --check /home/USER/local-load/moldova-2020-04-07
+
+   If the data source is not the same as for an existing spider, add the ``--force`` flag.
 
    If loading data from the Data Registry, omit the ``--compile`` and ``--upgrade`` flags.
 
-   If you don't need to check for structural errors, omit the ``--check`` flag. For a description of all options, run:
+   If you don't need structural checks, omit the ``--check`` flag. For a description of all options, run:
 
    .. code-block:: bash
 
