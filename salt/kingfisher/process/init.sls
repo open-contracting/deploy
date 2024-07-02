@@ -68,7 +68,7 @@ pgpass-kingfisher_process:
       - user: {{ pillar.docker.user }}_user_exists
 
 # Delete collections that ended over a year ago, while retaining one set of collections per source from over a year ago.
-cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -f {}:
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
     - user: {{ pillar.docker.user }}
@@ -81,7 +81,7 @@ cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -
       - file: pgpass-kingfisher_process
 
 # Delete collections that never ended and started over 2 months ago.
-cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_start_at < date_trunc('day', NOW() - interval '2 month') AND store_end_at IS NULL ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-unfinished -e LOG_LEVEL=WARNING cron python manage.py deletecollection -f {}:
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_start_at < date_trunc('day', NOW() - interval '2 month') AND store_end_at IS NULL ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-unfinished -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_UNFINISHED_COLLECTIONS
     - user: {{ pillar.docker.user }}
@@ -94,7 +94,7 @@ cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -
       - file: pgpass-kingfisher_process
 
 # Delete collections that ended over 2 months ago and have no data.
-cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_end_at < date_trunc('day', NOW() - interval '2 month') AND COALESCE(NULLIF(cached_releases_count, 0), NULLIF(cached_records_count, 0), cached_compiled_releases_count) = 0 ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-empty -e LOG_LEVEL=WARNING cron python manage.py deletecollection -f {}:
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection WHERE deleted_at IS NULL AND store_end_at < date_trunc('day', NOW() - interval '2 month') AND COALESCE(NULLIF(cached_releases_count, 0), NULLIF(cached_records_count, 0), cached_compiled_releases_count) = 0 ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run --rm --name kingfisher-process-cron-empty -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_EMPTY_COLLECTIONS
     - user: {{ pillar.docker.user }}
