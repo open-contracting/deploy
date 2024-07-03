@@ -205,8 +205,8 @@ Use CA certificates
 
 .. _pg-setup-backups:
 
-Set up backups
---------------
+Set up full backups
+-------------------
 
 .. seealso::
 
@@ -223,6 +223,7 @@ Set up backups
 
       postgres:
         backup:
+          type: pgbackrest
           configuration: shared
           # The rest are specific to your configuration file.
           stanza: kingfisher
@@ -274,6 +275,32 @@ Set up backups
    .. seealso::
 
       `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
+
+
+Set up database specific backups
+--------------------------------
+
+.. note::
+
+   Only use database specific backups when :ref:`full PostgreSQL backups are not an option<Set up full backups>`, for instance, to avoid backing up a large database containing redundant data.
+
+#. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
+#. Configure the :doc:`AWS CLI<awscli>`
+#. Configure backup databases and S3 location in your service's Pillar file, for example:
+
+   .. code-block:: yaml
+
+      postgres:
+        backup:
+          type: script
+          location: ocp-registry-backup/database
+          databases: ["spoonbill_web", "pelican_frontend"]
+          cron: |
+              MAILTO=root
+              15 04 * * * root /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
+
+#. :doc:`Deploy the service<../../deploy/deploy>`
+
 
 Additional steps for replica servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
