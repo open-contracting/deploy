@@ -100,6 +100,13 @@ postgres:
 
         # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
         max_wal_size = 10GB
+  backup:
+    type: script
+    location: ocp-registry-backup/database
+    databases: ["spoonbill_web", "pelican_frontend"]
+    cron: |
+        MAILTO=root
+        15 04 * * * postgres /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
 
 docker:
   user: deployer
