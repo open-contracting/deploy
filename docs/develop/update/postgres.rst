@@ -217,7 +217,7 @@ Set up full backups
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. :ref:`Create an IAM backup policy and user<aws-iam-backup-policy>`
 #. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory. In most cases, you should use the ``shared`` configuration.
-#. Install and configure pgBackRest. Add to your service's Pillar file, for example:
+#. Install and configure pgBackRest. Add to the server's Pillar file, for example:
 
    .. code-block:: yaml
 
@@ -276,17 +276,16 @@ Set up full backups
 
       `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
 
-
-Set up database specific backups
+Set up database-specific backups
 --------------------------------
 
 .. note::
 
-   Only use database specific backups when :ref:`full PostgreSQL backups are not an option<Set up full backups>`, for instance, to avoid backing up a large database containing redundant data.
+   Only use database-specific backups if :ref:`full backups<pg-setup-backups>` would backup many GBs of unwanted data.
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<awscli>`
-#. Configure backup databases and S3 location in your service's Pillar file, for example:
+#. In the server's Pillar file, set ``postgres.backup.location`` to a bucket and prefix, ``postgres.backup.databases`` to a list of databases, and ``postgres.backup.type`` to "script", for example:
 
    .. code-block:: yaml
 
@@ -294,13 +293,11 @@ Set up database specific backups
         backup:
           type: script
           location: ocp-registry-backup/database
-          databases: ["spoonbill_web", "pelican_frontend"]
-          cron: |
-              MAILTO=root
-              15 04 * * * root /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
+          databases:
+            - spoonbill_web
+            - pelican_frontend
 
 #. :doc:`Deploy the service<../../deploy/deploy>`
-
 
 Additional steps for replica servers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

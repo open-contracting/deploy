@@ -1,10 +1,30 @@
 {% from 'lib.sls' import set_config %}
 
+{% if salt['pillar.get']('postgres:backup:type') == 'script' %}
 include:
-  - postgres
   - aws
 
-{% if salt['pillar.get']('postgres:backup:type') == 'pgbackrest' %}
+{{ set_config('aws-settings.local', 'S3_DATABASE_BACKUP_BUCKET', pillar.postgres.backup.location) }}
+{{ set_config('aws-settings.local', 'BACKUP_DATABASES', ' '.join(pillar.postgres.backup.databases)) }}
+
+/home/sysadmin-tools/bin/postgres-backup-to-s3.sh:
+  file.managed:
+    - source: salt://postgres/files/postgres-backup-to-s3.sh
+    - mode: 750
+    - require:
+      - file: /home/sysadmin-tools/bin
+
+/etc/cron.d/postgres_backups:
+  file.managed:
+    - contents: |
+        MAILTO=root
+        45 04 * * * root /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
+    - require:
+      - file: /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
+{% elif salt['pillar.get']('postgres:backup:type') == 'pgbackrest' %}
+include:
+  - postgres
+
 # Require official PostgreSQL repo as they provide a newer version of pgbackrest.
 pgbackrest:
   pkg.installed:
@@ -20,21 +40,11 @@ pgbackrest:
     - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.configuration }}.conf
     - template: jinja
 
-{% elif salt['pillar.get']('postgres:backup:type') == 'script' %}
-{{ set_config('aws-settings.local', 'S3_DATABASE_BACKUP_BUCKET', pillar.postgres.backup.location ) }}
-{{ set_config('aws-settings.local', 'BACKUP_DATABASES', ' '.join(pillar.postgres.backup.databases) ) }}
-
-/home/sysadmin-tools/bin/postgres-backup-to-s3.sh:
-  file.managed:
-    - source: salt://postgres/files/postgres-backup-to-s3.sh
-    - mode: 750
-    - require:
-      - file: /home/sysadmin-tools/bin
-      - sls: aws
-{% endif %}
-
 {% if salt['pillar.get']('postgres:backup:cron') %}
 /etc/cron.d/postgres_backups:
   file.managed:
     - contents_pillar: postgres:backup:cron
+    - require:
+      - pkg: pgbackrest
+{% endif %}
 {% endif %}
