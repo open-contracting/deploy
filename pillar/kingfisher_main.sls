@@ -169,6 +169,7 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 5
   backup:
+    type: pgbackrest
     configuration: shared
     stanza: kingfisher-2023
     retention_full: 4
