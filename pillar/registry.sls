@@ -106,7 +106,7 @@ postgres:
     databases: ["spoonbill_web", "pelican_frontend"]
     cron: |
         MAILTO=root
-        15 04 * * * postgres /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
+        15 04 * * * root /home/sysadmin-tools/bin/postgres-backup-to-s3.sh
 
 docker:
   user: deployer
