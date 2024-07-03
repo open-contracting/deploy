@@ -38,7 +38,7 @@ for DATABASE in "${REQUESTED_DATABASES[@]}"; do
         TEMPFILE="$(mktemp postgres_backup_XXXX)"
 
         # -Ft exports the database as a .tar file suitable for pg_restore.
-	(cd "$WORKDIR" && sudo -u $PSQL_ADMIN_USER /usr/bin/pg_dump -Ft -f "$TEMPFILE" "$DATABASE")
+        (cd "$WORKDIR" && sudo -u $PSQL_ADMIN_USER /usr/bin/pg_dump -Ft -f "$TEMPFILE" "$DATABASE")
 
         $AWS_CLI s3 cp "$TEMPFILE" "s3://$S3_DATABASE_BACKUP_BUCKET/$BASENAME" --only-show-errors
 
