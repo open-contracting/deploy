@@ -5,7 +5,16 @@ include:
   - aws
 
 {{ set_config('aws-settings.local', 'S3_DATABASE_BACKUP_BUCKET', pillar.postgres.backup.location) }}
-{{ set_config('aws-settings.local', 'BACKUP_DATABASES', ' '.join(pillar.postgres.backup.databases)) }}
+
+set BACKUP_DATABASES setting:
+  file.keyvalue:
+    - name: /home/sysadmin-tools/aws-settings.local
+    - key: BACKUP_DATABASES
+    - value: '( "{{ pillar.postgres.backup.databases|join('" "') }}" )'
+    - append_if_not_found: True
+    - require:
+      - file: /home/sysadmin-tools/bin
+      - sls: aws
 
 /home/sysadmin-tools/bin/postgres-backup-to-s3.sh:
   file.managed:
