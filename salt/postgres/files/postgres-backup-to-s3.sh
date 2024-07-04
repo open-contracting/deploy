@@ -23,9 +23,6 @@ fi
 
 mapfile -t DATABASES < <(su - postgres -c "/usr/bin/psql -t --csv -c 'select datname from pg_database'")
 
-# Using read over mapfile because the latter leaves a newline on the final item when processing a space delimited string.
-read -ra REQUESTED_DATABASES <<< "$BACKUP_DATABASES"
-
 for DATABASE in "${REQUESTED_DATABASES[@]}"; do
     if [[ "${DATABASES[*]}" =~ $DATABASE ]]; then
         BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.tar.gz"
