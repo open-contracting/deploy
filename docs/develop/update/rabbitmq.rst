@@ -83,3 +83,14 @@ To proxy traffic through :doc:`Apache<apache>` instead, add to your server's Pil
        rabbitmq:
          configuration: rabbitmq
          servername: SERVERNAME
+
+Post-upgrade steps
+------------------
+
+As root:
+
+.. code-block:: bash
+
+   rabbitmqctl enable_feature_flag all
+
+Reference: `Feature Flags <https://www.rabbitmq.com/docs/feature-flags>`__
