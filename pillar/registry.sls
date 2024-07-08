@@ -100,6 +100,12 @@ postgres:
 
         # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
         max_wal_size = 10GB
+  backup:
+    type: script
+    location: ocp-registry-backup/database
+    databases:
+      - spoonbill_web
+      - pelican_frontend
 
 docker:
   user: deployer

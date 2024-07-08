@@ -27,6 +27,7 @@ if [ ! -r "/home/sysadmin-tools/mysql-defaults.cnf" ]; then
 fi
 
 mapfile -t DATABASES < <(/usr/bin/mysql --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf -Bse 'SHOW DATABASES')
+
 for DATABASE in "${DATABASES[@]}"; do
     case "$DATABASE" in
     information_schema | performance_schema | sys | innodb | mysql) ;; # Skip system databases

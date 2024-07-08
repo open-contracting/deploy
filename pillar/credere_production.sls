@@ -70,6 +70,7 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
         max_wal_senders = 4
   backup:
+    type: pgbackrest
     configuration: shared
     stanza: credere
     retention_full: 4
