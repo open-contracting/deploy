@@ -25,8 +25,9 @@ mapfile -t DATABASES < <(su - postgres -c "/usr/bin/psql -t --csv -c 'select dat
 
 for DATABASE in "${BACKUP_DATABASES[@]}"; do
     if [[ "${DATABASES[*]}" =~ $DATABASE ]]; then
-        BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.tar.gz"
-        TEMPFILE="$(mktemp postgres_backup_XXXX.tar.gz)"
+        BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.tar"
+        TEMPFILE="$(mktemp /tmp/postgres_backup_XXXX.tar)"
+        chown postgres:postgres $TEMPFILE
 
         # -Ft exports the database as a .tar file suitable for pg_restore.
         su - postgres -c "/usr/bin/pg_dump -Ft -f '$TEMPFILE' '$DATABASE'"
