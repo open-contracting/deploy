@@ -31,7 +31,7 @@ for DIRECTORY in "${BACKUP_DIRECTORIES[@]}"; do
     SAFENAME="${SAFENAME/#_/}"
     SAFENAME="${SAFENAME/%_/}"
     BASENAME="${SAFENAME}_backup_$(TZ=UTC date +%Y-%m-%d).tar.gz"
-    TEMPFILE="$(mktemp site_backup_XXXX.tar.gz)"
+    TEMPFILE="$(mktemp /tmp/site_backup_XXXX.tar.gz)"
 
     # tar will return an exit code if a file is changed (e.g. log) or removed (e.g. cache).
     # The backup of all sites should continue, regardless.

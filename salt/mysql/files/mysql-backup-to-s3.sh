@@ -33,7 +33,7 @@ for DATABASE in "${DATABASES[@]}"; do
     information_schema | performance_schema | sys | innodb | mysql) ;; # Skip system databases
     *)
         BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.sql.gz"
-        TEMPFILE="$(mktemp mysql_backup_XXXX.sql.gz)"
+        TEMPFILE="$(mktemp /tmp/mysql_backup_XXXX.sql.gz)"
 
         /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf --databases "$DATABASE" | gzip > "$TEMPFILE"
         if zgrep -q "Dump completed on" "$TEMPFILE"; then
