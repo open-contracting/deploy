@@ -183,6 +183,16 @@ pg_stat_statements:
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
 
+# https://learn.netdata.cloud/docs/collecting-metrics/databases/postgresql#setup
+netdata_sql_user:
+  postgres_user.present:
+    - name: netdata
+    - password: "{{ pillar.netdata.postgres }}"
+    - groups:
+      - pg_monitor
+    - require:
+      - service: postgresql
+
 {% for name in pillar.postgres.groups|default([]) %}
 {{ name }}_sql_group:
   postgres_group.present:
