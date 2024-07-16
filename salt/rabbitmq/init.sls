@@ -60,7 +60,7 @@ delete guest rabbitmq user:
       - service: rabbitmq-server
 {% endif %}
 
-{% for name, entry in salt['pillar.get']('rabbitmq:users', {}).items() %}
+{% for name, entry in salt['pillar.get']('rabbitmq:users', {})|items %}
 create {{ name }} rabbitmq user:
   rabbitmq_user.present:
     - name: {{ name }}

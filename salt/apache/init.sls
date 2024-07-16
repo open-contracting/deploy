@@ -106,7 +106,7 @@ enable conf zz-customization.conf:
     - watch_in:
       - module: apache2-reload
 
-{% for name, entry in salt['pillar.get']('apache:sites', {}).items() %}
+{% for name, entry in salt['pillar.get']('apache:sites', {})|items %}
 {{ apache(name, entry) }}
 {% endfor %}
 

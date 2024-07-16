@@ -6,7 +6,7 @@ After=network.target
 User={{ user }}
 Group={{ group }}
 UMask=2002
-{%- for key, value in pillar.kingfisher_collect.env.items() %}
+{%- for key, value in pillar.kingfisher_collect.env|items %}
 Environment="{{ key}}={{ value }}"
 {%- endfor %}
 {%- if 'tinyproxy' in pillar %}

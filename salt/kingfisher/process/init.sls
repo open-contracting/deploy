@@ -108,7 +108,7 @@ cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -
 
 # Sudoers
 
-{% for user, authorized_keys in pillar.users.items() %}
+{% for user, authorized_keys in pillar.users|items %}
 /home/{{ user }}/.pgpass:
   file.managed:
     - contents: |

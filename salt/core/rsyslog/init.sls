@@ -4,7 +4,7 @@ rsyslog:
     - name: rsyslog
     - enable: True
 
-{% for filename, source in salt['pillar.get']('rsyslog:conf', {}).items() %}
+{% for filename, source in salt['pillar.get']('rsyslog:conf', {})|items %}
 /etc/rsyslog.d/{{ filename }}:
   file.managed:
     - source: salt://core/rsyslog/files/{{ source }}

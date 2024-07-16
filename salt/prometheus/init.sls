@@ -12,7 +12,7 @@
     with access to `name`, `user` and `entry` variables
   - Start the `service`
 #}
-{% for name, entry in pillar.prometheus.items() %}
+{% for name, entry in pillar.prometheus|items %}
 
 {% set userdir = '/home/' + entry.user %}
 
@@ -31,7 +31,7 @@ extract {{ name }}:
     - require_in:
       - service: {{ entry.service }}
 
-{% for filename, source in entry.config.items() %}
+{% for filename, source in entry.config|items %}
 {{ userdir }}/{{ filename }}:
   file.managed:
     - {% if 'salt://' in source %}source{% else %}contents_pillar{% endif %}: {{ source }}

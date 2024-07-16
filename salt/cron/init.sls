@@ -10,7 +10,7 @@
     - require:
       - user: {{ user }}_user_exists
 
-{% for command, arguments in commands.items() %}
+{% for command, arguments in commands|items %}
 /home/{{ user }}/bin/{{ command }}:
   file.managed:
     - source: salt://cron/files/{{ command }}
@@ -24,7 +24,7 @@ add {{ arguments.identifier }} cron job in {{ user }} crontab:
   cron.present:
     - name: /home/{{ user }}/bin/{{ command }}
     - user: {{ user }}
-  {% for argument, value in arguments.items() %}
+  {% for argument, value in arguments|items %}
     - {{ argument }}: {{ value }}
   {% endfor %}
     - require:

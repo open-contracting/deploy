@@ -270,7 +270,7 @@ grant {{ entry.user }} schema privileges:
 {% endfor %} {# schemas #}
 
 {% for schema, roles in entry.privileges|items %}
-{% for role, tables in roles.items() %}
+{% for role, tables in roles|items %}
 {% if tables %}
 {% for table in tables %}
 # GRANT the SELECT privilege on selected tables in the schema to the role

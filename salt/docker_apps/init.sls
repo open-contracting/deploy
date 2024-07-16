@@ -4,7 +4,7 @@ include:
 # Trailing slash for easy concatenation.
 {% set docker_apps_directory = '/data/deploy/' %}
 
-{% for name, entry in pillar.docker_apps.items() %}
+{% for name, entry in pillar.docker_apps|items %}
 {% set directory = docker_apps_directory + entry.target %}
 
 {{ directory }}/docker-compose.yaml:

@@ -53,6 +53,6 @@ disable site default:
     - watch_in:
       - module: nginx-reload
 
-{% for name, entry in salt['pillar.get']('nginx:sites', {}).items() %}
+{% for name, entry in salt['pillar.get']('nginx:sites', {})|items %}
 {{ nginx(name, entry) }}
 {% endfor %}

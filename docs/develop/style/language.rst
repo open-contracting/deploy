@@ -52,7 +52,7 @@ Or:
 
 .. code-block:: jinja
 
-   {% for key, value in salt['pillar.get']('parent:child', {}).items() %}
+   {% for key, value in salt['pillar.get']('parent:child', {})|items %}
 
 .. note::
 

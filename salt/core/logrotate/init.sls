@@ -2,7 +2,7 @@
 include:
   - core.rsyslog
 
-{% for filename, entry in salt['pillar.get']('logrotate:conf', {}).items() %}
+{% for filename, entry in salt['pillar.get']('logrotate:conf', {})|items %}
 /etc/logrotate.d/{{ filename }}:
   file.managed:
     - source: salt://core/logrotate/files/{{ entry.source }}

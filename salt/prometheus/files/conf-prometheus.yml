@@ -22,7 +22,7 @@ scrape_configs:
     'prometheus-server-node': 'ocp20.open-contracting.org',
     'data-registry': 'ocp13.open-contracting.org',
     'redmine': 'ocp16.open-contracting.org',
-}.items() %}
+}|items %}
   - job_name: '{{ job_name }}'
     scrape_interval: 60s
     static_configs:

@@ -1,6 +1,6 @@
 {% from 'lib.sls' import create_user %}
 
-{% for user, authorized_keys in pillar.users.items() %}
+{% for user, authorized_keys in pillar.users|items %}
 {{ create_user(user, authorized_keys=authorized_keys) }}
 {% endfor %}
 

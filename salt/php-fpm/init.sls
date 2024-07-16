@@ -26,7 +26,7 @@ php-fpm-reload:
   file.directory:
     - makedirs: True
 
-{% for name, entry in pillar.phpfpm.sites.items() %}
+{% for name, entry in pillar.phpfpm.sites|items %}
 /var/log/php-fpm/{{ name }}:
   file.directory:
     - user: {{ entry.context.user }}

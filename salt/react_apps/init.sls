@@ -5,7 +5,7 @@ include:
   - nodejs
   - yarn
 
-{% for name, entry in pillar.react_apps.items() %}
+{% for name, entry in pillar.react_apps|items %}
 
 # A user might run multiple apps, so the user is not created here.
 {% set userdir = '/home/' + entry.user %}
