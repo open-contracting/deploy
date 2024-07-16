@@ -1,8 +1,13 @@
 {% from 'lib.sls' import apache, set_firewall, unset_firewall %}
 
-{% if 'ssl' in pillar.postgres %}
+{% if pillar.netdata.enabled or 'ssl' in pillar.postgres %}
 include:
+{% if pillar.netdata.enabled %}
+  - postgres.netdata
+{% endif %}
+{% if 'ssl' in pillar.postgres %}
   - apache
+{% endif %}
 {% endif %}
 
 {% if pillar.postgres.get('public_access') %}
@@ -180,18 +185,9 @@ pg_stat_statements:
     - maintenance_db: template1
     - if_not_exists: True
 
+# If not replication, create groups, users, databases, schemas and privileges.
 {% if not pillar.postgres.get('replication') %}
 # https://wiki.postgresql.org/images/d/d1/Managing_rights_in_postgresql.pdf
-
-# https://learn.netdata.cloud/docs/collecting-metrics/databases/postgresql#setup
-netdata_sql_user:
-  postgres_user.present:
-    - name: netdata
-    - password: "{{ pillar.netdata.postgres }}"
-    - groups:
-      - pg_monitor
-    - require:
-      - service: postgresql
 
 {% for name in pillar.postgres.groups|default([]) %}
 {{ name }}_sql_group:

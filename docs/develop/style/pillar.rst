@@ -14,7 +14,7 @@ Order the top-level keys in these layers:
    -  Kernel: ``vm``
    -  Locale: ``locale``
    -  Time: ``ntp``
-   -  Monitoring: ``prometheus``
+   -  Monitoring: ``netdata``, ``prometheus``
    -  Logging: ``rsyslog``, ``logrotate``
    -  Scheduling: ``cron``, ``backup``
 
