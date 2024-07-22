@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 #
 # Tidy up unused Docker resources, including: stopped containers, unused networks, unused images and old build caches.
 
