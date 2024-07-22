@@ -82,6 +82,7 @@ add {{ pillar.docker.user }} user to docker group:
       - user: {{ pillar.docker.user }}_user_exists
 {% endif %}
 
+# https://docs.docker.com/config/pruning/
 /home/sysadmin-tools/bin/docker-prune.sh:
   file.managed:
     - source: salt://docker/files/docker-prune.sh
