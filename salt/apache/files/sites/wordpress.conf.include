@@ -1,4 +1,5 @@
 DocumentRoot /home/{{ user }}/public_html
+Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
 <Directory /home/{{ user }}/public_html>
     Require all granted
