@@ -81,3 +81,18 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 {% endif %}
+
+/home/sysadmin-tools/bin/docker-prune.sh:
+  file.managed:
+    - source: salt://docker/files/docker-prune.sh
+    - mode: 750
+    - require:
+      - file: /home/sysadmin-tools/bin
+
+/etc/cron.d/docker_prune:
+  file.managed:
+    - contents: |
+        MAILTO=root
+        30 5 * * * root /home/sysadmin-tools/bin/docker-prune.sh
+    - require:
+      - file: /home/sysadmin-tools/bin/docker-prune.sh
