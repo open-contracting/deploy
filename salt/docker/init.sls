@@ -72,7 +72,6 @@ add {{ pillar.docker.user }} user to docker group:
       - {{ pillar.docker.user }}
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-{% endif %}
 
 /home/{{ pillar.docker.user }}/.pgpass:
   file.managed:
@@ -81,3 +80,4 @@ add {{ pillar.docker.user }} user to docker group:
     - mode: 400
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+{% endif %}
