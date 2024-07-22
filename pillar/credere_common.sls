@@ -1,12 +1,3 @@
-apache:
-  public_access: True
-  sites:
-    credere:
-      configuration: credere
-      context:
-        port: 8001
-        static_port: 8000
-
 rsyslog:
   conf:
     80-docker.conf: docker.conf
@@ -15,6 +6,15 @@ logrotate:
   conf:
     docker:
       source: docker
+
+apache:
+  public_access: True
+  sites:
+    credere:
+      configuration: credere
+      context:
+        port: 8001
+        static_port: 8000
 
 docker:
   user: deployer
