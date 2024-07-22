@@ -10,4 +10,4 @@ if [ "$LOGNAME" != "root" ]; then
 fi
 
 # Remove unused containers created over 7 days ago.
-docker system prune -af --filter "until=$((7*24))h" > /dev/null
+docker system prune -af --filter "until=$((7 * 24))h" > /dev/null
