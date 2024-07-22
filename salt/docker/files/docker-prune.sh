@@ -2,7 +2,7 @@
 #
 # Tidy up unused Docker resources, including: stopped containers, unused networks, unused images and old build caches.
 
-set -euo pipefail
+set -eu
 
 if [ "$LOGNAME" != "root" ]; then
     echo "ERROR: Execution of $0 stopped as not run by user root!"
