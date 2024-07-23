@@ -91,27 +91,3 @@ List a volume's data, replacing ``VOLUME``:
 .. code-block:: bash
 
    ls /var/lib/docker/volumes/VOLUME/_data/*
-
-Prune objects
--------------
-
-List dangling objects:
-
-.. code-block:: bash
-
-   docker image ls --filter dangling=true
-   docker volume ls --filter dangling=true
-
-Prune unused objects:
-
-.. code-block:: bash
-
-   docker system prune
-
-Remove unused images in addition to dangling ones:
-
-.. code-block:: bash
-
-   docker system prune -a
-
-Reference: `Prune unused Docker objects <https://docs.docker.com/config/pruning/>`__
