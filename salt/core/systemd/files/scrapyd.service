@@ -15,7 +15,7 @@ Environment="https_proxy={{ pillar.tinyproxy.url }}"
 Environment="no_proxy=localhost,sentry.io"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
-ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --nodaemon --logfile=/var/log/scrapyd/scrapyd.log
+ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log
 # https://github.com/open-contracting/kingfisher-collect/issues/606#issuecomment-953896571
 LimitNOFILE=512000
 
