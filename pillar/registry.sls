@@ -120,6 +120,7 @@ kingfisher_collect:
   group: deployer
   context:
     bind_address: 0.0.0.0
+    jobs_to_keep: 8
   env:
     FILES_STORE: /data/storage/kingfisher-collect
     RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_registry_production
