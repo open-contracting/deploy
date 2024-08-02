@@ -4,8 +4,9 @@ ErrorDocument 404 /404.html
 ErrorDocument 403 /404.html
 {%- endif %}
 
-{# Do not log Netdata's mod_status requests, to avoid accidental fail2ban and reduce log noise. -#}
+{# Do not log AppBeat's remote requests and Netdata's mod_status requests, to avoid accidental fail2ban and reduce log noise. -#}
 {# https://httpd.apache.org/docs/2.4/logs.html#conditional -#}
+SetEnvIf User-Agent AppBeat dontlog
 SetEnvIf Request_URI "^/server-status$" dontlog
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
