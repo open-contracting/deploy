@@ -23,6 +23,24 @@ fail2ban:
         [Definition]
         failregex = ^<HOST> .* ".*" 404
         ignoreregex =
+    - require_in:
+      - file: /etc/fail2ban/jail.local
+    - watch_in:
+      - service: fail2ban
+{% endif %}
+
+{% if salt['pillar.get']('postgres:public_access') %}
+# https://www.postgresql.org/docs/current/runtime-config-logging.html#GUC-LOG-LINE-PREFIX
+/etc/fail2ban/filter.d/postgresql-custom-auth.conf:
+  file.managed:
+    - contents: |
+        [Definition]
+        failregex = ^<HOST> .* FATAL:  password authentication failed for user ".*"$
+        ignoreregex =
+    - require_in:
+      - file: /etc/fail2ban/jail.local
+    - watch_in:
+      - service: fail2ban
 {% endif %}
 
 /etc/fail2ban/jail.local:

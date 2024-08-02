@@ -143,6 +143,8 @@ postgresql-reload:
     - key_values:
         ssl_cert_file: "'/etc/postgresql/{{ pillar.postgres.version }}/main/pubcert.pem'"
         ssl_key_file: "'/etc/postgresql/{{ pillar.postgres.version }}/main/privkey.pem'"
+        # Default is '%m [%p] %q%u@%d ' in /etc/postgresql/15/main/postgresql.conf.
+        log_line_prefix: "'%h %m [%p] %q%u@%d '"
     - separator: ' = '
     - uncomment: '#'
     # Copy the self-signed certificate into place, so that PostgreSQL can start.
