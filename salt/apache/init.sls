@@ -87,7 +87,8 @@ disable site 000-default.conf:
   file.absent:
     - name: /var/www/html/index.html
 
-# Ensure this configuration is loaded after security.conf, provided by the package.
+# Use "zz-" to ensure this configuration is loaded after security.conf, provided by the package.
+# Do not disclose the Apache version, to avoid false positives about CVE patching.
 /etc/apache2/conf-available/zz-customization.conf:
   file.managed:
     - contents: |
