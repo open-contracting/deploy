@@ -1,15 +1,15 @@
 [DEFAULT]
 ignoreip = 127.0.0.1/8
+{#- /etc/fail2ban/jail.conf defaults to 10m ban if 5 retries within 10m. #}
 {%- if salt['pillar.get']('apache:public_access') %}
 
-{# Ban bots on ports 80 and 443, if they cause 404 errors on the default virtualhost. -#}
+{# Ban bots that cause 404 errors on the default virtualhost. -#}
 [apache-custom-404]
 enabled  = true
 filter   = apache-custom-404
 port     = http,https
 {#- %(apache_access_log)s from /etc/fail2ban/paths-common.conf includes other_vhosts_access.log. #}
 logpath  = /var/log/apache2/access.log
-{#- /etc/fail2ban/jail.conf defaults to 10m ban if 5 retries within 10m. #}
 maxretry = 10
 findtime = 1m
 bantime  = 1h
