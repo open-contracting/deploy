@@ -38,17 +38,22 @@ Similar tools include `mail-tester <https://www.mail-tester.com>`__ and `Postmar
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
 
-open-contracting.org's `DMARC policy <https://support.google.com/a/answer/2466563>`__ sends aggregate and forensic reports to `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__ (defaults to reporting today only):
+The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggregate reports to Postmark's `DMARC Digests <https://dmarc.postmarkapp.com>`__ and `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__ (defaults to reporting today only):
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-contracting.org
-   v=DMARC1; p=none; fo=1; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com; ruf=mailto:e57de3ae23df489@for.dmarcanalyzer.com;
+   v=DMARC1; p=none; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.noreply.open-contracting.org
-   v=DMARC1; p=none; fo=1; rua=mailto:e57de3ae23df489@rep.dmarcanalyzer.com; ruf=mailto:e57de3ae23df489@for.dmarcanalyzer.com;
+   v=DMARC1; p=none; rua=mailto:re+jbvvmcsfauo@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
+
+.. code-block:: shell-session
+
+   $ dig TXT _dmarc.open-spending.eu
+   v=DMARC1; p=quarantine; rua=mailto:re+wtazrnx9nxe@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
 
 DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Failures should be 3% or less.
 
@@ -56,7 +61,11 @@ DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Fail
 
    Mailchimp is `not SPF aligned <https://dmarc.io/source/mailchimp/>`__; therefore, we have no target for SPF alignment. It `sends mail from <https://mailchimp.com/help/my-campaign-from-name-shows-mcsvnet/>`__ ``mcsv.net``, ``mcdlv.net``, ``mailchimpapp.net`` and ``rsgsv.net``.
 
-When filtering per result, sending domains with volumes of less than 10 can be ignored. For ``google.com``:
+.. note::
+
+   DMARC Analyzer displays a "DKIM invalid" warning due to AWS SES using `null DKIM records <https://repost.aws/questions/QUuPAl2F97RseJNexu2JP8CA/2-of-3-easy-dkim-ses-txt-records-where-p-tag-has-no-value-p>`__.
+
+In DMARC Analyzer, when filtering per result sending domains with volumes of less than 10 can be ignored. For ``google.com``:
 
 -  SPF misalignment with ``calendar-server.bounces.google.com`` `can be ignored <https://dmarcian.com/google-calendar-invites-dmarc/>`__.
 -  Google Groups rewrites the ``From`` header `only if <https://support.dmarcdigests.com/article/1233-spf-or-dkim-alignment-issues-with-google>`__ the DMARC policy is "reject" or "quarantine".
