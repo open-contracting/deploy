@@ -61,7 +61,7 @@ fi
 
 echo_verbose "Get iptables location"
 case "${ID}_${VERSION_ID}" in
-ubuntu_22.04 | ubuntu_20.04 | ubuntu_18.04 | debian_10 | debian_9 | debian_8)
+ubuntu_24.04 | ubuntu_22.04 | ubuntu_20.04 | ubuntu_18.04 | debian_10 | debian_9 | debian_8)
     IPTABLESSAVLOC=/etc/iptables/rules.v4
     IP6TABLESSAVLOC=/etc/iptables/rules.v6
     ;;
