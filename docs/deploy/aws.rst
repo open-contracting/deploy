@@ -15,7 +15,7 @@ Reference: `Setting up Amazon Simple Email Service <https://docs.aws.amazon.com/
 Verify a domain
 ~~~~~~~~~~~~~~~
 
-#. Go to SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
+#. Go to SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__:
 
    #. Click *Create identity*
    #. Check *Domain*
@@ -35,7 +35,7 @@ Verify a domain
 
    #. `Add or update the SPF record <https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-spf.html>`__
 
-#. Wait for the domain's *Identity status* to become "Verified" on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__
+#. Wait for the domain's *Identity status* to become "Verified" on SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__
 
    .. note::
 
@@ -46,7 +46,7 @@ Reference: `Creating (and verifying) a domain identity <https://docs.aws.amazon.
 Verify an email address
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Go to SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
+#. Go to SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__:
 
    #. Click *Create identity*
    #. Check *Email address*
@@ -79,7 +79,7 @@ Verify an email address
    #. Copy the URL in the downloaded file
    #. Open the URL in a web browser
 
-#. Check that the email address' *Identity status* is "Verified" on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__
+#. Check that the email address' *Identity status* is "Verified" on SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__
 
 #. If the domain's MX record points to AWS, cleanup:
 
@@ -95,7 +95,7 @@ Use a MAIL FROM domain
    This optional step improves email deliverability. Also known as the Return-Path address.
 
 #. Refer to `Using a custom MAIL FROM domain <https://docs.aws.amazon.com/ses/latest/dg/mail-from.html#mail-from-set>`__
-#. Check that the verified identity's *MAIL FROM configuration* is "Successful"
+#. Check that the identity's *MAIL FROM configuration* is "Successful"
 
 Create SMTP credentials
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -132,7 +132,7 @@ Set up basic notifications
    #. Enter an email address in *Endpoint*
    #. Click *Create subscription*
 
-#. Click the email address on SES' `Verified identities <https://us-east-1.console.aws.amazon.com/ses/home#/verified-identities>`__:
+#. Click the email address on SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__:
 
    #. Click the *Notifications* tab
    #. Click *Edit* in the *Feedback notifications* section
