@@ -4,7 +4,6 @@ disable default motds:
   file.managed:
     - names:
       - /etc/update-motd.d/10-help-text
-      - /etc/update-motd.d/80-livepatch
     - mode: 644
 
 /etc/default/motd-news:

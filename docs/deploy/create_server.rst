@@ -32,8 +32,8 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. `Log into Linode <https://login.linode.com/login>`__
       #. Click *Create Linode*
 
-         #. Set *Images* to the latest Ubuntu LTS version
-         #. Set *Region* to *London UK*
+         #. Set *Linux Distribution* to the latest Ubuntu LTS version
+         #. Set *Region* to *London, UK (eu-west)*
          #. Select a *Linode Plan*
          #. Set *Linode Label* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
@@ -47,6 +47,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Click *Power Off* and wait for the server to power off
          #. On the *Storage* tab:
 
+            #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
             #. Resize the "Swap Image" disk to the appropriate size
 
                The swap size should be at most 200% of RAM and:
@@ -60,7 +61,6 @@ Create the server via the :ref:`host<hosting>`'s interface.
                   If the swap image is too small, a swap file is `configured <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__ by Salt.
 
             #. Rename the "Swap Image" disk to "### MB Swap Image"
-            #. Resize the "Ubuntu ##.04 LTS Disk" disk to the desired size (recommended minimum 20 GB / 20480 MB)
 
          #. On the *Configurations* tab:
 

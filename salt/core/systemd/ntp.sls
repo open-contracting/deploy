@@ -28,11 +28,6 @@ systemd-timesyncd:
     - watch_in:
       - service: systemd-timesyncd
 
-# Prevent NTP from running at the same time as SNTP.
-ntp:
-  service.dead:
-    - enable: False
-
 set timezone to utc:
   timezone.system:
     - name: UTC
