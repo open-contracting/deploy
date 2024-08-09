@@ -34,9 +34,9 @@ docker_apps:
       LINK_LINK: https://credere.open-contracting.org
       IMAGES_BASE_URL: https://credere.open-contracting.org/images
     cron:
-      - identifier: FETCH_AWARDS
-        command: fetch-awards
-        hour: 14
+      # - identifier: FETCH_AWARDS
+      #   command: fetch-awards
+      #   hour: 14
       - identifier: REMIND_MSME
         command: send-reminders
         hour: 15
