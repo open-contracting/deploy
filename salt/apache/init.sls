@@ -87,23 +87,39 @@ disable site 000-default.conf:
   file.absent:
     - name: /var/www/html/index.html
 
-# Use "zz-" to ensure this configuration is loaded after security.conf, provided by the package.
-# Do not disclose the Apache version, to avoid false positives about CVE patching.
+# Use "zz-" to ensure this configuration is loaded after security.conf and other-vhosts-access-log.conf,
+# provided by the package, which set ServerTokens, ServerSignature and CustomLog.
+#
+# - Do not disclose the Apache version, to avoid false positives about CVE patching.
+# - Do not log AppBeat's remote requests and Netdata's mod_status requests, to reduce log noise.
+#
+# https://httpd.apache.org/docs/2.4/logs.html#conditional
 /etc/apache2/conf-available/zz-customization.conf:
   file.managed:
     - contents: |
         ServerTokens Prod
         ServerSignature Off
+        SetEnvIf User-Agent AppBeat dontlog
+        SetEnvIf Request_URI "^/server-status$" dontlog
+        CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
     - require:
       - pkg: apache2
     - watch_in:
       - module: apache2-reload
 
-enable conf zz-customization.conf:
+enable-conf-zz-customization.conf:
   apache_conf.enabled:
     - name: zz-customization
     - require:
       - file: /etc/apache2/conf-available/zz-customization.conf
+    - watch_in:
+      - module: apache2-reload
+
+disable-conf-other-vhosts-access-log.conf:
+  apache_conf.disabled:
+    - name: other-vhosts-access-log.conf
+    - require:
+      - apache_conf: enable-conf-zz-customization.conf
     - watch_in:
       - module: apache2-reload
 
