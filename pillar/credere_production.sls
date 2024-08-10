@@ -48,7 +48,7 @@ docker_apps:
         hour: 2
       - identifier: UPDATE_STATISTICS
         command: update-statistics
-        hour: 3
+        minute: '*/15'
 
 postgres:
   configuration:
