@@ -1,6 +1,8 @@
 Configure Apache
 ================
 
+.. seealso:: `GoAccess to visualize Apache logs offline <https://goaccess.io>`__
+
 .. _allow-http:
 
 Allow HTTP/HTTPS traffic
