@@ -1,7 +1,13 @@
 Configure Apache
 ================
 
-.. seealso:: `GoAccess to visualize Apache logs offline <https://goaccess.io>`__
+.. seealso::
+
+   `GoAccess to visualize Apache logs offline <https://goaccess.io>`__. For example:
+
+   .. code-block:: bash
+
+      goaccess other_vhosts_access.log -o report.html --log-format=VCOMBINED --date-spec=hr
 
 .. _allow-http:
 
