@@ -1,7 +1,20 @@
 Maintain Docker
 ===============
 
-Get basic information:
+Troubleshoot
+------------
+
+If a container fails to start with:
+
+.. code-block:: none
+
+   runtime/cgo: pthread_create failed: Resource temporarily unavailable
+   SIGABRT: abort
+
+Force the image to rebuilt on GitHub, the :doc:`re-deploy the application<../deploy/docker>`.
+
+Get basic information
+---------------------
 
 .. code-block:: bash
 
