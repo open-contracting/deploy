@@ -17,8 +17,14 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name cre
   cron.present:
     - identifier: CREDERE_{{ job.identifier }}
     - user: {{ pillar.docker.user }}
+    {% if 'hour' in job %}
     - hour: {{ job.hour }}
+    {% endif %}
+    {% if 'minute' in job %}
+    - minute: {{ job.minute }}
+    {% else %}
     - minute: 0
+    {% endif %}
     - require:
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
