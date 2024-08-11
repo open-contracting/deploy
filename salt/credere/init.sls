@@ -21,7 +21,7 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name cre
     - hour: {{ job.hour }}
     {% endif %}
     {% if 'minute' in job %}
-    - minute: {{ job.minute }}
+    - minute: '{{ job.minute }}'
     {% else %}
     - minute: 0
     {% endif %}
