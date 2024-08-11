@@ -32,7 +32,7 @@ docker_apps:
       OCP_EMAIL_GROUP: credereadmin@open-contracting.org
       # Email templates
       LINK_LINK: https://credere.open-contracting.org
-      IMAGES_BASE_URL: https://credere.open-contracting.org/images
+      IMAGES_BASE_URL: https://cdn.credere.open-contracting.org/images
     cron:
       # - identifier: FETCH_AWARDS
       #   command: fetch-awards
