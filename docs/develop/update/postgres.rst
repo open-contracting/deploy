@@ -144,7 +144,7 @@ Configure PostgreSQL
 
 #. If you use the ``shared`` configuration template, under the ``context`` mapping:
 
-   -  If you need more connections, set ``max_connections`` (100, default).
+   -  If you need more or fewer than 100 connections, set ``max_connections`` (100, default).
    -  Set ``storage`` to either ``ssd`` (solid-state drive, default) or ``hdd`` (hard disk drive).
    -  Set ``type`` to either ``oltp`` (online transaction processing, default) or ``dw`` (data warehouse).
    -  Set ``content`` to add content to the configuration file.
@@ -222,6 +222,25 @@ Set up full backups
    .. code-block:: yaml
 
       postgres:
+        configuration:
+          ...
+          context:
+            content: |
+              ### pgBackRest
+              # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
+
+              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-LEVEL
+              wal_level = logical
+
+              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-MODE
+              archive_mode = on
+
+              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
+              # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
+              archive_command = 'pgbackrest --stanza=kingfisher-2023 archive-push %p'
+
+              # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
+              max_wal_senders = 4
         backup:
           type: pgbackrest
           configuration: shared
@@ -236,6 +255,10 @@ Set up full backups
               15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher-2023
               # Weekly full backup
               15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
+
+   .. note::
+
+      ``max_wal_senders`` is set to 4, because `pgBackRest <https://pgbackrest.org/user-guide.html#quickstart/configure-archiving>`__ and `annotated.conf <https://github.com/jberkus/annotated.conf/blob/master/postgresql.10.simple.conf>`__ recommend a value of twice the number of *potential future* replicas. This value counts towards ``max_connections``.
 
    .. note::
 
