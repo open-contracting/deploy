@@ -4,18 +4,22 @@ network:
   renderer: networkd
   ethernets:
     eth0:
-      {#- Disable automatic IP configuration via DHCP and Router Advertisement. #}
-      {#- link-local is not set, meaning only IPv6 link-local addresses are enabled. #}
-      {#- https://netplan.io/reference/#common-properties-for-all-device-types #}
+      {#-
+          Disable automatic IP configuration via DHCP and Router Advertisement.
+          link-local is not set, meaning only IPv6 link-local addresses are enabled.
+          https://netplan.io/reference/#common-properties-for-all-device-types
+      #}
       dhcp4: no
       dhcp6: no
       accept-ra: no
+      {#-
+          networkd seems to use the last IP as the primary IP (unspecified). Linode's documentation lists the SLAAC IP last,
+          but this causes networkd to prefer its default IPv6 block to our IPv6 /64 block.
+          https://bugs.launchpad.net/netplan/+bug/1766656
+          https://manpages.ubuntu.com/manpages/focal/man5/systemd.network.5.html
+          https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ 
+      #}
       addresses:
-      {#- networkd seems to use the last IP as the primary IP (unspecified). Linode's documentation lists the SLAAC IP last, #}
-      {#- but this causes networkd to prefer its default IPv6 block to our IPv6 /64 block. #}
-      {#- https://bugs.launchpad.net/netplan/+bug/1766656 #}
-      {#- https://manpages.ubuntu.com/manpages/focal/man5/systemd.network.5.html #}
-      {#- https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ #}
         {%- for address in pillar.network.netplan.addresses|default([]) %}
         - {{ address }}
         {%- endfor %}
