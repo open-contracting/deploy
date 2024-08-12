@@ -349,17 +349,34 @@ See the `Database Object Size Functions <https://www.postgresql.org/docs/current
 
 .. _pg-stat-activity:
 
-Show running queries
-~~~~~~~~~~~~~~~~~~~~
+Show active connections and running queries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Show running queries:
 
 .. code-block:: sql
 
-   SELECT pid, client_addr, usename, state, wait_event_type, NOW() - query_start AS time, query
+   SELECT pid, client_addr, usename, application_name, state, wait_event_type, NOW() - query_start AS time, query
    FROM pg_stat_activity
    WHERE query <> ''
    ORDER BY time DESC;
+
+.. note::
+
+   A ``client_addr`` in the range 172.16.0.0 to 172.31.255.255 (`private address space <https://datatracker.ietf.org/doc/html/rfc1918#section-3>`__) is Docker.
+
+   ``application_name`` can suggest an administrator's manual connection. For example, ``psql`` or `DataGrip <https://www.jetbrains.com/datagrip/>`__.
+
+.. tip::
+
+   To see all collections, remove the ``WHERE`` clause and add ``backend_type`` to the ``SELECT`` clause. Typically, the ``backend_type`` with no ``query`` are:
+
+   -  autovacuum launcher
+   -  logical replication launcher
+   -  background writer
+   -  archiver
+   -  checkpointer
+   -  walwriter
 
 Stop a query, replacing ``PID`` with the query's ``pid``:
 
