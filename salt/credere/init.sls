@@ -18,7 +18,7 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name cre
     - identifier: CREDERE_{{ job.identifier }}
     - user: {{ pillar.docker.user }}
     {% if 'hour' in job %}
-    - hour: {{ job.hour }}
+    - hour: '{{ job.hour }}'
     {% endif %}
     {% if 'minute' in job %}
     - minute: '{{ job.minute }}'
