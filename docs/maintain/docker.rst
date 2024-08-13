@@ -11,7 +11,9 @@ If a container fails to start with:
    runtime/cgo: pthread_create failed: Resource temporarily unavailable
    SIGABRT: abort
 
-Force the image to rebuilt on GitHub, the :doc:`re-deploy the application<../deploy/docker>`.
+Force the image to rebuilt on GitHub, then :doc:`re-deploy the application<../deploy/docker>`.
+
+If the issue persists, check whether free memory is low or there's a hardware issue.
 
 Get basic information
 ---------------------
