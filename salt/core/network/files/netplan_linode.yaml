@@ -1,4 +1,4 @@
-{#- See https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ #}
+{#- See https://www.linode.com/docs/products/compute/compute-instances/guides/netplan/ -#}
 network:
   version: 2
   renderer: networkd

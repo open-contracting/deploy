@@ -1,4 +1,4 @@
-{% raw %}
+{%- raw -%}
 groups:
   - name: alert.rules
     rules:
@@ -194,4 +194,4 @@ groups:
         annotations:
           summary: "Endpoint {{ $labels.instance }} has less than 10% SMART Runtime Bad Block"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% SMART Runtime Bad Block"
-{% endraw %}
+{%- endraw -%}

@@ -1,7 +1,6 @@
 [DEFAULT]
 ignoreip = 127.0.0.1/8
 {#- /etc/fail2ban/jail.conf defaults to 10m ban if 5 retries within 10m. #}
-
 {%- if salt['pillar.get']('apache:public_access') %}
 
 {# Ban bots that cause 404 errors on the default virtualhost. -#}
@@ -15,7 +14,6 @@ maxretry = 10
 findtime = 1m
 bantime  = 1h
 {%- endif %}
-
 {%- if salt['pillar.get']('postgres:public_access') %}
 
 {# Ban bots that fail PostgreSQL authentication. -#}

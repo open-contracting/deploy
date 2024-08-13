@@ -1,5 +1,5 @@
-{%- set assets_base_url = assets_base_url|default %}
-{%- if content is defined %}
+{%- set assets_base_url = assets_base_url|default -%}
+{%- if content is defined -%}
 {{ content }}
 
 {%- endif %}

@@ -1,4 +1,4 @@
-{#- The paths should be in decreasing order of specificity to generate the correct order of precedence. #}
+{#- The paths should be in decreasing order of specificity to generate the correct order of precedence. -#}
 {%-
     set options = {
         '/profiles/eforms': {
@@ -33,12 +33,12 @@
             'stable_sitemap': [['latest', '1.1', '1.0']],
         },
     }
-%}
+-%}
 
-{#- Matches all root paths. #}
-{%- set pattern = '(profiles/[^/]+/|infrastructure/)?' %}
+{#- Matches all root paths. -#}
+{%- set pattern = '(profiles/[^/]+/|infrastructure/)?' -%}
 
-{%- set documentroot = '/home/ocds-docs/web' %}
+{%- set documentroot = '/home/ocds-docs/web' -%}
 
 DocumentRoot {{ documentroot }}
 
