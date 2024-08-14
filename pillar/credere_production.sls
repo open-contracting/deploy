@@ -53,13 +53,13 @@ docker_apps:
 postgres:
   configuration:
     context:
-      # Docker and Netdata use the most memory, after PostgreSQL.
-      ram_ratio: 0.75
+      # Docker and Netdata use the most memory (about 1.35 GB), after PostgreSQL.
+      ram_ratio: 0.65
       # Connections for Credere (8), Netdata (1), manual connections (1-2), background processes (6), max_worker_processes (4) and growth (2x).
       # https://wiki.postgresql.org/wiki/Operations_cheat_sheet#Instance
       max_connections: 40
       # Rounded down to a power of 2.
-      work_mem: 8
+      work_mem: 4
       content: |
         ### pgBackRest
         # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
