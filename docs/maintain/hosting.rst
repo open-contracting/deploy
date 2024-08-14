@@ -6,7 +6,7 @@ Hosting tasks
 Rescale a server
 ----------------
 
-Linode makes it easy to scale/resize a server (number of cores and GiB of RAM).
+Linode makes it easy to `scale/resize <https://www.linode.com/docs/products/compute/compute-instances/guides/resize/>`__ a server (number of cores and GiB of RAM).
 
 You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elasticsearch, PostgreSQL and/or uWSGI.
 
