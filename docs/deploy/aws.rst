@@ -172,7 +172,7 @@ Set up advanced notifications
       -  Subscriptions
 
    #. Click *Next*
-   #. Check *Amazon SES*
+   #. Check *Amazon SNS*
    #. Enter a name in *Name* (``credere-noreply-open-contracting-org``, for example)
    #. Select the SNS topic for :ref:`basic notifications<ses-basic-notifications>` from the *SNS topic* dropdown
    #. Click *Next*
