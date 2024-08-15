@@ -18,19 +18,20 @@ docker_apps:
   credere_backend:
     target: credere-backend
     env:
-      FRONTEND_URL: https://credere.open-contracting.org
-      ENVIRONMENT: production
       # Timeline
       APPLICATION_EXPIRATION_DAYS: 30
       DAYS_TO_CHANGE_TO_LAPSED: 30
-      DAYS_TO_ERASE_BORROWERS_DATA: 7
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       REMINDER_DAYS_BEFORE_EXPIRATION: 3
+      DAYS_TO_ERASE_BORROWERS_DATA: 7
+      # Data sources
       SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
       # Email addresses
-      TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
+      ENVIRONMENT: production
       OCP_EMAIL_GROUP: credereadmin@open-contracting.org
+      TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
       # Email templates
+      FRONTEND_URL: https://credere.open-contracting.org
       LINK_LINK: https://credere.open-contracting.org
       IMAGES_BASE_URL: https://cdn.credere.open-contracting.org/images
     cron:
