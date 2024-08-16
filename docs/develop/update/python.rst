@@ -147,14 +147,41 @@ max-requests
   Number of requests before a worker is reloaded. This can help address memory leaks. Default: ``1000``.
 max-worker-lifetime
   Number of seconds before a worker is reloaded. This can help address memory leaks. Default: ``3600`` (1 hour).
+reload-on-rss
+  Reload a worker (after processing a request) if using too much memory, in MB. Default: ``256``.
 worker-reload-mercy
   The maximum time for a worker to reload/shutdown. Default: ``60`` (1 minute).
 limit-as
   Limit uWSGI memory usage, in MB. Default: 3/4 of RAM. This assumes no other process uses significant memory.
-reload-on-rss
-  Reload a worker (after processing a request) if using too much memory, in MB. Default: ``256``.
+
+The optional values are:
+
+workers
+  Set it to the maximum number of workers that the server's CPU and RAM can support.
+cheaper
+  Set it to the minimum number of works to keep at all times.
+cheaper-initial
+  Set it to the number of workers to handle an average load.
+cheaper-rss-limit-soft-ratio
+  Set to the ratio of total RAM to use as the `cheaper-rss-limit-soft <https://uwsgi-docs.readthedocs.io/en/latest/Cheaper.html#setting-memory-limits>`__.
+cheaper-step
+  Not in use.
+cheaper-overload
+  Not in use.
+cheaper-busyness-multiplier
+  Not in use.
+threads
+  The number of threads per worker.
+smart-attach-daemon
+  Not in use.
+stats
+  Enables the `uWSGI Stats Server <https://uwsgi-docs.readthedocs.io/en/latest/StatsServer.html>`__. Set it to a Unix socket path, like ``/home/USER/stats.sock``. Monitor with `uswgitop <https://pypi.org/project/uwsgitop/>`__, like ``uwsgitop /home/USER/stats.sock``.
 
 Alternatively, you can write your own configuration file in ``salt/uwsgi/files``, and reference it from the ``configuration`` variable.
+
+.. seealso::
+
+   `Configuration Options <https://uwsgi-docs-additions.readthedocs.io/en/latest/Options.html>`__ from uWSGI Docs Additions
 
 Configure Apache
 ----------------

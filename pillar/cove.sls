@@ -22,8 +22,9 @@ python_apps:
     uwsgi:
       configuration: django
       harakiri: 1800 # 30 min
-      cheaper: 50
-      cheaper-initial: 50
-      workers: 100
-      threads: 1
+      workers: 16
+      cheaper: 4
+      cheaper-initial: 8
+      cheaper-rss-limit-soft-ratio: 0.9
+      threads: 2
       stats: /home/cove/stats.sock
