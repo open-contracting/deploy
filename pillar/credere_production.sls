@@ -36,9 +36,9 @@ docker_apps:
       IMAGES_BASE_URL: https://cdn.credere.open-contracting.org/images
     # NOTE: sla-overdue-applications is disabled as not useful.
     cron:
-      # - identifier: FETCH_AWARDS
-      #   command: fetch-awards
-      #   hour: 14
+      - identifier: FETCH_AWARDS
+        command: fetch-awards
+        hour: 14
       - identifier: REMIND_MSME
         command: send-reminders
         hour: 15
