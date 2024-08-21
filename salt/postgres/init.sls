@@ -164,6 +164,21 @@ postgresql-reload:
 {{ apache('postgres', {'configuration': 'default', 'servername': pillar.postgres.ssl.servername}) }}
 {% endif %}
 
+{% if salt['pillar.get']('postgres:data_directory') %}
+{{ pillar.postgres.data_directory }}:
+  file.directory:
+    - name: {{ pillar.postgres.data_directory }}
+    - user: postgres
+    - group: postgres
+    - makedirs: True
+  cmd.run:
+    - name: /usr/lib/postgresql/{{ pillar.postgres.version }}/bin/initdb -D {{ pillar.postgres.data_directory }}
+    - runas: postgres
+    - creates: {{ pillar.postgres.data_directory }}/PG_VERSION
+    - watch_in:
+      - service: postgresql
+{% endif %}
+
 {% if pillar.postgres.configuration %}
 /etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:
   file.managed:

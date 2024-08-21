@@ -84,9 +84,10 @@ apache:
       servername: rabbitmq.data.open-contracting.org
 
 postgres:
-  version: 12
+  version: 16
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
   public_access: True
+  data_directory: '/data/storage/postgresql/16/main'
   configuration:
     name: registry
     source: shared
@@ -96,7 +97,7 @@ postgres:
       storage: hdd
       type: oltp
       content: |
-        data_directory = '/data/storage/postgresql/12/main'
+        data_directory = '/data/storage/postgresql/16/main'
 
         # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
         max_wal_size = 10GB
