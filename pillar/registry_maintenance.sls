@@ -9,5 +9,5 @@ maintenance:
     DISABLE_TESTS=running_procs
   hardware_sensors: True
   custom_sensors:
-    - nct6775
-    - k10temp
+     - coretemp
+     - nct6775
