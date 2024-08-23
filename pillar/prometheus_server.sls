@@ -11,7 +11,7 @@ prometheus:
     service: prometheus-server
     user: prometheus-server
     basename: prometheus
-    version: 2.45.0
+    version: 2.53.0
     local_storage_retention: 120d
     config:
       # Key must match --config.file in prometheus-server.service template.
@@ -24,7 +24,7 @@ prometheus:
     service: prometheus-alertmanager
     user: prometheus-alertmanager
     basename: alertmanager
-    version: 0.25.0
+    version: 0.27.0
     config:
       conf-alertmanager.yml: salt://prometheus/files/conf-alertmanager.yml
 
