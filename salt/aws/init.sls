@@ -5,6 +5,8 @@ awscli:
     - name: python3-pip
   pip.installed:
     - name: awscli
+    - extra_args:
+      - --break-system-packages
     - require:
       - pkg: awscli
 
