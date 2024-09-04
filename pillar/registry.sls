@@ -104,8 +104,8 @@ postgres:
     type: script
     location: ocp-registry-backup/database
     databases:
+      - data_registry
       - spoonbill_web
-      - pelican_frontend
 
 docker:
   user: deployer
