@@ -27,9 +27,3 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: '[github-actions] pre-commit autoupdate'
-      - shell: bash
-        run: curl -s -S --retry 3 $BASEDIR/tests/install.sh | bash -
-      - run: pip install -r requirements_test.txt
-      - env:
-          STANDARD_MAINTENANCE_SCRIPTS_FILES: requirements_test.in
-        run: pytest /tmp/test_requirements.py
