@@ -85,8 +85,6 @@ For a Django app, common changed states are:
 
 Function: git.latest
   A new commit was deployed
-Function: cmd.run, Name: .ve/bin/pip-sync -q --pip-args "--exists-action w"
-  Requirements were installed
 Function: cmd.run, Name: .ve/bin/python manage.py migrate --settings ... --noinput
   Django migrations were applied
 Function: cmd.run, Name: .ve/bin/python manage.py collectstatic --settings ... --noinput

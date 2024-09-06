@@ -1,0 +1,11 @@
+ci:
+  autoupdate_schedule: quarterly
+  skip: [pip-compile]
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.4.4
+    hooks:
+      - id: pip-compile
+        name: pip-compile requirements_test.in
+        args: [requirements_test.in, -o, requirements_test.txt]
+        files: ^requirements_test\.(in|txt)$
