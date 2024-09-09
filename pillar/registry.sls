@@ -130,7 +130,7 @@ kingfisher_collect:
 docker_apps:
   registry:
     target: data-registry
-    exporter_host_dir: /data/storage/exporter_dumps
+    exporter_host_dir: /data/storage/exporter
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: data.open-contracting.org
