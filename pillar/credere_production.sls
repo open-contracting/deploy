@@ -47,9 +47,6 @@ docker_apps:
       - identifier: REMOVE_LAPSED_APPLICATIONS
         command: remove-dated-application-data
         hour: 2
-      - identifier: UPDATE_STATISTICS
-        command: update-statistics
-        minute: '*/15'
 
 postgres:
   configuration:
