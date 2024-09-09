@@ -33,8 +33,6 @@ docker_apps:
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
       # Email templates
       EMAIL_TEMPLATE_LANG: es
-      FACEBOOK_LINK: https://www.facebook.com/OpenContracting/
-      TWITTER_LINK: https://twitter.com/opencontracting
 
 postgres:
   version: 15
