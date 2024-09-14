@@ -79,7 +79,7 @@ def test_json_headers():
     assert r.headers['Access-Control-Allow-Origin'] == '*'
 
 
-@pytest.mark.parametrize('root, version', [
+@pytest.mark.parametrize(('root', 'version'), [
     (root, vers[0]) for root, (vers, path) in versions.items()
 ])
 def test_add_version(root, version):
@@ -90,7 +90,7 @@ def test_add_version(root, version):
         assert r.headers['Location'] == f'{base_url}{root}/{version}/'
 
 
-@pytest.mark.parametrize('root, version', [
+@pytest.mark.parametrize(('root', 'version'), [
     (root, version) for root, (vers, path) in versions.items() for version in vers
 ])
 def test_add_language(root, version):
@@ -103,7 +103,7 @@ def test_add_language(root, version):
         assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/en/'
 
 
-@pytest.mark.parametrize('root, version, lang', [
+@pytest.mark.parametrize(('root', 'version', 'lang'), [
     (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
     for version in versions[root][0]
 ])
@@ -131,7 +131,7 @@ def test_profiles():
 
 
 # Staging branches are not options in the version switcher.
-@pytest.mark.parametrize('root, version', [
+@pytest.mark.parametrize(('root', 'version'), [
     (root, version) for root, (vers, path) in versions.items() for version in vers[:-1]
 ])
 def test_version_switcher(root, version):
@@ -142,7 +142,7 @@ def test_version_switcher(root, version):
 
 
 # Staging branches are not options in the version switcher.
-@pytest.mark.parametrize('root, version, path', [
+@pytest.mark.parametrize(('root', 'version', 'path'), [
     (root, version, path) for root, (vers, path) in versions.items() for version in vers[:-1]
 ])
 def test_version_switcher_with_referer(root, version, path):
@@ -155,7 +155,7 @@ def test_version_switcher_with_referer(root, version, path):
     assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}{path}?'
 
 
-@pytest.mark.parametrize('from_version, to_version', chain(
+@pytest.mark.parametrize(('from_version', 'to_version'), chain(
     product(['1.0-dev'], ['latest', '1.1', '1.0']),
 ))
 def test_version_switcher_from_staging(from_version, to_version):
@@ -166,7 +166,7 @@ def test_version_switcher_from_staging(from_version, to_version):
     assert r.headers['Location'] == f'{base_url}/{to_version}/?'
 
 
-@pytest.mark.parametrize('from_version, to_version', permutations(['latest', '1.1', '1.0'], 2))
+@pytest.mark.parametrize(('from_version', 'to_version'), permutations(['latest', '1.1', '1.0'], 2))
 def test_version_switcher_stable_sitemap(from_version, to_version):
     r = get(f'{base_url}/switcher?branch={to_version}',
             headers={'Referer': f'{base_url}/{from_version}/es/schema/release/'})
@@ -175,7 +175,7 @@ def test_version_switcher_stable_sitemap(from_version, to_version):
     assert r.headers['Location'] == f'{base_url}/{to_version}/es/schema/release/?'
 
 
-@pytest.mark.parametrize('from_version, to_version', chain(
+@pytest.mark.parametrize(('from_version', 'to_version'), chain(
     product(['latest', '1.1', '1.0'], ['2.0']),
     product(['2.0'], ['latest', '1.1', '1.0']),
 ))
@@ -187,7 +187,7 @@ def test_version_switcher_unstable_sitemap(from_version, to_version):
     assert r.headers['Location'] == f'{base_url}/{to_version}/?'
 
 
-@pytest.mark.parametrize('root, version, lang', [
+@pytest.mark.parametrize(('root', 'version', 'lang'), [
     (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
     for version in versions[root][0]
 ])
@@ -200,7 +200,7 @@ def test_language_switcher(root, version, lang):
     assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}/?'
 
 
-@pytest.mark.parametrize('root, version, lang, path', [
+@pytest.mark.parametrize(('root', 'version', 'lang', 'path'), [
     (root, version, lang, path) for root, (langs, path) in languages.items() for lang in langs
     for version in versions[root][0]
 ])
@@ -214,7 +214,7 @@ def test_language_switcher_with_referer(root, version, lang, path):
     assert r.headers['Location'] == f'{base_url}{prefix}{root}/{version}/{lang}{path}?'
 
 
-@pytest.mark.parametrize('root, version, lang', [
+@pytest.mark.parametrize(('root', 'version', 'lang'), [
     (root, version, lang) for root, (langs, path) in languages.items() for lang in langs
     for version in versions[root][0]
 ])
@@ -223,10 +223,7 @@ def test_custom_404(root, version, lang):
 
     r = get(f'{base_url}{prefix}{root}/{version}/{lang}/path/to/nonexistent/')
 
-    if is_staging(version):
-        expected = '"error_redirect/"'
-    else:
-        expected = f'"{root}/{version}/{lang}/"'
+    expected = '"error_redirect/"' if is_staging(version) else f'"{root}/{version}/{lang}/"'
 
     assert r.status_code == 404
     assert expected in r.text
@@ -258,7 +255,7 @@ def test_no_redirect(path):
     assert r.status_code == 200
 
 
-@pytest.mark.parametrize('root, version', [
+@pytest.mark.parametrize(('root', 'version'), [
     (root, version) for root, versions in banner_live for version in versions
 ])
 def test_banner_live(root, version):
@@ -269,7 +266,7 @@ def test_banner_live(root, version):
     assert 'This is a development copy of ' not in r.text
 
 
-@pytest.mark.parametrize('root, version', [
+@pytest.mark.parametrize(('root', 'version'), [
     (root, version) for root, versions in banner_old for version in versions
 ])
 def test_banner_old(root, version):
@@ -291,7 +288,7 @@ def test_banner_staging():
     assert '<a href="/profiles/ppp/latest/en/">' in r.text
 
 
-@pytest.mark.parametrize('path, location', [
+@pytest.mark.parametrize(('path', 'location'), [
     ('/feed', 'https://www.open-contracting.org/feed/'),
     ('/beta', 'https://www.open-contracting.org/2014/09/04/beta'),
     ('/project', f'{base_url}/latest/en/'),
