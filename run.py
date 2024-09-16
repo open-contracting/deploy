@@ -32,7 +32,7 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    subprocess.Popen(sys.argv)
+    subprocess.Popen(sys.argv)  # noqa: S603 # trusted input
 
 
 if __name__ == "__main__":

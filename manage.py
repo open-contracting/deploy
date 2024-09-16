@@ -73,7 +73,7 @@ def salt_ssh(*args):
         with contextlib.suppress(OSError):
             socket.create_connection((target['host'], 8255), 1)
 
-    return subprocess.run(sys.argv, check=True, stdout=subprocess.PIPE).stdout.decode()
+    return subprocess.run(sys.argv, check=True, stdout=subprocess.PIPE).stdout.decode()  # noqa: S603 # trusted input
 
 
 @click.group()
@@ -85,9 +85,7 @@ def cli():
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def services(provider):
-    """
-    List services that are not common to all servers of the same provider.
-    """
+    """List services that are not common to all servers of the same provider."""
     content = salt_ssh('*', 'service.get_all')
     compare(content, lambda line: line.strip()[2:], expected_providers=provider)
 
@@ -96,9 +94,7 @@ def services(provider):
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def packages(provider):
-    """
-    List packages that are not common to all servers of the same provider.
-    """
+    """List packages that are not common to all servers of the same provider."""
     content = salt_ssh('*', 'pkg.list_pkgs')
     compare(content, lambda line: line.strip()[:-1], expected_providers=provider)
 
@@ -109,9 +105,7 @@ def packages(provider):
 @click.option('--provider', type=click.Choice(PROVIDERS), default=PROVIDERS, multiple=True,
               help='the providers to report on')
 def autoremove(margin, provider):
-    """
-    List packages that can be auto-removed and that are common to all servers of the same provider.
-    """
+    """List packages that can be auto-removed and that are common to all servers of the same provider."""
     content = salt_ssh('*', 'pkg.autoremove', 'list_only=True')
     compare(content, lambda line: line.strip()[2:], mode='comm', margin=margin, expected_providers=provider)
 
