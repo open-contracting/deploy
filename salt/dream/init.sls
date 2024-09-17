@@ -15,3 +15,15 @@ useful commands for RBC Group:
     - target: /usr/share/nginx/dream
     - require:
       - pkg: git
+
+/usr/share/nginx/mdcp:
+  git.latest:
+    - name: https://github.com/open-contracting/bi.dream.gov.ua-mdcp
+    - user: root
+    - force_fetch: True
+    - force_reset: True
+    - branch: build
+    - rev: build
+    - target: /usr/share/nginx/mdcp
+    - require:
+      - pkg: git
