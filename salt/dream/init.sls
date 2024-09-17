@@ -4,7 +4,7 @@ useful commands for RBC Group:
       - mc
       - telnet
 
-/usr/share/nginx/html:
+/usr/share/nginx/dream:
   git.latest:
     - name: https://github.com/open-contracting/bi.dream.gov.ua
     - user: root
@@ -12,6 +12,6 @@ useful commands for RBC Group:
     - force_reset: True
     - branch: build
     - rev: build
-    - target: /usr/share/nginx/html
+    - target: /usr/share/nginx/dream
     - require:
       - pkg: git
