@@ -10,3 +10,6 @@ CREATE TABLE IF NOT EXISTS {{ spider }}_result (
     created_at timestamp without time zone -- the time when this row was added
 );
 
+{%- for user in users %}
+GRANT SELECT ON {{ spider }}_result TO {{ user }};
+{%- endfor %}
