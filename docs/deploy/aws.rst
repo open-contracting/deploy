@@ -499,7 +499,7 @@ Create a backup user
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click the *Create user* button
 
-   #. Enter a *User name* (``redmine-backup``, for example)#z
+   #. Enter a *User name* (``redmine-backup``, for example)
    #. Click the *Next* button
    #. Click the *Attach existing policies directly* radio button
 
