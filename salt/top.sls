@@ -38,7 +38,7 @@ base:
     - tinyproxy
 
   'dream-bi':
-    - dream
+    - dreambi
     - nginx
 
   'kingfisher-main':

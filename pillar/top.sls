@@ -41,8 +41,9 @@ base:
     - docs_maintenance
 
   'dream-bi':
-    - dream_bi
-    - dream_bi_maintenance
+    - dreambi
+    - dreambi_maintenance
+    - private.dreambi
 
   'kingfisher-main':
     - kingfisher_main
