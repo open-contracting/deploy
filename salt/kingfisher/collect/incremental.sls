@@ -11,7 +11,7 @@ include:
 {% set settingsdir = userdir + '/bi/settings' %}
 {% set scratchdir = userdir + '/bi/scratch' %}
 
-{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
+{{ create_user(entry.user) }}
 
 # Allow postgres to access, to run SQL files.
 allow {{ userdir }} access:
