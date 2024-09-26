@@ -24,8 +24,9 @@ nginx:
   public_access: True
   sites:
     bi.dream.gov.ua:
-      configuration: dream-bi
+      include: dream-bi
       servername: bi.dream.gov.ua
       context:
-        proxypass: 159.69.67.60
         app: bbd2ec1f-dbb4-4606-9e17-4fb23d87f4e9
+        proxypass: 159.69.67.60
+        user: dreambi
