@@ -355,7 +355,7 @@ Create bucket
    #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
    #. Click the *Create bucket* button
 
-If the bucket is for :doc:`file<../develop/update/backup>` or :ref:`MySQL<mysql-backups>` backups:
+If the bucket is for :doc:`file<../../develop/update/backup>` or :ref:`MySQL<mysql-backups>` backups:
 
 .. warning::
 

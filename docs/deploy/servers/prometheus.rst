@@ -1,5 +1,5 @@
-Prometheus tasks
-================
+Prometheus
+==========
 
 Monitor a service
 -----------------
@@ -8,7 +8,7 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 
 #. Add a job to ``salt/prometheus/files/conf-prometheus.yml``.
 
-#. :doc:`Deploy<deploy>` the Prometheus service.
+#. :doc:`Deploy<../deploy>` the Prometheus service.
 
 #. Check that the job is "UP" on Prometheus' `Targets <https://monitor.prometheus.open-contracting.org/targets>`__ page.
 
@@ -24,7 +24,7 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 Test Alert Manager
 ------------------
 
-:doc:`SSH<../use/ssh>` into ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
+:doc:`SSH<../../use/ssh>` into ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
 
 .. code-block:: bash
 
@@ -53,10 +53,26 @@ Setup
 Deploy
 ~~~~~~
 
-Once you're ready to upgrade, as with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
+Once you're ready to upgrade, as with other deployment tasks, do the :doc:`setup tasks<../setup>` before the steps below.
 
 #. Change the version numbers in the ``pillar/prometheus_client.sls`` and ``pillar/prometheus_server.sls`` files. (To test locally, you can :ref:`use to a virtual machine<using-a-virtual-machine>`.)
 
 #. If you're upgrading the server and/or alert manager, deploy the ``prometheus`` target.
 
 #. If you're upgrading the node exporter, deploy all targets.
+
+.. _prometheus-migrate:
+
+Migrate from an old server
+--------------------------
+
+#. Stop Prometheus, replace the ``/home/prometheus-server/data/`` directory, and start Prometheus. For example:
+
+   .. code-block:: bash
+
+      systemctl stop prometheus-server
+      rm -rf /home/prometheus-server/data/*
+      rsync -avz ocp99:/home/prometheus-server/data/ /home/prometheus-server/data/
+      systemctl start prometheus-server
+
+#. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services

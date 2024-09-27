@@ -1,5 +1,5 @@
-CoVE tasks
-==========
+CoVE
+====
 
 Find all files uploaded by users
 --------------------------------
