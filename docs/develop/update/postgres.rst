@@ -191,7 +191,7 @@ Use CA certificates
         ssl:
           servername: postgres.kingfisher.open-contracting.org
 
-#. :ref:`Configure the mod_md Apache module<configure-mod_md>` to copy the SSL certificates to PostgreSQL's directory:
+#. :ref:`Configure the mod_md Apache module<mod_md-configure>` to copy the SSL certificates to PostgreSQL's directory:
 
    .. code-block:: yaml
 
