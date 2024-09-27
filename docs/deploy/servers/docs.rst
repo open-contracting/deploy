@@ -1,5 +1,5 @@
-OCDS documentation tasks
-========================
+OCDS documentation
+==================
 
 .. seealso::
 
@@ -126,3 +126,29 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Update the Data Review Tool <https://ocds-standard-development-handbook.readthedocs.io/en/latest/standard/technical/deployment.html#update-the-data-review-tool>`__ and any other tools per `this spreadsheet <https://docs.google.com/spreadsheets/d/18Pq5Hyyk4bNQ_mIaCRqGqwut4ws2_cIh0UYQNAYKv-A/edit#gid=0>`__.
+
+.. _docs-migrate:
+
+Migrate from an old server
+--------------------------
+
+#. Copy the ``/home/ocds-docs/web`` directory. For example:
+
+   .. code-block:: bash
+
+      rsync -avz ocp99:/home/ocds-docs/web/ /home/ocds-docs/web/
+
+#. Stop Elasticsearch, replace the ``/var/lib/elasticsearch/`` directory, and start Elasticsearch. For example:
+
+   .. code-block:: bash
+
+      systemctl stop elasticsearch
+      rm -rf /var/lib/elasticsearch/*
+      rsync -avz ocp99:/var/lib/elasticsearch/ /var/lib/elasticsearch/
+      systemctl start elasticsearch
+
+#. Mark the ``elasticsearch`` package as held back:
+
+   .. code-block:: bash
+
+      apt-mark hold elasticsearch

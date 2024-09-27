@@ -14,7 +14,7 @@ Monitoring
 
 .. seealso::
 
-   :doc:`../deploy/google`
+   :doc:`../deploy/services/google`
 
 Ahrefs
 ~~~~~~

@@ -1,5 +1,5 @@
-Data support tasks
-==================
+Data support
+============
 
 Create a data support main server
 ---------------------------------
@@ -29,7 +29,7 @@ Docker
 Docker apps
 ~~~~~~~~~~~
 
-#. Run migrations for :doc:`Docker apps<docker>` as the ``deployer`` user:
+#. Run migrations for :doc:`Docker apps<../docker>` as the ``deployer`` user:
 
    .. code-block:: bash
 
@@ -41,7 +41,7 @@ Docker apps
       cd /data/deploy/pelican-frontend/
       docker compose run --rm --name pelican-frontend-migrate cron python manage.py migrate
 
-#. :doc:`Pull new images and start new containers for each Docker app<docker>`.
+#. :doc:`Pull new images and start new containers for each Docker app<../docker>`.
 
 Pelican backend
 ~~~~~~~~~~~~~~~
@@ -79,7 +79,7 @@ The initial migrations for Pelican backend are run by Salt.
 Kingfisher Collect
 ~~~~~~~~~~~~~~~~~~
 
-#. :doc:`SSH<../use/ssh>` into the new server as the ``incremental`` user:
+#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user:
 
    #. Generate an SSH key pair:
 
@@ -102,8 +102,8 @@ Kingfisher Collect
           - ssh-rsa AAAB3N...
 
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/kingfisher/collect/incremental.sls`` file.
-#. :doc:`Deploy the old server and the new server<deploy>`.
-#. :doc:`SSH<../use/ssh>` into the old server as the ``incremental`` user:
+#. :doc:`Deploy the old server and the new server<../deploy>`.
+#. :doc:`SSH<../../use/ssh>` into the old server as the ``incremental`` user:
 
    #. Stop any processes started by the cron jobs.
    #. Dump the ``kingfisher_collect`` database:
@@ -112,7 +112,7 @@ Kingfisher Collect
 
          pg_dump -U kingfisher_collect -h localhost -f kingfisher_collect.sql kingfisher_collect
 
-#. :doc:`SSH<../use/ssh>` into the new server as the ``incremental`` user.
+#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user.
 
    #. Copy the database dump from the old server. For example:
 
@@ -140,7 +140,7 @@ Kingfisher Collect
 
 #. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
-#. :doc:`Deploy the new server<deploy>`.
+#. :doc:`Deploy the new server<../deploy>`.
 #. :ref:`update-spiders`.
 
 Create a data support replica server

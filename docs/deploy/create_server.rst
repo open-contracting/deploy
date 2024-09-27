@@ -380,7 +380,7 @@ Add A, AAAA and SPF records
 
 .. seealso::
 
-    :doc:`dns` TTL standardization
+    :doc:`services/dns` TTL standardization
 
 Configure reverse DNS
 ~~~~~~~~~~~~~~~~~~~~~
@@ -542,63 +542,22 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
 #. :ref:`check-mail` for the root user and, if applicable, each app user
 #. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
+#. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
 #. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
 
-Data support server
-~~~~~~~~~~~~~~~~~~~
+.. seealso::
 
-See :doc:`data-support`.
-
-Django applications
-~~~~~~~~~~~~~~~~~~~
-
-#. Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
-
-OCDS documentation
-~~~~~~~~~~~~~~~~~~
-
-#. Copy the ``/home/ocds-docs/web`` directory. For example:
-
-   .. code-block:: bash
-
-      rsync -avz ocp99:/home/ocds-docs/web/ /home/ocds-docs/web/
-
-#. Stop Elasticsearch, replace the ``/var/lib/elasticsearch/`` directory, and start Elasticsearch. For example:
-
-   .. code-block:: bash
-
-      systemctl stop elasticsearch
-      rm -rf /var/lib/elasticsearch/*
-      rsync -avz ocp99:/var/lib/elasticsearch/ /var/lib/elasticsearch/
-      systemctl start elasticsearch
-
-#. Mark the ``elasticsearch`` package as held back:
-
-   .. code-block:: bash
-
-      apt-mark hold elasticsearch
-
-Prometheus
-~~~~~~~~~~
-
-#. Stop Prometheus, replace the ``/home/prometheus-server/data/`` directory, and start Prometheus. For example:
-
-   .. code-block:: bash
-
-      systemctl stop prometheus-server
-      rm -rf /home/prometheus-server/data/*
-      rsync -avz ocp99:/home/prometheus-server/data/ /home/prometheus-server/data/
-      systemctl start prometheus-server
-
-#. Update the IP addresses in the ``pillar/prometheus_client.sls`` file, and deploy to all services
+   -  :doc:`servers/data-support`
+   -  :ref:`OCDS documentation<docs-migrate>`
+   -  :ref:`Prometheus<prometheus-migrate>`
 
 .. _update-external-services:
 
 7. Update external services
 ---------------------------
 
-#. :doc:`Add the server to Prometheus<prometheus>`
+#. :doc:`Add the server to Prometheus<servers/prometheus>`
 #. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
    #. Click the *Add New Record* button
@@ -610,7 +569,7 @@ Prometheus
 
    .. seealso::
 
-       :doc:`dns`
+       :doc:`services/dns`
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
