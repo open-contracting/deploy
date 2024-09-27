@@ -10,7 +10,6 @@ These services send email from open-contracting.org:
 
 -  :doc:`aws`
 -  `Mailchimp <https://mailchimp.com/help/set-up-email-domain-authentication/>`__
--  `Salesforce <https://help.salesforce.com/s/articleView?id=000354353&language=en_US&type=1>`__: `SPF <https://help.salesforce.com/s/articleView?language=en_US&id=sf.emailadmin_spf_include_salesforce.htm&type=5>`__ and `DKIM <https://help.salesforce.com/s/articleView?language=en_US&id=sf.emailadmin_create_secure_dkim.htm&type=5>`__
 
 These services send email from noreply.open-contracting.org:
 

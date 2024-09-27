@@ -131,10 +131,10 @@ unset {{ setting_name }} in {{ filename }}:
     - onchanges:
       - virtualenv: {{ directory }}-virtualenv
     - watch_in:
-      - virtualenv: {{ directory }}-piptools
+      - virtualenv: {{ directory }}-uv
 
-# This state only differs from the *-virtualenv state by installing pip-tools and not watching python.
-{{ directory }}-piptools:
+# This state only differs from the *-virtualenv state by installing uv and not watching python.
+{{ directory }}-uv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
     - python: /usr/bin/python{{ salt['pillar.get']('python:version', 3) }}
@@ -142,17 +142,17 @@ unset {{ setting_name }} in {{ filename }}:
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
     - pip_pkgs:
-      - pip-tools
+      - uv
 
 {{ directory }}-requirements:
   cmd.run:
-    - name: .ve/bin/pip-sync -q --pip-args "--exists-action w"
+    - name: .ve/bin/uv pip sync --python=.ve/bin/python -q requirements.txt
     - runas: {{ user }}
     - cwd: {{ directory }}
     - require:
-      - virtualenv: {{ directory }}-piptools
+      - virtualenv: {{ directory }}-uv
     # Run the command if the virtual environment was reinstalled (64501d6) or the requirements file was changed.
-    - onchanges: {{ ([{'virtualenv': directory + '-piptools'}] + [requirements_file])|yaml }}
+    - onchanges: {{ ([{'virtualenv': directory + '-uv'}] + [requirements_file])|yaml }}
 {% if watch_in %}
     - watch_in:
       - service: {{ watch_in }}

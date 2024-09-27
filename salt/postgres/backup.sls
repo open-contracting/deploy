@@ -43,11 +43,13 @@ pgbackrest:
 
 /etc/pgbackrest/pgbackrest.conf:
   file.managed:
-    - makedirs: True
-    - user: postgres
-    - group: postgres
     - source: salt://postgres/files/pgbackrest/{{ pillar.postgres.backup.configuration }}.conf
     - template: jinja
+    - user: postgres
+    - group: postgres
+    - makedirs: True
+    - require:
+      - pkg: postgresql
 
 {% if salt['pillar.get']('postgres:backup:cron') %}
 /etc/cron.d/postgres_backups:

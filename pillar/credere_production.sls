@@ -32,7 +32,6 @@ docker_apps:
       TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
       # Email templates
       FRONTEND_URL: https://credere.open-contracting.org
-      LINK_LINK: https://credere.open-contracting.org
       IMAGES_BASE_URL: https://cdn.credere.open-contracting.org/images
     # NOTE: sla-overdue-applications is disabled as not useful.
     cron:
@@ -48,9 +47,6 @@ docker_apps:
       - identifier: REMOVE_LAPSED_APPLICATIONS
         command: remove-dated-application-data
         hour: 2
-      - identifier: UPDATE_STATISTICS
-        command: update-statistics
-        minute: '*/15'
 
 postgres:
   configuration:

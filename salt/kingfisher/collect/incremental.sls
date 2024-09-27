@@ -11,7 +11,7 @@ include:
 {% set settingsdir = userdir + '/bi/settings' %}
 {% set scratchdir = userdir + '/bi/scratch' %}
 
-{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:incremental', [])) }}
+{{ create_user(entry.user) }}
 
 # Allow postgres to access, to run SQL files.
 allow {{ userdir }} access:
@@ -106,9 +106,9 @@ grant pg_read_server_files to kingfisher_collect:
 {{ sqldir }}/{{ basename }}.csv:
   file.managed:
     - source: salt://kingfisher/collect/files/data/{{ basename }}.csv
-    - makedirs: True
     - user: {{ entry.user }}
     - group: {{ entry.user }}
+    - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
 
@@ -197,9 +197,9 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
 {{ settingsdir }}/{{ crawl.spider }}.ini:
   file.managed:
     - source: salt://kingfisher/collect/files/cardinal/{{ crawl.spider }}.ini
-    - makedirs: True
     - user: {{ entry.user }}
     - group: {{ entry.user }}
+    - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
 
@@ -209,6 +209,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
     - template: jinja
     - context:
         spider: {{ crawl.spider }}
+        users: {{ crawl.get('users', []) }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - makedirs: True

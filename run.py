@@ -2,8 +2,9 @@
 # https://superuser.com/a/1622435/1803567
 """$(dirname $(readlink $(which salt-ssh) || which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
 
-import os
+import contextlib
 import socket
+import subprocess
 import sys
 
 import salt.cli.ssh
@@ -26,14 +27,12 @@ def main():
     for name, target in ssh.targets.items():
         print(f"- {target['host']} ({name})")
     for target in ssh.targets.values():
-        try:
+        with contextlib.suppress(OSError):
             socket.create_connection((target["host"], 8255), 1)
-        except OSError:
-            pass
 
     # Run salt-ssh as usual.
     print("Running...")
-    os.execvp("salt-ssh", sys.argv)
+    subprocess.Popen(sys.argv)  # noqa: S603 # trusted input
 
 
 if __name__ == "__main__":

@@ -148,8 +148,10 @@ If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <
 
       Let's Encrypt will reach a `Failed Validation <https://letsencrypt.org/docs/failed-validation-limit/>`__ limit if DNS is not propagated.
 
-#. :doc:`Deploy the service<../../deploy/deploy>`, if not already done.
-#. ``mod_md`` will request a certificate from Let's Encrypt. Check for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
+      In the meantime, you can :ref:`use Let's Encrypt's staging environment<mod_md-test>`.
+
+#. :doc:`Deploy the service<../../deploy/deploy>`, if not already done. ``mod_md`` will request a certificate from Let's Encrypt.
+#. Check for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
 
    .. code-block:: bash
 
@@ -169,52 +171,52 @@ If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <
 
 The service should now be available at its ``https://`` web address.
 
-Test
-~~~~
+.. tip::
 
-Test the HTTP redirect, replacing ``SERVERNAME``:
+   In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__.
 
-.. code-block:: shell-session
-   :emphasize-lines: 2,5
+   If you need to test the acquisition of certificates, :ref:`use Let's Encrypt's staging environment<mod_md-test>`.
 
-   $ curl -I http://SERVERNAME
-   HTTP/1.1 301 Moved Permanently
-   Date: Fri, 11 Dec 2020 12:34:56 GMT
-   Server: Apache/2.4.46 (Ubuntu)
-   Location: https://SERVERNAME/
-   Content-Type: text/html; charset=iso-8859-1
+.. card:: Test SSL configuration
 
-Test the HTTPS response:
+   You can test the SSL configuration using `SSL Labs <https://www.ssllabs.com/ssltest/>`__.
 
-.. code-block:: shell-session
-   :emphasize-lines: 2,5
+   Test the HTTP redirect, replacing ``SERVERNAME``:
 
-   $ curl -IL https://SERVERNAME
-   HTTP/2 200
-   date: Fri, 11 Dec 2020 04:26:57 GMT
-   server: Apache/2.4.46 (Ubuntu)
-   strict-transport-security: max-age=15768000
+   .. code-block:: shell-session
+      :emphasize-lines: 2,5
 
-Check the certificates' status:
+      $ curl -I http://SERVERNAME
+      HTTP/1.1 301 Moved Permanently
+      Date: Fri, 11 Dec 2020 12:34:56 GMT
+      Server: Apache/2.4.46 (Ubuntu)
+      Location: https://SERVERNAME/
+      Content-Type: text/html; charset=iso-8859-1
 
-.. code-block:: bash
+   Test the HTTPS response:
 
-   curl https://SERVERNAME/.httpd/certificate-status
+   .. code-block:: shell-session
+      :emphasize-lines: 2,5
 
-Check `md-status <https://github.com/icing/mod_md#monitoring>`__, replacing ``TARGET``:
+      $ curl -IL https://SERVERNAME
+      HTTP/2 200
+      date: Fri, 11 Dec 2020 04:26:57 GMT
+      server: Apache/2.4.46 (Ubuntu)
+      strict-transport-security: max-age=15768000
 
-.. code-block:: bash
+   Check the certificates' status:
 
-   ./run.py TARGET cmd.run 'curl -sS http://localhost/md-status'
+   .. code-block:: bash
 
-Each certificate's OCSP ``"status"`` should be ``"good"``.
+      curl https://SERVERNAME/.httpd/certificate-status
 
-You can test the SSL configuration using `SSL Labs <https://www.ssllabs.com/ssltest/>`__.
+   Check `md-status <https://github.com/icing/mod_md#monitoring>`__, replacing ``TARGET``:
 
-Troubleshoot
-~~~~~~~~~~~~
+   .. code-block:: bash
 
-In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__. If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__.
+      ./run.py TARGET cmd.run 'curl -sS http://localhost/md-status'
+
+   Each certificate's OCSP ``"status"`` should be ``"good"``.
 
 .. _apache-modules:
 
@@ -281,7 +283,7 @@ autoindex
        mod_autoindex:
          enabled: True
 
-.. _configure-mod_md:
+.. _mod_md-configure:
 
 md
 ~~
@@ -296,6 +298,8 @@ You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__
      modules:
        mod_md:
          MDMessageCmd: /opt/postgresql-certificates.sh
+
+.. _mod_md-test:
 
 To test your configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__, in order to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
 
@@ -318,4 +322,3 @@ You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md
    .. code-block:: bash
 
       tail -f /var/log/apache2/error.log
-

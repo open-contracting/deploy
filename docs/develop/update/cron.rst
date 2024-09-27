@@ -24,3 +24,7 @@ This will:
 -  Create a ``bin`` directory in the home directory of the ``incremental`` user
 -  Create an executable ``do_excluded_supplier.sh`` file in the ``bin`` directory
 -  Schedule the executable file as a cron job for the ``incremental`` user, using the arguments provided
+
+.. tip::
+
+   Use `crontab guru <https://crontab.guru>`__ to interpret cron schedule expressions.

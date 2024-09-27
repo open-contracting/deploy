@@ -27,19 +27,19 @@ allow {{ userdir }} access:
       - {{ directory }}/dbs
       - {{ directory }}/eggs
       - {{ directory }}/logs
-    - makedirs: True
     - user: {{ user }}
     - group: {{ user }}
+    - makedirs: True
     - require:
       - user: {{ user }}_user_exists
 
 # Allow Docker apps (Kingfisher Process) to access.
 {{ pillar.kingfisher_collect.env.FILES_STORE }}:
   file.directory:
-    - makedirs: True
-    - mode: 2775
     - user: {{ pillar.kingfisher_collect.user }}
     - group: {{ pillar.kingfisher_collect.group }}
+    - makedirs: True
+    - mode: 2775
     - require:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists

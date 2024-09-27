@@ -7,7 +7,7 @@ include:
 {% set userdir = '/home/' + entry.user %}
 {% set directory = userdir + '/' + entry.git.target %}
 
-{{ create_user(entry.user, authorized_keys=salt['pillar.get']('ssh:collect_generic', [])) }}
+{{ create_user(entry.user) }}
 
 # It is insufficient to give Apache permission to /home/collect_generic/data only.
 allow Apache access to {{ userdir }}:

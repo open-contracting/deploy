@@ -392,93 +392,98 @@ Create a backup policy
    #. Click the *JSON* tab
    #. Paste the appropriate content below, replacing ``BUCKET_NAME`` and/or ``PREFIX``:
 
-      pgBackRest backups
-        .. code-block:: json
+      .. tab-set::
 
-           {
-               "Version": "2012-10-17",
-               "Statement": [
-                   {
-                       "Effect": "Allow",
-                       "Action": [
-                           "s3:ListBucket"
-                       ],
-                       "Resource": [
-                           "arn:aws:s3:::BUCKET_NAME"
-                       ],
-                       "Condition": {
-                           "StringEquals": {
-                               "s3:prefix": [
-                                   "",
-                                   "PREFIX"
-                               ],
-                               "s3:delimiter": [
-                                   "/"
-                               ]
+         .. tab-item:: pgBackRest backups
+
+            .. seealso::
+
+               `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
+
+            .. code-block:: json
+
+               {
+                   "Version": "2012-10-17",
+                   "Statement": [
+                       {
+                           "Effect": "Allow",
+                           "Action": [
+                               "s3:ListBucket"
+                           ],
+                           "Resource": [
+                               "arn:aws:s3:::BUCKET_NAME"
+                           ],
+                           "Condition": {
+                               "StringEquals": {
+                                   "s3:prefix": [
+                                       "",
+                                       "PREFIX"
+                                   ],
+                                   "s3:delimiter": [
+                                       "/"
+                                   ]
+                               }
                            }
-                       }
-                   },
-                   {
-                       "Effect": "Allow",
-                       "Action": [
-                           "s3:ListBucket"
-                       ],
-                       "Resource": [
-                           "arn:aws:s3:::BUCKET_NAME"
-                       ],
-                       "Condition": {
-                           "StringLike": {
-                               "s3:prefix": [
-                                   "PREFIX/*"
-                               ]
+                       },
+                       {
+                           "Effect": "Allow",
+                           "Action": [
+                               "s3:ListBucket"
+                           ],
+                           "Resource": [
+                               "arn:aws:s3:::BUCKET_NAME"
+                           ],
+                           "Condition": {
+                               "StringLike": {
+                                   "s3:prefix": [
+                                       "PREFIX/*"
+                                   ]
+                               }
                            }
+                       },
+                       {
+                           "Effect": "Allow",
+                           "Action": [
+                               "s3:PutObject",
+                               "s3:GetObject",
+                               "s3:DeleteObject"
+                           ],
+                           "Resource": [
+                               "arn:aws:s3:::BUCKET_NAME/PREFIX/*"
+                           ]
                        }
-                   },
-                   {
-                       "Effect": "Allow",
-                       "Action": [
-                           "s3:PutObject",
-                           "s3:GetObject",
-                           "s3:DeleteObject"
-                       ],
-                       "Resource": [
-                           "arn:aws:s3:::BUCKET_NAME/PREFIX/*"
-                       ]
-                   }
-               ]
-           }
+                   ]
+               }
 
-        .. seealso::
+         .. tab-item:: File and MySQL backups
 
-           `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
-      File and MySQL backups
-        .. code-block:: json
+            .. code-block:: json
 
-           {
-               "Version": "2012-10-17",
-               "Statement": [
-                   {
-                       "Effect": "Allow",
-                       "Action": [
-                           "s3:ListBucket"
-                       ],
-                       "Resource": [
-                           "arn:aws:s3:::BUCKET_NAME"
-                       ]
-                   },
-                   {
-                       "Effect": "Allow",
-                       "Action": [
-                           "s3:PutObject",
-                           "s3:GetObject",
-                           "s3:DeleteObject"
-                       ],
-                       "Resource": [
-                           "arn:aws:s3:::BUCKET_NAME/*"
-                       ]
-                   }
-               ]
-           }
+               {
+                   "Version": "2012-10-17",
+                   "Statement": [
+                       {
+                           "Effect": "Allow",
+                           "Action": [
+                               "s3:ListBucket"
+                           ],
+                           "Resource": [
+                               "arn:aws:s3:::BUCKET_NAME"
+                           ]
+                       },
+                       {
+                           "Effect": "Allow",
+                           "Action": [
+                               "s3:PutObject",
+                               "s3:GetObject",
+                               "s3:DeleteObject"
+                           ],
+                           "Resource": [
+                               "arn:aws:s3:::BUCKET_NAME/*"
+                           ]
+                       }
+                   ]
+               }
 
    #. Click the *Next* button
    #. Enter a *Policy name* (``redmine-backup``, for example)
@@ -494,7 +499,7 @@ Create a backup user
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click the *Create user* button
 
-   #. Enter a *User name* (``redmine-backup``, for example)#z
+   #. Enter a *User name* (``redmine-backup``, for example)
    #. Click the *Next* button
    #. Click the *Attach existing policies directly* radio button
 

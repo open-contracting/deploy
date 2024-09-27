@@ -30,7 +30,7 @@ This will:
 -  Install packages for creating Python virtual environments
 -  Fetch the git repository into the ``target`` directory within the home directory of the ``user``
 -  Initialize a virtual environment in a ``.ve`` directory within the repository's directory
--  Install ``requirements.txt`` with ``pip-sync`` from `pip-tools <https://pypi.org/project/pip-tools/>`__
+-  Install ``requirements.txt`` with ``uv pip sync`` from `uv <https://docs.astral.sh/uv/>`__
 -  Reload uWSGI (if configured below) if the repository's contents changed
 
 Add configuration files

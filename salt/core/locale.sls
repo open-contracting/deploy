@@ -8,8 +8,7 @@ system_locale:
     - require:
       - locale: {{ pillar.locale }}_locale
 
-# To avoid error when running "pip-sync -q".
-# https://click.palletsprojects.com/en/7.x/python3/
+# https://click.palletsprojects.com/en/latest/unicode-support/#surrogate-handling
 /etc/default/locale:
   file.keyvalue:
     - key: LC_ALL
