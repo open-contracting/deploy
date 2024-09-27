@@ -177,10 +177,14 @@ postgresql-reload:
     - user: postgres
     - group: postgres
     - makedirs: True
+    - require:
+      - pkg: postgresql
   cmd.run:
     - name: /usr/lib/postgresql/{{ pillar.postgres.version }}/bin/initdb -D {{ pillar.postgres.data_directory }}
     - runas: postgres
     - creates: {{ pillar.postgres.data_directory }}/PG_VERSION
+    - require:
+      - pkg: postgresql
     - watch_in:
       - service: postgresql
 {% endif %}
