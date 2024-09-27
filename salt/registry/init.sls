@@ -23,9 +23,9 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name dat
 
 {{ entry.exporter_host_dir }}:
   file.directory:
-    - makedirs: True
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
+    - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 

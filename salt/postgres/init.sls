@@ -39,9 +39,9 @@ postgres_authorized_keys:
 {% if 'ssh_key' in pillar.postgres %}
 /var/lib/postgresql/.ssh:
   file.directory:
-    - makedirs: True
     - user: postgres
     - group: postgres
+    - makedirs: True
     - mode: 700
     - require:
       - pkg: postgresql
@@ -120,6 +120,8 @@ postgresql-reload:
     - user: postgres
     - group: postgres
     - mode: 640
+    - require:
+      - pkg: postgresql
     - watch_in:
       - module: postgresql-reload
 
@@ -130,6 +132,8 @@ postgresql-reload:
     - user: postgres
     - group: postgres
     - mode: 600
+    - require:
+      - pkg: postgresql
 
 /etc/postgresql/{{ pillar.postgres.version }}/main/privkey.pem:
   file.copy:
@@ -137,6 +141,8 @@ postgresql-reload:
     - user: postgres
     - group: postgres
     - mode: 600
+    - require:
+      - pkg: postgresql
 
 /etc/postgresql/{{ pillar.postgres.version }}/main/postgresql.conf:
   file.keyvalue:
@@ -173,6 +179,8 @@ postgresql-reload:
     - user: postgres
     - group: postgres
     - mode: 640
+    - require:
+      - pkg: postgresql
     - watch_in:
       - service: postgresql
 {% if salt['pillar.get']('postgres:backup:stanza') %}
