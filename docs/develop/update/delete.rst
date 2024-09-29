@@ -56,21 +56,14 @@ Delete a cron job
 Delete a service
 ----------------
 
-`Stop <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
-
-To stop and disable the ``icinga2`` service on the ``docs`` target, for example:
+`Stop <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service. For example:
 
 .. code-block:: bash
 
-   ./run.py 'docs' service.stop icinga2
-   ./run.py 'docs' service.disable icinga2
+   ./run.py 'mytarget' service.stop myservice
+   ./run.py 'mytarget' service.disable myservice
 
-If you deleted the ``uwsgi`` service, also run, for example:
-
-.. code-block:: bash
-
-   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-available/cove.ini
-   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-enabled/cove.ini
+Delete any configuration files added byto the service (for example, under ``sites-available`` and ``sites-enabled``, for Apache).
 
 .. note::
 

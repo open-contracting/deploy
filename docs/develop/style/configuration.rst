@@ -10,16 +10,10 @@ To make a configuration file more reusable:
 
       {{ bind_address|default('127.0.0.1') }}
 
-   If the key contains a hyphen:
-
-   .. code-block:: jinja
-
-      {{ entry.uwsgi.max-requests|default(1000) }}
-
 -  Make values optional, for example:
 
    .. code-block:: jinja
 
-      {%- if 'cheaper' in entry.uwsgi %}
-      cheaper = {{ entry.uwsgi.cheaper }}
+      {%- if 'ipv6' in pillar.apache %}
+      Listen [{{ pillar.apache.ipv6 }}]:443
       {%- endif %}

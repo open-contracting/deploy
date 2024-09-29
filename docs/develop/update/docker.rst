@@ -69,10 +69,6 @@ Validate the file, for example:
 
    docker compose config -q salt/docker_apps/files/registry.yaml
 
-.. seealso::
-
-   :ref:`django-configure`
-
 .. admonition:: Stateful containers
 
    Containers are designed to be interrupted at any time, whereas stateful services like :doc:`PostgreSQL<postgres>` and :doc:`RabbitMQ<rabbitmq>` can fail in such conditions. Instead, run these on the host, where they are easier to operate with high reliability.
@@ -120,12 +116,25 @@ In the service's Pillar file, add, for example:
      myapp:
        target: mytarget
        env:
-         MYVAR: myvalue
+         FATHOM_ANALYTICS_ID: ABCDEFGH
+
+In the service's private Pillar file, add, for example:
+
+.. code-block:: yaml
+
+   docker_apps:
+     myapp:
+       env:
+         SENTRY_DSN: https://1234567890abcdef1234567890abcdef@o123456.ingest.sentry.io/1234567890123456
 
 This will create files in the ``/data/deploy/mytarget`` directory:
 
 -  ``docker-compose.yaml``, containing the same as the ``myapp.yaml`` file
 -  ``.env``, containing the values under the ``env`` key
+
+.. seealso::
+
+   `Environment variables <https://ocp-software-handbook.readthedocs.io/en/latest/python/django.html#environment-variables>`__ for Django projects
 
 Reference:
 

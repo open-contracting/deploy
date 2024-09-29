@@ -544,7 +544,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 #. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
 #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
-#. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
+#. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
 
 .. seealso::
 

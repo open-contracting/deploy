@@ -74,7 +74,7 @@ Services should restart normally. To manually restart a service, run, for exampl
 
 .. code-block:: bash
 
-   ./run.py TARGET service.restart uwsgi
+   ./run.py TARGET service.restart apache2
 
 If a new configuration isn't taking effect, check the service's status on the server:
 
