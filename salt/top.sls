@@ -51,7 +51,6 @@ base:
     - kingfisher.summarize
     - pelican.backend
     - pelican.frontend
-    - cron
 
   'prometheus':
     - prometheus
@@ -87,6 +86,9 @@ base:
 
   'I@backup:*':
     - backup
+
+  'I@cron:*':
+    - cron
 
   'I@mysql:configuration':
     - mysql
