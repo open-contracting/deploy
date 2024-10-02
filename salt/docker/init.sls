@@ -73,6 +73,7 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
+# Other files edit this with file.replace states.
 /home/{{ pillar.docker.user }}/.pgpass:
   file.managed:
     - user: {{ pillar.docker.user }}
