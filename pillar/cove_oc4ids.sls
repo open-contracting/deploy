@@ -17,3 +17,4 @@ docker_apps:
     env:
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
       FATHOM_ANALYTICS_ID: UHUGOEOK
+      MEMCACHED_URL: http://host.docker.internal:11211
