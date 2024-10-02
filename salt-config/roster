@@ -4,7 +4,7 @@ cove-oc4ids:
   host: ocp17.open-contracting.org
 cove-ocds:
   host: ocp18.open-contracting.org
-credere-production:
+credere:
   host: ocp24.open-contracting.org
 credere-dev:
   host: ocp22.open-contracting.org

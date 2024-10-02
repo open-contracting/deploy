@@ -22,11 +22,11 @@ base:
     - cove_ocds_maintenance
     - private.cove_ocds
 
-  'credere-production':
+  'credere':
     - credere_common
-    - credere_production
-    - credere_production_maintenance
-    - private.credere_production
+    - credere
+    - credere_maintenance
+    - private.credere
 
   'credere-dev':
     - credere_common
