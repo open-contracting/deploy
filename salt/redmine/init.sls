@@ -126,27 +126,27 @@ redmine configure hsts:
     - watch_in:
       - service: apache2
 
-{{ userdir }}/public_html/public/themes/{{ theme }}:
-  file.recurse:
-    - source: salt://private/files/redmine/{{ theme }}
-    - user: {{ user }}
-    - group: {{ user }}
-    - require:
-      - svn: redmine
-    - watch_in:
-      - service: apache2
+# {{ userdir }}/public_html/public/themes/{{ theme }}:
+#   file.recurse:
+#     - source: salt://private/files/redmine/{{ theme }}
+#     - user: {{ user }}
+#     - group: {{ user }}
+#     - require:
+#       - svn: redmine
+#     - watch_in:
+#       - service: apache2
 
-{% for plugin in ('redmine_agile', 'redmine_checklists', 'redmine_contacts', 'redmine_contacts_helpdesk', 'view_customize') %}
-{{ userdir }}/public_html/plugins/{{ plugin }}:
-  file.recurse:
-    - source: salt://private/files/redmine/{{ plugin }}
-    - user: {{ user }}
-    - group: {{ user }}
-    - require:
-      - svn: redmine
-    - watch_in:
-      - service: apache2
-{% endfor %}
+# {% for plugin in ('redmine_agile', 'redmine_checklists', 'redmine_contacts', 'redmine_contacts_helpdesk', 'view_customize') %}
+# {{ userdir }}/public_html/plugins/{{ plugin }}:
+#   file.recurse:
+#     - source: salt://private/files/redmine/{{ plugin }}
+#     - user: {{ user }}
+#     - group: {{ user }}
+#     - require:
+#       - svn: redmine
+#     - watch_in:
+#       - service: apache2
+# {% endfor %}
 
 /home/sysadmin-tools/bin/redmine_cron.sh:
   file.managed:
