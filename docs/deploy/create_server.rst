@@ -1,10 +1,6 @@
 Create a server
 ===============
 
-.. note::
-
-   Dogsbody Technology requires a lead time of six weeks for new servers. This means OCP typically creates new servers.
-
 A server is created either when a service is moving to a new server, or when a service is being introduced.
 
 As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
@@ -573,7 +569,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
-#. Contact Dogsbody Technology to set up maintenance (`see readme <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
+#. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and maintenance (`Linux instructions <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
 #. :doc:`Delete the old server<delete_server>`
 
 If the service is being introduced:

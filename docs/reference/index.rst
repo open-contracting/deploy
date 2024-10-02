@@ -91,7 +91,7 @@ Cybersecurity issues are monitored by `SecurityScorecard <https://platform.secur
 Hosting
 -------
 
-All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
+Servers are hosted by:
 
 -  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers (`Network status <https://status.hetzner.com>`__)
 
@@ -115,6 +115,8 @@ Unmanaged services are:
 
 -  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__ (`Network status <https://status.heroku.com>`__)
 
+.. _admin-access:
+
 Administrative access
 ---------------------
 
@@ -122,18 +124,19 @@ Administrative access
 
    `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html>`__, for access to third-party services
 
-The staff of the following organizations have had administrative roles:
+The server managers are:
 
--  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
--  `Dogsbody Technology <https://www.dogsbody.com>`__
--  `RBC Group <https://www.rbcgrp.com>`__
+-  `Dogsbody Technology <https://www.dogsbody.com>`__ (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) (sysadmin@dogsbody.com) for Linux servers
+-  `RBC Group <https://www.rbcgrp.com>`__ (`EET/EEST <https://www.timeanddate.com/time/zones/eet>`__) for Windows servers
+
+`Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) staff also have administrative roles.
 
 .. _root-access-policy:
 
 Root access
 ~~~~~~~~~~~
 
-Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) should have root access. Otherwise, only developers who are reasonably expected to deploy to a **development server** should have root access to that server; anyone with root access can grant that developer root access.
+Server owners (OCP) and server managers should have root access. Otherwise, only developers who are reasonably expected to deploy to a **development server** should have root access to that server; anyone with root access can grant that developer root access.
 
 Root access should be :ref:`routinely reviewed<review-root-access>`. If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
 
