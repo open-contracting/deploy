@@ -9,6 +9,10 @@ Configure Docker apps
 
    :doc:`../../deploy/docker` and :doc:`../../maintain/docker`
 
+.. important::
+
+   When using Docker, :ref:`configure an external firewall<docker-firewall>`.
+
 The ``docker_apps`` state file performs common operations for apps deployed using Docker Compose. In your app's state file, include it with:
 
 .. code-block:: yaml
