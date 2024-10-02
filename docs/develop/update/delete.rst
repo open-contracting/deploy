@@ -74,22 +74,21 @@ Delete a package
 
 `Remove a package and its configuration files <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
 
-To scrub Icinga-related packages from the ``docs`` target, for example:
+To scrub packages, for example:
 
 .. code-block:: bash
 
-   ./run.py 'docs' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
-   ./run.py 'docs' pkg.autoremove list_only=True
-   ./run.py 'docs' pkg.autoremove purge=True
+   ./run.py 'mytarget' pkg.purge libapache2-mod-proxy-uwsgi,uwsgi-plugin-python3,uwsgi
+   ./run.py 'mytarget' pkg.autoremove list_only=True
+   ./run.py 'mytarget' pkg.autoremove purge=True
 
 Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
 .. code-block:: bash
 
-   dpkg -l | grep icinga
-   dpkg -l | grep nagios
-   ls /etc/icinga2
-   ls /usr/lib/nagios
+   dpkg -l | grep uwsgi
+   ls /etc/uwsgi
+   find /usr -name '*uwsgi*'
 
 .. _delete-firewall-setting:
 
