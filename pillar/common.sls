@@ -7,7 +7,7 @@ maintenance:
 
 system_contacts:
   # For system notifications.
-  root: sysadmin@dogsbody.com
+  root: sysadmin@open-contracting.org,sysadmin@dogsbody.com
   # For cron jobs.
   cron_admin: sysadmin@open-contracting.org,sysadmin@dogsbody.com
 
