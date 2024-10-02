@@ -35,9 +35,3 @@ apache:
 docker:
   user: deployer
   syslog_logging: True
-
-postgres:
-  version: 16
-  # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Azure's firewall.
-  public_access: True
-  configuration: False
