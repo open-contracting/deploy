@@ -19,6 +19,8 @@ These services send email from payments.open-contracting.org:
 
 -  `Trolley <https://support.trolley.com/s/article/How-to-set-up-White-Label-Emails>`__ (using `SendGrid <https://www.twilio.com/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
 
+Servers send email from their FQDN, like ocp42.open-contracting.org.
+
 Check DNS configuration
 ~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -33,6 +35,8 @@ Check DMARC compliance
 Send an email to ping@tools.mxtoolbox.com and `check the results <https://mxtoolbox.com/deliverability>`__ (all green).
 
 Similar tools include `mail-tester <https://www.mail-tester.com>`__ and `Postmark's Spam Check <https://spamcheck.postmarkapp.com>`__.
+
+.. _monitor-dmarc-reports:
 
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
