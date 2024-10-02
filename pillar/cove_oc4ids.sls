@@ -11,10 +11,13 @@ apache:
     cove:
       servername: review-oc4ids.standard.open-contracting.org
 
+memcached:
+  public_access: True
+
 docker_apps:
   cove:
     image: cove-oc4ids
     env:
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
       FATHOM_ANALYTICS_ID: UHUGOEOK
-      MEMCACHED_URL: http://host.docker.internal:11211
+      MEMCACHED_URL: host.docker.internal:11211
