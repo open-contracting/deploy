@@ -523,14 +523,6 @@ Configure reverse DNS
 
 #. :doc:`Deploy the service<deploy>`.
 
-Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/156>`__):
-
--  ``uwsgi``, using the ``service.running`` function. If so, run:
-
-   .. code-block:: bash
-
-      ./run.py TARGET service.restart uwsgi
-
 .. _migrate-server:
 
 6. Migrate from the old server

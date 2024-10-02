@@ -1,30 +1,38 @@
+rsyslog:
+  conf:
+    80-docker.conf: docker.conf
+
+logrotate:
+  conf:
+    docker:
+      source: docker
+
 apache:
   public_access: True
-
-python_apps:
-  cove:
-    user: cove
-    git:
-      branch: main
-      target: cove
-    django:
-      app: cove_project
-      compilemessages: True
-      env:
-        VALIDATION_ERROR_LOCATIONS_LENGTH: 100
-        # https://github.com/requests-cache/requests-cache/blob/main/requests_cache/policy/expiration.py
-        REQUESTS_CACHE_EXPIRE_AFTER: 0 # EXPIRE_IMMEDIATELY
-    apache:
+  sites:
+    cove:
       configuration: django
       context:
-        content: |
-          ErrorDocument 500 "<h2>Sorry, something went wrong.</h2> <p>Sometimes this happens because the input file is too big - maybe try again with a smaller sample.</p><p>Please file a <a href=\"https://github.com/open-contracting/cove-ocds/issues/new\">GitHub issue</a> or email <a href=\"mailto:data@open-contracting.org\">data@open-contracting.org</a> if this problem persists.</p>"
-    uwsgi:
-      configuration: django
-      harakiri: 1800 # 30 min
-      workers: 16
-      cheaper: 4
-      cheaper-initial: 8
-      cheaper-rss-limit-soft-ratio: 0.9
-      threads: 2
-      stats: /home/cove/stats.sock
+        port: 8000
+        static_port: 8001
+        timeout: 1800 # 30 min
+
+docker:
+  user: deployer
+  uid: 1003
+  syslog_logging: True
+
+docker_apps:
+  cove:
+    target: cove
+    host_dir: /data/storage/cove
+    env:
+      DJANGO_PROXY: True
+      SECURE_HSTS_SECONDS: 31536000
+      GUNICORN_CMD_ARGS: --workers 3
+      # lib-cove-web
+      DELETE_FILES_AFTER_DAYS: 90 # default 7
+      REQUESTS_TIMEOUT: 10 # default None
+      VALIDATION_ERROR_LOCATIONS_LENGTH: 100 # default 1000
+      # https://github.com/requests-cache/requests-cache/blob/main/requests_cache/policy/expiration.py
+      REQUESTS_CACHE_EXPIRE_AFTER: 0 # EXPIRE_IMMEDIATELY

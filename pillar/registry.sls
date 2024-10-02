@@ -66,7 +66,7 @@ apache:
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
     registry:
-      configuration: registry
+      configuration: django
       servername: data.open-contracting.org
       context:
         port: 8002

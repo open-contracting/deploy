@@ -6,15 +6,14 @@ network:
     template: linode
     gateway4: 176.58.112.1
 
-python_apps:
-  cove: # adds to cove.sls
-    git:
-      url: https://github.com/open-contracting/cove-oc4ids.git
-    django:
-      env:
-        ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
-        FATHOM_ANALYTICS_ID: UHUGOEOK
-    apache:
+apache:
+  sites:
+    cove:
       servername: review-oc4ids.standard.open-contracting.org
-      context:
-        assets_base_url: /infrastructure
+
+docker_apps:
+  cove:
+    image: cove-oc4ids
+    env:
+      ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
+      FATHOM_ANALYTICS_ID: UHUGOEOK

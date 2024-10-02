@@ -1,0 +1,30 @@
+x-shared: &shared
+  env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
+
+x-django: &django
+  <<: *shared
+  image: "ghcr.io/open-contracting/{{ pillar.docker_apps.cove.image }}-django:latest"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  volumes:
+    # The right-hand path must match the settings.DATABASES default value in the CoVE repository.
+    - {{ pillar.docker_apps.cove.host_dir }}/db:/data/db
+    # The right-hand path must match the settings.MEDIA_ROOT default value in CoVE repository.
+    - {{ pillar.docker_apps.cove.host_dir }}/media:/data/media
+
+services:
+  web:
+    <<: *django
+    ports:
+      - {{ pillar.apache.sites.cove.context.port }}:8000
+  cron:
+    <<: *django
+    profiles:
+      - cron
+  static:
+    <<: *shared
+    image: "ghcr.io/open-contracting/{{ pillar.docker_apps.cove.image }}-static:latest"
+    ports:
+      - {{ pillar.apache.sites.cove.context.static_port }}:8080

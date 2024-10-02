@@ -6,7 +6,7 @@ Find all files uploaded by users
 
 .. code-block:: bash
 
-   find /home/cove/cove/media -mindepth 3 -name '*.json'
+   find /data/storage/cove/media -mindepth 3 -name '*.json'
 
 CoVE OCDS' tests are run against the server, which submit many known filenames, daily. To exclude these, add:
 
@@ -25,7 +25,7 @@ Find the files as above, and store the output. For example:
 
 .. code-block:: bash
 
-   FILES=$(find /home/cove/cove/media -mindepth 3 -name '*.json')
+   FILES=$(find /data/storage/cove/media -mindepth 3 -name '*.json')
 
 For OCDS, run (takes about 4 minutes):
 
@@ -50,7 +50,7 @@ For example:
 
 .. code-block:: bash
 
-   rg -c 'my search string' /home/cove/cove/media
+   rg -c 'my search string' /data/storage/cove/media
 
 To exclude generated files, add:
 

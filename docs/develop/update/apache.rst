@@ -236,13 +236,11 @@ apache.modules.md
 apache.modules.passenger
   Adds the `Passenger app server <https://www.phusionpassenger.com/>`__.
 apache.modules.proxy
-  Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http`` and ``apache.modules.proxy_uwsgi``.
+  Adds `ProxyPass, ProxyPreserveHost and other directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy.html>`__. Included by ``apache.modules.proxy_http``.
 apache.modules.proxy_fcgi
   Provides supports for the `FastCGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_fcgi.html>`__. Included by the ``php-fpm`` state file.
 apache.modules.proxy_http
   Provides support for `HTTP/HTTPS requests in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_http.html>`__. Included by the ``python_apps`` state file.
-apache.modules.proxy_uwsgi
-  Provides supports for the `uWSGI protocol in ProxyPass directives <https://httpd.apache.org/docs/2.4/en/mod/mod_proxy_uwsgi.html>`__. Included by the ``python_apps`` state file.
 apache.modules.rewrite
   Adds the `mod_rewrite rule-based rewriting engine to rewrite requested URLs on the fly <https://httpd.apache.org/docs/2.4/mod/mod_rewrite.html>`__.
 apache.modules.ssl

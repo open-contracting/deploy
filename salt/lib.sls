@@ -100,7 +100,7 @@ unset {{ setting_name }} in {{ filename }}:
   Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
   https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 #}
-{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in) %}
+{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
 {{ directory }}-virtualenv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
