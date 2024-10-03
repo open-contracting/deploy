@@ -4,15 +4,8 @@ Data support
 Create a data support main server
 ---------------------------------
 
-#. Notify RBC Group of the new domain name for the new PostgreSQL server
-#. Adjust reserved disk space to 1% for large disks:
-
-   .. code-block:: bash
-
-      tune2fs -m 1 /dev/md2
-
-Dependent services
-~~~~~~~~~~~~~~~~~~
+Dependencies
+~~~~~~~~~~~~
 
 Tinyproxy
   #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
@@ -21,10 +14,29 @@ Replica, if applicable
   #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
   #. Deploy the ``kingfisher-replica`` service, when ready
 
-Docker
-~~~~~~
+Dependents
+~~~~~~~~~~
 
-#. Check that ``docker.uid`` in the ``pillar/kingfisher_main.sls`` file matches the entry in the ``/etc/passwd`` file.
+#. Notify RBC Group of the new domain name for the new PostgreSQL server
+
+Update Salt
+~~~~~~~~~~~
+
+.. seealso::
+
+   :doc:`../create_server`
+
+#. Check that ``docker.uid`` in the ``pillar/kingfisher_main.sls`` file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
+#. Comment out the state that creates the ``PELICAN_BACKEND_UPDATE_EXCHANGE_RATES`` cron job
+
+Operating system
+~~~~~~~~~~~~~~~~
+
+#. Adjust reserved disk space to 1% for large disks:
+
+   .. code-block:: bash
+
+      tune2fs -m 1 /dev/md2
 
 Docker apps
 ~~~~~~~~~~~
@@ -43,41 +55,13 @@ Docker apps
 
 #. :doc:`Pull new images and start new containers for each Docker app<../docker>`.
 
-Pelican backend
-~~~~~~~~~~~~~~~
-
-.. attention::
-
-   A cron job updates the ``exchange_rates`` table every 12 hours. Complete this step before the next run.
-
-The initial migrations for Pelican backend are run by Salt.
-
-#. Connect to the old server, and dump the ``exchange_rates`` table:
-
-   .. code-block:: bash
-
-      sudo -i -u postgres psql -c '\copy exchange_rates (valid_on, rates, created, modified) to stdout' pelican_backend > exchange_rates.csv
-
-#. Copy the database dump to your local machine. For example:
-
-   .. code-block:: bash
-
-      rsync -avz root@ocp13.open-contracting.org:~/exchange_rates.csv .
-
-#. Copy the database dump to the new server. For example:
-
-   .. code-block:: bash
-
-      rsync -avz exchange_rates.sql root@ocp23.open-contracting.org:~/
-
-#. Populate the ``exchange_rates`` table:
-
-   .. code-block:: bash
-
-      psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
-
 Kingfisher Collect
 ~~~~~~~~~~~~~~~~~~
+
+Once DNS has propagated, :ref:`update-spiders`.
+
+Copy incremental data
+^^^^^^^^^^^^^^^^^^^^^
 
 #. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user:
 
@@ -141,7 +125,41 @@ Kingfisher Collect
 #. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<../deploy>`.
-#. :ref:`update-spiders`.
+
+Pelican backend
+~~~~~~~~~~~~~~~
+
+The initial migrations for Pelican backend are run by Salt.
+
+#. Connect to the old server, and dump the ``exchange_rates`` table:
+
+   .. code-block:: bash
+
+      sudo -i -u postgres psql -c '\copy exchange_rates (valid_on, rates, created, modified) to stdout' pelican_backend > exchange_rates.csv
+
+#. Copy the database dump to your local machine. For example:
+
+   .. code-block:: bash
+
+      rsync -avz root@ocp13.open-contracting.org:~/exchange_rates.csv .
+
+#. Copy the database dump to the new server. For example:
+
+   .. code-block:: bash
+
+      rsync -avz exchange_rates.sql root@ocp23.open-contracting.org:~/
+
+#. Populate the ``exchange_rates`` table:
+
+   .. code-block:: bash
+
+      psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
+
+Restore Salt
+~~~~~~~~~~~~
+
+#. Uncomment the state that creates the ``PELICAN_BACKEND_UPDATE_EXCHANGE_RATES`` cron job
+#. :doc:`Deploy the new server<../deploy>`
 
 Create a data support replica server
 ------------------------------------
