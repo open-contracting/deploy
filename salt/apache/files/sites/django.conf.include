@@ -10,8 +10,8 @@ RequestHeader set X-Forwarded-Proto https env=HTTPS
         ('/static/', '/static/'),
     )
 %}
-ProxyPass {{ path }} http://127.0.0.1:{{ static_port }}{{ path }}
-ProxyPassReverse {{ path }} http://127.0.0.1:{{ static_port }}{{ path }}
+ProxyPass {{ path }} http://127.0.0.1:{{ static_port }}{{ url }}
+ProxyPassReverse {{ path }} http://127.0.0.1:{{ static_port }}{{ url }}
 {%- endfor %}
 
 ProxyPass / http://127.0.0.1:{{ port }}/ timeout={{ timeout }}
