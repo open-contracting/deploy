@@ -30,9 +30,5 @@ docker_apps:
       DJANGO_PROXY: True
       SECURE_HSTS_SECONDS: 31536000
       GUNICORN_CMD_ARGS: --workers 3
-      # lib-cove-web
-      DELETE_FILES_AFTER_DAYS: 90 # default 7
-      REQUESTS_TIMEOUT: 10 # default None
-      VALIDATION_ERROR_LOCATIONS_LENGTH: 100 # default 1000
       # https://github.com/requests-cache/requests-cache/blob/main/requests_cache/policy/expiration.py
       REQUESTS_CACHE_EXPIRE_AFTER: 0 # EXPIRE_IMMEDIATELY
