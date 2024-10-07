@@ -137,6 +137,8 @@ For security, remember to set ``sslmode`` to ``'require'``.
        host='postgres.kingfisher.open-contracting.org',
        sslmode='require')
 
+.. _improve-slow-queries:
+
 Improve slow queries
 --------------------
 
