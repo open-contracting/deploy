@@ -9,6 +9,10 @@ Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging
 Find slow queries
 ~~~~~~~~~~~~~~~~~
 
+.. seealso::
+
+   :ref:`improve-slow-queries`
+
 Use the `pg_stat_statements <https://www.postgresql.org/docs/current/pgstatstatements.html>`__ extension. For example:
 
 .. code-block:: sql
@@ -59,7 +63,7 @@ Each individual should have a personal account, and each service should have a s
 Add a user
 ~~~~~~~~~~
 
-#. Add, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/features/password-generator>`__ and ``USERNAME`` with a recognizable username (for example, the lowercase first initial and family name of the person, like ``jdoe``):
+#. Add, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/features/password-generator>`__ and ``USERNAME`` with a recognizable username (for people, use the lowercase first initial and the family name, like ``jdoe``):
 
    .. code-block:: yaml
 
@@ -69,7 +73,7 @@ Add a user
           USERNAME:
             password: "PASSWORD"
 
-#. Assign the user to groups. For example, the ``kingfisher-main`` target has the groups:
+#. Assign the user to groups. For example, the ``kingfisher-main`` target includes the groups:
 
    kingfisher_process_read
      ``SELECT`` on all tables in schema ``public``
