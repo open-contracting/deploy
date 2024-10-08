@@ -299,8 +299,8 @@ Set up full backups
 
       `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
 
-Configure replica server, if any
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure the replica, if any
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. seealso::
 
