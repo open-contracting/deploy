@@ -144,7 +144,7 @@ Improve slow queries
 
 .. seealso::
 
-   `PostgreSQL <https://ocp-software-handbook.readthedocs.io/en/latest/services/postgresql.html>`__ in the Software Development Handbook
+   *Define tables*, *Define indexes* and *Paginate rows* under `PostgreSQL <https://ocp-software-handbook.readthedocs.io/en/latest/services/postgresql.html>`__ in the Software Development Handbook
 
 To see the queries running under your user account, run:
 

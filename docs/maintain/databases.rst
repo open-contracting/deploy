@@ -1,8 +1,8 @@
 Maintain PostgreSQL
 ===================
 
-Troubleshoot
-------------
+Troubleshoot performance
+------------------------
 
 Check the log file – for example, ``/var/log/postgresql/postgresql-15-main.log`` – if debugging an unscheduled restart of the ``postgres`` service, for example.
 
@@ -101,6 +101,30 @@ To get the table related to a TOAST table, take the number after ``pg_toast_``, 
 .. code-block:: sql
 
    SELECT '16712'::regclass;
+
+Troubleshoot backups
+--------------------
+
+If ``cron`` sends an email like:
+
+.. code-block:: none
+
+   ERROR: [082]: WAL segment 00000001000009FD0000000D was not archived before the 60000ms timeout
+          HINT: check the archive_command to ensure that all options are correct (especially --stanza).
+          HINT: check the PostgreSQL server log for errors.
+          HINT: run the 'start' command if the stanza was previously stopped.
+
+(The same message will appear in a log file like ``/var/log/pgbackrest/STANZA-backup.log``.)
+
+This error occurs occasionally (for example, due to a network issue), and is not a concern. To confirm, after 24 hours, view recent backups with:
+
+.. code-block:: bash
+
+   sudo -u postgres pgbackrest info --stanza=kingfisher-2023
+
+You should see a "full backup" within one week of the error, an "incr backup" the day before the error, and another the day after. (In other words, an incremental backup failed.)
+
+If a full backup failed, re-run the weekly full backup command listed in the ``/etc/cron.d/postgres_backups`` file.
 
 Check usage
 -----------
