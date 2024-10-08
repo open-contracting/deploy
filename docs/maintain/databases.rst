@@ -418,7 +418,7 @@ Find unexpected tables in the public schema:
    JOIN pg_namespace n ON c.relnamespace = n.oid
    WHERE
        nspname = 'public' AND
-       -- Ignore sequences and indices
+       -- Ignore sequences and indexes
        relkind NOT IN ('S', 'i') AND
        relname NOT IN (
            -- Kingfisher Process tables
