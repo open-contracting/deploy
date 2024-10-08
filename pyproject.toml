@@ -26,3 +26,11 @@ ignore-variadic-names = true
 "tests/*" = [
     "ARG001", "D", "FBT003", "INP001", "PLR2004", "S", "TRY003",
 ]
+
+[tool.sqlfluff.core]
+dialect = "postgres"
+
+[tool.sqlfluff.templater.jinja.context]
+path = "mypath"
+spider = "myspider"
+users = ["myuser"]

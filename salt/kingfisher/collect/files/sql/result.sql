@@ -1,7 +1,8 @@
 CREATE TABLE IF NOT EXISTS {{ spider }}_result (
     id serial PRIMARY KEY, -- an auto-incrementing ID that has no semantics
     ocid text, -- matches /ocid in the compiled release JSON
-    subject text, -- the indicator's scope, one of OCID, Buyer, ProcuringEntity, Tenderer
+    -- the indicator's scope, one of OCID, Buyer, ProcuringEntity, Tenderer
+    subject text,
     code text, -- the indicator's code
     result numeric, -- an individual indicator result
     buyer_id text, -- matches /buyer/id in the JSON
@@ -11,5 +12,5 @@ CREATE TABLE IF NOT EXISTS {{ spider }}_result (
 );
 
 {%- for user in users %}
-GRANT SELECT ON {{ spider }}_result TO {{ user }};
+    GRANT SELECT ON {{ spider }}_result TO {{ user }};
 {%- endfor %}

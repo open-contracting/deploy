@@ -11,4 +11,6 @@ CREATE TABLE indicator (
     description_es text
 );
 
-COPY indicator (code, category, title, description, category_es, title_es, description_es) from '{{ path }}' delimiter ',' csv header;
+COPY indicator (
+    code, category, title, description, category_es, title_es, description_es
+) FROM '{{ path }}' DELIMITER ',' CSV HEADER;

@@ -8,4 +8,6 @@ CREATE TABLE codelist (
     UNIQUE (codelist, code)
 );
 
-COPY codelist (codelist, code, code_es) from '{{ path }}' delimiter ',' csv header;
+COPY codelist (
+    codelist, code, code_es
+) FROM '{{ path }}' DELIMITER ',' CSV HEADER;
