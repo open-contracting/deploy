@@ -184,23 +184,7 @@ Run, for example:
    ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf
    ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf.include
 
-.. _delete-postgresql-user:
-
 Delete a PostgreSQL user
 ------------------------
 
-#. Add a temporary state, for example:
-
-   .. code-block:: yaml
-
-      delete-USER:
-        postgres_user.absent:
-          name: USER
-
-#. Run the temporary state, for example:
-
-   .. code-block:: bash
-
-      ./run.py 'mytarget' state.sls_id delete-USER postgres
-
-#. Remove the temporary state
+See :ref:`pg-delete-user`.

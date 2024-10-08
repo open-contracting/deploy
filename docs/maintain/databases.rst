@@ -4,7 +4,7 @@ Maintain PostgreSQL
 Troubleshoot
 ------------
 
-Check the log file, ``/var/log/postgresql/postgresql-11-main.log``, if debugging an unscheduled restart of the ``postgres`` service, for example.
+Check the log file, ``/var/log/postgresql/postgresql-*-main.log``, if debugging an unscheduled restart of the ``postgres`` service, for example.
 
 Find slow queries
 ~~~~~~~~~~~~~~~~~
@@ -55,10 +55,12 @@ To reset the statistics:
 
 Reference: `Tracking down slow queries in PostgreSQL <https://www.cybertec-postgresql.com/en/pg_stat_statements-the-way-i-like-it/>`__
 
+.. _pg-control-access:
+
 Control access
 --------------
 
-Each individual should have a personal account, and each service should have a service account.
+Each individual should have a personal account.
 
 Add a user
 ~~~~~~~~~~
@@ -111,6 +113,8 @@ Update a password
 #. :doc:`Deploy the service<../deploy/deploy>`
 
 #. Notify the contact at the email address in the comment
+
+.. _pg-delete-user:
 
 Delete a user
 ~~~~~~~~~~~~~

@@ -31,7 +31,11 @@ To enable public access, update the server's Pillar file:
 Add users, groups, databases and schemas
 ----------------------------------------
 
-To configure the database for an application:
+.. seealso::
+
+   :ref:`pg-control-access`
+
+Each service should have a service account. To configure the database for an application:
 
 #. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/features/password-generator>`__ (uncheck *Symbols*) and ``USERNAME`` with a recognizable username:
 
@@ -106,10 +110,6 @@ To configure the database for an application:
       In most cases, the ``SCHEMA`` is ``public``, and the ``DATABASE``, ``APPLICATION`` and ``USERNAME`` are all the same.
 
 #. Add the private Pillar file to the top file entry for the application.
-
-.. note::
-
-   To delete a PostgreSQL user, :ref:`follow these instructions<delete-postgresql-user>`.
 
 .. _pg-add-configuration:
 
@@ -299,8 +299,8 @@ Set up full backups
 
       `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
 
-Configure the replica server, if any
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Configure replica server, if any
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. seealso::
 
