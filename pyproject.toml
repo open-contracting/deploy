@@ -29,6 +29,10 @@ ignore-variadic-names = true
 
 [tool.sqlfluff.core]
 dialect = "postgres"
+capitalisation_policy = "upper"
+extended_capitalisation_policy = "lower"
+preferred_not_equal_style = "ansi"
+preferred_type_casting_style = "shorthand"
 
 [tool.sqlfluff.templater.jinja.context]
 path = "mypath"
