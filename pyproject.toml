@@ -29,10 +29,27 @@ ignore-variadic-names = true
 
 [tool.sqlfluff.core]
 dialect = "postgres"
+
+[tool.sqlfluff.rules.capitalisation.keywords]
 capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.literals]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.functions]
 extended_capitalisation_policy = "lower"
-preferred_not_equal_style = "ansi"
+
+[tool.sqlfluff.rules.capitalisation.identifiers]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.capitalisation.types]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.convention.casting_style]
 preferred_type_casting_style = "shorthand"
+
+[tool.sqlfluff.rules.convention.not_equal]
+preferred_not_equal_style = "ansi"
 
 [tool.sqlfluff.templater.jinja.context]
 path = "mypath"
