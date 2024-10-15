@@ -561,7 +561,7 @@ Configure reverse DNS
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
-#. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and maintenance (`Linux instructions <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
+#. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and :doc:`maintenance<../develop/update/maintenance>`
 #. :doc:`Delete the old server<delete_server>`
 
 If any services are being introduced:

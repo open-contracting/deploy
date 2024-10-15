@@ -69,7 +69,7 @@ linkcheck_ignore = [
     r'^https://github\.com/open-contracting/[^/]+/issues/new',
     r'^https://sentry.io/organizations/open-contracting-partnership/',
     # Private repositories return not found.
-    r'^https://github\.com/open-contracting/(?:deploy-pillar-private|dogsbody-maintenance)',
+    r'^https://github\.com/open-contracting/(?:deploy-pillar-private)',
 ]
 linkcheck_anchors_ignore_for_url = (
     r'^https://github\.com/[^/]+/[^/]+/blob/',

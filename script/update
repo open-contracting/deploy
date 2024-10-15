@@ -18,12 +18,6 @@ main() {
         git checkout main
         git pull --rebase origin main
     )
-
-    (
-        cd salt/maintenance
-        git checkout main
-        git pull --rebase origin main
-    )
 }
 
 main

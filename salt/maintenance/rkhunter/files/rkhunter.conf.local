@@ -1,0 +1,24 @@
+ALLOW_SSH_PROT_V1=2
+{%- if grains.osmajorrelease >= 22 %}
+SCRIPTWHITELIST=/usr/bin/egrep
+SCRIPTWHITELIST=/usr/bin/fgrep
+SCRIPTWHITELIST=/usr/bin/which.debianutils
+{%- else %}
+SCRIPTWHITELIST=/bin/egrep
+SCRIPTWHITELIST=/bin/fgrep
+SCRIPTWHITELIST=/bin/which
+{%- endif %}
+SCRIPTWHITELIST=/usr/bin/ldd
+SCRIPTWHITELIST=/usr/sbin/adduser
+ALLOW_SSH_ROOT_USER=without-password
+ALLOWDEVFILE=/dev/shm/sem.netdata_sem_cgroup_ebpf
+ALLOWDEVFILE=/dev/shm/netdata_sem_cgroup_ebpf
+ALLOWDEVFILE=/dev/shm/netdata_shm_cgroup_ebpf
+ALLOWDEVFILE=/dev/shm/mongoc*
+{%- if salt['pillar.get']('maintenance:patching') != "manual" %}
+# Disabled for autopatching servers
+DISABLE_TESTS=properties
+{%-  endif %}
+{%- if salt['pillar.get']('maintenance:rkhunter_customisation') %}
+{{ salt['pillar.get']('maintenance:rkhunter_customisation') }}
+{%-  endif %}
