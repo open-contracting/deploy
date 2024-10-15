@@ -10,11 +10,11 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
-      - {{ pillar.docker_apps.pelican_frontend.port }}:8000
-{%- if 'reports' in pillar.docker_apps.pelican_frontend %}
+      - {{ entry.port }}:8000
+{%- if entry.get('reports') %}
     volumes:
       # The right-hand path must match the STORAGES default value in pelican-frontend.
-      - {{ pillar.docker_apps.pelican_frontend.host_dir }}:/data
+      - {{ entry.host_dir }}:/data
   static:
     <<: *shared
     image: "ghcr.io/open-contracting/pelican-frontend-static:latest"

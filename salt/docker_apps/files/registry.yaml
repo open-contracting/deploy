@@ -12,7 +12,7 @@ x-django: &django
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
     # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
-    - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
+    - {{ entry.exporter_host_dir }}:/data/exporter
 
 services:
   web:

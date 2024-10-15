@@ -133,8 +133,21 @@ In the server's private Pillar file, add, for example:
 
 This will create files in the ``/data/deploy/mytarget`` directory:
 
--  ``docker-compose.yaml``, containing the same as the ``myapp.yaml`` file
+-  ``docker-compose.yaml``, with the contents of the ``salt/docker_apps/files/myapp.yaml`` file
 -  ``.env``, containing the values under the ``env`` key
+
+To reuse a Docker Compose file, do, for example:
+
+.. code-block:: yaml
+   :emphasize-lines: 3,6
+
+   docker_apps:
+     cove_ocds:
+       configuration: cove
+       target: cove-ocds
+     cove_oc4ids:
+       configuration: cove
+       target: cove-oc4ids
 
 .. seealso::
 

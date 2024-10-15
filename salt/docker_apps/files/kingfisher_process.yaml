@@ -20,7 +20,7 @@ services:
   web:
     <<: *shared
     ports:
-      - {{ pillar.docker_apps.kingfisher_process.port }}:8000
+      - {{ entry.port }}:8000
   api_loader:
     <<: *shared
     command: "python manage.py api_loader"
@@ -28,7 +28,7 @@ services:
   file_worker:
     <<: *filesystem
     command: "python manage.py file_worker"
-{%- if pillar.docker_apps.kingfisher_process.env.get('ENABLE_CHECKER') %}
+{%- if entry.env.get('ENABLE_CHECKER') %}
   checker:
     <<: *shared
     command: "python manage.py checker"

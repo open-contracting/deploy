@@ -46,8 +46,8 @@ allow {{ userdir }} access:
 
 {{ directory }}/requirements.txt:
   file.managed:
-    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt
-    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.get('ref', 'main') }}/requirements.txt.sha256
+    - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.ref|default('main') }}/requirements.txt
+    - source_hash: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.ref|default('main') }}/requirements.txt.sha256
     - user: {{ user }}
     - group: {{ user }}
     - mode: 444
