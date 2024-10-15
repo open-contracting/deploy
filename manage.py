@@ -3,15 +3,16 @@
 """$(dirname $(readlink $(which salt-ssh) || which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
 
 import contextlib
+import re
 import socket
 import subprocess
 import sys
 from collections import defaultdict
+from email.parser import Parser
+from email.policy import default
+from urllib.parse import urlparse
 
 import click
-
-import salt.cli.ssh
-import salt.client.ssh
 
 PROVIDERS = (
     "linode",
@@ -63,6 +64,9 @@ def compare(content, get_item, mode="diff", margin=0, expected_providers=None):
 
 
 def salt_ssh(*args):
+    import salt.cli.ssh
+    import salt.client.ssh
+
     # See run.py
     sys.argv = ["salt-ssh", *args]
     client = salt.cli.ssh.SaltSSH()
@@ -112,6 +116,13 @@ def autoremove(margin, provider):
     """List packages that can be auto-removed and that are common to all servers of the same provider."""
     content = salt_ssh("*", "pkg.autoremove", "list_only=True")
     compare(content, lambda line: line.strip()[2:], mode="comm", margin=margin, expected_providers=provider)
+
+
+@cli.command()
+@click.argument("file", type=click.File())
+def email_urls(file):
+    message = Parser(policy=default).parsestr(file.read())
+    print('\n'.join(re.findall(r'http[^\s>]+', message.get_body(preferencelist=('plain', 'html')).get_content())))
 
 
 if __name__ == "__main__":
