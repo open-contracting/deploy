@@ -33,7 +33,7 @@ Configure Docker
 
    Do this only once per server.
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -112,7 +112,7 @@ Reference:
 Configure Docker app
 --------------------
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -122,7 +122,7 @@ In the service's Pillar file, add, for example:
        env:
          FATHOM_ANALYTICS_ID: ABCDEFGH
 
-In the service's private Pillar file, add, for example:
+In the server's private Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -159,7 +159,7 @@ To connect to the host's services, like PostgreSQL or RabbitMQ, add to the Docke
        extra_hosts:
          - "host.docker.internal:host-gateway"
 
-Then, under the ``env`` key in the service's Pillar file, use ``host.docker.internal`` instead of ``localhost``. For example:
+Then, under the ``env`` key in the server's Pillar file, use ``host.docker.internal`` instead of ``localhost``. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5
@@ -179,7 +179,7 @@ Reference:
 Map a port
 ~~~~~~~~~~
 
-If the Dockerfile exposes a port, in the service's Pillar file, add, for example:
+If the Dockerfile exposes a port, in the server's Pillar file, add, for example:
 
 .. code-block:: yaml
    :emphasize-lines: 4

@@ -7,7 +7,7 @@ rsyslog
 To add an rsyslog configuration file:
 
 #. Add a configuration file to ``salt/core/rsyslog/files``
-#. Add a mapping to the service's Pillar file
+#. Add a mapping to the server's Pillar file
 
 For example:
 
@@ -27,7 +27,7 @@ logrotate
 ---------
 
 #. Add a configuration file to ``salt/core/logrotate/files``
-#. Add a mapping to the service's Pillar file
+#. Add a mapping to the server's Pillar file
 
 For example:
 

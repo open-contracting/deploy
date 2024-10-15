@@ -18,4 +18,4 @@ Configure backups
           # Must match directory in coalition/init.sls.
           - /home/coalition/public_html/
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`

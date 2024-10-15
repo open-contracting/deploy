@@ -50,7 +50,7 @@ Delete a cron job
 -----------------
 
 #. Change ``cron.present`` to ``cron.absent`` in the Salt state
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 #. Delete the Salt state
 
 Delete a service
@@ -63,7 +63,7 @@ Delete a service
    ./run.py 'mytarget' service.stop myservice
    ./run.py 'mytarget' service.disable myservice
 
-Delete any configuration files added byto the service (for example, under ``sites-available`` and ``sites-enabled``, for Apache).
+Delete any configuration files added by the service (for example, under ``sites-available`` and ``sites-enabled``, for Apache).
 
 .. note::
 
@@ -107,7 +107,7 @@ Delete a firewall setting
 
       {{ unset_firewall('PUBLIC_POSTGRESQL') }}
 
-#. Deploy the relevant service, for example:
+#. Deploy the relevant server, for example:
 
    .. code-block:: bash
 

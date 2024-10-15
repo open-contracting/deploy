@@ -6,7 +6,7 @@ Apache
 
 Follow the :doc:`apache` documentation, using the ``wordpress`` configuration at the :ref:`apache-sites` step.
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -80,14 +80,14 @@ WordPress
 
    Salt contains `WordPress states <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.wordpress.html>`__, but they are limited. Also, WordPress is often deployed by copying files, rather than via fresh installs.
 
-#. Configure `WP-CLI <https://wp-cli.org>`__. In the service's Pillar file, add, for example:
+#. Configure `WP-CLI <https://wp-cli.org>`__. In the server's Pillar file, add, for example:
 
    .. code-block:: yaml
 
       wordpress:
         cli_version: 2.7.1
 
-#. :doc:`Deploy the service<../../deploy/deploy>`.
+#. :doc:`Deploy the server<../../deploy/deploy>`.
 #. :doc:`Connect to the server<../../use/ssh>` as the WordPress user (e.g. ``coalition``).
 #. Change to the ``public_html`` directory:
 

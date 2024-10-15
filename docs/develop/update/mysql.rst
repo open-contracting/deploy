@@ -66,7 +66,7 @@ Configure MySQL
       mysql:
         configuration: redmine
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/mysql/conf.d`` directory on the server.
 
@@ -86,4 +86,4 @@ Set up backups
         backup:
           location: ocp-coalition-backup/database
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`

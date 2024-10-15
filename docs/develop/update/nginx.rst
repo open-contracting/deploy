@@ -8,7 +8,7 @@ Configure Nginx
 Allow HTTP/HTTPS traffic
 ------------------------
 
-Add to your service's Pillar file:
+Add to your server's Pillar file:
 
 .. code-block:: yaml
 
@@ -36,7 +36,7 @@ You can configure a site with the default configuration, or a custom configurati
 Default configuration
 ~~~~~~~~~~~~~~~~~~~~~
 
-Add to your service's Pillar file:
+Add to your server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 3-9
@@ -67,7 +67,7 @@ Here, the ``/etc/nginx/sites-available/mysite.conf.include`` file uses the ``sal
 Custom configuration
 ~~~~~~~~~~~~~~~~~~~~
 
-Instead, add to your service's Pillar file:
+Instead, add to your server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 5
@@ -99,7 +99,7 @@ If the server name is new, you must:
 
       Let's Encrypt will reach a `Failed Validation <https://letsencrypt.org/docs/failed-validation-limit/>`__ limit if DNS is not propagated.
 
-#. :doc:`Deploy the service<../../deploy/deploy>`, if not already done.
+#. :doc:`Deploy the server<../../deploy/deploy>`, if not already done.
 #. :doc:`Connect to the server<../../use/ssh>`
 #. Acquire SSL certificates, replacing ``DOMAIN``:
 

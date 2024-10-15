@@ -14,7 +14,7 @@ Configure Apache
 Allow HTTP/HTTPS traffic
 ------------------------
 
-Add to your service's Pillar file:
+Add to your server's Pillar file:
 
 .. code-block:: yaml
 
@@ -33,7 +33,7 @@ If you are only using Apache to serve Python apps, continue from :doc:`python`.
 Bind addresses
 --------------
 
-If the server has multiple web servers for different IPs, add to your service's Pillar file:
+If the server has multiple web servers for different IPs, add to your server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 2-3
@@ -48,7 +48,7 @@ If the server has multiple web servers for different IPs, add to your service's 
 Add sites
 ---------
 
-Add to your service's Pillar file:
+Add to your server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 3-9
@@ -115,7 +115,7 @@ Add basic authentication
           Require valid-user
       </Location>
 
-#. Or, use the `proxy <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/proxy.conf.include>`__ configuration in your service's Pillar file:
+#. Or, use the `proxy <https://github.com/open-contracting/deploy/blob/main/salt/apache/files/sites/proxy.conf.include>`__ configuration in your server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 5,7-10
@@ -150,7 +150,7 @@ If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``, `mod_md <
 
       In the meantime, you can :ref:`use Let's Encrypt's staging environment<mod_md-test>`.
 
-#. :doc:`Deploy the service<../../deploy/deploy>`, if not already done. ``mod_md`` will request a certificate from Let's Encrypt.
+#. :doc:`Deploy the server<../../deploy/deploy>`, if not already done. ``mod_md`` will request a certificate from Let's Encrypt.
 #. Check for a message in ``/var/log/apache2/error.log``, replacing ``TARGET``:
 
    .. code-block:: bash
@@ -286,7 +286,7 @@ autoindex
 md
 ~~
 
-You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ by adding Apache directives to your service's Pillar file. For example:
+You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ by adding Apache directives to your server's Pillar file. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 3-5

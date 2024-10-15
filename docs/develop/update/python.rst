@@ -13,7 +13,7 @@ If you already have an ``include`` state, add ``python_apps`` to its list.
 Add basic configuration
 -----------------------
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 

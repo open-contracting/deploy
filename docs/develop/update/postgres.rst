@@ -171,7 +171,7 @@ Configure PostgreSQL
       vm:
         nr_hugepages: 1234
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
@@ -357,7 +357,7 @@ Set up database-specific backups
             - spoonbill_web
             - pelican_frontend
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 
 .. _pg-setup-replication:
 
