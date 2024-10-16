@@ -268,6 +268,7 @@ docker_apps:
       KINGFISHER_PROCESS_MAX_SIZE: 30000
   pelican_frontend:
     target: pelican-frontend
+    site: pelican_frontend
     port: 8001
     host_dir: /data/storage/pelican-frontend
     reports: True

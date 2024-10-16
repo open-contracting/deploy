@@ -32,7 +32,7 @@ services:
   web:
     <<: *django
     ports:
-      - {{ pillar.apache.sites.spoonbill.context.port }}:8000
+      - {{ site.port }}:8000
   celery_worker:
     <<: *django
     command: celery -A spoonbill_web worker -l INFO --concurrency=4
@@ -43,7 +43,7 @@ services:
     <<: *shared
     image: "ghcr.io/open-contracting/spoonbill-web-static:latest"
     ports:
-      - {{ pillar.apache.sites.spoonbill.context.static_port }}:8080
+      - {{ site.static_port }}:8080
     volumes:
       # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
       - {{ entry.host_dir }}/media:/data/media

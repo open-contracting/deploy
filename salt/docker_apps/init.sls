@@ -13,6 +13,9 @@ include:
     - template: jinja
     - context:
         entry: {{ entry|yaml }}
+{% if 'site' in entry %}
+        site: {{pillar.apache.sites[entry.site].context|yaml }}
+{% endif %}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True

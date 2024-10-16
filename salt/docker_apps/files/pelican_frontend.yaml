@@ -10,6 +10,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
+{#- The port is on `entry`, not `site`, because the frontend is not necessarily web-accessible. #}
       - {{ entry.port }}:8000
 {%- if entry.get('reports') %}
     volumes:
@@ -19,5 +20,5 @@ services:
     <<: *shared
     image: "ghcr.io/open-contracting/pelican-frontend-static:latest"
     ports:
-      - {{ pillar.apache.sites.pelican_frontend.context.static_port }}:8080
+      - {{ site.static_port }}:8080
 {%- endif %}

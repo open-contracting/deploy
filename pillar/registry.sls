@@ -132,6 +132,7 @@ kingfisher_collect:
 docker_apps:
   registry:
     target: data-registry
+    site: registry
     exporter_host_dir: /data/storage/exporter_dumps
     env:
       DJANGO_PROXY: True
@@ -180,6 +181,7 @@ docker_apps:
       MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
+    site: spoonbill
     host_dir: /data/storage/spoonbill
     env:
       DJANGO_PROXY: True
