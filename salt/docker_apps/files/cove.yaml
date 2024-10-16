@@ -5,26 +5,29 @@ x-shared: &shared
 
 x-django: &django
   <<: *shared
-  image: "ghcr.io/open-contracting/{{ pillar.docker_apps.cove.image }}-django:latest"
+  image: "ghcr.io/open-contracting/{{ entry.image }}-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
   volumes:
     # The right-hand path must match the settings.DATABASES default value in the CoVE repository.
-    - {{ pillar.docker_apps.cove.host_dir }}/db:/data/db
-    # The right-hand path must match the settings.MEDIA_ROOT default value in CoVE repository.
-    - {{ pillar.docker_apps.cove.host_dir }}/media:/data/media
+    - {{ entry.host_dir }}/db:/data/db
+    # The right-hand path must match the settings.MEDIA_ROOT default value in the CoVE repository.
+    - {{ entry.host_dir }}/media:/data/media
 
 services:
   web:
     <<: *django
     ports:
-      - {{ pillar.apache.sites.cove.context.port }}:8000
+      - {{ site.port }}:8000
   cron:
     <<: *django
     profiles:
       - cron
   static:
     <<: *shared
-    image: "ghcr.io/open-contracting/{{ pillar.docker_apps.cove.image }}-static:latest"
+    image: "ghcr.io/open-contracting/{{ entry.image }}-static:latest"
     ports:
-      - {{ pillar.apache.sites.cove.context.static_port }}:8080
+      - {{ site.static_port }}:8080
+    volumes:
+      # The right-hand path must match the root directive of the default.conf file in the CoVE repository.
+      - {{ entry.host_dir }}/media:/data/media

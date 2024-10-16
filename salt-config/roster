@@ -1,8 +1,6 @@
 coalition:
   host: ocp21.open-contracting.org
-cove-oc4ids:
-  host: ocp17.open-contracting.org
-cove-ocds:
+cove:
   host: ocp18.open-contracting.org
 credere:
   host: ocp24.open-contracting.org
@@ -44,3 +42,4 @@ portland-dev:
 # ocp11 was covid19 (www.open-contracting.health)
 # ocp12 was spoonbill-dev
 # ocp14 was redash (redash.open-contracting.org)
+# ocp17 was cove-oc4ids

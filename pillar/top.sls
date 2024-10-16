@@ -10,17 +10,10 @@ base:
     - coalition_maintenance
     - private.coalition
 
-  'cove-oc4ids':
+  'cove':
     - cove
-    - cove_oc4ids
-    - cove_oc4ids_maintenance
-    - private.cove_oc4ids
-
-  'cove-ocds':
-    - cove
-    - cove_ocds
-    - cove_ocds_maintenance
-    - private.cove_ocds
+    - cove_maintenance
+    - private.cove
 
   'credere':
     - credere_common

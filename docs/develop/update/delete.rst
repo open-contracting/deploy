@@ -165,9 +165,9 @@ Run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
+   ./run.py 'cove' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove' file.remove /etc/apache2/sites-available/cove.conf.include
 
 A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
 

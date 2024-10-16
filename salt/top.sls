@@ -22,10 +22,8 @@ base:
   'coalition':
     - coalition
 
-  'cove-*':
+  'cove':
     - cove
-
-  'cove-oc4ids':
     - memcached
 
   'credere*':

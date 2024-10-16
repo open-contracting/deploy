@@ -7,14 +7,20 @@ include:
   - apache.modules.proxy_http # ProxyPass
   - docker_apps
 
-{% set entry = pillar.docker_apps.cove %}
-{% set directory = docker_apps_directory + entry.target %}
-
 {{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'cove') }}
 
-cd {{ directory }};  /usr/bin/docker compose --progress=quiet run --rm --name cove-cron -e LOG_LEVEL=WARNING cron python manage.py expire_files:
+useful commands for CoVE analysis:
+  pkg.installed:
+    - pkgs:
+      - jq
+      - ripgrep
+
+{% for name, entry in pillar.docker_apps|items %}
+{% set directory = docker_apps_directory + entry.target %}
+
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name {{ entry.image }}-cron -e LOG_LEVEL=WARNING cron python manage.py expire_files:
   cron.present:
-    - identifier: COVE_EXPIRE_FILES
+    - identifier: {{ name|upper }}_EXPIRE_FILES
     - user: {{ pillar.docker.user }}
     - hour: 0
     - minute: random
@@ -32,9 +38,4 @@ cd {{ directory }};  /usr/bin/docker compose --progress=quiet run --rm --name co
     - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-
-useful commands for CoVE analysis:
-  pkg.installed:
-    - pkgs:
-      - jq
-      - ripgrep
+{% endfor %}

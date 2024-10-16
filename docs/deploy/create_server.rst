@@ -460,7 +460,6 @@ Configure reverse DNS
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 
    -  If the service is moving to a new server, use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
-   -  If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
