@@ -5,7 +5,7 @@
         SystemMaxUse=1024M
     - user: root
     - group: root
-    - makedirs: true
+    - makedirs: True
     - watch_in:
       - service: systemd-journald
 
