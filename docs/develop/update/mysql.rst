@@ -64,7 +64,7 @@ Configure MySQL
       :emphasize-lines: 2
 
       mysql:
-        configuration: redmine
+        configuration: myconfig
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 

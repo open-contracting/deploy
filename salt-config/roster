@@ -14,8 +14,6 @@ kingfisher-main:
   host: ocp23.open-contracting.org
 prometheus:
   host: ocp20.open-contracting.org
-redmine:
-  host: ocp16.open-contracting.org
 registry:
   host: ocp13.open-contracting.org
   port: 2223
@@ -42,4 +40,5 @@ portland-dev:
 # ocp11 was covid19 (www.open-contracting.health)
 # ocp12 was spoonbill-dev
 # ocp14 was redash (redash.open-contracting.org)
+# ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids

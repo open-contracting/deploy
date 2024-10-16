@@ -53,11 +53,6 @@ base:
     - private.prometheus_server
     - prometheus_server_maintenance
 
-  'redmine':
-    - redmine
-    - private.redmine
-    - redmine_maintenance
-
   'registry':
     - registry
     - private.registry

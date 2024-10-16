@@ -352,7 +352,7 @@ Create bucket
 #. Select the nearest region to the server from the top-right dropdown
 #. Click the *Create bucket* button
 
-   #. Enter a *Bucket name* (``ocp-redmine-backup``, for example)
+   #. Enter a *Bucket name* (``ocp-registry-backup``, for example)
    #. Click the *Create bucket* button
 
 If the bucket is for :doc:`file<../../develop/update/backup>` or :ref:`MySQL<mysql-backups>` backups:
@@ -486,7 +486,7 @@ Create a backup policy
                }
 
    #. Click the *Next* button
-   #. Enter a *Policy name* (``redmine-backup``, for example)
+   #. Enter a *Policy name* (``registry-backup``, for example)
    #. Click the *Create policy* button
 
 Create a backup user
@@ -499,7 +499,7 @@ Create a backup user
 #. Go to IAM `Users <https://us-east-1.console.aws.amazon.com/iamv2/home#/users>`__
 #. Click the *Create user* button
 
-   #. Enter a *User name* (``redmine-backup``, for example)
+   #. Enter a *User name* (``registry-backup``, for example)
    #. Click the *Next* button
    #. Click the *Attach existing policies directly* radio button
 

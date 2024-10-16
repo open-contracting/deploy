@@ -53,9 +53,6 @@ base:
   'prometheus':
     - prometheus
 
-  'redmine':
-    - redmine
-
   'registry':
     - rabbitmq
     - kingfisher.collect
