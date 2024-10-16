@@ -6,5 +6,5 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
-      - {{ pillar.apache.sites.credere.context.static_port }}:8080
+      - {{ site.static_port }}:8080
     restart: unless-stopped

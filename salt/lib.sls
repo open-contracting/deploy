@@ -100,7 +100,7 @@ unset {{ setting_name }} in {{ filename }}:
   Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
   https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 #}
-{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in) %}
+{% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
 {{ directory }}-virtualenv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
@@ -113,25 +113,6 @@ unset {{ setting_name }} in {{ filename }}:
     - watch:
       - pkg: python
 {% endif %}
-
-# Upgrade pip to avoid "ImportError: cannot import name 'html5lib' from 'pip._vendor'" (without using pip itself).
-#
-# The virtualenv.managed state calls the create function in the virtualenv_mod module. This function installs pip only
-# if .ve/bin/pip doesn't exist (but it does, by default). ensurepip is simpler than get-pip.py.
-{{ directory }}/.ve/bin/pip:
-  # python3-venv is required for ensurepip to be available on Ubuntu.
-  pkg.installed:
-    - name: python{{ salt['pillar.get']('python:version', 3) }}-venv
-  cmd.run:
-    # https://pip.pypa.io/en/stable/installation/
-    - name: {{ directory }}/.ve/bin/python -m ensurepip --upgrade
-    - runas: {{ user }}
-    - require:
-      - pkg: {{ directory }}/.ve/bin/pip
-    - onchanges:
-      - virtualenv: {{ directory }}-virtualenv
-    - watch_in:
-      - virtualenv: {{ directory }}-uv
 
 # This state only differs from the *-virtualenv state by installing uv and not watching python.
 {{ directory }}-uv:

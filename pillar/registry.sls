@@ -66,7 +66,7 @@ apache:
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
     registry:
-      configuration: registry
+      configuration: django
       servername: data.open-contracting.org
       context:
         port: 8002
@@ -131,6 +131,7 @@ docker_apps:
   registry:
     target: data-registry
     exporter_host_dir: /data/storage/exporter
+    site: registry
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: data.open-contracting.org
@@ -178,6 +179,7 @@ docker_apps:
       MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
+    site: spoonbill
     host_dir: /data/storage/spoonbill
     env:
       DJANGO_PROXY: True

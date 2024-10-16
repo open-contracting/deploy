@@ -50,27 +50,20 @@ Delete a cron job
 -----------------
 
 #. Change ``cron.present`` to ``cron.absent`` in the Salt state
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 #. Delete the Salt state
 
 Delete a service
 ----------------
 
-`Stop <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service.
-
-To stop and disable the ``icinga2`` service on the ``docs`` target, for example:
+`Stop <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.stop>`__ and `disable <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.upstart_service.html#salt.modules.upstart_service.disable>`__ the service. For example:
 
 .. code-block:: bash
 
-   ./run.py 'docs' service.stop icinga2
-   ./run.py 'docs' service.disable icinga2
+   ./run.py 'mytarget' service.stop myservice
+   ./run.py 'mytarget' service.disable myservice
 
-If you deleted the ``uwsgi`` service, also run, for example:
-
-.. code-block:: bash
-
-   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-available/cove.ini
-   ./run.py 'cove-ocds' file.remove /etc/uwsgi/apps-enabled/cove.ini
+Delete any configuration files added by the service (for example, under ``sites-available`` and ``sites-enabled``, for Apache).
 
 .. note::
 
@@ -81,22 +74,21 @@ Delete a package
 
 `Remove a package and its configuration files <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.purge>`__, and `remove any of its dependencies that are no longer needed <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.aptpkg.html#salt.modules.aptpkg.autoremove>`__.
 
-To scrub Icinga-related packages from the ``docs`` target, for example:
+To scrub packages, for example:
 
 .. code-block:: bash
 
-   ./run.py 'docs' pkg.purge icinga2,nagios-plugins,nagios-plugins-contrib
-   ./run.py 'docs' pkg.autoremove list_only=True
-   ./run.py 'docs' pkg.autoremove purge=True
+   ./run.py 'mytarget' pkg.purge libapache2-mod-proxy-uwsgi,uwsgi-plugin-python3,uwsgi
+   ./run.py 'mytarget' pkg.autoremove list_only=True
+   ./run.py 'mytarget' pkg.autoremove purge=True
 
 Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
 .. code-block:: bash
 
-   dpkg -l | grep icinga
-   dpkg -l | grep nagios
-   ls /etc/icinga2
-   ls /usr/lib/nagios
+   dpkg -l | grep uwsgi
+   ls /etc/uwsgi
+   find /usr -name '*uwsgi*'
 
 .. _delete-firewall-setting:
 
@@ -115,7 +107,7 @@ Delete a firewall setting
 
       {{ unset_firewall('PUBLIC_POSTGRESQL') }}
 
-#. Deploy the relevant service, for example:
+#. Deploy the relevant server, for example:
 
    .. code-block:: bash
 
@@ -173,9 +165,9 @@ Run, for example:
 
 .. code-block:: bash
 
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-enabled/cove.conf
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf
-   ./run.py 'cove-ocds' file.remove /etc/apache2/sites-available/cove.conf.include
+   ./run.py 'cove' file.remove /etc/apache2/sites-enabled/cove.conf
+   ./run.py 'cove' file.remove /etc/apache2/sites-available/cove.conf
+   ./run.py 'cove' file.remove /etc/apache2/sites-available/cove.conf.include
 
 A temporary ``apache_site.disabled`` state can be used instead of removing the file in the ``sites-enabled`` directory.
 
@@ -192,23 +184,7 @@ Run, for example:
    ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf
    ./run.py 'mytarget' file.remove /etc/nginx/sites-available/mysite.conf.include
 
-.. _delete-postgresql-user:
-
 Delete a PostgreSQL user
 ------------------------
 
-#. Add a temporary state, for example:
-
-   .. code-block:: yaml
-
-      delete-USER:
-        postgres_user.absent:
-          name: USER
-
-#. Run the temporary state, for example:
-
-   .. code-block:: bash
-
-      ./run.py 'mytarget' state.sls_id delete-USER postgres
-
-#. Remove the temporary state
+See :ref:`pg-delete-user`.

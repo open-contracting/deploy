@@ -27,4 +27,4 @@ This will:
 
 .. tip::
 
-   Use `crontab guru <https://crontab.guru>`__ to interpret cron schedule expressions.
+   Use `Cronhub <https://crontab.cronhub.io>`__ to interpret cron schedule expressions.

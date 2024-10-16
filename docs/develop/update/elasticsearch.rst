@@ -39,7 +39,7 @@ Elasticsearch has instructions under `Important System Configuration <https://ww
 Set swappiness value
 --------------------
 
-`As recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#swappiness>`__, add to your service's Pillar file:
+`As recommended by Elasticsearch <https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#swappiness>`__, add to your server's Pillar file:
 
 .. code-block:: yaml
 
@@ -55,9 +55,9 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
 
    Instead of configuring SSL certificates in Elasticsearch, we proxy traffic through Apache.
 
-#. Add the ``elasticsearch.plugins.readonlyrest`` state file to your service's target in the ``salt/top.sls`` file.
+#. Add the ``elasticsearch.plugins.readonlyrest`` state file to your server's target in the ``salt/top.sls`` file.
 
-#. Set ``elasticsearch.version`` and ``elasticsearch.plugins.readonlyrest`` in your service's Pillar file, for example:
+#. Set ``elasticsearch.version`` and ``elasticsearch.plugins.readonlyrest`` in your server's Pillar file, for example:
 
 .. code-block:: yaml
 
@@ -67,9 +67,9 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
        readonlyrest:
          version: 1.47.0_es8.6.2
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 
-#. Add users for public searches and for admin actions. Add to your service's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'USERNAME:PASSWORD' | shasum -a 512`` (replacing ``USERNAME`` and ``PASSWORD`` with a strong password each time):
+#. Add users for public searches and for admin actions. Add to your server's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'USERNAME:PASSWORD' | shasum -a 512`` (replacing ``USERNAME`` and ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml
       :emphasize-lines: 4-10

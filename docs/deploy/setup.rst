@@ -6,7 +6,7 @@ Before performing any deployment task, run the *Setup* tasks below. Once done, r
 1. Update deploy repositories
 -----------------------------
 
-Ensure the ``deploy``, ``pillar/private``, ``salt/private`` and ``salt/maintenance`` repositories are on the default branch and are up-to-date. You can run this convenience script to run the appropriate ``git`` commands:
+Ensure the ``deploy``, ``pillar/private`` and ``salt/private`` repositories are on the default branch and are up-to-date. You can run this convenience script to run the appropriate ``git`` commands:
 
 .. code-block:: bash
 

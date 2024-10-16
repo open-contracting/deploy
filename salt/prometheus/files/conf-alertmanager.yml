@@ -2,9 +2,9 @@ global:
   resolve_timeout: 5m
 
 route:
-  receiver: email.planio.servers
+  receiver: ocp-email
   routes:
-    - receiver: email.planio.servers
+    - receiver: ocp-email
       group_by:
         - alertname
       group_wait: 30s
@@ -15,7 +15,7 @@ route:
       continue: True
 
 receivers:
-  - name: email.planio.servers
+  - name: ocp-email
     email_configs:
       - to: sysadmin@open-contracting.org
         from: noreply@noreply.open-contracting.org

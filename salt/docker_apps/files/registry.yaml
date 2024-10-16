@@ -12,13 +12,13 @@ x-django: &django
     # The right-hand path must match the settings.KINGFISHER_COLLECT_FILES_STORE default value in data-registry.
     - {{ pillar.kingfisher_collect.env.FILES_STORE }}:/data/collect
     # The right-hand path must match the settings.EXPORTER_DIR default value in data-registry.
-    - {{ pillar.docker_apps.registry.exporter_host_dir }}:/data/exporter
+    - {{ entry.exporter_host_dir }}:/data/exporter
 
 services:
   web:
     <<: *django
     ports:
-      - {{ pillar.apache.sites.registry.context.port }}:8000
+      - {{ site.port }}:8000
   exporter:
     <<: *django
     command: "python manage.py exporter"
@@ -36,4 +36,4 @@ services:
     <<: *shared
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     ports:
-      - {{ pillar.apache.sites.registry.context.static_port }}:8080
+      - {{ site.static_port }}:8080

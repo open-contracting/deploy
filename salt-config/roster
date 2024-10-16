@@ -1,10 +1,8 @@
 coalition:
   host: ocp21.open-contracting.org
-cove-oc4ids:
-  host: ocp17.open-contracting.org
-cove-ocds:
+cove:
   host: ocp18.open-contracting.org
-credere-production:
+credere:
   host: ocp24.open-contracting.org
 credere-dev:
   host: ocp22.open-contracting.org
@@ -16,8 +14,6 @@ kingfisher-main:
   host: ocp23.open-contracting.org
 prometheus:
   host: ocp20.open-contracting.org
-redmine:
-  host: ocp16.open-contracting.org
 registry:
   host: ocp27.open-contracting.org
 portland-dev:
@@ -44,3 +40,5 @@ portland-dev:
 # ocp12 was spoonbill-dev
 # ocp13 was registry on Ubuntu 20
 # ocp14 was redash (redash.open-contracting.org)
+# ocp16 was redmine (crm.open-contracting.org)
+# ocp17 was cove-oc4ids

@@ -8,7 +8,7 @@ If a service is expected or discovered to be unresponsive, then the following pr
 Setting expectations
 --------------------
 
-OCP has a maintenance contract with Dogsbody Technology, which includes:
+OCP has a maintenance contract with a :ref:`Linux server manager<admin-access>`, which includes:
 
 -  Actively monitoring services.
 -  Reacting to downtime within 30 minutes (during working hours).
@@ -19,7 +19,7 @@ Working hours are 9:00-17:00 UK time, Monday-Friday, excluding UK public holiday
 Notification mechanisms
 -----------------------
 
-Notifications should be sent to sysadmin@open-contracting.org, to coordinate with and notify other users that maintain servers. Subscribers include members of OCP and Dogsbody Technology.
+Notifications should be sent to sysadmin@open-contracting.org, to coordinate with and notify other users that maintain servers. Subscribers include members of OCP and the Linux server manager.
 
 For urgent decisions requiring OCP approval (notably, new expenditures relating to provisioning or upgrading servers), communicate via Slack or email and, if needed, send a 'ping' via WhatsApp or SMS to James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) or, if no response, Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__).
 

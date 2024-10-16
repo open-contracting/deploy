@@ -22,10 +22,8 @@ base:
   'coalition':
     - coalition
 
-  'cove-*':
+  'cove':
     - cove
-
-  'cove-oc4ids':
     - memcached
 
   'credere*':
@@ -51,13 +49,9 @@ base:
     - kingfisher.summarize
     - pelican.backend
     - pelican.frontend
-    - cron
 
   'prometheus':
     - prometheus
-
-  'redmine':
-    - redmine
 
   'registry':
     - rabbitmq
@@ -87,6 +81,9 @@ base:
 
   'I@backup:*':
     - backup
+
+  'I@cron:*':
+    - cron
 
   'I@mysql:configuration':
     - mysql

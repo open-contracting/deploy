@@ -122,7 +122,7 @@ SetEnv BANNER /includes/banner_live.html
 <Location {{ root }}/switcher>
     RewriteEngine on
 
-    {%- for versions in opts.get('stable_sitemap', [None]) %}
+    {%- for versions in opts.stable_sitemap|default([None]) %}
         {%- if versions %}
     # Test that we are switching between versions with the same sitemap or with appropriate redirects.
     RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"

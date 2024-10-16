@@ -3,7 +3,7 @@ User Guides
 
 .. note::
 
-   Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out? Send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
+   Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out? Send a note to sysadmin@open-contracting.org and the relevant :ref:`server manager<admin-access>` with the web/SSH address that is unavailable.
 
 .. note::
 
@@ -11,10 +11,10 @@ User Guides
 
    If urgent, contact James McKinney (`EST/EDT <https://www.timeanddate.com/time/zones/est>`__) and/or Yohanna Lisnichuk (`PYT/PYST <https://www.timeanddate.com/time/zones/pyt>`__) via Slack or email. If you receive an email auto-reply, contact:
 
-   -  Dogsbody Technology Ltd (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) about server maintenance
+   -  the relevant :ref:`server manager<admin-access>` about server maintenance
    -  Lindsey Marchessault (`MST/MDT <https://www.timeanddate.com/time/zones/mst>`__) for anything else
 
-   Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask Dogsbody Technology to grant you root access, linking to this policy.
+   Furthermore, if you need root access in order to address an issue in James' and Yohanna's absence, ask the relevant server manager to grant you root access, linking to this policy.
 
 .. toctree::
 

@@ -10,7 +10,7 @@ services:
   extract:
     <<: *shared
     command: "python -m workers.extract.kingfisher_process"
-{%- if 'filter' in pillar.docker_apps.pelican_backend %}
+{%- if entry.get('filter') %}
   filter:
     <<: *shared
     command: "python -m workers.extract.dataset_filter"

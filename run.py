@@ -3,8 +3,8 @@
 """$(dirname $(readlink $(which salt-ssh) || which salt-ssh))"/bin/python3 - "$@" <<"EOF"""
 
 import contextlib
+import os
 import socket
-import subprocess
 import sys
 
 import salt.cli.ssh
@@ -32,7 +32,7 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    subprocess.Popen(sys.argv)  # noqa: S603 # trusted input
+    os.execvp("salt-ssh", sys.argv)  # noqa: S606,S607
 
 
 if __name__ == "__main__":

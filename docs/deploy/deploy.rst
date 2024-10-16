@@ -81,19 +81,6 @@ Common changed states are:
 Function: service.running, ID: apache2
   Apache was reloaded
 
-For a Django app, common changed states are:
-
-Function: git.latest
-  A new commit was deployed
-Function: cmd.run, Name: .ve/bin/python manage.py migrate --settings ... --noinput
-  Django migrations were applied
-Function: cmd.run, Name: .ve/bin/python manage.py collectstatic --settings ... --noinput
-  Static files were collected
-Function: cmd.run, Name: .ve/bin/python manage.py compilemessages --settings ... --ignore=.ve
-  Message catalogs were compiled
-Function: service.running, ID: uwsgi
-  uWSGI was reloaded
-
 States that always report changes:
 
 -  `cmd.run <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.cmd.html>`__, unless ``onchanges`` is specified

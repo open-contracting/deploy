@@ -33,6 +33,16 @@ Check drive usage
 
 If ``ncdu`` is installed, change to the root directory, and run the ``ncdu`` command.
 
+To clear space:
+
+.. code-block:: bash
+
+   apt-get clean
+
+.. note::
+
+   A cron job prunes Docker daily.
+
 .. _check-mail:
 
 Check mail

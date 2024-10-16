@@ -209,7 +209,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
     - template: jinja
     - context:
         spider: {{ crawl.spider }}
-        users: {{ crawl.get('users', []) }}
+        users: {{ crawl.users|default([]) }}
     - user: {{ entry.user }}
     - group: {{ entry.user }}
     - makedirs: True

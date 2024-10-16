@@ -261,16 +261,17 @@ docker_apps:
       ENABLE_CHECKER: True
   pelican_backend:
     target: pelican-backend
-    filter: true
+    filter: True
     env:
       RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_support_production
       # 2021-10-27: on kingfisher-main, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
       KINGFISHER_PROCESS_MAX_SIZE: 30000
   pelican_frontend:
     target: pelican-frontend
+    site: pelican_frontend
     port: 8001
     host_dir: /data/storage/pelican-frontend
-    reports: true
+    reports: True
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: pelican.open-contracting.org

@@ -6,6 +6,9 @@ network:
     template: linode
     gateway4: 178.79.139.1
 
+vm:
+  overcommit_memory: 0
+
 apache:
   sites:
     credere:

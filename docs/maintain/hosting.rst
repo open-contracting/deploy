@@ -8,7 +8,7 @@ Rescale a server
 
 Linode makes it easy to `scale/resize <https://www.linode.com/docs/products/compute/compute-instances/guides/resize/>`__ a server (number of cores and GiB of RAM).
 
-You must :doc:`deploy the service<../deploy/deploy>` to re-configure swap, Elasticsearch, PostgreSQL and/or uWSGI.
+You must :doc:`re-deploy the server<../deploy/deploy>` to re-configure states that depend on total memory (``grains.mem_total``), like swap, Elasticsearch and PostgreSQL.
 
 Manager cloud services
 ----------------------

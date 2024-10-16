@@ -1,7 +1,0 @@
-RequestHeader unset X-Forwarded-Proto
-RequestHeader set X-Forwarded-Proto https env=HTTPS
-
-ProxyPass /static/ http://127.0.0.1:{{ static_port }}/static/
-ProxyPassReverse /static/ http://127.0.0.1:{{ static_port }}/static/
-ProxyPass / http://127.0.0.1:{{ port }}/ timeout={{ timeout }}
-ProxyPassReverse / http://127.0.0.1:{{ port }}/

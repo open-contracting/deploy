@@ -10,7 +10,7 @@ services:
   web:
     <<: *shared
     ports:
-      - {{ pillar.apache.sites.credere.context.port }}:8000
+      - {{ site.port }}:8000
   cron:
     <<: *shared
     profiles:

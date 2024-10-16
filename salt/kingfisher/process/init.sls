@@ -25,6 +25,15 @@ create kingfisher process extensions:
 
 # Reference schema
 
+# https://www.postgresql.org/docs/current/predefined-roles.html
+grant pg_read_server_files to reference:
+  cmd.run:
+    - name: psql -v ON_ERROR_STOP=1 -c 'GRANT pg_read_server_files to reference' && touch /var/lib/postgresql/grant-pg_read_server_files-reference.lock
+    - runas: postgres
+    - creates: /var/lib/postgresql/grant-pg_read_server_files-reference.lock
+    - require:
+      - postgres_group: reference_sql_group
+
 # This file can be updated with:
 #
 #   curl -O https://standard.open-contracting.org/schema/1__1__5/release-schema.json

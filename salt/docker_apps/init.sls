@@ -9,10 +9,13 @@ include:
 
 {{ directory }}/docker-compose.yaml:
   file.managed:
-    - source: salt://docker_apps/files/{{ name }}.yaml
+    - source: salt://docker_apps/files/{{ entry.configuration|default(name) }}.yaml
     - template: jinja
     - context:
-        directory: {{ directory }}
+        entry: {{ entry|yaml }}
+{% if 'site' in entry %}
+        site: {{pillar.apache.sites[entry.site].context|yaml }}
+{% endif %}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True

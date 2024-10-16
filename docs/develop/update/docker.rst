@@ -9,6 +9,10 @@ Configure Docker apps
 
    :doc:`../../deploy/docker` and :doc:`../../maintain/docker`
 
+.. important::
+
+   When using Docker, :ref:`configure an external firewall<docker-firewall>`.
+
 The ``docker_apps`` state file performs common operations for apps deployed using Docker Compose. In your app's state file, include it with:
 
 .. code-block:: yaml
@@ -29,7 +33,7 @@ Configure Docker
 
    Do this only once per server.
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -68,10 +72,6 @@ Validate the file, for example:
 .. code-block:: bash
 
    docker compose config -q salt/docker_apps/files/registry.yaml
-
-.. seealso::
-
-   :ref:`django-configure`
 
 .. admonition:: Stateful containers
 
@@ -112,7 +112,7 @@ Reference:
 Configure Docker app
 --------------------
 
-In the service's Pillar file, add, for example:
+In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
 
@@ -120,12 +120,38 @@ In the service's Pillar file, add, for example:
      myapp:
        target: mytarget
        env:
-         MYVAR: myvalue
+         FATHOM_ANALYTICS_ID: ABCDEFGH
+
+In the server's private Pillar file, add, for example:
+
+.. code-block:: yaml
+
+   docker_apps:
+     myapp:
+       env:
+         SENTRY_DSN: https://1234567890abcdef1234567890abcdef@o123456.ingest.sentry.io/1234567890123456
 
 This will create files in the ``/data/deploy/mytarget`` directory:
 
--  ``docker-compose.yaml``, containing the same as the ``myapp.yaml`` file
+-  ``docker-compose.yaml``, with the contents of the ``salt/docker_apps/files/myapp.yaml`` file
 -  ``.env``, containing the values under the ``env`` key
+
+To reuse a Docker Compose file, do, for example:
+
+.. code-block:: yaml
+   :emphasize-lines: 3,6
+
+   docker_apps:
+     cove_ocds:
+       configuration: cove
+       target: cove-ocds
+     cove_oc4ids:
+       configuration: cove
+       target: cove-oc4ids
+
+.. seealso::
+
+   `Environment variables <https://ocp-software-handbook.readthedocs.io/en/latest/python/django.html#environment-variables>`__ for Django projects
 
 Reference:
 
@@ -146,7 +172,7 @@ To connect to the host's services, like PostgreSQL or RabbitMQ, add to the Docke
        extra_hosts:
          - "host.docker.internal:host-gateway"
 
-Then, under the ``env`` key in the service's Pillar file, use ``host.docker.internal`` instead of ``localhost``. For example:
+Then, under the ``env`` key in the server's Pillar file, use ``host.docker.internal`` instead of ``localhost``. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5
@@ -166,7 +192,7 @@ Reference:
 Map a port
 ~~~~~~~~~~
 
-If the Dockerfile exposes a port, in the service's Pillar file, add, for example:
+If the Dockerfile exposes a port, in the server's Pillar file, add, for example:
 
 .. code-block:: yaml
    :emphasize-lines: 4

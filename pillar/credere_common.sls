@@ -23,8 +23,10 @@ docker:
 docker_apps:
   credere_frontend:
     target: credere-frontend
+    site: credere
   credere_backend:
     target: credere-backend
+    site: credere
     env:
       LOG_LEVEL: WARNING
       # Security

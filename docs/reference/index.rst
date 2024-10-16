@@ -9,17 +9,23 @@ Reference
    docs.rst
    powerbi.rst
 
+.. seealso::
+
+   `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to monitoring and hosting services
+
 Monitoring
 ----------
 
 .. seealso::
 
-   :doc:`../deploy/services/google`
+   :ref:`monitor-dmarc-reports`
 
 Ahrefs
 ~~~~~~
 
-SEO issues are audited by Ahrefs.com's `Site Audit <https://ahrefs.com/site-audit>`__. Access the `most recent crawl <https://app.ahrefs.com/site-audit/4835895>`__:
+SEO issues are audited by Ahrefs.com's `Site Audit <https://ahrefs.com/site-audit>`__.
+
+Access the `most recent crawl <https://app.ahrefs.com/site-audit/4835895>`__, and:
 
 -  Review *All Issues*, filtering by *Importance*.
 -  Review the *Crawl log* for URLs that were *Discarded* due to *Monthly page crawl limit reached*. If there are any:
@@ -45,12 +51,12 @@ SEO issues are audited by Ahrefs.com's `Site Audit <https://ahrefs.com/site-audi
 Prometheus
 ~~~~~~~~~~
 
-Servers are monitored by `Prometheus <https://prometheus.io/>`__. Salt is used to:
+Servers are monitored by `Prometheus <https://prometheus.io/>`__. Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
+
+Salt is used to:
 
 -  Install a `Node Exporter <https://github.com/prometheus/node_exporter>`__ service on each server, to export hardware and OS metrics like disk space used, memory used, etc.
 -  Set up a Prometheus server to collect metrics from all servers, and to email alerts if metrics are out of bounds
-
-Read the :doc:`user guide <../use/prometheus>` to learn how to use Prometheus.
 
 .. _sentry:
 
@@ -71,13 +77,14 @@ Application errors are reported to `Sentry <https://sentry.io/organizations/open
 
 .. seealso::
 
-   -  `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#sentry>`__ for access to Sentry
    -  `Sentry search reference <https://docs.sentry.io/concepts/search/>`__
 
 SecurityScorecard
 ~~~~~~~~~~~~~~~~~
 
-Cybersecurity issues are monitored by `SecurityScorecard <https://platform.securityscorecard.io>`__. `Patching cadence issues <https://support.securityscorecard.com/hc/en-us/articles/115002965683-Patching-cadence-issue-resolution>`__ are mostly false positives. To dismiss such issues:
+Cybersecurity issues are monitored by `SecurityScorecard <https://platform.securityscorecard.io>`__.
+
+`Patching cadence issues <https://support.securityscorecard.com/hc/en-us/articles/115002965683-Patching-cadence-issue-resolution>`__ are mostly false positives. To dismiss such issues:
 
 #. `Check whether the CVE was resolved by Ubuntu <https://ubuntu.com/security/cves>`__
 #. Check the checkboxes in the table
@@ -86,20 +93,24 @@ Cybersecurity issues are monitored by `SecurityScorecard <https://platform.secur
 #. Add the comment: *The software is patched/backported.*
 #. Click the *Submit* button
 
+WordFence
+~~~~~~~~~
+
+WordPress issues are monitored by `WordFence <https://www.wordfence.com/central>`__.
+
+WordFence is managed in each WordPress installation, rather than by visiting its website.
+
 .. _hosting:
 
 Hosting
 -------
 
-All servers (not services) are managed by `Dogsbody Technology <https://www.dogsbody.com>`__ (sysadmin@dogsbody.com). Servers are hosted by:
+Servers are hosted by:
 
 -  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers (`Network status <https://status.hetzner.com>`__)
-
--  `Linode <https://cloud.linode.com/>`__ for VPS servers
-
-   -  `Network status <https://status.linode.com>`__: The relevant systems are: Regions: EU-West (London), Backups: EU-West (London) Backups.
-   -  **Access**: The 'opencontractingpartnership' and 'opencontracting-dogsbody' users have full access.
-   -  **Backups**: It is configured to have one daily backup and two weekly backups.
+-  `Linode <https://cloud.linode.com/>`__ for VPS servers. Servers are configured to have one daily backup and two weekly backups. (`Network status <https://status.linode.com>`__: *Regions > EU-West (London)* and *Backups > EU-West (London) Backups*)
+-  `Hetzner Cloud <https://console.hetzner.cloud/>`__ for VPS servers that must be colocated with Hetzner hardware servers
+-  `Microsoft Azure <https://portal.azure.com/>`__ for temporary servers for Microsoft-related projects (`Network status <https://azure.status.microsoft/en-us/status>`__)
 
 Unmanaged services are:
 
@@ -107,13 +118,17 @@ Unmanaged services are:
 
    .. admonition:: Why not GitHub Pages?
 
-      GitHub Pages does not allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` (HSTS) and ``Content-Security-Policy`` (CSP).
+      It doesn't allow `custom response headers <https://developers.cloudflare.com/pages/configuration/headers/>`__, notably ``Strict-Transport-Policy`` and ``Content-Security-Policy``.
 
-   .. seealso::
+-  `Heroku <https://dashboard.heroku.com>`__ for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__ (`Network status <https://status.heroku.com>`__)
 
-      `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html#cloudflare>`__ for access to Cloudflare
+   .. note::
 
--  Heroku for the `OCP Library <https://ocp-library.herokuapp.com>`__ and `OCP Form Server <https://survey.open-contracting.org>`__ (`Network status <https://status.heroku.com>`__)
+      Heroku is only used for tiny services that can run on `Basic containers <https://www.heroku.com/pricing>`__.
+
+-  `ReadTheDocs <https://readthedocs.org/dashboard/>`__ for project documentation (`Network status <https://status.readthedocs.com>`__)
+
+.. _admin-access:
 
 Administrative access
 ---------------------
@@ -122,18 +137,19 @@ Administrative access
 
    `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/services/admin.html>`__, for access to third-party services
 
-The staff of the following organizations have had administrative roles:
+The server managers are:
 
--  `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP)
--  `Dogsbody Technology <https://www.dogsbody.com>`__
--  `RBC Group <https://www.rbcgrp.com>`__
+-  `Dogsbody Technology <https://www.dogsbody.com>`__ (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) (sysadmin@dogsbody.com) for Linux servers
+-  `RBC Group <https://www.rbcgrp.com>`__ (`EET/EEST <https://www.timeanddate.com/time/zones/eet>`__) for Windows servers
+
+`Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) staff also have administrative roles.
 
 .. _root-access-policy:
 
 Root access
 ~~~~~~~~~~~
 
-Server owners (OCP) and server managers (Dogsbody for Linux, RBC for Windows) should have root access. Otherwise, only developers who are reasonably expected to deploy to a **development server** should have root access to that server; anyone with root access can grant that developer root access.
+Server owners (OCP) and server managers should have root access. Otherwise, only developers who are reasonably expected to deploy to a **development server** should have root access to that server; anyone with root access can grant that developer root access.
 
 Root access should be :ref:`routinely reviewed<review-root-access>`. If a developer did not deploy (and was not granted root access) to a server within the last six months, their root access to that server should be revoked.
 

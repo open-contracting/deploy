@@ -26,3 +26,32 @@ ignore-variadic-names = true
 "tests/*" = [
     "ARG001", "D", "FBT003", "INP001", "PLR2004", "S", "TRY003",
 ]
+
+[tool.sqlfluff.core]
+dialect = "postgres"
+
+[tool.sqlfluff.rules.capitalisation.keywords]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.literals]
+capitalisation_policy = "upper"
+
+[tool.sqlfluff.rules.capitalisation.functions]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.capitalisation.identifiers]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.capitalisation.types]
+extended_capitalisation_policy = "lower"
+
+[tool.sqlfluff.rules.convention.casting_style]
+preferred_type_casting_style = "shorthand"
+
+[tool.sqlfluff.rules.convention.not_equal]
+preferred_not_equal_style = "ansi"
+
+[tool.sqlfluff.templater.jinja.context]
+path = "mypath"
+spider = "myspider"
+users = ["myuser"]

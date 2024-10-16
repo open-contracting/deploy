@@ -8,7 +8,7 @@ assignees: jpmckinney
 
 **Is a service unavailable or unreachable? Are web/SSH requests consistently not responding or timing out?**
 
-If yes, instead of creating a GitHub issue, send a note to sysadmin@open-contracting.org and sysadmin@dogsbody.com with the web/SSH address that is unavailable.
+If yes, instead of creating a GitHub issue, send a note to sysadmin@open-contracting.org and the relevant server manager (https://ocdsdeploy.readthedocs.io/en/latest/reference/index.html#administrative-access) with the web/SSH address that is unavailable.
 
 **Which service is affected?**
 

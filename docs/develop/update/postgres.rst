@@ -31,7 +31,11 @@ To enable public access, update the server's Pillar file:
 Add users, groups, databases and schemas
 ----------------------------------------
 
-To configure the database for an application:
+.. seealso::
+
+   :ref:`pg-control-access`
+
+Each service should have a service account. To configure the database for an application:
 
 #. Add a user for the application, in a private Pillar file, replacing ``PASSWORD`` with a `strong password <https://www.lastpass.com/features/password-generator>`__ (uncheck *Symbols*) and ``USERNAME`` with a recognizable username:
 
@@ -107,10 +111,6 @@ To configure the database for an application:
 
 #. Add the private Pillar file to the top file entry for the application.
 
-.. note::
-
-   To delete a PostgreSQL user, :ref:`follow these instructions<delete-postgresql-user>`.
-
 .. _pg-add-configuration:
 
 Configure PostgreSQL
@@ -171,7 +171,7 @@ Configure PostgreSQL
       vm:
         nr_hugepages: 1234
 
-#. :doc:`Deploy the service<../../deploy/deploy>`
+#. :doc:`Deploy the server<../../deploy/deploy>`
 
 The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
 
@@ -287,7 +287,7 @@ Set up full backups
 
    .. seealso::
 
-      `Amazon S3 regular endpoints <https://docs.aws.amazon.com/general/latest/gr/s3.html>`__
+      `Amazon S3 endpoints <https://docs.aws.amazon.com/general/latest/gr/s3.html>`__
 
 #. Create the stanza, if it doesn't exist yet:
 
@@ -299,37 +299,12 @@ Set up full backups
 
       `Create the Stanza <https://pgbackrest.org/user-guide.html#quickstart/create-stanza>`__
 
-Set up database-specific backups
---------------------------------
+Configure the replica, if any
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. note::
+.. seealso::
 
-   Only use database-specific backups if :ref:`full backups<pg-setup-backups>` would backup many GBs of unwanted data.
-
-#. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
-#. Configure the :doc:`AWS CLI<awscli>`
-#. In the server's Pillar file, set ``postgres.backup.location`` to a bucket and prefix, ``postgres.backup.databases`` to a list of databases, and ``postgres.backup.type`` to "script", for example:
-
-   .. code-block:: yaml
-
-      postgres:
-        backup:
-          type: script
-          location: ocp-registry-backup/database
-          databases:
-            - spoonbill_web
-            - pelican_frontend
-
-#. :doc:`Deploy the service<../../deploy/deploy>`
-
-Additional steps for replica servers
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-When pgBackRest runs it will try backing up PostgreSQL data from a replica/standby server if any are configured. This is great because it gives us a backup of production while also reducing load during the backup.
-
-.. note::
-
-   You can find the :ref:`recovery steps here<pg-recover-replica>`.
+   :ref:`pg-recover-replica`
 
 #. :doc:`SSH<../../use/ssh>` into the main server as the ``postgres`` user.
 #. Generate an SSH key pair, if one doesn't already exist:
@@ -357,6 +332,33 @@ When pgBackRest runs it will try backing up PostgreSQL data from a replica/stand
 
 #. :doc:`Deploy the main server and replica server<../../deploy/deploy>`
 
+.. seealso::
+
+   `Backup from a Standby <https://pgbackrest.org/user-guide.html#standby-backup>`__
+
+Set up database-specific backups
+--------------------------------
+
+.. note::
+
+   Only use database-specific backups if :ref:`full backups<pg-setup-backups>` would backup many GBs of unwanted data.
+
+#. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
+#. Configure the :doc:`AWS CLI<awscli>`
+#. In the server's Pillar file, set ``postgres.backup.location`` to a bucket and prefix, ``postgres.backup.databases`` to a list of databases, and ``postgres.backup.type`` to "script", for example:
+
+   .. code-block:: yaml
+
+      postgres:
+        backup:
+          type: script
+          location: ocp-registry-backup/database
+          databases:
+            - spoonbill_web
+            - pelican_frontend
+
+#. :doc:`Deploy the server<../../deploy/deploy>`
+
 .. _pg-setup-replication:
 
 Set up replication
@@ -364,7 +366,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. Create configuration files for each server, :ref:`as above <pg-add-configuration>`. For reference, see the files for ``kingfisher-main1`` and ``kingfisher-replica1``.
+#. `Create configuration files for each server<pg-add-configuration>`. Example: `kingfisher-main1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-main1.conf>`__, `kingfisher-replica1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-replica1.conf>`__
 
 #. Add the replica's IP addresses to the main server's Pillar file:
 

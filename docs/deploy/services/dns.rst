@@ -3,6 +3,8 @@ DNS
 
 DNS is hosted with `GoDaddy <https://sso.godaddy.com>`__.
 
+Lock all domain names in the `Domain Portfolio <https://dcc.godaddy.com/control/portfolio>`__.
+
 TTL standardisation
 -------------------
 

@@ -10,23 +10,16 @@ base:
     - coalition_maintenance
     - private.coalition
 
-  'cove-oc4ids':
+  'cove':
     - cove
-    - cove_oc4ids
-    - cove_oc4ids_maintenance
-    - private.cove_oc4ids
+    - cove_maintenance
+    - private.cove
 
-  'cove-ocds':
-    - cove
-    - cove_ocds
-    - cove_ocds_maintenance
-    - private.cove_ocds
-
-  'credere-production':
+  'credere':
     - credere_common
-    - credere_production
-    - credere_production_maintenance
-    - private.credere_production
+    - credere
+    - credere_maintenance
+    - private.credere
 
   'credere-dev':
     - credere_common
@@ -59,11 +52,6 @@ base:
     - private.smtp
     - private.prometheus_server
     - prometheus_server_maintenance
-
-  'redmine':
-    - redmine
-    - private.redmine
-    - redmine_maintenance
 
   'registry':
     - registry

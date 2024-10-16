@@ -18,6 +18,18 @@ CREATE TABLE reference.mapping_sheets (
     "deprecationNotes" text
 );
 
-\copy reference.mapping_sheets (version, extension, section, path, title, description, type, range, values, links, deprecated, "deprecationNotes") from '{{ path }}' csv header;
+COPY reference.mapping_sheets (
+    version,
+    extension,
+    section,
+    path,
+    title,
+    description,
+    type,
+    range,
+    values,
+    links,
+    deprecated,
+    "deprecationNotes"
+) FROM '{{ path }}' CSV HEADER;
 SET ROLE NONE;
-

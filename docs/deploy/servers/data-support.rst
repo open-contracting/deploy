@@ -48,10 +48,10 @@ Docker apps
       su - deployer
 
       cd /data/deploy/kingfisher-process/
-      docker compose run --rm --name kingfisher-process-migrate cron python manage.py migrate
+      docker compose run --rm --name django-migrate cron python manage.py migrate
 
       cd /data/deploy/pelican-frontend/
-      docker compose run --rm --name pelican-frontend-migrate cron python manage.py migrate
+      docker compose run --rm --name django-migrate cron python manage.py migrate
 
 #. :doc:`Pull new images and start new containers for each Docker app<../docker>`.
 

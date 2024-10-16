@@ -1,11 +1,7 @@
 Create a server
 ===============
 
-.. note::
-
-   Dogsbody Technology requires a lead time of six weeks for new servers. This means OCP typically creates new servers.
-
-A server is created either when a service is moving to a new server, or when a service is being introduced.
+A server is created either when an existing service is moving to a new server, or when a new service is being introduced on its own server.
 
 As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
 
@@ -464,7 +460,6 @@ Configure reverse DNS
 #. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
 
    -  If the service is moving to a new server, use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
-   -  If the service is an instance of `CoVE <https://github.com/OpenDataServices/cove>`__, add a ``cove-`` prefix.
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
@@ -480,7 +475,7 @@ Configure reverse DNS
 
    .. attention::
 
-      If using Docker, add ``docker:`` to the service's Pillar file, to not configure a server-side :doc:`firewall<../develop/update/firewall>`.
+      If using Docker, add ``docker:`` to the server's Pillar file, to not configure a server-side :doc:`firewall<../develop/update/firewall>`.
 
 #. Run the `onboarding <https://github.com/open-contracting/deploy/blob/main/salt/onboarding.sls>`__ and core state files (replace ``TARGET``).
 
@@ -500,7 +495,7 @@ Configure reverse DNS
       #. Comment out the ``'*'`` section in the ``pillar/top.sls`` file
       #. If configuring Apache, edit the ``salt/apache/files/404.html`` file
 
-      The service's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
+      The server's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
@@ -518,22 +513,14 @@ Configure reverse DNS
 
    As such, DNS records that match the hostname must be maintained, until the server is decommissioned.
 
-5. Deploy the service
----------------------
+5. Deploy the server
+--------------------
 
-#. If the service is being introduced, add the target to the ``salt/top.sls`` and ``pillar/top.sls`` files, and include any new state or Pillar files you authored for the service.
+#. If a new service is being introduced on its own server, add a new target to the ``salt/top.sls`` and ``pillar/top.sls`` files.
 
-#. If the service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
+#. If an existing service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
 
-#. :doc:`Deploy the service<deploy>`.
-
-Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/156>`__):
-
--  ``uwsgi``, using the ``service.running`` function. If so, run:
-
-   .. code-block:: bash
-
-      ./run.py TARGET service.restart uwsgi
+#. :doc:`Deploy the server<deploy>`.
 
 .. _migrate-server:
 
@@ -545,7 +532,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 #. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
 #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
-#. If the server runs a web server like Apache or application server like uWSGI, optionally copy the log files
+#. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
 
 .. seealso::
 
@@ -560,7 +547,7 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 ---------------------------
 
 #. :doc:`Add the server to Prometheus<servers/prometheus>`
-#. Add (or update) the service's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
+#. Add (or update) the server's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
    #. Click the *Add New Record* button
    #. Select "CNAME" from the *Type* dropdown
@@ -575,14 +562,14 @@ Some IDs might fail (`#156 <https://github.com/open-contracting/deploy/issues/15
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Add (or update) managed passwords, if appropriate
-#. Contact Dogsbody Technology to set up maintenance (`see readme <https://github.com/open-contracting/dogsbody-maintenance#readme>`__)
+#. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and :doc:`maintenance<../develop/update/maintenance>`
 #. :doc:`Delete the old server<delete_server>`
 
-If the service is being introduced:
+If any services are being introduced:
 
-#. Add its error monitor to `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
-#. Add the embed code for `Fathom Analytics <https://app.usefathom.com/>`__, if appropriate
+#. Configure error monitoring with `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__
+#. Configure web analytics with `Fathom Analytics <https://app.usefathom.com/>`__, if appropriate
 
-If the service uses a new top-level domain name:
+If any services use a new top-level domain name:
 
 #. Add the domain to `Google Search Console <https://search.google.com/search-console>`__

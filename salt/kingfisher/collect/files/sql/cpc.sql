@@ -7,4 +7,6 @@ CREATE TABLE cpc (
     description_es text
 );
 
-COPY cpc (code, description, description_es) from '{{ path }}' delimiter ',' csv header;
+COPY cpc (
+    code, description, description_es
+) FROM '{{ path }}' DELIMITER ',' CSV HEADER;

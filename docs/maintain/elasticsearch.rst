@@ -148,6 +148,6 @@ If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
       /usr/share/elasticsearch/bin/elasticsearch-plugin remove readonlyrest
 
-#. :doc:`Deploy the service<../deploy/deploy>`
+#. :doc:`Deploy the server<../deploy/deploy>`
 
 Reference: `Upgrading the plugin <https://github.com/beshu-tech/readonlyrest-docs/blob/master/elasticsearch.md#upgrading-the-plugin>`__

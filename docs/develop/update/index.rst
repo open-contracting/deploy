@@ -1,14 +1,11 @@
 Make changes
 ============
 
-.. note::
-
-   See `salt/maintenance/README.md <https://github.com/open-contracting/dogsbody-maintenance#readme>`__ to configure maintenance.
-
 .. toctree::
 
    network.rst
    firewall.rst
+   maintenance.rst
    ssl.rst
    logs.rst
    cron.rst

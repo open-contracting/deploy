@@ -1,49 +1,41 @@
-{% from 'lib.sls' import create_user, set_cron_env %}
+{% from 'lib.sls' import set_cron_env %}
+{% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-  # https://github.com/open-contracting/cove-ocds/pull/159
-  - python.extensions  # backports-datetime-fromisoformat
-  - python_apps
+  # cove.conf.include
+  - apache.modules.headers # RequestHeader
+  - apache.modules.proxy_http # ProxyPass
+  - docker_apps
 
-{% set entry = pillar.python_apps.cove %}
-{% set userdir = '/home/' + entry.user %}
-{% set directory = userdir + '/' + entry.git.target %}
-
-{{ create_user(entry.user) }}
-
-# Allow Apache to access. See django.conf.include.
-allow {{ userdir }} access:
-  file.directory:
-    - name: {{ userdir }}
-    - mode: 755
-    - require:
-      - user: {{ entry.user }}_user_exists
-
-{{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org') }}
-
-cd {{ directory }}; SECRET_KEY="{{ entry.django.env.SECRET_KEY|replace('%', '\%') }}" .ve/bin/python manage.py expire_files --settings {{ entry.django.app }}.settings:
-  cron.present:
-    - identifier: COVE_EXPIRE_FILES
-    - user: {{ entry.user }}
-    - hour: 0
-    - minute: random
-    - require:
-      - virtualenv: {{ directory }}/.ve
-
-# By default this clears down /tmp data older than 7 days.
-clean up tmp data when python errors:
-  pkg.installed:
-    - name: tmpreaper
-
-/etc/tmpreaper.conf:
-  file.replace:
-    - name: /etc/tmpreaper.conf
-    - pattern: "^SHOWWARNING=true"
-    - repl: "#SHOWWARNING=true"
-    - backup: False
+{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'cove') }}
 
 useful commands for CoVE analysis:
   pkg.installed:
     - pkgs:
       - jq
       - ripgrep
+
+{% for name, entry in pillar.docker_apps|items %}
+{% set directory = docker_apps_directory + entry.target %}
+
+cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name {{ entry.image }}-cron -e LOG_LEVEL=WARNING cron python manage.py expire_files:
+  cron.present:
+    - identifier: {{ name|upper }}_EXPIRE_FILES
+    - user: {{ pillar.docker.user }}
+    - hour: 0
+    - minute: random
+    - require:
+      - file: {{ directory }}/docker-compose.yaml
+      - file: {{ directory }}/.env
+
+{{ entry.host_dir }}:
+  file.directory:
+    - names:
+      - {{ entry.host_dir }}/db
+      - {{ entry.host_dir }}/media
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - makedirs: True
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+{% endfor %}
