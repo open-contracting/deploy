@@ -31,6 +31,26 @@ Migrate the database, for example:
 
       docker compose run --rm --name my-app-superuser cron python manage.py createsuperuser
 
+Revert images
+~~~~~~~~~~~~~
+
+#. Find the SHA of the previous image:
+
+   .. code-block:: bash
+
+      docker image ls --digests
+
+   If the previous image has been pruned, visit the package's page, like `kingfisher-process-django <https://github.com/open-contracting/kingfisher-process/pkgs/container/kingfisher-process-django/versions>`__.
+
+#. Change the image in the Docker Compose file from ``myproject:latest`` to ``myproject@sha256:0ed5d59...``.
+
+#. Start new containers:
+
+   .. code-block:: bash
+
+      docker compose pull
+      docker compose up -d
+
 Load data
 ---------
 
