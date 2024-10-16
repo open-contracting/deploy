@@ -10,7 +10,6 @@ import sys
 from collections import defaultdict
 from email.parser import Parser
 from email.policy import default
-from urllib.parse import urlparse
 
 import click
 
