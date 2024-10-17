@@ -30,7 +30,7 @@ docker_apps:
     env:
       LOG_LEVEL: WARNING
       # Security
-      MAX_FILE_SIZE_MB: 5 # sync with VITE_MAX_FILE_SIZE_MB
+      MAX_FILE_SIZE_MB: 20 # sync with VITE_MAX_FILE_SIZE_MB
       # Email addresses
       EMAIL_SENDER_ADDRESS: credere@noreply.open-contracting.org
       # Email templates
