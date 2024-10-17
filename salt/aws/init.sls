@@ -5,11 +5,11 @@ awscli:
     - name: python3-pip
   pip.installed:
     - name: awscli
-    {% if grains.osmajorrelease | int >= 24 %}
-    # Allow "awscli" to be installed at a system level, this flag is required since Python 3.11 (PEP 668).
+{% if grains.osmajorrelease | int >= 24 %}
+    # https://peps.python.org/pep-0668/
     - extra_args:
       - --break-system-packages
-    {% endif %}
+{% endif %}
     - require:
       - pkg: awscli
 
