@@ -15,8 +15,7 @@ kingfisher-main:
 prometheus:
   host: ocp20.open-contracting.org
 registry:
-  host: ocp13.open-contracting.org
-  port: 2223
+  host: ocp27.open-contracting.org
 portland-dev:
   host: ocp26.open-contracting.org
   user: ocpadmin
@@ -39,6 +38,7 @@ portland-dev:
 # ocp10 was kingfisher-archive (archive.kingfisher.open-contracting.org)
 # ocp11 was covid19 (www.open-contracting.health)
 # ocp12 was spoonbill-dev
+# ocp13 was registry on Ubuntu 20
 # ocp14 was redash (redash.open-contracting.org)
 # ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids
