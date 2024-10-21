@@ -34,6 +34,8 @@ Copy these directories from the old server to the new server:
 Databases
 ~~~~~~~~~
 
+#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server :ref:`using pg_dump<pg-recover-database-universal>`.
+
 Docker apps
 ~~~~~~~~~~~
 

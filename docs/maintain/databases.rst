@@ -478,6 +478,9 @@ Reference: `System Information Functions <https://www.postgresql.org/docs/curren
 Restore from backup
 -------------------
 
+pgBackRest
+^^^^^^^^^^
+
 .. seealso::
 
    :ref:`pg-setup-backups`
@@ -527,6 +530,38 @@ View current backups:
    -  `Restore <https://pgbackrest.org/user-guide.html#restore>`__
    -  `Delta Option <https://pgbackrest.org/user-guide.html#restore/option-delta>`__
    -  `Restore a Backup <https://pgbackrest.org/user-guide.html#quickstart/perform-restore>`__
+
+.. _pg-recover-backup-universal:
+
+Restore a PostgreSQL Database anywhere
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In situations where pgBackRest is not an option ``pg_dump`` and ``pg_restore`` can be used to restore and migrate PostgreSQL databases.
+
+#. Connect to the old server, and export the existing database. For example exporting ``spoonbill_web``:
+
+   .. code-block:: bash
+
+      su - postgres -c "/usr/bin/pg_dump -Ft 'spoonbill_web' | gzip > ~/spoonbill_web.tar.gz"
+
+#. Copy the database dump to your local machine. For example:
+
+   .. code-block:: bash
+
+      rsync -avz root@ocp13.open-contracting.org:~/spoonbill_web.tar.gz .
+
+#. Copy the database dump to the new server. For example:
+
+   .. code-block:: bash
+
+      rsync -avz spoonbill_web.tar.gz root@ocp27.open-contracting.org:~/
+
+#. Restore the database. For example:
+
+   .. code-block:: bash
+
+      gunzip ~/spoonbill_web.tar.gz
+      sudo -u postgres pg_restore -cC --if-exists -v -U postgres -d spoonbill_web ~/spoonbill_web.tar
 
 .. _pg-recover-replica:
 
