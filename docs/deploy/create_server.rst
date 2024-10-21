@@ -497,6 +497,16 @@ Configure reverse DNS
 
       The server's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
+#. If the server disk(s) are larger than 100GB, then reduced reserved disk space to 1%, for example reducing ``/dev/md2``:
+
+   .. code-block:: bash
+
+      salt-ssh --log-level=trace TARGET cmd.run 'tune2fs -m 1 /dev/md2'
+
+   .. note::
+
+      On non root partitions reserved space can be set to 0% with the command ``tune2fs -m 0 /dev/md2``.
+
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
