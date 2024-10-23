@@ -1,3 +1,5 @@
+# Linode
+
 coalition:
   host: ocp21.open-contracting.org
 cove:
@@ -8,15 +10,24 @@ credere-dev:
   host: ocp22.open-contracting.org
 docs:
   host: ocp19.open-contracting.org
-dream-bi:
-  host: ocp25.open-contracting.org
-kingfisher-main:
-  host: ocp23.open-contracting.org
 prometheus:
   host: ocp20.open-contracting.org
+
+# Hetzner Cloud
+
+dream-bi:
+  host: ocp25.open-contracting.org
+
+# Hetzner Dedicated
+
+kingfisher-main:
+  host: ocp23.open-contracting.org
 registry:
   host: ocp13.open-contracting.org
   port: 2223
+
+# Azure
+
 portland-dev:
   host: ocp26.open-contracting.org
   user: ocpadmin
