@@ -8,7 +8,7 @@ Use `Google Postmaster Tools <https://postmaster.google.com/managedomains>`__ to
 
 These services send email from open-contracting.org:
 
--  :doc:`aws`
+-  `Gmail <https://support.google.com/a/topic/9202>`__
 -  `Mailchimp <https://mailchimp.com/help/set-up-email-domain-authentication/>`__
 
 These services send email from noreply.open-contracting.org:
