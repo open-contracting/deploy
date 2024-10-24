@@ -533,12 +533,12 @@ View current backups:
 
 .. _pg-recover-backup-universal:
 
-Restore a PostgreSQL Database anywhere
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pg_dump and pg_restore
+^^^^^^^^^^^^^^^^^^^^^^
 
-In situations where pgBackRest is not an option ``pg_dump`` and ``pg_restore`` can be used to restore and migrate PostgreSQL databases.
+If pgBackRest isn't an option, use ``pg_dump`` and ``pg_restore``.
 
-#. Connect to the old server, and export the existing database. For example exporting ``spoonbill_web``:
+#. Connect to the old server, and export the existing database. For example, to export ``spoonbill_web``:
 
    .. code-block:: bash
 
