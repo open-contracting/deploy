@@ -10,6 +10,23 @@ Linode makes it easy to `scale/resize <https://www.linode.com/docs/products/comp
 
 You must :doc:`re-deploy the server<../deploy/deploy>` to re-configure states that depend on total memory (``grains.mem_total``), like swap, Elasticsearch and PostgreSQL.
 
+.. _rescale-reserved-space:
+
+Rescale reserved space
+~~~~~~~~~~~~~~~~~~~~~~
+
+When adding a new disk or increasing an existing disk over 100 GB, set reserved space to 1% (from 5%) if it is a root partition, and 0% otherwise. For example, to reduce ``/dev/md2``, as root:
+
+.. code-block:: bash
+
+   tune2fs -m 1 /dev/md2
+
+If reducing an existing disk below 100 GB, restore reserved space to 5%. For example:
+
+.. code-block:: bash
+
+   tune2fs -m 5 /dev/md2
+
 Manager cloud services
 ----------------------
 

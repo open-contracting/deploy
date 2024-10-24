@@ -497,6 +497,7 @@ Configure reverse DNS
 
       The server's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
+#. If a disk is larger than 100 GB, :ref:`reduce reserve space<rescale-reserved-space>`.
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
    .. code-block:: bash
@@ -529,12 +530,14 @@ Configure reverse DNS
 
 #. :ref:`check-mail` for the root user and, if applicable, each app user
 #. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
+#. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
 #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
 #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
 #. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
 
 .. seealso::
 
+   -  :ref:`Data registry<data-registry-migrate>`
    -  :doc:`servers/data-support`
    -  :ref:`OCDS documentation<docs-migrate>`
    -  :ref:`Prometheus<prometheus-migrate>`
