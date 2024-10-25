@@ -27,6 +27,11 @@ useful packages for data support:
       - flattentool
       - ocdskit
       - py-spy
+{% if grains.osmajorrelease | int >= 24 %}
+    # https://peps.python.org/pep-0668/
+    - extra_args:
+      - --break-system-packages
+{% endif %}
     - upgrade: True
     - require:
       - pip: pip
