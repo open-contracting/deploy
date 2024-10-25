@@ -33,4 +33,5 @@ docker_apps:
       OCP_EMAIL_GROUP: ylisnichuk@open-contracting.org
       # Email templates
       FRONTEND_URL: https://dev.credere.open-contracting.org
+      BACKEND_URL: https://dev.credere.open-contracting.org/api
       IMAGES_BASE_URL: https://dev.credere.open-contracting.org/images
