@@ -51,7 +51,7 @@ Docker apps
       docker compose run --rm --name django-migrate cron python manage.py migrate
 
       cd /data/deploy/pelican-frontend/
-      docker compose run --rm --name django-migrate cron python manage.py migrate
+      docker compose run --rm --name django-migrate web python manage.py migrate
 
 #. :doc:`Pull new images and start new containers for each Docker app<../docker>`.
 
