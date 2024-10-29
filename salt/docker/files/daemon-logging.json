@@ -1,7 +1,7 @@
 {
   "log-driver": "syslog",
   "log-opts": {
-    "syslog-address": "unixgram:///var/spool/docker-custom.sock",
+    "syslog-address": "unixgram:///var/spool/rsyslog/docker-custom.sock",
     "tag": "docker-custom-{{.Name}}"
   }
 }

@@ -8,3 +8,4 @@ Server-specific tasks
    data-support.rst
    docs.rst
    prometheus.rst
+   data-registry.rst

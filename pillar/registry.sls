@@ -1,7 +1,7 @@
 network:
-  host_id: ocp13
-  ipv4: 65.21.93.181
-  ipv6: 2a01:4f9:3b:45ca::2
+  host_id: ocp27
+  ipv4: 37.27.62.45
+  ipv6: 2a01:4f9:3081:3001::/64
   netplan:
     template: custom
     configuration: |
@@ -9,14 +9,14 @@ network:
         version: 2
         renderer: networkd
         ethernets:
-          enp9s0:
+          enp5s0:
             addresses:
-              - 65.21.93.181/32
-              - 2a01:4f9:3b:45ca::2/64
+              - 37.27.62.45/32
+              - 2a01:4f9:3081:3001::2/64
             routes:
               - on-link: true
                 to: 0.0.0.0/0
-                via: 65.21.93.129
+                via: 37.27.62.1
               - to: default
                 via: fe80::1
             nameservers:
@@ -84,9 +84,10 @@ apache:
       servername: rabbitmq.data.open-contracting.org
 
 postgres:
-  version: 12
+  version: 16
   # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
   public_access: True
+  data_directory: '/data/storage/postgresql/16/main'
   configuration:
     name: registry
     source: shared
@@ -96,7 +97,7 @@ postgres:
       storage: hdd
       type: oltp
       content: |
-        data_directory = '/data/storage/postgresql/12/main'
+        data_directory = '/data/storage/postgresql/16/main'
 
         # Avoid "checkpoints are occurring too frequently" due to intense writes (default 1GB).
         max_wal_size = 10GB
@@ -111,9 +112,6 @@ docker:
   user: deployer
   uid: 1002
   syslog_logging: True
-
-python:
-  version: '3.10'
 
 kingfisher_collect:
   user: collect
@@ -132,8 +130,8 @@ kingfisher_collect:
 docker_apps:
   registry:
     target: data-registry
+    exporter_host_dir: /data/storage/exporter
     site: registry
-    exporter_host_dir: /data/storage/exporter_dumps
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: data.open-contracting.org
