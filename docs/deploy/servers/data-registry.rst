@@ -48,7 +48,7 @@ Copy these directories from the old server to the new server, using ``rsync -avz
 Databases
 ~~~~~~~~~
 
-#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server, :ref:`using pg_dump<pg-recover-database-universal>`.
+#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server, :ref:`using pg_dump<pg-recover-backup-universal>`.
 #. Copy the :ref:`exchange_rates rows<pelican-backend-database-migration>` from the old server to the new server.
 
 Docker apps
