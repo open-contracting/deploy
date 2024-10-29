@@ -6,95 +6,60 @@ Data registry
 Migrate from an old server
 --------------------------
 
-Update Salt
-~~~~~~~~~~~
+Dependencies
+~~~~~~~~~~~~
 
-.. seealso::
+Tinyproxy
+  #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
+  #. Deploy the ``docs`` service, when ready.
 
-   :doc:`../create_server`
+Update Salt and halt jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Check that ``docker.uid`` in the ``pillar/kingfisher_main.sls`` file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
-#. Change ``cron.present`` to ``cron.absent`` in the ``salt/pelican/backend/init.sls`` file.
+#. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/registry/init.sls`` file.
+#. Change ``cron.present`` to ``cron.absent`` in the ``salt/pelican/backend/init.sls`` file.
 #. Comment out the ``postgres.backup`` section of the Pillar file.
 #. :doc:`Deploy the old server and the new server<../deploy>`.
-#. Delete the ``/etc/cron.d/postgres_backups`` file on the old server.
+#. On the old server:
 
-Check that no crawls are running at https://collect.data.open-contracting.org, and no messages are enqueued at https://rabbitmq.data.open-contracting.org.
+   #. Delete the ``/etc/cron.d/postgres_backups`` file.
+   #. ``docker compose down`` all containers, except the ``web`` and ``static`` containers of the ``data-registry`` service.
+
+#. Check that no crawls are running at https://collect.data.open-contracting.org/jobs.
+
+   If a crawl is running, Django administrators can `cancel jobs <https://data.open-contracting.org/admin/data_registry/job/?status__exact=RUNNING>`__.
+
+#. Check that no messages are enqueued at https://rabbitmq.data.open-contracting.org.
+
+   If a job is running in Kingfisher Process, job owners can `cancel jobs <https://kingfisher-process.readthedocs.io/en/latest/cli.html#cancelcollection>`__.
 
 Filesystem
 ~~~~~~~~~~
 
-Copy these directories from the old server to the new server:
+Copy these directories from the old server to the new server, using ``rsync -avz``:
 
 -  ``/data/storage/exporter``
 -  ``/data/storage/spoonbill``
+-  ``/home/collect/scrapyd/dbs``
+-  ``/home/collect/scrapyd/eggs``
 -  ``/home/collect/scrapyd/logs``
 
 Databases
 ~~~~~~~~~
 
-#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server :ref:`using pg_dump<pg-recover-database-universal>`.
+#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server, :ref:`using pg_dump<pg-recover-database-universal>`.
+#. Copy the :ref:`exchange_rates rows<pelican-backend-database-migration>` from the old server to the new server.
 
 Docker apps
 ~~~~~~~~~~~
 
-#. Run migrations for :doc:`Docker apps<../docker>` as the ``deployer`` user:
+Perform the same tasks as for :ref:`Data support<kingfisher-pelican-docker-migration>`.
 
-   .. code-block:: bash
+Restore Salt and start jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      su - deployer
-
-      cd /data/deploy/kingfisher-process/
-      docker compose run --rm --name kingfisher-process-migrate cron python manage.py migrate
-
-      cd /data/deploy/pelican-frontend/
-      docker compose run --rm --name pelican-frontend-migrate cron python manage.py migrate
-
-#. :doc:`Pull new images and start new containers for each Docker app<../docker>`.
-
-Kingfisher Collect
-~~~~~~~~~~~~~~~~~~
-
-Once DNS has propagated, :ref:`update-spiders`, but with:
-
-.. code-block::
-
-   scrapyd-deploy registry
-
-Pelican backend
-~~~~~~~~~~~~~~~
-
-The initial migrations for Pelican backend are run by Salt.
-
-#. Connect to the old server, and dump the ``exchange_rates`` table:
-
-   .. code-block:: bash
-
-      sudo -i -u postgres psql -c '\copy exchange_rates (valid_on, rates, created, modified) to stdout' pelican_backend > exchange_rates.csv
-
-#. Copy the database dump to your local machine. For example:
-
-   .. code-block:: bash
-
-      rsync -avz root@ocp13.open-contracting.org:~/exchange_rates.csv .
-
-#. Copy the database dump to the new server. For example:
-
-   .. code-block:: bash
-
-      rsync -avz exchange_rates.sql root@ocp23.open-contracting.org:~/
-
-#. Populate the ``exchange_rates`` table:
-
-   .. code-block:: bash
-
-      psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
-
-Restore Salt
-~~~~~~~~~~~~
-
-#. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/registry/init.sls`` file.
+#. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.
 #. Uncomment the ``postgres.backup`` section of the Pillar file.
 #. :doc:`Deploy the new server<../deploy>`.

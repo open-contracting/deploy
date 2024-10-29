@@ -8,35 +8,38 @@ Dependencies
 ~~~~~~~~~~~~
 
 Tinyproxy
-  #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file
-  #. Deploy the ``docs`` service, when ready
+  #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
+  #. Deploy the ``docs`` service, when ready.
 Replica, if applicable
-  #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file
-  #. Deploy the ``kingfisher-replica`` service, when ready
+  #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file.
+  #. Deploy the ``kingfisher-replica`` service, when ready.
 
 Dependents
 ~~~~~~~~~~
 
-#. Notify RBC Group of the new domain name for the new PostgreSQL server
+#. Notify RBC Group of the new domain name for the new PostgreSQL server.
 
-Update Salt
-~~~~~~~~~~~
+Update Salt and halt jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
-.. seealso::
+#. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
+#. Change ``cron.present`` to ``cron.absent`` in the ``salt/pelican/backend/init.sls`` file.
+#. Comment out the ``postgres.backup`` section of the Pillar file.
+#. :doc:`Deploy the old server and the new server<../deploy>`.
+#. On the old server:
 
-   :doc:`../create_server`
+   #. Delete the ``/etc/cron.d/postgres_backups`` file.
+   #. ``docker compose down`` all containers.
 
-#. Check that ``docker.uid`` in the ``pillar/kingfisher_main.sls`` file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
-#. Comment out the state that creates the ``PELICAN_BACKEND_UPDATE_EXCHANGE_RATES`` cron job
+#. Check that no crawls are running at https://collect.kingfisher.open-contracting.org/jobs.
 
-Operating system
-~~~~~~~~~~~~~~~~
+   If a crawl is running, job owners can `cancel jobs <https://collect.data.open-contracting.org/jobs>`__.
 
-#. Adjust reserved disk space to 1% for large disks:
+#. Check that no messages are enqueued at https://rabbitmq.kingfisher.open-contracting.org.
 
-   .. code-block:: bash
+   If a job is running in Kingfisher Process, job owners can `cancel jobs <https://kingfisher-process.readthedocs.io/en/latest/cli.html#cancelcollection>`__.
 
-      tune2fs -m 1 /dev/md2
+.. _kingfisher-pelican-docker-migration:
 
 Docker apps
 ~~~~~~~~~~~
@@ -126,10 +129,12 @@ Copy incremental data
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<../deploy>`.
 
+.. _pelican-backend-database-migration:
+
 Pelican backend
 ~~~~~~~~~~~~~~~
 
-The initial migrations for Pelican backend are run by Salt.
+The initial migrations for Pelican backend, which create the ``exchange_rates`` table, are run by Salt.
 
 #. Connect to the old server, and dump the ``exchange_rates`` table:
 
@@ -155,11 +160,12 @@ The initial migrations for Pelican backend are run by Salt.
 
       psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
 
-Restore Salt
-~~~~~~~~~~~~
+Restore Salt and start jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Uncomment the state that creates the ``PELICAN_BACKEND_UPDATE_EXCHANGE_RATES`` cron job
-#. :doc:`Deploy the new server<../deploy>`
+#. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.
+#. Uncomment the ``postgres.backup`` section of the Pillar file.
+#. :doc:`Deploy the new server<../deploy>`.
 
 Create a data support replica server
 ------------------------------------

@@ -455,9 +455,9 @@ Configure reverse DNS
 
    #. On Hetzner, change the root password, using the ``passwd`` command. Use a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account.
 
-#. Add a target to the ``salt-config/roster`` file in this repository. Name the target after the service.
+#. Add (or update) the target in the ``salt-config/roster`` file. Name the target after the service.
 
-   -  If the service is moving to a new server, use the old target's name for the new target, and add a ``-old`` suffix to the old target's name.
+   -  If the service is moving to a new server, update the ``host`` of the existing target, and add a history entry in the file.
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
@@ -515,37 +515,54 @@ Configure reverse DNS
 5. Deploy the server
 --------------------
 
-#. If a new service is being introduced on its own server, add a new target to the ``salt/top.sls`` and ``pillar/top.sls`` files.
+New service
+~~~~~~~~~~~
 
-#. If an existing service is moving to the new server, update occurrences of the old server's FQDN and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
-
-#. :doc:`Deploy the server<deploy>`.
+#. Add a new target to the ``salt/top.sls`` and ``pillar/top.sls`` files
+#. :doc:`Deploy the server<deploy>`
+#. :doc:`Add the server to Prometheus<servers/prometheus>`
 
 .. _migrate-server:
 
-6. Migrate from the old server
-------------------------------
+Existing service
+~~~~~~~~~~~~~~~~
 
-#. :ref:`check-mail` for the root user and, if applicable, each app user
-#. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
-#. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
-#. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
-#. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
-#. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
+#. On the old server:
 
-.. seealso::
+   #. :ref:`check-mail` for the root user and, if applicable, each app user
+   #. :ref:`Check the user directory<clean-root-user-directory>` of the root user and, if applicable, each app user
 
-   -  :ref:`Data registry<data-registry-migrate>`
-   -  :doc:`servers/data-support`
-   -  :ref:`OCDS documentation<docs-migrate>`
-   -  :ref:`Prometheus<prometheus-migrate>`
+#. Open a pull request with the networking changes from the previous step and:
+
+   #. Update occurrences of the old server's FQDN and IP address in this repository, including in the ``salt-config/roster`` and ``salt/prometheus/files/conf-prometheus.yml`` files
+   #. Make any changes related to new operating system versions (PostgreSQL version, for example)
+
+#. Prepare a migration plan (`example <https://github.com/open-contracting/deploy/pull/518#issuecomment-2435213790>`__), including:
+
+   #. Notify relevant users of the change
+   #. Reduce the TTLs of CNAME entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+   #. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
+   #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
+   #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
+   #. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
+   #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
+   #. :doc:`Deploy the server<deploy>`
+   #. :doc:`Deploy<deploy>` the Prometheus service
+
+   .. seealso::
+
+      -  :ref:`Data registry<data-registry-migrate>`
+      -  :doc:`servers/data-support`
+      -  :ref:`OCDS documentation<docs-migrate>`
+      -  :ref:`Prometheus<prometheus-migrate>`
+
+#. Once the pull request is approved, merge the pull request and implement the migration plan.
 
 .. _update-external-services:
 
 7. Update external services
 ---------------------------
 
-#. :doc:`Add the server to Prometheus<servers/prometheus>`
 #. Add (or update) the server's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
 
    #. Click the *Add New Record* button
@@ -560,7 +577,6 @@ Configure reverse DNS
        :doc:`services/dns`
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
-#. Add (or update) managed passwords, if appropriate
 #. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and :doc:`maintenance<../develop/update/maintenance>`
 #. :doc:`Delete the old server<delete_server>`
 
