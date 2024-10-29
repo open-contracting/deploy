@@ -168,7 +168,6 @@ Create the server via the :ref:`host<hosting>`'s interface.
                   installimage
 
                #. Select the latest Ubuntu LTS version.
-
                #. The installer opens a configuration file.
 
                   #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
@@ -194,7 +193,6 @@ Create the server via the :ref:`host<hosting>`'s interface.
                         PART / ext4 all
 
                #. Press ``F2`` to save
-
                #. Confirm that you want to overwrite the drives, when prompted
 
             #. Reboot the server:

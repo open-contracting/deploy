@@ -19,7 +19,6 @@ Add a new minor version
 Below, substitute ``{root}``, ``{current-minor-branch}`` and ``{old-minor-branch}``. For example: ``ppp``, ``1.1`` and ``1.0``.
 
 #. Edit ``salt/apache/files/docs/robots.txt``
-
 #. If the profile has a version, add:
 
    .. code-block:: none

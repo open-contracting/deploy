@@ -353,7 +353,6 @@ Update a password
             password: "PASSWORD"
 
 #. :doc:`Deploy the server<../deploy/deploy>`
-
 #. Notify the contact at the email address in the comment
 
 .. _pg-delete-user:

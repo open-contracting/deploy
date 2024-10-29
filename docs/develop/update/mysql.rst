@@ -57,7 +57,6 @@ Configure MySQL
         configuration: False
 
 #. Put your configuration file in the `salt/mysql/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/mysql/files/conf>`__ directory.
-
 #. Set ``mysql.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml

@@ -80,7 +80,6 @@ Verify an email address
    #. Open the URL in a web browser
 
 #. Check that the email address' *Identity status* is "Verified" on SES' `Identities <https://us-east-1.console.aws.amazon.com/ses/home#/identities>`__
-
 #. If the domain's MX record points to AWS, cleanup:
 
    #. Set the rule set as inactive
@@ -203,7 +202,6 @@ Debug delivery issues
 Bounces and complaints are sent to the subscribed address. The relevant properties of the notification message are:
 
 -  `complaintSubType <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#complaint-object>`__
-
 -  `bounceType and bounceSubType <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#bounce-types>`__
 -  `diagnosticCode <https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#bounced-recipients>`__
 
@@ -502,7 +500,6 @@ Create a backup user
    #. Enter a *User name* (``registry-backup``, for example)
    #. Click the *Next* button
    #. Click the *Attach existing policies directly* radio button
-
    #. Search for and check the policy above
    #. Click the *Next* button
    #. Click the *Create user* button

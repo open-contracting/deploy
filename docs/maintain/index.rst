@@ -10,7 +10,6 @@ To be responsible for servers, you should:
    -  Hosting provider :ref:`network status announcements<hosting>`
 
 -  :doc:`Upgrade packages<packages>` on a weekly basis
-
 -  Check server monitoring, at a regular interval:
 
    -  :doc:`Check the resource usage <../use/prometheus>` and decide whether to :ref:`rescale<rescale-server>` or to investigate any abnormalities

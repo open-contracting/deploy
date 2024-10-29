@@ -56,7 +56,6 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
    Instead of configuring SSL certificates in Elasticsearch, we proxy traffic through Apache.
 
 #. Add the ``elasticsearch.plugins.readonlyrest`` state file to your server's target in the ``salt/top.sls`` file.
-
 #. Set ``elasticsearch.version`` and ``elasticsearch.plugins.readonlyrest`` in your server's Pillar file, for example:
 
 .. code-block:: yaml
@@ -68,7 +67,6 @@ As stated by Elasticsearch, `"Do not expose Elasticsearch directly to users." <h
          version: 1.47.0_es8.6.2
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
-
 #. Add users for public searches and for admin actions. Add to your server's *private* Pillar file, replacing ``AUTH_KEY_SHA512`` with the output of ``echo -n 'USERNAME:PASSWORD' | shasum -a 512`` (replacing ``USERNAME`` and ``PASSWORD`` with a strong password each time):
 
    .. code-block:: yaml

@@ -144,7 +144,6 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
                It takes some time to process the instruction. If nothing happens after 5 minutes, try again using *Execute an automatic hardware reset*.
 
             #. Connect to the server as the ``root`` user using SSH
-
             #. Mount the drive(s):
 
                .. code-block:: bash

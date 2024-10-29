@@ -26,7 +26,6 @@ Cardinal's `indicators command <https://cardinal.readthedocs.io/en/latest/cli/in
    :end-before: );
 
 -  For each indicator, Cardinal flags each entity at most once. An entity can be a contracting process (``ocid``), buyer (``buyer_id``), procuring entity (``procuring_entity_id``) or tenderer (``tenderer_id``). However, in this SQL table, if the entity is not a contracting process (``ocid``), then the indicator result is “spread” across the entity's related contracting processes. For example, if the NF038 indicator flags a buyer, then a row is added for each contracting process of that buyer. If we were to add a unique key, it would be: (``ocid``, ``code``, ``buyer_id``, ``procuring_entity_id``, ``tenderer_id``).
-
 -  Each row is "about" only one entity, indicated by the ``subject`` column. For example, if a contracting process is flagged (``ocid``) and the same contracting process has both a buyer that is flagged (``buyer_id``) and a tenderer that is flagged (``tenderer_id``), there will be 3 rows, not 1. For example:
 
    ============= ======== ===== ======== ===========

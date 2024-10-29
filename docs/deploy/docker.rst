@@ -43,7 +43,6 @@ Revert images
    If the previous image has been pruned, visit the package's page, like `kingfisher-process-django <https://github.com/open-contracting/kingfisher-process/pkgs/container/kingfisher-process-django/versions>`__.
 
 #. Change the image in the Docker Compose file from ``myproject:latest`` to ``myproject@sha256:0ed5d59...``.
-
 #. Start new containers:
 
    .. code-block:: bash

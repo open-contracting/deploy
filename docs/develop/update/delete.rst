@@ -25,7 +25,6 @@ Delete a user
 -------------
 
 #. Move any files from the user's home directory and change their ownership
-
 #. Add a temporary state, for example:
 
    .. code-block:: yaml

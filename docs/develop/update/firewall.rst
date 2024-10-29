@@ -77,7 +77,6 @@ When using Docker
 The ``firewall.sh`` script rewrites all iptables rules. However, Docker needs to add rules to route traffic to and from containers. To address this incompatibility, the ``firewall.sh`` script exits if the ``docker`` command exists. To implement firewall rules on Docker servers, we implement an external firewall.
 
 #. :doc:`Connect to the server<../../use/ssh>`
-
 #. Configure the external firewall:
 
    .. tab-set::

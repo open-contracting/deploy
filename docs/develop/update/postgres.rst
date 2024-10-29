@@ -127,7 +127,6 @@ Configure PostgreSQL
         configuration: False
 
 #. Put your configuration template in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. In most cases, you should use the ``shared`` configuration template.
-
 #. Set ``postgres.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml
@@ -367,7 +366,6 @@ Set up replication
 To configure a main server and a replica server:
 
 #. `Create configuration files for each server<pg-add-configuration>`. Example: `kingfisher-main1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-main1.conf>`__, `kingfisher-replica1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-replica1.conf>`__
-
 #. Add the replica's IP addresses to the main server's Pillar file:
 
    .. code-block:: yaml
@@ -403,7 +401,6 @@ To configure a main server and a replica server:
       If the ``replica`` user's password is changed, you must manually update the ``/var/lib/postgresql/11/main/postgresql.conf`` file on the replica server (for PostgreSQL version 11).
 
 #. :doc:`Deploy<../../deploy/deploy>` both servers
-
 #. Connect to the main server as the ``root`` user, and create a replication slot, replacing ``SLOT`` with the value of ``postgres:replication:primary_slot_name``.
 
    .. code-block:: bash
@@ -414,7 +411,6 @@ To configure a main server and a replica server:
 #. Transfer data and start replication.
 
    #. Connect to the replica server as the ``root`` user.
-
    #. Stop the PostgreSQL service and delete the main cluster's data.
 
       .. code-block:: bash
