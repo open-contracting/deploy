@@ -102,7 +102,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
                This adds your public SSH key to ``/root/.ssh/authorized_keys``.
 
          #. Check the *Backups* box
-         #. Enter the hostname in *Server name* (``ocp42``, for example)
+         #. Set *Server name* to the first part of the server's FQDN (``ocp42``, for example)
          #. Click the *Create & Buy now* button
 
       #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
@@ -258,7 +258,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
          #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``ocp42.open-contracting.org-vnet``)
          #. Set *Subnet* to *default (10.0.0.0/24)*
-         #. Set *Public IP* to the server's FQDN (e.g. ``ocp42.open-contracting.org-ip``)
+         #. Set *Public IP* to the server's FQDN with an ``-ip`` suffix (e.g. ``ocp42.open-contracting.org-ip``)
          #. If not using Docker, set *NIC network security group* to *None*
          #. If using Docker, set *NIC network security group* to *Advanced*
 
@@ -441,10 +441,10 @@ Configure reverse DNS
       #. Select the new server
       #. Click on the public IP address:
 
-         #. Enter the hostname in *DNS name label (optional)* (``ocp42``, for example)
+         #. Enter the first part of the server's FQDN in *DNS name label (optional)* (``ocp42``, for example)
          #. Click the *Save* button (at the top)
 
-      #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42..uksouth.cloudapp.azure.com``)
+      #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42.uksouth.cloudapp.azure.com``)
 
 4. Apply core changes
 ---------------------
@@ -469,7 +469,7 @@ Configure reverse DNS
 
    .. tip::
 
-      If DNS is not propagated, temporarily set ``host`` to the server's IP address instead of its hostname.
+      If DNS is not propagated, temporarily set ``host`` to the server's IP address instead of its FQDN.
 
 #. :doc:`../develop/update/network`, adding the target to the ``pillar/top.sls`` file, if needed.
 
@@ -519,7 +519,7 @@ Configure reverse DNS
 
 #. If a new service is being introduced on its own server, add a new target to the ``salt/top.sls`` and ``pillar/top.sls`` files.
 
-#. If an existing service is moving to the new server, update occurrences of the old server's hostname and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
+#. If an existing service is moving to the new server, update occurrences of the old server's FQDN and IP address. (In some cases described in the next step, you'll need to deploy the related services.)
 
 #. :doc:`Deploy the server<deploy>`.
 
