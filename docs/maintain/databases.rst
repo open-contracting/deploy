@@ -478,7 +478,7 @@ Restore from backup
 -------------------
 
 pgBackRest
-^^^^^^^^^^
+~~~~~~~~~~
 
 .. seealso::
 
@@ -533,7 +533,7 @@ View current backups:
 .. _pg-recover-backup-universal:
 
 pg_dump and pg_restore
-^^^^^^^^^^^^^^^^^^^^^^
+~~~~~~~~~~~~~~~~~~~~~~
 
 If pgBackRest isn't an option, use ``pg_dump`` and ``pg_restore``.
 
