@@ -3,8 +3,10 @@ AWS_ACCESS_KEY_ID=""
 AWS_SECRET_ACCESS_KEY=""
 AWS_DEFAULT_REGION=""
 
-# MySQL backup
+# Database backup
 S3_DATABASE_BACKUP_BUCKET=""
+# Space deliminated bash array e.x. ( "dbone" "dbtwo" )
+BACKUP_DATABASES=()
 
 # Site backup
 S3_SITE_BACKUP_BUCKET=""
