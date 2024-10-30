@@ -547,7 +547,7 @@ If pgBackRest isn't an option, use ``pg_dump`` and ``pg_restore``.
 
    .. code-block:: bash
 
-      rsync -avz root@ocp13.open-contracting.org:~/spoonbill_web.tar.gz .
+      rsync -avz root@ocp13.open-contracting.org:/var/lib/postgresql/spoonbill_web.tar.gz .
 
 #. Copy the database dump to the new server. For example:
 
