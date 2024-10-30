@@ -12,15 +12,6 @@ network:
     template: linode
     gateway4: 176.58.107.1
 
-rsyslog:
-  conf:
-    80-docker.conf: docker.conf
-
-logrotate:
-  conf:
-    docker:
-      source: docker
-
 apache:
   public_access: True
   sites:

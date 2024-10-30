@@ -33,18 +33,11 @@ Configure Docker
 
    Do this only once per server.
 
+Add ``- docker`` to the server's entry in the ``pillar/top.sls`` file.
+
 In the server's Pillar file, add, for example:
 
 .. code-block:: yaml
-
-   rsyslog:
-     conf:
-       80-docker.conf: docker.conf
-
-   logrotate:
-     conf:
-       docker:
-         source: docker
 
    docker:
      user: deployer

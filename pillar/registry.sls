@@ -43,15 +43,6 @@ prometheus:
   node_exporter:
     smartmon: True
 
-rsyslog:
-  conf:
-    80-docker.conf: docker.conf
-
-logrotate:
-  conf:
-    docker:
-      source: docker
-
 apache:
   public_access: True
   modules:

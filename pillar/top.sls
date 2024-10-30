@@ -14,24 +14,27 @@ base:
     - cove
     - cove_maintenance
     - private.cove
+    - docker
 
   'credere':
     - credere_common
     - credere
     - credere_maintenance
     - private.credere
+    - docker
 
   'credere-dev':
     - credere_common
     - credere_dev
     - credere_dev_maintenance
     - private.credere_dev
+    - docker
 
   'docs':
     - docs
+    - docs_maintenance
     - private.docs
     - tinyproxy
-    - docs_maintenance
 
   'dream-bi':
     - dreambi
@@ -40,24 +43,27 @@ base:
 
   'kingfisher-main':
     - kingfisher_main
+    - kingfisher_main_maintenance
     - private.kingfisher_main
     - tinyproxy
-    - kingfisher_main_maintenance
+    - docker
 
   'portland-dev':
     - portland_dev
+    - docker
 
   'prometheus':
     - prometheus_server
-    - private.smtp
-    - private.prometheus_server
     - prometheus_server_maintenance
+    - private.prometheus_server
+    - private.smtp
 
   'registry':
     - registry
+    - registry_maintenance
     - private.registry
     - tinyproxy
-    - registry_maintenance
+    - docker
 
   # Don't install the Prometheus Node Exporter on development or test servers.
   '* and not G@id:*-dev and not G@id:*-test':
