@@ -117,6 +117,17 @@ kingfisher_collect:
     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_production_api
     # Need to sync with `docker_apps.kingfisher_process.port`.
     KINGFISHER_API2_URL: http://localhost:8000
+    # paraguay_dncp_*: Connection error.
+    # curl https://contrataciones.gov.py/datos/api/v3/doc/oauth/token
+    #
+    # Cloudflare issues
+    # https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-5xx-errors/
+    #
+    # honduras_iaip: Cloudflare responds with HTTP 522.
+    # curl 'https://www.contratacionesabiertas.gob.hn/api/v1/iaip_datosabiertos/?format=json'
+    # canada_montreal: Cloudflare responded with HTTP 520, previously.
+    # curl https://ville.montreal.qc.ca/vuesurlescontrats/api/releases.json
+    PROXY_SPIDERS: honduras_iaip,paraguay_dncp_records,paraguay_dncp_releases
 
 docker_apps:
   registry:
