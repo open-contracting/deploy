@@ -274,7 +274,6 @@ Find unexpected tables in the public schema:
            -- Kingfisher Process tables
            'collection',
            'collection_file',
-           'collection_file_item',
            'collection_note',
            'compiled_release',
            'data',
