@@ -1,5 +1,6 @@
 DocumentRoot /home/{{ user }}/public_html
 Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+Header set X-Content-Type-Options nosniff
 
 <Directory /home/{{ user }}/public_html>
     Require all granted
