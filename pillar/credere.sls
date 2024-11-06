@@ -1,18 +1,7 @@
-network:
-  host_id: ocp24
-  ipv4: 213.52.130.126
-  ipv6: "2a01:7e00:e000:06e6::"
-  networkd:
-    template: linode
-    gateway4: 213.52.130.1
-
 apache:
   sites:
     credere:
       servername: credere.open-contracting.org
-
-docker:
-  uid: 1000
 
 docker_apps:
   credere_backend:
@@ -23,12 +12,10 @@ docker_apps:
       APPLICATION_EXPIRATION_DAYS: 30
       REMINDER_DAYS_BEFORE_EXPIRATION: 3
       REMINDER_DAYS_BEFORE_LAPSED: 3
+      REMINDER_DAYS_BEFORE_LAPSED_FOR_EXTERNAL_ONBOARDING: 29
       PROGRESS_TO_REMIND_STARTED_APPLICATIONS: 0.7
       DAYS_TO_CHANGE_TO_LAPSED: 30
-      REMINDER_DAYS_BEFORE_LAPSED_FOR_EXTERNAL_ONBOARDING: 29
       DAYS_TO_ERASE_BORROWERS_DATA: 7
-      # Data sources
-      SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
       # Email addresses
       OCP_EMAIL_GROUP: credereadmin@open-contracting.org
       TEST_MAIL_RECEIVER: credereadmin@open-contracting.org
@@ -36,6 +23,8 @@ docker_apps:
       FRONTEND_URL: https://credere.open-contracting.org
       BACKEND_URL: https://credere.open-contracting.org/api
       IMAGES_BASE_URL: https://cdn.credere.open-contracting.org/images
+      # Data sources
+      SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
     # NOTE: sla-overdue-applications is disabled as not useful.
     cron:
       - identifier: FETCH_AWARDS
@@ -50,6 +39,18 @@ docker_apps:
       - identifier: REMOVE_LAPSED_APPLICATIONS
         command: remove-dated-application-data
         hour: 2
+
+# Listed out-or-order for easier comparison with credere_dev.sls.
+network:
+  host_id: ocp24
+  ipv4: 213.52.130.126
+  ipv6: "2a01:7e00:e000:06e6::"
+  networkd:
+    template: linode
+    gateway4: 213.52.130.1
+
+docker:
+  uid: 1000
 
 postgres:
   configuration:

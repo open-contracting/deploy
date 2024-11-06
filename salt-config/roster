@@ -6,8 +6,6 @@ cove:
   host: ocp18.open-contracting.org
 credere:
   host: ocp24.open-contracting.org
-credere-dev:
-  host: ocp22.open-contracting.org
 docs:
   host: ocp19.open-contracting.org
 prometheus:
@@ -53,3 +51,4 @@ portland-dev:
 # ocp14 was redash (redash.open-contracting.org)
 # ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids
+# ocp22 was credere-dev

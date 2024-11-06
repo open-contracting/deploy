@@ -23,13 +23,6 @@ base:
     - private.credere
     - docker
 
-  'credere-dev':
-    - credere_common
-    - credere_dev
-    - credere_dev_maintenance
-    - private.credere_dev
-    - docker
-
   'docs':
     - docs
     - docs_maintenance
