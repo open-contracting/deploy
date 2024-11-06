@@ -13,7 +13,7 @@ As with other deployment tasks, do the :doc:`setup tasks<setup>` before the step
 
 If the service is being retired:
 
-#. Remove the server from ``salt/prometheus/files/conf-prometheus.yml``, and :doc:`deploy<deploy>` the Prometheus service
+#. Remove it from ``salt/prometheus/files/conf-prometheus.yml``, and :doc:`deploy<deploy>` the Prometheus service
 #. Remove its configuration from this repository
 #. Remove its DNS entries from `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
 #. Remove its error monitor from `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, if used
