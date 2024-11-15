@@ -26,6 +26,16 @@ docs modules:
     - watch_in:
       - service: apache2
 
+# Make it easier for root user to administer Elasticsearch.
+/root/.netrc:
+  file.managed:
+    - contents: |
+        machine standard.open-contracting.org
+        login ocpadmin
+        password {{ pillar.elasticsearch.plugins.readonlyrest.password }}
+    - template: jinja
+    - mode: 600
+
 /var/www/html/robots.txt:
   file.managed:
     - source: salt://apache/files/docs/robots_disallow.txt
