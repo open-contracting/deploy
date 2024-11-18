@@ -364,10 +364,16 @@ Add A, AAAA and SPF records
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
 
+   #. Get the server's IPv6 address. Connect to the server and run:
+
+      .. code-block:: bash
+
+         curl -6 https://icanhazip.com/
+
    #. Click the *Add More Records* button
    #. Select "AAAA" from the *Type* dropdown
    #. Enter the hostname in *Name* (``ocp42``, for example)
-   #. Enter the IPv6 address in *Value* (use ``2`` as the last group of digits)
+   #. Enter the IPv6 address in *Value*
    #. Set *TTL* to 1 **Day**
 
 #. Click the *Save* button
@@ -410,9 +416,15 @@ Configure reverse DNS
          #. Click the *Edit Reverse DNS* button
          #. If the server has an IPv6 /64 block:
 
+            #. Get the server's IPv6 address. Connect to the server and run:
+
+               .. code-block:: bash
+
+                  curl -6 https://icanhazip.com/
+
             #. Click the *...* button for the server's IPv6 address
             #. Click the *Edit Reverse DNS* menu item
-            #. Set the end of the IPv6 address to "::"
+            #. Set the end of the IPv6 address
             #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
             #. Click the *Edit Reverse DNS* button
 
@@ -426,9 +438,15 @@ Configure reverse DNS
          #. Under *IP addresses:* heading, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
          #. If the server has an IPv6 /64 block:
 
+            #. Get the server's IPv6 address. Connect to the server and run:
+
+               .. code-block:: bash
+
+                  curl -6 https://icanhazip.com/
+
             #. Under the *Subnets:* heading, click the *⊕* symbol on the left
             #. Click the *Add new Reverse DNS entry* link
-            #. Set *Enter IP* to the IPv6 address with ``2`` as the last group of digits
+            #. Set *Enter IP* to the IPv6 address
             #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
             #. Click the *Create* button
 
