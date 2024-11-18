@@ -4,7 +4,7 @@ Configure networking
 Hostnames and IP addresses
 --------------------------
 
-Update the server's Pillar file:
+Update the server's Pillar file. For example:
 
 .. code-block:: yaml
 
@@ -67,7 +67,7 @@ This configuration disables automatic IP configuration and configures static net
 
    A /64 block is requested, because `spam blocklists use /64 ranges <https://web.archive.org/web/20221217212321/https://www.spamhaus.org/organization/statement/12/spamhaus-ipv6-blocklists-strategy-statement>`__.
 
-Update the server's Pillar file:
+Update the server's Pillar file. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5-9
@@ -98,7 +98,7 @@ Custom template
 
    Only use a ``custom`` template if your needs are not met by any other template.
 
-Update the server's Pillar file:
+Update the server's Pillar file. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5-22
@@ -135,7 +135,7 @@ Netplan
 
    This step is optional. Only override a Netplan configuration if necessary. For example, Hetzner's `installimage <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__ script creates a `configuration file <https://github.com/hetzneronline/installimage/blob/84883efa372b9c9ecef2bb7703d696221b4e1093/network_config.functions.sh#L560>`__ that works as-is.
 
-Update the server's Pillar file:
+Update the server's Pillar file. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 5-15
