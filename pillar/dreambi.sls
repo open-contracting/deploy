@@ -1,7 +1,7 @@
 network:
   host_id: ocp25
   ipv4: 5.75.247.51
-  ipv6: 2a01:4f8:c012:3ea8::2
+  ipv6: 2a01:4f8:c012:3ea8::1
 
 ssh:
   dreambi:
