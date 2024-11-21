@@ -29,6 +29,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - {{ entry.host_dir }}/redis:/bitnami/redis/data
   web:
     <<: *django
     ports:

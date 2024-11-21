@@ -14,6 +14,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    volumes:
+      - {{ directory }}/redis:/bitnami/redis/data
   web:
     <<: *shared
     image: "ghcr.io/open-contracting/bi.dream.gov.ua-qlikauth:latest"

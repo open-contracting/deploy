@@ -71,3 +71,11 @@ allow {{ userdir }} access:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 {% endfor %}
+
+{{ directory }}/redis:
+  file.directory:
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - makedirs: True
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
