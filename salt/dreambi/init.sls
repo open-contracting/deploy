@@ -63,7 +63,8 @@ allow {{ userdir }} access:
 {% for stem, contents in pillar.docker_apps.qlikauth.certs|items %}
 {{ directory }}/certs/{{ stem }}.pem:
   file.managed:
-    - contents: "{{ contents }}"
+    - contents: |
+        {{ contents|indent(8) }}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True
