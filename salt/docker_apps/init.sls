@@ -12,6 +12,7 @@ include:
     - source: salt://docker_apps/files/{{ entry.configuration|default(name) }}.yaml
     - template: jinja
     - context:
+        directry: {{ directory }}
         entry: {{ entry|yaml }}
 {% if 'site' in entry %}
         site: {{pillar.apache.sites[entry.site].context|yaml }}
