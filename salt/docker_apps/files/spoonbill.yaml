@@ -30,7 +30,8 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - {{ entry.host_dir }}/redis:/bitnami/redis/data
+      - {{ entry.host_dir }}/redis/data:/bitnami/redis/data
+      - {{ entry.host_dir }}/redis/tmp:/opt/bitnami/redis/tmp
   web:
     <<: *django
     ports:

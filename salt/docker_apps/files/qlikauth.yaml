@@ -15,7 +15,8 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - {{ directory }}/redis:/bitnami/redis/data
+      - {{ directory }}/redis/data:/bitnami/redis/data
+      - {{ directory }}/redis/tmp:/opt/bitnami/redis/tmp
   web:
     <<: *shared
     image: "ghcr.io/open-contracting/bi.dream.gov.ua-qlikauth:latest"

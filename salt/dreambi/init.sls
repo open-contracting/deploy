@@ -74,8 +74,12 @@ allow {{ userdir }} access:
 
 {{ directory }}/redis:
   file.directory:
-    - user: {{ pillar.docker.user }}
-    - group: {{ pillar.docker.user }}
+    - names:
+      - {{ directory }}/redis/data
+      - {{ directory }}/redis/tmp
+    # https://github.com/bitnami/containers/blob/main/bitnami/redis/README.md#persisting-your-database
+    - user: 1001
+    - group: 1001
     - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
