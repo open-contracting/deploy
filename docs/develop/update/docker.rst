@@ -1,17 +1,18 @@
 Configure Docker apps
 =====================
 
+.. important::
+
+   When using Docker, :ref:`configure an external firewall<docker-firewall>`.
+
 .. note::
 
    This guide works with existing images. See the `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/docker/>`__ for how to build images from a Dockerfile using GitHub Actions.
 
 .. seealso::
 
-   :doc:`../../deploy/docker` and :doc:`../../maintain/docker`
-
-.. important::
-
-   When using Docker, :ref:`configure an external firewall<docker-firewall>`.
+   -  :doc:`../../deploy/docker`
+   -  :doc:`../../maintain/docker`
 
 The ``docker_apps`` state file performs common operations for apps deployed using Docker Compose. In your app's state file, include it with:
 
@@ -129,17 +130,17 @@ This will create files in the ``/data/deploy/mytarget`` directory:
 -  ``docker-compose.yaml``, with the contents of the ``salt/docker_apps/files/myapp.yaml`` file
 -  ``.env``, containing the values under the ``env`` key
 
-To reuse a Docker Compose file, do, for example:
+To reuse a Docker Compose file, specify the configuration, which otherwise defaults to the app's name. For example:
 
 .. code-block:: yaml
    :emphasize-lines: 3,6
 
    docker_apps:
      cove_ocds:
-       configuration: cove
+       configuration: cove  # default cove_ocds
        target: cove-ocds
      cove_oc4ids:
-       configuration: cove
+       configuration: cove  # default cove_oc4ids
        target: cove-oc4ids
 
 .. seealso::
@@ -209,7 +210,9 @@ Then, in the Docker Compose file, add, for example:
        image: "ghcr.io/open-contracting/myrepo:latest"
        restart: unless-stopped
        ports:
-         - {{ pillar.docker_apps.myapp.port }}:8000
+         - {{ entry.port }}:8000
+
+Alternatively, if ``port`` is already set in the ``context`` of an :ref:`Apache site<apache-sites>`, do: ``{{ site.port }}``
 
 Add a bind mount
 ~~~~~~~~~~~~~~~~
