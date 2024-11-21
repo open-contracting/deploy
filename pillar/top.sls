@@ -33,6 +33,7 @@ base:
     - dreambi
     - dreambi_maintenance
     - private.dreambi
+    - docker
 
   'kingfisher-main':
     - kingfisher_main

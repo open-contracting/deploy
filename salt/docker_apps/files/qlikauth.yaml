@@ -1,0 +1,25 @@
+x-shared: &shared
+  env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
+
+services:
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  web:
+    <<: *shared
+    image: "ghcr.io/open-contracting/bi.dream.gov.ua-qlikauth:latest"
+    ports:
+      - {{ site.qlikauth_port }}:3000
+    volumes:
+      - {{ directory }}/certs:/data/certs:ro
+    depends_on:
+      - redis

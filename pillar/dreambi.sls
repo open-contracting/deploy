@@ -27,6 +27,22 @@ nginx:
       include: dream-bi
       servername: bi.dream.gov.ua
       context:
-        app: bbd2ec1f-dbb4-4606-9e17-4fb23d87f4e9
-        proxypass: 159.69.67.60
+        qliksense_app: bbd2ec1f-dbb4-4606-9e17-4fb23d87f4e9
+        qliksense_ip: 159.69.67.60
+        qlikauth_port: 3000
         user: dreambi
+
+docker:
+  user: deployer
+  uid: 1002
+  syslog_logging: True
+
+docker_apps:
+  qlikauth:
+    target: qlikauth
+    site: bi.dream.gov.ua
+    env:
+      # Must end with a "/".
+      QLIK_PROXY_SERVICE: https://ocp15.open-contracting.org:4243/qps/prod/
+      # The OAuth redirect domain, that serves /api/auth/google_auth_callback
+      DOMAIN: https://bi.dream.gov.ua

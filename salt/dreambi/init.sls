@@ -1,4 +1,11 @@
 {% from 'lib.sls' import create_user %}
+{% from 'docker_apps/init.sls' import docker_apps_directory %}
+
+include:
+  - docker_apps
+
+{% set entry = pillar.docker_apps.qlikauth %}
+{% set directory = docker_apps_directory + entry.target %}
 
 {% set user = 'dreambi' %}
 {% set userdir = '/home/' + user %}
@@ -52,3 +59,14 @@ allow {{ userdir }} access:
 #     - target: {{ userdir }}/mdcp
 #     - require:
 #       - pkg: git
+
+{% for stem, contents in pillar.docker_apps.qlikauth.certs|items %}
+{{ directory }}/certs/{{ stem }}.pem:
+  file.managed:
+    - contents: "{{ contents }}"
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - makedirs: True
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+{% endfor %}

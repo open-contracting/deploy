@@ -18,13 +18,13 @@ for location, path in (
     ('prod/printing', 'prod/printing'),
     ('prod/qrs', 'prod/qrs'),
     ('prod/resources', 'prod/resources'),
-    ('prod/sense/app/' + app + '/', 'prod/sense/app/' + app + '/'),
+    ('prod/sense/app/' + qliksense_app + '/', 'prod/sense/app/' + qliksense_app + '/'),
     ('prod/tempcontent', 'prod/tempcontent'),
 )
 %}
 
 location /{{ location }} {
-    proxy_pass https://{{ proxypass }}:444/{{ path }};
+    proxy_pass https://{{ qliksense_ip }}:444/{{ path }};
     include proxy_params;
 
     # Websockets support.
@@ -39,9 +39,14 @@ location /{{ location }} {
 }
 {%- endfor %}
 
+location /api/auth {
+    proxy_pass https://127.0.0.1:{{ qlikauth_port }};
+    include proxy_params;
+}
+
 location /monitor {
     server_name_in_redirect on;
-    return 302 /auth/sense/app/{{ app }}/overview;
+    return 302 /auth/sense/app/{{ qliksense_app }}/overview;
 }
 
 location /afghanistan {
