@@ -15,7 +15,11 @@ include:
         directry: {{ directory }}
         entry: {{ entry|yaml }}
 {% if 'site' in entry %}
+  {% if 'apache' in pillar %}
         site: {{pillar.apache.sites[entry.site].context|yaml }}
+  {% else %}
+        site: {{pillar.nginx.sites[entry.site].context|yaml }}
+  {% endif %}
 {% endif %}
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
