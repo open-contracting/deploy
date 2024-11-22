@@ -44,5 +44,3 @@ docker_apps:
     env:
       # Must end with a "/".
       QLIK_PROXY_SERVICE: https://ocp15.open-contracting.org:4243/qps/prod/
-      # The OAuth redirect domain, that serves /api/auth/google_auth_callback
-      DOMAIN: https://bi.dream.gov.ua
