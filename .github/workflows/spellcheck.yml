@@ -1,13 +1,8 @@
 name: Spell-check
 on: [push, pull_request]
 jobs:
-  build:
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: pip install codespell
-      - run: codespell -S '.git,*.csv' -L absense,fo,maintainance,uptodate,uncorrect .
+  lint:
+    uses: open-contracting/.github/.github/workflows/spellcheck.yml@main
+    with:
+      ignore: maintainance,uptodate,uncorrect
+      skip: '*.csv'
