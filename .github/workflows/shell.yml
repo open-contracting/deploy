@@ -3,6 +3,6 @@ on: [push, pull_request]
 jobs:
   lint:
     uses: open-contracting/.github/.github/workflows/shell.yml@main
-      with:
-        # checkbashisms doesn't recognize `set -o pipefail`.
-        ignore: do_excluded_supplier.sh
+    with:
+      # checkbashisms doesn't recognize `set -o pipefail`.
+      ignore: do_excluded_supplier.sh
