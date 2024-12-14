@@ -244,7 +244,6 @@ RedirectMatch ^/{{ version }}/{{ lang }}/extensions/bids/?                      
 RedirectMatch ^/{{ version }}/{{ lang }}/extensions/enquiries/?                 https://extensions.open-contracting.org/{{ lang }}/extensions/enquiries/
 RedirectMatch ^/{{ version }}/{{ lang }}/extensions/location/?                  https://extensions.open-contracting.org/{{ lang }}/extensions/location/
 RedirectMatch ^/{{ version }}/{{ lang }}/extensions/lots/?                      https://extensions.open-contracting.org/{{ lang }}/extensions/lots/
-RedirectMatch ^/{{ version }}/{{ lang }}/extensions/milestone_documents/?       https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
 RedirectMatch ^/{{ version }}/{{ lang }}/extensions/participation_fee/?         https://extensions.open-contracting.org/{{ lang }}/extensions/participation_fee/
 RedirectMatch ^/{{ version }}/{{ lang }}/extensions/process_title/?             https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
 
@@ -299,7 +298,6 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/documentation_de
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/finance/?                https://extensions.open-contracting.org/{{ lang }}/extensions/finance/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/location/?               https://extensions.open-contracting.org/{{ lang }}/extensions/location/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/metrics/?                https://extensions.open-contracting.org/{{ lang }}/extensions/metrics/
-RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/milestone_documents/?    https://extensions.open-contracting.org/{{ lang }}/extensions/milestone_documents/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/performance_failures/?   https://extensions.open-contracting.org/{{ lang }}/extensions/performance_failures/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/ppp/?                    https://extensions.open-contracting.org/{{ lang }}/extensions/ppp/
 RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/process_title/?          https://extensions.open-contracting.org/{{ lang }}/extensions/process_title/
