@@ -11,7 +11,12 @@ route:
       group_interval: 5m
       repeat_interval: 1d
       continue: True
-    - receiver: dogsbody-webhook
+    - receiver: rh-email
+      group_by:
+        - alertname
+      group_wait: 30s
+      group_interval: 5m
+      repeat_interval: 1d
       continue: True
 
 receivers:
@@ -24,7 +29,12 @@ receivers:
         auth_password: {{ pillar.smtp.password }}
         require_tls: {{ pillar.smtp.tls }}
         send_resolved: True
-  - name: dogsbody-webhook
-    webhook_configs:
-      - send_resolved: True
-        url: https://webhook01.dogsbodytechnology.com/v1/prometheus
+  - name: rh-email
+    email_configs:
+      - to: servers@robhooper.net
+        from: noreply@noreply.open-contracting.org
+        smarthost: {{ pillar.smtp.host }}:{{ pillar.smtp.port }}
+        auth_username: {{ pillar.smtp.username }}
+        auth_password: {{ pillar.smtp.password }}
+        require_tls: {{ pillar.smtp.tls }}
+        send_resolved: True

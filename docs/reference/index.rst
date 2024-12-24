@@ -139,7 +139,7 @@ Administrative access
 
 The server managers are:
 
--  `Dogsbody Technology <https://www.dogsbody.com>`__ (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) (sysadmin@dogsbody.com) for Linux servers
+-  `Robert Hooper <https://robhooper.net>`__ (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) (servers@robhooper.net) for Linux servers
 -  `RBC Group <https://www.rbcgrp.com>`__ (`EET/EEST <https://www.timeanddate.com/time/zones/eet>`__) for Windows servers
 
 `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) staff also have administrative roles.
