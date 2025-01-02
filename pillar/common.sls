@@ -7,9 +7,9 @@ maintenance:
 
 system_contacts:
   # For system notifications.
-  root: sysadmin@open-contracting.org,sysadmin@dogsbody.com
+  root: sysadmin@open-contracting.org,servers@robhooper.net
   # For cron jobs.
-  cron_admin: sysadmin@open-contracting.org,sysadmin@dogsbody.com
+  cron_admin: sysadmin@open-contracting.org,servers@robhooper.net
 
 network:
   domain: open-contracting.org
