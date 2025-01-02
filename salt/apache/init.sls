@@ -100,6 +100,7 @@ disable site 000-default.conf:
         ServerTokens Prod
         ServerSignature Off
         SetEnvIf User-Agent AppBeat dontlog
+        SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
         CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
     - require:

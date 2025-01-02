@@ -9,6 +9,7 @@ ErrorDocument 403 /404.html
     https://httpd.apache.org/docs/2.4/logs.html#conditional
 -#}
 SetEnvIf User-Agent AppBeat dontlog
+SetEnvIf User-Agent Pingdom.com_bot dontlog
 SetEnvIf Request_URI "^/server-status$" dontlog
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
