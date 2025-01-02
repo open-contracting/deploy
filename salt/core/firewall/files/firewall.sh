@@ -85,6 +85,16 @@ else
     APPBEAT_IPV6=""
 fi
 
+if [ "$MONITOR_PINGDOM" = "yes" ]; then
+    echo_verbose "Get AppBeat IP addresses"
+    # Account for DOS line endings.
+    PINGDOM_IPV4=$(curl -sS https://my.pingdom.com/probes/ipv4 | tr -d '\r')
+    PINGDOM_IPV6=$(curl -sS https://my.pingdom.com/probes/ipv6 | tr -d '\r')
+else
+    PINGDOM_IPV4=""
+    PINGDOM_IPV6=""
+fi
+
 # We want to continue even if a command fails, because if, for example, a command fails after flushing tables but
 # before allowing collections to port 22, recovery becomes much harder.
 set +eu
@@ -308,6 +318,15 @@ if [ -n "$APPBEAT_IPV4" ] || [ -n "$APPBEAT_IPV6" ]; then
     done
 fi
 
+if [ -n "$PINGDOM_IPV4" ] || [ -n "$PINGDOM_IPV6" ]; then
+    echo_verbose "Set monitor chain"
+    for IP in $PINGDOM_IPV4; do
+        $IPTABLES -A monitor -s "$IP" -j ACCEPT
+    done
+    for IP in $PINGDOM_IPV6; do
+        $IP6TABLES -A monitor -s "$IP" -j ACCEPT
+    done
+fi
 echo_verbose "Save iptables to $IPTABLESSAVLOC and $IP6TABLESSAVLOC"
 iptables-save > $IPTABLESSAVLOC
 ip6tables-save > $IP6TABLESSAVLOC

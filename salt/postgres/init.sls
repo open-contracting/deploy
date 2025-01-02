@@ -26,6 +26,7 @@ include:
   {% endif %}
   {% if salt['pillar.get']('maintenance:enabled') %}
     {{ set_firewall('MONITOR_APPBEAT') }}
+    {{ set_firewall('MONITOR_PINGDOM') }}
   {% endif %}
 {% endif %}
 
