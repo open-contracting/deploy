@@ -24,17 +24,6 @@ rkhunter_install:
     - onchanges:
       - archive: rkhunter_install
 
-/var/lib/rkhunter/db/mirrors.dat:
-  file.replace:
-    - pattern: |
-        mirror=http://rkhunter.sourceforge.net
-        remote=http://rkhunter.sourceforge.net
-    - repl: "local=https://rkhmirror.dogsbody.com/data/1.4/"
-    - append_if_not_found: True
-    - backup: False
-    - require:
-      - archive: rkhunter_install
-
 rkhunter_update:
   cmd.run:
     - name: /usr/local/bin/rkhunter --update
