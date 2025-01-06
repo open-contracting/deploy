@@ -91,7 +91,7 @@ disable site 000-default.conf:
 # provided by the package, which set ServerTokens, ServerSignature and CustomLog.
 #
 # - Do not disclose the Apache version, to avoid false positives about CVE patching.
-# - Do not log AppBeat's remote requests and Netdata's mod_status requests, to reduce log noise.
+# - Do not log uptime monitoring remote requests and Netdata's mod_status requests, to reduce log noise.
 #
 # https://httpd.apache.org/docs/2.4/logs.html#conditional
 /etc/apache2/conf-available/zz-customization.conf:
