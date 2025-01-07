@@ -16,9 +16,6 @@ ntp:
   - 2.us.pool.ntp.org
   - 3.us.pool.ntp.org
 
-netdata:
-  enabled: False
-
 apache:
   public_access: True
   sites:

@@ -38,4 +38,4 @@ ntp:
   - 3.uk.pool.ntp.org
 
 netdata:
-  enabled: True
+  enabled: False

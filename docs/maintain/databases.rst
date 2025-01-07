@@ -365,7 +365,7 @@ Delete a user
 
    .. code-block:: bash
 
-      su - postgres -c 'psql kingfisher_process -c "DROP ROLE role2drop;"'
+      su - postgres -c 'psql postgres -c "DROP ROLE role2drop;"'
 
 #. If you see a message like:
 

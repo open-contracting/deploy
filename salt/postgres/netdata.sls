@@ -1,4 +1,4 @@
-# Move to another state, if netdata becomes managed by Salt.
+# Move to another state, if netdata is re-implemented.
 netdata:
   service.running:
     - name: netdata
