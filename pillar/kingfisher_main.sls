@@ -112,7 +112,7 @@ apache:
 
 postgres:
   version: 15
-  # Public access allows Docker connections. Hetzner's firewall prevents non-local connections.
+  # Public access allows Docker connections. Hetzner's firewall can be used to prevent non-local connections.
   public_access: True
   ssl:
     servername: postgres.kingfisher.open-contracting.org
