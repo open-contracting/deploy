@@ -3,6 +3,7 @@
 awscli:
   pkg.installed:
     - name: python3-pip
+    - install_recommends: False
   pip.installed:
     - name: awscli
 {% if grains.osmajorrelease | int >= 24 %}
