@@ -242,10 +242,10 @@ Set up full backups
       postgres:
         backup:
           s3_bucket: ocp-db-backup
-          s3_region: eu-central-1
-          s3_endpoint: s3.eu-west-1.amazonaws.com
           s3_key: ...
           s3_key_secret: ...
+          s3_endpoint: s3.eu-central-1.amazonaws.com
+          s3_region: eu-central-1
 
    .. seealso::
 

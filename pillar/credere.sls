@@ -56,7 +56,7 @@ postgres:
   configuration:
     context:
       ram_ratio: 0.75
-      # Rounded down to a power of 2.
+      # Rounded down to a power of 2. https://postgresqlco.nf/doc/en/param/work_mem/
       work_mem: 8
   backup:
     type: pgbackrest

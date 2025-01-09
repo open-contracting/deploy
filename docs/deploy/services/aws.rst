@@ -394,6 +394,8 @@ Create a backup policy
 
          .. tab-item:: pgBackRest backups
 
+            Replace ``PREFIX`` with the ``pillar.postgres.backup.repo_path`` value if using the ``shared`` configuration.
+
             .. seealso::
 
                `pgBackRest sample Amazon S3 policy <https://pgbackrest.org/user-guide.html#s3-support>`__
