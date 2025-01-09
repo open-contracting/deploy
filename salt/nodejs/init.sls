@@ -1,4 +1,4 @@
-{% set node_version = pillar.nodejs.version|default('18')|quote %}
+{% set node_version = pillar.nodejs.version|default('22')|quote %}
 
 # https://github.com/nodesource/distributions
 nodejs:
