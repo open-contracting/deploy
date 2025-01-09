@@ -24,7 +24,6 @@ base:
 
   'cove':
     - cove
-    - memcached
 
   'credere*':
     - credere

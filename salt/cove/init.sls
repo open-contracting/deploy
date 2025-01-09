@@ -5,6 +5,7 @@ include:
   # django.conf.include
   - apache.modules.headers # RequestHeader
   - apache.modules.proxy_http # ProxyPass
+  - memcached
   - docker_apps
 
 {{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'cove') }}
