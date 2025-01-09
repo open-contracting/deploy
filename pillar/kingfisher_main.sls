@@ -169,9 +169,7 @@ postgres:
     type: pgbackrest
     configuration: shared
     stanza: kingfisher-2023
-    retention_full: 4
     repo_path: /kingfisher
-    process_max: 4
 
 docker:
   user: deployer

@@ -78,6 +78,4 @@ postgres:
     type: pgbackrest
     configuration: shared
     stanza: credere
-    retention_full: 4
     repo_path: /credere
-    process_max: 4

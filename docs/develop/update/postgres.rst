@@ -245,9 +245,7 @@ Set up full backups
           configuration: shared
           # The rest are specific to your configuration file.
           stanza: kingfisher
-          retention_full: 4
           repo_path: /kingfisher
-          process_max: 4
 
    .. note::
 
