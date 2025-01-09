@@ -5,7 +5,9 @@ base:
     - common
     - private.common
 
-  'coalition':
+  'cms':
+    - cms
+    - cms_maintenance
     - coalition
     - coalition_maintenance
     - private.coalition

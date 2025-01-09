@@ -1,6 +1,6 @@
 # Linode
 
-coalition:
+cms:
   host: ocp21.open-contracting.org
 cove:
   host: ocp18.open-contracting.org

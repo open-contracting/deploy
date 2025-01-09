@@ -19,7 +19,7 @@ base:
     - core.systemd.logind
     - core.systemd.ntp
 
-  'coalition':
+  'cms':
     - coalition
 
   'cove':
