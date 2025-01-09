@@ -216,48 +216,19 @@ Set up full backups
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. :ref:`Create an IAM backup policy and user<aws-iam-backup-policy>`
 #. Create a ``*.conf`` configuration file in the ``salt/postgres/files/pgbackrest/`` directory. In most cases, you should use the ``shared`` configuration.
-#. Install and configure pgBackRest. Add to the server's Pillar file, for example:
+#. Install and configure pgBackRest. Add to the server's Pillar file, for example, if using both the ``shared`` PostgreSQL and pgBackRest configurations:
 
    .. code-block:: yaml
 
       postgres:
         configuration:
-          ...
-          context:
-            content: |
-              ### pgBackRest
-              # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
-
-              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-LEVEL
-              wal_level = logical
-
-              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-MODE
-              archive_mode = on
-
-              # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
-              # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
-              archive_command = 'pgbackrest --stanza=kingfisher-2023 archive-push %p'
-
-              # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
-              max_wal_senders = 4
+          name: kingfisher-main1
+          source: shared
         backup:
           type: pgbackrest
           configuration: shared
-          # The rest are specific to your configuration file.
-          stanza: kingfisher
+          stanza: kingfisher-2023
           repo_path: /kingfisher
-
-   .. note::
-
-      ``max_wal_senders`` is set to 4, because `pgBackRest <https://pgbackrest.org/user-guide.html#quickstart/configure-archiving>`__ and `annotated.conf <https://github.com/jberkus/annotated.conf/blob/master/postgresql.10.simple.conf>`__ recommend a value of twice the number of *potential future* replicas. This value counts towards ``max_connections``.
-
-   .. note::
-
-      The ``grep -v`` command means ``root`` receives mail if there is more than 1 error. To check whether the error message in the ``grep`` command is up-to-date:
-
-      -  `unable to remove file '%s' <https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43>`__
-      -  `expire command encountered %u error(s), check the log file for details <https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078>`__
-      -  "We encountered an internal error. Please try again." is from AWS.
 
    .. seealso::
 

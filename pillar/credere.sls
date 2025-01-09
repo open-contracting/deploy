@@ -58,22 +58,6 @@ postgres:
       ram_ratio: 0.75
       # Rounded down to a power of 2.
       work_mem: 8
-      content: |
-        ### pgBackRest
-        # https://pgbackrest.org/user-guide.html#quickstart/configure-archiving
-
-        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-WAL-LEVEL
-        wal_level = logical
-
-        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-MODE
-        archive_mode = on
-
-        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-COMMAND
-        # https://pgbackrest.org/user-guide.html#async-archiving/async-archive-push
-        archive_command = 'pgbackrest --stanza=credere archive-push %p'
-
-        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-MAX-WAL-SENDERS
-        max_wal_senders = 4
   backup:
     type: pgbackrest
     configuration: shared

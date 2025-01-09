@@ -52,6 +52,14 @@ pgbackrest:
       - pkg: postgresql
 
 {% if salt['pillar.get']('postgres:backup:cron') %}
+# The `grep -v` command means `root` receives mail if there is more than 1 error.
+# To check whether the error message in the `grep` command is up-to-date:
+#
+# - "unable to remove file '%s'"
+#   https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/storage/storage.intern.h#L43
+# - "expire command encountered %u error(s), check the log file for details"
+#   https://github.com/pgbackrest/pgbackrest/blob/4adf6eed09da3f0819abef813c5a44deb9c91487/src/command/expire/expire.c#L1078
+# - "We encountered an internal error. Please try again." is from AWS.
 /etc/cron.d/postgres_backups:
   file.managed:
     - contents: |
