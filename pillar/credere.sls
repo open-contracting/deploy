@@ -55,7 +55,6 @@ docker:
 postgres:
   configuration:
     context:
-      # Docker and Netdata use the most memory (about 1.35 GB), after PostgreSQL.
       ram_ratio: 0.75
       # Rounded down to a power of 2.
       work_mem: 8
@@ -82,9 +81,3 @@ postgres:
     retention_full: 4
     repo_path: /credere
     process_max: 4
-    cron: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=credere
-        # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=credere --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"

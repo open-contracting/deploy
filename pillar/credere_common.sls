@@ -29,7 +29,7 @@ docker_apps:
 
 postgres:
   version: 15
-  # Docker containers don't use localhost to connect to the host's PostgreSQL service. Public access is controlled using Linode's firewall.
+  # Public access allows Docker connections. Linode's firewall prevents non-local connections..
   public_access: True
   configuration:
     name: credere

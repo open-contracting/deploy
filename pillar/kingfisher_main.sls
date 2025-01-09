@@ -172,12 +172,6 @@ postgres:
     retention_full: 4
     repo_path: /kingfisher
     process_max: 4
-    cron: |
-        MAILTO=root
-        # Daily incremental backup
-        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza=kingfisher-2023
-        # Weekly full backup
-        15 05 * * 3 postgres pgbackrest backup --stanza=kingfisher-2023 --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
 
 docker:
   user: deployer

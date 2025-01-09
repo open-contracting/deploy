@@ -54,7 +54,12 @@ pgbackrest:
 {% if salt['pillar.get']('postgres:backup:cron') %}
 /etc/cron.d/postgres_backups:
   file.managed:
-    - contents_pillar: postgres:backup:cron
+    - contents: |
+        MAILTO=root
+        # Daily incremental backup
+        15 05 * * 0-2,4-6 postgres pgbackrest backup --stanza={{ pillar.postgres.backup.stanza }}
+        # Weekly full backup
+        15 05 * * 3 postgres pgbackrest backup --stanza={{ pillar.postgres.backup.stanza }} --type=full 2>&1 | grep -v "unable to remove file.*We encountered an internal error\. Please try again\.\|expire command encountered 1 error.s., check the log file for details"
     - require:
       - pkg: pgbackrest
 {% endif %}
