@@ -2,7 +2,7 @@
 {% from 'docker_apps/init.sls' import docker_apps_directory %}
 
 include:
-  # cove.conf.include
+  # django.conf.include
   - apache.modules.headers # RequestHeader
   - apache.modules.proxy_http # ProxyPass
   - docker_apps
