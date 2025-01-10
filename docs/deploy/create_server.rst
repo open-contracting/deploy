@@ -513,6 +513,16 @@ Configure reverse DNS
 
       The server's Pillar file needs ``system_contacts``, ``network.domain``, ``ssh.admin``, ``locale``, ``ntp`` and, preferably, ``maintenance`` sections.
 
+   .. warning::
+
+      Salt deployments between Python 3.12 systems are `currently broken <https://github.com/saltstack/salt/issues/65360>`__, returning the error message: `ModuleNotFoundError: No module named 'backports'`.
+      To work around this, connect to the new server over SSH and install the `backports.ssl_match_hostname` package.
+
+      .. code-block:: bash
+
+         pip3 install backports.ssl_match_hostname --break-system-packages
+
+
 #. If a disk is larger than 100 GB, :ref:`reduce reserve space<rescale-reserved-space>`.
 #. `Reboot the server <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.system.html#salt.modules.system.reboot>`__:
 
