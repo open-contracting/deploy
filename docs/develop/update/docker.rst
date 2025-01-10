@@ -49,6 +49,16 @@ This will:
 -  Add a non-root user to the ``docker`` group
 -  Configure `container logs <https://docs.docker.com/config/containers/logging/>`__ to be written to ``/var/log/docker-custom/CONTAINER_NAME.log``, with rotation
 
+After deploying the server, run ``id -u deployer`` on the server, and set ``docker.uid``, for example:
+
+.. code-block:: yaml
+   :emphasize-lines: 3
+
+   docker:
+     user: deployer
+     uid: 1002
+     syslog_logging: True
+
 Add Docker Compose file
 -----------------------
 
