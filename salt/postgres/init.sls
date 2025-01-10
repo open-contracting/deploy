@@ -10,11 +10,15 @@ include:
 {% endif %}
 {% endif %}
 
+# Public PostgreSQL opens port 5432 to the world. Private PostgreSQL opens it only to replication and monitoring.
+# (If neither PUBLIC_POSTGRESQL nor PRIVATE_POSTGRESQL is set, then 5432 is closed.)
 {% if pillar.postgres.get('public_access') %}
   {{ set_firewall('PUBLIC_POSTGRESQL') }}
   {{ unset_firewall('PRIVATE_POSTGRESQL') }}
   {{ unset_firewall('REPLICA_IPV4') }}
   {{ unset_firewall('REPLICA_IPV6') }}
+  {{ unset_firewall('MONITOR_APPBEAT') }}
+  {{ unset_firewall('MONITOR_PINGDOM') }}
 {% else %}
   {{ unset_firewall('PUBLIC_POSTGRESQL') }}
   {{ set_firewall('PRIVATE_POSTGRESQL') }}
