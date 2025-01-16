@@ -1,18 +1,9 @@
-logrotate:
-  conf:
-    php-site-logs:
-      source:  php-site-logs
-      context:
-        php_version: '8.1'
-
 backup:
-  location: ocp-coalition-backup/site
   directories:
     # Must match directory in coalition/init.sls.
-    - /home/coalition/public_html/
+    /home/coalition/public_html/:
 
 apache:
-  public_access: True
   sites:
     coalition:
       configuration: wordpress
@@ -23,16 +14,9 @@ apache:
         socket: /var/run/php/php-fpm-coalition.sock
 
 mysql:
-  version: '8.0'
-  configuration: False
   databases:
     coalition_wp:
       user: coalition
-  backup:
-    location: ocp-coalition-backup/database
-
-php:
-  version: '8.1'  # sync with logrotate above
 
 phpfpm:
   sites:
@@ -42,6 +26,3 @@ phpfpm:
         user: coalition
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
-
-wordpress:
-  cli_version: 2.7.1

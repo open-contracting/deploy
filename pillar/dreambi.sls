@@ -18,7 +18,7 @@ backup:
   location: ocp-dreambi-backup/site
   directories:
     # Must match directory in dreambi/init.sls.
-    - /home/dreambi/public_html/
+    /home/dreambi/public_html/:
 
 nginx:
   public_access: True

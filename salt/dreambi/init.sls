@@ -6,7 +6,6 @@ include:
 
 {% set entry = pillar.docker_apps.qlikauth %}
 {% set directory = docker_apps_directory + entry.target %}
-
 {% set user = 'dreambi' %}
 {% set userdir = '/home/' + user %}
 

@@ -1,11 +1,11 @@
 {% from 'lib.sls' import create_user %}
 
-{% set user = 'coalition' %}
-{% set userdir = '/home/' + user %}
-
 include:
   - apache.modules.rewrite # required by WordPress
   - php-fpm
+
+{% set user = 'coalition' %}
+{% set userdir = '/home/' + user %}
 
 wp-cli:
   file.managed:

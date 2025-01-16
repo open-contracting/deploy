@@ -126,7 +126,7 @@ Configure PostgreSQL
       postgres:
         configuration: False
 
-#. Put your configuration template in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. In most cases, you should use the ``shared`` configuration template.
+#. Put your configuration template in the `salt/postgres/files/conf <https://github.com/open-contracting/deploy/tree/main/salt/postgres/files/conf>`__ directory. In most cases, you should use the existing ``shared`` configuration template, instead.
 #. Set ``postgres.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml

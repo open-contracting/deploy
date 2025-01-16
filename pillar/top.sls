@@ -9,7 +9,7 @@ base:
     - cms
     - cms_maintenance
     - coalition
-    - coalition_maintenance
+    - private.cms
     - private.coalition
 
   'cove':
