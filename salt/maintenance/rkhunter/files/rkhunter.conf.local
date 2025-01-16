@@ -11,9 +11,11 @@ SCRIPTWHITELIST=/bin/which
 SCRIPTWHITELIST=/usr/bin/ldd
 SCRIPTWHITELIST=/usr/sbin/adduser
 ALLOW_SSH_ROOT_USER=without-password
+{%- if salt['pillar.get']('netdata:enabled') == True %}
 ALLOWDEVFILE=/dev/shm/sem.netdata_sem_cgroup_ebpf
 ALLOWDEVFILE=/dev/shm/netdata_sem_cgroup_ebpf
 ALLOWDEVFILE=/dev/shm/netdata_shm_cgroup_ebpf
+{%- endif %}
 ALLOWDEVFILE=/dev/shm/mongoc*
 {%- if salt['pillar.get']('maintenance:patching') != "manual" %}
 # Disabled for autopatching servers
