@@ -15,8 +15,8 @@ ALLOW_SSH_ROOT_USER=without-password
 ALLOWDEVFILE=/dev/shm/sem.netdata_sem_cgroup_ebpf
 ALLOWDEVFILE=/dev/shm/netdata_sem_cgroup_ebpf
 ALLOWDEVFILE=/dev/shm/netdata_shm_cgroup_ebpf
-{%- endif %}
 ALLOWDEVFILE=/dev/shm/mongoc*
+{%- endif %}
 {%- if salt['pillar.get']('maintenance:patching') != "manual" %}
 # Disabled for autopatching servers
 DISABLE_TESTS=properties
