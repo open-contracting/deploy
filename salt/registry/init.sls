@@ -27,7 +27,7 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name dat
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
 
-{{ entry.exporter_host_dir }}:
+{{ pillar.exporter_host_dir }}:
   file.directory:
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}

@@ -133,7 +133,6 @@ docker_apps:
   registry:
     target: data-registry
     site: registry
-    exporter_host_dir: /data/storage/exporter
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: data.open-contracting.org
@@ -193,3 +192,6 @@ docker_apps:
       ALLOWED_HOSTS: flatten.open-contracting.org
       SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
+
+# The registry app writes to this directory. The spoonbill app reads from this directory.
+exporter_host_dir: /data/storage/exporter
