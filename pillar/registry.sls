@@ -183,6 +183,11 @@ docker_apps:
     target: spoonbill
     site: spoonbill
     host_dir: /data/storage/spoonbill
+    volumes:
+      - media
+      - tmp
+      - redis/data
+      - redis/tmp
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: flatten.open-contracting.org

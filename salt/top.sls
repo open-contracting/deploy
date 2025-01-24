@@ -56,7 +56,6 @@ base:
     - rabbitmq
     - kingfisher.collect
     - pelican.backend
-    - spoonbill
     - registry
 
   # https://docs.saltproject.io/en/latest/topics/targeting/compound.html

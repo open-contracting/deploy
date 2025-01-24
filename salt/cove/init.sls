@@ -28,15 +28,4 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name {{ 
     - require:
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
-
-{{ directory }}:
-  file.directory:
-    - names:
-      - {{ directory }}/db
-      - {{ directory }}/media
-    - user: {{ pillar.docker.user }}
-    - group: {{ pillar.docker.user }}
-    - makedirs: True
-    - require:
-      - user: {{ pillar.docker.user }}_user_exists
 {% endfor %}

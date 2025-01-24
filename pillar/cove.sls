@@ -1,3 +1,7 @@
+x-volumes: &volumes
+  - db
+  - media
+
 x-env: &env
   DJANGO_PROXY: True
   SECURE_HSTS_SECONDS: 31536000
@@ -44,6 +48,8 @@ docker_apps:
     target: cove-ocds
     site: cove-ocds
     image: cove-ocds
+    volumes:
+      <<: *volumes
     env:
       <<: *env
       ALLOWED_HOSTS: review.standard.open-contracting.org
@@ -54,6 +60,8 @@ docker_apps:
     target: cove-oc4ids
     site: cove-oc4ids
     image: cove-oc4ids
+    volumes:
+      <<: *volumes
     env:
       <<: *env
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
