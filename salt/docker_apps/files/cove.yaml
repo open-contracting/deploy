@@ -10,9 +10,9 @@ x-django: &django
     - "host.docker.internal:host-gateway"
   volumes:
     # The right-hand path must match the settings.DATABASES default value in the CoVE repository.
-    - {{ entry.host_dir }}/db:/data/db
+    - {{ directory }}/db:/data/db
     # The right-hand path must match the settings.MEDIA_ROOT default value in the CoVE repository.
-    - {{ entry.host_dir }}/media:/data/media
+    - {{ directory }}/media:/data/media
 
 services:
   web:
@@ -30,4 +30,4 @@ services:
       - {{ site.static_port }}:8080
     volumes:
       # The right-hand path must match the root directive of the default.conf file in the CoVE repository.
-      - {{ entry.host_dir }}/media:/data/media
+      - {{ directory }}/media:/data/media

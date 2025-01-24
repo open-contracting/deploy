@@ -29,11 +29,11 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name {{ 
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
 
-{{ entry.host_dir }}:
+{{ directory }}:
   file.directory:
     - names:
-      - {{ entry.host_dir }}/db
-      - {{ entry.host_dir }}/media
+      - {{ directory }}/db
+      - {{ directory }}/media
     - user: {{ pillar.docker.user }}
     - group: {{ pillar.docker.user }}
     - makedirs: True

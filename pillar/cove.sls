@@ -44,7 +44,6 @@ docker_apps:
     target: cove-ocds
     site: cove-ocds
     image: cove-ocds
-    host_dir: /data/storage/cove-ocds
     env:
       <<: *env
       ALLOWED_HOSTS: review.standard.open-contracting.org
@@ -55,7 +54,6 @@ docker_apps:
     target: cove-oc4ids
     site: cove-oc4ids
     image: cove-oc4ids
-    host_dir: /data/storage/cove-oc4ids
     env:
       <<: *env
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
