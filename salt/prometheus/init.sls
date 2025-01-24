@@ -34,7 +34,7 @@ extract {{ name }}:
 {% for filename, source in entry.config|items %}
 {{ userdir }}/{{ filename }}:
   file.managed:
-    - {% if 'salt://' in source %}source{% else %}contents_pillar{% endif %}: {{ source }}
+    - {{ 'source' if 'salt://' in source else 'contents_pillar' }}: {{ source }}
     - template: jinja
     - context:
         user: {{ entry.user }}
