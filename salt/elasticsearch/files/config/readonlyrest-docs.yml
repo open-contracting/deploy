@@ -9,7 +9,7 @@ readonlyrest:
       x_forwarded_for:
         - "127.0.0.0/8"
         - "{{ pillar.network.ipv4 }}"
-        {%- if "ipv6" in pillar.network %}
+        {%- if 'ipv6' in pillar.network %}
         - "{{ pillar.network.ipv6 }}"
         {%- endif %}
     - name: Allow the public group to search indices created by OCDS Index
