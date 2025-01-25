@@ -44,6 +44,7 @@ include:
 # "NOTE: As this is a non-root container, the mounted files and directories must have the proper permissions for the UID 1001."
 # https://github.com/bitnami/containers/blob/main/bitnami/redis/README.md#persisting-your-database
 {% set volume_user_group = 1001 if volume.startswith('redis/') else pillar.docker.user %}
+
 {{ entry.host_dir|default(directory) }}/{{ volume }}:
   file.directory:
     - user: {{ volume_user_group }}

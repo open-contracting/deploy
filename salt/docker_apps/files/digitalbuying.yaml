@@ -1,0 +1,46 @@
+x-shared: &shared
+  env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
+
+x-django: &django
+  <<: *shared
+  image: "ghcr.io/open-contracting/digitalbuying-django:latest"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  volumes:
+    # The right-hand path must match the settings.MEDIA_ROOT default value in digitalbuying.
+    - {{ directory }}/media:/data/media
+  depends_on:
+    - redis
+
+services:
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - {{ directory }}/redis/data:/bitnami/redis/data
+      - {{ directory }}/redis/tmp:/opt/bitnami/redis/tmp
+  web:
+    <<: *django
+    ports:
+      - {{ site.port }}:8000
+  cron:
+    <<: *django
+    profiles:
+      - cron
+  static:
+    <<: *shared
+    image: "ghcr.io/open-contracting/digitalbuying-static:latest"
+    ports:
+      - {{ site.static_port }}:8080
+    volumes:
+      # The right-hand path must match the root directive of the default.conf file in digitalbuying.
+      - {{ directory }}/media:/data/media

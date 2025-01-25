@@ -17,7 +17,7 @@ logrotate:
       context:
         php_version: '8.1'
 
-# Directories are configured in each CMS' Pillar file.
+# Site `directories` are configured in each CMS' Pillar file.
 backup:
   location: ocp-coalition-backup/site
 
@@ -31,6 +31,11 @@ mysql:
   configuration: False
   backup:
     location: ocp-coalition-backup/database
+
+docker:
+  user: deployer
+  uid: 1002
+  syslog_logging: True
 
 php:
   version: '8.1'  # sync with logrotate above

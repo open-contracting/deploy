@@ -9,8 +9,11 @@ base:
     - cms
     - cms_maintenance
     - coalition
+    - digitalbuying
     - private.cms
     - private.coalition
+    - private.digitalbuying
+    - docker
 
   'cove':
     - cove

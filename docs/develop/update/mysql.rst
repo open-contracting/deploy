@@ -28,20 +28,16 @@ To configure the database for an application:
           USERNAME:
             password: "PASSWORD"
 
-#. Create the database for the application and grant all privileges to the new user. Replace ``DATABASE`` and ``USERNAME``:
+#. Create the database for the application and grant all privileges to the new user, in a public Pillar file, replacing ``DATABASE`` and ``USERNAME``:
 
    .. code-block:: yaml
-      :emphasize-lines: 6-7
 
       mysql:
-        users:
-          USERNAME:
-            password: "PASSWORD"
         databases:
           DATABASE:
             user: USERNAME
 
-#. Add the private Pillar file to the top file entry for the application.
+#. Add the Pillar files to the top file entry for the application.
 
 Configure MySQL
 ---------------

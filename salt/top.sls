@@ -21,6 +21,7 @@ base:
 
   'cms':
     - coalition
+    - digitalbuying
 
   'cove':
     - cove
