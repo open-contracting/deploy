@@ -13,8 +13,27 @@ x-django: &django
     - {{ directory }}/db:/data/db
     # The right-hand path must match the settings.MEDIA_ROOT default value in the CoVE repository.
     - {{ directory }}/media:/data/media
+{%- if 'REDIS_URL' in entry.env %}
+  depends_on:
+    - redis
+{%- endif %}
 
 services:
+{%- if 'REDIS_URL' in entry.env %}
+  redis:
+    image: bitnami/redis:6.2
+    restart: always
+    environment:
+      ALLOW_EMPTY_PASSWORD: "yes"
+    healthcheck:
+      test: redis-cli -h 127.0.0.1 ping | grep -q PONG
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - {{ directory }}/redis/data:/bitnami/redis/data
+      - {{ directory }}/redis/tmp:/opt/bitnami/redis/tmp
+{%- endif %}
   web:
     <<: *django
     ports:

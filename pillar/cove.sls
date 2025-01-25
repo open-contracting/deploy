@@ -1,6 +1,8 @@
 x-volumes: &volumes
   - db
   - media
+  - redis/data
+  - redis/tmp
 
 x-env: &env
   DJANGO_PROXY: True
@@ -34,9 +36,6 @@ apache:
         static_port: 8003
         timeout: 1800 # 30 min
 
-memcached:
-  public_access: True
-
 docker:
   user: deployer
   uid: 1003
@@ -64,4 +63,4 @@ docker_apps:
       <<: *env
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
       FATHOM_ANALYTICS_ID: UHUGOEOK
-      MEMCACHED_URL: host.docker.internal:11211
+      REDIS_URL: redis://redis:6379/0
