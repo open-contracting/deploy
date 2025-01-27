@@ -12,7 +12,7 @@ mysql:
   databases:
     digitalbuying:
       user: digitalbuying
-      host: "172.17.%"
+      host: "172.16.0.0/12"
 
 docker_apps:
   digitalbuying:
