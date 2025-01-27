@@ -27,6 +27,10 @@ To configure the database for an application:
         users:
           USERNAME:
             password: "PASSWORD"
+            host: "192.0.2.1"
+
+   By default, ``host`` is set to ``localhost``.
+
 
 #. Create the database for the application and grant all privileges to the new user, in a public Pillar file, replacing ``DATABASE`` and ``USERNAME``:
 
@@ -36,6 +40,7 @@ To configure the database for an application:
         databases:
           DATABASE:
             user: USERNAME
+            host: "192.0.2.1"
 
 #. Add the Pillar files to the top file entry for the application.
 
