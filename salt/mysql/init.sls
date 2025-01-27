@@ -61,6 +61,9 @@ remove test database:
 {% if 'password' in entry %}
     - password: "{{ entry.password }}"
 {% endif %}
+{% if 'host' in entry %}
+    - host: "{{ entry.host }}"
+{% endif %}
     - require:
       - service: mysql
 {% endfor %} {# users #}
@@ -77,6 +80,9 @@ grant {{ entry.user }} privileges:
     - grant: all privileges
     - database: {{ database }}.*
     - user: {{ entry.user }}
+{% if 'host' in entry %}
+    - host: "{{ entry.host }}"
+{% endif %}
     - require:
       - mysql_user: {{ entry.user }}_mysql_user
       - mysql_database: {{ database }}_mysql_database
