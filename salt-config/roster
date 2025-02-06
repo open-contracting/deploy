@@ -27,8 +27,6 @@ registry:
 
 portland-dev:
   host: ocp26.open-contracting.org
-  user: ocpadmin
-  sudo: true
 
 # ocp15 is bi.open-contracting.org
 

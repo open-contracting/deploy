@@ -479,10 +479,6 @@ Configure reverse DNS
    -  If the environment is development, add a ``-dev`` suffix.
    -  Do not include an integer suffix in the target name.
 
-   .. warning::
-
-      On Azure, add ``user: ocpadmin`` and ``sudo: true`` to the `target's data <https://docs.saltproject.io/en/latest/topics/ssh/roster.html#targets-data>`__.
-
    .. tip::
 
       If DNS is not propagated, temporarily set ``host`` to the server's IP address instead of its FQDN.
@@ -502,6 +498,16 @@ Configure reverse DNS
    .. note::
 
       This step takes 3-4 minutes, so ``--log-level=trace`` is used to show activity.
+
+   .. warning::
+
+      On Azure, add ``--user=ocpadmin`` and ``--sudo``:
+
+      .. code-block:: bash
+
+         salt-ssh --log-level=trace TARGET state.apply 'onboarding,core*' --user=ocpadmin --sudo
+
+      These flags are not needed for subsequent deployments.
 
    .. tip::
 

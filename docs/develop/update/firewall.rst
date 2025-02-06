@@ -308,7 +308,3 @@ Firewall
   -  :doc:`Connect to the server<../../use/ssh>` as the ``root`` user
   -  Run ``/home/sysadmin-tools/bin/firewall_reset.sh``
   -  Close port 8255 in the external firewall
-
-.. note::
-
-   On Azure, instead of the ``root`` user, use the ``ocpadmin`` user, and run commands with ``sudo``.
