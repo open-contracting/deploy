@@ -1,7 +1,3 @@
-smtp:
-  host: email-smtp.us-west-2.amazonaws.com
-  port: 587
-
 network:
   host_id: ocp26
   ipv4: 20.106.239.92
