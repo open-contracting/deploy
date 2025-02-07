@@ -8,7 +8,7 @@ For example:
 
 .. code-block:: bash
 
-   find /data/storage/cove-ocds/media -mindepth 3 -name '*.json'
+   find /data/deploy/cove-ocds/media -mindepth 3 -name '*.json'
 
 CoVE OCDS' tests are run against the server, which submit many known filenames, daily. To exclude these, add:
 
@@ -27,7 +27,7 @@ Find the files as above, and store the output. For example:
 
 .. code-block:: bash
 
-   FILES=$(find /data/storage/cove-ocds/media -mindepth 3 -name '*.json')
+   FILES=$(find /data/deploy/cove-ocds/media -mindepth 3 -name '*.json')
 
 For OCDS, run (takes about 4 minutes):
 
@@ -52,7 +52,7 @@ For example:
 
 .. code-block:: bash
 
-   rg -c 'my search string' /data/storage/cove-ocds/media
+   rg -c 'my search string' /data/deploy/cove-ocds/media
 
 To exclude generated files, add:
 
