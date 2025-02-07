@@ -1,3 +1,6 @@
+smtp:
+  relay: True
+
 network:
   host_id: ocp26
   ipv4: 20.106.239.92
