@@ -31,5 +31,8 @@ ntp:
   - 2.uk.pool.ntp.org
   - 3.uk.pool.ntp.org
 
+smtp:
+  relay: False
+
 netdata:
   enabled: False

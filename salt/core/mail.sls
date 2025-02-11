@@ -28,7 +28,7 @@ postfix:
     - key_values:
         # On first run, myhostname may default to previous ISP value.
         myhostname: "{{ pillar.network.host_id }}.{{ pillar.network.domain }}"
-{%- if 'relay' in pillar.smtp and pillar.smtp.relay == True %}
+{%- if pillar.smtp.relay %}
         relayhost: "[{{ pillar.smtp.host }}]:{{ pillar.smtp.port }}"
         smtp_sasl_auth_enable: "yes"
         smtp_sasl_security_options: "noanonymous"
@@ -41,7 +41,7 @@ postfix:
     - watch_in:
       - service: postfix
 
-{%- if 'relay' in pillar.smtp and pillar.smtp.relay == True %}
+{%- if pillar.smtp.relay %}
 /etc/postfix/sasl_passwd:
   file.managed:
     - contents: "[{{ pillar.smtp.host }}]:{{ pillar.smtp.port }} {{ pillar.smtp.username }}:{{ pillar.smtp.password }}"
