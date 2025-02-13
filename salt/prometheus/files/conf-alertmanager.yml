@@ -27,7 +27,7 @@ receivers:
         smarthost: {{ pillar.smtp.host }}:{{ pillar.smtp.port }}
         auth_username: {{ pillar.smtp.username }}
         auth_password: {{ pillar.smtp.password }}
-        require_tls: {{ pillar.smtp.tls }}
+        require_tls: True
         send_resolved: True
   - name: rh-email
     email_configs:
@@ -36,5 +36,5 @@ receivers:
         smarthost: {{ pillar.smtp.host }}:{{ pillar.smtp.port }}
         auth_username: {{ pillar.smtp.username }}
         auth_password: {{ pillar.smtp.password }}
-        require_tls: {{ pillar.smtp.tls }}
+        require_tls: True
         send_resolved: True

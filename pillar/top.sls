@@ -50,6 +50,7 @@ base:
   'portland-dev':
     - portland_dev
     - docker
+    - private.smtp
 
   'prometheus':
     - prometheus_server
