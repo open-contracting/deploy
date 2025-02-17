@@ -35,6 +35,9 @@ postfix:
         smtp_sasl_password_maps: "hash:/etc/postfix/sasl_passwd"
         smtp_use_tls: "yes"
         smtp_tls_note_starttls_offer: "yes"
+{%- if "relay_address" in pillar.smtp %}
+        smtp_generic_maps: "hash:/etc/postfix/generic"
+{%- endif %}
 {%- endif %}
     - separator: ' = '
     - append_if_not_found: True
@@ -52,6 +55,21 @@ postfix:
       - pkg: postfix
     - onchanges:
       - file: /etc/postfix/sasl_passwd
+    - watch_in:
+      - file: postfix
+{% endif %}
+
+{%- if pillar.smtp.relay_address %}
+/etc/postfix/generic:
+  file.managed:
+    - contents: "root@{{ pillar.network.host_id }}.{{ pillar.network.domain }}        {{ pillar.smtp.relay_address }}"
+    - mode: 600
+  cmd.run:
+    - name: postmap hash:/etc/postfix/generic
+    - require:
+      - pkg: postfix
+    - onchanges:
+      - file: /etc/postfix/generic
     - watch_in:
       - file: postfix
 {% endif %}

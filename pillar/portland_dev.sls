@@ -1,5 +1,6 @@
 smtp:
   relay: True
+  relay_address: noreply@noreply.open-contracting.org
 
 network:
   host_id: ocp26
