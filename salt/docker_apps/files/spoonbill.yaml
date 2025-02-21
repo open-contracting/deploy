@@ -38,10 +38,10 @@ services:
       - {{ site.port }}:8000
   celery_worker:
     <<: *django
-    command: celery -A spoonbill_web worker -l INFO --concurrency=4
+    command: celery -A core worker -l INFO --concurrency=4
   celery_beat:
     <<: *django
-    command: celery -A spoonbill_web beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    command: celery -A core beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
   static:
     <<: *shared
     image: "ghcr.io/open-contracting/spoonbill-web-static:latest"
