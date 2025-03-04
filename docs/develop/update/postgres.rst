@@ -328,7 +328,7 @@ Set up replication
 
 To configure a main server and a replica server:
 
-#. `Create configuration files for each server<pg-add-configuration>`. Example: `kingfisher-main1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-main1.conf>`__, `kingfisher-replica1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-replica1.conf>`__
+#. `Create configuration files for each server<pg-add-configuration>`__. Example: `kingfisher-main1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-main1.conf>`__, `kingfisher-replica1 <https://github.com/open-contracting/deploy/blob/059f43cddd9558688ab13a208244ff61d8570ff9/salt/postgres/files/pgbackrest/kingfisher-replica1.conf>`__
 #. Add the replica's IP addresses to the main server's Pillar file:
 
    .. code-block:: yaml
