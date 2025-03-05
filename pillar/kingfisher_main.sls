@@ -145,12 +145,6 @@ postgres:
         # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-WAL-KEEP-SEGMENTS
         # https://github.com/open-contracting/deploy/issues/158
         wal_keep_size = 320
-
-        # https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-SYNCHRONOUS-COMMIT
-        synchronous_commit = local
-
-        # https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-SYNCHRONOUS-STANDBY-NAMES
-        synchronous_standby_names = 'pgslave001'
   backup:
     type: pgbackrest
     configuration: shared
