@@ -10,6 +10,9 @@ network:
     template: linode
     gateway4: 139.162.211.1
 
+vm:
+  overcommit_memory: 1
+
 logrotate:
   conf:
     php-site-logs:

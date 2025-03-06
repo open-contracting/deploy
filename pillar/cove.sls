@@ -18,6 +18,9 @@ network:
     template: linode
     gateway4: 176.58.107.1
 
+vm:
+  overcommit_memory: 1
+
 apache:
   public_access: True
   sites:

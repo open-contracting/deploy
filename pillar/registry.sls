@@ -32,6 +32,7 @@ network:
 
 vm:
   nr_hugepages: 8231
+  overcommit_memory: 1
 
 ntp:
   - 0.fi.pool.ntp.org
