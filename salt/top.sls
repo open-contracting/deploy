@@ -16,6 +16,7 @@ base:
     - core.rsyslog
     - core.sshd
     - core.swap
+    - core.sysctl
     - core.systemd.logind
     - core.systemd.ntp
 
