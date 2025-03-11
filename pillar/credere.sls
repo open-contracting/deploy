@@ -27,12 +27,6 @@ docker_apps:
       SECOP_DEFAULT_DAYS_FROM_ULTIMA_ACTUALIZACION: 1
     # NOTE: sla-overdue-applications is disabled as not useful.
     cron:
-      - identifier: FETCH_AWARDS
-        command: fetch-awards
-        hour: 14
-      - identifier: REMIND_MSME
-        command: send-reminders
-        hour: 15
       - identifier: LAPSE_APPLICATIONS
         command: update-applications-to-lapsed
         hour: 1
