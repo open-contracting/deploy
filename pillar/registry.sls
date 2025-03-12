@@ -140,6 +140,7 @@ docker_apps:
       ALLOWED_HOSTS: data.open-contracting.org
       SECURE_HSTS_SECONDS: 31536000
       FATHOM_ANALYTICS_ID: HTTGFPYH
+      GUNICORN_CMD_ARGS: --workers 4
       FEEDBACK_EMAIL: jmckinney@open-contracting.org
       RABBIT_EXCHANGE_NAME: data_registry_production
       # Need to sync with `docker_apps.kingfisher_process.port`.
