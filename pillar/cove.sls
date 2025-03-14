@@ -19,6 +19,7 @@ network:
     gateway4: 176.58.107.1
 
 vm:
+  # For Redis service in cove.yaml.
   overcommit_memory: 1
 
 apache:

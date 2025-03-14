@@ -11,6 +11,7 @@ network:
     gateway4: 139.162.211.1
 
 vm:
+  # For Redis service in digitalbuying.yaml.
   overcommit_memory: 1
 
 logrotate:

@@ -4,6 +4,7 @@ network:
   ipv6: 2a01:4f8:c012:3ea8::1
 
 vm:
+  # For Redis service in qlikauth.yaml.
   overcommit_memory: 1
 
 ssh:
