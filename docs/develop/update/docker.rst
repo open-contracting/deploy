@@ -113,6 +113,16 @@ Reference:
 -  `Compose specification <https://docs.docker.com/compose/compose-file/>`__
 -  `Use Compose in production <https://docs.docker.com/compose/production/>`__
 
+Redis
+~~~~~
+
+If the Docker Compose file describes a Redis service, add, in the server's Pillar file:
+
+.. code-block:: yaml
+
+   vm:
+     overcommit_memory: 1
+
 Configure Docker app
 --------------------
 

@@ -36,3 +36,10 @@ smtp:
 
 netdata:
   enabled: False
+
+vm:
+{% if grains.mem_total > 2048 %}
+  swappiness: 10
+{% else %}
+  swappiness: 40
+{% endif %}
