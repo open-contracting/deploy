@@ -10,6 +10,7 @@ cd {{ directory }}
     -a crawl_time={{ crawl.start_date }}T00:00:00 \
     -s FILES_STORE={{ userdir }}/data \
     -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
+    -s PROXY_SPIDERS={% if 'proxy' in crawl %}{{ crawl.spider }}{% endif %} \
     -s SENTRY_DSN={{ SENTRY_DSN }} \
     --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
 
