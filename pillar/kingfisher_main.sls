@@ -195,7 +195,6 @@ python_apps:
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         start_date: '2015-01-01'
-        proxy: True
         powerbi: True
       # - identifier: MOLDOVA
       #   spider: moldova

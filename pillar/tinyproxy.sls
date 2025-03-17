@@ -1,3 +1,9 @@
+# To test from another server:
+# env \
+#   http_proxy=http://ocp19.open-contracting.org:8888 \
+#   https_proxy=http://ocp19.open-contracting.org:8888 \
+#   no_proxy=localhost,sentry.io \
+#   curl -i https://www.example.com
 tinyproxy:
   url: 'http://ocp19.open-contracting.org:8888'
   allow:
