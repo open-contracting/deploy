@@ -17,7 +17,7 @@ vm.{{ name }}:
 {% set vm_overcommit_memory = 2 %}
 {% endif %}
 
-{% if vm_overcommit_memory %}
+{% if vm_overcommit_memory is defined %}
 vm.overcommit_memory:
   sysctl.present:
     - value: {{ vm_overcommit_memory }}
