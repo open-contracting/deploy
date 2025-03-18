@@ -29,9 +29,3 @@
   mount.swap:
     - persist: True
 {% endif %}
-
-# Set swappiness so that it is only used when memory is full.
-vm.swappiness:
-  sysctl.present:
-    - config: /etc/sysctl.d/99-swappiness.conf
-    - value: {{ vm_swappiness }}

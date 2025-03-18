@@ -61,20 +61,6 @@ postgres_authorized_keys:
       - pkg: postgresql
 {% endif %}
 
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
-# https://github.com/jfcoz/postgresqltuner
-vm.overcommit_memory:
-  sysctl.present:
-    - value: {{ salt['pillar.get']('vm:overcommit_memory', 2) }}
-
-# https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-# https://github.com/jfcoz/postgresqltuner
-{% if salt['pillar.get']('vm:nr_hugepages') %}
-vm.nr_hugepages:
-  sysctl.present:
-    - value: {{ pillar.vm.nr_hugepages }}
-{% endif %}
-
 pgbadger:
   pkg.installed:
     - name: pgbadger
