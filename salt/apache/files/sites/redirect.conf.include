@@ -1,2 +1,2 @@
 RewriteEngine on
-RewriteRule ^ https://{{ domain }}%{REQUEST_URI} [R={{ 301 permanent is defined and permanent else 302 }},L]
+RewriteRule ^ https://{{ domain }}%{REQUEST_URI} [R={{ 301 if permanent is defined and permanent else 302 }},L]
