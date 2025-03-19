@@ -1,12 +1,11 @@
 {% for name, value in salt['pillar.get']('vm', {})|items %}
-{% if name not in ['overcommit_memory', 'overcommit_ratio'] %}
+{% if name not in ('overcommit_memory', 'overcommit_ratio') %}
 vm.{{ name }}:
   sysctl.present:
     - value: {{ value }}
 {% endif %}
 {% endfor %}
 
-# https://github.com/open-contracting/deploy/issues/524
 {% if salt['pillar.get']('vm:overcommit_memory') %}
 {% set vm_overcommit_memory = pillar.vm.overcommit_memory %}
 {% elif salt['pillar.get']('redis') %}
