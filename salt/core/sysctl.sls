@@ -25,7 +25,7 @@ vm.overcommit_memory:
 
 {% if salt['pillar.get']('vm:overcommit_ratio') %}
 {% set vm_overcommit_ratio = pillar.vm.overcommit_ratio %}
-{% elif vm_overcommit_memory == 2 %}
+{% elif vm_overcommit_memory is defined and vm_overcommit_memory == 2 %}
 {% set vm_overcommit_ratio = 90 %}
 {% endif %}
 
