@@ -4,8 +4,6 @@ cms:
   host: ocp21.open-contracting.org
 cove:
   host: ocp18.open-contracting.org
-credere:
-  host: ocp24.open-contracting.org
 docs:
   host: ocp19.open-contracting.org
 prometheus:
