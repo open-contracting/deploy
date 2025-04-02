@@ -25,7 +25,7 @@ mapfile -t DATABASES < <(su - postgres -c "/usr/bin/psql -t --csv -c 'select dat
 
 for DATABASE in "${BACKUP_DATABASES[@]}"; do
     if [[ "${DATABASES[*]}" =~ $DATABASE ]]; then
-        BASENAME="$(TZ=UTC date +%Y-%m-%d_%H:%M:%S)_$DATABASE.tar"
+        BASENAME="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$DATABASE.tar"
         TEMPFILE="$(mktemp /tmp/postgres_backup_XXXX.tar)"
         chown postgres:postgres "$TEMPFILE"
 

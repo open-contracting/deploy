@@ -30,7 +30,7 @@ for DIRECTORY in "${BACKUP_DIRECTORIES[@]}"; do
     SAFENAME="${DIRECTORY//[^a-zA-Z0-9]/_}"
     SAFENAME="${SAFENAME/#_/}"
     SAFENAME="${SAFENAME/%_/}"
-    BASENAME="${SAFENAME}_backup_$(TZ=UTC date +%Y-%m-%d).tar.gz"
+    BASENAME="${SAFENAME}_backup_$(TZ=UTC date +%Y%m%dT%H%M%SZ).tar.gz"
     TEMPFILE="$(mktemp /tmp/site_backup_XXXX.tar.gz)"
 
     # tar will return an exit code if a file is changed (e.g. log) or removed (e.g. cache).
