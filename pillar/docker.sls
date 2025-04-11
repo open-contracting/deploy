@@ -1,6 +1,6 @@
 rsyslog:
   conf:
-    80-docker.conf: docker.conf
+    10-docker.conf: docker.conf
 
 logrotate:
   conf:
