@@ -495,7 +495,7 @@ View current backups:
 
    .. code-block:: bash
 
-      systemctl stop postgres.service
+      systemctl stop postgresql.service
 
 #. In most cases, restore using the ``--delta`` option, as it saves time by using hashes to restore only files that differ:
 
@@ -521,7 +521,7 @@ View current backups:
 
    .. code-block:: bash
 
-      systemctl start postgres.service
+      systemctl start postgresql.service
 
 .. seealso::
 
@@ -597,7 +597,7 @@ Fix replication
 
    .. code-block:: bash
 
-      systemctl stop postgres.service
+      systemctl stop postgresql.service
 
 #. Download the latest database or a backup from a specific point in time, replacing ``kingfisher`` with the value set in pillar ``postgres:backup:stanza``. pgBackRest is configured to restore the replication configuration (see, for example, ``/var/lib/postgresql/15/main/postgresql.conf``).
 
@@ -613,7 +613,7 @@ Fix replication
 
    .. code-block:: bash
 
-      systemctl start postgres.service
+      systemctl start postgresql.service
       tail -f /var/log/postgresql/postgresql-15-main.log
 
    You should see messages about recovering from WAL files in the logs.
