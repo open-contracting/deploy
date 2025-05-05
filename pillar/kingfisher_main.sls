@@ -192,6 +192,11 @@ python_apps:
         powerbi: True
         users:
           - dgcp
+      - identifier: MEXICO_NUEVO_LEON
+        spider: mexico_nuevo_leon
+        start_date: '2025-05-05'
+        spider_arguments: -a compile_releases=true
+        powerbi: True
       # - identifier: ECUADOR
       #   spider: ecuador_sercop_bulk
       #   start_date: '2015-01-01'
