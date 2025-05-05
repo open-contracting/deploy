@@ -189,7 +189,7 @@ python_apps:
         spider: dominican_republic_api
         start_date: '2023-07-13'
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
-        powerbi: True
+        cardinal: True
         users:
           - dgcp
       - identifier: MEXICO_NUEVO_LEON
@@ -199,7 +199,7 @@ python_apps:
       # - identifier: ECUADOR
       #   spider: ecuador_sercop_bulk
       #   start_date: '2015-01-01'
-      #   powerbi: True
+      #   cardinal: True
       # - identifier: MOLDOVA
       #   spider: moldova
       #   start_date: '2021-06-11'

@@ -47,7 +47,7 @@ allow {{ userdir }} access:
 
 {{ set_cron_env(entry.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.collect.incremental') }}
 
-{% if entry.crawls|selectattr('powerbi', 'defined')|first|default %}
+{% if entry.crawls|selectattr('cardinal', 'defined')|first|default %}
 install rustup:
   cmd.run:
     - name: "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain nightly"
@@ -193,7 +193,7 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
       - file: {{ userdir }}/data
       - file: {{ userdir }}/logs
 
-{% if crawl.get('powerbi') %}
+{% if crawl.get('cardinal') %}
 {{ settingsdir }}/{{ crawl.spider }}.ini:
   file.managed:
     - source: salt://kingfisher/collect/files/cardinal/{{ crawl.spider }}.ini
