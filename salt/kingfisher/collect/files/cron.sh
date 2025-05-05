@@ -5,7 +5,7 @@ set -eu
 
 cd {{ directory }}
 
-env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }} no_proxy=localhost,sentry.io .ve/bin/scrapy crawl \
+env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }} no_proxy=localhost,sentry.io,standard.open-contracting.org .ve/bin/scrapy crawl \
     {{ crawl.spider }}{% if 'spider_arguments' in crawl %} {{ crawl.spider_arguments }}{% endif %} \
     -a crawl_time={{ crawl.start_date }}T00:00:00 \
     -s FILES_STORE={{ userdir }}/data \
