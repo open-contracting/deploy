@@ -179,30 +179,31 @@ python_apps:
       url: https://github.com/open-contracting/kingfisher-collect.git
       branch: main
       target: kingfisher-collect
+    # Do not set `cardinal: False`. Instead, remove `cardinal: True`.
     crawls:
       # - identifier: CHILE
       #   spider: chile_compra_api_records
-      #   start_date: '2021-12-03'
+      #   crawl_time: '2021-12-03'
       #   day: '1'
       #   spider_arguments: -a compile_releases=true
       - identifier: DOMINICAN_REPUBLIC
         spider: dominican_republic_api
-        start_date: '2023-07-13'
+        crawl_time: '2023-07-13'
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
-        powerbi: True
+        cardinal: True
         users:
           - dgcp
       - identifier: MEXICO_NUEVO_LEON
         spider: mexico_nuevo_leon
-        start_date: '2025-05-05'
+        crawl_time: '2025-05-05'
         spider_arguments: -a compile_releases=true
       # - identifier: ECUADOR
       #   spider: ecuador_sercop_bulk
-      #   start_date: '2015-01-01'
-      #   powerbi: True
+      #   crawl_time: '2015-01-01'
+      #   cardinal: True
       # - identifier: MOLDOVA
       #   spider: moldova
-      #   start_date: '2021-06-11'
+      #   crawl_time: '2021-06-11'
   kingfisher_summarize:
     user: summarize
     git:
