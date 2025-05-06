@@ -28,6 +28,8 @@ To enable public access, update the server's Pillar file:
      version: 15
      public_access: True
 
+.. _pg-users:
+
 Add users, groups, databases and schemas
 ----------------------------------------
 

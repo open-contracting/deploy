@@ -66,30 +66,39 @@ Once DNS has propagated, :ref:`update-spiders`.
 Set up incremental updates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Incremental updates are implemented with cron jobs that crawl data from a specific spider incrementally and periodically.
-We typically do this to feed Business Intelligence tools.
+This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <https://kingfisher-collect.readthedocs.io/en/latest/contributing/extensions/database_store.html>`__ extension implements the incremental updates.
 
-To add a new incremental update:
+#. `Choose a spider <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html>`__ that collects the desired data. Prefer the spider that:
 
-#. Define the spider to use. For selecting one, keep in mind, that, ideally:
+   -  Accepts a ``from_date`` spider argument, preferably at the same granularity as the cron schedule
+   -  Is fastest: for example, ``_bulk``, instead of ``_api``
+   -  Reduces processing: for example, a spider that yields compiled releases
 
-   #. We should retrieve new data only. The spider should support date filters, the more granular the better.
-   #. We should retrieve data fast. The spider should be the fasted available for the publisher.
-   #. We should avoid unnecessary processing steps. The spider should return compiled releases.
+   If needed, improve the spider in `Kingfisher Collect <https://github.com/open-contracting/kingfisher-collect>`__.
+#. Add an entry to the ``python_apps.kingfisher_collect.crawls`` section of the ``pillar/kingfisher_main.sls`` file:
 
-#. Add an entry in the ``pillar/kingfisher_main.sls`` file, under ``python_apps/kingfisher_collect/crawls``:
+   ``identifier``
+     An uppercase, underscore-separated name, like ``DOMINICAN_REPUBLIC``.
+   ``spider``
+     The spider's name, like ``dominican_republic_api``.
+   ``crawl_time``
+     The current date, like ``'2025-05-06'`` (though, any date works).
+   ``spider_arguments`` (optional)
+     Any `spider arguments <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html#spider-arguments>`__.
 
-   #. Set ``identifier`` to the publisher's name in upper case and _ separated. E.g. DOMINICAN_REPUBLIC
-   #. Set ``spider`` to the spider name. E.g. dominican_republic_api
-   #. Set ``crawl_time`` to the current date. E.g. '2025-05-06'
-   #. Optionally, set ``spider_arguments`` to any required `spider arguments <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html#spider-arguments>`__. For example, if the spider returns releases and not compiled releases, add ``-a compile_releases=true``.
-   #. Optionally, set ``cardinal`` to True, if the the data is to feed a tool that uses cardinal.
-   #. Optionally, set a ``users`` list, if additional database users needs read access to the database
-   #. Optionally, set ``day`` to 1, to run the cron job monthly and not daily, if the spider takes long time to be completed, for example.
+     If the spider doesn't yield compiled releases, add ``-a compile_releases=true``.
+   ``cardinal`` (optional)
+     ``True``, to enable a pipeline involving `Cardinal <https://cardinal.readthedocs.io/en/latest/>`__.
+   ``users`` (optional)
+     A list of additional :ref:`PostgreSQL users<pg-users>` that need read access to the database.
+   ``day`` (optional)
+     The day of the month on which to run the cron job.
 
-#. Optionally, before deploying the changes, do a first manual crawl if the crawl takes a long time to be finished (e.g. weeks), by running the `commands <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ accordingly.
+     Required if an incremental update takes longer than a day.
 
-#. :doc:`Deploy the new server<../deploy>`.
+#. If an *initial crawl* would take longer than a day, run the `scrapy crawl <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ command manually.
+
+#. :doc:`Deploy the server<../deploy>`.
 
 Copy incremental data
 ^^^^^^^^^^^^^^^^^^^^^
