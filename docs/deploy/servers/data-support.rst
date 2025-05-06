@@ -157,7 +157,6 @@ Copy incremental data
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<../deploy>`.
 
-
 .. _pelican-backend-database-migration:
 
 Pelican backend

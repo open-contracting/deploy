@@ -179,10 +179,11 @@ python_apps:
       url: https://github.com/open-contracting/kingfisher-collect.git
       branch: main
       target: kingfisher-collect
+    # Do not set `cardinal: False`. Instead, remove `cardinal: True`.
     crawls:
       # - identifier: CHILE
       #   spider: chile_compra_api_records
-      #   start_date: '2021-12-03'
+      #   crawl_time: '2021-12-03'
       #   day: '1'
       #   spider_arguments: -a compile_releases=true
       - identifier: DOMINICAN_REPUBLIC
