@@ -63,6 +63,34 @@ Kingfisher Collect
 
 Once DNS has propagated, :ref:`update-spiders`.
 
+Set up incremental updates
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Incremental updates are implemented with cron jobs that crawl data from a specific spider incrementally and periodically.
+We typically do this to feed Business Intelligence tools.
+
+To add a new incremental update:
+
+#. Define the spider to use. For selecting one, keep in mind, that, ideally:
+
+   #. We should retrieve new data only. The spider should support date filters, the more granular the better.
+   #. We should retrieve data fast. The spider should be the fasted available for the publisher.
+   #. We should avoid unnecessary processing steps. The spider should return compiled releases.
+
+#. Add an entry in the ``pillar/kingfisher_main.sls`` file, under ``python_apps/kingfisher_collect/crawls``:
+
+   #. Set ``identifier`` to the publisher's name in upper case and _ separated. E.g. DOMINICAN_REPUBLIC
+   #. Set ``spider`` to the spider name. E.g. dominican_republic_api
+   #. Set ``crawl_time`` to the current date. E.g. '2025-05-06'
+   #. Optionally, set ``spider_arguments`` to any required `spider arguments <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html#spider-arguments>`__. For example, if the spider returns releases and not compiled releases, add ``-a compile_releases=true``.
+   #. Optionally, set ``cardinal`` to True, if the the data is to feed a tool that uses cardinal.
+   #. Optionally, set a ``users`` list, if additional database users needs read access to the database
+   #. Optionally, set ``day`` to 1, to run the cron job monthly and not daily, if the spider takes long time to be completed, for example.
+
+#. Optionally, before deploying the changes, do a first manual crawl if the crawl takes a long time to be finished (e.g. weeks), by running the `commands <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ accordingly.
+
+#. :doc:`Deploy the new server<../deploy>`.
+
 Copy incremental data
 ^^^^^^^^^^^^^^^^^^^^^
 
@@ -128,6 +156,7 @@ Copy incremental data
 #. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<../deploy>`.
+
 
 .. _pelican-backend-database-migration:
 
