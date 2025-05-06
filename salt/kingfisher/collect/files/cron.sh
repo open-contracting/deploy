@@ -15,7 +15,7 @@ env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }}
     --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
 
 # shellcheck disable=all
-{%- if 'cardinal' in crawl and crawl.cardinal %}
+{%- if crawl.get('cardinal') %}
 psql -U kingfisher_collect -h localhost -t -c 'SELECT data FROM {{ crawl.spider }}' -o {{ scratchdir }}/{{ crawl.spider }}.jsonl
 
 {{ userdir }}/.cargo/bin/ocdscardinal prepare \
