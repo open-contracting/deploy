@@ -97,7 +97,6 @@ This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <h
      Required if an incremental update takes longer than a day.
 
 #. If an *initial crawl* would take longer than a day, run the `scrapy crawl <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ command manually.
-
 #. :doc:`Deploy the server<../deploy>`.
 
 Copy incremental data
