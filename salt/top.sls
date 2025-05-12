@@ -53,6 +53,7 @@ base:
 
   'prometheus':
     - prometheus
+    - grafana
 
   'registry':
     - rabbitmq
