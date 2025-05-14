@@ -128,6 +128,10 @@ Unmanaged services are:
 
 -  `ReadTheDocs <https://readthedocs.org/dashboard/>`__ for project documentation (`Network status <https://status.readthedocs.com>`__)
 
+   .. seealso::
+
+      `Software Development Handbook <https://ocp-software-handbook.readthedocs.io/en/latest/python/documentation.html#readthedocs>`__ for configuring ReadTheDocs projects
+
 .. _admin-access:
 
 Administrative access
