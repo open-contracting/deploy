@@ -299,7 +299,7 @@ You can configure `mod_md <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__
 
 .. _mod_md-test:
 
-To test your configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__, in order to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
+To test a configuration, use Let's Encrypt's `staging environment <https://letsencrypt.org/docs/staging-environment/>`__ to avoid the `duplicate certificate limit <https://letsencrypt.org/docs/duplicate-certificate-limit/>`__:
 
 .. code-block:: yaml
    :emphasize-lines: 6

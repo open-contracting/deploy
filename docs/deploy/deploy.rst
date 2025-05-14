@@ -6,12 +6,6 @@ As with other deployment tasks, do the :doc:`setup tasks<setup>` before the step
 1. Run Salt function
 --------------------
 
-To limit the output to changes and failures, add a ``--state-output=changes`` option to the commands below, for example:
-
-.. code-block:: bash
-
-    ./run.py --state-output=changes 'docs' state.apply
-
 Deploy a service
 ~~~~~~~~~~~~~~~~
 
@@ -19,9 +13,9 @@ Indicate the desired target and use the ``state.apply`` function, for example:
 
 .. code-block:: bash
 
-    ./run.py 'docs' state.apply
+    ./run.py --state-output=changes 'docs' state.apply
 
-The ``state.apply`` function often completes within one minute. You can ignore this warning: ``DeprecationWarning: encoding is deprecated, Use raw=False instead``.
+The ``state.apply`` function often completes within one minute.
 
 .. note::
 
@@ -33,7 +27,7 @@ The ``state.apply`` function often completes within one minute. You can ignore t
 
    .. code-block:: bash
 
-      ./run.py 'mytarget-dev' state.apply pillar='{"python_apps":{"myapp":{"git":{"branch":"BRANCH_NAME"}}}}'
+      ./run.py --state-output=changes 'mytarget-dev' state.apply pillar='{"python_apps":{"myapp":{"git":{"branch":"BRANCH_NAME"}}}}'
 
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,13 +36,13 @@ To `run a specific state file <https://docs.saltproject.io/en/latest/ref/modules
 
 .. code-block:: bash
 
-   ./run.py 'docs' state.sls elasticsearch
+   ./run.py --state-output=changes 'docs' state.sls elasticsearch
 
 To `run a specific SLS ID <https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.state.html#salt.modules.state.sls_id>`__, run, for example:
 
 .. code-block:: bash
 
-   ./run.py '*' state.sls_id root_authorized_keys core.sshd
+   ./run.py --state-output=changes '*' state.sls_id root_authorized_keys core.sshd
 
 .. note::
 
@@ -90,6 +84,6 @@ States that always report changes:
 3. Manual cleanup
 -----------------
 
-If you changed the server name of a virtual host that uses HTTPS, you will need to :ref:`ssl-certificates` for the new server name.
-
 If you :doc:`removed a Salt configuration<../develop/update/delete>`, follow the linked steps to cleanup manually.
+
+If you changed the server name of a virtual host that uses HTTPS, :ref:`ssl-certificates`.
