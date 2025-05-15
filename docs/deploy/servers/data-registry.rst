@@ -13,8 +13,8 @@ Tinyproxy
   #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
   #. Deploy the ``docs`` service, when ready.
 
-Update Salt and halt jobs
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Salt configuration and halt jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/registry/init.sls`` file.

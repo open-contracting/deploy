@@ -1,6 +1,42 @@
 Data support
 ============
 
+Set up incremental updates
+--------------------------
+
+This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <https://kingfisher-collect.readthedocs.io/en/latest/contributing/extensions/database_store.html>`__ extension implements the incremental updates.
+
+#. `Choose a spider <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html>`__ that collects the desired data. Prefer the spider that:
+
+   -  Accepts a ``from_date`` spider argument, preferably at the same granularity as the cron schedule
+   -  Is fastest: for example, ``_bulk``, instead of ``_api``
+   -  Reduces processing: for example, a spider that yields compiled releases
+
+   If needed, improve the spider in `Kingfisher Collect <https://github.com/open-contracting/kingfisher-collect>`__.
+#. Add an entry to the ``python_apps.kingfisher_collect.crawls`` section of the ``pillar/kingfisher_main.sls`` file:
+
+   ``identifier``
+     An uppercase, underscore-separated name, like ``DOMINICAN_REPUBLIC``.
+   ``spider``
+     The spider's name, like ``dominican_republic_api``.
+   ``crawl_time``
+     The current date, like ``'2025-05-06'`` (though, any date works).
+   ``spider_arguments`` (optional)
+     Any `spider arguments <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html#spider-arguments>`__.
+
+     If the spider doesn't yield compiled releases, add ``-a compile_releases=true``.
+   ``cardinal`` (optional)
+     ``True``, to enable a pipeline involving `Cardinal <https://cardinal.readthedocs.io/en/latest/>`__.
+   ``users`` (optional)
+     A list of additional :ref:`PostgreSQL users<pg-users>` that need read access to the database.
+   ``day`` (optional)
+     The day of the month on which to run the cron job.
+
+     Required if an incremental update takes longer than a day.
+
+#. If an *initial crawl* would take longer than a day, run the `scrapy crawl <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ command manually.
+#. :doc:`Deploy the server<../deploy>`.
+
 Create a data support main server
 ---------------------------------
 
@@ -19,8 +55,8 @@ Dependents
 
 #. Notify RBC Group of the new domain name for the new PostgreSQL server.
 
-Update Salt and halt jobs
-~~~~~~~~~~~~~~~~~~~~~~~~~
+Update Salt configuration and halt jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/pelican/backend/init.sls`` file.
@@ -62,42 +98,6 @@ Kingfisher Collect
 ~~~~~~~~~~~~~~~~~~
 
 Once DNS has propagated, :ref:`update-spiders`.
-
-Set up incremental updates
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <https://kingfisher-collect.readthedocs.io/en/latest/contributing/extensions/database_store.html>`__ extension implements the incremental updates.
-
-#. `Choose a spider <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html>`__ that collects the desired data. Prefer the spider that:
-
-   -  Accepts a ``from_date`` spider argument, preferably at the same granularity as the cron schedule
-   -  Is fastest: for example, ``_bulk``, instead of ``_api``
-   -  Reduces processing: for example, a spider that yields compiled releases
-
-   If needed, improve the spider in `Kingfisher Collect <https://github.com/open-contracting/kingfisher-collect>`__.
-#. Add an entry to the ``python_apps.kingfisher_collect.crawls`` section of the ``pillar/kingfisher_main.sls`` file:
-
-   ``identifier``
-     An uppercase, underscore-separated name, like ``DOMINICAN_REPUBLIC``.
-   ``spider``
-     The spider's name, like ``dominican_republic_api``.
-   ``crawl_time``
-     The current date, like ``'2025-05-06'`` (though, any date works).
-   ``spider_arguments`` (optional)
-     Any `spider arguments <https://kingfisher-collect.readthedocs.io/en/latest/spiders.html#spider-arguments>`__.
-
-     If the spider doesn't yield compiled releases, add ``-a compile_releases=true``.
-   ``cardinal`` (optional)
-     ``True``, to enable a pipeline involving `Cardinal <https://cardinal.readthedocs.io/en/latest/>`__.
-   ``users`` (optional)
-     A list of additional :ref:`PostgreSQL users<pg-users>` that need read access to the database.
-   ``day`` (optional)
-     The day of the month on which to run the cron job.
-
-     Required if an incremental update takes longer than a day.
-
-#. If an *initial crawl* would take longer than a day, run the `scrapy crawl <https://github.com/open-contracting/deploy/blob/main/salt/kingfisher/collect/files/cron.sh>`__ command manually.
-#. :doc:`Deploy the server<../deploy>`.
 
 Copy incremental data
 ^^^^^^^^^^^^^^^^^^^^^
