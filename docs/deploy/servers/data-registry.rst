@@ -56,8 +56,8 @@ Docker apps
 
 Perform the same tasks as for :ref:`Data support<kingfisher-pelican-docker-migration>`.
 
-Restore Salt and start jobs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Restore Salt configuration and start jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/registry/init.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.

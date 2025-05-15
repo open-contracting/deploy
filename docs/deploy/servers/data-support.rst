@@ -196,8 +196,8 @@ The initial migrations for Pelican backend, which create the ``exchange_rates`` 
 
       psql -U pelican_backend -h localhost -c "\copy exchange_rates (valid_on, rates, created, modified) from 'exchange_rates.csv';" pelican_backend
 
-Restore Salt and start jobs
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Restore Salt configuration and start jobs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.
 #. Uncomment the ``postgres.backup`` section of the Pillar file.
