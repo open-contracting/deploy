@@ -2,8 +2,8 @@ include:
   - apache
   # grafana.conf.include
   - apache.modules.headers # Header
-  - apache.modules.proxy_http # ProxyPass
-  - apache.modules.proxy_wstunnel # ProxyPass WebSockets
+  - apache.modules.proxy_http # ProxyPass https://
+  - apache.modules.proxy_wstunnel # ProxyPass ws://
   - apache.modules.rewrite # RewriteEngine
 
 grafana dependencies:

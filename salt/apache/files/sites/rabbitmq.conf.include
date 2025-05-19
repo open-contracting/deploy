@@ -1,4 +1,4 @@
 # https://www.rabbitmq.com/docs/management#http-api-proxy
-AllowEncodedSlashes On
+AllowEncodedSlashes on
 ProxyPassReverse / http://localhost:15672/
 ProxyPass / http://localhost:15672/ nocanon
