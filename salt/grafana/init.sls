@@ -35,8 +35,13 @@ grafana:
     - sections:
         server:
           http_addr: '127.0.0.1'
+          root_url: 'https://{{ pillar.apache.sites.grafana.servername }}'
         users:
           allow_sign_up: true
+        auth.proxy:
+          enabled: true
+          auto_sign_up: false
+          whitelist: 127.0.0.1
     - watch_in:
       - service: grafana
 
