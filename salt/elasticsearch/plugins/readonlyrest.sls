@@ -7,7 +7,7 @@ include:
 readonlyrest-install:
   cmd.run:
     - name: "yes | /usr/share/elasticsearch/bin/elasticsearch-plugin install -b \"https://api.beshu.tech/download/es?esVersion={{ pillar.elasticsearch.version }}\";
-            /usr/share/elasticsearch/jdk/bin/java -jar /usr/share/elasticsearch/plugins/readonlyrest/ror-tools.jar patch"
+            /usr/share/elasticsearch/jdk/bin/java -jar /usr/share/elasticsearch/plugins/readonlyrest/ror-tools.jar patch --I_UNDERSTAND_AND_ACCEPT_ES_PATCHING=yes"
     - creates: "/usr/share/elasticsearch/plugins/readonlyrest/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.version }}.jar"
     - require:
       - pkg: elasticsearch
