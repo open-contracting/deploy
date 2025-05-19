@@ -1,7 +1,7 @@
 apiVersion: 1
 
 datasources:
-  - name: OCP Prometheus
+  - name: Prometheus
     type: prometheus
     jsonData:
       prometheusType: Prometheus
