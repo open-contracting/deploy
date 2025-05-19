@@ -1,3 +1,11 @@
+include:
+  - apache
+  # grafana.conf.include
+  - apache.modules.headers # Header
+  - apache.modules.proxy_http # ProxyPass
+  - apache.modules.proxy_wstunnel # ProxyPass WebSockets
+  - apache.modules.rewrite # RewriteEngine
+
 grafana dependencies:
   pkg.installed:
     - pkgs:
