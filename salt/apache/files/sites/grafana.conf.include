@@ -1,0 +1,22 @@
+RequestHeader unset X-Forwarded-Proto
+RequestHeader set X-Forwarded-Proto https env=HTTPS
+
+<Proxy *>
+{%- if authname is defined %}
+    AuthName "{{ authname }}"
+    AuthType Basic
+    AuthUserFile /etc/apache2/.htpasswd-{{ name }}
+    Require valid-user
+{% endif %}
+    RewriteEngine on
+    RewriteRule .* - [E=PROXY_USER:%{LA-U:REMOTE_USER},NS]
+    RequestHeader set X-WEBAUTH-USER "%{PROXY_USER}e"
+</Proxy>
+
+RequestHeader unset Authorization
+
+ProxyRequests off
+ProxyPreserveHost on
+ProxyPass /api/live/ws {{ proxypass|replace("http", "ws") }}api/live/ws upgrade=websocket
+ProxyPass / {{ proxypass }}
+ProxyPassReverse / {{ proxypass }}

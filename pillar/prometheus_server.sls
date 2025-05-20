@@ -44,7 +44,7 @@ apache:
         proxypass: http://localhost:9095/
         authname: Open Contracting Partnership Prometheus Alert Manager
     grafana:
-      configuration: proxy
+      configuration: grafana
       servername: grafana.prometheus.open-contracting.org
       context:
         proxypass: http://localhost:3000/
