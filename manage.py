@@ -13,6 +13,9 @@ from email.policy import default
 
 import click
 
+import salt.cli.ssh
+import salt.client.ssh
+
 PROVIDERS = (
     "linode",
     "hetzner",
@@ -58,14 +61,11 @@ def compare(content, get_item, mode="diff", margin=0, expected_providers=None):
         print(f"{target}:")
         for item in target_items[target]:
             included = item in provider_items[provider]
-            if mode == "diff" and not included or mode == "comm" and included:
+            if (mode == "diff" and not included) or (mode == "comm" and included):
                 print(f"  {item}")
 
 
 def salt_ssh(*args):
-    import salt.cli.ssh
-    import salt.client.ssh
-
     # See run.py
     sys.argv = ["salt-ssh", *args]
     client = salt.cli.ssh.SaltSSH()
