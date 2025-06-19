@@ -36,6 +36,7 @@ To be responsible for servers, you should:
    docker.rst
    network.rst
    hosting.rst
+   backup_testing.rst
 
 .. toctree::
    :caption: Service-specific tasks
