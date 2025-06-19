@@ -1,6 +1,16 @@
 Prometheus
 ==========
 
+Grafana
+-------
+
+Access the `monitoring dashboard <https://grafana.prometheus.open-contracting.org/>`__. The username is ``viewer``. The password is set by the ``apache.site.grafana.htpasswd.password`` variable in the ``pillar/private/prometheus_server.sls`` file.
+
+The Dashboards let you query system information in an interactive visual display, including: CPU, RAM, Disk Usage and Network data. There are two dashboards showing the server stats:
+
+* `Server Monitoring Dashboard <https://grafana.prometheus.open-contracting.org/d/1864308e-eb04-4ded-bbea-c6188e502f11/server-monitoring-dashboard>`__
+* `Prometheus System <https://grafana.prometheus.open-contracting.org/d/000000001/prometheus-system>`__
+
 Monitor
 -------
 
