@@ -105,10 +105,14 @@ WordFence is managed in each WordPress installation, rather than by visiting its
 Hosting
 -------
 
+.. seealso::
+
+   :ref:`backups-snapshots`
+
 Servers are hosted by:
 
 -  `Hetzner <https://robot.hetzner.com/server>`__ for hardware servers (`Network status <https://status.hetzner.com>`__)
--  `Linode <https://cloud.linode.com/>`__ for VPS servers. Servers are configured to have one daily backup and two weekly backups. (`Network status <https://status.linode.com>`__: *Regions > EU-West (London)* and *Backups > EU-West (London) Backups*)
+-  `Linode <https://cloud.linode.com/>`__ for VPS servers. (`Network status <https://status.linode.com>`__: *Regions > EU-West (London)* and *Backups > EU-West (London) Backups*)
 -  `Hetzner Cloud <https://console.hetzner.cloud/>`__ for VPS servers that must be colocated with Hetzner hardware servers
 -  `Microsoft Azure <https://portal.azure.com/>`__ for temporary servers for Microsoft-related projects (`Network status <https://azure.status.microsoft/en-us/status>`__)
 

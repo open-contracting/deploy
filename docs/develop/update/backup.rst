@@ -5,7 +5,7 @@ Configure backups
 
    -  :ref:`PostgreSQL backups<pg-setup-backups>`
    -  :ref:`MySQL backups<mysql-backups>`
-   -  :doc:`Backup Testing</maintain/backup_testing>`
+   -  :doc:`Testing backups<../../maintain/backup>`
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<awscli>`

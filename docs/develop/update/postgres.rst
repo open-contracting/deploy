@@ -300,6 +300,8 @@ Configure the replica, if any
 
    `Backup from a Standby <https://pgbackrest.org/user-guide.html#standby-backup>`__
 
+.. _pg-setup-backups-pg_dump:
+
 Set up database-specific backups
 --------------------------------
 

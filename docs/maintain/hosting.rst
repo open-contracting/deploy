@@ -27,8 +27,8 @@ If reducing an existing disk below 100 GB, restore reserved space to 5%. For exa
 
    tune2fs -m 5 /dev/md2
 
-Manager cloud services
-----------------------
+Manage cloud services
+---------------------
 
 Azure
 ~~~~~

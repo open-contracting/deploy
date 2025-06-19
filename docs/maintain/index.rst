@@ -22,7 +22,7 @@ To be responsible for servers, you should:
    -  :ref:`Clean root user directory<clean-root-user-directory>`
    -  :doc:`Re-deploy services<../deploy/deploy>` to guarantee all changes are applied (optional)
 
--  :ref:`Check that backups are made<hosting>`, at a regular interval
+-  :doc:`Check that backups are made<backup>`, at a regular interval
 
 .. toctree::
    :caption: Contents
@@ -36,7 +36,7 @@ To be responsible for servers, you should:
    docker.rst
    network.rst
    hosting.rst
-   backup_testing.rst
+   backup.rst
 
 .. toctree::
    :caption: Service-specific tasks
