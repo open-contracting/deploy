@@ -22,6 +22,7 @@ base:
 
   'cms':
     - coalition
+    - opencontractingorg
     - digitalbuying
 
   'cove':
