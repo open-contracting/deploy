@@ -2,7 +2,7 @@ backup:
   directories:
     # Must match directory in coalition/init.sls.
     /home/coalition/public_html/:
-    /home/opencontractingorg/public_html/:
+    /home/corporate/public_html/:
 
 apache:
   sites:
@@ -13,20 +13,20 @@ apache:
       context:
         user: coalition
         socket: /var/run/php/php-fpm-coalition.sock
-    opencontractingorg:
+    corporate:
       configuration: wordpress
       servername: www.open-contracting.org
       serveraliases: ['open-contracting.org']
       context:
-        user: opencontractingorg
-        socket: /var/run/php/php-fpm-opencontractingorg.sock
+        user: corporate
+        socket: /var/run/php/php-fpm-corporate.sock
 
 mysql:
   databases:
     coalition_wp:
       user: coalition
-    opencontractingorg_wp:
-      user: opencontractingorg
+    corporate_wp:
+      user: corporate
 
 phpfpm:
   sites:
@@ -36,9 +36,9 @@ phpfpm:
         user: coalition
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
-    opencontractingorg:
+    corporate:
       configuration: default
       context:
-        user: opencontractingorg
+        user: corporate
         listen_user: www-data
-        socket: /var/run/php/php-fpm-opencontractingorg.sock
+        socket: /var/run/php/php-fpm-corporate.sock
