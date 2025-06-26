@@ -21,8 +21,7 @@ base:
     - core.systemd.ntp
 
   'cms':
-    - coalition
-    - opencontractingorg
+    - cms
     - digitalbuying
 
   'cove':
