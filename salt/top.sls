@@ -21,7 +21,7 @@ base:
     - core.systemd.ntp
 
   'cms':
-    - coalition
+    - cms
     - digitalbuying
 
   'cove':
