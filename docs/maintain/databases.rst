@@ -468,6 +468,7 @@ Find unexpected table non ``SELECT`` privileges:
        nspname NOT IN ('pg_toast') AND
        relname NOT IN ('pg_settings') AND
        has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename, nspname
