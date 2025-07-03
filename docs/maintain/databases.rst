@@ -429,6 +429,7 @@ Find unexpected schema ``CREATE`` privileges:
    WHERE
        usename NOT IN ('postgres') AND
        has_schema_privilege(usename, nspname, 'CREATE') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename
@@ -445,7 +446,10 @@ Find unexpected schema ``USAGE`` privileges:
        usename NOT IN ('postgres') AND
        nspname NOT IN ('information_schema', 'pg_catalog', 'reference', 'summaries') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
+       NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%') AND
+       NOT (pg_has_role(usename, 'kingfisher_collect_read', 'MEMBER') AND nspname = 'public') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
        NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'summary_%')
    GROUP BY usename
