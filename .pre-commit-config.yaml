@@ -5,14 +5,14 @@ default_language_version:
     python: python3.12
 repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.12
+    rev: 0.7.19
     hooks:
       - id: pip-compile
         name: pip-compile requirements_dev.in
         args: [requirements_dev.in, -o, requirements_dev.txt]
         files: ^requirements_dev\.(in|txt)$
   - repo: https://github.com/sqlfluff/sqlfluff
-    rev: 3.3.1
+    rev: 3.4.1
     hooks:
       - id: sqlfluff-lint
       - id: sqlfluff-fix
