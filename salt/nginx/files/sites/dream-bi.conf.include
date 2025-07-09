@@ -60,6 +60,11 @@ location /afghanistan {
     try_files $uri $uri/ /afghanistan/index.html;
 }
 
+location /spi {
+    root /home/{{ user }}/public_html;
+    index index.html;
+}
+
 location /mdcp {
     root /home/{{ user }}/public_html;
     index index.html;
