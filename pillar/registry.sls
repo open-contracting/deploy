@@ -164,26 +164,6 @@ docker_apps:
       # This is set to be the same size as the prefetch_count argument.
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
-  pelican_backend:
-    target: pelican-backend
-    env:
-      RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
-      # 2021-10-27: on kingfisher-main, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
-      KINGFISHER_PROCESS_MAX_SIZE: 30000
-      PELICAN_BACKEND_STEPS: field_coverage
-  pelican_frontend:
-    target: pelican-frontend
-    port: 8001
-    host_dir: /data/storage/pelican-frontend
-    env:
-      LOCAL_ACCESS: True
-      ALLOWED_HOSTS: '*'
-      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
-      # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
-      # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
-      # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
-      # and to better support multiprocessing."
-      MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
     site: spoonbill
