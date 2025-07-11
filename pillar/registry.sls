@@ -148,8 +148,6 @@ docker_apps:
       RABBIT_EXCHANGE_NAME: data_registry_production
       # Need to sync with `docker_apps.kingfisher_process.port`.
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
-      # Need to sync with `docker_apps.pelican_frontend.port`.
-      PELICAN_FRONTEND_URL: http://host.docker.internal:8001
       SCRAPYD_URL: http://host.docker.internal:6800
       SPOONBILL_URL: https://flatten.open-contracting.org
       # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.

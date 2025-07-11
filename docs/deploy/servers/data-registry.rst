@@ -18,7 +18,6 @@ Update Salt configuration and halt jobs
 
 #. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/registry/init.sls`` file.
-#. Change ``cron.present`` to ``cron.absent`` in the ``salt/pelican/backend/init.sls`` file.
 #. Comment out the ``postgres.backup`` section of the Pillar file.
 #. :doc:`Deploy the old server and the new server<../deploy>`.
 #. On the old server:
@@ -49,17 +48,15 @@ Databases
 ~~~~~~~~~
 
 #. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server, :ref:`using pg_dump<pg-recover-backup-universal>`.
-#. Copy the :ref:`exchange_rates rows<pelican-backend-database-migration>` from the old server to the new server.
 
 Docker apps
 ~~~~~~~~~~~
 
-Perform the same tasks as for :ref:`Data support<kingfisher-pelican-docker-migration>`.
+Perform the same tasks as for :ref:`Data support<kingfisher-pelican-docker-migration>`, skipping ``pelican-frontend``.
 
 Restore Salt configuration and start jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/registry/init.sls`` file.
-#. Change ``cron.absent`` to ``cron.present`` in the ``salt/pelican/backend/init.sls`` file.
 #. Uncomment the ``postgres.backup`` section of the Pillar file.
 #. :doc:`Deploy the new server<../deploy>`.
