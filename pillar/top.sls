@@ -9,6 +9,7 @@ base:
     - cms
     - cms_maintenance
     - coalition
+    - corporate
     - digitalbuying
     - private.cms
     - private.coalition
