@@ -5,7 +5,7 @@
 #   no_proxy=localhost,sentry.io \
 #   curl -i https://www.example.com
 tinyproxy:
-  url: 'http://ocp19.open-contracting.org:8888'
+  url: 'http://ocp28.open-contracting.org:8888'
   allow:
     # ocp23
     - '65.109.102.188'
