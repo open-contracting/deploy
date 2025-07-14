@@ -193,10 +193,6 @@ python_apps:
         cardinal: True
         users:
           - dgcp
-      - identifier: MEXICO_NUEVO_LEON
-        spider: mexico_nuevo_leon
-        crawl_time: '2025-05-05'
-        spider_arguments: -a compile_releases=true
       # - identifier: ECUADOR
       #   spider: ecuador_sercop_bulk
       #   crawl_time: '2015-01-01'
