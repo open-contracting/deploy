@@ -111,6 +111,7 @@ kingfisher_collect:
   user: collect
   group: deployer
   context:
+    max_proc: 10
     bind_address: 0.0.0.0
     jobs_to_keep: 3
   env:
