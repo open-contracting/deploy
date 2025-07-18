@@ -8,22 +8,19 @@ location = /50x.html {
 }
 
 {%-
-for location, path, cache in (
-    ('auth', 'auth', False),
-    ('prod/api', 'prod/api', False),
-    ('prod/app', 'prod/app', False),
-    ('prod/extensions', 'prod/extensions', False),
-    ('prod/hub', 'prod/hub', False),
-    ('prod/printing', 'prod/printing', False),
-    ('prod/qrs', 'prod/qrs', False),
-    ('prod/resources', 'prod/resources', True),
-    ('prod/sense/app/' + qliksense_app + '/', 'prod/sense/app/' + qliksense_app + '/', False),
-    ('prod/tempcontent', 'prod/tempcontent', False),
+for location, path in (
+    ('auth', 'auth'),
+    ('prod/api', 'prod/api'),
+    ('prod/app', 'prod/app'),
+    ('prod/extensions', 'prod/extensions'),
+    ('prod/hub', 'prod/hub'),
+    ('prod/printing', 'prod/printing'),
+    ('prod/qrs', 'prod/qrs'),
+    ('prod/resources', 'prod/resources'),
+    ('prod/sense/app/' + qliksense_app + '/', 'prod/sense/app/' + qliksense_app + '/'),
+    ('prod/tempcontent', 'prod/tempcontent'),
 )
 %}
-{#-
-    ('extensions', 'prod/extensions', False),
-#}
 
 location /{{ location }} {
     proxy_pass https://{{ qliksense_ip }}:444/{{ path }};
@@ -38,12 +35,6 @@ location /{{ location }} {
     proxy_max_temp_file_size 0;
     proxy_connect_timeout 15;
     proxy_read_timeout 1h;
-{%- if cache %}
-
-    add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" always;
-    add_header Pragma "no-cache" always;
-    add_header Expires "0" always;
-{%- endif %}
 }
 {%- endfor %}
 
