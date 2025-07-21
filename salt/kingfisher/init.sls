@@ -27,6 +27,7 @@ useful packages for data support:
       - csvkit
       - flattentool
       - ocdskit
+      - memray
       - py-spy
 {% if grains.osmajorrelease | int >= 24 %}
     # https://peps.python.org/pep-0668/
