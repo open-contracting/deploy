@@ -42,6 +42,7 @@ Copy these directories from the old server to the new server, using ``rsync -avz
 -  ``/data/storage/spoonbill``
 -  ``/home/collect/scrapyd/dbs``
 -  ``/home/collect/scrapyd/eggs``
+-  ``/home/collect/scrapyd/jobs``
 -  ``/home/collect/scrapyd/logs``
 
 Databases
