@@ -87,10 +87,18 @@ Cybersecurity issues are monitored by `SecurityScorecard <https://platform.secur
 `Patching cadence issues <https://support.securityscorecard.com/hc/en-us/articles/115002965683-Patching-cadence-issue-resolution>`__ are mostly false positives. To dismiss such issues:
 
 #. `Check whether the CVE was resolved by Ubuntu <https://ubuntu.com/security/cves>`__
-#. Check the checkboxes in the table
+#. Check the relevant checkboxes in the table
 #. Click the *Other resolutions* dropdown
 #. Click the *I cannot reproduce this issue and I think it's incorrect* item
 #. Add the comment: *The software is patched/backported.*
+#. Click the *Submit* button
+
+"Unsafe Implementation Of Subresource Integrity" is `sometimes unresolvable <https://ocp-software-handbook.readthedocs.io/en/latest/htmlcss/index.html#subresource-integrity-sri>`__. To dismiss such issues:
+
+#. Check the relevant checkboxes in the table
+#. Click the *Other resolutions* dropdown
+#. Click the *I have compensating controls* item
+#. Add a comment like: *Fathom Analytics, Google Analytics, and the Google Fonts API do not support SRI, by design: https://github.com/google/fonts/issues/473#issuecomment-331329601. As a compensating control, we subscribe to Fathom Analytics' and Google's incident alerts.*
 #. Click the *Submit* button
 
 WordFence
