@@ -11,16 +11,22 @@ x-env: &env
   REQUESTS_CACHE_EXPIRE_AFTER: 0 # EXPIRE_IMMEDIATELY
 
 network:
-  host_id: ocp18
-  ipv4: 176.58.107.239
-  ipv6: "2a01:7e00:e000:04d4::"
+  host_id: ocp28
+  ipv4: 66.228.47.174
+  ipv6: "2600:3c03:e000:021e::"
   networkd:
     template: linode
-    gateway4: 176.58.107.1
+    gateway4: 66.228.47.1
 
 vm:
   # For Redis service in cove.yaml.
   overcommit_memory: 1
+
+ntp:
+  - 0.us.pool.ntp.org
+  - 1.us.pool.ntp.org
+  - 2.us.pool.ntp.org
+  - 3.us.pool.ntp.org
 
 apache:
   public_access: True

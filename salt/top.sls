@@ -26,6 +26,7 @@ base:
 
   'cove':
     - cove
+    - tinyproxy
 
   'credere*':
     - credere
