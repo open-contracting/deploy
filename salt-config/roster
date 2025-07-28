@@ -47,5 +47,6 @@ portland-dev:
 # ocp14 was redash (redash.open-contracting.org)
 # ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids
+# ocp18 was cove on Ubuntu 22
 # ocp22 was credere-dev
 # ocp24 was credere-production
