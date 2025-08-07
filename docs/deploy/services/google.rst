@@ -34,29 +34,38 @@ Check DMARC compliance
 
 Send an email to ping@tools.mxtoolbox.com and `check the results <https://mxtoolbox.com/deliverability>`__ (all green).
 
-Similar tools include `mail-tester <https://www.mail-tester.com>`__ and `Postmark's Spam Check <https://spamcheck.postmarkapp.com>`__.
+Similar tools include:
+
+-  `Valimail Email Analyzer Report <https://app.valimail.com/app/open-contracting-partnership/dmarc/email_analyzer_reports>`_
+-  `mail-tester <https://www.mail-tester.com>`__
+-  `Postmark's Spam Check <https://spamcheck.postmarkapp.com>`__
 
 .. _monitor-dmarc-reports:
 
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
 
-The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggregate reports to Postmark's `DMARC Digests <https://dmarc.postmarkapp.com>`__ and `DMARC Analyzer <https://app.dmarcanalyzer.com/>`__ (defaults to reporting today only):
+The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggregate reports to Postmark's `DMARC Digests <https://dmarc.postmarkapp.com>`__ and `Valimail Monitor <https://app.valimail.com>`__:
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-contracting.org
-   v=DMARC1; p=none; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
+   v=DMARC1; p=none; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.noreply.open-contracting.org
-   v=DMARC1; p=none; rua=mailto:re+jbvvmcsfauo@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
+   v=DMARC1; p=none; rua=mailto:re+jbvvmcsfauo@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-spending.eu
-   v=DMARC1; p=quarantine; rua=mailto:re+wtazrnx9nxe@dmarc.postmarkapp.com,mailto:e57de3ae23df489@rep.dmarcanalyzer.com;
+   v=DMARC1; p=quarantine; rua=mailto:re+wtazrnx9nxe@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+
+.. code-block:: shell-session
+
+   $ dig TXT dream-office.org
+   v=DMARC1; p=none; rua=mailto:re+yjzbqifwsvu@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Failures should be 3% or less.
 
@@ -66,9 +75,9 @@ DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Fail
 
 .. note::
 
-   DMARC Analyzer displays a "DKIM invalid" warning due to AWS SES using `null DKIM records <https://repost.aws/questions/QUuPAl2F97RseJNexu2JP8CA/2-of-3-easy-dkim-ses-txt-records-where-p-tag-has-no-value-p>`__.
+   Tools might report a "DKIM invalid" warning due to AWS SES using `null DKIM records <https://repost.aws/questions/QUuPAl2F97RseJNexu2JP8CA/2-of-3-easy-dkim-ses-txt-records-where-p-tag-has-no-value-p>`__.
 
-In DMARC Analyzer, when filtering per result sending domains with volumes of less than 10 can be ignored. For ``google.com``:
+Sending domains with volumes of less than 10 can be ignored. For ``google.com``:
 
 -  SPF misalignment with ``calendar-server.bounces.google.com`` `can be ignored <https://dmarcian.com/google-calendar-invites-dmarc/>`__.
 -  Google Groups rewrites the ``From`` header `only if <https://support.dmarcdigests.com/article/1233-spf-or-dkim-alignment-issues-with-google>`__ the DMARC policy is "reject" or "quarantine".
