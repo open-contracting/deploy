@@ -5,7 +5,7 @@ backup:
 apache:
   sites:
     corporate:
-      configuration: wordpress
+      configuration: corporate
       servername: www.open-contracting.org
       serveraliases: ['open-contracting.org']
       context:
