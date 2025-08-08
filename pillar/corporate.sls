@@ -25,6 +25,8 @@ phpfpm:
         user: corporate
         listen_user: www-data
         socket: /var/run/php/php-fpm-corporate.sock
+        env:
+          php_value[max_input_vars]: 2000
 
 ssh:
   corporate:
