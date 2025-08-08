@@ -190,6 +190,6 @@ Data retention policy
 
 On the first day of each month, the following are deleted:
 
--  Collections that ended over a year ago, while retaining one set of collections per source from over a year ago
+-  Collections that ended over a year ago, while retaining one original collection per source from over a year ago (unless the source is local)
 -  Collections that never ended and started over 2 months ago
 -  Collections that ended over 2 months ago and have no data

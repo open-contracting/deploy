@@ -76,8 +76,8 @@ pgpass-kingfisher_process:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-# Delete collections that ended over a year ago, while retaining one set of collections per source from over a year ago.
-cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year')) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run -T --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
+# Delete collections that ended over a year ago, while retaining one original collection per source from over a year ago (unless the source is local).
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND (c.source_id LIKE '%_local' OR c.transform_type <> '' OR EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year'))) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run -T --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
     - user: {{ pillar.docker.user }}
