@@ -16,11 +16,7 @@ wp-cli:
 {% set user = entry.context.user %}
 {% set userdir = '/home/' + user %}
 
-{% if user in pillar.ssh %}
-{{ create_user(user, authorized_keys=pillar.ssh[user]) }}
-{% else %}
-{{ create_user(user) }}
-{% endif %}
+{{ create_user(user, authorized_keys=pillar.ssh.get(user, [])) }}
 
 # Allow Apache to access. See wordpress.conf.include.
 allow {{ userdir }} access:
