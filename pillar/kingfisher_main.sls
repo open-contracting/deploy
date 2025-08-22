@@ -198,7 +198,6 @@ python_apps:
         spider: rwanda_api
         crawl_time: '2025-08-22'
         spider_arguments: -a compile_releases=true
-        cardinal: True
       # - identifier: MOLDOVA
       #   spider: moldova
       #   crawl_time: '2021-06-11'
