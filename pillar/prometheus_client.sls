@@ -7,7 +7,7 @@ prometheus:
     service: prometheus-node-exporter
     user: prometheus-client
     basename: node_exporter
-    version: 1.8.2
+    version: 1.9.1
     config:
       # https://github.com/prometheus/node_exporter/blob/v1.0.1/https/README.md
       config.yaml: salt://prometheus/files/config.yaml
