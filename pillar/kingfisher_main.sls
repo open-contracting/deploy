@@ -184,6 +184,7 @@ python_apps:
       - identifier: DOMINICAN_REPUBLIC
         spider: dominican_republic_api
         crawl_time: '2023-07-13'
+        # The publication sets "version": "1.4".
         spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
         cardinal: True
         users:
@@ -191,6 +192,12 @@ python_apps:
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         crawl_time: '2015-01-01'
+        cardinal: True
+        proxy: True
+      - identifier: RWANDA
+        spider: rwanda_api
+        crawl_time: '2025-08-22'
+        spider_arguments: -a compile_releases=true
         cardinal: True
       # - identifier: MOLDOVA
       #   spider: moldova
