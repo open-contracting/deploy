@@ -60,6 +60,7 @@ systemd-networkd:
 
 /etc/netplan/10-salt-networking.yaml:
   file.managed:
+    - mode: 600
     - source: salt://core/network/files/netplan_{{ pillar.network.netplan.template }}.yaml
     - template: jinja
 
