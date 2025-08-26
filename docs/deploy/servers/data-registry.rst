@@ -16,9 +16,12 @@ Tinyproxy
 Update Salt configuration and halt jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
-#. Change ``cron.present`` to ``cron.absent`` in the ``salt/registry/init.sls`` file.
-#. Comment out the ``postgres.backup`` section of the Pillar file.
+#. For the new server:
+
+   #. Check that ``docker.uid`` in the server's Pillar file matches the entry in the ``/etc/passwd`` file for the ``docker.user`` (``deployer``).
+   #. Change ``cron.present`` to ``cron.absent`` in the ``salt/registry/init.sls`` file.
+   #. Comment out the ``postgres.backup`` section of the Pillar file.
+
 #. :doc:`Deploy the old server and the new server<../deploy>`.
 #. On the old server:
 
