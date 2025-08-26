@@ -11,7 +11,7 @@ Dependencies
 
 Tinyproxy
   #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
-  #. Deploy the ``docs`` service, when ready.
+  #. Deploy the ``docs`` and ``cove`` services, when ready.
 
 Update Salt configuration and halt jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
