@@ -19,7 +19,7 @@ dream-bi:
 kingfisher-main:
   host: ocp23.open-contracting.org
 registry:
-  host: ocp27.open-contracting.org
+  host: ocp29.open-contracting.org
 
 # Azure
 
@@ -50,3 +50,4 @@ portland-dev:
 # ocp18 was cove on Ubuntu 22
 # ocp22 was credere-dev
 # ocp24 was credere-production
+# ocp27 was registry
