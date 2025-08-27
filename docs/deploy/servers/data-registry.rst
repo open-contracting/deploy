@@ -9,9 +9,7 @@ Migrate from an old server
 Dependencies
 ~~~~~~~~~~~~
 
-Tinyproxy
-  #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
-  #. Deploy the ``docs`` and ``cove`` services, when ready.
+Perform the same tasks as for :ref:`Data support<data-support-dependencies>` under Tinyproxy.
 
 Update Salt configuration and halt jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
