@@ -40,6 +40,8 @@ This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <h
 Create a data support main server
 ---------------------------------
 
+.. _data-support-dependencies:
+
 Dependencies
 ~~~~~~~~~~~~
 
