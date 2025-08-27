@@ -1,7 +1,7 @@
 network:
-  host_id: ocp27
-  ipv4: 37.27.62.45
-  ipv6: 2a01:4f9:3081:3001::/64
+  host_id: ocp29
+  ipv4: 65.109.148.172
+  ipv6: 2a01:4f9:3100:4b02::/64
   netplan:
     template: custom
     configuration: |
@@ -9,14 +9,14 @@ network:
         version: 2
         renderer: networkd
         ethernets:
-          enp5s0:
+          enp6s0:
             addresses:
-              - 37.27.62.45/32
-              - 2a01:4f9:3081:3001::2/64
+              - 65.109.148.172/32
+              - 2a01:4f9:3100:4b02::2/64
             routes:
               - on-link: true
                 to: 0.0.0.0/0
-                via: 37.27.62.1
+                via: 65.109.148.129
               - to: default
                 via: fe80::1
             nameservers:
