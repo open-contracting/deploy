@@ -32,7 +32,7 @@ network:
 
 vm:
   # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-  nr_hugepages: 8231
+  nr_hugepages: 4300
   # For Redis service in spoonbill.yaml.
   overcommit_memory: 1
 
