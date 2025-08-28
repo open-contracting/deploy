@@ -73,7 +73,6 @@ This will:
       -  Create a virtual host serving port 443
       -  Configure a HTTP to HTTPS permanent redirect
       -  Add a ``Strict-Transport-Security`` header
-      -  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__
 
    -  Create a virtual host serving port 80
    -  Set the virtual host's ``servername`` and ``serveraliases``, if any

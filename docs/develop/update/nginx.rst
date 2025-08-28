@@ -60,7 +60,6 @@ This will:
    -  Set the virtual hosts' ``servername`` and ``serveraliases``, if any
    -  Configure a HTTP to HTTPS permanent redirect
    -  Add a ``Strict-Transport-Security`` header
-   -  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__
 
 Here, the ``/etc/nginx/sites-available/mysite.conf.include`` file uses the ``salt/nginx/files/sites/default.conf.include`` template with a ``mykey`` variable.
 
