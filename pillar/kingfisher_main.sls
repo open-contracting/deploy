@@ -51,7 +51,6 @@ users:
 
 vm:
   # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-  # https://github.com/open-contracting/deploy/issues/517
   nr_hugepages: 4300
 
 ntp:
