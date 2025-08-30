@@ -26,7 +26,7 @@ Use the `pg_stat_statements <https://www.postgresql.org/docs/current/pgstatstate
        round((100 * total_time /
        sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
    FROM pg_stat_statements s
-   INNER JOIN pg_user u ON s.userid = u.usesysid
+   JOIN pg_user u ON s.userid = u.usesysid
    ORDER BY total_time DESC
    LIMIT 20;
 
@@ -43,7 +43,7 @@ To display the full query, you might prefer to switch to unaligned output mode (
        round((100 * total_time /
        sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
    FROM pg_stat_statements s
-   INNER JOIN pg_user u ON s.userid = u.usesysid
+   JOIN pg_user u ON s.userid = u.usesysid
    ORDER BY total_time DESC
    LIMIT 20;
 
