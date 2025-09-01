@@ -31,6 +31,12 @@ phpfpm:
           # Increased to resolve WordPress menu issue.
           php_value[max_input_vars]: 2000
 
+cron:
+  corporate:
+    wordpress_cron.sh:
+      identifier: WORDPRESS_SITE_CRON
+      minute: '"*/5"'
+
 ssh:
   corporate:
     - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHxMhl3ZYqr5wz/aqJQJF37jKBIlRXrngPHgf7NVk+Ac ben@theideabureau.co
