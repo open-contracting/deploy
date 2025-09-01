@@ -1,79 +1,57 @@
 # Configuration file for the Sphinx documentation builder.
 #
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
+# For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-
-
 # -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Deploy'
-copyright = '2019, Open Contracting Partnership'
-author = 'Open Contracting Partnership'
-
+project = "Deploy"
+copyright = "2019, Open Contracting Partnership"
+author = "Open Contracting Partnership"
 
 # -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-extensions = ['sphinx_design']
+extensions = [
+    "sphinx_design",
+]
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
-
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'furo'
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-
-html_css_files = ['css/custom.css']
-
+html_theme = "furo"
+html_static_path = ["_static"]
+html_css_files = ["custom.css"]
 
 # -- Extension configuration -------------------------------------------------
 
 # docs.hetzner.com returns 403, otherwise.
-user_agent = 'curl/8.6.0'
+user_agent = "curl/8.6.0"
 linkcheck_allow_unauthorized = False
 linkcheck_report_timeouts_as_broken = True
 linkcheck_ignore = [
     # Localhost instructions.
-    r'^http://localhost:',
+    r"^http://localhost:",
     # Unauthorized.
-    r'^https://(alertmanager|monitor)\.prometheus\.open-contracting\.org',
+    r"^https://(alertmanager|monitor)\.prometheus\.open-contracting\.org",
     # Redirects to login pages.
-    r'^https://(?:account|dcc)\.godaddy\.com',
-    r'^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/',
-    r'^https://(?:dash\.cloudflare|ocp-library\.herokuapp|portal\.azure|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com',
-    r'^https://(?:postmaster|search)\.google\.com',
-    r'^https://app\.(ahrefs|dmarcanalyzer|usefathom)\.com',
-    r'^https://github\.com/open-contracting/[^/]+/issues/new',
-    r'^https://sentry.io/organizations/open-contracting-partnership/',
+    r"^https://(?:account|dcc)\.godaddy\.com",
+    r"^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/",
+    r"^https://(?:dash\.cloudflare|ocp-library\.herokuapp|portal\.azure|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com",
+    r"^https://(?:postmaster|search)\.google\.com",
+    r"^https://app\.(ahrefs|usefathom)\.com",
+    r"^https://github\.com/open-contracting/[^/]+/issues/new",
+    r"^https://sentry.io/organizations/open-contracting-partnership/",
     # Private repositories return not found.
-    r'^https://github\.com/open-contracting/(?:deploy-pillar-private)',
+    r"^https://github\.com/open-contracting/(?:deploy-pillar-private)",
 ]
 linkcheck_anchors_ignore_for_url = (
-    r'^https://github\.com/[^/]+/[^/]+/blob/',
-    r'^https://github\.com/[^/]+/[^/]+/tree/',
-    r'^https://github\.com/icing/mod_md',
-    r'^https://rabbitmq\.kingfisher\.open-contracting\.org',
+    r"^https://github\.com/[^/]+/[^/]+/blob/",
+    r"^https://github\.com/[^/]+/[^/]+/tree/",
+    r"^https://github\.com/icing/mod_md",
+    r"^https://rabbitmq\.kingfisher\.open-contracting\.org",
 )

@@ -50,7 +50,8 @@ users:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG8dhMVvgH/tt9+VoyokyUg/iKVcZKMku8pYN6o8RoT8XKoyP/iyrUIl5HxolqIt+PJTpomYkA40eJ/0mN4/kRhr+tctZ+tUdo8/G8H42FG3McklL6XlwOdXRGIYC+NynF8YGws57J8YkM2oL9linkUZYpGpVkNew2aEg916HWWfGZktwuQa7knIwIhFr9FlvxxaZhdcQ7VJjnJOP0fLLr5WCVaiWDGjQ5cHJURcTBL+j+eTRpKFvk9BMKCAQyLkSEluT0QeESDMtR7sRHA54to1LDXRX0ky9cAQ6mxXWgpSpmHCuPVYpzOfoSd7b8aczDLUGBxq9EWOTS3UMUWJBX Yohanna (OCP)
 
 vm:
-  nr_hugepages: 8219
+  # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
+  nr_hugepages: 4300
 
 ntp:
   - 0.fi.pool.ntp.org
@@ -181,26 +182,23 @@ python_apps:
       target: kingfisher-collect
     # Do not set `cardinal: False`. Instead, remove `cardinal: True`.
     crawls:
-      # - identifier: CHILE
-      #   spider: chile_compra_api_records
-      #   crawl_time: '2021-12-03'
-      #   day: '1'
-      #   spider_arguments: -a compile_releases=true
-      - identifier: DOMINICAN_REPUBLIC
-        spider: dominican_republic_api
-        crawl_time: '2023-07-13'
-        spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
-        cardinal: True
-        users:
-          - dgcp
-      - identifier: MEXICO_NUEVO_LEON
-        spider: mexico_nuevo_leon
-        crawl_time: '2025-05-05'
-        spider_arguments: -a compile_releases=true
-      # - identifier: ECUADOR
-      #   spider: ecuador_sercop_bulk
-      #   crawl_time: '2015-01-01'
+      # - identifier: DOMINICAN_REPUBLIC
+      #   spider: dominican_republic_api
+      #   crawl_time: '2023-07-13'
+      #   # The publication sets "version": "1.4".
+      #   spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
       #   cardinal: True
+      #   users:
+      #     - dgcp
+      - identifier: ECUADOR
+        spider: ecuador_sercop_bulk
+        crawl_time: '2015-01-01'
+        cardinal: True
+        proxy: True
+      - identifier: RWANDA
+        spider: rwanda_api
+        crawl_time: '2025-08-22'
+        spider_arguments: -a compile_releases=true
       # - identifier: MOLDOVA
       #   spider: moldova
       #   crawl_time: '2021-06-11'

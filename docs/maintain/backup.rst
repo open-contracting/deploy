@@ -1,7 +1,10 @@
 Testing backups
 ===============
 
-Every six months, check that (1) backup automation is enabled and running, and (2) backup files are valid and usable.
+Every six months, check that:
+
+1. Backup automation is enabled and running.
+1. Backup files are valid and usable.
 
 General instructions
 --------------------
@@ -57,7 +60,7 @@ From a server:
       export AWS_SECRET_ACCESS_KEY
       export AWS_DEFAULT_REGION
 
--  Change to a temporary directory in the current working directory, in which to store any backup files:
+-  Change to a temporary directory in the current working directory, in which to store backup files:
 
    .. code-block:: bash
 
@@ -95,7 +98,7 @@ PostgreSQL (pg_dump)
 
 .. seealso:: :ref:`PostgreSQL database-specific backups<pg-setup-backups-pg_dump>`
 
-If PostgreSQL contains large databases with transient data, we backup individual databases instead of all databases. The selected databases are set in the ``/home/sysadmin-tools/aws-settings.local`` file.
+If PostgreSQL contains large databases with transient data, we backup individual databases instead of all databases. The databases are selected in the ``/home/sysadmin-tools/aws-settings.local`` file.
 
 Backup script
   `postgres-backup-to-s3.sh <https://github.com/open-contracting/deploy/blob/main/salt/postgres/files/postgres-backup-to-s3.sh>`__ creates backup files using ``pg_dump`` and uploads them to S3.

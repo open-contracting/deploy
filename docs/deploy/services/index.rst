@@ -7,4 +7,5 @@ External service tasks
    dns.rst
    aws.rst
    azure.rst
+   cloudflare.rst
    google.rst

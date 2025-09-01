@@ -40,12 +40,19 @@ This creates a cron job to run a ``scrapy crawl`` command. The `DatabaseStore <h
 Create a data support main server
 ---------------------------------
 
+.. _data-support-dependencies:
+
 Dependencies
 ~~~~~~~~~~~~
 
 Tinyproxy
   #. Update the allowed IP addresses in the ``pillar/tinyproxy.sls`` file.
-  #. Deploy the ``docs`` service, when ready.
+  #. Deploy the ``docs`` and ``cove`` services, when ready.
+  #. From the new server, test the proxy. For example:
+
+     .. code-block:: bash
+
+        env http_proxy=ocp28.open-contracting.org:8888 curl example.com
 Replica, if applicable
   #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file.
   #. Deploy the ``kingfisher-replica`` service, when ready.

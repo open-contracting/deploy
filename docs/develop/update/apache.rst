@@ -73,7 +73,6 @@ This will:
       -  Create a virtual host serving port 443
       -  Configure a HTTP to HTTPS permanent redirect
       -  Add a ``Strict-Transport-Security`` header
-      -  Configure `OCSP Stapling <https://en.wikipedia.org/wiki/OCSP_stapling>`__
 
    -  Create a virtual host serving port 80
    -  Set the virtual host's ``servername`` and ``serveraliases``, if any
@@ -209,14 +208,6 @@ The service should now be available at its ``https://`` web address.
    .. code-block:: bash
 
       curl https://SERVERNAME/.httpd/certificate-status
-
-   Check `md-status <https://github.com/icing/mod_md#monitoring>`__, replacing ``TARGET``:
-
-   .. code-block:: bash
-
-      ./run.py TARGET cmd.run 'curl -sS http://localhost/md-status'
-
-   Each certificate's OCSP ``"status"`` should be ``"good"``.
 
 .. _apache-modules:
 

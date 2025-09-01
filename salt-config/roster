@@ -3,7 +3,7 @@
 cms:
   host: ocp21.open-contracting.org
 cove:
-  host: ocp18.open-contracting.org
+  host: ocp28.open-contracting.org
 docs:
   host: ocp19.open-contracting.org
 prometheus:
@@ -19,7 +19,7 @@ dream-bi:
 kingfisher-main:
   host: ocp23.open-contracting.org
 registry:
-  host: ocp27.open-contracting.org
+  host: ocp29.open-contracting.org
 
 # Azure
 
@@ -47,5 +47,7 @@ portland-dev:
 # ocp14 was redash (redash.open-contracting.org)
 # ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids
+# ocp18 was cove on Ubuntu 22
 # ocp22 was credere-dev
 # ocp24 was credere-production
+# ocp27 was registry

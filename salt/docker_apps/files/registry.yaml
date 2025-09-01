@@ -22,6 +22,9 @@ services:
   exporter:
     <<: *django
     command: "python manage.py exporter"
+  coverage:
+    <<: *django
+    command: "python manage.py coverage"
   flattener:
     <<: *django
     command: "python manage.py flattener"

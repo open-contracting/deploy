@@ -26,6 +26,7 @@ allow {{ userdir }} access:
     - names:
       - {{ directory }}/dbs
       - {{ directory }}/eggs
+      - {{ directory }}/jobs
       - {{ directory }}/logs
     - user: {{ user }}
     - group: {{ user }}

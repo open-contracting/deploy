@@ -1,11 +1,12 @@
 Delete a server
 ===============
 
-A server is deleted either when a service is moving to a new server (:doc:`create the new server<create_server>`, first), or when a service is being retired.
+A server is deleted (decommissioned) either when a service is moving to a new server (:doc:`create the new server<create_server>`, first), or when a service is being retired.
 
 As with other deployment tasks, do the :doc:`setup tasks<setup>` before the steps below.
 
 #. Notify relevant users of the change
+#. If the server has :ref:`PostgreSQL<pg-setup-backups>` or :ref:`MySQL<mysql-backups>` backups, use :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``, and manually upload a final backup to the root of the S3 bucket
 #. Remove all occurrences of the server's FQDN and IP address from this repository
 #. Remove the DNS entries using the server's FQDN from `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ (A, AAAA, SPF)
 #. Remove the server's root password from `LastPass <https://www.lastpass.com>`__

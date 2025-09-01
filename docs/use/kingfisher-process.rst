@@ -165,7 +165,7 @@ To export the compiled releases to a single JSONL file, run, for example:
 .. code:: bash
 
    psql "connection string" -c '\t' \
-   -c 'SELECT data FROM data INNER JOIN compiled_release r ON r.data_id = data.id WHERE collection_id = 123' \
+   -c 'SELECT data FROM data JOIN compiled_release r ON data_id = data.id WHERE collection_id = 123' \
    -o myfilename.jsonl
 
 To export the compiled releases to individual files, run, for example:
@@ -173,7 +173,7 @@ To export the compiled releases to individual files, run, for example:
 .. code:: bash
 
    psql "connection string" -c '\t' \
-   -c 'SELECT data FROM data INNER JOIN compiled_release r ON r.data_id = data.id WHERE collection_id = 123' \
+   -c 'SELECT data FROM data JOIN compiled_release r ON data_id = data.id WHERE collection_id = 123' \
    | split -l 1 -a 5 --additional-suffix=.json
 
 The files will be named ``xaaaaa.json``, ``xaaaab.json``, etc. ``-a 5`` is sufficient for 11M files (26⁵).
@@ -190,6 +190,6 @@ Data retention policy
 
 On the first day of each month, the following are deleted:
 
--  Collections that ended over a year ago, while retaining one set of collections per source from over a year ago
+-  Collections that ended over a year ago, while retaining one original collection per source from over a year ago (unless the source is local)
 -  Collections that never ended and started over 2 months ago
 -  Collections that ended over 2 months ago and have no data

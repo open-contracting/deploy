@@ -10,7 +10,6 @@ location = /50x.html {
 {%-
 for location, path in (
     ('auth', 'auth'),
-    ('extensions', 'prod/extensions'),
     ('prod/api', 'prod/api'),
     ('prod/app', 'prod/app'),
     ('prod/extensions', 'prod/extensions'),
@@ -58,6 +57,11 @@ location /monitor {
 
 location /afghanistan {
     try_files $uri $uri/ /afghanistan/index.html;
+}
+
+location /spi {
+    root /home/{{ user }}/public_html;
+    index index.html;
 }
 
 location /mdcp {

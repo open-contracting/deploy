@@ -22,6 +22,7 @@ base:
     - cove_maintenance
     - private.cove
     - docker
+    - tinyproxy
 
   'credere':
     - credere_common

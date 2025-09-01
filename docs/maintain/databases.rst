@@ -26,7 +26,7 @@ Use the `pg_stat_statements <https://www.postgresql.org/docs/current/pgstatstate
        round((100 * total_time /
        sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
    FROM pg_stat_statements s
-   INNER JOIN pg_user u ON s.userid = u.usesysid
+   JOIN pg_user u ON s.userid = u.usesysid
    ORDER BY total_time DESC
    LIMIT 20;
 
@@ -43,7 +43,7 @@ To display the full query, you might prefer to switch to unaligned output mode (
        round((100 * total_time /
        sum(total_time::numeric) OVER ())::numeric, 2) AS percentage_cpu
    FROM pg_stat_statements s
-   INNER JOIN pg_user u ON s.userid = u.usesysid
+   JOIN pg_user u ON s.userid = u.usesysid
    ORDER BY total_time DESC
    LIMIT 20;
 
@@ -429,6 +429,7 @@ Find unexpected schema ``CREATE`` privileges:
    WHERE
        usename NOT IN ('postgres') AND
        has_schema_privilege(usename, nspname, 'CREATE') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename
@@ -445,7 +446,10 @@ Find unexpected schema ``USAGE`` privileges:
        usename NOT IN ('postgres') AND
        nspname NOT IN ('information_schema', 'pg_catalog', 'reference', 'summaries') AND
        has_schema_privilege(usename, nspname, 'USAGE') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
+       NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%') AND
+       NOT (pg_has_role(usename, 'kingfisher_collect_read', 'MEMBER') AND nspname = 'public') AND
        NOT (pg_has_role(usename, 'kingfisher_process_read', 'MEMBER') AND nspname = 'public') AND
        NOT (pg_has_role(usename, 'kingfisher_summarize_read', 'MEMBER') AND nspname LIKE 'summary_%')
    GROUP BY usename
@@ -464,6 +468,7 @@ Find unexpected table non ``SELECT`` privileges:
        nspname NOT IN ('pg_toast') AND
        relname NOT IN ('pg_settings') AND
        has_table_privilege(usename, c.oid, 'INSERT,UPDATE,DELETE,TRUNCATE,REFERENCES,TRIGGER') AND
+       NOT (usename = 'kingfisher_collect' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_process' AND nspname = 'public') AND
        NOT (usename = 'kingfisher_summarize' AND nspname LIKE 'summary_%')
    GROUP BY usename, nspname

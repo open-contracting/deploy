@@ -26,6 +26,7 @@ base:
 
   'cove':
     - cove
+    - tinyproxy
 
   'credere*':
     - credere
@@ -58,7 +59,6 @@ base:
   'registry':
     - rabbitmq
     - kingfisher.collect
-    - pelican.backend
     - registry
 
   # https://docs.saltproject.io/en/latest/topics/targeting/compound.html

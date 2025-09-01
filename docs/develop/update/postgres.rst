@@ -320,8 +320,8 @@ Set up database-specific backups
           type: script
           location: ocp-registry-backup/database
           databases:
+            - data_registry
             - spoonbill_web
-            - pelican_frontend
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 

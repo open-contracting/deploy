@@ -137,78 +137,80 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Click the *Save* button
          #. Review the order and click the *Checkout* button
          #. If prompted, login using OCP's credentials
-         #. Check the "I have read your Terms and Conditions as well as your Privacy Policy and I agree to them." box
+         #. Check *I have read your Terms and Conditions as well as your Privacy Policy and I agree to them.*
          #. Click the *Order in obligation* button
 
       #. Wait to be notified via email that the server is ready.
 
-      .. tab-set::
+      #. If the server was delivered in the Hetzner Rescue System:
 
-         .. tab-item:: Install Ubuntu
+         .. tab-set::
 
-            If Ubuntu wasn't an option, follow these steps to install Ubuntu:
+            .. tab-item:: Install Ubuntu
 
-            #. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
-            #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
-            #. Test the server hardware:
+               If Ubuntu wasn't an option, follow these steps to install Ubuntu:
 
-               #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
+               #. Activate and load the `Rescue System <https://docs.hetzner.com/robot/dedicated-server/troubleshooting/hetzner-rescue-system/>`__, if not already loaded.
+               #. Connect to the server as the ``root`` user using the password provided when activating the Rescue System.
+               #. Test the server hardware:
+
+                  #. Test the drives. The SMART values to check vary depending on the drive manufacturer. Ask a colleague if you need help.
+
+                     .. code-block:: bash
+
+                        smartctl -t long /dev/<device>
+                        smartctl -a /dev/<device>
+
+                  #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
+
+               #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
 
                   .. code-block:: bash
 
-                     smartctl -t long /dev/<device>
-                     smartctl -a /dev/<device>
+                     installimage
 
-               #. Test the hardware RAID controller, if there is one. The software to do so varies depending on the RAID controller. Ask a colleague if you need help.
+                  #. Select the latest Ubuntu LTS version.
+                  #. The installer opens a configuration file.
 
-            #. Run the pre-installed `Hetzner OS installer <https://github.com/hetzneronline/installimage>`__ (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/>`__) and accept the defaults, unless stated otherwise below:
+                     #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
 
-               .. code-block:: bash
+                        .. code-block:: none
 
-                  installimage
+                           DRIVE1 /dev/sdb
+                           DRIVE2 /dev/sdd
 
-               #. Select the latest Ubuntu LTS version.
-               #. The installer opens a configuration file.
+                     #. Set ``SWRAIDLEVEL 1``
+                     #. Set the hostname (see more under :ref:`create-dns-records`). For example:
 
-                  #. Set ``DRIVE1``, ``DRIVE2``, etc. to the drives you want to use (`see documentation <https://docs.hetzner.com/robot/dedicated-server/operating-systems/installimage/#drives>`__). You can identify drives with the ``smartctl`` command. If you ordered two large drives for a server that already includes two small drives, you might only set the large drives. For example:
+                        .. code-block:: none
 
-                     .. code-block:: none
+                           HOSTNAME ocp##.open-contracting.org
 
-                        DRIVE1 /dev/sdb
-                        DRIVE2 /dev/sdd
+                     #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
 
-                  #. Set ``SWRAIDLEVEL 1``
-                  #. Set the hostname (see more under :ref:`create-dns-records`). For example:
+                        .. code-block:: none
 
-                     .. code-block:: none
+                           PART swap swap 16G
+                           PART /boot ext2 1G
+                           PART / ext4 all
 
-                        HOSTNAME ocp##.open-contracting.org
+                  #. Press ``F2`` to save
+                  #. Confirm that you want to overwrite the drives, when prompted
 
-                  #. Create partitions. Set the ``swap`` partition size according to the comments in `swap.sls <https://github.com/open-contracting/deploy/blob/main/salt/core/swap.sls>`__. For example:
+               #. Reboot the server:
 
-                     .. code-block:: none
+                  .. code-block:: bash
 
-                        PART swap swap 16G
-                        PART /boot ext2 1G
-                        PART / ext4 all
+                     reboot
 
-               #. Press ``F2`` to save
-               #. Confirm that you want to overwrite the drives, when prompted
+            .. tab-item:: Install Windows
 
-            #. Reboot the server:
+               .. seealso::
 
-               .. code-block:: bash
+                  -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
+                  -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
 
-                  reboot
-
-            #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
-
-         .. tab-item:: Install Windows
-
-            .. seealso::
-
-               -  `Windows Server 2019 <https://docs.hetzner.com/robot/dedicated-server/windows-server/windows-server-2019/>`__
-               -  `Installing Windows without KVM <https://community.hetzner.com/tutorials/install-windows>`__
+      #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
 
    .. tab-item:: Azure
       :sync: azure

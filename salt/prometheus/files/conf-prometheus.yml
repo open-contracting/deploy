@@ -12,12 +12,12 @@ scrape_configs:
   # Node Exporter.
 {%- for job_name, host in {
     'coalition': 'ocp21.open-contracting.org',
-    'cove-ocds-2': 'ocp18.open-contracting.org',
+    'cove-ocds': 'ocp28.open-contracting.org',
     'dream-bi': 'ocp25.open-contracting.org',
     'kingfisher-main': 'ocp23.open-contracting.org',
     'ocds-live.docs': 'ocp19.open-contracting.org',
     'prometheus-server-node': 'ocp20.open-contracting.org',
-    'data-registry': 'ocp27.open-contracting.org',
+    'data-registry': 'ocp29.open-contracting.org',
 }|items %}
   - job_name: '{{ job_name }}'
     scrape_interval: 60s

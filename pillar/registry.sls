@@ -1,7 +1,7 @@
 network:
-  host_id: ocp27
-  ipv4: 37.27.62.45
-  ipv6: 2a01:4f9:3081:3001::/64
+  host_id: ocp29
+  ipv4: 65.109.148.172
+  ipv6: 2a01:4f9:3100:4b02::/64
   netplan:
     template: custom
     configuration: |
@@ -9,14 +9,14 @@ network:
         version: 2
         renderer: networkd
         ethernets:
-          enp5s0:
+          enp6s0:
             addresses:
-              - 37.27.62.45/32
-              - 2a01:4f9:3081:3001::2/64
+              - 65.109.148.172/32
+              - 2a01:4f9:3100:4b02::2/64
             routes:
               - on-link: true
                 to: 0.0.0.0/0
-                via: 37.27.62.1
+                via: 65.109.148.129
               - to: default
                 via: fe80::1
             nameservers:
@@ -32,7 +32,7 @@ network:
 
 vm:
   # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
-  nr_hugepages: 8231
+  nr_hugepages: 4300
   # For Redis service in spoonbill.yaml.
   overcommit_memory: 1
 
@@ -111,8 +111,9 @@ kingfisher_collect:
   user: collect
   group: deployer
   context:
+    max_proc: 10
     bind_address: 0.0.0.0
-    jobs_to_keep: 8
+    jobs_to_keep: 3
   env:
     FILES_STORE: /data/storage/kingfisher-collect
     RABBIT_EXCHANGE_NAME: &KINGFISHER_PROCESS_RABBIT_EXCHANGE_NAME kingfisher_process_data_registry_production
@@ -120,19 +121,21 @@ kingfisher_collect:
     RABBIT_ROUTING_KEY: kingfisher_process_data_registry_production_api
     # Need to sync with `docker_apps.kingfisher_process.port`.
     KINGFISHER_API2_URL: http://localhost:8000
-    # paraguay_dncp_*: Connection error.
-    # curl https://contrataciones.gov.py/datos/api/v3/doc/oauth/token
+    # ecuador_sercop_bulk: Connection timed out.
+    #   curl 'https://datosabiertos.compraspublicas.gob.ec/PLATAFORMA/download?type=json&year=2025&month=07&method=all'
     # chile_compra_api_*: Connection timed out.
-    # curl https://api.mercadopublico.cl/APISOCDS/OCDS/listaOCDSAgnoMesConvenio/2020/01
+    #   curl https://api.mercadopublico.cl/APISOCDS/OCDS/listaOCDSAgnoMesConvenio/2020/01
+    # paraguay_dncp_*: Connection error.
+    #   curl https://contrataciones.gov.py/datos/api/v3/doc/oauth/token
     #
     # Cloudflare issues
     # https://developers.cloudflare.com/support/troubleshooting/cloudflare-errors/troubleshooting-cloudflare-5xx-errors/
     #
     # honduras_iaip: Cloudflare responds with HTTP 522.
-    # curl 'https://www.contratacionesabiertas.gob.hn/api/v1/iaip_datosabiertos/?format=json'
+    #   curl 'https://www.contratacionesabiertas.gob.hn/api/v1/iaip_datosabiertos/?format=json'
     # canada_montreal: Cloudflare responded with HTTP 520, previously.
-    # curl https://ville.montreal.qc.ca/vuesurlescontrats/api/releases.json
-    PROXY_SPIDERS: chile_compra_api_records,chile_compra_api_releases,honduras_iaip,paraguay_dncp_records,paraguay_dncp_releases
+    #   curl https://ville.montreal.qc.ca/vuesurlescontrats/api/releases.json
+    PROXY_SPIDERS: chile_compra_api_records,chile_compra_api_releases,ecuador_sercop_bulk,honduras_iaip,paraguay_dncp_records,paraguay_dncp_releases
 
 docker_apps:
   registry:
@@ -148,8 +151,6 @@ docker_apps:
       RABBIT_EXCHANGE_NAME: data_registry_production
       # Need to sync with `docker_apps.kingfisher_process.port`.
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
-      # Need to sync with `docker_apps.pelican_frontend.port`.
-      PELICAN_FRONTEND_URL: http://host.docker.internal:8001
       SCRAPYD_URL: http://host.docker.internal:6800
       SPOONBILL_URL: https://flatten.open-contracting.org
       # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
@@ -164,26 +165,6 @@ docker_apps:
       # This is set to be the same size as the prefetch_count argument.
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
-  pelican_backend:
-    target: pelican-backend
-    env:
-      RABBIT_EXCHANGE_NAME: &PELICAN_BACKEND_RABBIT_EXCHANGE_NAME pelican_backend_data_registry_production
-      # 2021-10-27: on kingfisher-main, out of 6.12318e+07 data items, 195009 or 0.3% are over 30 kB.
-      KINGFISHER_PROCESS_MAX_SIZE: 30000
-      PELICAN_BACKEND_STEPS: field_coverage
-  pelican_frontend:
-    target: pelican-frontend
-    port: 8001
-    host_dir: /data/storage/pelican-frontend
-    env:
-      LOCAL_ACCESS: True
-      ALLOWED_HOSTS: '*'
-      RABBIT_EXCHANGE_NAME: *PELICAN_BACKEND_RABBIT_EXCHANGE_NAME
-      # Avoid warning: "Matplotlib created a temporary config/cache directory at /.config/matplotlib because the
-      # default path (/tmp/matplotlib-........) is not a writable directory; it is highly recommended to set the
-      # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
-      # and to better support multiprocessing."
-      MPLCONFIGDIR: /dev/shm/matplotlib
   spoonbill:
     target: spoonbill
     site: spoonbill

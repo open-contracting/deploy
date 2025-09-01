@@ -121,7 +121,7 @@ def autoremove(margin, provider):
 @click.argument("file", type=click.File())
 def email_urls(file):
     message = Parser(policy=default).parsestr(file.read())
-    print('\n'.join(re.findall(r'http[^\s>]+', message.get_body(preferencelist=('plain', 'html')).get_content())))
+    print("\n".join(re.findall(r"http[^\s>]+", message.get_body(preferencelist=("plain", "html")).get_content())))
 
 
 if __name__ == "__main__":
