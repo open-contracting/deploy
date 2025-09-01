@@ -5,12 +5,14 @@ backup:
 apache:
   sites:
     corporate:
-      configuration: corporate
+      configuration: wordpress
       servername: www.open-contracting.org
       serveraliases: ['open-contracting.org']
       context:
         user: corporate
         socket: /var/run/php/php-fpm-corporate.sock
+        extra_overrides:
+         - AuthConfig
 
 mysql:
   databases:
