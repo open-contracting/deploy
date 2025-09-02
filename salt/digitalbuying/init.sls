@@ -15,7 +15,7 @@ include:
 # https://guide.wagtail.org/en-latest/concepts/scheduled-publishing/
 # https://docs.wagtail.org/en/stable/reference/management_commands.html#publish-scheduled
 cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name digitalbuying-cron -e LOG_LEVEL=WARNING cron python manage.py publish_scheduled_pages:
-  cron.present:
+  cron.absent:
     - identifier: DIGITALBUYINGGUIDE_PUBLISH_SCHEDULED_PAGES
     - user: {{ pillar.docker.user }}
     - minute: random
