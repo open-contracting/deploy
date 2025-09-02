@@ -53,6 +53,8 @@ Tinyproxy
      .. code-block:: bash
 
         env http_proxy=ocp28.open-contracting.org:8888 curl example.com
+OCDS APIs
+  #. Ask Yohanna to request that the DGCP add the new server's IPv4 to their API's allowlist.
 Replica, if applicable
   #. Update the allowed IP addresses and hostname in the ``pillar/kingfisher_replica.sls`` file.
   #. Deploy the ``kingfisher-replica`` service, when ready.

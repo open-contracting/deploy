@@ -9,7 +9,7 @@ Migrate from an old server
 Dependencies
 ~~~~~~~~~~~~
 
-Perform the same tasks as for :ref:`Data support<data-support-dependencies>` under Tinyproxy.
+Perform the same tasks as for :ref:`Data support<data-support-dependencies>`.
 
 Update Salt configuration and halt jobs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
