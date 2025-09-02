@@ -1,6 +1,5 @@
 backup:
   directories:
-    # Must match directory in coalition/init.sls.
     /home/coalition/public_html/:
 
 apache:
