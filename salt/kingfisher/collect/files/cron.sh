@@ -3,6 +3,10 @@
 
 set -eu
 
+LOGDIR={{ userdir }}/logs/{{ crawl.spider }}/$(date +%Y)
+
+mkdir -p "$LOGDIR"
+
 cd {{ directory }}
 
 env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }} no_proxy=localhost,sentry.io,standard.open-contracting.org .ve/bin/scrapy crawl \
@@ -12,7 +16,7 @@ env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }}
     -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
     -s PROXY_SPIDERS={% if 'proxy' in crawl %}{{ crawl.spider }}{% endif %} \
     -s SENTRY_DSN={{ SENTRY_DSN }} \
-    --logfile="{{ userdir }}/logs/{{ crawl.spider }}-$(date +%F).log"
+    --logfile="$LOGDIR/$(date +%F).log"
 
 # shellcheck disable=all
 {%- if 'cardinal' in crawl and crawl.cardinal %}
