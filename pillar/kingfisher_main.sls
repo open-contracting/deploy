@@ -185,8 +185,7 @@ python_apps:
       # - identifier: DOMINICAN_REPUBLIC
       #   spider: dominican_republic_api
       #   crawl_time: '2023-07-13'
-      #   # The publication sets "version": "1.4".
-      #   spider_arguments: -a compile_releases=true -a force_version=1.1 -a ignore_version=true
+      #   spider_arguments: -a compile_releases=true
       #   cardinal: True
       #   users:
       #     - dgcp
