@@ -125,6 +125,14 @@ WordPress
 
       wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=siteadmin --admin_password=PASSWORD --admin_email=sysadmin@open-contracting.org --skip-email
 
+   .. tip::
+
+      To list the cron jobs, run:
+
+      .. code-block:: bash
+
+         wp cron event list
+
 #. Uninstall default plugins:
 
    .. code-block:: bash
