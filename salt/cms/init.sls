@@ -33,4 +33,13 @@ allow {{ userdir }} access:
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
+
+{{ name }} wp cron:
+  cron.present:
+    - name: /usr/local/bin/wp cron event run --due-now
+    - user: {{ user }}
+    - identifier: WORDPRESS_SITE_CRON
+    - minute: '*/5'
+    - require:
+      - user: {{ user }}_user_exists
 {% endfor %}
