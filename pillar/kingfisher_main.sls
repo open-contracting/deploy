@@ -182,13 +182,13 @@ python_apps:
       target: kingfisher-collect
     # Do not set `cardinal: False`. Instead, remove `cardinal: True`.
     crawls:
-      # - identifier: DOMINICAN_REPUBLIC
-      #   spider: dominican_republic_api
-      #   crawl_time: '2023-07-13'
-      #   spider_arguments: -a compile_releases=true
-      #   cardinal: True
-      #   users:
-      #     - dgcp
+      - identifier: DOMINICAN_REPUBLIC
+        spider: dominican_republic_api
+        crawl_time: '2023-07-13'
+        spider_arguments: -a compile_releases=true
+        cardinal: True
+        users:
+          - dgcp
       - identifier: ECUADOR
         spider: ecuador_sercop_bulk
         crawl_time: '2015-01-01'
