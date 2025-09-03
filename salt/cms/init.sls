@@ -34,6 +34,7 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
+# Assumes that all PHP-FPM sites on the CMS server are WordPress.
 {{ name }} wp cron:
   cron.present:
     - name: /usr/local/bin/wp cron event run --due-now
