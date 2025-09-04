@@ -6,5 +6,5 @@ jobs:
     permissions:
       contents: read
     with:
-      ignore: maintainance,uptodate,uncorrect
+      ignore: maintainance,uptodate,uncorrect,unsucccessful
       skip: '*.csv'
