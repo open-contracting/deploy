@@ -48,11 +48,6 @@ base:
     - tinyproxy
     - docker
 
-  'portland-dev':
-    - portland_dev
-    - docker
-    - private.smtp
-
   'prometheus':
     - prometheus_server
     - prometheus_server_maintenance

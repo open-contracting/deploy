@@ -21,11 +21,6 @@ kingfisher-main:
 registry:
   host: ocp29.open-contracting.org
 
-# Azure
-
-portland-dev:
-  host: ocp26.open-contracting.org
-
 # ocp15 is bi.open-contracting.org
 
 ### History
@@ -50,4 +45,5 @@ portland-dev:
 # ocp18 was cove on Ubuntu 22
 # ocp22 was credere-dev
 # ocp24 was credere-production
+# ocp26 was portland-dev
 # ocp27 was registry
