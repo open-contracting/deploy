@@ -35,7 +35,7 @@ allow {{ userdir }} access:
 
 # RBC Group doesn't deploy by pulling git.
 
-# {{ userdir }}/dream:
+# {{ userdir }}/root:
 #   git.latest:
 #     - name: https://github.com/open-contracting/bi.dream.gov.ua
 #     - user: root
@@ -43,11 +43,11 @@ allow {{ userdir }} access:
 #     - force_reset: True
 #     - branch: build
 #     - rev: build
-#     - target: {{ userdir }}/dream
+#     - target: {{ userdir }}/root
 #     - require:
 #       - pkg: git
 
-# {{ userdir }}/mdcp:
+# {{ userdir }}/archive:
 #   git.latest:
 #     - name: https://github.com/open-contracting/bi.dream.gov.ua-mdcp
 #     - user: root
@@ -55,7 +55,7 @@ allow {{ userdir }} access:
 #     - force_reset: True
 #     - branch: build
 #     - rev: build
-#     - target: {{ userdir }}/mdcp
+#     - target: {{ userdir }}/archive
 #     - require:
 #       - pkg: git
 
