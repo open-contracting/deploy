@@ -1,10 +1,10 @@
 client_max_body_size 20M;
 
-root /home/{{ user }}/public_html/dream;
+root /home/{{ user }}/public_html/root;
 
 error_page   500 502 503 504  /50x.html;
 location = /50x.html {
-    root   /home/{{ user }}/public_html/dream;
+    root   /home/{{ user }}/public_html/root;
 }
 
 {%-
@@ -60,11 +60,15 @@ location /afghanistan {
 }
 
 location /spi {
+return 301 https://$host/;
+}
+
+location /mdcp {
     root /home/{{ user }}/public_html;
     index index.html;
 }
 
-location /mdcp {
+location /archive {
     root /home/{{ user }}/public_html;
     index index.html;
 }
