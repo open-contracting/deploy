@@ -60,7 +60,7 @@ location /afghanistan {
 }
 
 location /spi {
-return 301 https://$host/;
+    return 301 https://$host/;
 }
 
 location /mdcp {
