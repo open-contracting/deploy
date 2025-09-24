@@ -5,7 +5,7 @@ Header set X-Content-Type-Options nosniff
 <Directory /home/{{ user }}/public_html>
     Require all granted
     Options FollowSymLinks
-    AllowOverride Limit Options FileInfo
+    AllowOverride Limit Options FileInfo {{ extra_overrides | default([]) | join(' ') }}
     DirectoryIndex index.php
 </Directory>
 

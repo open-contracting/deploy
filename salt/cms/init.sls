@@ -4,17 +4,19 @@ include:
   - apache.modules.rewrite # required by WordPress
   - php-fpm
 
-{% set user = 'coalition' %}
-{% set userdir = '/home/' + user %}
-
-{{ create_user(user) }}
-
 wp-cli:
   file.managed:
     - name: /usr/local/bin/wp
     - source: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar
     - source_hash: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar.sha512
     - mode: 755
+
+
+{% for name, entry in pillar.phpfpm.sites|items %}
+{% set user = entry.context.user %}
+{% set userdir = '/home/' + user %}
+
+{{ create_user(user, authorized_keys=pillar.ssh.get(user, [])) }}
 
 # Allow Apache to access. See wordpress.conf.include.
 allow {{ userdir }} access:
@@ -31,3 +33,13 @@ allow {{ userdir }} access:
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
+
+# Assumes that all PHP-FPM sites on the CMS server are WordPress.
+/usr/local/bin/wp cron event run --quiet --due-now --path {{ userdir }}/public_html:
+  cron.present:
+    - identifier: WORDPRESS_SITE_CRON
+    - user: {{ user }}
+    - minute: '*/5'
+    - require:
+      - user: {{ user }}_user_exists
+{% endfor %}

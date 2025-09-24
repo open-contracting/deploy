@@ -113,11 +113,25 @@ WordPress
 
       wp config set WP_AUTO_UPDATE_CORE minor
 
+#. Set `DISABLE_WP_CRON <https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/>`__, since system cron is used instead.
+
+   .. code-block:: bash
+
+      wp config set --raw DISABLE_WP_CRON true
+
 #. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
 
    .. code-block:: bash
 
       wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=siteadmin --admin_password=PASSWORD --admin_email=sysadmin@open-contracting.org --skip-email
+
+   .. tip::
+
+      To list the cron jobs, run:
+
+      .. code-block:: bash
+
+         wp cron event list
 
 #. Uninstall default plugins:
 
