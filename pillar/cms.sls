@@ -32,7 +32,7 @@ apache:
 # Databases and users are configured in each CMS' Pillar file.
 mysql:
   version: '8.0'
-  configuration: False
+  configuration: cms
   backup:
     location: ocp-coalition-backup/database
 
