@@ -103,6 +103,7 @@ disable site 000-default.conf:
         SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
         CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
+        {{ salt['pillar.get']('apache:customization','') | indent(8) }}
     - require:
       - pkg: apache2
     - watch_in:
