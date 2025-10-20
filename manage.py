@@ -12,7 +12,6 @@ from email.parser import Parser
 from email.policy import default
 
 import click
-
 import salt.cli.ssh
 import salt.client.ssh
 
