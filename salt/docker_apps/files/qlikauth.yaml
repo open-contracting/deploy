@@ -5,7 +5,7 @@ x-shared: &shared
 
 services:
   redis:
-    image: bitnami/redis:6.2
+    image: bitnamilegacy/redis:6.2
     restart: always
     environment:
       ALLOW_EMPTY_PASSWORD: "yes"
