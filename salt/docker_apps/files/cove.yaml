@@ -21,10 +21,10 @@ x-django: &django
 services:
 {%- if 'REDIS_URL' in entry.env %}
   redis:
-    image: bitnamilegacy/redis:6.2
+    image: rapidfort/redis-official:6.2-bookworm
+    command: ["redis-server", "/redis.conf"]
     restart: always
-    environment:
-      ALLOW_EMPTY_PASSWORD: "yes"
+    user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     healthcheck:
       test: redis-cli -h 127.0.0.1 ping | grep -q PONG
       interval: 10s
@@ -32,7 +32,7 @@ services:
       retries: 5
     volumes:
       - {{ directory }}/redis/data:/bitnami/redis/data
-      - {{ directory }}/redis/tmp:/opt/bitnami/redis/tmp
+      - {{ directory }}/redis/redis.conf:/redis.conf
 {%- endif %}
   web:
     <<: *django
