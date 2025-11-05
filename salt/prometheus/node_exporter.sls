@@ -24,19 +24,37 @@ include:
     - watch_in:
       - module: prometheus-node-exporter-reload
 
-## Smartmontools
-
-{% if pillar.prometheus.node_exporter.get('smartmon') %}
-smartmontools:
-  pkg.installed:
-    - name: smartmontools
-
+## Additional system metrics
 {{ userdir }}/node-exporter-textfile-directory:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
+    - require_in:
+      - service: prometheus-node-exporter
+
+/home/sysadmin-tools/prometheus/system_metrics.sh:
+  file.managed:
+    - source: salt://prometheus/files/system_metrics.sh
+    - mode: 755
+    - makedirs: True
+    - require:
+      - file: /home/sysadmin-tools/bin
+
+/home/sysadmin-tools/prometheus/system_metrics.sh > {{ userdir }}/node-exporter-textfile-directory/system_metrics.sh.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM_METRICS
+    - user: {{ user }}
+    - require:
+      - file: {{ userdir }}/node-exporter-textfile-directory
+
+## Smartmontools
+
+{% if pillar.prometheus.node_exporter.get('smartmon') %}
+smartmontools:
+  pkg.installed:
+    - name: smartmontools
 
 /opt/node-exporter-textfile-collector-scripts:
   git.latest:
