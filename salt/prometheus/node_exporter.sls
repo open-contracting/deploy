@@ -44,10 +44,21 @@ include:
 
 /home/sysadmin-tools/prometheus/system_metrics.sh > {{ userdir }}/node-exporter-textfile-directory/system_metrics.sh.prom:
   cron.present:
-    - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM_METRICS
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM
     - user: {{ user }}
     - require:
       - file: {{ userdir }}/node-exporter-textfile-directory
+
+## Docker
+
+{% if 'docker' in pillar %}
+curl 127.0.0.1:9323/metrics > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_DOCKER
+    - user: {{ user }}
+    - require:
+      - file: {{ userdir }}/node-exporter-textfile-directory
+{% endif %}
 
 ## Smartmontools
 
