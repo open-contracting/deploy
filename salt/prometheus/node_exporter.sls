@@ -88,4 +88,11 @@ smartmontools:
     - require:
       - git: /opt/node-exporter-textfile-collector-scripts
       - file: {{ userdir }}/node-exporter-textfile-directory
+
+/opt/node-exporter-textfile-collector-scripts/md_info_detail.sh > {{ userdir }}/node-exporter-textfile-directory/md_info_detail.sh.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_MDINFO
+    - user: root
+    - require:
+      - git: /opt/node-exporter-textfile-collector-scripts
 {% endif %}
