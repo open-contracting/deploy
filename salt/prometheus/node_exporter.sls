@@ -24,19 +24,49 @@ include:
     - watch_in:
       - module: prometheus-node-exporter-reload
 
-## Smartmontools
-
-{% if pillar.prometheus.node_exporter.get('smartmon') %}
-smartmontools:
-  pkg.installed:
-    - name: smartmontools
-
+## Additional system metrics
 {{ userdir }}/node-exporter-textfile-directory:
   file.directory:
     - user: {{ user }}
     - group: {{ user }}
     - require:
       - user: {{ user }}_user_exists
+    - require_in:
+      - service: prometheus-node-exporter
+
+/home/sysadmin-tools/prometheus/system_metrics.sh:
+  file.managed:
+    - source: salt://prometheus/files/system_metrics.sh
+    - mode: 755
+    - makedirs: True
+    - require:
+      - file: /home/sysadmin-tools/bin
+
+/home/sysadmin-tools/prometheus/system_metrics.sh > {{ userdir }}/node-exporter-textfile-directory/system_metrics.sh.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM
+    - user: {{ user }}
+    - require:
+      - file: {{ userdir }}/node-exporter-textfile-directory
+
+## Docker
+
+{% if 'docker' in pillar %}
+# Docker reports hundereds of metrics, filter down to protect the Prometheus database from overload.
+curl 127.0.0.1:9323/metrics | grep -v "^#\|seconds_"  | grep "^engine" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_DOCKER
+    - user: {{ user }}
+    - require:
+      - file: {{ userdir }}/node-exporter-textfile-directory
+{% endif %}
+
+## Smartmontools
+
+{% if pillar.prometheus.node_exporter.get('smartmon') %}
+smartmontools:
+  pkg.installed:
+    - name: smartmontools
 
 /opt/node-exporter-textfile-collector-scripts:
   git.latest:
@@ -58,4 +88,11 @@ smartmontools:
     - require:
       - git: /opt/node-exporter-textfile-collector-scripts
       - file: {{ userdir }}/node-exporter-textfile-directory
+
+/opt/node-exporter-textfile-collector-scripts/md_info_detail.sh > {{ userdir }}/node-exporter-textfile-directory/md_info_detail.sh.prom:
+  cron.present:
+    - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_MDINFO
+    - user: root
+    - require:
+      - git: /opt/node-exporter-textfile-collector-scripts
 {% endif %}
