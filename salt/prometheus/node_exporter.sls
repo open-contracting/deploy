@@ -37,15 +37,16 @@ include:
 /home/sysadmin-tools/prometheus/system_metrics.sh:
   file.managed:
     - source: salt://prometheus/files/system_metrics.sh
-    - mode: 755
+    - mode: 750
     - makedirs: True
     - require:
       - file: /home/sysadmin-tools/bin
 
+# This must be run as the root user, because non-root users can't access these statistics.
 /home/sysadmin-tools/prometheus/system_metrics.sh > {{ userdir }}/node-exporter-textfile-directory/system_metrics.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM
-    - user: {{ user }}
+    - user: root
     - require:
       - file: {{ userdir }}/node-exporter-textfile-directory
 
