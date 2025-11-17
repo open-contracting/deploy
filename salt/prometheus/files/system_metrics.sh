@@ -15,7 +15,7 @@ echo "mail_queue_size $MAILQUEUECOUNT"
         if [ -f "$user" ]; then
             # If the mailbox is zero, grep returns a non-zero exit code.
             MBOXCOUNT=$(grep -c "^From " "$user" || true)
-            echo "mail_box_size[$user] $MBOXCOUNT"
+            echo "mail_box_size{user=\"$user\"} $MBOXCOUNT"
         fi
     done
 )
