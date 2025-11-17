@@ -53,7 +53,7 @@ include:
 
 {% if 'docker' in pillar %}
 # Docker reports hundereds of metrics, filter down to protect the Prometheus database from overload.
-curl 127.0.0.1:9323/metrics | grep -v "^#\|seconds_"  | grep "^engine" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
+curl -sS 127.0.0.1:9323/metrics | grep -v "^#\|seconds_"  | grep "^engine" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_DOCKER
     - user: {{ user }}
