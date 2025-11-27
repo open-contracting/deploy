@@ -8,7 +8,7 @@ include:
 {% set entry = pillar.docker_apps.kingfisher_process %}
 {% set directory = docker_apps_directory + entry.target %}
 
-{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kinfisher.process') }}
+{{ set_cron_env(pillar.docker.user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.process') }}
 
 # https://github.com/open-contracting/deploy/issues/117 for analysts to create pivot tables.
 # https://github.com/open-contracting/deploy/issues/237 for analysts to match similar strings.
@@ -77,7 +77,7 @@ pgpass-kingfisher_process:
       - user: {{ pillar.docker.user }}_user_exists
 
 # Delete collections that ended over a year ago, while retaining one original collection per source from over a year ago (unless the source is local).
-cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND (c.source_id LIKE '%_local' OR c.transform_type <> '' OR EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year'))) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run -T --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
+cd {{ directory }}; psql -U kingfisher_process -h localhost kingfisher_process -q -t -c "SELECT id FROM collection c WHERE c.deleted_at IS NULL AND c.store_end_at < date_trunc('day', NOW() - interval '1 year') AND (c.source_id LIKE '\%_local' OR c.transform_type <> '' OR EXISTS(SELECT FROM collection d WHERE d.source_id = c.source_id AND d.transform_type = '' AND d.id > c.id AND d.deleted_at IS NULL AND d.store_end_at < date_trunc('day', NOW() - interval '1 year'))) ORDER BY id DESC" | xargs -I{} /usr/bin/docker compose --progress=quiet run -T --rm --name kingfisher-process-cron-stale -e LOG_LEVEL=WARNING cron python manage.py deletecollection -v0 -f {}:
   cron.present:
     - identifier: KINGFISHER_PROCESS_STALE_COLLECTIONS
     - user: {{ pillar.docker.user }}
