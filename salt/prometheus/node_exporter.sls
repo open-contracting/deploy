@@ -10,6 +10,8 @@ include:
 {{ set_firewall('PROMETHEUS_IPV4', pillar.firewall.prometheus_ipv4) }}
 {{ set_firewall('PROMETHEUS_IPV6', pillar.firewall.prometheus_ipv6) }}
 
+# Most statistics collector cron jobs must be run as the root user, because non-root users can't access all statistics.
+
 # The same self-signed certificate is used on multiple machines. Since it's only for Node Exporter, that's OK.
 #
 # https://developpaper.com/add-authentication-to-prometheus-node-exporter/
@@ -24,7 +26,6 @@ include:
     - watch_in:
       - module: prometheus-node-exporter-reload
 
-## Additional system metrics
 {{ userdir }}/node-exporter-textfile-directory:
   file.directory:
     - user: {{ user }}
@@ -42,7 +43,6 @@ include:
     - require:
       - file: /home/sysadmin-tools/bin
 
-# This must be run as the root user, because non-root users can't access these statistics.
 /home/sysadmin-tools/prometheus/system_metrics.sh > {{ userdir }}/node-exporter-textfile-directory/system_metrics.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_SYSTEM
@@ -50,19 +50,15 @@ include:
     - require:
       - file: {{ userdir }}/node-exporter-textfile-directory
 
-## Docker
-
 {% if 'docker' in pillar %}
-# Docker reports hundereds of metrics, filter down to protect the Prometheus database from overload.
-curl -sS 127.0.0.1:9323/metrics | grep -v "^#\|seconds_"  | grep "^engine" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
+# Filter Docker's metrics, to protect the Prometheus database from overload.
+curl -sS 127.0.0.1:9323/metrics | grep "^engine" | grep -v "seconds_" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_DOCKER
     - user: {{ user }}
     - require:
       - file: {{ userdir }}/node-exporter-textfile-directory
 {% endif %}
-
-## Smartmontools
 
 {% if pillar.prometheus.node_exporter.get('smartmon') %}
 smartmontools:
@@ -81,7 +77,6 @@ smartmontools:
     - require:
       - pkg: git
 
-# This must be run as the root user, because non-root users can't access these statistics.
 /opt/node-exporter-textfile-collector-scripts/smartmon.sh > {{ userdir }}/node-exporter-textfile-directory/smartmon.sh.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_COLLECTOR_SMARTMON
