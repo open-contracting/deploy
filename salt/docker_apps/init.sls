@@ -50,7 +50,7 @@ include:
       - user: {{ pillar.docker.user }}_user_exists
 {% endfor %}
 
-{% if 'redis' in entry.volumes | join(' ') %}
+{% if 'redis' in entry.volumes|join(' ') %}
 {{ directory }}/redis/redis.conf:
   file.managed:
     - source: salt://docker_apps/files/conf/redis.conf
