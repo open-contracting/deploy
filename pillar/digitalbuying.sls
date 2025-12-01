@@ -21,7 +21,6 @@ docker_apps:
     volumes:
       - media
       - redis/data
-      - redis/tmp
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: digitalbuying.open-contracting.org
