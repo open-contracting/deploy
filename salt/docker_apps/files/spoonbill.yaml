@@ -22,8 +22,8 @@ services:
   redis:
     image: rapidfort/redis-official:6.2-bookworm
     command: ["redis-server", "/redis.conf"]
-    restart: always
     user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+    restart: always
     healthcheck:
       test: redis-cli -h 127.0.0.1 ping | grep -q PONG
       interval: 10s
