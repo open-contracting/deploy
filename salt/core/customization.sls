@@ -8,7 +8,7 @@ useful commands for general purpose:
       - iotop
       - man-db
       - psmisc # provides killall
-      - rg
+      - ripgrep
       - tmux
       - unzip
 
