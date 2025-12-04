@@ -41,10 +41,11 @@ Reference: `Cloudflare documentation <https://developers.cloudflare.com/dns/prox
 Reference
 ---------
 
-open-contracting.org
-~~~~~~~~~~~~~~~~~~~~
-
 .. seealso:: :ref:`monitor-dmarc-reports`
+
+.. note:: ``MS=…`` TXT records For `Microsoft domain verification <https://learn.microsoft.com/en-us/microsoft-365/admin/get-help-with-domains/create-dns-records-at-any-dns-hosting-provider#recommended-verify-with-a-txt-record>`__ can be deleted.
+
+This table is mostly relevant to open-contracting.org.
 
 .. list-table::
    :header-rows: 1
@@ -125,6 +126,10 @@ open-contracting.org
      - DMARC policy
      - `Amazon SES <https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/identities/noreply.open-contracting.org>`__ domain
    * - TXT
+     - ``sign._domainkey``
+     - DKIM key record
+     - `SendPulse <https://sendpulse.com/knowledge-base/email-service/additional/email-authentication>`__
+   * - TXT
      - ``_smtp._tls``
      - `SMTP TLS Reporting <https://datatracker.ietf.org/doc/html/rfc8460>`__ policy
      - `Valimail <https://support.valimail.com/en/articles/10707728-how-to-set-up-tls-reporting-and-mta-sts>`__
@@ -136,3 +141,7 @@ open-contracting.org
      - ``@``
      - ``google-site-verification=…``
      - `Google Search Console <https://support.google.com/webmasters/answer/9008080?hl=en#:~:text=How%20long%20does%20verification%20last>`__ (per `user <https://search.google.com/search-console/users?resource_id=sc-domain%3Aopen-contracting.org>`__)
+   * - TXT
+     - ``@``
+     - ``atlassian-domain-verification=…``
+     - `Atlassian <https://support.atlassian.com/user-management/docs/verify-a-domain-to-manage-accounts/>`__
