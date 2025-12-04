@@ -26,8 +26,25 @@ The Time to Live (TTL) of a DNS record indicates how long DNS clients should cac
      - CNAME
      - 1 hour (3600 seconds)
 
+Cloudflare
+----------
+
+Proxy status
+~~~~~~~~~~~~
+
+-  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
+-  Don't proxy A, AAAA or CNAME records for web traffic to third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
+-  Don't proxy A or AAAA records for hostnames, like ``ocp42``.
+
+Reference: `Cloudflare documentation <https://developers.cloudflare.com/dns/proxy-status/>`__
+
 Reference
 ---------
+
+open-contracting.org
+~~~~~~~~~~~~~~~~~~~~
+
+.. seealso:: :ref:`monitor-dmarc-reports`
 
 .. list-table::
    :header-rows: 1
@@ -108,6 +125,10 @@ Reference
      - DMARC policy
      - `Amazon SES <https://us-east-1.console.aws.amazon.com/ses/home?region=us-east-1#/identities/noreply.open-contracting.org>`__ domain
    * - TXT
+     - ``_smtp._tls``
+     - `SMTP TLS Reporting <https://datatracker.ietf.org/doc/html/rfc8460>`__ policy
+     - `Valimail <https://support.valimail.com/en/articles/10707728-how-to-set-up-tls-reporting-and-mta-sts>`__
+   * - TXT
      - ``_atproto``
      - `DID <https://atproto.com/specs/did>`__
      - `Bluesky <https://bsky.social/about/blog/4-28-2023-domain-handle-tutorial>`__
@@ -115,5 +136,3 @@ Reference
      - ``@``
      - ``google-site-verification=…``
      - `Google Search Console <https://support.google.com/webmasters/answer/9008080?hl=en#:~:text=How%20long%20does%20verification%20last>`__ (per `user <https://search.google.com/search-console/users?resource_id=sc-domain%3Aopen-contracting.org>`__)
-
-.. seealso:: :ref:`monitor-dmarc-reports`
