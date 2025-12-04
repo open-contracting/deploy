@@ -52,7 +52,7 @@ Tinyproxy
 
      .. code-block:: bash
 
-        env http_proxy=ocp28.open-contracting.org:8888 curl example.com
+        env http_proxy=ocp42.open-contracting.org:8888 curl example.com
 OCDS APIs
   #. Ask Yohanna to request that the DGCP add the new server's IPv4 to their API's allowlist.
 Replica, if applicable
@@ -150,7 +150,7 @@ Copy incremental data
 
       .. code-block:: bash
 
-         rsync -avz incremental@ocp04.open-contracting.org:~/kingfisher_collect.sql .
+         rsync -avz incremental@ocp42.open-contracting.org:~/kingfisher_collect.sql .
 
    #. Load the database dump:
 
@@ -162,13 +162,13 @@ Copy incremental data
 
       .. code-block:: bash
 
-         rsync -avz incremental@ocp04.open-contracting.org:/home/incremental/data/ /home/incremental/data/
+         rsync -avz incremental@ocp42.open-contracting.org:/home/incremental/data/ /home/incremental/data/
 
    #. Copy the ``logs`` directory from the old server. For example:
 
       .. code-block:: bash
 
-         rsync -avz incremental@ocp04.open-contracting.org:/home/incremental/logs/ /home/incremental/logs/
+         rsync -avz incremental@ocp42.open-contracting.org:/home/incremental/logs/ /home/incremental/logs/
 
 #. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
@@ -191,13 +191,13 @@ The initial migrations for Pelican backend, which create the ``exchange_rates`` 
 
    .. code-block:: bash
 
-      rsync -avz root@ocp13.open-contracting.org:~/exchange_rates.csv .
+      rsync -avz root@ocp42.open-contracting.org:~/exchange_rates.csv .
 
 #. Copy the database dump to the new server. For example:
 
    .. code-block:: bash
 
-      rsync -avz exchange_rates.sql root@ocp23.open-contracting.org:~/
+      rsync -avz exchange_rates.sql root@ocp42.open-contracting.org:~/
 
 #. Populate the ``exchange_rates`` table:
 
