@@ -87,8 +87,6 @@ Sending domains with volumes of less than 10 can be ignored. For ``google.com``:
 -  Google Groups rewrites the ``From`` header `only if <https://support.dmarcdigests.com/article/1233-spf-or-dkim-alignment-issues-with-google>`__ the DMARC policy is "reject" or "quarantine".
 
 ..
-   secureserver.net (GoDaddy) https://ca.godaddy.com/help/add-an-spf-record-19218
-     Professional Email, Microsoft 365 from GoDaddy, Linux Hosting, Gen 4 VPS & Dedicated Hosting, and Media Temple Mail
    outbound.protection.outlook.com (Microsoft 365) https://learn.microsoft.com/en-us/microsoft-365/enterprise/external-domain-name-system-records
      Exchange Online
    lsoft.com

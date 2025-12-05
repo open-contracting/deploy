@@ -340,14 +340,11 @@ Create the server via the :ref:`host<hosting>`'s interface.
 3. Create DNS records
 ---------------------
 
-Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to GoDaddy and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
+Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to :ref:`dns` records and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
 
 Add A, AAAA and SPF records
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Login to `GoDaddy <https://sso.godaddy.com>`__
-#. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
-#. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
 #. Add an A record for the hostname:
 
    #. Click the *Add New Record* button
@@ -382,7 +379,7 @@ Add A, AAAA and SPF records
 
 .. seealso::
 
-    :doc:`services/dns` TTL standardization
+    :ref:`dns-ttl`
 
 Configure reverse DNS
 ~~~~~~~~~~~~~~~~~~~~~
@@ -462,7 +459,7 @@ Configure reverse DNS
          #. Enter the first part of the server's FQDN in *DNS name label (optional)* (``ocp42``, for example)
          #. Click the *Save* button (at the top)
 
-      #. Create an A record in GoDaddy for the configuration (e.g. ``ocp42.uksouth.cloudapp.azure.com``)
+      #. Create an A record for the configuration (e.g. ``ocp42.uksouth.cloudapp.azure.com``)
 
 4. Apply core changes
 ---------------------
@@ -580,7 +577,7 @@ Existing service
 #. Prepare a migration plan (`example <https://github.com/open-contracting/deploy/pull/518#issuecomment-2435213790>`__), including:
 
    #. Notify relevant users of the change
-   #. Reduce the TTLs of CNAME entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__
+   #. Reduce the TTLs of CNAME records
    #. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
    #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
    #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
@@ -603,7 +600,7 @@ Existing service
 7. Update external services
 ---------------------------
 
-#. Add (or update) the server's DNS entries in `GoDaddy <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__, for example:
+#. Add (or update) the server's :ref:`dns` records, for example:
 
    #. Click the *Add New Record* button
    #. Select "CNAME" from the *Type* dropdown
@@ -611,10 +608,6 @@ Existing service
    #. Enter the internal hostname in *Value* (``ocp42.open-contracting.org``, for example)
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
-
-   .. seealso::
-
-       :doc:`services/dns`
 
 #. Add (or update) the service's row in the `Health of software products and services <https://docs.google.com/spreadsheets/d/1MMqid2qDto_9-MLD_qDppsqkQy_6OP-Uo-9dCgoxjSg/edit#gid=1480832278>`__ spreadsheet
 #. Contact the relevant :ref:`server manager<admin-access>` to set up monitoring and :doc:`maintenance<../develop/update/maintenance>`

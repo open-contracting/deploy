@@ -39,7 +39,6 @@ linkcheck_ignore = [
     # Unauthorized.
     r"^https://(alertmanager|monitor)\.prometheus\.open-contracting\.org",
     # Redirects to login pages.
-    r"^https://(?:account|dcc)\.godaddy\.com",
     r"^https://(?:docs\.google\.com/(?:document|spreadsheets)/d|drive\.google\.com/drive/folders)/",
     r"^https://(?:dash\.cloudflare|ocp-library\.herokuapp|portal\.azure|robot\.hetzner|us-east-1\.console\.aws\.amazon)\.com",
     r"^https://(?:postmaster|search)\.google\.com",

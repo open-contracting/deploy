@@ -586,11 +586,8 @@ Mitigate downtime
    For example, for the ``kingfisher-main`` target, modify the ``pillar/kingfisher_main.sls`` file.
 
 #. :doc:`Deploy the main server<../../deploy/deploy>`
-#. Update DNS records:
+#. Update :ref:`dns` records:
 
-   #. Login to `GoDaddy <https://sso.godaddy.com>`__
-   #. If access was delegated, open `Delegate Access <https://account.godaddy.com/access>`__ and click the *Access Now* button
-   #. Open `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__ for open-contracting.org
    #. Update the replica's CNAME record to point to the main server's A record
    #. Wait for the changes to propagate, which depends on the original TTL value
 

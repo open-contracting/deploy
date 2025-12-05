@@ -25,13 +25,13 @@ Verify a domain
    #. Check *RSA_2048_BIT*
    #. Click *Create identity*
 
-#. Go to GoDaddy's `DNS Management <https://dcc.godaddy.com/manage/OPEN-CONTRACTING.ORG/dns>`__:
+#. Add :ref:`dns` records:
 
    #. Add the three CNAME records. Add the MX record if none exists.
 
       .. note::
 
-         Omit ``.open-contracting.org`` from hostnames. GoDaddy appends it automatically.
+         Omit ``.open-contracting.org`` from hostnames.
 
    #. `Add or update the SPF record <https://docs.aws.amazon.com/ses/latest/dg/send-email-authentication-spf.html>`__
 
