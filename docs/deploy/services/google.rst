@@ -45,7 +45,11 @@ Similar tools include:
 Monitor DMARC reports
 ~~~~~~~~~~~~~~~~~~~~~
 
-The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggregate reports to Postmark's `DMARC Digests <https://dmarc.postmarkapp.com>`__ and `Valimail Monitor <https://app.valimail.com>`__:
+The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggregate reports to:
+
+-  `Cloudflare DMARC Management <https://developers.cloudflare.com/dmarc-management/>`__
+-  Postmark's `DMARC Digests <https://dmarc.postmarkapp.com>`__
+-  `Valimail Monitor <https://app.valimail.com>`__
 
 .. code-block:: shell-session
 
