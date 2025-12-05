@@ -75,6 +75,8 @@ base:
     - apache.modules.headers
     # Enable HTTPS redirects on the default site.
     - apache.modules.rewrite
+    # Cloudflare Proxy
+    - apache.cloudflare
 
   # All public web servers should use SSL certificates.
   'I@nginx:public_access:true':
