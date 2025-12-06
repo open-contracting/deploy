@@ -34,7 +34,7 @@ Proxy status
 
 .. attention:: "`Proxying is on by default when you onboard a domain via the dashboard. <https://developers.cloudflare.com/dns/proxy-status/>`__" Remember to disable the proxy where relevant.
 
-.. note:: Advanced Certificate Manager is required to order an advanced certificate for `proxied sub-subdomains <https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/#full-setup>`__.
+.. note:: Advanced Certificate Manager is required to order an advanced certificate for `proxied sub-subdomains <https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/#full-setup>`__ (or to use `Total TLS <https://developers.cloudflare.com/ssl/edge-certificates/additional-options/total-tls/>`__).
 
 -  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
 
