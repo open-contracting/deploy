@@ -159,7 +159,7 @@ Security settings
 -----------------
 
 -  **DO NOT** enable `Block AI bots <https://developers.cloudflare.com/bots/concepts/bot/#ai-bots>`__. Increasingly, users access our content via LLMs.
--  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>__. Increasingly, users access our content via LLMs.
+-  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>`__. Increasingly, users access our content via LLMs.
 -  **DO NOT** enable Bot fight mode. It "`cannot be customized, adjusted, or reconfigured via WAF custom rules <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__" in order to, for example, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
 
 Pages
