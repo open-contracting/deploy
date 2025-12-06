@@ -37,6 +37,13 @@ Proxy status
 .. note:: Advanced Certificate Manager is required to order an advanced certificate for `proxied sub-subdomains <https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/#full-setup>`__.
 
 -  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
+
+   .. attention::
+
+      If a service expects the client's IP, reconfigure it to use the `CF-Connecting-IP <https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip>`__ header. For example:
+
+      -  `WordFence <https://www.wordfence.com/help/dashboard/options/>`__
+
 -  Don't proxy A, AAAA or CNAME records for web traffic to third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
 -  `Ports for SSH and non-web protocols are closed. <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Therefore:
 
@@ -160,7 +167,7 @@ Security settings
 
 -  **DO NOT** enable `Block AI bots <https://developers.cloudflare.com/bots/concepts/bot/#ai-bots>`__. Increasingly, users access our content via LLMs.
 -  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>`__. Increasingly, users access our content via LLMs.
--  **DO NOT** enable Bot fight mode. It "`cannot be customized, adjusted, or reconfigured via WAF custom rules <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__" in order to, for example, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
+-  **DO NOT** enable Bot fight mode. It "`cannot be customized, adjusted, or reconfigured via WAF custom rules <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__" in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
 
 Pages
 -----
