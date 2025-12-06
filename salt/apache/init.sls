@@ -92,6 +92,7 @@ disable site 000-default.conf:
 #
 # - Do not disclose the Apache version, to avoid false positives about CVE patching.
 # - Do not log uptime monitoring remote requests and Netdata's mod_status requests, to reduce log noise.
+# - Update LogFormat to use client ip (%a), this allows us to record the client IP through a proxy.
 #
 # https://httpd.apache.org/docs/2.4/logs.html#conditional
 /etc/apache2/conf-available/zz-customization.conf:
@@ -102,6 +103,8 @@ disable site 000-default.conf:
         SetEnvIf User-Agent AppBeat dontlog
         SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
+        LogFormat "%v:%p %a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+        LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
         CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
         {{ salt['pillar.get']('apache:customization','') | indent(8) }}
     - require:
