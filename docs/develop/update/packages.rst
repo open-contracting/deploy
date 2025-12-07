@@ -7,8 +7,6 @@ Remove Salt states
 
 We try to remove unneeded services and packages from this repository, because carrying old configurations forever into the future increases the maintenance burden of this repository. If you don't know whether a package is still required, you can :ref:`inspect the package<inspect-package>`.
 
-The ``./manage.py`` command has ``services`` and ``packages`` sub-commands to identify unusual services and packages, and an ``autoremove`` sub-command to list candidates for removal.
-
 In some cases, we keep unused states if they are simple and haven't needed changes. At time of writing, these include ``nodejs``, ``react_apps``, ``yarn`` and ``redis``.
 
 .. _inspect-package:
