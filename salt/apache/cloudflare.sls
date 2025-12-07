@@ -3,7 +3,7 @@ include:
   - apache
   - apache.modules.remoteip
 
-/etc/apache2/conf-enabled/zz-cloudflare-proxy.conf:
+/etc/apache2/conf-available/zz-cloudflare-proxy.conf:
   file.managed:
     - contents: |
         RemoteIPHeader CF-Connecting-IP
@@ -15,5 +15,13 @@ include:
 {%- endfor %}
     - require:
       - pkg: apache2
+    - watch_in:
+      - module: apache2-reload
+
+enable-conf-zz-cloudflare-proxy.conf:
+  apache_conf.enabled:
+    - name: zz-cloudflare-proxy
+    - require:
+      - file: /etc/apache2/conf-available/zz-cloudflare-proxy.conf
     - watch_in:
       - module: apache2-reload
