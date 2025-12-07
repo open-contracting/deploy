@@ -92,7 +92,7 @@ disable site 000-default.conf:
 #
 # - Do not disclose the Apache version, to avoid false positives about CVE patching.
 # - Do not log uptime monitoring remote requests and Netdata's mod_status requests, to reduce log noise.
-# - Update LogFormat to use client ip (%a), this allows us to record the client IP through a proxy.
+# - Restore original visitor IPs in logs when using a proxy. (%a behaves like the default %h if mod_remoteip isn't configured.)
 #
 # https://httpd.apache.org/docs/2.4/logs.html#conditional
 /etc/apache2/conf-available/zz-customization.conf:

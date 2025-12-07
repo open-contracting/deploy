@@ -75,7 +75,7 @@ base:
     - apache.modules.headers
     # Enable HTTPS redirects on the default site.
     - apache.modules.rewrite
-    # Cloudflare Proxy
+    # Restore original visitor IPs in logs.
     - apache.cloudflare
 
   # All public web servers should use SSL certificates.
