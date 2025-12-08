@@ -13,7 +13,7 @@ def cli():
 
 @cli.command()
 @click.argument("file", type=click.File())
-def email_urls(file):
+def print_urls_from_email_message(file):
     message = Parser(policy=default).parsestr(file.read())
     print("\n".join(re.findall(r"http[^\s>]+", message.get_body(preferencelist=("plain", "html")).get_content())))
 
