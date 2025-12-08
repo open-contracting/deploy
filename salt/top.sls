@@ -81,6 +81,7 @@ base:
   # All public web servers should use SSL certificates.
   'I@nginx:public_access:true':
     - nginx.letsencrypt
+    - nginx.cloudflare
 
   'I@backup:*':
     - backup
