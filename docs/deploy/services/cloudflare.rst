@@ -32,26 +32,28 @@ The Time to Live (TTL) of a DNS record indicates how long DNS clients should cac
 Proxy status
 ~~~~~~~~~~~~
 
-.. attention:: "`Proxying is on by default when you onboard a domain via the dashboard. <https://developers.cloudflare.com/dns/proxy-status/>`__" Remember to disable the proxy where relevant.
-
-.. note:: Advanced Certificate Manager is required to order an advanced certificate for `proxied sub-subdomains <https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/#full-setup>`__ (or to use `Total TLS <https://developers.cloudflare.com/ssl/edge-certificates/additional-options/total-tls/>`__).
+.. attention:: `"Proxying is on by default when you onboard a domain via the dashboard." <https://developers.cloudflare.com/dns/proxy-status/>`__ Disable the proxy where relevant.
 
 -  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
 
    .. attention::
 
-      If a service expects the client's IP, reconfigure it to use the `CF-Connecting-IP <https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip>`__ header. For example:
+      If a service expects the client's IP, reconfigure it to use the `CF-Connecting-IP <https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip>`__ header: for example, `WordFence <https://www.wordfence.com/help/dashboard/options/>`__.
 
-      -  `WordFence <https://www.wordfence.com/help/dashboard/options/>`__
+   .. attention::
+
+      We configure Apache and Nginx to use the ``CF-Connecting-IP`` header. Remember to inform third-party administrators (like RBC Group) to do the same.
 
 -  Don't proxy A, AAAA or CNAME records for web traffic to Qlik Sense.
 -  Don't proxy A, AAAA or CNAME records for web traffic to third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
--  `Ports for SSH and non-web protocols are closed. <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Therefore:
+-  `Ports for SSH and non-web protocols are closed. <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__ Therefore:
 
    - **DO NOT** proxy A or AAAA records for hostnames, like ``ocp42``.
    - **DO NOT** proxy CNAME records for PostgreSQL endpoints.
 
 .. tip:: If requests return HTTP 403, determine the reason in `Security Analytics <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/security/analytics/events>`__.
+
+.. note:: Advanced Certificate Manager is required to order an advanced certificate for `sub-subdomains <https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/limitations/#full-setup>`__ (or to use `Total TLS <https://developers.cloudflare.com/ssl/edge-certificates/additional-options/total-tls/>`__).
 
 Reference: `Cloudflare documentation <https://developers.cloudflare.com/dns/proxy-status/>`__
 
@@ -168,7 +170,7 @@ Security settings
 
 -  **DO NOT** enable `Block AI bots <https://developers.cloudflare.com/bots/concepts/bot/#ai-bots>`__. Increasingly, users access our content via LLMs.
 -  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>`__. Increasingly, users access our content via LLMs.
--  **DO NOT** enable Bot fight mode. It "`cannot be customized, adjusted, or reconfigured via WAF custom rules <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__" in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
+-  **DO NOT** enable Bot fight mode. It `"cannot be customized, adjusted, or reconfigured via WAF custom rules" <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__ in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
 
 Pages
 -----
