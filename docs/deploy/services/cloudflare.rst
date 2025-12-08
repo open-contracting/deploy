@@ -44,6 +44,7 @@ Proxy status
 
       -  `WordFence <https://www.wordfence.com/help/dashboard/options/>`__
 
+-  Don't proxy A, AAAA or CNAME records for web traffic to Qlik Sense.
 -  Don't proxy A, AAAA or CNAME records for web traffic to third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
 -  `Ports for SSH and non-web protocols are closed. <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Therefore:
 
