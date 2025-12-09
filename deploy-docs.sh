@@ -6,6 +6,8 @@ set -xeu
 REF="$GITHUB_REF_NAME"
 # The first path component, e.g. "infrastructure" or "profiles".
 COMPONENT="${PATH_PREFIX%%/*}"
+# The hostname, in case of proxy.
+HOST=ocp19.open-contracting.org
 
 # If a git tag or live branch is pushed.
 if [ "$PRODUCTION" = "true" ]; then
@@ -16,12 +18,10 @@ else
     SUFFIX=""
 fi
 
-curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-
 # If a git tag isn't pushed, deploy the build directory from the git branch.
 if [ "$RELEASE" != "true" ]; then
-    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
-    rsync -az --delete-after build/ ocds-docs@standard.open-contracting.org:web/"$PREFIX""$PATH_PREFIX""$REF""$SUFFIX"
+    curl --silent --connect-timeout 1 $HOST:8255 || true
+    rsync -az --delete-after build/ ocds-docs@$HOST:web/"$PREFIX""$PATH_PREFIX""$REF""$SUFFIX"
 
     # Index the build directory.
     ocdsindex sphinx build/ https://standard.open-contracting.org/"$PREFIX""$PATH_PREFIX""$REF"/ > documents.json
@@ -33,9 +33,9 @@ if [ "$RELEASE" != "true" ]; then
 
     if [ "$PRODUCTION" = "true" ]; then
         # Symlink the live directory.
-        curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+        curl --silent --connect-timeout 1 $HOST:8255 || true
         # shellcheck disable=SC2087
-        ssh ocds-docs@standard.open-contracting.org /bin/bash <<- EOF
+        ssh ocds-docs@$HOST /bin/bash <<- EOF
             mkdir -p /home/ocds-docs/web/$PREFIX$PATH_PREFIX
             ln -nfs $REF$SUFFIX /home/ocds-docs/web/$PREFIX$PATH_PREFIX$REF
 		EOF
@@ -49,9 +49,9 @@ else
     fi
 
     # Deploy the schema files, codelist files and metadata file (if any).
-    curl --silent --connect-timeout 1 standard.open-contracting.org:8255 || true
+    curl --silent --connect-timeout 1 $HOST:8255 || true
     # shellcheck disable=SC2087
-    ssh ocds-docs@standard.open-contracting.org /bin/bash <<- EOF
+    ssh ocds-docs@$HOST /bin/bash <<- EOF
         mkdir -p /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/"$REF"/
         cp -r /home/ocds-docs/web/"$PATH_PREFIX""$VERSION"/en/*.json /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/"$REF"/
         cp -r /home/ocds-docs/web/"$PATH_PREFIX""$VERSION"/en/codelists /home/ocds-docs/web/"$PATH_PREFIX""$DIRECTORY"/"$REF"/

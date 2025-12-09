@@ -9,7 +9,7 @@ On machines running Docker, use SSH as usual. For example:
 
 .. code-block:: bash
 
-   ssh USER@collect.kingfisher.open-contracting.org
+   ssh USER@ocp42.open-contracting.org
 
 On machines not running Docker, the SSH port is closed by default. The easiest way to open it depends on whether your IP address is dynamic or static.
 
@@ -20,7 +20,7 @@ To open the SSH port for 30 seconds, send traffic to port 8255, replacing ``exam
 
 .. code-block:: bash
 
-   curl --silent --connect-timeout 1 example.open-contracting.org:8255 || true
+   curl --silent --connect-timeout 1 ocp42.open-contracting.org:8255 || true
 
 You can then use ``ssh`` as usual. Once you're connected, the server will close the port, but not your connection.
 

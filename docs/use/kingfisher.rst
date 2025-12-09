@@ -32,7 +32,7 @@ Connect to the data support server, replacing ``USER``:
 
 .. code-block:: bash
 
-   ssh USER@collect.kingfisher.open-contracting.org
+   ssh USER@ocp23.open-contracting.org
 
 In addition to the Kingfisher tools, users have access to these command-line tools:
 
