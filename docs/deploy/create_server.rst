@@ -31,7 +31,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Linux Distribution* to the latest Ubuntu LTS version
          #. Set *Region* to *London, UK (eu-west)*
          #. Select a *Linode Plan*
-         #. Set *Linode Label* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Linode Label* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
          #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
          #. Check *Backups*
@@ -102,7 +102,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
                This adds your public SSH key to ``/root/.ssh/authorized_keys``.
 
          #. Check the *Backups* box
-         #. Set *Server name* to the first part of the server's FQDN (``ocp42``, for example)
+         #. Set *Server name* to the first part of the server's FQDN (``ocp99``, for example)
          #. Click the *Create & Buy now* button
 
       #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
@@ -228,7 +228,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
          #. Set *Subscription* to "Microsoft Azure Sponsorship (4e98b5b1-1619-44be-a38e-90cdb8e4bc95)"
          #. Set `Resource group <https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/manage-resource-groups-portal>`__ to "default"
-         #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Virtual machine name* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Set *Region* to "(Europe) UK South" (or "(US) East US" or "(US) West US 2")
          #. Leave *Security type* as `Trusted launch virtual machines <https://learn.microsoft.com/en-ca/azure/virtual-machines/trusted-launch>`__
          #. Set *Image* to the latest Ubuntu LTS version
@@ -256,14 +256,14 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
       #. Click the *Next : Networking >* button
 
-         #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``ocp42.open-contracting.org-vnet``)
+         #. Set *Virtual network* to an appropriate name with a ``-vnet`` suffix (e.g. ``ocp99.open-contracting.org-vnet``)
          #. Set *Subnet* to *default (10.0.0.0/24)*
-         #. Set *Public IP* to the server's FQDN with an ``-ip`` suffix (e.g. ``ocp42.open-contracting.org-ip``)
+         #. Set *Public IP* to the server's FQDN with an ``-ip`` suffix (e.g. ``ocp99.open-contracting.org-ip``)
          #. If not using Docker, set *NIC network security group* to *None*
          #. If using Docker, set *NIC network security group* to *Advanced*
 
             #. Click the *Create new* link for *Configure network security group*
-            #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp42.open-contracting.org-nsg``)
+            #. Set *Name* to the server's FQDN with a ``-nsg`` suffix (e.g. ``ocp99.open-contracting.org-nsg``)
             #. Click the *+ Add an inbound rule* link, to produce rules matching the following:
 
                .. list-table::
@@ -330,7 +330,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. Click the *Next : Advanced >* button
       #. Click the *Next : Tags >* button
 
-         #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp42``)
+         #. Set *Name* to the first part of the server's FQDN (e.g. ``ocp99``)
 
       #. Click the *Next : Review + create >* button
       #. Click the *Create* button and wait a few minutes for the server to power on
@@ -349,7 +349,7 @@ Add A, AAAA and SPF records
 
    #. Click the *Add New Record* button
    #. Select "A" from the *Type* dropdown
-   #. Enter the hostname in *Name* (``ocp42``, for example)
+   #. Enter the hostname in *Name* (``ocp99``, for example)
    #. Enter the IPv4 address in *Value*
    #. Set *TTL* to 1 **Day**
 
@@ -357,8 +357,8 @@ Add A, AAAA and SPF records
 
    #. Click the *Add More Records* button
    #. Select "TXT" from the *Type* dropdown
-   #. Enter the hostname in *Name* (``ocp42``, for example)
-   #. Enter the SPF record in *Value* (``v=spf1 a:ocp42.open-contracting.org -all``, for example)
+   #. Enter the hostname in *Name* (``ocp99``, for example)
+   #. Enter the SPF record in *Value* (``v=spf1 a:ocp99.open-contracting.org -all``, for example)
    #. Set *TTL* to 1 Hour
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
@@ -371,7 +371,7 @@ Add A, AAAA and SPF records
 
    #. Click the *Add More Records* button
    #. Select "AAAA" from the *Type* dropdown
-   #. Enter the hostname in *Name* (``ocp42``, for example)
+   #. Enter the hostname in *Name* (``ocp99``, for example)
    #. Enter the IPv6 address in *Value*
    #. Set *TTL* to 1 **Day**
 
@@ -394,12 +394,12 @@ Configure reverse DNS
       #. On the *Network* tab:
 
          #. Click *Edit RDNS* for the *IPv4 – Public* address
-         #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Click the *Save* button
          #. If the server has an IPv6 /64 block:
 
             #. Click *Edit RDNS* for the *IPv6 – Range* IP block
-            #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Set *Enter a domain name* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
             #. Click the *Save* button
 
    .. tab-item:: Hetzner Cloud
@@ -411,7 +411,7 @@ Configure reverse DNS
 
          #. Click the *...* button for the server's IPv4 address
          #. Click the *Edit Reverse DNS* menu item
-         #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Click the *Edit Reverse DNS* button
          #. If the server has an IPv6 /64 block:
 
@@ -424,7 +424,7 @@ Configure reverse DNS
             #. Click the *...* button for the server's IPv6 address
             #. Click the *Edit Reverse DNS* menu item
             #. Set the end of the IPv6 address
-            #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Set *Reverse DNS* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
             #. Click the *Edit Reverse DNS* button
 
    .. tab-item:: Hetzner Dedicated
@@ -434,7 +434,7 @@ Configure reverse DNS
       #. Select the new server
       #. On the *IPs* tab (default tab):
 
-         #. Under *IP addresses:* heading, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+         #. Under *IP addresses:* heading, set *Reverse DNS entry* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. If the server has an IPv6 /64 block:
 
             #. Get the server's IPv6 address. Connect to the server and run:
@@ -446,7 +446,7 @@ Configure reverse DNS
             #. Under the *Subnets:* heading, click the *⊕* symbol on the left
             #. Click the *Add new Reverse DNS entry* link
             #. Set *Enter IP* to the IPv6 address
-            #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp42.open-contracting.org``)
+            #. Set *Enter RDNS* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
             #. Click the *Create* button
 
    .. tab-item:: Azure
@@ -456,10 +456,10 @@ Configure reverse DNS
       #. Select the new server
       #. Click on the public IP address:
 
-         #. Enter the first part of the server's FQDN in *DNS name label (optional)* (``ocp42``, for example)
+         #. Enter the first part of the server's FQDN in *DNS name label (optional)* (``ocp99``, for example)
          #. Click the *Save* button (at the top)
 
-      #. Create an A record for the configuration (e.g. ``ocp42.uksouth.cloudapp.azure.com``)
+      #. Create an A record for the configuration (e.g. ``ocp99.uksouth.cloudapp.azure.com``)
 
 4. Apply core changes
 ---------------------
@@ -605,7 +605,7 @@ Existing service
    #. Click the *Add New Record* button
    #. Select "CNAME" from the *Type* dropdown
    #. Enter the public hostname in *Name* (``standard``, for example)
-   #. Enter the internal hostname in *Value* (``ocp42.open-contracting.org``, for example)
+   #. Enter the internal hostname in *Value* (``ocp99.open-contracting.org``, for example)
    #. Leave *TTL* at the 1 Hour default
    #. Click the *Save* button
 

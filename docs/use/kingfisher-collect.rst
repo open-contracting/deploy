@@ -47,7 +47,7 @@ To schedule a crawl, replace ``spider_name`` with a spider's name and ``NAME`` w
 .. code-block:: shell-session
 
    $ curl -n https://collect.kingfisher.open-contracting.org/schedule.json -d project=kingfisher -d spider=spider_name -d note="Started by NAME."
-   {"node_name": "ocp04", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
+   {"node_name": "ocp99", "status": "ok", "jobid": "6487ec79947edab326d6db28a2d86511e8247444"}
 
 Kingfisher Collect, by default, instructs Kingfisher Process to only create compiled releases. If you need something different:
 
@@ -60,7 +60,7 @@ To cancel a crawl, replace ``JOBID`` with the job ID from the response or from S
 .. code-block:: shell-session
 
    $ curl -n https://collect.kingfisher.open-contracting.org/cancel.json -d project=kingfisher -d job=JOBID
-   {"node_name": "ocp04", "status": "ok", "prevstate": "running"}
+   {"node_name": "ocp99", "status": "ok", "prevstate": "running"}
 
 The crawl won't stop immediately. You can force an unclean shutdown by sending the request again; however, it's preferred to allow the crawl to stop gracefully, so that the log file is completed.
 

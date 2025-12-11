@@ -9,7 +9,7 @@ Update the server's Pillar file. For example:
 .. code-block:: yaml
 
    network:
-     host_id: ocp12
+     host_id: ocp99
      ipv4: 198.51.100.34
      ipv6: 2001:db8::12
 
@@ -73,7 +73,7 @@ Update the server's Pillar file. For example:
    :emphasize-lines: 5-9
 
    network:
-     host_id: ocp12
+     host_id: ocp99
      ipv4: 198.51.100.34
      ipv6: "2001:db8::"
      networkd:
@@ -104,7 +104,7 @@ Update the server's Pillar file. For example:
    :emphasize-lines: 5-22
 
    network:
-     host_id: ocp12
+     host_id: ocp99
      ipv4: 198.51.100.34
      ipv6: "2001:db8::"
      networkd:
@@ -141,7 +141,7 @@ Update the server's Pillar file. For example:
    :emphasize-lines: 5-15
 
    network:
-     host_id: ocp12
+     host_id: ocp99
      ipv4: 198.51.100.34
      ipv6: 2001:db8::12
      netplan:

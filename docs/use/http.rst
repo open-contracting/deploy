@@ -49,4 +49,4 @@ To create (or append credentials to) a ``~/.netrc`` file:
    .. code-block:: shell-session
 
       $ curl -n https://collect.kingfisher.open-contracting.org/listprojects.json
-      {"node_name": "ocp04", "status": "ok", "projects": ["kingfisher"]}
+      {"node_name": "ocp99", "status": "ok", "projects": ["kingfisher"]}
