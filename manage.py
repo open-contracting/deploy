@@ -13,13 +13,10 @@ import hcl2
 import requests
 from cloudflare import Cloudflare
 
-account_id_option = click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
-email_option = click.option(
-    "-e", "--email", required=True, help="Email address associated with your Cloudflare account"
-)
 api_token_option = click.option(
     "--api-token", envvar="CLOUDFLARE_API_TOKEN", required=True, help="Cloudflare API token"
 )
+account_id_option = click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
 
 
 def get(url, **kwargs):
@@ -28,23 +25,11 @@ def get(url, **kwargs):
     return response.json()
 
 
-def get_zone_ids(api_token, account_id):
-    result = run_cf_terraforming(api_token, "zone", account_id)
-    key = "cloudflare_zone"
-
-    return {
-        next(iter(r[key].values()))["name"]: next(iter(r[key])).removeprefix("terraform_managed_resource_")[:-2]
-        for r in hcl2.loads(result.stdout)["resource"]
-    }
-
-
 def get_error_messages(result):
     return (line for line in result.stderr.splitlines(keepends=False) if " level=info " not in line)
 
 
-def run_cf_terraforming(api_token, resource_type, identifier, email=None):
-    args = ["-e", email] if email else []
-
+def run_cf_terraforming(api_token, resource_type, identifier):
     return subprocess.run(  # noqa: S603
         [  # noqa: S607
             "cf-terraforming",
@@ -53,7 +38,6 @@ def run_cf_terraforming(api_token, resource_type, identifier, email=None):
             f"cloudflare_{resource_type}",
             "-a" if resource_type in ACCOUNT_LEVEL else "-z",
             identifier,
-            *args,
         ],
         # PATH is needed if cf-terraforming was installed via Homebrew.
         env={"CLOUDFLARE_API_TOKEN": api_token, "PATH": os.getenv("PATH")},
@@ -84,11 +68,10 @@ def print_urls_from_email_message(file):
 @cloudflare.command()
 @api_token_option
 @account_id_option
-@email_option
-def account_level(api_token, account_id, email):
+def account_level(api_token, account_id):
     """Print account-level resources"""
     for resource_type in sorted(ACCOUNT_LEVEL_USED):
-        result = run_cf_terraforming(api_token, resource_type, account_id, email=email)
+        result = run_cf_terraforming(api_token, resource_type, account_id)
 
         if stdout := result.stdout:
             click.echo(stdout)
@@ -101,16 +84,15 @@ def account_level(api_token, account_id, email):
 
 @cloudflare.command()
 @api_token_option
-@account_id_option
-@email_option
 @click.option("--defaults", is_flag=True, help="Compare default resource types only")
-def zone_level(api_token, account_id, email, defaults):
+def zone_level(api_token, defaults):
     """Compare zones' resources"""
     resource_types = ZONE_LEVEL_DEFAULT if defaults else ZONE_LEVEL_USED - {"dns_record"}
-    zones = get_zone_ids(api_token, account_id)
+
+    client = Cloudflare(api_token=api_token)
+    zones = {zone.name: zone.id for zone in client.zones.list()}
 
     if not defaults:
-        client = Cloudflare(api_token=api_token)
         click.secho("page_shield", fg="green")
         resources = defaultdict(list)
         for domain, zone_id in zones.items():
@@ -129,7 +111,7 @@ def zone_level(api_token, account_id, email, defaults):
         resources = defaultdict(list)
 
         for domain, zone_id in zones.items():
-            result = run_cf_terraforming(api_token, resource_type, zone_id, email=email)
+            result = run_cf_terraforming(api_token, resource_type, zone_id)
 
             for line in get_error_messages(result):
                 click.secho(f"{domain}: {line}", fg="red", err=True)
@@ -166,8 +148,7 @@ def zone_level(api_token, account_id, email, defaults):
 @cloudflare.command()
 @api_token_option
 @account_id_option
-@email_option
-def unused(api_token, account_id, email):
+def unused(api_token, account_id):
     """Confirm unused resources"""
     sets = (
         ("BAD_REQUEST", BAD_REQUEST, " 400 Bad Request "),
@@ -208,12 +189,13 @@ def unused(api_token, account_id, email):
         click.secho(f"manage.py resource types not found in Terraform: {', '.join(orphaned)}", fg="yellow")
 
     # Check that the resources types are unused.
-    zone_ids = get_zone_ids(api_token, account_id)
+    client = Cloudflare(api_token=api_token)
+    zone_id = client.zones.list(name="open-contracting.org").result[0].id
 
     for resource_type in sorted(ACCOUNT_LEVEL - ACCOUNT_LEVEL_USED - ACCOUNT_LEVEL_IGNORE):
-        _unused(run_cf_terraforming(api_token, resource_type, account_id, email=email))
+        _unused(run_cf_terraforming(api_token, resource_type, account_id))
     for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_USED - ZONE_LEVEL_DEFAULT):
-        _unused(run_cf_terraforming(api_token, resource_type, zone_ids["open-contracting.org"], email=email))
+        _unused(run_cf_terraforming(api_token, resource_type, zone_id))
 
 
 ACCOUNT_LEVEL_USED = {

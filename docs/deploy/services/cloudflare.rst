@@ -8,19 +8,19 @@ To compare zones' resources, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare zone-level -a ACCOUNT_ID -e EMAIL
+   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare zone-level -a ACCOUNT_ID
 
 To review account-level resources, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare account-level -a ACCOUNT_ID -e EMAIL
+   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare account-level -a ACCOUNT_ID
 
 To confirm that no other resources are used, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare unused -a ACCOUNT_ID -e EMAIL
+   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare unused -a ACCOUNT_ID
 
 .. admonition:: Limitations
 
