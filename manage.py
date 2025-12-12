@@ -68,7 +68,7 @@ def print_urls_from_email_message(file):
 @cloudflare.command()
 @api_token_option
 @account_id_option
-def account_level(api_token, account_id):
+def account(api_token, account_id):
     """Print account-level resources"""
     for resource_type in sorted(ACCOUNT_LEVEL_USED):
         result = run_cf_terraforming(api_token, resource_type, account_id)
@@ -85,17 +85,17 @@ def account_level(api_token, account_id):
 @cloudflare.command()
 @api_token_option
 @click.option("--defaults", is_flag=True, help="Compare default resource types only")
-def zone_level(api_token, defaults):
+def zones(api_token, defaults):
     """Compare zones' resources"""
     resource_types = ZONE_LEVEL_DEFAULT if defaults else ZONE_LEVEL_USED - {"dns_record"}
 
     client = Cloudflare(api_token=api_token)
-    zones = {zone.name: zone.id for zone in client.zones.list()}
+    zone_ids = {zone.name: zone.id for zone in client.zones.list()}
 
     if not defaults:
         click.secho("page_shield", fg="green")
         resources = defaultdict(list)
-        for domain, zone_id in zones.items():
+        for domain, zone_id in zone_ids.items():
             value = client.page_shield.get(zone_id=zone_id).model_dump()
             value.pop("updated_at")
             resources[json.dumps(value, indent=2)].append(domain)
@@ -110,7 +110,7 @@ def zone_level(api_token, defaults):
 
         resources = defaultdict(list)
 
-        for domain, zone_id in zones.items():
+        for domain, zone_id in zone_ids.items():
             result = run_cf_terraforming(api_token, resource_type, zone_id)
 
             for line in get_error_messages(result):

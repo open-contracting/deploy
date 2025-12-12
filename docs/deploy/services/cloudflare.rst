@@ -4,23 +4,25 @@ Cloudflare
 Maintenance
 -----------
 
+Create an `account API token <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/api-tokens>`__ using the *Read all resources* template that includes *All zones from an account*, and set the ``CLOUDFLARE_API_TOKEN`` environment variable.
+
 To compare zones' resources, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare zone-level -a ACCOUNT_ID
+   uv run manage.py cloudflare zones -a ACCOUNT_ID
 
 To review account-level resources, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare account-level -a ACCOUNT_ID
+   uv run manage.py cloudflare account -a ACCOUNT_ID > cloudflare-account.txt
 
 To confirm that no other resources are used, run:
 
 .. code-block:: bash
 
-   env CLOUDFLARE_API_TOKEN=READ_ALL_RESOURCES_TOKEN uv run manage.py cloudflare unused -a ACCOUNT_ID
+   uv run manage.py cloudflare unused -a ACCOUNT_ID
 
 .. admonition:: Limitations
 
