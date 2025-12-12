@@ -48,6 +48,11 @@ Access the `most recent crawl <https://app.ahrefs.com/site-audit/4835895>`__, an
          # Default WordPress category pages.
          www\.open-contracting\.org(/(es|ru))?/(audience|author|category|country|events/page|issue|learning-resource-category|open-contracting|region|resource-type|tag)/
 
+Cloudflare Security Insights
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Cybersecurity issues are monitored by `Cloudflare <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/home/domains>`__.
+
 Prometheus
 ~~~~~~~~~~
 
