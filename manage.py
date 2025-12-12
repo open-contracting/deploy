@@ -11,6 +11,7 @@ from pathlib import Path
 import click
 import hcl2
 import requests
+from cloudflare import Cloudflare
 
 account_id_option = click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
 email_option = click.option(
@@ -85,6 +86,7 @@ def print_urls_from_email_message(file):
 @account_id_option
 @email_option
 def account_level(api_token, account_id, email):
+    """Print account-level resources"""
     for resource_type in sorted(ACCOUNT_LEVEL_USED):
         result = run_cf_terraforming(api_token, resource_type, account_id, email=email)
 
@@ -101,18 +103,38 @@ def account_level(api_token, account_id, email):
 @api_token_option
 @account_id_option
 @email_option
-def zone_level(api_token, account_id, email):
-    for resource_type in sorted(ZONE_LEVEL_USED - {"dns_record"}):
+@click.option("--defaults", is_flag=True, help="Compare default resource types only")
+def zone_level(api_token, account_id, email, defaults):
+    """Compare zones' resources"""
+    resource_types = ZONE_LEVEL_DEFAULT if defaults else ZONE_LEVEL_USED - {"dns_record"}
+    zones = get_zone_ids(api_token, account_id)
+
+    if not defaults:
+        client = Cloudflare(api_token=api_token)
+        click.secho("page_shield", fg="green")
+        resources = defaultdict(list)
+        for domain, zone_id in zones.items():
+            value = client.page_shield.get(zone_id=zone_id).model_dump()
+            value.pop("updated_at")
+            resources[json.dumps(value, indent=2)].append(domain)
+        if len(resources) == 1:
+            click.echo(next(iter(resources)))
+        else:
+            for value, domains in resources.items():
+                click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+
+    for resource_type in sorted(resource_types):
         click.secho(resource_type, fg="green")
 
         resources = defaultdict(list)
 
-        for domain, zone_id in get_zone_ids(api_token, account_id).items():
+        for domain, zone_id in zones.items():
             result = run_cf_terraforming(api_token, resource_type, zone_id, email=email)
 
             for line in get_error_messages(result):
                 click.secho(f"{domain}: {line}", fg="red", err=True)
 
+            enabled = True
             if data := hcl2.loads(result.stdout):
                 for resource in data["resource"]:
                     for value in resource[f"cloudflare_{resource_type}"].values():
@@ -122,13 +144,23 @@ def zone_level(api_token, account_id, email):
                             for rule in rules:
                                 for key in ("last_updated", "ref", "version"):
                                     rule.pop(key)
-                        resources[json.dumps(value, indent=2)].append(domain)
+                        if defaults and len(value) == 1:
+                            if value.get("enabled") is False:
+                                enabled = value.pop("enabled")
+                            elif domain in value.get("name", ""):  # email_routing_dns
+                                value.pop("name")
+                        if value:
+                            resources[json.dumps(value, indent=2)].append(domain)
 
-        if len(resources) == 1:
-            click.echo(next(iter(resources)))
-        else:
-            for value, domains in resources.items():
-                click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+        match len(resources):
+            case 0:
+                if not enabled:
+                    click.secho("disabled", fg="yellow")
+            case 1:
+                click.echo(next(iter(resources)))
+            case _:
+                for value, domains in resources.items():
+                    click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
 
 
 @cloudflare.command()
@@ -136,7 +168,7 @@ def zone_level(api_token, account_id, email):
 @account_id_option
 @email_option
 def unused(api_token, account_id, email):
-    """Check that Cloudflare resources are unused."""
+    """Confirm unused resources"""
     sets = (
         ("BAD_REQUEST", BAD_REQUEST, " 400 Bad Request "),
         ("DEPRECATED", DEPRECATED, ' is deprecated. The terraform config might not be generated."'),
@@ -266,6 +298,7 @@ ZONE_LEVEL_FORBIDDEN = {
 }
 ZONE_LEVEL_UNUSED = {
     "zone_setting",  # https://developers.cloudflare.com/terraform/tutorial/configure-https-settings/#1-create-zone-setting-configuration
+    #
     # Application performance https://developers.cloudflare.com/directory/?product-group=Application+performance
     #
     "healthcheck",  # https://developers.cloudflare.com/health-checks/
@@ -384,7 +417,6 @@ ZONE_LEVEL_DEPRECATED = {
     "snippets",
 }
 
-
 UNSUPPORTED = {
     # Accounts https://developers.cloudflare.com/fundamentals/account/
     "account",
@@ -416,9 +448,9 @@ UNSUPPORTED = {
     "universal_ssl_setting",  # https://developers.cloudflare.com/ssl/edge-certificates/universal-ssl/enable-universal-ssl/
     # Workers https://developers.cloudflare.com/workers/
     "worker",
+    "worker_version",  # https://developers.cloudflare.com/workers/configuration/versions-and-deployments/#versions
     "workers_cron_trigger",  # https://developers.cloudflare.com/workers/configuration/cron-triggers/
     "workers_custom_domain",  # https://developers.cloudflare.com/workers/configuration/routing/custom-domains/
-    "worker_version",  # https://developers.cloudflare.com/workers/configuration/versions-and-deployments/#versions
     "workers_deployment",  # https://developers.cloudflare.com/workers/configuration/versions-and-deployments/#deployments
     "workers_script",  # https://developers.cloudflare.com/workers/static-assets/routing/worker-script/
     "workers_script_subdomain",  # https://developers.cloudflare.com/workers/configuration/routing/workers-dev/#configure-workersdev
