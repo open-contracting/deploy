@@ -10,6 +10,14 @@ import click
 import hcl2
 import requests
 
+account_id_option = click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
+email_option = click.option(
+    "-e", "--email", required=True, help="Email address associated with your Cloudflare account"
+)
+api_token_option = click.option(
+    "--api-token", envvar="CLOUDFLARE_API_TOKEN", required=True, help="Cloudflare API token"
+)
+
 
 def get(url, **kwargs):
     response = requests.get(url, **kwargs, timeout=10)
@@ -17,9 +25,49 @@ def get(url, **kwargs):
     return response.json()
 
 
+def get_zone_ids(api_token, email, account_id):
+    result = run_cf_terraforming(api_token, email, "zone", account_id)
+    key = "cloudflare_zone"
+
+    return {
+        next(iter(r[key].values()))["name"]: next(iter(r[key])).removeprefix("terraform_managed_resource_")[:-2]
+        for r in hcl2.loads(result.stdout)["resource"]
+    }
+
+
+def get_error_messages(result):
+    return (line for line in result.stderr.splitlines(keepends=False) if " level=info " not in line)
+
+
+def run_cf_terraforming(api_token, email, resource_type, identifier):
+    return subprocess.run(  # noqa: S603
+        [  # noqa: S607
+            "cf-terraforming",
+            "generate",
+            "--resource-type",
+            f"cloudflare_{resource_type}",
+            "-e",
+            email,
+            "-a" if resource_type in ACCOUNT_LEVEL else "-z",
+            identifier,
+        ],
+        # PATH is needed if cf-terraforming was installed via Homebrew.
+        env={"CLOUDFLARE_API_TOKEN": api_token, "PATH": os.getenv("PATH")},
+        capture_output=True,
+        text=True,
+        check=False,  # errors if HTTP 4XX
+    )
+
+
 @click.group()
 def cli():
     pass
+
+
+@cli.group()
+def cloudflare():
+    if not Path("terraform").exists():
+        raise click.ClickException("run `terraform init`")
 
 
 @cli.command()
@@ -29,11 +77,26 @@ def print_urls_from_email_message(file):
     print("\n".join(re.findall(r"http[^\s>]+", message.get_body(preferencelist=("plain", "html")).get_content())))
 
 
-@cli.command()
-@click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
-@click.option("-e", "--email", required=True, help="Email address associated with your Cloudflare account")
-@click.option("--api-token", envvar="CLOUDFLARE_API_TOKEN", required=True, help="Cloudflare API token")
-def cloudflare_unused(account_id, email, api_token):
+@cloudflare.command()
+@api_token_option
+@email_option
+@account_id_option
+def account_level(account_id, email, api_token):
+    for resource_type in sorted(ACCOUNT_LEVEL_USED):
+        result = run_cf_terraforming(api_token, email, resource_type, account_id)
+        if stdout := result.stdout:
+            click.echo(stdout)
+        else:
+            click.secho(f"{resource_type} expected to output", fg="blue", err=True)
+        for line in get_error_messages(result):
+            click.secho(f"{resource_type}: {line}", fg="red", err=True)
+
+
+@cloudflare.command()
+@api_token_option
+@email_option
+@account_id_option
+def unused(api_token, email, account_id):
     """Check that Cloudflare resources are unused."""
     sets = (
         ("BAD_REQUEST", BAD_REQUEST, " 400 Bad Request "),
@@ -43,76 +106,53 @@ def cloudflare_unused(account_id, email, api_token):
         ("UNSUPPORTED", UNSUPPORTED, ' msg="Unsupported terraform v5 provider resource" '),
     )
 
-    def cf_terraforming(resource_type, identifier):
-        flag = "-a" if resource_type in ACCOUNT_LEVEL else "-z"
-
-        result = subprocess.run(  # noqa: S603
-            [  # noqa: S607
-                "cf-terraforming",
-                "generate",
-                "--resource-type",
-                f"cloudflare_{resource_type}",
-                "-e",
-                email,
-                flag,
-                identifier,
-            ],
-            # PATH is needed if cf-terraforming was installed via Homebrew.
-            env={"CLOUDFLARE_API_TOKEN": api_token, "PATH": os.getenv("PATH")},
-            capture_output=True,
-            text=True,
-            check=False,  # errors if HTTP 4XX
-        )
-
-        stderr = result.stderr
-
+    def _unused(result):
         for name, values, substring in sets:
-            if resource_type in values and substring not in stderr:
+            if resource_type in values and substring not in result.stderr:
                 click.secho(f"{resource_type} not expected in {name}", fg="blue")
 
         if stdout := result.stdout:
-            click.secho(f"{resource_type} not expected to have stdout", fg="blue")
+            click.secho(f"{resource_type} not expected to output", fg="blue")
             click.echo(stdout)
 
-        for line in stderr.splitlines(keepends=False):
+        for line in get_error_messages(result):
+            # Ignore expected messages.
             if (
-                " level=info " not in line
-                # Ignore expected messages.
-                and ' msg="No resource IDs defined in Terraform for resource ' not in line
+                ' msg="No resource IDs defined in Terraform for resource ' not in line
                 and not re.search(r'^no resources of type "\w+" found to generate$', line)
                 and not any(substring not in line or resource_type not in values for (_, values, substring) in sets)
             ):
                 click.secho(f"{resource_type}: {line}", fg="red")
 
-    if not Path("terraform").exists():
-        raise click.ClickException("run `terraform init`")
-
+    # Check that all resource types are recognized.
     latest_version_id = get(
         "https://registry.terraform.io/v2/providers/cloudflare/cloudflare", params={"include": "provider-versions"}
     )["data"]["relationships"]["provider-versions"]["data"][-1]["id"]
-
     data = get(f"https://registry.terraform.io/v2/provider-versions/{latest_version_id}?include=provider-docs")
     resource_types = {r["attributes"]["title"] for r in data["included"] if r["attributes"]["category"] == "resources"}
 
     if unrecognized := resource_types - RESOURCE_TYPES:
-        click.secho(f"Unrecognized resource types from Terraform: {', '.join(sorted(unrecognized))}", fg="yellow")
-    if unused := RESOURCE_TYPES - resource_types:
-        click.secho(f"Unmatched resource types from manage.py: {', '.join(unused)}", fg="yellow")
+        click.secho(f"Terraform resource types not named in manage.py: {', '.join(sorted(unrecognized))}", fg="yellow")
+    if orphaned := RESOURCE_TYPES - resource_types:
+        click.secho(f"manage.py resource types not found in Terraform: {', '.join(orphaned)}", fg="yellow")
 
-    result = cf_terraforming("zone", account_id)
-    zone_ids = {
-        next(iter(resource["cloudflare_zone"].values()))["name"]: next(iter(resource["cloudflare_zone"])).removeprefix(
-            "terraform_managed_resource_"
-        )[:-2]
-        for resource in hcl2.loads(result.stdout)["resource"]
-    }
+    # Check that the resources types are unused.
+    zone_ids = get_zone_ids(api_token, email, account_id)
 
-    for resource_type in sorted(ACCOUNT_LEVEL - ACCOUNT_LEVEL_IGNORE):
-        cf_terraforming(resource_type, account_id)
-    for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_DEFAULT):
-        cf_terraforming(resource_type, zone_ids["open-contracting.org"])
+    for resource_type in sorted(ACCOUNT_LEVEL - ACCOUNT_LEVEL_USED - ACCOUNT_LEVEL_IGNORE):
+        _unused(run_cf_terraforming(api_token, email, resource_type, account_id))
+    for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_USED - ZONE_LEVEL_DEFAULT):
+        _unused(run_cf_terraforming(api_token, email, resource_type, zone_ids["open-contracting.org"]))
 
 
+ACCOUNT_LEVEL_USED = {
+    "account_dns_settings",
+    "custom_pages",
+    "pages_project",
+    "registrar_domain",
+    "turnstile_widget",
+    "web_analytics_site",
+}
 ACCOUNT_LEVEL_IGNORE = {
     "account",
     "account_subscription",
@@ -134,6 +174,21 @@ ACCOUNT_LEVEL_DEPRECATED = {
     "rate_limit",
 }
 
+ZONE_LEVEL_USED = {
+    "argo_tiered_caching",  # https://developers.cloudflare.com/cache/how-to/tiered-cache/
+    "bot_management",  # https://developers.cloudflare.com/bots/get-started/bot-management/
+    "certificate_pack",  # https://developers.cloudflare.com/ssl/edge-certificates/custom-certificates/#certificate-packs
+    "dns_record",
+    "managed_transforms",
+    "ruleset",
+    "tiered_cache",
+    "total_tls",
+    "url_normalization_settings",
+    "zone",
+    "zone_dns_settings",
+    "zone_dnssec",
+    "zone_hold",  # https://developers.cloudflare.com/fundamentals/account/account-security/zone-holds/
+}
 # Child resources exist (e.g. "enabled = false"), but parent resources don't.
 ZONE_LEVEL_DEFAULT = {
     "api_shield_schema_validation_settings",
@@ -146,7 +201,8 @@ ZONE_LEVEL_DEFAULT = {
     "waiting_room_settings",
 }
 ZONE_LEVEL_BAD_REQUEST = {
-    "content_scanning_expression",  # https://developers.cloudflare.com/waf/detections/malicious-uploads/
+    "content_scanning_expression",
+    "custom_ssl",  # https://developers.cloudflare.com/ssl/origin-configuration/ssl-modes/#custom-ssltls
     "leaked_credential_check_rule",  # https://developers.cloudflare.com/waf/detections/leaked-credentials/
     "origin_ca_certificate",  # https://developers.cloudflare.com/ssl/origin-configuration/origin-ca/
     "zone_subscription",  # https://developers.cloudflare.com/tenant/how-to/manage-subscriptions/
@@ -156,7 +212,7 @@ ZONE_LEVEL_BAD_REQUEST = {
 }
 ZONE_LEVEL_UNAUTHORIZED = {
     "argo_smart_routing",  # https://developers.cloudflare.com/argo-smart-routing/
-    "custom_hostname_fallback_origin",  # https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/
+    "custom_hostname_fallback_origin",
     "logpull_retention",
     "logpush_job",
 }
@@ -170,6 +226,7 @@ ZONE_LEVEL_FORBIDDEN = {
     "zone_cache_variants",  # https://developers.cloudflare.com/cache/advanced-configuration/serve-tailored-content/
 }
 ZONE_LEVEL_UNUSED = {
+    "zone_setting",  # https://developers.cloudflare.com/terraform/tutorial/configure-https-settings/#1-create-zone-setting-configuration
     # Application performance https://developers.cloudflare.com/directory/?product-group=Application+performance
     #
     "healthcheck",  # https://developers.cloudflare.com/health-checks/
@@ -207,6 +264,7 @@ ZONE_LEVEL_UNUSED = {
     "mtls_certificate",  # https://developers.cloudflare.com/ssl/client-certificates/
     # Web Application Firewall
     "access_rule",  # https://developers.cloudflare.com/waf/tools/ip-access-rules/
+    "content_scanning",  # https://developers.cloudflare.com/waf/detections/malicious-uploads/
     "list",  # https://developers.cloudflare.com/waf/tools/lists/lists-api/
     "list_item",
     "user_agent_blocking_rule",  # https://developers.cloudflare.com/waf/tools/user-agent-blocking/
@@ -229,6 +287,7 @@ ZONE_LEVEL_UNUSED = {
     #
     # Developer platform https://developers.cloudflare.com/directory/?product-group=Developer+platform
     #
+    "custom_hostname",  # https://developers.cloudflare.com/cloudflare-for-platforms/cloudflare-for-saas/domain-support/
     "d1_database",  # https://developers.cloudflare.com/d1/
     "hyperdrive_config",  # https://developers.cloudflare.com/hyperdrive/
     "workers_route",  # https://developers.cloudflare.com/workers/configuration/routing/
@@ -384,6 +443,7 @@ ACCOUNT_LEVEL = (
     | ACCOUNT_LEVEL_FORBIDDEN
     | ACCOUNT_LEVEL_IGNORE
     | ACCOUNT_LEVEL_UNUSED
+    | ACCOUNT_LEVEL_USED
     | {
         # "… endpoint does not support account owned tokens" https://developers.cloudflare.com/fundamentals/api/get-started/account-owned-tokens/#compatibility-matrix
         "page_rule",  # https://developers.cloudflare.com/rules/page-rules/
@@ -397,6 +457,7 @@ ZONE_LEVEL = (
     | ZONE_LEVEL_FORBIDDEN
     | ZONE_LEVEL_UNAUTHORIZED
     | ZONE_LEVEL_UNUSED
+    | ZONE_LEVEL_USED
 )
 
 RESOURCE_TYPES = ACCOUNT_LEVEL | ZONE_LEVEL | UNSUPPORTED
