@@ -6,6 +6,10 @@
 /salt-config/master.d
 /salt-config/pki
 /Saltfile
+# Files created by manage.py
+/.terraform
+/.terraform.lock.hcl
+/terraform
 # Locations set salt-config/master.d/localuser.conf
 /cache
 /log

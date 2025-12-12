@@ -13,6 +13,7 @@ ignore = [
     "D1", "D400",
     "EXE003",  # shebang
     "T201",  # print
+    "TRY003",  # errors
 ]
 
 [tool.ruff.lint.flake8-builtins]

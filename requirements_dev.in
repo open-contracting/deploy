@@ -1,2 +1,3 @@
 pytest
+python-hcl2
 requests
