@@ -152,4 +152,5 @@ Migrate from an old server
 
       apt-mark hold elasticsearch
 
-#. Replace the hostname (``ocp##.open-contracting.org``) in ``deploy-docs.sh``, and in ``ci-profile.yml`` in the `.github <https://github.com/open-contracting/.github/blob/main/.github/workflows/ci-profile.yml>`__ repository.
+#. Replace the hostname (``ocp##.open-contracting.org``) and public key in ``deploy-docs.sh``.
+#. Replace the hostname in ``ci-profile.yml`` in the `.github <https://github.com/open-contracting/.github/blob/main/.github/workflows/ci-profile.yml>`__ repository.
