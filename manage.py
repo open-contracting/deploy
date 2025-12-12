@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
+import json
 import os
 import re
 import subprocess
+from collections import defaultdict
 from email.parser import Parser
 from email.policy import default
 from pathlib import Path
@@ -25,8 +27,8 @@ def get(url, **kwargs):
     return response.json()
 
 
-def get_zone_ids(api_token, email, account_id):
-    result = run_cf_terraforming(api_token, email, "zone", account_id)
+def get_zone_ids(api_token, account_id):
+    result = run_cf_terraforming(api_token, "zone", account_id)
     key = "cloudflare_zone"
 
     return {
@@ -39,17 +41,18 @@ def get_error_messages(result):
     return (line for line in result.stderr.splitlines(keepends=False) if " level=info " not in line)
 
 
-def run_cf_terraforming(api_token, email, resource_type, identifier):
+def run_cf_terraforming(api_token, resource_type, identifier, email=None):
+    args = ["-e", email] if email else []
+
     return subprocess.run(  # noqa: S603
         [  # noqa: S607
             "cf-terraforming",
             "generate",
             "--resource-type",
             f"cloudflare_{resource_type}",
-            "-e",
-            email,
             "-a" if resource_type in ACCOUNT_LEVEL else "-z",
             identifier,
+            *args,
         ],
         # PATH is needed if cf-terraforming was installed via Homebrew.
         env={"CLOUDFLARE_API_TOKEN": api_token, "PATH": os.getenv("PATH")},
@@ -79,24 +82,60 @@ def print_urls_from_email_message(file):
 
 @cloudflare.command()
 @api_token_option
-@email_option
 @account_id_option
-def account_level(account_id, email, api_token):
+@email_option
+def account_level(api_token, account_id, email):
     for resource_type in sorted(ACCOUNT_LEVEL_USED):
-        result = run_cf_terraforming(api_token, email, resource_type, account_id)
+        result = run_cf_terraforming(api_token, resource_type, account_id, email=email)
+
         if stdout := result.stdout:
             click.echo(stdout)
         else:
             click.secho(f"{resource_type} expected to output", fg="blue", err=True)
+
         for line in get_error_messages(result):
             click.secho(f"{resource_type}: {line}", fg="red", err=True)
 
 
 @cloudflare.command()
 @api_token_option
-@email_option
 @account_id_option
-def unused(api_token, email, account_id):
+@email_option
+def zone_level(api_token, account_id, email):
+    for resource_type in sorted(ZONE_LEVEL_USED - {"dns_record"}):
+        click.secho(resource_type, fg="green")
+
+        resources = defaultdict(list)
+
+        for domain, zone_id in get_zone_ids(api_token, account_id).items():
+            result = run_cf_terraforming(api_token, resource_type, zone_id, email=email)
+
+            for line in get_error_messages(result):
+                click.secho(f"{domain}: {line}", fg="red", err=True)
+
+            if data := hcl2.loads(result.stdout):
+                for resource in data["resource"]:
+                    for value in resource[f"cloudflare_{resource_type}"].values():
+                        for key in ("zone_id", "hosts"):
+                            value.pop(key, None)
+                        if rules := value.get("rules"):
+                            for rule in rules:
+                                for key in ("last_updated", "ref", "version"):
+                                    rule.pop(key)
+                        resources[json.dumps(value, indent=2)].append(domain)
+
+        if len(resources) == 1:
+            click.echo(next(iter(resources)))
+        else:
+            for value, domains in resources.items():
+                click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+
+
+@cloudflare.command()
+@api_token_option
+@account_id_option
+@email_option
+def unused(api_token, account_id, email):
     """Check that Cloudflare resources are unused."""
     sets = (
         ("BAD_REQUEST", BAD_REQUEST, " 400 Bad Request "),
@@ -137,12 +176,12 @@ def unused(api_token, email, account_id):
         click.secho(f"manage.py resource types not found in Terraform: {', '.join(orphaned)}", fg="yellow")
 
     # Check that the resources types are unused.
-    zone_ids = get_zone_ids(api_token, email, account_id)
+    zone_ids = get_zone_ids(api_token, account_id)
 
     for resource_type in sorted(ACCOUNT_LEVEL - ACCOUNT_LEVEL_USED - ACCOUNT_LEVEL_IGNORE):
-        _unused(run_cf_terraforming(api_token, email, resource_type, account_id))
+        _unused(run_cf_terraforming(api_token, resource_type, account_id, email=email))
     for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_USED - ZONE_LEVEL_DEFAULT):
-        _unused(run_cf_terraforming(api_token, email, resource_type, zone_ids["open-contracting.org"]))
+        _unused(run_cf_terraforming(api_token, resource_type, zone_ids["open-contracting.org"], email=email))
 
 
 ACCOUNT_LEVEL_USED = {
@@ -151,6 +190,7 @@ ACCOUNT_LEVEL_USED = {
     "pages_project",
     "registrar_domain",
     "turnstile_widget",
+    "zone",
     "web_analytics_site",
 }
 ACCOUNT_LEVEL_IGNORE = {
@@ -184,7 +224,6 @@ ZONE_LEVEL_USED = {
     "tiered_cache",
     "total_tls",
     "url_normalization_settings",
-    "zone",
     "zone_dns_settings",
     "zone_dnssec",
     "zone_hold",  # https://developers.cloudflare.com/fundamentals/account/account-security/zone-holds/
