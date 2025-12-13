@@ -29,6 +29,18 @@ def get_error_messages(result):
     return (line for line in result.stderr.splitlines(keepends=False) if " level=info " not in line)
 
 
+def print_resources(resources, *, enabled=True):
+    match len(resources):
+        case 0:
+            if not enabled:
+                click.secho("disabled", fg="yellow")
+        case 1:
+            click.echo(next(iter(resources)))
+        case _:
+            for value, domains in resources.items():
+                click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+
+
 def run_cf_terraforming(api_token, resource_type, identifier):
     return subprocess.run(  # noqa: S603
         [  # noqa: S607
@@ -99,11 +111,33 @@ def zones(api_token, defaults):
             value = client.page_shield.get(zone_id=zone_id).model_dump()
             value.pop("updated_at")
             resources[json.dumps(value, indent=2)].append(domain)
-        if len(resources) == 1:
-            click.echo(next(iter(resources)))
-        else:
-            for value, domains in resources.items():
-                click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+        print_resources(resources)
+
+        for setting_id in (
+            # SSL/TLS
+            "ssl",
+            "ciphers",
+            "always_use_https",
+            "min_tls_version",
+            "security_header",
+            # Speed > Settings
+            "speed_brain",
+            "early_hints",
+            "0rtt",
+            # Caching > Configuration
+            "browser_cache_ttl",
+        ):
+            click.secho(f"zone_settings_{setting_id}", fg="green")
+            resources = defaultdict(list)
+            for domain, zone_id in zone_ids.items():
+                value = client.zones.settings.get(setting_id, zone_id=zone_id).model_dump()
+                for key in ("id", "editable", "modified_on"):  # id = setting_id, editable = true
+                    value.pop(key)
+                value.pop("cf_zone_tag", None)
+                if len(value) == 1:
+                    value = value.pop("value")
+                resources[json.dumps(value, indent=2)].append(domain)
+            print_resources(resources)
 
     for resource_type in sorted(resource_types):
         click.secho(resource_type, fg="green")
@@ -134,15 +168,7 @@ def zones(api_token, defaults):
                         if value:
                             resources[json.dumps(value, indent=2)].append(domain)
 
-        match len(resources):
-            case 0:
-                if not enabled:
-                    click.secho("disabled", fg="yellow")
-            case 1:
-                click.echo(next(iter(resources)))
-            case _:
-                for value, domains in resources.items():
-                    click.echo(f"{click.style(', '.join(domains), fg='yellow')}: {value}")
+        print_resources(resources, enabled=enabled)
 
 
 @cloudflare.command()

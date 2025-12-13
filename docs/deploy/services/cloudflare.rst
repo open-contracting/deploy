@@ -10,7 +10,7 @@ To compare zones' resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare zones -a ACCOUNT_ID
+   uv run manage.py cloudflare zones
 
 To review account-level resources, run:
 
@@ -26,12 +26,7 @@ To confirm that no other resources are used, run:
 
 .. admonition:: Limitations
 
-   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support at least:
-
-   -  DMarc Management
-   -  Page Shield (`API client <https://github.com/cloudflare/cloudflare-python/blob/main/api.md#pageshield>`__)
-
-   Cloudflare-managed rulesets are omitted:
+   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support DMarc Management and omits Cloudflare-managed rulesets:
 
    -  ``ddos_l7``
    -  ``http_request_firewall_managed``
