@@ -74,7 +74,6 @@ Proxy status
 .. attention:: `"Proxying is on by default when you onboard a domain via the dashboard." <https://developers.cloudflare.com/dns/proxy-status/>`__ Disable the proxy where relevant.
 
 -  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
--  Proxy A, AAAA and CNAME records for `URL forwarding <https://developers.cloudflare.com/rules/page-rules/how-to/url-forwarding/>`__.
 
    .. attention::
 
@@ -82,10 +81,11 @@ Proxy status
 
    .. attention::
 
-      We configure Apache and Nginx to use the ``CF-Connecting-IP`` header. Remember to inform third-party administrators (like RBC Group) to do the same.
+      Inform server operators (like RBC Group and Datanomix) to reconfigure web server logging to use the ``CF-Connecting-IP`` header, as we do for Apache and Nginx.
 
+-  Proxy A, AAAA and CNAME records for `URL forwarding <https://developers.cloudflare.com/rules/page-rules/how-to/url-forwarding/>`__.
 -  Don't proxy A, AAAA or CNAME records for web traffic to Qlik Sense.
--  Don't proxy A, AAAA or CNAME records for web traffic to third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
+-  Don't proxy A, AAAA or CNAME records for third-party servers, like `GitHub Pages <https://github.com/orgs/community/discussions/22790>`__, `Netlify <https://answers.netlify.com/t/support-guide-why-not-proxy-to-netlify/8869>`__ or `Super <https://super.so/guides/using-super-with-cloudflare>`__.
 -  `Ports for SSH and non-web protocols are closed. <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__ Therefore:
 
    - **DO NOT** proxy A or AAAA records for hostnames, like ``ocp99``.
@@ -238,9 +238,9 @@ Manage your robots.txt
 
    -  **DO NOT** enable `Block AI bots <https://developers.cloudflare.com/bots/concepts/bot/#ai-bots>`__. Increasingly, users access our content via LLMs.
    -  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>`__. Increasingly, users access our content via LLMs.
-   -  **DO NOT** enable Bot fight mode. It `"cannot be customized, adjusted, or reconfigured via WAF custom rules" <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__ in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__, allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
+   -  **DO NOT** enable Bot fight mode. It `"cannot be customized, adjusted, or reconfigured via WAF custom rules" <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__ in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__ or to allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
 
-.. warning::
+.. attention::
 
    When adding a domain, unchecking *Instruct AI bot traffic with robots.txt* sets *Manage your robots.txt* to "Content Signals Policy" instead of "Disable robots.txt configuration".
 
