@@ -10,7 +10,7 @@ To compare zones' resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare zones
+   uv run manage.py cloudflare zones > cloudflare-zones.txt
 
 To review account-level resources, run:
 

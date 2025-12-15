@@ -1,0 +1,183 @@
+page_shield
+{
+  "enabled": true,
+  "use_cloudflare_reporting_endpoint": true,
+  "use_connection_url_path": false
+}
+zone_settings_ssl
+{
+  "value": "strict",
+  "certificate_status": "active",
+  "validation_errors": []
+}
+zone_settings_ciphers
+contracting5.org, dream-office.org, open-contracting.com, open-contracting.info, open-spending.eu: []
+open-contracting.org: [
+  "ECDHE-ECDSA-AES128-GCM-SHA256",
+  "ECDHE-ECDSA-CHACHA20-POLY1305",
+  "ECDHE-RSA-AES128-GCM-SHA256",
+  "ECDHE-RSA-CHACHA20-POLY1305",
+  "ECDHE-ECDSA-AES256-GCM-SHA384",
+  "ECDHE-RSA-AES256-GCM-SHA384"
+]
+zone_settings_always_use_https
+"on"
+zone_settings_min_tls_version
+"1.2"
+zone_settings_security_header
+{
+  "strict_transport_security": {
+    "enabled": true,
+    "include_subdomains": true,
+    "max_age": 15552000.0,
+    "nosniff": false,
+    "preload": true
+  }
+}
+zone_settings_speed_brain
+"on"
+zone_settings_early_hints
+"on"
+zone_settings_0rtt
+"on"
+zone_settings_browser_cache_ttl
+0
+argo_tiered_caching
+{
+  "value": "on"
+}
+bot_management
+contracting5.org, dream-office.org, open-contracting.com, open-contracting.info, open-spending.eu: {
+  "ai_bots_protection": "disabled",
+  "cf_robots_variant": "off",
+  "crawler_protection": "disabled",
+  "enable_js": false,
+  "fight_mode": false,
+  "is_robots_txt_managed": false
+}
+open-contracting.org: {
+  "ai_bots_protection": "disabled",
+  "cf_robots_variant": "off",
+  "crawler_protection": "disabled",
+  "enable_js": true,
+  "fight_mode": false,
+  "is_robots_txt_managed": false
+}
+certificate_pack
+contracting5.org, dream-office.org, open-contracting.com, open-contracting.info, open-contracting.org, open-spending.eu: {
+  "certificate_authority": "google",
+  "type": "universal",
+  "validation_method": "txt",
+  "validity_days": 90
+}
+open-contracting.org: {
+  "certificate_authority": "google",
+  "type": "advanced",
+  "validation_method": "txt",
+  "validity_days": 90
+}
+managed_transforms
+{
+  "managed_request_headers": [
+    {
+      "enabled": false,
+      "id": "add_client_certificate_headers"
+    },
+    {
+      "enabled": false,
+      "id": "add_visitor_location_headers"
+    },
+    {
+      "enabled": false,
+      "id": "remove_visitor_ip_headers"
+    },
+    {
+      "enabled": false,
+      "id": "add_waf_credential_check_status_header"
+    }
+  ],
+  "managed_response_headers": [
+    {
+      "enabled": false,
+      "id": "remove_x-powered-by_header"
+    },
+    {
+      "enabled": false,
+      "id": "add_security_headers"
+    }
+  ]
+}
+ruleset
+contracting5.org, dream-office.org, open-contracting.com, open-contracting.info: {
+  "kind": "zone",
+  "name": "default",
+  "phase": "http_request_dynamic_redirect",
+  "rules": [
+    {
+      "action": "redirect",
+      "action_parameters": {
+        "from_value": {
+          "preserve_query_string": false,
+          "status_code": 302,
+          "target_url": {
+            "value": "https://www.open-contracting.org"
+          }
+        }
+      },
+      "description": "Redirect to open-contracting.org",
+      "enabled": true,
+      "expression": "true",
+      "id": null
+    }
+  ]
+}
+open-contracting.org: {
+  "kind": "zone",
+  "name": "default",
+  "phase": "http_config_settings"
+}
+open-contracting.org: {
+  "kind": "zone",
+  "name": "default",
+  "phase": "http_request_firewall_custom"
+}
+tiered_cache
+{
+  "value": "on"
+}
+total_tls
+disabled
+url_normalization_settings
+{
+  "scope": "incoming",
+  "type": "cloudflare"
+}
+zone_dns_settings
+{
+  "flatten_all_cnames": false,
+  "foundation_dns": false,
+  "multi_provider": false,
+  "ns_ttl": 86400,
+  "secondary_overrides": false,
+  "zone_mode": "standard",
+  "internal_dns": {
+    "reference_zone_id": null
+  },
+  "nameservers": {
+    "type": "cloudflare.standard"
+  },
+  "soa": {
+    "expire": 604800,
+    "min_ttl": 1800,
+    "mname": null,
+    "refresh": 10000,
+    "retry": 2400,
+    "rname": "dns.cloudflare.com",
+    "ttl": 3600
+  }
+}
+zone_dnssec
+zone_hold
+{
+  "include_subdomains": false
+}

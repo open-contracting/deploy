@@ -29,11 +29,13 @@ def get_error_messages(result):
     return (line for line in result.stderr.splitlines(keepends=False) if " level=info " not in line)
 
 
-def print_resources(resources, *, enabled=True):
+def print_resources(resources, *, disabled=True, default=False):
     match len(resources):
         case 0:
-            if not enabled:
+            if disabled:
                 click.secho("disabled", fg="yellow")
+            elif default:
+                click.secho("default", fg="yellow")
         case 1:
             click.echo(next(iter(resources)))
         case _:
@@ -150,7 +152,8 @@ def zones(api_token, defaults):
             for line in get_error_messages(result):
                 click.secho(f"{domain}: {line}", fg="red", err=True)
 
-            enabled = True
+            disabled = False
+            default = False
             if data := hcl2.loads(result.stdout):
                 for resource in data["resource"]:
                     for value in resource[f"cloudflare_{resource_type}"].values():
@@ -160,15 +163,22 @@ def zones(api_token, defaults):
                             for rule in rules:
                                 for key in ("last_updated", "ref", "version"):
                                     rule.pop(key)
-                        if defaults and len(value) == 1:
+                        if not value:
+                            default = True
+                        elif len(value) == 1:
                             if value.get("enabled") is False:
-                                enabled = value.pop("enabled")
+                                value.pop("enabled")
+                                disabled = False
+                            elif value.get("status") == "disabled":
+                                value.pop("status")
+                                disabled = False
                             elif domain in value.get("name", ""):  # email_routing_dns
                                 value.pop("name")
+                                default = True
                         if value:
                             resources[json.dumps(value, indent=2)].append(domain)
 
-        print_resources(resources, enabled=enabled)
+        print_resources(resources, disabled=disabled, default=default)
 
 
 @cloudflare.command()
