@@ -12,11 +12,8 @@ docker:
   syslog_logging: True
 
 docker_apps:
-  credere_frontend:
-    target: credere-frontend
-    site: credere
-  credere_backend:
-    target: credere-backend
+  credere:
+    target: credere
     site: credere
     env:
       LOG_LEVEL: WARNING

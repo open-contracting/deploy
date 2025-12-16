@@ -1,0 +1,24 @@
+x-shared: &shared
+  env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
+
+x-app: &app
+  image: "ghcr.io/open-contracting/credere-app:latest"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+services:
+  web:
+    <<: *app
+    ports:
+      - {{ site.port }}:8000
+  cron:
+    <<: *app
+    profiles:
+      - cron
+  static:
+    <<: *shared
+    image: "ghcr.io/open-contracting/credere-static:latest"
+    ports:
+      - {{ site.static_port }}:8080

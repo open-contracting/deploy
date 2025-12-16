@@ -4,8 +4,7 @@ apache:
       servername: credere.open-contracting.org
 
 docker_apps:
-  credere_backend:
-    target: credere-backend
+  credere:
     env:
       ENVIRONMENT: production
       # Timeline
