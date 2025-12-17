@@ -14,7 +14,7 @@ x-django: &django
     # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
     - {{ entry.host_dir }}/media:/data/media
     # The right-hand path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
-    - {{ pillar.exporter_host_dir }}:/data/exporter
+    - {{ pillar.exporter_host_dir }}:/data/exporter:ro
   depends_on:
     - redis
 
@@ -49,4 +49,4 @@ services:
       - {{ site.static_port }}:8080
     volumes:
       # The right-hand path must match the settings.MEDIA_ROOT default value in spoonbill-web.
-      - {{ entry.host_dir }}/media:/data/media
+      - {{ entry.host_dir }}/media:/data/media:ro

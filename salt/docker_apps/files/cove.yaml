@@ -49,4 +49,4 @@ services:
       - {{ site.static_port }}:8080
     volumes:
       # The right-hand path must match the root directive of the default.conf file in the CoVE repository.
-      - {{ directory }}/media:/data/media
+      - {{ directory }}/media:/data/media:ro
