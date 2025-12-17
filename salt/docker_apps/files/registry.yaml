@@ -40,5 +40,3 @@ services:
     image: "ghcr.io/open-contracting/data-registry-static:latest"
     ports:
       - {{ site.static_port }}:8080
-    volumes:
-      - {{ pillar.exporter_host_dir }}:/data/exporter:ro

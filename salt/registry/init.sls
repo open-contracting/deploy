@@ -5,6 +5,7 @@ include:
   # django.conf.include
   - apache.modules.headers # RequestHeader
   - apache.modules.proxy_http # ProxyPass
+  - apache.modules.rewrite # RewriteRule
   - docker_apps
 
 {% set entry = pillar.docker_apps.registry %}

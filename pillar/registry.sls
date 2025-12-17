@@ -60,13 +60,12 @@ apache:
         proxypass: http://localhost:6800/
         authname: Kingfisher Scrapyd
     registry:
-      configuration: django
+      configuration: registry
       servername: data.open-contracting.org
       context:
         port: 8002
         static_port: 8003
         timeout: 300
-        downloads: True
     spoonbill:
       configuration: spoonbill
       servername: flatten.open-contracting.org
@@ -161,7 +160,7 @@ docker_apps:
       # Need to sync with `docker_apps.kingfisher_process.port`.
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
       SCRAPYD_URL: http://host.docker.internal:6800
-      USE_X_ACCEL_REDIRECT: True
+      REDIRECT_DOWNLOADS: True
       SPOONBILL_URL: https://flatten.open-contracting.org
       # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
       SPOONBILL_EXPORTER_DIR: /data/exporter
