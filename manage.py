@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import difflib
 import json
 import os
 import re
@@ -6,12 +7,17 @@ import subprocess
 from collections import defaultdict
 from email.parser import Parser
 from email.policy import default
+from itertools import islice
 from pathlib import Path
 
 import click
 import hcl2
 import requests
 from cloudflare import Cloudflare
+from rich.console import Console
+from rich.syntax import Syntax
+
+console = Console()
 
 api_token_option = click.option(
     "--api-token", envvar="CLOUDFLARE_API_TOKEN", required=True, help="Cloudflare API token"
@@ -59,6 +65,10 @@ def run_cf_terraforming(api_token, resource_type, identifier):
         text=True,
         check=False,  # errors if HTTP 4XX
     )
+
+
+def salt_ssh(*args):
+    return subprocess.run(["./run.py", *args], check=True, text=True, stdout=subprocess.PIPE).stdout  # noqa: S603 # trusted input
 
 
 @click.group()
@@ -232,6 +242,38 @@ def unused(api_token, account_id):
         _unused(run_cf_terraforming(api_token, resource_type, account_id))
     for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_USED - ZONE_LEVEL_DEFAULT):
         _unused(run_cf_terraforming(api_token, resource_type, zone_id))
+
+
+@cli.command()
+@click.argument("local", type=click.Path(exists=True, path_type=Path))
+@click.argument("remote")
+def diff(local, remote):
+    """
+    Compare a remote file across all servers against a local file.
+
+    Example: manage.py diff firewall-settings.typical /home/sysadmin-tools/firewall-settings.local
+    """
+    expected = local.read_text().splitlines()
+
+    stdout = salt_ssh("*", "file.read", remote)
+
+    target = None
+    contents = defaultdict(list)
+    for line in stdout.splitlines():
+        if line.startswith("    "):
+            contents[target].append(line[4:])
+        else:
+            target = line[:-1]  # trailing colon
+
+    for target, actual in contents.items():
+        if actual == expected:
+            click.secho(f"{target}: no changes", fg="green")
+        else:
+            click.secho(f"{target}:", fg="yellow")
+            console.print(
+                # Remove the file headers ("---", "+++").
+                Syntax("\n".join(islice(difflib.unified_diff(expected, actual, n=0, lineterm=""), 2, None)), "diff")
+            )
 
 
 ACCOUNT_LEVEL_USED = {
