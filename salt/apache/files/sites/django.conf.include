@@ -13,6 +13,11 @@ RequestHeader set X-Forwarded-Proto https env=HTTPS
 ProxyPass {{ path }} http://127.0.0.1:{{ static_port }}{{ url }}
 ProxyPassReverse {{ path }} http://127.0.0.1:{{ static_port }}{{ url }}
 {%- endfor %}
+{%- if downloads|default %}
+
+ProxyPass /downloads/ http://127.0.0.1:{{ static_port }}/internal/ timeout={{ timeout }}
+ProxyPassReverse /downloads/ http://127.0.0.1:{{ static_port }}/internal/
+{%- endif %}
 
 ProxyPass / http://127.0.0.1:{{ port }}/ timeout={{ timeout }}
 ProxyPassReverse / http://127.0.0.1:{{ port }}/
