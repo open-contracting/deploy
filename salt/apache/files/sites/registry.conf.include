@@ -13,6 +13,7 @@ ProxyPass /internal !
 
 <Directory "{{ pillar.exporter_host_dir }}">
     Require all granted
+    Header set Cache-Control "public, max-age=86400"
 </Directory>
 
 Header set Content-Disposition "attachment; filename=\"%{DOWNLOAD}e\"" env=DOWNLOAD
