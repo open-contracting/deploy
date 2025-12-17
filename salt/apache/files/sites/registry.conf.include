@@ -2,18 +2,22 @@ RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 
 RewriteEngine On
-RewriteRule ^/downloads/(\w+)/(\d+)/(\w+\.(jsonl\.gz|csv\.tar\.gz|xlsx))$ /exporter/$2/$3 [L,PT,E=DOWNLOAD:$1_$3]
+RewriteRule ^/downloads/(\w+)/(\d+)/(\w+\.(jsonl\.gz|csv\.tar\.gz|xlsx))$ /internal/$2/$3 [L,PT,E=DOWNLOAD:$1_$3]
 
-Header set Content-Disposition "attachment; filename=\"%{DOWNLOAD}e\"" env=DOWNLOAD
-AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .xlsx
-AddType application/gzip .gz
+Alias /internal "{{ pillar.exporter_host_dir }}"
+ProxyPass /internal !
 
-Alias /exporter "{{ pillar.exporter_host_dir }}"
-ProxyPass /exporter !
+<Location "/internal">
+    Require env DOWNLOAD
+</Location>
 
 <Directory "{{ pillar.exporter_host_dir }}">
     Require all granted
 </Directory>
+
+Header set Content-Disposition "attachment; filename=\"%{DOWNLOAD}e\"" env=DOWNLOAD
+AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .xlsx
+AddType application/gzip .gz
 
 # https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/modwsgi/#serving-files
 {%-
