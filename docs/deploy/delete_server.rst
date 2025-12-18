@@ -8,7 +8,7 @@ As with other deployment tasks, do the :doc:`setup tasks<setup>` before the step
 #. Notify relevant users of the change
 #. If the server has :ref:`PostgreSQL<pg-setup-backups>` or :ref:`MySQL<mysql-backups>` backups, use :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``, and manually upload a final backup to the root of the S3 bucket
 #. Remove all occurrences of the server's FQDN and IP address from this repository
-#. Remove the :ref:`dns` records whose names match the server's FQDN (A, AAAA, SPF)
+#. Remove the :ref:`dns` records whose names match the server's FQDN (A, AAAA)
 #. Remove the server's root password from `LastPass <https://www.lastpass.com>`__
 #. Shutdown the server via the :ref:`host<hosting>`'s interface
 

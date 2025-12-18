@@ -342,8 +342,8 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
 Hostnames follow the format ``ocp##.open-contracting.org`` (ocp01, ocp02, etc.). Determine the greatest number by referring to :ref:`dns` records and the `salt-config/roster <https://github.com/open-contracting/deploy/blob/main/salt-config/roster>`__ file. Then, increment the number by 1 for the new server, to ensure the hostname is unique and used only once.
 
-Add A, AAAA and SPF records
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Add A and AAAA records
+~~~~~~~~~~~~~~~~~~~~~~
 
 #. Add an A record for the hostname:
 
@@ -352,14 +352,6 @@ Add A, AAAA and SPF records
    #. Enter the hostname in *Name* (``ocp99``, for example)
    #. Enter the IPv4 address in *Value*
    #. Set *TTL* to 1 **Day**
-
-#. Add an SPF record for the hostname, because cron jobs send mail from this hostname:
-
-   #. Click the *Add More Records* button
-   #. Select "TXT" from the *Type* dropdown
-   #. Enter the hostname in *Name* (``ocp99``, for example)
-   #. Enter the SPF record in *Value* (``v=spf1 a:ocp99.open-contracting.org -all``, for example)
-   #. Set *TTL* to 1 Hour
 
 #. If the server has an IPv6 /64 block, add an AAAA record for the hostname:
 

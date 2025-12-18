@@ -152,10 +152,6 @@ Records reference
      - ``sendgrid.net`` name
      - `Trolley <https://support.trolley.com/s/article/How-to-set-up-White-Label-Emails>`__ (`SendGrid <https://www.twilio.com/docs/sendgrid/ui/account-and-settings/how-to-set-up-domain-authentication>`__)
    * - TXT
-     - ``ocp##``
-     - SPF policy
-     - See :ref:`Create DNS records<create-dns-records>`
-   * - TXT
      - ``@``
      - SPF policy
      - `Google Workspace <https://support.google.com/a/answer/33786?hl=en>`__
