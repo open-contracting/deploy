@@ -63,7 +63,7 @@ postfix:
 {%- if "relay_address" in pillar.smtp %}
 /etc/postfix/generic:
   file.managed:
-    - contents: "root@{{ pillar.network.host_id }}.{{ pillar.network.domain }}        {{ pillar.smtp.relay_address }}"
+    - contents: "@{{ pillar.network.host_id }}.{{ pillar.network.domain }}        {{ pillar.smtp.relay_address }}"
     - mode: 600
   cmd.run:
     - name: postmap hash:/etc/postfix/generic
