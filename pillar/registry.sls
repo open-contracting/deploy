@@ -160,7 +160,7 @@ docker_apps:
       # Need to sync with `docker_apps.kingfisher_process.port`.
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
       SCRAPYD_URL: http://host.docker.internal:6800
-      DOWNLOADS_URL: https://data.open-contracting.org
+      DOWNLOADS_URL: https://fastly.data.open-contracting.org
       SPOONBILL_URL: https://flatten.open-contracting.org
       # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
       SPOONBILL_EXPORTER_DIR: /data/exporter
