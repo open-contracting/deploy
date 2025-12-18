@@ -76,14 +76,6 @@ apache:
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.data.open-contracting.org
-  customization: |
-    <IfModule mod_rewrite.c>
-      <Location "/">
-        RewriteEngine On
-        RewriteCond %{HTTP_USER_AGENT} "^Sogou web spider" [NC]
-        RewriteRule .* - [F,L]
-      </Location>
-    </IfModule>
 
 postgres:
   version: 16
