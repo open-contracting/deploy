@@ -32,7 +32,8 @@ ntp:
   - 3.uk.pool.ntp.org
 
 smtp:
-  relay: False
+  relay: True
+  relay_address: noreply@noreply.open-contracting.org
 
 netdata:
   enabled: False

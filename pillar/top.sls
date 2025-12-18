@@ -4,6 +4,7 @@ base:
   '*':
     - common
     - private.common
+    - private.smtp
 
   'cms':
     - cms
@@ -54,7 +55,6 @@ base:
     - prometheus_server
     - prometheus_server_maintenance
     - private.prometheus_server
-    - private.smtp
 
   'registry':
     - registry

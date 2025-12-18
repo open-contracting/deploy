@@ -37,6 +37,7 @@ postfix:
         smtp_tls_note_starttls_offer: "yes"
 {%- if "relay_address" in pillar.smtp %}
         smtp_generic_maps: "hash:/etc/postfix/generic"
+        smtp_header_checks: "regexp:/etc/postfix/smtp_header_checks"
 {%- endif %}
 {%- endif %}
     - separator: ' = '
@@ -72,6 +73,16 @@ postfix:
       - file: /etc/postfix/generic
     - watch_in:
       - file: postfix
+
+/etc/postfix/smtp_header_checks:
+  file.managed:
+    # Whitespace is optional after "From:". Ignore display name.
+    - contents: >
+        /^From:[[:space:]]*(.*<)?root@{{ pillar.network.host_id }}\.{{ pillar.network.domain|regex_escape }}>?/
+        REPLACE From: root@{{ pillar.network.host_id }} <{{ pillar.smtp.relay_address }}>
+    - mode: 600
+    - watch_in:
+      - service: postfix
 {% endif %}
 
 # Install commands for users to interact with mail.
