@@ -209,7 +209,7 @@ HTTP Strict Transport Security (HSTS):
   Enable HSTS (Strict-Transport-Security)
     Checked
   Max Age Header (max-age)
-    6 months (Recommended)
+    12 months
   Apply HSTS policy to subdomains (includeSubDomains)
     Checked
   Preload
