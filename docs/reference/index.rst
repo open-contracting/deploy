@@ -165,6 +165,10 @@ The server managers are:
 
 `Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) staff also have administrative roles.
 
+.. tip::
+
+   To connect to Windows servers from macOS, use `Windows App <https://apps.apple.com/us/app/windows-app/id1295203466?mt=12>`__.
+
 .. _root-access-policy:
 
 Root access
