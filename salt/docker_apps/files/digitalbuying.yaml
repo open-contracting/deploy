@@ -16,7 +16,7 @@ x-django: &django
 
 services:
   redis:
-    image: rapidfort/redis-official:6.2-bookworm
+    image: redis:8.4
     command: ["redis-server", "/redis.conf"]
     user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     restart: always

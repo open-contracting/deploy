@@ -21,7 +21,7 @@ x-django: &django
 services:
 {%- if 'REDIS_URL' in entry.env %}
   redis:
-    image: rapidfort/redis-official:6.2-bookworm
+    image: redis:8.4
     command: ["redis-server", "/redis.conf"]
     user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     restart: always
@@ -31,7 +31,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - {{ directory }}/redis/data:/bitnami/redis/data
+      - {{ directory }}/redis/data:/data
       - {{ directory }}/redis/redis.conf:/redis.conf
 {%- endif %}
   web:
