@@ -180,6 +180,7 @@ docker_apps:
       ALLOWED_HOSTS: flatten.open-contracting.org
       SECURE_HSTS_SECONDS: 31536000
       CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
+      REDIS_URL: redis://redis:6379/0
 
 # The registry app writes to this directory. The spoonbill app reads from this directory.
 exporter_host_dir: /data/storage/exporter
