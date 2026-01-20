@@ -31,9 +31,6 @@ ignore-variadic-names = true
 [tool.sqlfluff.core]
 dialect = "postgres"
 
-[tool.sqlfluff.rules.references.quoting]
-prefer_quoted_keywords = true
-
 [tool.sqlfluff.rules.capitalisation.keywords]
 capitalisation_policy = "upper"
 
@@ -54,6 +51,9 @@ preferred_type_casting_style = "shorthand"
 
 [tool.sqlfluff.rules.convention.not_equal]
 preferred_not_equal_style = "ansi"
+
+[tool.sqlfluff.rules.references.quoting]
+prefer_quoted_keywords = true
 
 [tool.sqlfluff.templater.jinja.context]
 path = "mypath"
