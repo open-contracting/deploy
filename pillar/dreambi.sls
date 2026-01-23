@@ -47,7 +47,6 @@ docker_apps:
     site: bi.dream.gov.ua
     volumes:
       - redis/data
-      - redis/tmp
     env:
       # Must end with a "/".
       QLIK_PROXY_SERVICE: https://ocp15.open-contracting.org:4243/qps/prod/

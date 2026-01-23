@@ -174,7 +174,6 @@ docker_apps:
       - media
       - tmp
       - redis/data
-      - redis/tmp
     env:
       DJANGO_PROXY: True
       ALLOWED_HOSTS: flatten.open-contracting.org

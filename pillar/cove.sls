@@ -2,7 +2,6 @@ x-volumes: &volumes
   - db
   - media
   - redis/data
-  - redis/tmp
 
 x-env: &env
   DJANGO_PROXY: True

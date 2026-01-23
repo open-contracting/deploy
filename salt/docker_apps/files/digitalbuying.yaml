@@ -16,18 +16,18 @@ x-django: &django
 
 services:
   redis:
-    image: bitnamilegacy/redis:6.2
+    image: redis:8.4
+    command: ["redis-server", "/redis.conf"]
+    user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
     restart: always
-    environment:
-      ALLOW_EMPTY_PASSWORD: "yes"
     healthcheck:
       test: redis-cli -h 127.0.0.1 ping | grep -q PONG
       interval: 10s
       timeout: 5s
       retries: 5
     volumes:
-      - {{ directory }}/redis/data:/bitnami/redis/data
-      - {{ directory }}/redis/tmp:/opt/bitnami/redis/tmp
+      - {{ directory }}/redis/data:/data
+      - {{ directory }}/redis/redis.conf:/redis.conf
   web:
     <<: *django
     ports:
