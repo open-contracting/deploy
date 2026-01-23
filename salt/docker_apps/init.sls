@@ -50,6 +50,7 @@ include:
       - user: {{ pillar.docker.user }}_user_exists
 {% endfor %}
 
+{% if 'volumes' in entry %}
 {% if 'redis' in entry.volumes|join(' ') %}
 {{ directory }}/redis/redis.conf:
   file.managed:
@@ -59,5 +60,6 @@ include:
     - makedirs: True
     - require:
       - user: {{ pillar.docker.user }}_user_exists
+{% endif %}
 {% endif %}
 {% endfor %}
