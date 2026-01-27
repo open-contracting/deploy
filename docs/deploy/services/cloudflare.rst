@@ -222,6 +222,8 @@ Continuous script monitoring
   Checked
 Manage your robots.txt
   Disable robots.txt configuration
+Browser integrity check
+  Unchecked (to allow all requests to ``https://standard.open-contracting.org/schema/``)
 
 .. note::
 
