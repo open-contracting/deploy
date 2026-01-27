@@ -1,4 +1,4 @@
-{% from 'lib.sls' import create_user %}
+{% from 'lib.sls' import create_user, set_cron_env %}
 
 include:
   - apache.modules.rewrite # required by WordPress
@@ -33,6 +33,8 @@ allow {{ userdir }} access:
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
+
+{{ set_cron_env(user, 'MAILTO', 'root') }}
 
 # Assumes that all PHP-FPM sites on the CMS server are WordPress.
 /usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html:
