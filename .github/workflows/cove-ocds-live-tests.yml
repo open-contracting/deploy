@@ -25,7 +25,7 @@ jobs:
           DJANGO_SETTINGS_MODULE: cove_project.settings
         run: pytest tests/test_functional.py
       - if: failure()
-        uses: dawidd6/action-send-mail@6e71c855c9a091d80a519621b9fd3e8d252ca40c # v7
+        uses: dawidd6/action-send-mail@afe978662944c6805dd197bac88b27acb0bda55a # v8
         with:
           server_address: ${{ secrets.MAIL_HOST }}
           server_port: ${{ secrets.MAIL_PORT }}
