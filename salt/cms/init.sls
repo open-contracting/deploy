@@ -34,7 +34,7 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
-{{ set_cron_env(user, 'MAILTO', 'root') }}
+{{ set_cron_env(user, 'MAILTO', 'sysadmin@open-contracting.org', 'root') }}
 
 # Assumes that all PHP-FPM sites on the CMS server are WordPress.
 /usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html:
