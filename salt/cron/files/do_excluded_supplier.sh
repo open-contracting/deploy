@@ -3,9 +3,9 @@
 set -euo pipefail
 
 # https://datosabiertos.dgcp.gob.do/opendata/tablas
-curl -sSk https://api.dgcp.gob.do/opendata/proveedores/proveedores_inhabilitados.csv |
+curl -sS 'https://datosabiertos.dgcp.gob.do/api-dgcp/v1/tablas/contratos?Type=csv' |
     # The first column is the RPE.
-    grep -Eo '^[0-9]+,' |
+    grep -Eo ',[0-9]+,' |
     # Sort numerically and uniquely.
     sort -nu |
     # Prefix the identifier scheme.
