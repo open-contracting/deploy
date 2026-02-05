@@ -9,6 +9,6 @@ curl -sS 'https://datosabiertos.dgcp.gob.do/api-dgcp/v1/tablas/contratos?Type=cs
     # Sort numerically and uniquely.
     sort -nu |
     # Prefix the identifier scheme.
-    sed -E 's/^(.+),$/DO-RPE-\1/' |
+    sed -E 's/^,(.+),$/DO-RPE-\1/' |
     # Replace the table in a transaction.
     psql -U kingfisher_collect -h localhost -q -c "BEGIN; DELETE FROM excluded_supplier; COPY excluded_supplier (identifier) FROM stdin; END;"
