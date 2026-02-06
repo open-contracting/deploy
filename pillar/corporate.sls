@@ -30,6 +30,9 @@ phpfpm:
       configuration: default
       context:
         user: corporate
+        cron_contact:
+          - sysadmin@open-contracting.org
+          - root
         listen_user: www-data
         socket: /var/run/php/php-fpm-corporate.sock
         env:

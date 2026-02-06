@@ -23,5 +23,10 @@ phpfpm:
       configuration: default
       context:
         user: coalition
+        cron_contact:
+          - sysadmin@open-contracting.org
+          - root
+        cron_ignore:
+          - a-fake-plugin.php
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
