@@ -3,12 +3,12 @@
 set -euo pipefail
 
 # https://datosabiertos.dgcp.gob.do/opendata/tablas
-curl -sS 'https://datosabiertos.dgcp.gob.do/api-dgcp/v1/tablas/contratos?Type=csv' |
+curl -sS 'https://datosabiertos.dgcp.gob.do/api-dgcp/v1/tablas/proveedores?Type=csv&inhabilitados=true' |
     # The first column is the RPE.
-    grep -Eo ',[0-9]+,' |
+    grep -Eo '^[0-9]+,' |
     # Sort numerically and uniquely.
     sort -nu |
     # Prefix the identifier scheme.
-    sed -E 's/^,(.+),$/DO-RPE-\1/' |
+    sed -E 's/^(.+),$/DO-RPE-\1/' |
     # Replace the table in a transaction.
     psql -U kingfisher_collect -h localhost -q -c "BEGIN; DELETE FROM excluded_supplier; COPY excluded_supplier (identifier) FROM stdin; END;"
