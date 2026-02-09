@@ -32,6 +32,7 @@ phpfpm:
         user: corporate
         cron_contact:
           - sysadmin@open-contracting.org
+          - support+ocp@theideabureau.co
           - root
         listen_user: www-data
         socket: /var/run/php/php-fpm-corporate.sock
