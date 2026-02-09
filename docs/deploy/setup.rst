@@ -24,7 +24,7 @@ Check the output in case there are any issues switching to the default branch or
    Skip this step unless you're working on Kingfisher.
 
 #. :ref:`Access Scrapyd's web interface<access-scrapyd-web-service>`, click *Jobs* and look under *Running*. If any spiders are running, don't deploy without the consent of data support managers.
-#. :doc:`SSH<../use/ssh>` into ``collect.kingfisher.open-contracting.org`` as the ``root`` user.
+#. :doc:`SSH<../use/ssh>` into ``kingfisher-main`` as the ``root`` user.
 #. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the data support managers, who should be identified by the session names.
 
    To list all sessions:

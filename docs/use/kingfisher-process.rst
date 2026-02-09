@@ -41,11 +41,11 @@ Load local data
 
    If you need to download an archive file (e.g. ZIP) from a remote URL, prefer ``curl`` to ``wget``, because ``wget`` sometimes writes unwanted files like ``wget-log``.
 
-   If you need to copy files from your local machine, you can use ``rsync`` (fast) or ``scp`` (slow). For example, on your local machine:
+   If you need to copy files from your local machine, you can use ``rsync`` (fast) or ``scp`` (slow). For example, on your local machine, replacing ``ocp99`` with the server's hostname:
 
    .. code-block:: bash
 
-      rsync -avz file.json USER@collect.kingfisher.open-contracting.org:~/local-load/moldova-2020-04-07
+      rsync -avz file.json USER@ocp99.open-contracting.org:~/local-load/moldova-2020-04-07
 
 #. Load the data. For example, to create compiled releases and run structural checks:
 

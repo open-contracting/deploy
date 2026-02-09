@@ -12,7 +12,7 @@ Create a .netrc file
 
 To create (or append credentials to) a ``~/.netrc`` file:
 
-#. Run, replacing ``HOSTNAME`` with the service's hostname (e.g. ``collect.kingfisher.open-contracting.org``), ``USERNAME`` with your username, and ``PASSWORD`` with your password:
+#. Run, replacing ``HOSTNAME`` with the server's hostname (e.g. ``ocp99.open-contracting.org``), ``USERNAME`` with your username, and ``PASSWORD`` with your password:
 
    .. code-block:: bash
 
