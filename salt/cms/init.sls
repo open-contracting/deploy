@@ -34,7 +34,7 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
-{{ set_cron_env(user, 'MAILTO', ','.join(entry.context.cron_contact | default(['root']) ) ) }}
+{{ set_cron_env(user, 'MAILTO', ','.join(entry.context.cron_contact | default(['root']) ), 'cms' ) }}
 
 # Assumes that all PHP-FPM sites on the CMS server are WordPress.
 {% if entry.context.cron_ignore is defined %}
