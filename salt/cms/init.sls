@@ -34,14 +34,11 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 
-{{ set_cron_env(user, 'MAILTO', ','.join(entry.context.cron_contact | default(['root']) ), 'cms' ) }}
+{{ set_cron_env(user, 'MAILTO', entry.cron.contact|join(','), 'cms' ) }}
 
 # Assumes that all PHP-FPM sites on the CMS server are WordPress.
-{% if entry.context.cron_ignore is defined %}
-/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html 2>&1 | grep -v '{{ '\|'.join(entry.context.cron_ignore) }}':
-{% else %}
-/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html:
-{% endif %}
+
+/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html{% if 'ignore' in entry.cron %} 2>&1 | grep -v '{{ entry.cron.ignore|join('\|') }}'{% endif %}:
   cron.present:
     - identifier: WORDPRESS_SITE_CRON
     - user: {{ user }}

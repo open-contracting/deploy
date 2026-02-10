@@ -30,15 +30,15 @@ phpfpm:
       configuration: default
       context:
         user: corporate
-        cron_contact:
-          - sysadmin@open-contracting.org
-          - support+ocp@theideabureau.co
-          - root
         listen_user: www-data
         socket: /var/run/php/php-fpm-corporate.sock
         env:
           # Increased to resolve WordPress menu issue.
           php_value[max_input_vars]: 2000
+      cron:
+        contact:
+          - sysadmin@open-contracting.org
+          - support+ocp@theideabureau.co
 
 ssh:
   corporate:
