@@ -38,7 +38,7 @@ allow {{ userdir }} access:
 
 # Assumes that all PHP-FPM sites on the CMS server are WordPress.
 {% if entry.context.cron_ignore is defined %}
-/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html | grep -v '{{ '\|'.join(entry.context.cron_ignore) }}':
+/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html 2>&1 | grep -v '{{ '\|'.join(entry.context.cron_ignore) }}':
 {% else %}
 /usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html:
 {% endif %}
