@@ -63,7 +63,7 @@ apache2-utils:
 
 # Ensure this configuration is loaded first.
 {{ apache('00-default', {'configuration': 'default', 'servername': ''}) }}
-{{ apache('fqdn', {'configuration': 'default', 'servername': grains.fqdn}) }}
+{{ apache('10-fqdn', {'configuration': 'default', 'servername': grains.fqdn}) }}
 
 {% if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
 autoindex:
