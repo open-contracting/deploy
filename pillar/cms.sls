@@ -28,6 +28,7 @@ backup:
 # Sites are configured in each CMS' Pillar file.
 apache:
   public_access: True
+  site_logs: True
 
 # Databases and users are configured in each CMS' Pillar file.
 mysql:

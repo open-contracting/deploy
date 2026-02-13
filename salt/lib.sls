@@ -167,6 +167,7 @@ unset {{ setting_name }} in {{ filename }}:
         servername: {{ entry.servername }}
         serveraliases: {{ entry.serveraliases|default([])|yaml }}
         https: {{ entry.https|default(true) }}
+        log_directory: /var/log/apache2/{{ name }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:
@@ -190,6 +191,16 @@ add .htpasswd-{{ name }}-{{ username }}:
     - require:
       - pkg: apache2
 {% endfor %}
+
+{% if pillar.apache.site_logs|default(False) and not name[0:1].isdigit() %}
+/var/log/apache2/{{ name }}:
+  file.directory:
+    - user: root
+    - group: adm
+    - dir_mode: 755
+    - require_in:
+      - file: /etc/apache2/sites-available/{{ name }}.conf
+{% endif%}
 {% endmacro %}
 
 {#
