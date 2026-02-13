@@ -6,8 +6,8 @@
     compress
     delaycompress
     sharedscripts
+    create 0644 syslog adm
     postrotate
         /usr/lib/rsyslog/rsyslog-rotate
     endscript
-    create 0644 syslog adm
 }
