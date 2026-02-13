@@ -1,8 +1,8 @@
 /var/log/docker-custom/*.log {
-        rotate 14
-        daily
-        missingok
-        notifempty
-        compress
-        delaycompress
+    rotate 14
+    daily
+    missingok
+    notifempty
+    compress
+    delaycompress
 }
