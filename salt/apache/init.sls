@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, set_firewall, unset_firewall %}
+{% from 'lib.sls' import apache, logrotate, set_firewall, unset_firewall %}
 
 {% if salt['pillar.get']('apache:public_access') %}
   {{ set_firewall('PUBLIC_HTTP') }}
@@ -142,4 +142,8 @@ disable-conf-other-vhosts-access-log.conf:
     - name: service.systemctl_reload
     - onchanges:
       - file: /etc/systemd/system/apache2.service.d/customization.conf
+{% endif %}
+
+{% if pillar.apache.site_logs|default(False) %}
+{{ logrotate("apache-site-logs") }}
 {% endif %}

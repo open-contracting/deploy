@@ -253,3 +253,13 @@ add .htpasswd-{{ name }}-{{ username }}:
     - watch_in:
       - module: nginx-reload
 {% endmacro %}
+
+{% macro logrotate(name, entry={}) %}
+/etc/logrotate.d/{{ name }}:
+  file.managed:
+    - source: salt://core/logrotate/files/{{ entry.source|default(name) }}
+{% if 'context' in entry %}
+    - template: jinja
+    - context: {{ entry.context|yaml }}
+{% endif %}
+{% endmacro %}
