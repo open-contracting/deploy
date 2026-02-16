@@ -145,5 +145,5 @@ disable-conf-other-vhosts-access-log.conf:
 {% endif %}
 
 {% if pillar.apache.site_logs|default(False) %}
-{{ logrotate("apache-site-logs") }}
+{{ logrotate('apache-site-logs') }}
 {% endif %}
