@@ -144,6 +144,6 @@ disable-conf-other-vhosts-access-log.conf:
       - file: /etc/systemd/system/apache2.service.d/customization.conf
 {% endif %}
 
-{% if pillar.apache.site_logs|default(False) %}
+{% if pillar.apache.get('site_logs') %}
 {{ logrotate('apache-site-logs') }}
 {% endif %}

@@ -192,7 +192,7 @@ add .htpasswd-{{ name }}-{{ username }}:
       - pkg: apache2
 {% endfor %}
 
-{% if pillar.apache.site_logs|default(False) and not name[0:1].isdigit() %}
+{% if pillar.apache.get('site_logs') and not name[:1].isdigit() %}
 /var/log/apache2/{{ name }}:
   file.directory:
     - user: root
