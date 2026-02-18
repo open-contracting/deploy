@@ -13,6 +13,16 @@ logpath  = /var/log/apache2/access.log
 maxretry = 10
 findtime = 1m
 bantime  = 1h
+
+{% if pillar.apache.get('site_logs') %}
+[apache-custom-site-logs]
+enabled  = true
+filter   = apache-auth
+port     = http,https
+logpath  = /var/log/apache2/*/*.log
+maxretry = 10
+findtime = 1m
+{%- endif %}
 {%- endif %}
 {%- if salt['pillar.get']('postgres:public_access') %}
 

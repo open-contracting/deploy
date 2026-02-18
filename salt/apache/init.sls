@@ -1,4 +1,4 @@
-{% from 'lib.sls' import apache, set_firewall, unset_firewall %}
+{% from 'lib.sls' import apache, logrotate, set_firewall, unset_firewall %}
 
 {% if salt['pillar.get']('apache:public_access') %}
   {{ set_firewall('PUBLIC_HTTP') }}
@@ -63,7 +63,7 @@ apache2-utils:
 
 # Ensure this configuration is loaded first.
 {{ apache('00-default', {'configuration': 'default', 'servername': ''}) }}
-{{ apache('fqdn', {'configuration': 'default', 'servername': grains.fqdn}) }}
+{{ apache('10-fqdn', {'configuration': 'default', 'servername': grains.fqdn}) }}
 
 {% if salt['pillar.get']('apache:modules:mod_autoindex:enabled') %}
 autoindex:
@@ -142,4 +142,8 @@ disable-conf-other-vhosts-access-log.conf:
     - name: service.systemctl_reload
     - onchanges:
       - file: /etc/systemd/system/apache2.service.d/customization.conf
+{% endif %}
+
+{% if pillar.apache.get('site_logs') %}
+{{ logrotate('apache-site-logs') }}
 {% endif %}

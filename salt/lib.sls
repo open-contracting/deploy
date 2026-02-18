@@ -167,6 +167,7 @@ unset {{ setting_name }} in {{ filename }}:
         servername: {{ entry.servername }}
         serveraliases: {{ entry.serveraliases|default([])|yaml }}
         https: {{ entry.https|default(true) }}
+        filename: {{ name }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:
@@ -190,6 +191,16 @@ add .htpasswd-{{ name }}-{{ username }}:
     - require:
       - pkg: apache2
 {% endfor %}
+
+{% if pillar.apache.get('site_logs') and not name[:1].isdigit() %}
+/var/log/apache2/{{ name }}:
+  file.directory:
+    - user: root
+    - group: adm
+    - dir_mode: 755
+    - require_in:
+      - file: /etc/apache2/sites-available/{{ name }}.conf
+{% endif%}
 {% endmacro %}
 
 {#
@@ -241,4 +252,14 @@ add .htpasswd-{{ name }}-{{ username }}:
       - file: /etc/nginx/sites-available/{{ name }}.conf
     - watch_in:
       - module: nginx-reload
+{% endmacro %}
+
+{% macro logrotate(name, entry={}) %}
+/etc/logrotate.d/{{ name }}:
+  file.managed:
+    - source: salt://core/logrotate/files/{{ entry.source|default(name) }}
+{% if 'context' in entry %}
+    - template: jinja
+    - context: {{ entry.context|yaml }}
+{% endif %}
 {% endmacro %}
