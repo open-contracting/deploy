@@ -168,7 +168,6 @@ unset {{ setting_name }} in {{ filename }}:
         serveraliases: {{ entry.serveraliases|default([])|yaml }}
         https: {{ entry.https|default(true) }}
         filename: {{ name }}
-        logdirectory: /var/log/apache2/{{ name }}
     - require:
       - file: /etc/apache2/sites-available/{{ name }}.conf.include
     - watch_in:
