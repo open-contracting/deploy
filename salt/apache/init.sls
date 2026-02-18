@@ -146,4 +146,10 @@ disable-conf-other-vhosts-access-log.conf:
 
 {% if pillar.apache.get('site_logs') %}
 {{ logrotate('apache-site-logs') }}
+
+/var/log/apache2:
+  file.directory:
+    - mode: 755
+    - require:
+      - pkg: apache2
 {% endif %}
