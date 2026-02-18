@@ -209,6 +209,19 @@ The service should now be available at its ``https://`` web address.
 
       curl https://SERVERNAME/.httpd/certificate-status
 
+Split site logs
+---------------
+
+Add to your server's Pillar file:
+
+.. code-block:: yaml
+
+   apache:
+     site_logs: True
+
+This will configure sites to log to their own log file in ``/var/log/apache2/sitename/access.log``.
+
+
 .. _apache-modules:
 
 Enable Apache modules
