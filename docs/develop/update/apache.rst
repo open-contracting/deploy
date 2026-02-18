@@ -219,8 +219,7 @@ Add to your server's Pillar file:
    apache:
      site_logs: True
 
-This will configure sites to log to their own log file in ``/var/log/apache2/sitename/access.log``.
-
+This will configure sites to use their own log file in ``/var/log/apache2/{site}/access.log``.
 
 .. _apache-modules:
 
