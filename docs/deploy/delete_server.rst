@@ -7,6 +7,21 @@ As with other deployment tasks, do the :doc:`setup tasks<setup>` before the step
 
 #. Notify relevant users of the change
 #. If the server has :ref:`PostgreSQL<pg-setup-backups>` or :ref:`MySQL<mysql-backups>` backups, use :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``, and manually upload a final backup to the root of the S3 bucket
+
+   .. important::
+
+      Delete any :ref:`lifecycle rule<aws-s3-bucket>`, otherwise the backup will be deleted!
+
+   .. No lifecycle rules:
+      Archived
+         ocp-old-website-backup
+         ocp-redmine-backup
+      pgBackRest
+         ocp-credere-backup
+         ocp-db-backup
+      Other
+         ocp-aws-verification
+
 #. Remove all occurrences of the server's FQDN and IP address from this repository
 #. Remove the :ref:`dns` records whose names match the server's FQDN (A, AAAA)
 #. Remove the server's root password from `LastPass <https://www.lastpass.com>`__
