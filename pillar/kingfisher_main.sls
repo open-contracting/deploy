@@ -81,6 +81,13 @@ cron:
       hour: 1
       minute: random
 
+backup:
+  location: ocp-db-backup/incremental
+  directories:
+    # Must match directories in salt/kingfisher/collect/incremental.sls
+    /home/incremental/data/:
+    /home/incremental/logs/:
+
 apache:
   public_access: True
   modules:
