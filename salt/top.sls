@@ -13,6 +13,7 @@ base:
     - core.mail
     - core.motd
     - core.network
+    - core.reboot
     - core.rsyslog
     - core.sshd
     - core.swap
