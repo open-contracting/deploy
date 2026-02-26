@@ -3,6 +3,7 @@
     - contents: |
         [Journal]
         SystemMaxUse=1024M
+        MaxRetentionSec=6months
     - user: root
     - group: root
     - makedirs: True
