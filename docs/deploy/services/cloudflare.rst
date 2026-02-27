@@ -222,6 +222,11 @@ Continuous script monitoring
   Checked
 Manage your robots.txt
   Disable robots.txt configuration
+
+  .. attention::
+
+     When adding a domain, unchecking *Instruct AI bot traffic with robots.txt* sets this to "Content Signals Policy" instead of "Disable robots.txt configuration".
+
 Browser integrity check
   Unchecked (to allow all requests to ``https://standard.open-contracting.org/schema/``)
 
@@ -230,10 +235,6 @@ Browser integrity check
    -  **DO NOT** enable `Block AI bots <https://developers.cloudflare.com/bots/concepts/bot/#ai-bots>`__. Increasingly, users access our content via LLMs.
    -  **DO NOT** enable `Manage your robots.txt <https://developers.cloudflare.com/bots/additional-configurations/managed-robots-txt/>`__. Increasingly, users access our content via LLMs.
    -  **DO NOT** enable Bot fight mode. It `"cannot be customized, adjusted, or reconfigured via WAF custom rules" <https://developers.cloudflare.com/bots/get-started/bot-fight-mode/#considerations>`__ in order to, for example, `allow WordPress sites to reach themselves <https://www.wordfence.com/help/advanced/compatibility/>`__ or to allow all requests to ``https://standard.open-contracting.org/schema/`` from users and CI.
-
-.. attention::
-
-   When adding a domain, unchecking *Instruct AI bot traffic with robots.txt* sets *Manage your robots.txt* to "Content Signals Policy" instead of "Disable robots.txt configuration".
 
 Speed
 ~~~~~
