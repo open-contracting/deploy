@@ -77,7 +77,58 @@ resource "cloudflare_custom_pages" "terraform_managed_resource_1000_errors_9" {
 }
 
 
-resource "cloudflare_pages_project" "terraform_managed_resource_fd0fa608-8e03-423a-b701-4cb72d1214b9_0" {
+resource "cloudflare_pages_project" "terraform_managed_resource_a26684fc-45c6-49a9-9372-25d03651a4ec_0" {
+  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
+  name              = "www-open-contracting-eu"
+  production_branch = "main"
+  build_config = {
+    build_command       = ""
+    destination_dir     = ""
+    root_dir            = ""
+    web_analytics_tag   = null
+    web_analytics_token = null
+  }
+  deployment_configs = {
+    preview = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 3
+      compatibility_date                   = "2026-02-27"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+    production = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 3
+      compatibility_date                   = "2026-02-27"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+  }
+  source = {
+    config = {
+      deployments_enabled            = true
+      owner                          = "open-contracting-partnership"
+      owner_id                       = "16035529"
+      path_excludes                  = []
+      path_includes                  = ["*"]
+      pr_comments_enabled            = true
+      preview_branch_excludes        = []
+      preview_branch_includes        = ["*"]
+      preview_deployment_setting     = "none"
+      production_branch              = "main"
+      production_deployments_enabled = true
+      repo_id                        = "1168781934"
+      repo_name                      = "www.open-contracting.eu"
+    }
+    type = "github"
+  }
+}
+
+resource "cloudflare_pages_project" "terraform_managed_resource_fd0fa608-8e03-423a-b701-4cb72d1214b9_1" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
   name              = "extension-explorer"
   production_branch = "gh-pages"
@@ -128,9 +179,9 @@ resource "cloudflare_pages_project" "terraform_managed_resource_fd0fa608-8e03-42
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_0b237aa6-c40a-41f9-97b0-aa75fb839686_1" {
+resource "cloudflare_pages_project" "terraform_managed_resource_0b237aa6-c40a-41f9-97b0-aa75fb839686_2" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "credere-backend"
+  name              = "credere"
   production_branch = "build"
   build_config = {
     build_command       = ""
@@ -169,7 +220,7 @@ resource "cloudflare_pages_project" "terraform_managed_resource_0b237aa6-c40a-41
       pr_comments_enabled            = true
       preview_branch_excludes        = []
       preview_branch_includes        = ["*"]
-      preview_deployment_setting     = "all"
+      preview_deployment_setting     = "none"
       production_branch              = "build"
       production_deployments_enabled = true
       repo_id                        = "628053530"
@@ -179,10 +230,10 @@ resource "cloudflare_pages_project" "terraform_managed_resource_0b237aa6-c40a-41
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_cee21dac-149f-4093-9e98-0ce3d81ae5b9_2" {
+resource "cloudflare_pages_project" "terraform_managed_resource_53f90a94-459e-4e2e-8e29-b39093fdb4e8_3" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "ec-bi-open-contracting-org"
-  production_branch = "ec"
+  name              = "buyingai-open-contracting-org"
+  production_branch = "gh-pages"
   build_config = {
     build_command       = ""
     destination_dir     = ""
@@ -193,8 +244,8 @@ resource "cloudflare_pages_project" "terraform_managed_resource_cee21dac-149f-40
   deployment_configs = {
     preview = {
       always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2025-01-07"
+      build_image_major_version            = 3
+      compatibility_date                   = "2026-02-06"
       compatibility_flags                  = []
       env_vars                             = null
       fail_open                            = true
@@ -202,110 +253,8 @@ resource "cloudflare_pages_project" "terraform_managed_resource_cee21dac-149f-40
     }
     production = {
       always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2025-01-07"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-  }
-  source = {
-    config = {
-      deployments_enabled            = true
-      owner                          = "open-contracting"
-      owner_id                       = "6225823"
-      path_excludes                  = []
-      path_includes                  = ["*"]
-      pr_comments_enabled            = true
-      preview_branch_excludes        = []
-      preview_branch_includes        = ["*"]
-      preview_deployment_setting     = "none"
-      production_branch              = "ec"
-      production_deployments_enabled = true
-      repo_id                        = "406411904"
-      repo_name                      = "bi.open-contracting.org"
-    }
-    type = "github"
-  }
-}
-
-resource "cloudflare_pages_project" "terraform_managed_resource_401b120d-06cc-4312-9dd8-77ead6a90198_3" {
-  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "do-bi-open-contracting-org"
-  production_branch = "do"
-  build_config = {
-    build_command       = ""
-    destination_dir     = ""
-    root_dir            = ""
-    web_analytics_tag   = null
-    web_analytics_token = null
-  }
-  deployment_configs = {
-    preview = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-18"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-    production = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-18"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-  }
-  source = {
-    config = {
-      deployments_enabled            = true
-      owner                          = "open-contracting"
-      owner_id                       = "6225823"
-      path_excludes                  = []
-      path_includes                  = ["*"]
-      pr_comments_enabled            = true
-      preview_branch_excludes        = []
-      preview_branch_includes        = ["*"]
-      preview_deployment_setting     = "none"
-      production_branch              = "do"
-      production_deployments_enabled = true
-      repo_id                        = "406411904"
-      repo_name                      = "bi.open-contracting.org"
-    }
-    type = "github"
-  }
-}
-
-resource "cloudflare_pages_project" "terraform_managed_resource_c1eaa071-f43e-4aa2-99d1-f61d2c61f83c_4" {
-  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "mythbusting-open-contracting-org"
-  production_branch = "main"
-  build_config = {
-    build_command       = ""
-    destination_dir     = ""
-    root_dir            = ""
-    web_analytics_tag   = null
-    web_analytics_token = null
-  }
-  deployment_configs = {
-    preview = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-03"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-    production = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-03"
+      build_image_major_version            = 3
+      compatibility_date                   = "2026-02-06"
       compatibility_flags                  = []
       env_vars                             = null
       fail_open                            = true
@@ -323,16 +272,16 @@ resource "cloudflare_pages_project" "terraform_managed_resource_c1eaa071-f43e-4a
       preview_branch_excludes        = []
       preview_branch_includes        = ["*"]
       preview_deployment_setting     = "none"
-      production_branch              = "main"
+      production_branch              = "gh-pages"
       production_deployments_enabled = true
-      repo_id                        = "399192717"
-      repo_name                      = "mythbusting.open-contracting.org"
+      repo_id                        = "1151583615"
+      repo_name                      = "buyingai.open-contracting.org"
     }
     type = "github"
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_a69f3490-cc50-4126-86f3-0115082ecc8e_5" {
+resource "cloudflare_pages_project" "terraform_managed_resource_a69f3490-cc50-4126-86f3-0115082ecc8e_4" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
   name              = "ocp-form"
   production_branch = "gh-pages"
@@ -383,7 +332,109 @@ resource "cloudflare_pages_project" "terraform_managed_resource_a69f3490-cc50-41
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_c6168839-fdc6-4b83-9d60-10b3ac60275a_6" {
+resource "cloudflare_pages_project" "terraform_managed_resource_cee21dac-149f-4093-9e98-0ce3d81ae5b9_5" {
+  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
+  name              = "ec-bi-open-contracting-org"
+  production_branch = "ec"
+  build_config = {
+    build_command       = ""
+    destination_dir     = ""
+    root_dir            = ""
+    web_analytics_tag   = null
+    web_analytics_token = null
+  }
+  deployment_configs = {
+    preview = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 2
+      compatibility_date                   = "2025-01-07"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+    production = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 2
+      compatibility_date                   = "2025-01-07"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+  }
+  source = {
+    config = {
+      deployments_enabled            = true
+      owner                          = "open-contracting"
+      owner_id                       = "6225823"
+      path_excludes                  = []
+      path_includes                  = ["*"]
+      pr_comments_enabled            = true
+      preview_branch_excludes        = []
+      preview_branch_includes        = ["*"]
+      preview_deployment_setting     = "none"
+      production_branch              = "ec"
+      production_deployments_enabled = true
+      repo_id                        = "406411904"
+      repo_name                      = "bi.open-contracting.org"
+    }
+    type = "github"
+  }
+}
+
+resource "cloudflare_pages_project" "terraform_managed_resource_401b120d-06cc-4312-9dd8-77ead6a90198_6" {
+  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
+  name              = "do-bi-open-contracting-org"
+  production_branch = "do"
+  build_config = {
+    build_command       = ""
+    destination_dir     = ""
+    root_dir            = ""
+    web_analytics_tag   = null
+    web_analytics_token = null
+  }
+  deployment_configs = {
+    preview = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 2
+      compatibility_date                   = "2023-10-18"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+    production = {
+      always_use_latest_compatibility_date = false
+      build_image_major_version            = 2
+      compatibility_date                   = "2023-10-18"
+      compatibility_flags                  = []
+      env_vars                             = null
+      fail_open                            = true
+      usage_model                          = "standard"
+    }
+  }
+  source = {
+    config = {
+      deployments_enabled            = true
+      owner                          = "open-contracting"
+      owner_id                       = "6225823"
+      path_excludes                  = []
+      path_includes                  = ["*"]
+      pr_comments_enabled            = true
+      preview_branch_excludes        = []
+      preview_branch_includes        = ["*"]
+      preview_deployment_setting     = "none"
+      production_branch              = "do"
+      production_deployments_enabled = true
+      repo_id                        = "406411904"
+      repo_name                      = "bi.open-contracting.org"
+    }
+    type = "github"
+  }
+}
+
+resource "cloudflare_pages_project" "terraform_managed_resource_c6168839-fdc6-4b83-9d60-10b3ac60275a_7" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
   name              = "lift-open-contracting-org"
   production_branch = "gh-pages"
@@ -434,9 +485,9 @@ resource "cloudflare_pages_project" "terraform_managed_resource_c6168839-fdc6-4b
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_08065c72-72f2-481c-8fef-6990bda02d0e_7" {
+resource "cloudflare_pages_project" "terraform_managed_resource_c1eaa071-f43e-4aa2-99d1-f61d2c61f83c_8" {
   account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "innovationchallenge-open-contracting-org"
+  name              = "mythbusting-open-contracting-org"
   production_branch = "main"
   build_config = {
     build_command       = ""
@@ -478,113 +529,52 @@ resource "cloudflare_pages_project" "terraform_managed_resource_08065c72-72f2-48
       preview_deployment_setting     = "none"
       production_branch              = "main"
       production_deployments_enabled = true
-      repo_id                        = "399244610"
-      repo_name                      = "innovationchallenge.open-contracting.org"
+      repo_id                        = "399192717"
+      repo_name                      = "mythbusting.open-contracting.org"
     }
     type = "github"
   }
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_8e3de53b-cf13-45aa-b485-29260d160aa7_8" {
-  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "opencontracting2017-open-contracting-org"
-  production_branch = "main"
-  build_config = {
-    build_command       = ""
-    destination_dir     = ""
-    root_dir            = ""
-    web_analytics_tag   = null
-    web_analytics_token = null
-  }
-  deployment_configs = {
-    preview = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-04"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-    production = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-04"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-  }
-  source = {
-    config = {
-      deployments_enabled            = true
-      owner                          = "open-contracting-partnership"
-      owner_id                       = "16035529"
-      path_excludes                  = []
-      path_includes                  = ["*"]
-      pr_comments_enabled            = true
-      preview_branch_excludes        = []
-      preview_branch_includes        = ["*"]
-      preview_deployment_setting     = "all"
-      production_branch              = "main"
-      production_deployments_enabled = true
-      repo_id                        = "399190643"
-      repo_name                      = "opencontracting2017.open-contracting.org"
-    }
-    type = "github"
-  }
+
+resource "cloudflare_registrar_domain" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_0" {
+  account_id  = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_renew  = false
+  domain_name = "contracting5.org"
+  locked      = true
+  privacy     = true
 }
 
-resource "cloudflare_pages_project" "terraform_managed_resource_93780087-8034-465f-8a29-727ada3f20d3_9" {
-  account_id        = "db6be30e1a0704432e9e1e32ac612fe9"
-  name              = "challenge-open-contracting-org"
-  production_branch = "main"
-  build_config = {
-    build_command       = ""
-    destination_dir     = ""
-    root_dir            = ""
-    web_analytics_tag   = null
-    web_analytics_token = null
-  }
-  deployment_configs = {
-    preview = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-03"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-    production = {
-      always_use_latest_compatibility_date = false
-      build_image_major_version            = 2
-      compatibility_date                   = "2023-10-03"
-      compatibility_flags                  = []
-      env_vars                             = null
-      fail_open                            = true
-      usage_model                          = "standard"
-    }
-  }
-  source = {
-    config = {
-      deployments_enabled            = true
-      owner                          = "open-contracting-partnership"
-      owner_id                       = "16035529"
-      path_excludes                  = []
-      path_includes                  = ["*"]
-      pr_comments_enabled            = true
-      preview_branch_excludes        = []
-      preview_branch_includes        = ["*"]
-      preview_deployment_setting     = "none"
-      production_branch              = "main"
-      production_deployments_enabled = true
-      repo_id                        = "506790897"
-      repo_name                      = "challenge.open-contracting.org"
-    }
-    type = "github"
-  }
+resource "cloudflare_registrar_domain" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_1" {
+  account_id  = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_renew  = true
+  domain_name = "dream-office.org"
+  locked      = true
+  privacy     = true
+}
+
+resource "cloudflare_registrar_domain" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_2" {
+  account_id  = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_renew  = true
+  domain_name = "open-contracting.com"
+  locked      = true
+  privacy     = true
+}
+
+resource "cloudflare_registrar_domain" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_3" {
+  account_id  = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_renew  = true
+  domain_name = "open-contracting.info"
+  locked      = true
+  privacy     = true
+}
+
+resource "cloudflare_registrar_domain" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_4" {
+  account_id  = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_renew  = true
+  domain_name = "open-contracting.org"
+  locked      = true
+  privacy     = true
 }
 
 
@@ -630,7 +620,7 @@ resource "cloudflare_web_analytics_site" "terraform_managed_resource_db6be30e1a0
   auto_install = true
   enabled      = true
   lite         = true
-  zone_tag     = "95360b5976b7a387508f38cd5525e703"
+  zone_tag     = "5fb014d6b6b5e209034d8434ec122eae"
 }
 
 resource "cloudflare_web_analytics_site" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_4" {
@@ -638,10 +628,18 @@ resource "cloudflare_web_analytics_site" "terraform_managed_resource_db6be30e1a0
   auto_install = true
   enabled      = true
   lite         = true
-  zone_tag     = "c806faddb05179dc6e89304c90835608"
+  zone_tag     = "95360b5976b7a387508f38cd5525e703"
 }
 
 resource "cloudflare_web_analytics_site" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_5" {
+  account_id   = "db6be30e1a0704432e9e1e32ac612fe9"
+  auto_install = true
+  enabled      = true
+  lite         = true
+  zone_tag     = "c806faddb05179dc6e89304c90835608"
+}
+
+resource "cloudflare_web_analytics_site" "terraform_managed_resource_db6be30e1a0704432e9e1e32ac612fe9_6" {
   account_id   = "db6be30e1a0704432e9e1e32ac612fe9"
   auto_install = true
   enabled      = true
@@ -683,7 +681,18 @@ resource "cloudflare_zone" "terraform_managed_resource_e18cd2859cabdc461dc40c10d
   }
 }
 
-resource "cloudflare_zone" "terraform_managed_resource_95360b5976b7a387508f38cd5525e703_3" {
+resource "cloudflare_zone" "terraform_managed_resource_5fb014d6b6b5e209034d8434ec122eae_3" {
+  name                = "open-contracting.eu"
+  paused              = false
+  type                = "full"
+  vanity_name_servers = []
+  account = {
+    id   = "db6be30e1a0704432e9e1e32ac612fe9"
+    name = "Open Contracting"
+  }
+}
+
+resource "cloudflare_zone" "terraform_managed_resource_95360b5976b7a387508f38cd5525e703_4" {
   name                = "open-contracting.info"
   paused              = false
   type                = "full"
@@ -694,7 +703,7 @@ resource "cloudflare_zone" "terraform_managed_resource_95360b5976b7a387508f38cd5
   }
 }
 
-resource "cloudflare_zone" "terraform_managed_resource_c806faddb05179dc6e89304c90835608_4" {
+resource "cloudflare_zone" "terraform_managed_resource_c806faddb05179dc6e89304c90835608_5" {
   name                = "open-contracting.org"
   paused              = false
   type                = "full"
@@ -705,7 +714,7 @@ resource "cloudflare_zone" "terraform_managed_resource_c806faddb05179dc6e89304c9
   }
 }
 
-resource "cloudflare_zone" "terraform_managed_resource_f45b1e18cef721fc272450e5ff0fe9e8_5" {
+resource "cloudflare_zone" "terraform_managed_resource_f45b1e18cef721fc272450e5ff0fe9e8_6" {
   name                = "open-spending.eu"
   paused              = false
   type                = "full"
