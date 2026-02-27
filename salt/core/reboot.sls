@@ -4,7 +4,7 @@ include:
 # Notify admins on boot
 echo "$(hostname) rebooted at $(date -Iseconds)":
   cron.present:
-    - identifier: REBOOT_NOTICIATION
+    - identifier: REBOOT_NOTIFICATION
     - user: root
     - special: '@reboot'
     - require:
