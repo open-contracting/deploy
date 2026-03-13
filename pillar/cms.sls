@@ -46,4 +46,4 @@ php:
   version: '8.1'  # sync with logrotate above
 
 wordpress:
-  cli_version: 2.7.1
+  cli_version: 2.12.0
