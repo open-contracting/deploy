@@ -26,7 +26,7 @@ python-hcl2==7.3.1
     # via -r requirements_dev.in
 regex==2025.11.3
     # via python-hcl2
-requests==2.32.4
+requests==2.33.0
     # via -r requirements_dev.in
 rich==14.2.0
     # via -r requirements_dev.in
