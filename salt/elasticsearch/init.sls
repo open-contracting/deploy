@@ -1,7 +1,7 @@
 elasticsearch:
   pkgrepo.managed:
     - humanname: Elasticsearch Official Repository
-    - name: deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/8.x/apt stable main
+    - name: deb [signed-by=/usr/share/keyrings/elasticsearch-keyring.gpg] https://artifacts.elastic.co/packages/9.x/apt stable main
     - file: /etc/apt/sources.list.d/elasticsearch.list
     - key_url: https://packages.elasticsearch.org/GPG-KEY-elasticsearch
     - aptkey: False
