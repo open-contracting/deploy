@@ -42,6 +42,9 @@ set jvm heap size:
         script.allowed_contexts: ingest
         # https://www.elastic.co/guide/en/elasticsearch/reference/current/bootstrap-checks.html
         discovery.type: single-node
+        # https://github.com/elastic/elasticsearch/blob/main/x-pack/plugin/core/src/main/java/org/elasticsearch/xpack/core/XPackSettings.java
+        xpack.apm_data.enabled: 'false'
+        xpack.ent_search.enabled: 'false'
     - separator: ': '
     - append_if_not_found: True
     - watch_in:
