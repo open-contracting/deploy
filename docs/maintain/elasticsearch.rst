@@ -92,9 +92,11 @@ Upgrade
 
    Before upgrading Elasticsearch, check that all plugins (below) support the new version.
 
-.. note::
+#. Add support for the new version to `ocds-index <https://github.com/open-contracting/ocds-index>`__.
+#. If upgrading to a new major version:
 
-   `OCDS Index <https://ocds-index.readthedocs.io/en/latest/>`__ supports Elasticsearch 7.x only.
+   #. Update ``name`` under ``pkgrepo.managed`` in the ``salt/elasticsearch/init.sls`` file.
+   #. :doc:`Deploy the server<../deploy/deploy>`.
 
 #. :doc:`Connect to the server<../use/ssh>` as the ``root`` user.
 #. Perform any outstanding updates:
@@ -127,7 +129,7 @@ ReadOnlyREST
 
 If the `ReadOnlyREST plugin <https://readonlyrest.com>`__ is used:
 
-#. Check the `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version of ReadOnlyREST. Note which versions of Elasticsearch are supported.
+#. Check its `changelog <https://github.com/beshu-tech/readonlyrest-docs/blob/master/changelog.md>`__ for a new version. Note which versions of Elasticsearch are supported.
 #. In the server's Pillar file, set ``elasticsearch.plugins.readonlyrest.version`` to the version of ReadOnlyREST to install, and set ``elasticsearch.version`` to the already installed version of Elasticsearch:
 
    .. code-block:: bash
