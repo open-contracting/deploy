@@ -1,7 +1,7 @@
 readonlyrest:
   # https://github.com/beshu-tech/readonlyrest-docs/blob/master/kibana.md#loading-settings-order-of-precedence
   force_load_from_file: True
-  # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es7.10.1.txt
+  # https://github.com/beshu-tech/readonlyrest-docs/blob/master/actionstrings/action_strings_es9.2.3.txt
   access_control_rules:
     - name: Allow the ocpadmin group to administrate Elasticsearch
       groups:
@@ -29,11 +29,15 @@ readonlyrest:
         patterns:
           - "ocdsindex_*"
       actions:
+        - indices:admin/aliases
+        - indices:admin/aliases/get
         - indices:admin/create
+        - indices:admin/delete
         - indices:admin/get
         - indices:data/read/search
         - indices:data/write/bulk
         - indices:data/write/delete/byquery
+        - indices:data/write/reindex
         - indices:monitor/settings/get
       x_forwarded_for: ["0.0.0.0/0", "::/0"]
   users: {{ pillar.elasticsearch.plugins.readonlyrest.users|yaml }}
