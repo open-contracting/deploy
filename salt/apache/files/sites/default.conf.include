@@ -14,7 +14,7 @@ SetEnvIf Request_URI "^/server-status$" dontlog
 ErrorLog ${APACHE_LOG_DIR}/error.log
 CustomLog ${APACHE_LOG_DIR}/access.log combined env=!dontlog
 
-Header set Content-Security-Policy "default-src 'none'; style-src 'unsafe-inline'; frame-ancestors 'none'"
+Header set Content-Security-Policy "default-src 'none'; style-src 'sha256-OylWUyEZPzH2sb2hOANv70IM97hBhAxqkPrAdfOYwJw='; frame-ancestors 'none'"
 Header set X-Content-Type-Options "nosniff"
 Header set X-Frame-Options "DENY"
 
