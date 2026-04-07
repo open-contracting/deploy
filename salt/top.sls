@@ -85,10 +85,10 @@ base:
     - nginx.cloudflare
 
   'I@backup:*':
-    - backup
+    - aws.backup
 
   'I@sync:*':
-    - sync
+    - aws.sync
 
   'I@cron:*':
     - cron

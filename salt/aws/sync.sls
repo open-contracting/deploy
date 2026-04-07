@@ -7,7 +7,7 @@ include:
 
 /home/sysadmin-tools/bin/sync-to-s3.sh:
   file.managed:
-    - source: salt://sync/files/sync-to-s3.sh
+    - source: salt://aws/sync/files/sync-to-s3.sh
     - mode: 750
     - require:
       - file: /home/sysadmin-tools/bin

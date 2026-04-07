@@ -7,7 +7,7 @@ include:
 
 /home/sysadmin-tools/bin/site-backup-to-s3.sh:
   file.managed:
-    - source: salt://backup/files/site-backup-to-s3.sh
+    - source: salt://aws/backup/files/site-backup-to-s3.sh
     - mode: 750
     - require:
       - file: /home/sysadmin-tools/bin
