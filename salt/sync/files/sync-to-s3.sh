@@ -30,5 +30,5 @@ for DIRECTORY in "${SYNC_DIRECTORIES[@]}"; do
     SAFENAME="${DIRECTORY/#\//}"
     SAFENAME="${SAFENAME/%\//}"
 
-    $AWS_CLI s3 sync "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$BASENAME/" --only-show-errors --delete
+    $AWS_CLI s3 sync "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/" --only-show-errors --delete
 done
