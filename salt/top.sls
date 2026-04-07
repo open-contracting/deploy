@@ -87,6 +87,9 @@ base:
   'I@backup:*':
     - backup
 
+  'I@sync:*':
+    - sync
+
   'I@cron:*':
     - cron
 
