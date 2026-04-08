@@ -153,8 +153,8 @@ Test
      tar -xzvf example.tar.gz
      # Review the backup files and compare the names, sizes and timestamps to the actual files.
 
-Sync directory
---------------
+Sync directories
+----------------
 
 Backup script
   `sync-to-s3.sh <https://github.com/open-contracting/deploy/blob/main/salt/aws/files/sync-to-s3.sh>`__ copies directories directly into S3.

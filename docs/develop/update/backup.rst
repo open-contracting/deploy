@@ -21,12 +21,16 @@ Configure backups
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 
-Sync Directory
---------------
+Sync directories
+----------------
 
 .. note::
 
-   Sync is used for Disaster Recovery, this is not a true, immutable backup.
+   This is used only for disaster recovery. This is not a true, immutable backup.
+
+.. attention::
+
+   If this uses the same bucket as backups, ensure the :ref:`IAM backup policy<aws-iam-backup-policy>` sets *Prefix* and is not scoped to the entire bucket.
 
 #. Create and configure an :ref:`S3 backup bucket<aws-s3-bucket>`
 #. Configure the :doc:`AWS CLI<awscli>`
