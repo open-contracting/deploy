@@ -16,7 +16,7 @@ include:
   file.managed:
     - contents: |
         MAILTO=root
-        15 04 * * * root /home/sysadmin-tools/bin/sync-to-s3.sh
+        15 03,15 * * * root /home/sysadmin-tools/bin/sync-to-s3.sh
     - require:
       - file: /home/sysadmin-tools/bin/sync-to-s3.sh
 
