@@ -57,6 +57,19 @@ allow {{ userdir }} access:
 
 {{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
 
+# Maintain setuptools<81 in the Salt state, because Dependabot removes it from requirements.txt.
+{{ directory }}-setuptools:
+  cmd.run:
+    - name: .ve/bin/uv pip install --python=.ve/bin/python 'setuptools<81'
+    - runas: {{ user }}
+    - cwd: {{ directory }}
+    - require:
+      - cmd: {{ directory }}-requirements
+    - onchanges:
+      - cmd: {{ directory }}-requirements
+    - watch_in:
+      - service: scrapyd
+
 # https://scrapyd.readthedocs.io/en/stable/config.html
 {{ userdir }}/.scrapyd.conf:
   file.managed:
