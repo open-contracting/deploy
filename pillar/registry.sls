@@ -46,6 +46,17 @@ prometheus:
   node_exporter:
     smartmon: True
 
+sync:
+  location: ocp-registry-backup/file-sync
+  directories:
+    # Should match: https://ocdsdeploy.readthedocs.io/en/latest/deploy/servers/data-registry.html#filesystem
+    /data/storage/exporter:
+    /data/storage/spoonbill:
+    /home/collect/scrapyd/dbs:
+    /home/collect/scrapyd/eggs:
+    /home/collect/scrapyd/jobs:
+    /home/collect/scrapyd/logs:
+
 apache:
   public_access: True
   modules:
