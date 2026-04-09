@@ -11,6 +11,9 @@ export AWS_ACCESS_KEY_ID
 export AWS_SECRET_ACCESS_KEY
 export AWS_DEFAULT_REGION
 
+export AWS_CONFIG_FILE=/home/sysadmin-tools/aws-config.local
+export AWS_PROFILE=sync
+
 if [ "$LOGNAME" != "root" ]; then
     echo "ERROR: Execution of $0 stopped as not run by user root!"
     exit 2
