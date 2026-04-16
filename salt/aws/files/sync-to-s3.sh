@@ -33,5 +33,7 @@ for DIRECTORY in "${SYNC_DIRECTORIES[@]}"; do
     SAFENAME="${DIRECTORY/#\//}"
     SAFENAME="${SAFENAME/%\//}"
 
-    $AWS_CLI s3 sync "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/" --only-show-errors --delete
+    set +e
+    $AWS_CLI s3 sync "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/" --only-show-errors --delete 2>&1 | grep -v "You did not provide the number of bytes specified by the Content-Length HTTP header"
+    set -e
 done
