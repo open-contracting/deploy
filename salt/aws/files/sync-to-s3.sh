@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Backup multiple directories and upload to AWS S3
+# Sync a single directory into S3.
 
 set -euo pipefail
 
@@ -24,16 +24,42 @@ if [ ! -x "$AWS_CLI" ]; then
     exit 3
 fi
 
-if [ -z "$SYNC_DIRECTORIES" ]; then
-    echo "Error: SYNC_DIRECTORIES isn't set or is empty"
+if [ -z "$S3_SYNC_BUCKET" ]; then
+    echo "Error: S3_SYNC_BUCKET isn't set or is empty"
     exit 4
 fi
 
-for DIRECTORY in "${SYNC_DIRECTORIES[@]}"; do
-    SAFENAME="${DIRECTORY/#\//}"
-    SAFENAME="${SAFENAME/%\//}"
+AWS_ARGS=(--only-show-errors --delete)
 
-    set +e
-    $AWS_CLI s3 sync "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/" --only-show-errors --delete 2>&1 | grep -v "You did not provide the number of bytes specified by the Content-Length HTTP header"
-    set -e
+# Parse script arguments
+while [[ $# -gt 0 ]]; do
+    case $1 in
+    --exclude)
+        if [ -z "$2" ]; then
+            echo "Missing path."
+            exit 1
+        fi
+        AWS_ARGS+=(--exclude "\"$2\"")
+        shift 2
+        ;;
+    -*)
+        echo "Unknown option"
+        exit 1
+        ;;
+    *)
+        DIRECTORY=$1
+        SAFENAME=${DIRECTORY/#\//}
+        SAFENAME="${SAFENAME/%\//}"
+        shift
+        ;;
+    esac
 done
+
+if [ -e "$DIRECTORY" ]; then
+    echo "Error: DIRECTORY isn't set or doesn't exist."
+    exit 5
+fi
+
+set +e
+$AWS_CLI s3 sync "${AWS_ARGS[@]}" "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/"
+set -e
