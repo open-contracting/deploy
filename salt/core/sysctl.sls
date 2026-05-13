@@ -1,4 +1,4 @@
-{% for name, value in salt['pillar.get']('vm', {})|items %}
+{% for name, value in pillar.vm|default({})|items %}
 {% if name not in ('overcommit_memory', 'overcommit_ratio') %}
 vm.{{ name }}:
   sysctl.present:
@@ -8,10 +8,10 @@ vm.{{ name }}:
 
 {% if salt['pillar.get']('vm:overcommit_memory') %}
 {% set vm_overcommit_memory = pillar.vm.overcommit_memory %}
-{% elif salt['pillar.get']('redis') %}
+{% elif 'redis' in pillar %}
 # https://redis.io/docs/latest/operate/oss_and_stack/management/admin/
 {% set vm_overcommit_memory = 1 %}
-{% elif salt['pillar.get']('postgres') %}
+{% elif 'postgres' in pillar %}
 # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-MEMORY-OVERCOMMIT
 {% set vm_overcommit_memory = 2 %}
 {% endif %}

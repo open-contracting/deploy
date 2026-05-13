@@ -31,7 +31,7 @@ docker:
     - mode: 0775
 {% endif %}
 
-{% if salt['pillar.get']('rabbitmq') %}
+{% if 'rabbitmq' in pillar %}
 # If RabbitMQ is installed, ensure it is online before and after Docker.
 /etc/systemd/system/docker.service.d/customization.conf:
   file.managed:
