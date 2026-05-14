@@ -19,7 +19,7 @@ include:
 {%- for directory, entry in pillar.sync.directories|items %}
 {%- set minute = (loop.index0 * 5) % 60 %}
         {{minute}} 03,15 * * * root /home/sysadmin-tools/bin/sync-to-s3.sh {{ directory }}
-        {%- for option, value in (entry or {}) | items %} --{{ option }} "{{ value }}"{% endfor %}
+        {%- for option, value in entry | default({}, true) | items %} --{{ option }} "{{ value }}"{% endfor %}
 {%- endfor %}
     - require:
       - file: /home/sysadmin-tools/bin/sync-to-s3.sh
