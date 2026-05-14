@@ -39,8 +39,6 @@ SAFENAME=${DIRECTORY/#\//}
 SAFENAME="${SAFENAME/%\//}"
 shift
 
-AWS_ARGS=(--only-show-errors --delete "${@}")
-
 set +e
 $AWS_CLI s3 sync --only-show-errors --delete "${@}" "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/"
 set -e
