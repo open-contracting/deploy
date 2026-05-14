@@ -55,6 +55,7 @@ sync:
     /home/collect/scrapyd/dbs:
     /home/collect/scrapyd/eggs:
     /home/collect/scrapyd/jobs:
+      exclude: "*/requests.queue/*"
     /home/collect/scrapyd/logs:
 
 apache:
