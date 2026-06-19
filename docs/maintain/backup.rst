@@ -3,8 +3,8 @@ Testing backups
 
 Every six months, check that:
 
-1. Backup automation is enabled and running.
-1. Backup files are valid and usable.
+#. Backup automation is enabled and running.
+#. Backup files are valid and usable.
 
 General instructions
 --------------------
