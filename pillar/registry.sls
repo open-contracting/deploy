@@ -178,6 +178,7 @@ docker_apps:
       # This is set to be the same size as the prefetch_count argument.
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
+      DEDUPLICATE_DATA: False
   spoonbill:
     target: spoonbill
     site: spoonbill
