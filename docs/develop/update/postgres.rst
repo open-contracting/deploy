@@ -159,7 +159,7 @@ Configure PostgreSQL
           source: shared
           context:
             max_connections: 300
-            storage: hdd
+            storage: ssd
             type: oltp
             content: |
               max_wal_size = 10GB

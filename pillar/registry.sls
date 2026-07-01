@@ -100,7 +100,7 @@ postgres:
     context:
       # We need a lot of connections for all the workers and threads.
       max_connections: 300  # oltp at https://pgtune.leopard.in.ua
-      storage: hdd
+      storage: ssd
       type: oltp
       content: |
         data_directory = '/data/storage/postgresql/16/main'
