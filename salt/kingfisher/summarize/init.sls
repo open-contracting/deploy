@@ -1,7 +1,7 @@
 {% from 'lib.sls' import create_user, set_cron_env %}
 
 include:
-  - python.psycopg2
+  - python.psycopg
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_summarize %}

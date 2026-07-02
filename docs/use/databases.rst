@@ -122,15 +122,15 @@ Python
 
 `Python <https://www.python.org>`__ is the programming language in which many OCDS tools are written.
 
-Install the `psycopg2 <https://pypi.org/project/psycopg2/>`__ Python package.
+Install the `psycopg <https://pypi.org/project/psycopg/>`__ Python package.
 
 For security, remember to set ``sslmode`` to ``'require'``.
 
 .. code-block:: python
 
-   import psycopg2
+   import psycopg
 
-   conn = psycopg2.connect(
+   conn = psycopg.connect(
        dbname='kingfisher_process',
        user='USER',
        password='PASSWORD',
