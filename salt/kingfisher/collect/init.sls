@@ -3,7 +3,7 @@
 include:
   - python.virtualenv
   - python.extensions # twisted
-  - python.psycopg2
+  - python.psycopg
 
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
