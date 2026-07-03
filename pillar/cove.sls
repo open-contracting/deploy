@@ -1,7 +1,6 @@
 x-volumes: &volumes
   - db
   - media
-  - redis/data
 
 x-env: &env
   DJANGO_PROXY: True
@@ -16,10 +15,6 @@ network:
   networkd:
     template: linode
     gateway4: 66.228.47.1
-
-vm:
-  # For Redis service in cove.yaml.
-  overcommit_memory: 1
 
 ntp:
   - 0.us.pool.ntp.org
@@ -72,4 +67,3 @@ docker_apps:
       <<: *env
       ALLOWED_HOSTS: review-oc4ids.standard.open-contracting.org
       FATHOM_ANALYTICS_ID: UHUGOEOK
-      REDIS_URL: redis://redis:6379/0
