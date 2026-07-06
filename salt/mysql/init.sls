@@ -72,6 +72,12 @@ remove test database:
 {{ database }}_mysql_database:
   mysql_database.present:
     - name: {{ database }}
+{% if 'character_set' in entry %}
+    - character_set: "{{ entry.character_set }}"
+{% endif %}
+{% if 'collate' in entry %}
+    - collate: "{{ entry.collate }}"
+{% endif %}
     - require:
       - service: mysql
 

@@ -13,6 +13,8 @@ mysql:
     digitalbuying:
       user: digitalbuying
       host: "172.16.0.0/12"
+      character_set: utf8mb4
+      collate: utf8mb4_0900_as_cs
 
 docker_apps:
   digitalbuying:
