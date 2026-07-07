@@ -1,3 +1,7 @@
+backup:
+  directories:
+    /data/deploy/digitalbuying/media/:
+
 apache:
   sites:
     digitalbuying:
