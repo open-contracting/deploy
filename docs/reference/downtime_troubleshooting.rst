@@ -33,7 +33,8 @@ Get single service information, for example apache2:
 System logs are accessible via journalctl -u example.service
 They are also directly readable in /var/log
 
-Notably: 
+Notably:
+
 - All system alerts: /var/log/syslog
 - Apache website: /var/log/apache2
 - NGINX site logs: /var/log/nginx
@@ -102,7 +103,7 @@ High Disk Space
 View total disk space
 
 .. code-block:: bash
-   
+
    df -h
 
 View disk usage of a directory and its contents
@@ -115,8 +116,9 @@ View disk usage of a directory and its contents
 Network Attacks
 ---------------
 
-Denial of Service (DOS) attacks are common causes of downtime, this is when a service, usually the webserver, is overwhelmed with requests and cannot serve new traffic. You can identify a DOS attack by :ref:`looking at the logs<system-logs>`, in the logs you will see a single IP address sending lots of requests over a long consistent amount of time. A Distributed Denial of Service (DDOS) is the same but traffic comes from multiple IP addresses - this is much more difficult to deal with.
-DOS attacks are not necessarily malicious, we have seen search engines and SEO companies crawl sites and inadvertently overwhelm the server causing an outage. Our response will depend on the legitimacy of the traffic and its impact. 
+Denial of Service (DOS) attacks are common causes of downtime, this is when a service, is overwhelmed with requests and cannot serve new traffic. You can identify a DOS attack by :ref:`looking at the logs<system-logs>`, here you will see a single IP address sending many of requests over a long consistent amount of time.
+A Distributed Denial of Service (DDOS) is similar however traffic is coming from multiple IP addresses making it much more difficult to mitigate.
+DOS attacks are not necessarily malicious, we have seen search engines and SEO companies crawl sites and inadvertently overwhelm the server causing an outage. Our response will depend on the legitimacy of the traffic and its impact.
 
 Changes and deployments
 -----------------------
@@ -135,7 +137,8 @@ View recent software patches and changes:
    less /var/log/apt/history.log
 
 
-System changes should not be implemented manually, but it does happen. You can see the actions of previous users on the system with the following commands:
+System changes should be implemented through SaltStack however smaller temporary changes can be made manually.
+You can see the actions of previous users on the system with the following commands:
 
 View currently, logged in users:
 
@@ -167,7 +170,9 @@ Service Provider
 
 Most ISPs provide status pages, here you can view the overall status of their network.
 Often our monitoring will alert before ISPs have had a chance to respond, if it does seem like an ISP issue and there is no information yet then reach out via their support system raising an urgent request.
+
 These are the relevant status pages for our infrastructure hosting:
+
 - https://www.cloudflarestatus.com/
 - https://status.linode.com/
 - https://status.hetzner.com/
@@ -240,10 +245,12 @@ Force system reboot
 If you cannot SSH into a server and reboot normally (reboot), you can force a reboot via the ISP interface.
 
 Linode:
+
 #. Log in: https://login.linode.com/login
 #. Select the server, "..." > "Reboot"
 
 Hetzner:
+
 #. Log in: https://robot.hetzner.com/server
 #. Server
 #. Select the server > "Reset"
@@ -257,6 +264,7 @@ Blocking an IP address
 ----------------------
 
 .. note::
+
    Most web traffic is proxied through Cloudflare, double check the problem IP you have identified is not a Cloudflare IP before blocking it.
 
 Block an IP in IPTables
@@ -282,7 +290,7 @@ Block an IP in Cloudflare
 
 Block an IP address accessing any website on the selected domain, for example blocking 192.0.2.1:
 
-#. Log into cloudflare https://dash.cloudflare.com
+#. Log into `Cloudflare<https://dash.cloudflare.com>`__
 #. Select the "Open Contracting" Account
 #. Domains > Overview
 #. Select your domain, normally open-contracting.org for public facing sites.
@@ -294,6 +302,22 @@ Block an IP address accessing any website on the selected domain, for example bl
    #. Take action: Block
    #. Deploy
 
+Cloudflare Under Attack Mode
+----------------------------
+
+.. note::
+
+   This operates at a domain level screening traffic to all sites regardless of where they are hosted.
+
+Limits and challenges traffic visiting the domain through a non-interactive challenge screen.
+This is best for handling large scale attacks such as a DDOS.
+
+#. Log into `Cloudflare<https://dash.cloudflare.com>`__
+#. Select the "Open Contracting" Account
+#. Domains > Overview
+#. Select your domain
+#. "Quick Actions", toggle "Under Attack Mode"
+
 Total Server Loss
 -----------------
 
@@ -304,7 +328,7 @@ In the rare circumstance of a total server loss the only option is to rebuild a 
    #. Either use the latest supported operating system image or the version used on the previous server. Using the latest image may require additional configuration changes.
    #. You will have a new IP address so create a new hostname and update the pillar data accordingly.
 #. Recover data from backups
-   #. Backup data location and purpose can be gathered from 
+   #. Backup data location and purpose can be gathered from
    #. https://ocdsdeploy.readthedocs.io/en/latest/maintain/backup.html
 #. Go live
    #. Test the site by updating your local hosts file
