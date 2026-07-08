@@ -30,15 +30,15 @@ Get single service information, for example apache2:
 
 .. _system-logs:
 
-System logs are accessible via journalctl -u example.service
-They are also directly readable in /var/log
+System logs are accessible via `journalctl -u example.service`
+They are also directly readable in `/var/log`
 
 Notably:
 
-- All system alerts: /var/log/syslog
-- Apache website: /var/log/apache2
-- NGINX site logs: /var/log/nginx
-- Docker containers: /var/log/docker-custom
+- All system alerts: `/var/log/syslog`
+- Apache website: `/var/log/apache2`
+- NGINX site logs: `/var/log/nginx`
+- Docker containers: `/var/log/docker-custom`
 
 
 Docker Applications
@@ -67,10 +67,11 @@ All container logs are in stored in: `/var/log/docker-custom/`
 System Resource usage
 ---------------------
 
-System resources are reported into prometheus, the configured dashboards provide a quick and interactable display for this information. This can then be filtered down by server and time.
-During an outage system resources are good to review, helping point to bottlenecks.
-Also consider comparing system resources over a long timeframe to see normal utilisation.
-https://grafana.prometheus.open-contracting.org/d/1864308e-eb04-4ded-bbea-c6188e502f11/single-server-monitoring
+System resources are reported into prometheus, the configured dashboards provide a quick and interactable display for this information.
+The dashboard can be filtered by server and time narrowing in on an outage.
+Remember to check system resources over a long timeframe to see normal utilisation, helping identify potential abnormalities.
+
+See `Single Server Monitoring Dashboard<https://grafana.prometheus.open-contracting.org/d/1864308e-eb04-4ded-bbea-c6188e502f11/single-server-monitoring>`__.
 
 High CPU
 ~~~~~~~~
@@ -283,7 +284,7 @@ Block an IP address server-wide.
       DENYALL_IPV4="192.0.2.1 192.0.2.4"
       DENYALL_IPV6="2001:db8::/64"
 
-#. Then re-run the firewall /home/sysadmin-tools/bin/firewall.sh
+#. Then re-run the firewall `/home/sysadmin-tools/bin/firewall.sh`
 
 Block an IP in Cloudflare
 ~~~~~~~~~~~~~~~~~~~~~~~~~
