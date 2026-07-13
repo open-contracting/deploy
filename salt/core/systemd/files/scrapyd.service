@@ -1,6 +1,9 @@
 [Unit]
 Description=Scrapyd
 After=network.target
+# https://github.com/open-contracting/deploy/issues/563
+StartLimitInterval=200
+StartLimitBurst=5
 
 [Service]
 User={{ user }}
@@ -18,6 +21,9 @@ WorkingDirectory={{ entry.appdir }}
 ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log
 # https://github.com/open-contracting/kingfisher-collect/issues/606#issuecomment-953896571
 LimitNOFILE=512000
+# https://github.com/open-contracting/deploy/issues/563
+Restart=on-failure
+RestartSec=30
 
 [Install]
 WantedBy=multi-user.target
