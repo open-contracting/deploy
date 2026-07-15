@@ -194,4 +194,24 @@ groups:
         annotations:
           summary: "Endpoint {{ $labels.instance }} has less than 10% SMART Runtime Bad Block"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 10% SMART Runtime Bad Block"
+
+      ## Email
+
+      - alert: MailBoxSize
+        expr: mail_box_size > 0
+        for: 3m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has greater than 0 mailbox size."
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has {{ $value }} failed email(s) for {{ $labels.user }}."
+
+      - alert: MailQueueSize
+        expr: mail_queue_size > 0
+        for: 4h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{$labels.instance}} has greater than 0 mail queue size."
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has {{ $value }} email(s) queued for more than 4 hours."
 {%- endraw -%}
