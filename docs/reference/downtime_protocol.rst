@@ -16,6 +16,18 @@ OCP has a maintenance contract with a :ref:`Linux server manager<admin-access>`,
 
 Working hours are 9:00-17:00 UK time, Monday-Friday, excluding UK public holidays.
 
+.. _alert-notifications:
+
+Configured notifications
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Following are notifications that indicate or forewarn downtime.
+
+#. Minutely uptime checks on all publicly accessible endpoints
+   #. Advanced Website checks (e.g. checking words are present on a web page, following basicauth)
+#. System resource monitoring alerts: CPU, RAM, Disk Space, Disk IO
+
+
 Notification mechanisms
 -----------------------
 
@@ -66,4 +78,4 @@ It might be appropriate to convene a retrospective to discuss the impact of the 
 Reference
 ---------
 
--  https://guides.18f.gov/engineering/our-approach/incident-reports/
+-  Example retrospective: https://sre.google/sre-book/example-postmortem/
