@@ -34,11 +34,11 @@ if [ ! -e "$1" ]; then
     exit 5
 fi
 
-DIRECTORY=$1
-SAFENAME=${DIRECTORY/#\//}
-SAFENAME="${SAFENAME/%\//}"
+directory=$1
+safe_name=${directory/#\//}
+safe_name="${safe_name/%\//}"
 shift
 
 set +e
-$AWS_CLI s3 sync --only-show-errors --delete "${@}" "$DIRECTORY" "s3://$S3_SYNC_BUCKET/$SAFENAME/"
+$AWS_CLI s3 sync --only-show-errors --delete "${@}" "$directory" "s3://$S3_SYNC_BUCKET/$safe_name/"
 set -e

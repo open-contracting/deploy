@@ -21,20 +21,20 @@ if [ ! -x "$AWS_CLI" ]; then
     exit 3
 fi
 
-mapfile -t DATABASES < <(su - postgres -c "/usr/bin/psql -t --csv -c 'select datname from pg_database'")
+mapfile -t databases < <(su - postgres -c "/usr/bin/psql -t --csv -c 'select datname from pg_database'")
 
-for DATABASE in "${BACKUP_DATABASES[@]}"; do
-    if [[ "${DATABASES[*]}" =~ $DATABASE ]]; then
-        BASENAME="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$DATABASE.tar"
-        TEMPFILE="$(mktemp /tmp/postgres_backup_XXXX.tar)"
-        chown postgres:postgres "$TEMPFILE"
+for database in "${BACKUP_DATABASES[@]}"; do
+    if [[ "${databases[*]}" =~ $database ]]; then
+        base_name="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$database.tar"
+        temp_file="$(mktemp /tmp/postgres_backup_XXXX.tar)"
+        chown postgres:postgres "$temp_file"
 
         # -Ft exports the database as a .tar file suitable for pg_restore.
-        su - postgres -c "/usr/bin/pg_dump -Ft -f '$TEMPFILE' '$DATABASE'"
+        su - postgres -c "/usr/bin/pg_dump -Ft -f '$temp_file' '$database'"
 
-        $AWS_CLI s3 cp "$TEMPFILE" "s3://$S3_DATABASE_BACKUP_BUCKET/$BASENAME" --only-show-errors
-        rm "$TEMPFILE"
+        $AWS_CLI s3 cp "$temp_file" "s3://$S3_DATABASE_BACKUP_BUCKET/$base_name" --only-show-errors
+        rm "$temp_file"
     else
-        echo "Warning: Database $DATABASE does not exist in PostgreSQL."
+        echo "Warning: Database $database does not exist in PostgreSQL."
     fi
 done
