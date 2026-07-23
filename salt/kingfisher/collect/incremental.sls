@@ -165,12 +165,10 @@ run {{ sqldir }}/excluded_supplier.sql:
     - template: jinja
     - context:
         SENTRY_DSN: {{ pillar.kingfisher_collect.env.SENTRY_DSN }}
-        directory: {{ directory }}
-        userdir: {{ userdir }}
         crawl: {{ crawl }}
-        # Power BI
-        settingsdir: {{ settingsdir }}
-        scratchdir: {{ scratchdir }}
+        userdir: {{ userdir }}
+        directory: {{ directory }}
+        script: {% if crawl.get('cardinal') %}{{ userdir }}/bin/{{ crawl.spider }}-cardinal.sh{% endif %}
     - makedirs: True
     - mode: 755
     - user: {{ entry.user }}
@@ -194,6 +192,22 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
       - file: {{ userdir }}/logs
 
 {% if crawl.get('cardinal') %}
+{{ userdir }}/bin/{{ crawl.spider }}-cardinal.sh:
+  file.managed:
+    - source: salt://kingfisher/collect/files/cardinal.sh
+    - template: jinja
+    - context:
+        crawl: {{ crawl }}
+        userdir: {{ userdir }}
+        settingsdir: {{ settingsdir }}
+        scratchdir: {{ scratchdir }}
+    - makedirs: True
+    - mode: 755
+    - user: {{ entry.user }}
+    - group: {{ entry.user }}
+    - require:
+      - user: {{ entry.user }}_user_exists
+
 {{ settingsdir }}/{{ crawl.spider }}.ini:
   file.managed:
     - source: salt://kingfisher/collect/files/cardinal/{{ crawl.spider }}.ini
@@ -215,5 +229,14 @@ add OCDS_KINGFISHER_COLLECT_{{ crawl.identifier }} cron job in {{ entry.user }} 
     - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
+{% else %}
+{{ userdir }}/bin/{{ crawl.spider }}-cardinal.sh:
+  file.absent
+
+{{ settingsdir }}/{{ crawl.spider }}.ini:
+  file.absent
+
+{{ sqldir }}/{{ crawl.spider }}_result.sql:
+  file.absent
 {% endif %}
 {% endfor %}
