@@ -14,7 +14,9 @@ env http_proxy={{ pillar.tinyproxy.url }} https_proxy={{ pillar.tinyproxy.url }}
     -a crawl_time={{ crawl.crawl_time }}T00:00:00 \
     -s FILES_STORE={{ userdir }}/data \
     -s DATABASE_URL=postgresql://kingfisher_collect@localhost:5432/kingfisher_collect \
-    -s PROXY_SPIDERS={% if 'proxy' in crawl %}{{ crawl.spider }}{% endif %} \
+{%- for key, value in crawl.get('settings', {}).items() %}
+    -s {{ key }}={{ value }} \
+{%- endfor %}
     -s SENTRY_DSN={{ SENTRY_DSN }} \
     --logfile="$LOGDIR/$(date +%F).log"
 
