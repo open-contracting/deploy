@@ -27,13 +27,13 @@ Find the files as above, and store the output. For example:
 
 .. code-block:: bash
 
-   FILES=$(find /data/deploy/cove-ocds/media -mindepth 3 -name '*.json')
+   files=$(find /data/deploy/cove-ocds/media -mindepth 3 -name '*.json')
 
 For OCDS, run (takes about 4 minutes):
 
 .. code-block:: bash
 
-   for file in $FILES; do
+   for file in $files; do
      jq -rn 'input | (if .releases then .releases else .records end)[0].ocid // ""' $file;
    done | cut -d- -f1-2 | sort | uniq -c
 
@@ -41,7 +41,7 @@ For OC4IDS, run:
 
 .. code-block:: bash
 
-   for file in $FILES; do
+   for file in $files; do
      jq -rn 'input | .projects[0].id // ""' $file;
    done | cut -d- -f1-2 | sort | uniq -c
 
