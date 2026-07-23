@@ -29,7 +29,7 @@ useful packages for data support:
       - ocdskit
       - memray
       - py-spy
-{% if grains.osmajorrelease | int >= 24 %}
+{% if grains.osmajorrelease|int >= 24 %}
     # https://peps.python.org/pep-0668/
     - extra_args:
       - --break-system-packages
