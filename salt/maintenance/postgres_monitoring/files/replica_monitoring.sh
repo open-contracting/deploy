@@ -29,33 +29,33 @@
 set -euo pipefail
 
 # MAILTO is set in crontab.
-HOST=$(hostname)
+hostname_output=$(hostname)
 if [ -f /usr/bin/mail ]; then
-    MAIL_CMD="/usr/bin/mail"
+    mail_bin="/usr/bin/mail"
 else
-    MAIL_CMD="/bin/mail"
+    mail_bin="/bin/mail"
 fi
 
-PSQL="/usr/bin/psql"
-OK_REPLICA_LINES="^pid\|^usesysid\|^backend_start\|^sent_lsn\|^write_lsn\|^flush_lsn\|^replay_lsn\|^client_port\|^write_lag|00:00:0\|^flush_lag|00:00:0\|^replay_lag|00:00:\|^write_lag|$\|^flush_lag|$\|^replay_lag|$\|^-\[RECORD1\]----+"
-DIR=/home/sysadmin-tools/postgres_replication
+psql_bin="/usr/bin/psql"
+directory=/home/sysadmin-tools/postgres_replication
+ok_replica_lines="^pid\|^usesysid\|^backend_start\|^sent_lsn\|^write_lsn\|^flush_lsn\|^replay_lsn\|^client_port\|^write_lag|00:00:0\|^flush_lag|00:00:0\|^replay_lag|00:00:\|^write_lag|$\|^flush_lag|$\|^replay_lag|$\|^-\[RECORD1\]----+"
 
 # Get replica status.
-REPLICATION_STATUS=$($PSQL -x -c "select * from pg_stat_replication")
-echo "${REPLICATION_STATUS// /}" | grep -v "$OK_REPLICA_LINES" > $DIR/replication.current.report
+replication_status=$($psql_bin -x -c "select * from pg_stat_replication")
+echo "${replication_status// /}" | grep -v "$ok_replica_lines" > $directory/replication.current.report
 
 # diff returns exit code 1 if files are different.
-CURDIFF=$(diff $DIR/replication.current.report $DIR/replication.production.report || true)
+diff_output=$(diff $directory/replication.current.report $directory/replication.production.report || true)
 
-if [ "$CURDIFF" != "" ]; then
-    $MAIL_CMD -s "$HOST: Replication Error" "$MAILTO" << EOF
+if [ "$diff_output" != "" ]; then
+    $mail_bin -s "$hostname_output: Replication Error" "$MAILTO" << EOF
 ====> A diff between current and production is:
 
-$CURDIFF
+$diff_output
 
 ====> The current replica check output is:
 
-$REPLICATION_STATUS
+$replication_status
 
 EOF
 fi

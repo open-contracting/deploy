@@ -24,30 +24,30 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-MAILTO="root"
-HOST=$(hostname)
+recipient="root"
+hostname_output=$(hostname)
 if [ -f /usr/bin/mail ]; then
-    MAIL_CMD="/usr/bin/mail"
+    mail_bin="/usr/bin/mail"
 else
-    MAIL_CMD="/bin/mail"
+    mail_bin="/bin/mail"
 fi
 
-RKHUNTER_CMD="/usr/local/bin/rkhunter"
+rkhunter_bin="/usr/local/bin/rkhunter"
 
-OUTPUT=$($RKHUNTER_CMD --nocolors --versioncheck)
-EXITCODE=$?
-if [ $EXITCODE != 0 ]; then
-    echo "$OUTPUT" | $MAIL_CMD -s "$HOST: Rootkit Hunter Output" $MAILTO
+output=$($rkhunter_bin --nocolors --versioncheck)
+exitcode=$?
+if [ $exitcode != 0 ]; then
+    echo "$output" | $mail_bin -s "$hostname_output: Rootkit Hunter Output" $recipient
 fi
 
-OUTPUT=$($RKHUNTER_CMD --nocolors --update)
-EXITCODE=$?
-if [ $EXITCODE != 0 ]; then
-    echo "$OUTPUT" | $MAIL_CMD -s "$HOST: Rootkit Hunter Output" $MAILTO
+output=$($rkhunter_bin --nocolors --update)
+exitcode=$?
+if [ $exitcode != 0 ]; then
+    echo "$output" | $mail_bin -s "$hostname_output: Rootkit Hunter Output" $recipient
 fi
 
-OUTPUT=$($RKHUNTER_CMD --cronjob --report-warnings-only)
-EXITCODE=$?
-if [ $EXITCODE != 0 ]; then
-    echo "$OUTPUT" | $MAIL_CMD -s "$HOST: Rootkit Hunter Output" $MAILTO
+output=$($rkhunter_bin --cronjob --report-warnings-only)
+exitcode=$?
+if [ $exitcode != 0 ]; then
+    echo "$output" | $mail_bin -s "$hostname_output: Rootkit Hunter Output" $recipient
 fi
