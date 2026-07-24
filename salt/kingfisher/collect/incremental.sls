@@ -168,7 +168,7 @@ run {{ sqldir }}/excluded_supplier.sql:
         crawl: {{ crawl }}
         userdir: {{ userdir }}
         directory: {{ directory }}
-        script: {% if crawl.get('cardinal') %}{{ userdir }}/bin/{{ crawl.spider }}-cardinal.sh{% endif %}
+        script: {% if crawl.get('cardinal') %}{{ userdir }}/bin/{{ crawl.spider }}-cardinal.sh{% else %}''{% endif %}
     - makedirs: True
     - mode: 755
     - user: {{ entry.user }}
