@@ -100,10 +100,10 @@ To avoid unnecessary queries to the database, please make these one-time configu
 #. Uncheck *Show graphs?*
 #. Click the *Save* button
 
-Google Colaboratory
-~~~~~~~~~~~~~~~~~~~
+Google Colab
+~~~~~~~~~~~~
 
-`Google Colaboratory <https://colab.research.google.com/notebooks/welcome.ipynb>`__ is an executable document to write, run and share code in Google Drive, similar to `Jupyter Notebook <https://jupyter.org>`__.
+`Google Colab <https://colab.research.google.com/notebooks/welcome.ipynb>`__ is an executable document to write, run and share code in Google Drive, similar to `Jupyter Notebook <https://jupyter.org>`__.
 
 Install the `ocdskingfishercolab <https://pypi.org/project/ocdskingfishercolab/>`__ Python package, which installs the `ipython-sql <https://pypi.org/project/ipython-sql/>`__ Python package.
 
