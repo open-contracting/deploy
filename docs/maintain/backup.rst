@@ -103,7 +103,7 @@ If PostgreSQL contains large databases with transient data, we backup individual
 Backup script
   `postgres-backup-to-s3.sh <https://github.com/open-contracting/deploy/blob/main/salt/postgres/files/postgres-backup-to-s3.sh>`__ creates backup files using ``pg_dump`` and uploads them to S3.
 Servers
-  -  ``registry`` (the ``data_registry`` and ``spoonbill_web`` databases)
+  -  ``registry`` (the ``data_registry`` database)
 Test
   .. code-block:: bash
 

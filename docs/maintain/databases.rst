@@ -541,30 +541,30 @@ pg_dump and pg_restore
 
 If pgBackRest isn't an option, use ``pg_dump`` and ``pg_restore``.
 
-#. Connect to the old server, and export the existing database. For example, to export ``spoonbill_web``:
+#. Connect to the old server, and export the existing database. For example, to export ``data_registry``:
 
    .. code-block:: bash
 
-      su - postgres -c "/usr/bin/pg_dump -Ft 'spoonbill_web' | gzip > ~/spoonbill_web.tar.gz"
+      su - postgres -c "/usr/bin/pg_dump -Ft 'data_registry' | gzip > ~/data_registry.tar.gz"
 
 #. Copy the database dump to your local machine. For example:
 
    .. code-block:: bash
 
-      rsync -avz root@ocp99.open-contracting.org:/var/lib/postgresql/spoonbill_web.tar.gz .
+      rsync -avz root@ocp99.open-contracting.org:/var/lib/postgresql/data_registry.tar.gz .
 
 #. Copy the database dump to the new server. For example:
 
    .. code-block:: bash
 
-      rsync -avz spoonbill_web.tar.gz root@ocp99.open-contracting.org:~/
+      rsync -avz data_registry.tar.gz root@ocp99.open-contracting.org:~/
 
 #. Restore the database. For example:
 
    .. code-block:: bash
 
-      gunzip ~/spoonbill_web.tar.gz
-      sudo -u postgres pg_restore -cC --if-exists -v -U postgres -d spoonbill_web ~/spoonbill_web.tar
+      gunzip ~/data_registry.tar.gz
+      sudo -u postgres pg_restore -cC --if-exists -v -U postgres -d data_registry ~/data_registry.tar
 
 .. _pg-recover-replica:
 

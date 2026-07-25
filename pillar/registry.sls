@@ -33,8 +33,6 @@ network:
 vm:
   # https://www.postgresql.org/docs/current/kernel-resources.html#LINUX-HUGE-PAGES
   nr_hugepages: 4300
-  # For Redis service in spoonbill.yaml.
-  overcommit_memory: 1
 
 ntp:
   - 0.fi.pool.ntp.org
@@ -51,7 +49,6 @@ sync:
   directories:
     # Should match: https://ocdsdeploy.readthedocs.io/en/latest/deploy/servers/data-registry.html#filesystem
     /data/storage/exporter:
-    /data/storage/spoonbill:
     /home/collect/scrapyd/dbs:
     /home/collect/scrapyd/eggs:
     /home/collect/scrapyd/jobs:
@@ -77,13 +74,6 @@ apache:
       context:
         port: 8002
         static_port: 8003
-        timeout: 300
-    spoonbill:
-      configuration: spoonbill
-      servername: flatten.open-contracting.org
-      context:
-        port: 8005
-        static_port: 8006
         timeout: 300
     rabbitmq:
       configuration: rabbitmq
@@ -112,7 +102,6 @@ postgres:
     location: ocp-registry-backup/database
     databases:
       - data_registry
-      - spoonbill_web
 
 docker:
   user: deployer
@@ -150,9 +139,6 @@ docker_apps:
       KINGFISHER_PROCESS_URL: http://host.docker.internal:8000
       SCRAPYD_URL: http://host.docker.internal:6800
       DOWNLOADS_URL: https://fastly.data.open-contracting.org
-      SPOONBILL_URL: https://flatten.open-contracting.org
-      # The path must match the settings.DATAREGISTRY_MEDIA_ROOT default value in spoonbill-web.
-      SPOONBILL_EXPORTER_DIR: /data/exporter
   kingfisher_process:
     target: kingfisher-process
     port: 8000
@@ -164,20 +150,6 @@ docker_apps:
       # https://ocdsextensionregistry.readthedocs.io/en/latest/changelog.html
       REQUESTS_POOL_MAXSIZE: 20
       DEDUPLICATE_DATA: False
-  spoonbill:
-    target: spoonbill
-    site: spoonbill
-    host_dir: /data/storage/spoonbill
-    volumes:
-      - media
-      - tmp
-      - redis/data
-    env:
-      DJANGO_PROXY: True
-      ALLOWED_HOSTS: flatten.open-contracting.org
-      SECURE_HSTS_SECONDS: 31536000
-      CORS_ALLOWED_ORIGINS: https://flatten.open-contracting.org
-      REDIS_URL: redis://redis:6379/0
 
-# The registry app writes to this directory. The spoonbill app reads from this directory.
+# The registry app writes to this directory.
 exporter_host_dir: /data/storage/exporter
