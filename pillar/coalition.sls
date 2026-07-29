@@ -30,3 +30,10 @@ phpfpm:
           - sysadmin@open-contracting.org
         ignore:
           - a-fake-plugin.php
+
+wordpress:
+  sites:
+    coalition:
+      plugins:
+        - auto-update-plugin
+        - mail-from
