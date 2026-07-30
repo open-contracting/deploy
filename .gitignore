@@ -20,3 +20,5 @@
 *.swp
 *~
 .idea
+# Composer files
+/vendor

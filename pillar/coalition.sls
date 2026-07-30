@@ -36,4 +36,7 @@ wordpress:
     coalition:
       plugins:
         - auto-update-plugin
+        - fathom-analytics
         - mail-from
+      context:
+        FATHOM_ANALYTICS_ID: LNRZMMVR

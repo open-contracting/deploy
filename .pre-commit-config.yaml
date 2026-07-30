@@ -19,3 +19,15 @@ repos:
     hooks:
       - id: sqlfluff-lint
       - id: sqlfluff-fix
+  - repo: local
+    hooks:
+      - id: phpcbf
+        name: phpcbf
+        entry: vendor/bin/phpcbf
+        language: system
+        types: [php]
+      - id: phpcs
+        name: phpcs
+        entry: vendor/bin/phpcs
+        language: system
+        types: [php]
