@@ -1,17 +1,12 @@
 # Configure an SNTP service.
 systemd-timesyncd:
-  {% if grains['osrelease'] >= '20.04' %}
-  # timesyncd is built into systemd on older Ubuntu releases.
   pkg.installed:
     - name: systemd-timesyncd
-  {% endif %}
   service.running:
     - name: systemd-timesyncd
     - enable: True
-    {% if grains['osrelease'] >= '20.04' %}
     - require:
       - pkg: systemd-timesyncd
-    {% endif %}
 
 /etc/systemd/timesyncd.conf.d/customization.conf:
   file.managed:
