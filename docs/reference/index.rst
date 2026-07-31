@@ -5,8 +5,8 @@ Reference
    :caption: Contents
    :maxdepth: 1
 
-   downtime_protocol.rst
-   downtime_troubleshooting.rst
+   downtime.rst
+   troubleshoot.rst
    docs.rst
    powerbi.rst
 
