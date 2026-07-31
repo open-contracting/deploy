@@ -46,3 +46,18 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 {% endfor %}
+
+{% for user, entry in pillar.wordpress.sites|items %}
+{% for name in entry.plugins|default([]) %}
+/home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
+  file.managed:
+    - source: salt://cms/files/{{ name }}.php
+    - template: jinja
+    - context: {{ entry.context|yaml }}
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+    - require:
+      - user: {{ user }}_user_exists
+{% endfor %}
+{% endfor %}

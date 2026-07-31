@@ -321,7 +321,6 @@ Set up database-specific backups
           location: ocp-registry-backup/database
           databases:
             - data_registry
-            - spoonbill_web
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 

@@ -137,6 +137,29 @@ contracting5.org, dream-office.org, open-contracting.com, open-contracting.info:
     }
   ]
 }
+open-contracting.eu: {
+  "kind": "zone",
+  "name": "default",
+  "phase": "http_request_dynamic_redirect",
+  "rules": [
+    {
+      "action": "redirect",
+      "action_parameters": {
+        "from_value": {
+          "preserve_query_string": true,
+          "status_code": 301,
+          "target_url": {
+            "expression": "concat(\"https://www.open-contracting.eu\", http.request.uri.path)"
+          }
+        }
+      },
+      "description": "Redirect to www.open-contracting.eu",
+      "enabled": true,
+      "expression": "(http.host eq \"open-contracting.eu\")",
+      "id": null
+    }
+  ]
+}
 open-contracting.org: {
   "kind": "zone",
   "name": "default",
@@ -146,6 +169,27 @@ open-contracting.org: {
   "kind": "zone",
   "name": "default",
   "phase": "http_request_firewall_custom"
+}
+open-spending.eu: {
+  "description": "Ruleset made with WP Cloudflare Super Page Cache Plugin",
+  "kind": "zone",
+  "name": "WP Cloudflare Super Page Cache Plugin",
+  "phase": "http_request_cache_settings",
+  "rules": [
+    {
+      "action": "set_cache_settings",
+      "action_parameters": {
+        "browser_ttl": {
+          "mode": "respect_origin"
+        },
+        "cache": true
+      },
+      "description": "[DO NOT EDIT] WP Super Page Cache Plugin rules for https://www.open-spending.eu",
+      "enabled": true,
+      "expression": "(http.host wildcard \"www.open-spending.eu*\" and not http.cookie contains \"comment_\" and not http.cookie contains \"woocommerce_\" and not http.cookie contains \"wordpress\" and not http.cookie contains \"xf_\" and not http.cookie contains \"edd_\" and not http.cookie contains \"jetpack\" and not http.cookie contains \"yith_wcwl_session_\" and not http.cookie contains \"yith_wrvp_\" and not http.cookie contains \"wpsc_\" and not http.cookie contains \"ecwid\" and not http.cookie contains \"ec_\" and not http.cookie contains \"bookly\" and not http.request.uri contains \"ao_noptirocket\" and not http.request.uri contains \"jetpack=comms\" and not http.request.uri contains \"kinsta-monitor\" and not http.request.uri contains \"ao_speedup_cachebuster\" and not http.request.uri contains \"removed_item\" and not http.request.uri contains \"/my-account\" and not http.request.uri contains \"/wc-api\" and not http.request.uri contains \"/edd-api\" and not http.request.uri contains \"/wp-json\" and not http.request.uri contains \"/wp-admin\" and not http.request.uri contains \"/wp-login\" and not http.request.uri.path contains \".xml\" and not http.request.uri.path contains \".xsl\" and not http.request.uri.path contains \"robots.txt\")",
+      "id": null
+    }
+  ]
 }
 tiered_cache
 {

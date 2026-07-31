@@ -200,7 +200,8 @@ python_apps:
         spider: ecuador_sercop_bulk
         crawl_time: '2015-01-01'
         cardinal: True
-        proxy: True
+        settings:
+          HTTPPROXY_ENABLED: 'True'
       - identifier: RWANDA
         spider: rwanda_api
         crawl_time: '2025-08-22'

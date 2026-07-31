@@ -8,6 +8,5 @@ jobs:
     secrets:
       personal-access-token: ${{ secrets.PAT }}
     with:
-      python-version: '3.12'
       skip-linter-language: true
       skip-linter-requirements: true

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- Use this command to find all ignores:
+     rg -oIN 'phpcs:ignore (\S+)' -r '$1' | sort | uniq -c | sort -rn -->
+<ruleset>
+    <file>.</file>
+
+    <exclude-pattern>*/.claude/*</exclude-pattern>
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="s"/>
+
+    <config name="testVersion" value="8.1-"/>  <!-- sync with pillar/cms.sls -->
+
+    <rule ref="WordPress">
+        <!-- Yoda conditions read backwards, and Generic.CodeAnalysis.AssignmentInCondition
+             already catches the `if ( $x = 5 )` typo they exist to prevent. -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
+    </rule>
+
+    <rule ref="PHPCompatibilityWP"/>
+</ruleset>

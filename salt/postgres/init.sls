@@ -79,7 +79,7 @@ pgbadger:
 postgresql:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
-    {% if grains.osmajorrelease | string in ('18', '20') %}
+    {% if grains.osmajorrelease|string in ('18', '20') %}
     - name: deb https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main
     {% else %}
     - name: deb [signed-by=/usr/share/keyrings/postgresql-keyring.gpg] https://apt.postgresql.org/pub/repos/apt {{ grains.oscodename }}-pgdg main

@@ -1,6 +1,6 @@
 # This file configures common services for content management systems like WordPress and Wagtail.
 #
-# The server was initially only for the "coalition" website (open-spending.eu).
+# The server was initially only for the "coalition" website (open-spending.eu), so that word survives.
 
 network:
   host_id: ocp21

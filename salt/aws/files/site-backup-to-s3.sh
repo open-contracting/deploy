@@ -26,23 +26,23 @@ if [ -z "$BACKUP_DIRECTORIES" ]; then
     exit 4
 fi
 
-for DIRECTORY in "${BACKUP_DIRECTORIES[@]}"; do
-    SAFENAME="${DIRECTORY//[^a-zA-Z0-9]/_}"
-    SAFENAME="${SAFENAME/#_/}"
-    SAFENAME="${SAFENAME/%_/}"
-    BASENAME="${SAFENAME}_backup_$(TZ=UTC date +%Y%m%dT%H%M%SZ).tar.gz"
-    TEMPFILE="$(mktemp /tmp/site_backup_XXXX.tar.gz)"
+for directory in "${BACKUP_DIRECTORIES[@]}"; do
+    safe_name="${directory//[^a-zA-Z0-9]/_}"
+    safe_name="${safe_name/#_/}"
+    safe_name="${safe_name/%_/}"
+    base_name="${safe_name}_backup_$(TZ=UTC date +%Y%m%dT%H%M%SZ).tar.gz"
+    temp_file="$(mktemp /tmp/site_backup_XXXX.tar.gz)"
 
     # tar will return an exit code if a file is changed (e.g. log) or removed (e.g. cache).
     # The backup of all sites should continue, regardless.
     set +e
     if [ -z "$BACKUP_EXCLUDE" ]; then
-        tar czf "$TEMPFILE" "$DIRECTORY" > /dev/null 2>&1
+        tar czf "$temp_file" "$directory" > /dev/null 2>&1
     else
-        tar czf "$TEMPFILE" "$DIRECTORY" "$BACKUP_EXCLUDE" > /dev/null 2>&1
+        tar czf "$temp_file" "$directory" "$BACKUP_EXCLUDE" > /dev/null 2>&1
     fi
     set -e
 
-    $AWS_CLI s3 cp "$TEMPFILE" "s3://$S3_SITE_BACKUP_BUCKET/$BASENAME" --only-show-errors
-    rm "$TEMPFILE"
+    $AWS_CLI s3 cp "$temp_file" "s3://$S3_SITE_BACKUP_BUCKET/$base_name" --only-show-errors
+    rm "$temp_file"
 done

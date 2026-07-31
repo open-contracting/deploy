@@ -4,18 +4,18 @@
 
 set -eu
 
-MAILTO="root"
-HOST=$(hostname)
+recipient="root"
+hostname_output=$(hostname)
 if [ -f /usr/bin/mail ]; then
-    MAIL_CMD="/usr/bin/mail"
+    mail_bin="/usr/bin/mail"
 else
-    MAIL_CMD="/bin/mail"
+    mail_bin="/bin/mail"
 fi
 
-SENSORS=$(/usr/bin/sensors)
+sensors_output=$(/usr/bin/sensors)
 
-case $SENSORS in
+case $sensors_output in
 *ALARM*)
-    echo "$SENSORS" | $MAIL_CMD -s "$HOST: lm_sensors alarm" $MAILTO
+    echo "$sensors_output" | $mail_bin -s "$hostname_output: lm_sensors alarm" $recipient
     ;;
 esac

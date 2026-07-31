@@ -26,24 +26,24 @@ if [ ! -r "/home/sysadmin-tools/mysql-defaults.cnf" ]; then
     exit 4
 fi
 
-mapfile -t DATABASES < <(/usr/bin/mysql --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf -Bse 'SHOW DATABASES')
+mapfile -t databases < <(/usr/bin/mysql --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf -Bse 'SHOW DATABASES')
 
-for DATABASE in "${DATABASES[@]}"; do
-    case "$DATABASE" in
+for database in "${databases[@]}"; do
+    case "$database" in
     information_schema | performance_schema | sys | innodb | mysql) ;; # Skip system databases
     *)
-        BASENAME="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$DATABASE.sql.gz"
-        TEMPFILE="$(mktemp /tmp/mysql_backup_XXXX.sql.gz)"
+        base_name="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$database.sql.gz"
+        temp_file="$(mktemp /tmp/mysql_backup_XXXX.sql.gz)"
 
-        /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf --databases "$DATABASE" | gzip > "$TEMPFILE"
-        if zgrep -q "Dump completed on" "$TEMPFILE"; then
-            $AWS_CLI s3 cp "$TEMPFILE" "s3://$S3_DATABASE_BACKUP_BUCKET/$BASENAME" --only-show-errors
+        /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf --databases "$database" | gzip > "$temp_file"
+        if zgrep -q "Dump completed on" "$temp_file"; then
+            $AWS_CLI s3 cp "$temp_file" "s3://$S3_DATABASE_BACKUP_BUCKET/$base_name" --only-show-errors
         else
-            echo "Error: Failed to dump $DATABASE (see $TEMPFILE)"
+            echo "Error: Failed to dump $database (see $temp_file)"
             break
         fi
 
-        rm "$TEMPFILE"
+        rm "$temp_file"
         ;;
     esac
 done

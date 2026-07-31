@@ -40,7 +40,6 @@ Filesystem
 Copy these directories from the old server to the new server, using ``rsync -avz``:
 
 -  ``/data/storage/exporter``
--  ``/data/storage/spoonbill``
 -  ``/home/collect/scrapyd/dbs``
 -  ``/home/collect/scrapyd/eggs``
 -  ``/home/collect/scrapyd/jobs``
@@ -49,7 +48,7 @@ Copy these directories from the old server to the new server, using ``rsync -avz
 Databases
 ~~~~~~~~~
 
-#. Copy the ``data_registry`` and ``spoonbill`` databases from the old server to the new server, :ref:`using pg_dump<pg-recover-backup-universal>`.
+#. Copy the ``data_registry`` database from the old server to the new server, :ref:`using pg_dump<pg-recover-backup-universal>`.
 
 Docker apps
 ~~~~~~~~~~~
