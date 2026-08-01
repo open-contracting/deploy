@@ -1,6 +1,8 @@
 Prometheus
 ==========
 
+.. _grafana:
+
 Grafana
 -------
 
@@ -8,7 +10,7 @@ Access the `monitoring dashboard <https://grafana.prometheus.open-contracting.or
 
 These dashboards let you query system information in an interactive visual display, including: CPU, RAM, disk and network usage:
 
-* `Server Monitoring Dashboard <https://grafana.prometheus.open-contracting.org/d/1864308e-eb04-4ded-bbea-c6188e502f11/server-monitoring-dashboard>`__
+* `Server Monitoring Dashboard <https://grafana.prometheus.open-contracting.org/d/1864308e-eb04-4ded-bbea-c6188e502f11/single-server-monitoring>`__
 * `Prometheus System <https://grafana.prometheus.open-contracting.org/d/000000001/prometheus-system>`__
 
 Monitor
