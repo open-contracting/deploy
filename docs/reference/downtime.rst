@@ -1,4 +1,4 @@
-Downtime Protocol
+Downtime protocol
 =================
 
 "Downtime" is interpreted from the perspective of the user: if they cannot use the service as they normally would, then it’s some degree of "down."

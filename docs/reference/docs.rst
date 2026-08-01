@@ -1,4 +1,4 @@
-OCDS Documentation
+OCDS documentation
 ==================
 
 This page serves as an orientation to how different components of the OCDS documentation relate to each other.
