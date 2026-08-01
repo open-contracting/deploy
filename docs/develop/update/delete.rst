@@ -81,7 +81,7 @@ To scrub packages, for example:
    ./run.py 'mytarget' pkg.autoremove list_only=True
    ./run.py 'mytarget' pkg.autoremove purge=True
 
-Then, login to the server and check for and delete any remaining packages, files or directories relating to the package, for example:
+Then, log into the server and check for and delete any remaining packages, files or directories relating to the package, for example:
 
 .. code-block:: bash
 

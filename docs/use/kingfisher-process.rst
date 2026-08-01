@@ -134,7 +134,7 @@ Using the command-line interface
 Using RabbitMQ
 ~~~~~~~~~~~~~~
 
-Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can login to the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
+Kingfisher Process uses a message broker, `RabbitMQ <https://www.rabbitmq.com>`__, to organize its tasks into queues. You can log into the `RabbitMQ management interface <https://rabbitmq.kingfisher.open-contracting.org>`__ to see the status of the queues and check that it's not stuck.
 
 #. Open https://rabbitmq.kingfisher.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
 #. Click on the `Queues <https://rabbitmq.kingfisher.open-contracting.org/#/queues>`__ tab.
