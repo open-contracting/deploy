@@ -1,4 +1,4 @@
-{% set mysql_version = pillar.mysql.version|default('8.0')|quote %}
+{% set mysql_version = pillar.mysql.version|default('8.4')|quote %}
 
 # https://docs.saltproject.io/en/latest/ref/states/all/salt.states.mysql_database.html
 mysql dependencies:
