@@ -1,7 +1,8 @@
 <?php
 /**
  * Plugin Name: Open Contracting: Auto-Update Plugin
- * Description: Auto-updates a plugin, unless the new version is a new major version, or a new minor version within major version zero.
+ * Description: Auto-updates a plugin, unless the new version is a new major version, or a new minor version within
+ * major version zero.
  *
  * @package OpenContracting
  * @link https://core.trac.wordpress.org/ticket/51126
