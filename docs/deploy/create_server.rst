@@ -34,6 +34,10 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Linode Label* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
          #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
+         #. Set *Public Interface Firewall* to *No firewall*, unless the server uses Docker.
+
+            #.  If using Docker, select *Create Firewall* and :ref:`configure an external firewall starting at step 3<docker-firewall>`.
+
          #. Check *Backups*
          #. Click *Create Linode* and wait a few minutes for the server to power on
 
@@ -58,11 +62,11 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
             #. Rename the "Swap Image" disk to "### MB Swap Image"
 
-         #. On the *Configurations* tab:
+         #. On the *Network* tab:
 
-            #. Click *Edit* for the "My Ubuntu ##.04 LTS Disk Profile" (or similar) configuration
-            #. Uncheck *Auto-configure networking* (skip if configuring a non-OCP server)
-            #. Click *Save Changes*
+            #. Click *Interface Settings*
+            #. Uncheck *Enable Network Helper* (skip if configuring a non-OCP server)
+            #. Click *Save*
 
          #. Click *Power On*
          #. Copy *SSH Access* to your clipboard
@@ -78,8 +82,6 @@ Create the server via the :ref:`host<hosting>`'s interface.
          .. note::
 
             Linode can take a day to close the ticket. In the meantime, proceed with the instructions below. Once the ticket is closed, assign a specific address within the /64 block in the :doc:`network configuration<../develop/update/network>`.
-
-      #. If using Docker, :ref:`configure an external firewall<docker-firewall>`.
 
    .. tab-item:: Hetzner Cloud
       :sync: hetzner-cloud
