@@ -1,6 +1,6 @@
 ci:
   autoupdate_schedule: quarterly
-  skip: [pip-compile]
+  skip: [pip-compile, phpcbf, phpcs]
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.20
