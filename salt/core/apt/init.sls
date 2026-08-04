@@ -12,7 +12,6 @@ needrestart:
   pkg.removed:
     - name: needrestart
 
-# https://www.phusionpassenger.com/library/install/apache/install/oss/bionic/
 # gnupg depends on dirmngr. gnupg2 is a dummy package for gnupg.
 secure ppa:
   pkg.installed:
