@@ -1,0 +1,3 @@
+{% for source in pillar.ntp %}
+pool {{ source }}  iburst maxsources 4
+{% endfor %}
