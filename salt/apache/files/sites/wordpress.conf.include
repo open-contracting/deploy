@@ -24,3 +24,8 @@ Header set X-Content-Type-Options nosniff
     AuthUserFile /etc/apache2/.htpasswd-{{ user }}
     Require valid-user
 </FilesMatch>
+
+<IfModule mod_mime.c>
+      AddType image/webp .webp
+      AddType image/avif .avif
+</IfModule>
