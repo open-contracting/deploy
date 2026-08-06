@@ -41,7 +41,7 @@ To configure the database for an application:
       mysql:
         users:
           USERNAME:
-            # PASSWORD
+            password: PASSWORD
             password_hash: "HASH"
             host: "192.0.2.1"
 

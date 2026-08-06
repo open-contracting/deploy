@@ -36,6 +36,7 @@ phpfpm:
 wordpress:
   sites:
     coalition:
+      database: coalition_wp
       plugins:
         - auto-update-plugin
         - disable-comments-pingbacks

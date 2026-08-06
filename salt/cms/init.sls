@@ -48,6 +48,24 @@ allow {{ userdir }} access:
 {% endfor %}
 
 {% for user, entry in pillar.wordpress.sites|items %}
+{% set database = pillar.mysql.databases[entry.database] %}
+
+{% for constant, value in (
+    ('DB_NAME', entry.database),
+    ('DB_USER', database.user),
+    ('DB_PASSWORD', pillar.mysql.users[database.user].password),
+) %}
+/home/{{ user }}/public_html/wp-config.php {{ constant }}:
+  file.replace:
+    - name: /home/{{ user }}/public_html/wp-config.php
+    - pattern: "(define\\(\\s*'{{ constant }}',\\s*')[^']*(')"
+    - repl: "\\g<1>{{ value }}\\g<2>"
+    - backup: False
+    - ignore_if_missing: True
+    - require:
+      - user: {{ user }}_user_exists
+{% endfor %}
+
 {% for name in entry.plugins|default([]) %}
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:

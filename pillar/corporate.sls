@@ -37,6 +37,11 @@ phpfpm:
           - sysadmin@open-contracting.org
           - support+ocp@theideabureau.co
 
+wordpress:
+  sites:
+    corporate:
+      database: corporate_wp
+
 ssh:
   corporate:
     - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHxMhl3ZYqr5wz/aqJQJF37jKBIlRXrngPHgf7NVk+Ac ben@theideabureau.co
