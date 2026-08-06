@@ -78,6 +78,7 @@ def cli():
 
 @cli.group()
 def cloudflare():
+    """Cloudflare command group"""
     if not Path("terraform").exists():
         raise click.ClickException("run `terraform init`")
 
@@ -85,6 +86,7 @@ def cloudflare():
 @cli.command()
 @click.argument("file", type=click.File())
 def print_urls_from_email_message(file):
+    """Print URLs from an email message that might be suspicious"""
     message = Parser(policy=default).parsestr(file.read())
     print("\n".join(re.findall(r"http[^\s>]+", message.get_body(preferencelist=("plain", "html")).get_content())))
 
