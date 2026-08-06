@@ -333,7 +333,8 @@ def diff(local, remote):
 
 
 @cli.command()
-def mysql_hash():
+@click.option("--check", "expected", help="Report whether the password matches this hash")
+def mysql_hash(expected):
     """Generate a caching_sha2_password MySQL hash."""
     # Prompt on standard error, so that standard output contains the hash only.
     password = (
@@ -342,11 +343,25 @@ def mysql_hash():
     if not password:
         raise click.ClickException("The password must not be empty")
 
-    salt = "".join(secrets.choice(MYSQL_SALT_ALPHABET) for _ in range(MYSQL_SALT_LENGTH))
+    if expected:
+        if not re.fullmatch(r"\$A\$\d{3}\$.{20}.{43}", expected):
+            raise click.ClickException("The hash is malformed")
+        salt = expected[MYSQL_PREFIX_LENGTH : MYSQL_PREFIX_LENGTH + MYSQL_SALT_LENGTH]
+    else:
+        salt = "".join(secrets.choice(MYSQL_SALT_ALPHABET) for _ in range(MYSQL_SALT_LENGTH))
+
     checksum = sha256_crypt_encode(sha256_crypt(password.encode(), salt.encode()))
-    click.echo(f"$A${MYSQL_ROUNDS // 1000:03d}${salt}{checksum}")
+    actual = f"$A${MYSQL_ROUNDS // 1000:03d}${salt}{checksum}"
+
+    if expected:
+        if actual != expected:
+            raise click.ClickException("The password doesn't match the hash")
+        click.secho("The password matches the hash", fg="green", err=True)
+    else:
+        click.echo(actual)
 
 
+MYSQL_PREFIX_LENGTH = len("$A$005$")
 # https://github.com/mysql/mysql-server/blob/8.0/include/crypt_genhash_impl.h
 MYSQL_ROUNDS = 5000  # ROUNDS_DEFAULT
 # https://www.akkadia.org/drepper/SHA-crypt.txt has "the salt string truncated to 16 characters", so implementations
