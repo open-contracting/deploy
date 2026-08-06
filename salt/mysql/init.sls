@@ -6,7 +6,7 @@ mysql dependencies:
     - pkgs:
       - python3-mysqldb
 
-{# Using Percona's official tool "percona-release" to configure their repositories and signing keys. #}
+# Using Percona's official tool "percona-release" to configure their repositories and signing keys.
 percona-release:
   pkg.installed:
     - name: percona-release
@@ -54,7 +54,7 @@ remove test database:
       - service: mysql
 {% endif %} {# config #}
 
-{# `password_hash`, rather than `password`, until https://github.com/saltstack/salt/issues/66859 is fixed. #}
+# `password_hash`, rather than `password`, until https://github.com/saltstack/salt/issues/66859 is fixed.
 {% for name, entry in pillar.mysql.users|items %}
 {{ name }}_mysql_user:
   mysql_user.present:

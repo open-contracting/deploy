@@ -57,7 +57,7 @@ set jvm heap size:
     - backup: False
     - ignore_missing: True
 
-{# Prevent ElasticSearch from starting in the case of misconfiguration. #}
+# Prevent ElasticSearch from starting in the case of misconfiguration.
 /etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.managed:
     - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options

@@ -63,10 +63,8 @@ unset {{ setting_name }} in {{ filename }}:
       - user: {{ user }}_user_exists
 {% endmacro %}
 
-{#
-  Accepts an `entry` object with a `service` key for the name of the service, a `user` key for the user to run the
-  service, and any other keys to be passed to the `*.service` template.
-#}
+# Accepts an `entry` object with a `service` key for the name of the service, a `user` key for the user to run the
+# service, and any other keys to be passed to the `*.service` template.
 # https://www.freedesktop.org/software/systemd/man/systemd.directives.html
 {% macro systemd(entry) %}
 /etc/systemd/system/{{ entry.service }}.service:
@@ -92,14 +90,12 @@ unset {{ setting_name }} in {{ filename }}:
     - m_name: {{ entry.service }}
 {% endmacro %}
 
-{#
-  - parent_directory is a state that creates the parent directory (e.g. file.directory or git.latest).
-  - requirements_file is a state that creates the requirements.txt file (e.g. file.managed or git.latest).
-  - The calling state file must include the python.virtualenv state file (which includes the python state file).
-
-  Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
-  https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
-#}
+# - parent_directory is a state that creates the parent directory (e.g. file.directory or git.latest).
+# - requirements_file is a state that creates the requirements.txt file (e.g. file.managed or git.latest).
+# - The calling state file must include the python.virtualenv state file (which includes the python state file).
+#
+# Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
+# https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 {% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
 {{ directory }}-virtualenv:
   virtualenv.managed:
@@ -140,13 +136,12 @@ unset {{ setting_name }} in {{ filename }}:
 {% endif %}
 {% endmacro %}
 
-{#
-  Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
-  `context` object, whose keys are made available as variables in the configuration template.
-
-  See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/apache.html
-#}
-# It is safe to use `{}` as a default value, because the default value is never mutated.
+# Accepts a `name` string used to name configuration files, an `entry` object with Apache configuration, and a
+# `context` object, whose keys are made available as variables in the configuration template.
+#
+# (It is safe to use `{}` as a default value, because the default value is never mutated.)
+#
+# See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/apache.html
 {% macro apache(name, entry, context={}) %}
 /etc/apache2/sites-available/{{ name }}.conf.include:
   file.managed:
@@ -203,12 +198,10 @@ add .htpasswd-{{ name }}-{{ username }}:
 {% endif%}
 {% endmacro %}
 
-{#
-  Accepts a `name` string used to name configuration files, an `entry` object with Nginx configuration, and a
-  `context` object, whose keys are made available as variables in the configuration template.
-
-  See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/nginx.html
-#}
+# Accepts a `name` string used to name configuration files, an `entry` object with Nginx configuration, and a
+# `context` object, whose keys are made available as variables in the configuration template.
+#
+# See https://ocdsdeploy.readthedocs.io/en/latest/develop/update/nginx.html
 {% macro nginx(name, entry, context={}) %}
 {% if 'include' in entry %}
 /etc/nginx/sites-available/{{ name }}.conf.include:

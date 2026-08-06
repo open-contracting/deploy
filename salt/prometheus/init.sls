@@ -1,17 +1,14 @@
 {% from 'lib.sls' import create_user, systemd %}
 
-{#
-  The `name` key must match the repository name of a Prometheus component: for example, prometheus.
-
-  The backticked terms refer to keys in the Pillar data. The for-loop creates states to:
-
-  - Create a `user`
-  - Download and extract the specified `version` of the named component to the `user`'s home directory
-  - Create `config`uration files in the user's home directory, if any
-  - Create a systemd `service` file from a `salt/core/systemd/files/{service}.service` template,
-    with access to `name`, `user` and `entry` variables
-  - Start the `service`
-#}
+# The `name` key must match the repository name of a Prometheus component: for example, prometheus.
+#
+# The backticked terms refer to keys in the Pillar data. The for-loop creates states to:
+#
+# - Create a `user`
+# - Download and extract the specified `version` of the named component to the `user`'s home directory
+# - Create `config`uration files in the user's home directory, if any
+# - Create a systemd `service` file from a `salt/core/systemd/files/{service}.service` template, with access to `name`, `user` and `entry` variables
+# - Start the `service`
 {% for name, entry in pillar.prometheus|items %}
 
 {% set userdir = '/home/' + entry.user %}
