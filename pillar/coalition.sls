@@ -28,6 +28,8 @@ phpfpm:
       cron:
         contact:
           - sysadmin@open-contracting.org
+        # Reproduce with: wp cron event run --quiet --all
+        # https://developer.wordpress.org/reference/classes/wp_site_health/detect_plugin_theme_auto_update_issues/
         ignore:
           - a-fake-plugin.php
 
