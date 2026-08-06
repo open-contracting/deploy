@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 import difflib
+import hashlib
 import json
 import os
 import re
+import secrets
+import string
 import subprocess
+import sys
 from collections import defaultdict
 from email.parser import Parser
 from email.policy import default
@@ -71,6 +75,56 @@ def salt_ssh(*args):
     return subprocess.run(["./run.py", *args], check=True, text=True, stdout=subprocess.PIPE).stdout  # noqa: S603 # trusted input
 
 
+def sha256_crypt(password, salt):
+    """
+    Return the SHA-256 crypt checksum.
+
+    https://www.akkadia.org/drepper/SHA-crypt.txt
+    """
+    b = hashlib.sha256(password + salt + password).digest()
+
+    initial = password + salt + b * (len(password) // 32) + b[: len(password) % 32]
+    length = len(password)
+    while length:
+        initial += b if length & 1 else password
+        length >>= 1
+    a = hashlib.sha256(initial).digest()
+
+    sequence = hashlib.sha256(password * len(password)).digest()
+    p = (sequence * (len(password) // 32 + 1))[: len(password)]
+    sequence = hashlib.sha256(salt * (16 + a[0])).digest()
+    s = (sequence * (len(salt) // 32 + 1))[: len(salt)]
+
+    c = a
+    for i in range(MYSQL_ROUNDS):
+        c = hashlib.sha256(
+            (p if i % 2 else c) + (s if i % 3 else b"") + (p if i % 7 else b"") + (c if i % 2 else p)
+        ).digest()
+    return c
+
+
+def sha256_crypt_encode(digest):
+    """
+    Return the checksum in SHA-crypt's base64 encoding.
+
+    Equivalent to passlib's `h64.encode_transposed_bytes`.
+
+    https://www.akkadia.org/drepper/SHA-crypt.txt
+    """
+    characters = []
+    for high, middle, low in MYSQL_ORDER[:-1]:
+        value = (digest[high] << 16) | (digest[middle] << 8) | digest[low]
+        for _ in range(4):
+            characters.append(MYSQL_B64_ALPHABET[value & 0x3F])
+            value >>= 6
+    high, low = MYSQL_ORDER[-1]
+    value = (digest[high] << 8) | digest[low]
+    for _ in range(3):
+        characters.append(MYSQL_B64_ALPHABET[value & 0x3F])
+        value >>= 6
+    return "".join(characters)
+
+
 @click.group()
 def cli():
     pass
@@ -78,6 +132,7 @@ def cli():
 
 @cli.group()
 def cloudflare():
+    """Cloudflare command group"""
     if not Path("terraform").exists():
         raise click.ClickException("run `terraform init`")
 
@@ -85,6 +140,7 @@ def cloudflare():
 @cli.command()
 @click.argument("file", type=click.File())
 def print_urls_from_email_message(file):
+    """Print URLs from an email message that might be suspicious"""
     message = Parser(policy=default).parsestr(file.read())
     print("\n".join(re.findall(r"http[^\s>]+", message.get_body(preferencelist=("plain", "html")).get_content())))
 
@@ -275,6 +331,47 @@ def diff(local, remote):
                 Syntax("\n".join(islice(difflib.unified_diff(expected, actual, n=0, lineterm=""), 2, None)), "diff")
             )
 
+
+@cli.command()
+def mysql_hash():
+    """Generate a caching_sha2_password MySQL hash."""
+    # Prompt on standard error, so that standard output contains the hash only.
+    password = (
+        click.prompt("Password", hide_input=True, err=True) if sys.stdin.isatty() else sys.stdin.read().rstrip("\n")
+    )
+    if not password:
+        raise click.ClickException("The password must not be empty")
+
+    salt = "".join(secrets.choice(MYSQL_SALT_ALPHABET) for _ in range(MYSQL_SALT_LENGTH))
+    checksum = sha256_crypt_encode(sha256_crypt(password.encode(), salt.encode()))
+    click.echo(f"$A${MYSQL_ROUNDS // 1000:03d}${salt}{checksum}")
+
+
+# https://github.com/mysql/mysql-server/blob/8.0/include/crypt_genhash_impl.h
+MYSQL_ROUNDS = 5000  # ROUNDS_DEFAULT
+# https://www.akkadia.org/drepper/SHA-crypt.txt has "the salt string truncated to 16 characters", so implementations
+# like passlib.hash.sha256_crypt truncate - but MySQL doesn't.
+MYSQL_SALT_LENGTH = 20  # CRYPT_SALT_LENGTH
+# See "static const char b64t[64]" at https://www.akkadia.org/drepper/SHA-crypt.txt
+MYSQL_B64_ALPHABET = "./" + string.digits + string.ascii_uppercase + string.ascii_lowercase
+# MySQL uses raw bytes (1-127) excluding $, but unprintable characters must be escaped in YAML and SQL. Use printable
+# characters (33-126) less those that need escaping in YAML ("), Jinja ({) and SQL ('), plus the escape character (\).
+# https://github.com/mysql/mysql-server/blob/8.0/mysys/crypt_genhash_impl.cc
+MYSQL_SALT_ALPHABET = "".join(character for character in map(chr, range(33, 127)) if character not in "\"'\\{$")
+# See "For SHA-256:" at https://www.akkadia.org/drepper/SHA-crypt.txt
+MYSQL_ORDER = (
+    (0, 10, 20),
+    (21, 1, 11),
+    (12, 22, 2),
+    (3, 13, 23),
+    (24, 4, 14),
+    (15, 25, 5),
+    (6, 16, 26),
+    (27, 7, 17),
+    (18, 28, 8),
+    (9, 19, 29),
+    (31, 30),
+)
 
 ACCOUNT_LEVEL_USED = {
     "account_dns_settings",

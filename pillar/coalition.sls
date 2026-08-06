@@ -36,4 +36,8 @@ wordpress:
     coalition:
       plugins:
         - auto-update-plugin
+        - disable-comments-pingbacks
+        - fathom-analytics
         - mail-from
+      context:
+        FATHOM_ANALYTICS_ID: LNRZMMVR

@@ -1,4 +1,4 @@
-Downtime Protocol
+Downtime protocol
 =================
 
 "Downtime" is interpreted from the perspective of the user: if they cannot use the service as they normally would, then it’s some degree of "down."
@@ -15,6 +15,17 @@ OCP has a maintenance contract with a :ref:`Linux server manager<admin-access>`,
 -  Spending an initial 20 minutes triaging the issue.
 
 Working hours are 9:00-17:00 UK time, Monday-Friday, excluding UK public holidays.
+
+.. _downtime-alerts:
+
+Configured alerts
+~~~~~~~~~~~~~~~~~
+
+-  Per-minute uptime checks on all public endpoints
+
+   -  Advanced website checks (e.g. basic authentication, word presence on a web page)
+
+-  System resource monitoring alerts: CPU, RAM, disk space, disk I/O
 
 Notification mechanisms
 -----------------------
@@ -66,4 +77,5 @@ It might be appropriate to convene a retrospective to discuss the impact of the 
 Reference
 ---------
 
--  https://guides.18f.gov/engineering/our-approach/incident-reports/
+-  `18F Engineering: Incident reports <https://guides.18f.org/engineering/our-approach/incident-reports/>`__
+-  `Google Site Reliability Engineering: Example postmortem <https://sre.google/sre-book/example-postmortem/>`__

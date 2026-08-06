@@ -1,0 +1,20 @@
+name: Lint PHP
+on: [push, pull_request]
+jobs:
+  lint:
+    if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+          coverage: none
+      - uses: actions/cache@v6
+        with:
+          path: vendor
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - run: vendor/bin/phpcs

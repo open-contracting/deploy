@@ -6,6 +6,7 @@ Reference
    :maxdepth: 1
 
    downtime.rst
+   troubleshoot.rst
    docs.rst
    powerbi.rst
 

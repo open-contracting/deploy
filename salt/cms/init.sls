@@ -52,6 +52,8 @@ allow {{ userdir }} access:
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:
     - source: salt://cms/files/{{ name }}.php
+    - template: jinja
+    - context: {{ entry.context|yaml }}
     - user: {{ user }}
     - group: {{ user }}
     - makedirs: True

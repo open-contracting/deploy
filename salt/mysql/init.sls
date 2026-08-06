@@ -60,13 +60,13 @@ remove test database:
       - service: mysql
 {% endif %} {# config #}
 
+{# `password_hash`, rather than `password`, until https://github.com/saltstack/salt/issues/66859 is fixed. #}
 {% for name, entry in pillar.mysql.users|items %}
 {{ name }}_mysql_user:
   mysql_user.present:
     - name: {{ name }}
-{% if 'password' in entry %}
-    - password: "{{ entry.password }}"
-{% endif %}
+    - password_hash: "{{ entry.password_hash }}"
+    - auth_plugin: caching_sha2_password
 {% if 'host' in entry %}
     - host: "{{ entry.host }}"
 {% endif %}

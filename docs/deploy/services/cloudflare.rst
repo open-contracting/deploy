@@ -283,7 +283,7 @@ Web analytics > Manage site > Real User Measurements (RUM)
 Pages
 ~~~~~
 
--  `Login to Cloudflare <https://dash.cloudflare.com>`__
+-  `Log into Cloudflare <https://dash.cloudflare.com>`__
 -  Click the *Create application* button
 -  Click the *Pages* tab
 -  Click the *Get started* button for *Import an existing Git repository*
