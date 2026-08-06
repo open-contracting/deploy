@@ -31,6 +31,7 @@ To be responsible for servers, you should:
    periodic.rst
    packages.rst
    databases.rst
+   mysql.rst
    elasticsearch.rst
    rabbitmq.rst
    docker.rst
