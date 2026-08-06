@@ -44,7 +44,7 @@ Linux networking
 systemd-networkd
 ~~~~~~~~~~~~~~~~
 
-`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode instances. The configuration is written to ``/etc/systemd/network/05-eth0.network``. A configuration template is available for Linode.
+`systemd-networkd <https://manpages.ubuntu.com/manpages/jammy/man5/systemd.network.5.html>`__ is a system daemon to configure networking, and is our preferred solution for Linode servers. The configuration is written to ``/etc/systemd/network/05-eth0.network``. A configuration template is available for Linode.
 
 Linode template
 ^^^^^^^^^^^^^^^
@@ -57,7 +57,7 @@ This configuration disables automatic IP configuration and configures static net
 
 .. admonition:: Email template
 
-   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block, replacing ``ocpXX`` with the Linode instance's ID:
+   `Open a support ticket with Linode <https://cloud.linode.com/support/tickets>`__ to request an IPv6 /64 block, replacing ``ocpXX`` with the Linode server's ID:
 
       Hello,
 
@@ -89,7 +89,7 @@ To fill in the above, from the *Network* tab on the `Linode's <https://cloud.lin
 ``gateway4``
   The *Default Gateway* with a *Type* of *IPv4 – Public*
 ``addresses``
-  Other IP addresses attached to your instance (if any). Include the subnet block suffix, e.g.: `/64`
+  Other IP addresses attached to your server (if any). Include the subnet block suffix, e.g.: `/64`
 
 Custom template
 ^^^^^^^^^^^^^^^

@@ -79,7 +79,7 @@ If a server becomes inaccessible, including via SSH, log into the hosting provid
 
    .. tab-item:: Linode
 
-      `Lish (Linode Shell) <https://www.linode.com/docs/products/compute/compute-instances/guides/lish/>`__ provides console access to our Linode instances, similar to connecting via SSH.
+      `Lish (Linode Shell) <https://www.linode.com/docs/products/compute/compute-instances/guides/lish/>`__ provides console access to our Linode servers, similar to connecting via SSH.
 
       #. `Log into Linode <https://login.linode.com/login>`__
       #. Select the server you want to access
