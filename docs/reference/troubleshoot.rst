@@ -203,6 +203,10 @@ Docker applications
 
       sudo -u deployer docker compose -f /data/deploy/cove-ocds/docker-compose.yaml up -d
 
+   .. note::
+
+     `"The 'latest' tag is always pulled even when the 'missing' pull policy is used." <https://docs.docker.com/reference/compose-file/services/#pull_policy>`__
+
 .. _downtime-updates:
 
 Configuration changes
@@ -344,6 +348,8 @@ Service provider incidents
    .. admonition:: Linode physical host outage
 
       If an issue is limited to one physical host (e.g. hardware issue), the status page will not update. Instead, Linode will contact us via a support ticket that explains how Linode is responding and sets expectations for resolution time.
+
+      A symptom of a physical host outage is a server not responding to *Power Off* or *Reboot* actions.
 
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
