@@ -215,7 +215,7 @@ pg_stat_statements:
     - name: {{ name }}
     - require:
       - service: postgresql
-{% endfor %} {# groups #}
+{% endfor %}
 
 {% for name, entry in pillar.postgres.users|items %}
 {{ name }}_sql_user:
@@ -235,7 +235,7 @@ pg_stat_statements:
 {% for group in entry.groups|default([]) %}
       - postgres_group: {{ group }}_sql_group
 {% endfor %}
-{% endfor %} {# users #}
+{% endfor %}
 
 {% for database, entry in pillar.postgres.databases|items %}
 {{ database }}_sql_database:
@@ -283,7 +283,7 @@ grant {{ entry.user }} schema privileges:
     - require:
       - postgres_{{ owner.type }}: {{ owner.name }}_sql_{{ owner.type }}
       - postgres_database: {{ database }}_sql_database
-{% endfor %} {# schemas #}
+{% endfor %}
 
 {% for schema, roles in entry.privileges|items %}
 {% for role, tables in roles|items %}

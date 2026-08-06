@@ -52,7 +52,7 @@ remove test database:
     - source: salt://mysql/files/conf/{{ pillar.mysql.configuration }}.cnf
     - watch_in:
       - service: mysql
-{% endif %} {# config #}
+{% endif %}
 
 # `password_hash`, rather than `password`, until https://github.com/saltstack/salt/issues/66859 is fixed.
 {% for name, entry in pillar.mysql.users|items %}
@@ -66,7 +66,7 @@ remove test database:
 {% endif %}
     - require:
       - service: mysql
-{% endfor %} {# users #}
+{% endfor %}
 
 {% for database, entry in pillar.mysql.databases|items %}
 {{ database }}_mysql_database:

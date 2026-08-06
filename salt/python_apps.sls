@@ -40,6 +40,6 @@ include:
     - makedirs: True
     - require:
       - user: {{ entry.user }}_user_exists
-{% endfor %}{# config #}
+{% endfor %}
 
 {% endfor %}
