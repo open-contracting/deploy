@@ -1,5 +1,7 @@
 name: Lint PHP
 on: [push, pull_request]
+permissions:
+  contents: read
 jobs:
   lint:
     if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository }}
