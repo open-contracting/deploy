@@ -13,8 +13,14 @@ percona-release:
     - sources:
       - percona-release: https://repo.percona.com/apt/percona-release_latest.{{ salt['grains.get']('lsb_distrib_codename') }}_all.deb
   cmd.run:
+{% if pillar.mysql.version == '8.0' %}
+    # Legacy naming format
     - name: percona-release setup ps{{ mysql_version|replace('.', '') }}
     - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-release.list
+{% else %}
+    - name: percona-release setup ps{{ mysql_version|replace('.', '') }}-lts --scheme https
+    - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-lts-release.list
+{% endif %}
     - require:
       - pkg: percona-release
 
