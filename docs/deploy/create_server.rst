@@ -28,13 +28,13 @@ Create the server via the :ref:`host<hosting>`'s interface.
       #. `Log into Linode <https://login.linode.com/login>`__
       #. Click *Create Linode*
 
-         #. Set *Linux Distribution* to the latest Ubuntu LTS version
          #. Set *Region* to *London, UK (eu-west)*
+         #. Set *Linux Distribution* to the latest Ubuntu LTS version
          #. Select a *Linode Plan*
          #. Set *Linode Label* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
          #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
-         #. If using Docker, under *Public Interface Firewall* select *Create Firewall* and :ref:`configure an external firewall starting at step 3<docker-firewall>`. Otherwise, set to *No firewall*.
+         #. Under *Firewall*, if using Docker, click *Create Firewall* and :ref:`configure an external firewall from step 3<docker-firewall>`. Otherwise, select *No firewall - traffic is unprotected (not recommended)* from the dropdown.
          #. Check *Backups*
          #. Click *Create Linode* and wait a few minutes for the server to power on
 
