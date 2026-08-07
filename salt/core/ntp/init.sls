@@ -21,7 +21,6 @@ chrony-reload:
     - backup: False
     - watch_in:
       - cmd: chrony-reload
-
 {% else %}
 systemd-timesyncd:
   pkg.installed:

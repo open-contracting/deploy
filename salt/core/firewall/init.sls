@@ -35,12 +35,12 @@ iptables-persistent:
 save iptables rules:
   cmd.run:
     - name: /home/sysadmin-tools/bin/firewall.sh
-    - onchanges:
-      - file: /home/sysadmin-tools/firewall-settings.local
-      - file: /home/sysadmin-tools/bin/firewall.sh
     - success_retcodes:
       - 0
       - 3 # Docker install detected, exiting early.
+    - onchanges:
+      - file: /home/sysadmin-tools/firewall-settings.local
+      - file: /home/sysadmin-tools/bin/firewall.sh
 
 /home/sysadmin-tools/bin/firewall_reset.sh:
   file.managed:

@@ -45,7 +45,6 @@ nts:
   ntp-bootstrap.ubuntu.com:
     context: iburst maxsources 1 nts certset 1
 
-
 smtp:
   relay: True
   relay_address: noreply@noreply.open-contracting.org

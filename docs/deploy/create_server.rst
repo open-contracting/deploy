@@ -34,10 +34,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Linode Label* to the server's FQDN (e.g. ``ocp99.open-contracting.org``)
          #. Set *Add Tags* to either *Production* or *Development*
          #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
-         #. Set *Public Interface Firewall* to *No firewall*, unless the server uses Docker.
-
-            #.  If using Docker, select *Create Firewall* and :ref:`configure an external firewall starting at step 3<docker-firewall>`.
-
+         #. If using Docker, under *Public Interface Firewall* select *Create Firewall* and :ref:`configure an external firewall starting at step 3<docker-firewall>`. Otherwise, set to *No firewall*.
          #. Check *Backups*
          #. Click *Create Linode* and wait a few minutes for the server to power on
 

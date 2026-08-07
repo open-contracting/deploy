@@ -2,6 +2,7 @@
 /etc/ssh/sshd_config.d/customization.conf:
   file.managed:
     - source: salt://core/sshd/files/customization.conf
+    - template: jinja
     - watch_in:
       - service: ssh_service
 
