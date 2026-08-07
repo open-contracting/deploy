@@ -35,6 +35,17 @@ ntp:
   - 2.uk.pool.ntp.org
   - 3.uk.pool.ntp.org
 
+# NTS used over NTP on Ubuntu 26.04+
+nts:
+  time.cloudflare.com:
+  1.ntp.ubuntu.com:
+  2.ntp.ubuntu.com:
+  3.ntp.ubuntu.com:
+  4.ntp.ubuntu.com:
+  ntp-bootstrap.ubuntu.com:
+    context: iburst maxsources 1 nts certset 1
+
+
 smtp:
   relay: True
   relay_address: noreply@noreply.open-contracting.org
