@@ -34,7 +34,7 @@ postfix:
         smtp_sasl_security_options: "noanonymous"
         smtp_sasl_password_maps: "hash:/etc/postfix/sasl_passwd"
 {% if grains.osmajorrelease|int < 26 %}
-        #  Depreciated in Postfix 3.9, instead specify 'smtp_tls_security_level'
+        #  Deprecated in Postfix 3.9, instead specify 'smtp_tls_security_level'
         smtp_use_tls: "yes"
 {% endif %}
         smtp_tls_security_level: "may"
