@@ -23,6 +23,8 @@ fail2ban:
         [Definition]
         failregex = ^<HOST> .* ".*" 404
         ignoreregex =
+    - require:
+      - pkg: apache2
     - require_in:
       - file: /etc/fail2ban/jail.local
     - watch_in:
@@ -37,6 +39,8 @@ fail2ban:
         [Definition]
         failregex = ^<HOST> .* FATAL:  password authentication failed for user ".*"$
         ignoreregex =
+    - require:
+      - pkg: postgresql
     - require_in:
       - file: /etc/fail2ban/jail.local
     - watch_in:

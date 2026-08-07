@@ -33,7 +33,11 @@ postfix:
         smtp_sasl_auth_enable: "yes"
         smtp_sasl_security_options: "noanonymous"
         smtp_sasl_password_maps: "hash:/etc/postfix/sasl_passwd"
+{% if grains.osmajorrelease|int < 26 %}
+        #  Deprecated in Postfix 3.9, instead specify 'smtp_tls_security_level'
         smtp_use_tls: "yes"
+{% endif %}
+        smtp_tls_security_level: "may"
         smtp_tls_note_starttls_offer: "yes"
 {%- if "relay_address" in pillar.smtp %}
         smtp_generic_maps: "hash:/etc/postfix/generic"

@@ -23,13 +23,27 @@ ssh:
     - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDG8dhMVvgH/tt9+VoyokyUg/iKVcZKMku8pYN6o8RoT8XKoyP/iyrUIl5HxolqIt+PJTpomYkA40eJ/0mN4/kRhr+tctZ+tUdo8/G8H42FG3McklL6XlwOdXRGIYC+NynF8YGws57J8YkM2oL9linkUZYpGpVkNew2aEg916HWWfGZktwuQa7knIwIhFr9FlvxxaZhdcQ7VJjnJOP0fLLr5WCVaiWDGjQ5cHJURcTBL+j+eTRpKFvk9BMKCAQyLkSEluT0QeESDMtR7sRHA54to1LDXRX0ky9cAQ6mxXWgpSpmHCuPVYpzOfoSd7b8aczDLUGBxq9EWOTS3UMUWJBX Yohanna (OCP)
 
 # The default locale is en_GB rather than en_US for accidental, historical reasons.
+{% if grains.osmajorrelease|int >= 26 %}
+locale: en_US
+{% else %}
 locale: en_GB
+{% endif %}
 
 ntp:
   - 0.uk.pool.ntp.org
   - 1.uk.pool.ntp.org
   - 2.uk.pool.ntp.org
   - 3.uk.pool.ntp.org
+
+# NTS used over NTP on Ubuntu 26.04+
+nts:
+  time.cloudflare.com:
+  1.ntp.ubuntu.com:
+  2.ntp.ubuntu.com:
+  3.ntp.ubuntu.com:
+  4.ntp.ubuntu.com:
+  ntp-bootstrap.ubuntu.com:
+    context: iburst maxsources 1 nts certset 1
 
 smtp:
   relay: True

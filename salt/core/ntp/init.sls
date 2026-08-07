@@ -1,21 +1,39 @@
 # Configure an SNTP service.
+{% if grains.osmajorrelease|int >= 26 %}
+chrony:
+  service.running:
+    - name: chrony
+
+chrony-reload:
+  cmd.wait:
+    - name: chronyc reload sources
+
+/etc/chrony/sources.d/ntp-pools.sources:
+  file.managed:
+    - source: salt://core/ntp/files/ntp-pools.sources
+    - template: jinja
+    - watch_in:
+      - cmd: chrony-reload
+
+/etc/chrony/sources.d/ubuntu-ntp-pools.sources:
+  file.comment:
+    - regex: "^pool "
+    - backup: False
+    - watch_in:
+      - cmd: chrony-reload
+{% else %}
 systemd-timesyncd:
-  {% if grains['osrelease'] >= '20.04' %}
-  # timesyncd is built into systemd on older Ubuntu releases.
   pkg.installed:
     - name: systemd-timesyncd
-  {% endif %}
   service.running:
     - name: systemd-timesyncd
     - enable: True
-    {% if grains['osrelease'] >= '20.04' %}
     - require:
       - pkg: systemd-timesyncd
-    {% endif %}
 
 /etc/systemd/timesyncd.conf.d/customization.conf:
   file.managed:
-    - source: salt://core/systemd/files/timesyncd.conf
+    - source: salt://core/ntp/files/timesyncd.conf
     - template: jinja
     - makedirs: True
     - watch_in:
@@ -27,6 +45,7 @@ systemd-timesyncd:
     - backup: False
     - watch_in:
       - service: systemd-timesyncd
+{% endif %}
 
 set timezone to utc:
   timezone.system:
