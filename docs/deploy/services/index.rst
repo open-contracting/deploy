@@ -8,3 +8,4 @@ External service tasks
    azure.rst
    cloudflare.rst
    google.rst
+   gcp.rst
