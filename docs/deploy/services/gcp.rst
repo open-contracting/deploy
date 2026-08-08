@@ -5,6 +5,10 @@ Google Cloud Platform (GCP)
 
    Use :doc:`aws`, unless an application requires access to Google-exclusive services like Google Drive.
 
+.. seealso::
+
+   -  `Security recommendations <https://console.cloud.google.com/active-assist/list/security/recommendations?organizationId=1015889055088>`__
+
 Review projects
 ---------------
 
@@ -51,11 +55,6 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
       gcloud logging read 'severity>=DEFAULT' --project=$P --freshness=400d --limit=30 --order=desc \
         --format="table(timestamp, resource.type, protoPayload.methodName, protoPayload.authenticationInfo.principalEmail)"
 
-.. seealso::
-
-   -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
-   -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
-
 Projects by ID
 --------------
 
@@ -94,6 +93,11 @@ Projects by ID
       Credentials
         -  ``GAM`` for ``gam`` commands
         -  ``gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com`` for ``gam user`` commands
+
+      .. seealso::
+
+         -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
+         -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
 
    .. tab-item:: Library
 
