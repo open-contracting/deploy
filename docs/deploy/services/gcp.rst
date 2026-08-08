@@ -25,7 +25,13 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
    .. code-block:: bash
 
       gcloud iam service-accounts list --project=$PROJECT
+
+   .. code-block:: bash
+
       gcloud asset search-all-iam-policies --scope=projects/$PROJECT
+
+   .. code-block:: bash
+
       for account in (gcloud iam service-accounts list --project=$PROJECT --format="value(email)")
           echo "== $account"
           gcloud iam service-accounts keys list --iam-account=$account --managed-by=user
@@ -55,8 +61,8 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
       gcloud logging read 'severity>=DEFAULT' --project=$P --freshness=400d --limit=30 --order=desc \
         --format="table(timestamp, resource.type, protoPayload.methodName, protoPayload.authenticationInfo.principalEmail)"
 
-Projects by ID
---------------
+Known projects
+~~~~~~~~~~~~~~
 
 .. tab-set::
 
