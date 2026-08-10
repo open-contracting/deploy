@@ -87,7 +87,7 @@ Known projects
    .. tab-item:: GAM
 
       Project ID
-        gam-project-9yro6
+        ``gam-project-9yro6``
       Contact
         James
       Documentation
@@ -99,16 +99,30 @@ Known projects
       Credentials
         -  ``GAM`` for ``gam`` commands
         -  ``gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com`` for ``gam user`` commands
+        -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
+        -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
 
-      .. seealso::
+   .. tab-item:: GYB
 
-         -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
-         -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
+      Project ID
+        ``gyb-project-haj-zu2-x36``
+      Contact
+        James
+      Documentation
+        `Got Your Back (GYB) <https://github.com/GAM-team/got-your-back>`__
+      Configuration
+        ``~/bin/gyb/`` directory (``--config-folder`` to override)
+      APIs
+        See `Enabled APIs & services <https://console.cloud.google.com/apis/dashboard?project=gyb-project-haj-zu2-x36>`__
+      Credentials
+        -  ``GYB`` for ``gyb`` commands
+        -  ``gyb-project-haj-zu2-x36@gyb-project-haj-zu2-x36.iam.gserviceaccount.com`` for ``gyb`` commands
+        -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
 
    .. tab-item:: Library
 
       Project ID
-        ocp-library
+        ``ocp-library``
       Contact
         James
       Documentation
@@ -124,7 +138,7 @@ Known projects
    .. tab-item:: Pelican
 
       Project ID
-        pelican-289615
+        ``pelican-289615``
       Contact
         James
       Documentation

@@ -95,12 +95,14 @@ Sending domains with volumes of less than 10 can be ignored. For ``google.com``:
 Delete user
 -----------
 
-#. Configure the user to delete and retention start date, for example:
+#. Configure the user to delete, retention start date, administrator, and [OCP Archive](https://drive.google.com/drive/folders/0AKb5W5k2WH46Uk9PVA) shared drive, for example:
 
    .. code-block:: bash
 
       set user data-tools
       set retentionstartdate 2026-08-08
+      set admin jmckinney
+      set shareddrive 0AKb5W5k2WH46Uk9PVA
 
 Calendar
 ~~~~~~~~
@@ -168,18 +170,6 @@ Drive
 
 #. Move the remaining files to the *OCP Archive* shared drive:
 
-   #. Configure the administrator, for example:
-
-      .. code-block:: bash
-
-         set admin jmckinney
-
-   #. Configure the destination as the *OCP Archive* shared drive:
-
-      .. code-block:: bash
-
-         set shareddrive 0AKb5W5k2WH46Uk9PVA
-
    #. Make the user an organizer of the shared drive, which is required to move their files:
 
       .. code-block:: bash
@@ -231,9 +221,21 @@ Drive
 
          gam delete drivefileacl $shareddrive $user@open-contracting.org
 
+      .. note::
+
+         Retry on 409 Conflict. Google might still be moving files.
+
 Deletion
 ~~~~~~~~
+
+Delete the user:
 
 .. code-block:: bash
 
    gam delete user $user@open-contracting.org
+
+You can undelete within 20 days, replacing ``USER``:
+
+.. code-block:: bash
+
+   gam undelete user USER@open-contracting.org
