@@ -91,3 +91,149 @@ Sending domains with volumes of less than 10 can be ignored. For ``google.com``:
      Exchange Online
    lsoft.com
      UNCAC-COALITION@community.lsoft.com. LSOFT might rewrite the From header only if the DMARC policy is "reject" or "quarantine", like Google Groups.
+
+Delete user
+-----------
+
+#. Configure the user to delete and retention start date, for example:
+
+   .. code-block:: bash
+
+      set user data-tools
+      set retentionstartdate 2026-08-08
+
+Calendar
+~~~~~~~~
+
+A secondary calendar is a calendar that a user creates in addition to their default calendar. It is deleted along with its creator, even if other users are owners.
+
+To verify that no calendar in use by active users was created by an archived user, we review all active users' calendar lists, due to limitations of the Calendar API.
+
+#. Write the active users' calendar lists (slow):
+
+   .. code-block:: bash
+
+      gam all users_na_ns print calendars > google-calendars.csv
+
+#. Report the secondary calendars that are owned by archived users:
+
+   .. code-block:: bash
+
+      uv run manage.py google-calendar google-calendars.csv
+
+#. Transfer all reported calendars to an active user, before deleting the archived users.
+
+Groups
+~~~~~~
+
+#. List the groups of which the user is an owner:
+
+   .. code-block:: bash
+
+      gam print groups member $user@open-contracting.org role owner
+
+#. List the owners of each group, replacing ``GROUP``:
+
+   .. code-block:: bash
+
+      gam print group-members group GROUP@open-contracting.org role owner
+
+#. If the user is the sole owner of a group, add another owner, replacing ``GROUP`` and ``USER``:
+
+   .. code-block:: bash
+
+      gam update group GROUP@open-contracting.org add owner USER@open-contracting.org
+
+   If the new owner is already a member or manager of the group, use ``update``, instead of ``add``.
+
+Drive
+~~~~~
+
+#. List the user's files in Drive:
+
+   .. code-block:: bash
+
+      gam user $user@open-contracting.org \
+        print filelist showownedby me fields id,name,mimetype,modifiedtime > google-drive.csv
+
+#. List the user's Forms, Sites and Apps Script in Drive, whose deletion is more likely to break things:
+
+   .. code-block:: bash
+
+      gam user $user@open-contracting.org \
+        print filelist showownedby me fields id,name,mimetype,modifiedtime \
+        query "mimeType='application/vnd.google-apps.form' or mimeType='application/vnd.google-apps.site' or mimeType='application/vnd.google-apps.script'"
+
+#. Review the ``google-drive.csv`` file, and move actively used files to appropriate shared drives.
+
+#. Move the remaining files to the *OCP Archive* shared drive:
+
+   #. Configure the administrator, for example:
+
+      .. code-block:: bash
+
+         set admin jmckinney
+
+   #. Configure the destination as the *OCP Archive* shared drive:
+
+      .. code-block:: bash
+
+         set shareddrive 0AKb5W5k2WH46Uk9PVA
+
+   #. Make the user an organizer of the shared drive, which is required to move their files:
+
+      .. code-block:: bash
+
+         gam add drivefileacl $shareddrive user $user@open-contracting.org role organizer
+
+   #. Create a folder named after the user, and configure it as the destination:
+
+      .. code-block:: bash
+
+         set folder ( \
+           gam user $admin@open-contracting.org create drivefile drivefilename "$user-$retentionstartdate" \
+             mimetype gfolder shareddriveparentid $shareddrive returnidonly \
+         )
+
+   #. Move the user's *My Drive* into the folder:
+
+      .. code-block:: bash
+
+         gam user $user@open-contracting.org move drivefile root \
+           shareddriveparentid $folder mergewithparentretain createshortcutsfornonmovablefiles \
+           duplicatefiles uniquename summary showpermissionmessages
+
+      .. note::
+
+         -  Folders are recreated, and therefore change IDs.
+         -  Files owned by other users are replaced by shortcuts.
+         -  ``duplicatefiles uniquename`` renames files that have the same name as a file in the destination. Otherwise, the default is to delete the file in the destination, if it is older.
+
+   #. Move the files that remain. *My Drive* contains only the files that have a parent folder; the rest are in other users' folders, or have no parent folder. Run this after the previous step, which preserves the folder hierarchy: this moves every file that the user still owns, into one folder.
+
+      .. code-block:: bash
+
+         gam user $user@open-contracting.org move drivefile \
+           query "'me' in owners and not trashed" \
+           shareddriveparentid $folder createshortcutsfornonmovablefiles \
+           duplicatefiles uniquename summary showpermissionmessages
+
+   #. Confirm that no files remain:
+
+      .. code-block:: bash
+
+         gam user $user@open-contracting.org \
+           print filelist showownedby me fields id,name,parents
+
+   #. Remove the user from the shared drive:
+
+      .. code-block:: bash
+
+         gam delete drivefileacl $shareddrive $user@open-contracting.org
+
+Deletion
+~~~~~~~~
+
+.. code-block:: bash
+
+   gam delete user $user@open-contracting.org

@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import csv
 import difflib
 import hashlib
 import json
@@ -73,6 +74,10 @@ def run_cf_terraforming(api_token, resource_type, identifier):
 
 def salt_ssh(*args):
     return subprocess.run(["./run.py", *args], check=True, text=True, stdout=subprocess.PIPE).stdout  # noqa: S603 # trusted input
+
+
+def gam(*args):
+    return subprocess.run(["gam", *args], capture_output=True, text=True, check=False)  # noqa: S603 S607
 
 
 def sha256_crypt(password, salt):
@@ -301,6 +306,55 @@ def unused(api_token, account_id):
 
 
 @cli.command()
+@click.argument("file", type=click.File())
+def google_calendar(file):
+    """Report the secondary calendars in FILE that are owned by archived users."""
+    result = gam("print", "users", "query", "isArchived=True", "fields", "primaryEmail")
+    archived_users = {row["primaryEmail"] for row in csv.DictReader(result.stdout.splitlines())}
+
+    summaries = {}
+    data_owners = {}
+    for row in csv.DictReader(file):
+        cid = row["calendarId"]
+        # Secondary calendars end in "@group.calendar.google.com".
+        if cid.endswith("@group.calendar.google.com"):
+            summaries[cid] = row["summary"] or row["summaryOverride"]
+            # A calendar's data owner is reported to its owners and writers only.
+            if row["dataOwner"]:
+                data_owners[cid] = [row["dataOwner"]]
+
+    # If a calendar's subscribers are all readers, read its ACL, instead.
+    unknown = []
+    calendar_ids = sorted(summaries.keys() - data_owners.keys())
+    with click.progressbar(calendar_ids, label="Reading calendars' ACLs", file=sys.stderr) as calendar_ids:
+        for cid in calendar_ids:
+            result = gam("calendar", cid, "showacl")
+            if not result.stderr:
+                # An owner in the ACL isn't necessarily the data owner, but it's the only evidence available.
+                data_owners[cid] = re.findall(rf"Scope: user:(\S+@{re.escape(DOMAIN)}), Role: owner", result.stdout)
+            # A calendar is not at risk if it is deleted ("Does not exist") or outside the domain ("Forbidden").
+            elif not re.search("Show Failed: (Does not exist|Forbidden)", result.stderr):
+                unknown.append((cid, " ".join(result.stderr.split())))
+
+    archived = [
+        (cid, owners) for cid, owners in data_owners.items() if any(email in archived_users for email in owners)
+    ]
+
+    if unknown:
+        click.secho(f"\n{len(unknown)} calendars with unknown owners", fg="red")
+        for cid, message in unknown:
+            click.echo(f"  {click.style(summaries[cid], fg='yellow')} <{cid}>\n    {message}")
+
+    if archived:
+        click.secho("Transfer these calendars, if appropriate, before deleting the archived owner", fg="red")
+        for cid, owners in archived:
+            click.echo(f"  {click.style(summaries[cid], fg='yellow')} owned by {', '.join(owners)}")
+            click.echo(f"    gam calendars {cid} transfer {TRANSFER}@{DOMAIN}")
+    else:
+        click.secho("No calendars are owned by archived users", fg="green")
+
+
+@cli.command()
 @click.argument("local", type=click.Path(exists=True, path_type=Path))
 @click.argument("remote")
 def diff(local, remote):
@@ -360,6 +414,9 @@ def mysql_hash(expected):
     else:
         click.echo(actual)
 
+
+DOMAIN = "open-contracting.org"
+TRANSFER = "operations"
 
 MYSQL_PREFIX_LENGTH = len("$A$005$")
 # https://github.com/mysql/mysql-server/blob/8.0/include/crypt_genhash_impl.h

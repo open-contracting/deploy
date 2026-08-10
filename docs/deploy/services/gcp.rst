@@ -42,17 +42,17 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
    .. code-block:: bash
 
       gcloud asset search-all-resources --scope=projects/$PROJECT --format="table(assetType, displayName, location, state, createTime)" \
-        | grep -vE 'cloudresourcemanager\.googleapis\.com/Project|logging\.googleapis\.com/(LogBucket|LogSink)|serviceusage\.googleapis\.com/Service|iam\.googleapis\.com/ServiceAccount'
+        | grep -vE 'cloudresourcemanager\.googleapis\.com/Project|logging\.googleapis\.com/(LogBucket|LogSink)|iam\.googleapis\.com/ServiceAccount|serviceusage\.googleapis\.com/Service'
 
    ..
       cloudresourcemanager\.googleapis\.com/Project
          The project itself.
       logging\.googleapis\.com/(LogBucket|LogSink)
          The _REQUIRED and _DEFAULT LogBucket and LogSink are created automatically.
-      serviceusage\.googleapis\.com/Service
-         Use the `gcloud services` command above.
       iam\.googleapis\.com/ServiceAccount
          Use the `gcloud iam` commands above.
+      serviceusage\.googleapis\.com/Service
+         Use the `gcloud services` command above.
 
 -  Review history in the `Activity tab <https://console.cloud.google.com/logs/query?organizationId=1015889055088&project=project=ocp-library>`__, or:
 
@@ -91,7 +91,7 @@ Known projects
       Contact
         James
       Documentation
-        `GAM <https://github.com/GAM-team/GAM>`__
+        `Google Apps Manager (GAM) <https://github.com/GAM-team/GAM>`__
       Configuration
         ``~/.gam/`` directory
       APIs
@@ -112,7 +112,7 @@ Known projects
       Contact
         James
       Documentation
-        `Library <https://github.com/nytimes/library#development-workflow>`__
+        The New York Times `Library <https://github.com/nytimes/library#development-workflow>`__
       Configuration
         Heroku `settings <https://dashboard.heroku.com/apps/ocp-library/settings>`__
       APIs
