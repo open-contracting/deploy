@@ -15,6 +15,7 @@ for location, path in (
     ('prod/extensions', 'prod/extensions'),
     ('prod/hub', 'prod/hub'),
     ('prod/printing', 'prod/printing'),
+    ('prod/qps', 'prod/qps'),
     ('prod/qrs', 'prod/qrs'),
     ('prod/resources', 'prod/resources'),
     ('prod/sense/app/' + qliksense_app + '/', 'prod/sense/app/' + qliksense_app + '/'),
