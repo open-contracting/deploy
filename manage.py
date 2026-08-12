@@ -76,8 +76,11 @@ def salt_ssh(*args):
     return subprocess.run(["./run.py", *args], check=True, text=True, stdout=subprocess.PIPE).stdout  # noqa: S603 # trusted input
 
 
-def gam(*args):
-    return subprocess.run(["gam", *args], capture_output=True, text=True, check=False)  # noqa: S603 S607
+def gam(*args, check=True):
+    result = subprocess.run(["gam", *args], capture_output=True, text=True, check=False)  # noqa: S603 S607
+    if check and result.returncode:
+        raise click.ClickException(result.stderr.strip())
+    return result
 
 
 def sha256_crypt(password, salt):
@@ -328,8 +331,8 @@ def google_calendar(file):
     calendar_ids = sorted(summaries.keys() - data_owners.keys())
     with click.progressbar(calendar_ids, label="Reading calendars' ACLs", file=sys.stderr) as calendar_ids:
         for cid in calendar_ids:
-            result = gam("calendar", cid, "showacl")
-            if not result.stderr:
+            result = gam("calendar", cid, "showacl", check=False)
+            if not result.returncode:
                 # An owner in the ACL isn't necessarily the data owner, but it's the only evidence available.
                 data_owners[cid] = re.findall(rf"Scope: user:(\S+@{re.escape(DOMAIN)}), Role: owner", result.stdout)
             # A calendar is not at risk if it is deleted ("Does not exist") or outside the domain ("Forbidden").
