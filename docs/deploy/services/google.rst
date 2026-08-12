@@ -95,23 +95,76 @@ Sending domains with volumes of less than 10 can be ignored. For ``google.com``:
 Delete user
 -----------
 
-#. Configure the user to delete, retention start date, administrator, and [OCP Archive](https://drive.google.com/drive/folders/0AKb5W5k2WH46Uk9PVA) shared drive, for example:
+.. admonition:: One-time setup
+
+   -  Install `Google Apps Manager (GAM) <https://github.com/GAM-team/GAM>`__. In a bash shell:
+
+      .. code-block:: bash
+
+         bash <(curl -s -S -L https://gam-shortn.appspot.com/gam-install)
+
+      -  Select only these scopes (``gam oauth create``):
+
+         -  *0) Calendar API*
+         -  *32) Directory API - Groups*
+         -  *39) Directory API - Users*
+
+         ..
+            Calendar API
+              ``gam calendar CALENDAR showacl``, ``gam calendars CALENDAR transfer``
+            Directory API - Groups
+              ``gam print groups``, ``gam print group-members``, ``gam update group``
+            Directory API - Users
+              ``gam print users``, ``gam all users_na_ns``, ``gam update user``, ``gam delete user``, ``gam undelete user``
+
+      -  Limit its `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__ to the scopes used when impersonating users with ``gam user`` and ``gam all``:
+
+         -  ``https://www.googleapis.com/auth/drive``
+         -  ``https://www.googleapis.com/auth/calendar``
+
+   -  Install `Got Your Back (GYB) <https://github.com/GAM-team/got-your-back>`__. In a bash shell:
+
+      .. code-block:: bash
+
+         bash <(curl -s -S -L https://gyb-shortn.jaylee.us/gyb-install)
+
+Perform the global steps once, and repeat the other steps for each user to be deleted.
+
+Setup (global)
+~~~~~~~~~~~~~~
+
+#. Configure the administrator, `OCP Archive <https://drive.google.com/drive/folders/0AKb5W5k2WH46Uk9PVA>`__ shared drive, and `GAM <https://github.com/GAM-team/GAM>`__ and `GYB <https://github.com/GAM-team/got-your-back>`__ service accounts:
 
    .. code-block:: bash
 
-      set user data-tools
-      set retentionstartdate 2026-08-08
       set admin jmckinney
       set shareddrive 0AKb5W5k2WH46Uk9PVA
+      set gamproject gam-project-9yro6
+      set gybproject gyb-project-haj-zu2-x36
 
-Calendar
-~~~~~~~~
+#. Enable the service accounts:
+
+   .. code-block:: bash
+
+      gcloud iam service-accounts enable $gamproject@$gamproject.iam.gserviceaccount.com --project $gamproject
+      gcloud iam service-accounts enable $gybproject@$gybproject.iam.gserviceaccount.com --project $gybproject
+
+#. Write the shortcuts in active users' *My Drive* and shared drives:
+
+   .. code-block:: bash
+
+      gam all users_na_ns print filelist corpora alldrives \
+        query "mimeType='application/vnd.google-apps.shortcut' and not trashed" \
+        fields id,name,owners,driveid,parents,shortcutdetails > google-shortcuts.csv
+
+Calendar (global)
+~~~~~~~~~~~~~~~~~
 
 A secondary calendar is a calendar that a user creates in addition to their default calendar. It is deleted along with its creator, even if other users are owners.
 
 To verify that no calendar in use by active users was created by an archived user, we review all active users' calendar lists, due to limitations of the Calendar API.
 
-#. Write the active users' calendar lists (slow):
+#. Write the calendar lists of active users:
 
    .. code-block:: bash
 
@@ -125,20 +178,65 @@ To verify that no calendar in use by active users was created by an archived use
 
 #. Transfer all reported calendars to an active user, before deleting the archived users.
 
+Setup
+~~~~~
+
+Configure the user to delete and its retention start date. For example:
+
+.. code-block:: bash
+
+   set user data-tools
+   set retentionstartdate 2026-08-08
+
+.. _gmail:
+
+Gmail
+~~~~~
+
+#. Unarchive the user:
+
+   .. code-block:: bash
+
+      gam update user $user@open-contracting.org archived off
+
+#. Backup the user's mail:
+
+   .. code-block:: bash
+
+      gyb --email $user@open-contracting.org --service-account --action backup \
+        --local-folder $user-$retentionstartdate --fast-incremental
+
+   .. attention::
+
+      If errors are logged, re-run the command to backup missed messages.
+
+#. Compress the backup:
+
+   .. code-block:: bash
+
+      tar czf $user-$retentionstartdate-gmail.tar.gz $user-$retentionstartdate
+
+#. Upload the backup to the *OCP Archive* shared drive:
+
+   .. code-block:: bash
+
+      gam user $admin@open-contracting.org add drivefile \
+        localfile $user-$retentionstartdate-gmail.tar.gz teamdriveparentid $shareddrive
+
+#. Delete the local files:
+
+   .. code-block:: bash
+
+      rm -rf $user-$retentionstartdate $user-$retentionstartdate-gmail.tar.gz
+
 Groups
 ~~~~~~
 
-#. List the groups of which the user is an owner:
+#. List the groups of which the user is an owner, along with all owners:
 
    .. code-block:: bash
 
       gam print groups member $user@open-contracting.org role owner
-
-#. List the owners of each group, replacing ``GROUP``:
-
-   .. code-block:: bash
-
-      gam print group-members group GROUP@open-contracting.org role owner
 
 #. If the user is the sole owner of a group, add another owner, replacing ``GROUP`` and ``USER``:
 
@@ -146,7 +244,9 @@ Groups
 
       gam update group GROUP@open-contracting.org add owner USER@open-contracting.org
 
-   If the new owner is already a member or manager of the group, use ``update``, instead of ``add``.
+   .. note:: If the new owner is already a member or manager of the group, use ``update``, instead of ``add``.
+
+.. _drive:
 
 Drive
 ~~~~~
@@ -155,65 +255,95 @@ Drive
 
    .. code-block:: bash
 
-      gam user $user@open-contracting.org \
-        print filelist showownedby me fields id,name,mimetype,modifiedtime > google-drive.csv
+      gam user $user@open-contracting.org print filelist \
+        query "not trashed" \
+        showownedby me fields id,name,mimetype,modifiedtime > google-drive-$user.csv
 
-#. List the user's Forms, Sites and Apps Script in Drive, whose deletion is more likely to break things:
+#. List the user's Forms, Sites and Apps Script in Drive, whose deletion could break things:
 
    .. code-block:: bash
 
-      gam user $user@open-contracting.org \
-        print filelist showownedby me fields id,name,mimetype,modifiedtime \
+      gam user $user@open-contracting.org print filelist \
+        showownedby me fields id,name,mimetype,modifiedtime \
         query "mimeType='application/vnd.google-apps.form' or mimeType='application/vnd.google-apps.site' or mimeType='application/vnd.google-apps.script'"
 
-#. Review the ``google-drive.csv`` file, and move actively used files to appropriate shared drives.
+#. Report the user's files that have shortcuts:
+
+   .. code-block:: bash
+
+      uv run manage.py google-drive google-drive-$user.csv google-shortcuts.csv
+
+   For each shared drive, it prints commands to run, in order to move those files next to the shortcuts in that shared drive, and to delete those shortcuts.
+
+   If a folder has shortcuts from active users' *My Drive*, notify those users of the new folder (folders can't be moved, only recreated).
+
+   Re-run step 1 (list the user's files), then re-run this step.
+
+#. You may review the ``google-drive-$user.csv`` file, and move any other in-use files to shared drives. Replace ``FILE_ID``, and replace ``FOLDER_ID`` with a shared drive or one of its folders:
+
+   .. code-block:: bash
+
+      gam user $user@open-contracting.org move drivefile FILE_ID \
+        shareddriveparentid FOLDER_ID duplicatefiles uniquename summary showpermissionmessages
+
+   To move several, change ``FILE_ID`` to: ``ids FILE_ID_1,FILE_ID_2``
 
 #. Move the remaining files to the *OCP Archive* shared drive:
 
-   #. Make the user an organizer of the shared drive, which is required to move their files:
+   #. Make the user a *Manager* of the shared drive:
 
       .. code-block:: bash
 
-         gam add drivefileacl $shareddrive user $user@open-contracting.org role organizer
+         gam add drivefileacl $shareddrive user $user@open-contracting.org role manager
 
    #. Create a folder named after the user, and configure it as the destination:
 
       .. code-block:: bash
 
          set folder ( \
-           gam user $admin@open-contracting.org create drivefile drivefilename "$user-$retentionstartdate" \
-             mimetype gfolder shareddriveparentid $shareddrive returnidonly \
+           gam user $admin@open-contracting.org create drivefile \
+             shareddriveparentid $shareddrive mimetype gfolder \
+             drivefilename $user-$retentionstartdate returnidonly \
          )
 
-   #. Move the user's *My Drive* into the folder:
+   #. Move the user's *My Drive* into the folder, preserving the hierarchy:
 
       .. code-block:: bash
 
-         gam user $user@open-contracting.org move drivefile root \
-           shareddriveparentid $folder mergewithparentretain createshortcutsfornonmovablefiles \
+         gam user $user@open-contracting.org move drivefile \
+           root mergewithparentretain \
+           shareddriveparentid $folder createshortcutsfornonmovablefiles \
            duplicatefiles uniquename summary showpermissionmessages
+
+      .. attention::
+
+         If you see this fragment, those files might be in use.
+
+         .. code-block:: none
+
+            is not a member of this shared drive
 
       .. note::
 
          -  Folders are recreated, and therefore change IDs.
          -  Files owned by other users are replaced by shortcuts.
-         -  ``duplicatefiles uniquename`` renames files that have the same name as a file in the destination. Otherwise, the default is to delete the file in the destination, if it is older.
+         -  ``duplicatefiles uniquename`` renames files that have the same name as a file at the destination. Otherwise, the default is to delete the file in the destination, if it is older.
 
-   #. Move the files that remain. *My Drive* contains only the files that have a parent folder; the rest are in other users' folders, or have no parent folder. Run this after the previous step, which preserves the folder hierarchy: this moves every file that the user still owns, into one folder.
+   #. Move remaining files (those in other users' folders or with no parent folder), *with no hierarchy*:
 
       .. code-block:: bash
 
          gam user $user@open-contracting.org move drivefile \
-           query "'me' in owners and not trashed" \
-           shareddriveparentid $folder createshortcutsfornonmovablefiles \
-           duplicatefiles uniquename summary showpermissionmessages
+           query "'me' in owners and not trashed and mimeType != 'application/vnd.google-apps.folder'" \
+           shareddriveparentid $folder duplicatefiles uniquename summary showpermissionmessages
 
    #. Confirm that no files remain:
 
       .. code-block:: bash
 
-         gam user $user@open-contracting.org \
-           print filelist showownedby me fields id,name,parents
+         gam user $user@open-contracting.org print filelist \
+           query "'me' in owners and not trashed and mimeType != 'application/vnd.google-apps.folder'" \
+           fields id,name,parents
 
    #. Remove the user from the shared drive:
 
@@ -228,14 +358,50 @@ Drive
 Deletion
 ~~~~~~~~
 
-Delete the user:
+#. Delete the user:
 
 .. code-block:: bash
 
    gam delete user $user@open-contracting.org
 
-You can undelete within 20 days, replacing ``USER``:
+.. tip::
+
+   You can undelete within 20 days, replacing ``USER``:
+
+   .. code-block:: bash
+
+      gam undelete user USER@open-contracting.org
+
+Teardown (global)
+~~~~~~~~~~~~~~~~~
+
+Disable the service accounts:
 
 .. code-block:: bash
 
-   gam undelete user USER@open-contracting.org
+   gcloud iam service-accounts disable $gamproject@$gamproject.iam.gserviceaccount.com --project $gamproject
+   gcloud iam service-accounts disable $gybproject@$gybproject.iam.gserviceaccount.com --project $gybproject
+
+Delete temporary files:
+
+.. code-block:: bash
+
+   rm -f google-calendars.csv google-drive-*.csv google-shortcuts.csv
+
+Orphaned files
+--------------
+
+An orphaned file has no parent folder, reachable only by search or shortcut.
+
+A file is orphaned when the folder that contained it is moved to a shared drive by a user who doesn't own the file, in which case the folder is recreated in the shared drive with a shortcut to the file.
+
+To review orphaned files, replacing ``USER``:
+
+.. code-block:: bash
+
+   gam user USER@open-contracting.org print filelist select orphans excludetrashed \
+     fields id,name,mimetype,parents
+
+.. note::
+
+   If moving files, move only those whose ``parents.0.id`` is empty or isn't listed (i.e. the parent is outside your *My Drive*).

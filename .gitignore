@@ -11,7 +11,8 @@
 /.terraform.lock.hcl
 /terraform
 /google-calendars.csv
-/google-drive.csv
+/google-drive-*.csv
+/google-shortcuts.csv
 # Locations set salt-config/master.d/localuser.conf
 /cache
 /log

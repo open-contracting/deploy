@@ -358,6 +358,157 @@ def google_calendar(file):
 
 
 @cli.command()
+@click.argument("file", type=click.File())
+@click.argument("shortcuts", type=click.File())
+def google_drive(file, shortcuts):
+    """Report the files and folders in FILE with shortcuts in SHORTCUTS."""
+    # The "List the user's files in Drive" command from docs/deploy/services/google.rst guarantees a single "Owner".
+    user = ""
+    names = {}
+    folder_ids = set()
+    for row in csv.DictReader(file):
+        file_id = row["id"]
+        user = row["Owner"]
+        names[file_id] = row["name"]
+        if row["mimeType"] == "application/vnd.google-apps.folder":
+            folder_ids.add(file_id)
+
+    result = gam("print", "shareddrives", "fields", "id,name")
+    drive_names = {row["id"]: row["name"] for row in csv.DictReader(result.stdout.splitlines())}
+
+    def drive_label(drive_id):
+        return drive_names.get(drive_id, "Unknown shared drive")
+
+    # { File ID: { External Drive ID: Internal users who can read an external shortcut to the file } }
+    external = defaultdict(lambda: defaultdict(set))
+    # { Shortcut Drive ID: { File ID: { Shortcut Parent ID: Shortcut IDs } } }
+    drives = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
+    # { User email: The folder IDs to which the user shortcuts }
+    users = defaultdict(set)
+    # { Shortcut ID: ( File ID, Shortcut Drive ID ) }
+    unresolved_shortcuts = {}
+    seen_shortcut_ids = set()
+    for row in csv.DictReader(shortcuts):
+        shortcut_id = row["id"]
+        drive_id = row["driveId"]
+        folder_id = row["parents.0.id"]
+        target_id = row["shortcutDetails.targetId"]
+        owner = row["owners.0.emailAddress"]
+        member = row["Owner"]  # the user whose Drive was read
+
+        # The "Write the shortcuts in active users' My Drive and shared drives" command can write the same shortcut
+        # many times. Skip a shortcut to another user's file, or a shortcut that was already seen.
+        if target_id not in names or shortcut_id in seen_shortcut_ids:
+            continue
+
+        if drive_id == OCP_ARCHIVE_SHARED_DRIVE_ID:
+            seen_shortcut_ids.add(shortcut_id)
+            # Ignore shortcuts created by the "Move the user's My Drive" command (`createshortcutsfornonmovablefiles`).
+        elif drive_id:
+            if drive_id not in drive_names:
+                seen_shortcut_ids.add(shortcut_id)
+                external[target_id][drive_id].add(member)
+            elif folder_id:
+                seen_shortcut_ids.add(shortcut_id)
+                drives[drive_id][target_id][folder_id].append(shortcut_id)
+            else:
+                # Don't add the shortcut to `seen_shortcut_ids`, so that another row can still resolve it.
+                unresolved_shortcuts[shortcut_id] = (target_id, drive_id)
+        elif target_id in folder_ids and owner != user:  # no need to notify the user to be deleted
+            seen_shortcut_ids.add(shortcut_id)
+            users[owner].add(target_id)
+
+    # A shortcut is unresolved if no member can read its folder.
+    # { File ID: The internal drive IDs with a shortcut to the file, in which the folder is unknown }
+    unresolved = defaultdict(set)
+    for shortcut_id, (file_id, drive_id) in unresolved_shortcuts.items():
+        if shortcut_id not in seen_shortcut_ids:
+            unresolved[file_id].add(drive_id)
+
+    if not external and not drives and not users and not unresolved:
+        click.secho("No shortcuts point to the user's files", fg="green")
+        return
+
+    # { File ID: ( Shortcut Drive ID, Shortcut Parent ID ) pairs }
+    destinations = defaultdict(set)
+    for drive_id, files in drives.items():
+        for file_id, parents in files.items():
+            for parent_id in parents:
+                destinations[file_id].add((drive_id, parent_id))
+
+    if drives:
+        click.secho(f"{len(destinations)} of the user's files have shortcuts in shared drives:", fg="red")
+        for drive_id, files in drives.items():
+            click.secho(f"\n{drive_label(drive_id)} <{drive_id}>", fg="red")
+            for file_id in files:
+                suffix = click.style(" (folder)", fg="yellow") if file_id in folder_ids else ""
+                if len(destinations[file_id]) > 1:
+                    suffix += click.style(f" has shortcuts in {len(destinations[file_id])} folders", fg="yellow")
+                click.echo(f"  {names[file_id]}{suffix}")
+
+    if unresolved:
+        click.secho("\nWARNING: These files have shortcuts in unreadable folders of:", fg="red")
+        for file_id in unresolved:
+            drive_labels = ", ".join(f"{drive_label(drive_id)} <{drive_id}>" for drive_id in unresolved[file_id])
+            click.echo(f"  {names[file_id]}: {drive_labels}")
+        click.secho("\nBecome a Manager of these shared drives:", fg="green")
+        unreadable_drive_ids = {drive_id for drive_ids in unresolved.values() for drive_id in drive_ids}
+        for drive_id in unreadable_drive_ids:
+            click.echo(f"\ngam add drivefileacl {drive_id} user $admin@{DOMAIN} role manager")
+        click.echo("\nThen, re-write the shortcuts file, and re-run this command. After the files are moved:")
+        for drive_id in unreadable_drive_ids:
+            click.echo(f"gam delete drivefileacl {drive_id} $admin@{DOMAIN}")
+
+    if external:
+        click.secho("\nWARNING: These files have shortcuts in external shared drives:", fg="red")
+        for file_id, members_by_drive in external.items():
+            suffix = click.style(" (folder)", fg="yellow") if file_id in folder_ids else ""
+            click.echo(f"  {names[file_id]}{suffix}")
+            for drive_id, members in members_by_drive.items():
+                click.echo(f"    {drive_id} (ask {', '.join(members)})")
+        click.echo("Ask to notify the external users, or move the file where the external users can read it.")
+
+    if users:
+        click.secho("\nWARNING: Notify these users that their shortcuts to these folders will break:", fg="red")
+        for email, file_ids in users.items():
+            click.secho(f"\n{email}", fg="yellow")
+            for file_id in file_ids:
+                click.echo(f"  {names[file_id]}")
+
+    for drive_id, files in drives.items():
+        moves = defaultdict(list)
+        deletes = []
+        for file_id, shortcuts_by_parent in files.items():
+            if len(destinations[file_id]) == 1:
+                for parent_id, shortcut_ids in shortcuts_by_parent.items():
+                    moves[parent_id].append(file_id)
+                    deletes.extend(shortcut_ids)
+        if moves:
+            click.secho(f"\nMove the files next to their shortcuts in {drive_label(drive_id)}:", fg="green")
+            click.echo(f"\ngam add drivefileacl {drive_id} user {user} role manager")
+            for parent_id, file_ids in moves.items():
+                click.echo(
+                    f"gam user {user} move drivefile ids {','.join(file_ids)} shareddriveparentid {parent_id} "
+                    f"duplicatefiles uniquename summary showpermissionmessages"
+                )
+            click.echo(f"\ngam user {user} delete drivefile ids {','.join(deletes)}")
+            click.echo(f"\ngam delete drivefileacl {drive_id} {user}")
+
+    choices = [file_id for file_id, pairs in destinations.items() if len(pairs) > 1]
+    for file_id in choices:
+        click.secho(f"\nMove {names[file_id]} to one of its {len(destinations[file_id])} folders:", fg="green")
+        for drive_id, parent_id in destinations[file_id]:
+            click.echo(f"\n# in {drive_label(drive_id)}: https://drive.google.com/drive/folders/{parent_id}")
+            click.echo(f"gam add drivefileacl {drive_id} user {user} role manager")
+            click.echo(
+                f"gam user {user} move drivefile {file_id} shareddriveparentid {parent_id} "
+                f"duplicatefiles uniquename summary showpermissionmessages"
+            )
+            click.echo(f"gam user {user} delete drivefile ids {','.join(drives[drive_id][file_id][parent_id])}")
+            click.echo(f"gam delete drivefileacl {drive_id} {user}")
+
+
+@cli.command()
 @click.argument("local", type=click.Path(exists=True, path_type=Path))
 @click.argument("remote")
 def diff(local, remote):
@@ -420,6 +571,7 @@ def mysql_hash(expected):
 
 DOMAIN = "open-contracting.org"
 TRANSFER = "operations"
+OCP_ARCHIVE_SHARED_DRIVE_ID = "0AKb5W5k2WH46Uk9PVA"
 
 MYSQL_PREFIX_LENGTH = len("$A$005$")
 # https://github.com/mysql/mysql-server/blob/8.0/include/crypt_genhash_impl.h
