@@ -10,7 +10,7 @@ As with other deployment tasks, do the :doc:`setup tasks<setup>` before the step
 
    .. important::
 
-      Delete any :ref:`lifecycle rule<aws-s3-bucket>`, otherwise the backup will be deleted!
+      Delete any :ref:`lifecycle rule<amazon-s3-bucket>`, otherwise the backup will be deleted!
 
    .. No lifecycle rules:
       Archived

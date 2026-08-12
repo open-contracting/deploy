@@ -113,7 +113,7 @@ Create SMTP credentials
 
 Reference: `Obtaining Amazon SES SMTP credentials <https://docs.aws.amazon.com/ses/latest/dg/smtp-credentials.html>`__
 
-.. _ses-basic-notifications:
+.. _amazon-ses-basic-notifications:
 
 Set up basic notifications
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -173,7 +173,7 @@ Set up advanced notifications
    #. Click *Next*
    #. Check *Amazon SNS*
    #. Enter a name in *Name* (``credere-noreply-open-contracting-org``, for example)
-   #. Select the SNS topic for :ref:`basic notifications<ses-basic-notifications>` from the *SNS topic* dropdown
+   #. Select the SNS topic for :ref:`basic notifications<amazon-ses-basic-notifications>` from the *SNS topic* dropdown
    #. Click *Next*
    #. Click *Add destination*
 
@@ -340,7 +340,7 @@ Relational Database Service (RDS)
 Simple Storage Service (S3)
 ---------------------------
 
-.. _aws-s3-bucket:
+.. _amazon-s3-bucket:
 
 Create bucket
 ~~~~~~~~~~~~~
