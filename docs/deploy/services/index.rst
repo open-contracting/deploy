@@ -5,7 +5,7 @@ External service tasks
    :maxdepth: 2
 
    aws.rst
-   azure.rst
    cloudflare.rst
-   google.rst
    gcp.rst
+   google.rst
+   azure.rst

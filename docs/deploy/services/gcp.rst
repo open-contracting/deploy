@@ -5,12 +5,12 @@ Google Cloud Platform (GCP)
 
    Use :doc:`aws`, unless an application requires access to Google-exclusive services like Google Drive.
 
+Review projects
+---------------
+
 .. seealso::
 
    -  `Security recommendations <https://console.cloud.google.com/active-assist/list/security/recommendations?organizationId=1015889055088>`__
-
-Review projects
----------------
 
 Periodically review `all projects <https://console.cloud.google.com/cloud-resource-manager?organizationId=1015889055088>`__:
 

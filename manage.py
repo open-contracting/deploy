@@ -436,16 +436,6 @@ def google_drive(file, shortcuts):
             for parent_id in parents:
                 destinations[file_id].add((drive_id, parent_id))
 
-    if drives:
-        click.secho(f"{len(destinations)} of the user's files have shortcuts in shared drives:", fg="red")
-        for drive_id, files in drives.items():
-            click.secho(f"\n{drive_label(drive_id)} <{drive_id}>", fg="red")
-            for file_id in files:
-                suffix = click.style(" (folder)", fg="yellow") if file_id in folder_ids else ""
-                if len(destinations[file_id]) > 1:
-                    suffix += click.style(f" has shortcuts in {len(destinations[file_id])} folders", fg="yellow")
-                click.echo(f"  {names[file_id]}{suffix}")
-
     if unresolved:
         click.secho("\nWARNING: These files have shortcuts in unreadable folders of:", fg="red")
         for file_id in unresolved:
@@ -475,6 +465,16 @@ def google_drive(file, shortcuts):
             for file_id in file_ids:
                 click.echo(f"  {names[file_id]}")
 
+    if drives:
+        click.secho(f"{len(destinations)} of the user's files have shortcuts in shared drives:", fg="red")
+        for drive_id, files in drives.items():
+            click.secho(f"\n{drive_label(drive_id)} <{drive_id}>", fg="red")
+            for file_id in files:
+                suffix = click.style(" (folder)", fg="yellow") if file_id in folder_ids else ""
+                if len(destinations[file_id]) > 1:
+                    suffix += click.style(f" has shortcuts in {len(destinations[file_id])} folders", fg="yellow")
+                click.echo(f"  {names[file_id]}{suffix}")
+
     for drive_id, files in drives.items():
         moves = defaultdict(list)
         deletes = []
@@ -483,6 +483,7 @@ def google_drive(file, shortcuts):
                 for parent_id, shortcut_ids in shortcuts_by_parent.items():
                     moves[parent_id].append(file_id)
                     deletes.extend(shortcut_ids)
+
         if moves:
             click.secho(f"\nMove the files next to their shortcuts in {drive_label(drive_id)}:", fg="green")
             click.echo(f"\ngam add drivefileacl {drive_id} user {user} role manager")

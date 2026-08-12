@@ -133,7 +133,7 @@ Perform the global steps once, and repeat the other steps for each user to be de
 Setup (global)
 ~~~~~~~~~~~~~~
 
-#. Configure the administrator, `OCP Archive <https://drive.google.com/drive/folders/0AKb5W5k2WH46Uk9PVA>`__ shared drive, and `GAM <https://github.com/GAM-team/GAM>`__ and `GYB <https://github.com/GAM-team/got-your-back>`__ service accounts:
+#. Configure the administrator, `OCP Archive <https://drive.google.com/drive/folders/0AKb5W5k2WH46Uk9PVA>`__ shared drive, and `GAM <https://github.com/GAM-team/GAM>`__ and `GYB <https://github.com/GAM-team/got-your-back>`__ projects:
 
    .. code-block:: bash
 
@@ -251,14 +251,6 @@ Groups
 Drive
 ~~~~~
 
-#. List the user's files in Drive:
-
-   .. code-block:: bash
-
-      gam user $user@open-contracting.org print filelist \
-        query "'me' in owners and not trashed" \
-        fields id,name,mimetype,modifiedtime > google-drive-$user.csv
-
 #. List the user's Forms, Sites and Apps Script in Drive, whose deletion could break things:
 
    .. code-block:: bash
@@ -266,6 +258,14 @@ Drive
       gam user $user@open-contracting.org print filelist \
         showownedby me fields id,name,mimetype,modifiedtime \
         query "mimeType='application/vnd.google-apps.form' or mimeType='application/vnd.google-apps.site' or mimeType='application/vnd.google-apps.script'"
+
+#. Write the user's files in Drive:
+
+   .. code-block:: bash
+
+      gam user $user@open-contracting.org print filelist \
+        query "'me' in owners and not trashed" \
+        fields id,name,mimetype,modifiedtime > google-drive-$user.csv
 
 #. Report the user's files that have shortcuts:
 
@@ -277,7 +277,7 @@ Drive
 
    If a folder has shortcuts from active users' *My Drive*, notify those users of the new folder (folders can't be moved, only recreated).
 
-   Re-run step 1 (list the user's files), then re-run this step.
+   Re-run the previous step then this step.
 
 #. You may review the ``google-drive-$user.csv`` file, and move any other in-use files to shared drives. Replace ``FILE_ID``, and replace ``FOLDER_ID`` with a shared drive or one of its folders:
 
