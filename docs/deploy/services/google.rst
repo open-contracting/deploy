@@ -256,8 +256,8 @@ Drive
    .. code-block:: bash
 
       gam user $user@open-contracting.org print filelist \
-        query "not trashed" \
-        showownedby me fields id,name,mimetype,modifiedtime > google-drive-$user.csv
+        query "'me' in owners and not trashed" \
+        fields id,name,mimetype,modifiedtime > google-drive-$user.csv
 
 #. List the user's Forms, Sites and Apps Script in Drive, whose deletion could break things:
 
