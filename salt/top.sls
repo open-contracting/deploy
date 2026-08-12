@@ -13,13 +13,13 @@ base:
     - core.mail
     - core.motd
     - core.network
+    - core.ntp
     - core.reboot
     - core.rsyslog
     - core.sshd
     - core.swap
     - core.sysctl
     - core.systemd.logind
-    - core.systemd.ntp
 
   'cms':
     - cms

@@ -1,0 +1,3 @@
+{%- for source, entry in pillar.nts | items %}
+pool {{ source }} {{ entry.context | default("iburst maxsources 1 nts prefer") }}
+{%- endfor %}
