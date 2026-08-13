@@ -20,7 +20,7 @@ Header set Content-Disposition "attachment; filename=\"%{DOWNLOAD}e\"" env=DOWNL
 AddType application/vnd.openxmlformats-officedocument.spreadsheetml.sheet .xlsx
 AddType application/gzip .gz
 
-# https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/modwsgi/#serving-files
+# https://docs.djangoproject.com/en/stable/howto/deployment/wsgi/modwsgi/#serving-files
 {%-
     for path, url in (
         ('/favicon.ico', '/static/favicon.ico'),
