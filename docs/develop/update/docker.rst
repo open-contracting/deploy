@@ -260,7 +260,7 @@ Create additional files needed to *use* the service (e.g. sudoer binaries) in th
 Run SQL migrations
 ~~~~~~~~~~~~~~~~~~
 
-An app without an ORM, like `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/tasks/database.html#change-the-schema>`__, writes migrations as SQL files. Its `state file <https://github.com/open-contracting/deploy/blob/main/salt/pelican/backend/init.sls>`__ downloads each file from the app's repository, and runs it with ``psql`` when the file is added *or changed*.
+An app without an ORM, like `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/tasks/database.html#change-the-schema>`__, writes migrations as SQL files. Its `state file <https://github.com/open-contracting/deploy/blob/main/salt/pelican/backend/init.sls>`__ downloads each file from the app's repository, and runs it with ``psql`` once, recording that it ran in a ``.lock`` file.
 
 To deploy a new migration:
 
@@ -284,3 +284,5 @@ To deploy a new migration:
       %}
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
+
+To re-run a migration, delete its ``.lock`` file on the server.

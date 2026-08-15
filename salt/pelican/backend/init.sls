@@ -36,7 +36,7 @@ btree_gin:
     - require:
       - postgres_database: pelican_backend_sql_database
 
-# If a hash is incorrect, delete the file on the server, before trying again. To update the hash, run, for example:
+# To update a hash, run, for example:
 #
 # curl -sSf https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/001_base.sql | shasum -a 256
 {%
@@ -57,12 +57,12 @@ btree_gin:
 
 run pelican migration {{ basename }}:
   cmd.run:
-    - name: psql -v ON_ERROR_STOP=1 -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend
+    - name: psql -v ON_ERROR_STOP=1 -U pelican_backend -h localhost -f {{ directory }}/files/{{ basename }}.sql pelican_backend && touch {{ directory }}/files/{{ basename }}.lock
     - runas: {{ pillar.docker.user }}
+    - creates: {{ directory }}/files/{{ basename }}.lock
     - require:
       - postgres_user: pelican_backend_sql_user
       - postgres_database: pelican_backend_sql_database
       - file: pgpass-pelican_backend
-    - onchanges:
       - file: {{ directory }}/files/{{ basename }}.sql
 {% endfor %}
