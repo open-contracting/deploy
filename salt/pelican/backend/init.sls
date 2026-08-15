@@ -36,11 +36,9 @@ btree_gin:
     - require:
       - postgres_database: pelican_backend_sql_database
 
-# If a `shasum -a 256` is incorrect, delete the files on the server, before trying again.
-# See also https://github.com/open-contracting/pelican-backend/issues/112
+# If a hash is incorrect, delete the file on the server, before trying again. To update the hash, run, for example:
 #
 # curl -sSf https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/001_base.sql | shasum -a 256
-# curl -sSf https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/002_constraints.sql | shasum -a 256
 {%
   for basename, source_hash in [
     ('001_base', 'b6f2c25da154e1b4b8b55e1231039c84b4c0c3edab5d1c4c9e7dbd402b25ca36'),

@@ -256,3 +256,31 @@ Use
 ~~~
 
 Create additional files needed to *use* the service (e.g. sudoer binaries) in the ``/opt`` or ``/opt/TARGET`` directory.
+
+Run SQL migrations
+~~~~~~~~~~~~~~~~~~
+
+An app without an ORM, like `Pelican backend <https://pelican-backend.readthedocs.io/en/latest/tasks/database.html#change-the-schema>`__, writes migrations as SQL files. Its `state file <https://github.com/open-contracting/deploy/blob/main/salt/pelican/backend/init.sls>`__ downloads each file from the app's repository, and runs it with ``psql`` when the file is added *or changed*.
+
+To deploy a new migration:
+
+#. Get the file's checksum, replacing ``FILE``:
+
+   .. code-block:: bash
+
+      curl -sSf https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/FILE.sql | shasum -a 256
+
+#. Add the file's basename and checksum to the list in the app's state file, for example:
+
+   .. code-block:: jinja
+      :emphasize-lines: 5
+
+      {%
+        for basename, source_hash in [
+          ('001_base', 'b6f2c25da154e1b4b8b55e1231039c84b4c0c3edab5d1c4c9e7dbd402b25ca36'),
+          ('002_constraints', 'f298f0b8cb20d47f390b480d44d12c097e83b177dde56234dcbebc6ad3dcf229'),
+          ('003_not_null', '2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae'),
+        ]
+      %}
+
+#. :doc:`Deploy the server<../../deploy/deploy>`
