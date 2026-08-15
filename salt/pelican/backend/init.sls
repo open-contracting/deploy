@@ -43,6 +43,7 @@ btree_gin:
   for basename, source_hash in [
     ('001_base', '6a958fd4fc06d3c310477fcf8b21ee79e305363f9a740f053deb0f8625cf4903'),
     ('002_constraints', '19d9301a97f48046f576506a75ff04ef6ed2d25c620dfefe143eae7313764f2a'),
+    ('20260815031218354_not_null', '12f25d91f2cce7dcd1f5573dde5f708805d9d0b932c7b5daa59bbabc9a7936b0'),
   ]
 %}
 {{ directory }}/files/{{ basename }}.sql:
