@@ -41,7 +41,7 @@ btree_gin:
 # curl -sSf https://raw.githubusercontent.com/open-contracting/pelican-backend/main/pelican/migrations/001_base.sql | shasum -a 256
 {%
   for basename, source_hash in [
-    ('001_base', 'fc0089de1a4ad4bd3b36b37734982d9d323852fada92ca7c1ecede9f2e43b90e'),
+    ('001_base', 'ba66a62496012acec9ad737f4288e2c64cef348ea2a8c99254fa16f85e14b699'),
     ('002_constraints', 'b3293a1f7f1202670f15b60905188da546e3b12f738e078535ccbd10e6d7e3c4'),
     ('20260815031218354_not_null', '12f25d91f2cce7dcd1f5573dde5f708805d9d0b932c7b5daa59bbabc9a7936b0'),
   ]
