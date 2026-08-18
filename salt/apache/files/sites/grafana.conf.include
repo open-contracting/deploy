@@ -17,6 +17,6 @@ RequestHeader unset Authorization
 
 ProxyRequests off
 ProxyPreserveHost on
-ProxyPass /api/live/ws {{ proxypass|replace("http", "ws") }}api/live/ws upgrade=websocket
+ProxyPass /api/live/ws {{ proxypass|replace("http", "ws") }}api/live/ws upgrade=websocket timeout=300
 ProxyPass / {{ proxypass }}
 ProxyPassReverse / {{ proxypass }}

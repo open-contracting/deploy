@@ -10,7 +10,6 @@ apache:
       context:
         port: 8000
         static_port: 8001
-        timeout: 300
 
 mysql:
   databases:

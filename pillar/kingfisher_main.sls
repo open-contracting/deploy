@@ -115,7 +115,6 @@ apache:
         # Need to sync with `docker_apps.pelican_frontend.port`.
         port: 8001
         static_port: 8004
-        timeout: 300
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.kingfisher.open-contracting.org

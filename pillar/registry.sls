@@ -74,7 +74,6 @@ apache:
       context:
         port: 8002
         static_port: 8003
-        timeout: 300
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.data.open-contracting.org
