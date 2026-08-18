@@ -1,6 +1,6 @@
 [DEFAULT]
 ignoreip = 127.0.0.1/8
-{#- Ubuntu 24.04 sets the systemd backend in jail.d/defaults-debian.conf, which ignores logpath. #}
+{#- Without this, Ubuntu 24.04 defaults to the systemd backend, which ignores logpath. #}
 backend = auto
 {#- /etc/fail2ban/jail.conf defaults to 10m ban if 5 retries within 10m. #}
 {%- if salt['pillar.get']('apache:public_access') %}
