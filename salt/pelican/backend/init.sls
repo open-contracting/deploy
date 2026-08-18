@@ -23,8 +23,8 @@ cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name pel
   cron.present:
     - identifier: PELICAN_BACKEND_UPDATE_EXCHANGE_RATES
     - user: {{ pillar.docker.user }}
-    - hour: '*/12'
-    - minute: random
+    - hour: 0
+    - minute: 15
     - require:
       - file: {{ directory }}/docker-compose.yaml
       - file: {{ directory }}/.env
