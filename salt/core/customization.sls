@@ -1,4 +1,5 @@
 # These are all non-essential changes for added usability on our systems.
+{% set editor = '/usr/bin/vim.tiny' %}
 
 useful commands for general purpose:
   pkg.installed:
@@ -18,8 +19,9 @@ vim:
 
 # Set vim as the default editor now that we've installed it.
 editor:
-  alternatives.set:
-    - path: /usr/bin/vim.basic
+  cmd.run:
+    - name: update-alternatives --set editor {{ editor }}
+    - unless: test "$(readlink /etc/alternatives/editor)" = "{{ editor }}"
     - require:
       - pkg: vim
 
