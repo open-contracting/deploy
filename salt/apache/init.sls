@@ -76,17 +76,18 @@ disable site 000-default.conf:
 # provided by the package, which set ServerTokens, ServerSignature and CustomLog.
 #
 # - Do not disclose the Apache version, to avoid false positives about CVE patching.
-# - Cap proxied requests below Cloudflare's 100-second limit, after which it returns 524.
+# - Cap proxied requests below Cloudflare's 125-second read timeout, after which it returns 524.
 # - Do not log uptime monitoring remote requests and Netdata's mod_status requests, to reduce log noise.
 # - Restore original visitor IPs in logs when using a proxy. (%a behaves like the default %h if mod_remoteip isn't configured.)
 #
 # https://httpd.apache.org/docs/2.4/logs.html#conditional
+# https://developers.cloudflare.com/fundamentals/reference/connection-limits/
 /etc/apache2/conf-available/zz-customization.conf:
   file.managed:
     - contents: |
         ServerTokens Prod
         ServerSignature Off
-        ProxyTimeout 95
+        ProxyTimeout 120
         SetEnvIf User-Agent AppBeat dontlog
         SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
