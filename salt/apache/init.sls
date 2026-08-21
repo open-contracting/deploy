@@ -8,7 +8,7 @@
   {{ unset_firewall('PUBLIC_HTTPS') }}
 {% endif %}
 
-apache2 dependancies:
+apache2 dependencies:
   pip.installed:
     - names:
       - saltext-apache
