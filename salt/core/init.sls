@@ -18,6 +18,26 @@ debconf-utils:
   pkg.installed:
     - name: debconf-utils
 
+# Required for salt-extensions and some python applications.
+pip:
+  pkg.installed:
+    - pkgs:
+      - python3-pip
+      - build-essential
+      - python3-dev
+    - install_recommends: False
+  pip.installed:
+    - name: pip
+    - upgrade: True
+{% if grains.osmajorrelease|int >= 24 %}
+    # https://peps.python.org/pep-0668/
+    - extra_args:
+      - --break-system-packages
+      - --ignore-installed
+{% endif %}
+    - require:
+      - pkg: pip
+
 # Several states add scripts to this directory.
 /home/sysadmin-tools/bin:
   file.directory:
