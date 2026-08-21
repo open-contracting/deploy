@@ -53,6 +53,25 @@ To `export a report <https://pelican-frontend.readthedocs.io/en/latest/export.ht
 -  Main template ID: ``1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM`` to use `this template <https://docs.google.com/document/d/1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM/edit>`__. To use another template, share it with pelican@pelican-289615.iam.gserviceaccount.com as a Viewer.
 -  Export folder ID: ``1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3`` to use `this folder <https://drive.google.com/drive/folders/1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3>`__. To use another folder, share it with pelican@pelican-289615.iam.gserviceaccount.com as a Contributor.
 
+Download all OCIDs that failed a check
+--------------------------------------
+
+The report displays a sample of the compiled releases that failed a check. To get them all, request the check's ``failures/`` endpoint, which returns one OCID per line.
+
+For a field-level check, use the field's path, and set the ``type`` query string parameter to ``coverage`` or ``quality`` (the default):
+
+.. code-block:: bash
+
+   curl -n -OJ 'https://pelican.open-contracting.org/api/datasets/1/field_level/tender.procuringEntity.name/failures/?type=coverage'
+
+For a compiled release-level check, use the check's name:
+
+.. code-block:: bash
+
+   curl -n -OJ https://pelican.open-contracting.org/api/datasets/1/compiled_release_level/coherent.dates/failures/
+
+.. note:: ``-OJ`` saves the response under the filename that Pelican sets.
+
 Delete a report
 ---------------
 
