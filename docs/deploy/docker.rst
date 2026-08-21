@@ -50,6 +50,15 @@ Revert images
       docker compose pull
       docker compose up -d
 
+Find an image's git commit
+--------------------------
+
+Images have `provenance attestations <https://docs.docker.com/build/metadata/attestations/slsa-provenance/>`__, which record the commit from which the image was built. Replace ``IMAGE`` with a digest from ``docker image ls --digests`` output, like ``IMAGE@sha256:0ed5d59...``:
+
+.. code-block:: bash
+
+   docker buildx imagetools inspect IMAGE --format '{{ json .Provenance }}' | jq -r '.. | .sha1? // empty' | head -1
+
 Load data
 ---------
 
