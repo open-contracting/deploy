@@ -6,7 +6,6 @@ storage:
   tsdb:
     retention:
       time: {{ pillar.prometheus.prometheus.local_storage_retention }}
-      # Prevent Prometheus' own data from filling the disk, which it shares with the operating system.
       percentage: 70
 
 scrape_configs:
