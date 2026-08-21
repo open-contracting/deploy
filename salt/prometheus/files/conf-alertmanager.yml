@@ -29,6 +29,9 @@ receivers:
         auth_password: {{ pillar.smtp.password }}
         require_tls: True
         send_resolved: True
+        threading:
+          enabled: True
+          thread_by_date: daily
   - name: rh-email
     email_configs:
       - to: servers@robhooper.net
@@ -38,3 +41,6 @@ receivers:
         auth_password: {{ pillar.smtp.password }}
         require_tls: True
         send_resolved: True
+        threading:
+          enabled: True
+          thread_by_date: daily
