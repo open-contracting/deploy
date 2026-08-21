@@ -11,16 +11,6 @@ useful commands for data support:
       - ripgrep
       - unrar
 
-pip:
-  pkg.installed:
-    - name: python3-pip
-    - install_recommends: False
-  pip.installed:
-    - name: pip
-    - upgrade: True
-    - require:
-      - pkg: pip
-
 useful packages for data support:
   pip.installed:
     - names:
