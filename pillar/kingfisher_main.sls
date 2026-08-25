@@ -262,3 +262,6 @@ docker_apps:
       # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
       # and to better support multiprocessing."
       MPLCONFIGDIR: /dev/shm/matplotlib
+      # Avoid error: "Fontconfig error: No writable cache directories", as the container's user has no home
+      # directory. Matplotlib loads fontconfig, and Django imports Matplotlib whenever it checks the URLconf.
+      XDG_CACHE_HOME: /dev/shm
