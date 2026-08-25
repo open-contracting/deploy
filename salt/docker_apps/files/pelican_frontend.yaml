@@ -3,16 +3,23 @@ x-shared: &shared
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
   restart: unless-stopped
 
+x-django: &django
+  <<: *shared
+  image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
 services:
   web:
-    <<: *shared
-    image: "ghcr.io/open-contracting/pelican-frontend-django:latest"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    <<: *django
     ports:
 {#- The port is on `entry`, not `site`, because the frontend is not necessarily web-accessible. #}
       - {{ entry.port }}:8000
 {%- if entry.get('reports') %}
+  # exporter reads the service account file, and caches the templates it downloads.
+  exporter:
+    <<: *django
+    command: "python manage.py export"
     volumes:
       # The right-hand path must match the STORAGES default value in pelican-frontend.
       - {{ entry.host_dir }}:/data

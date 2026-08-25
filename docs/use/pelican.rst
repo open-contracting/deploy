@@ -48,13 +48,17 @@ Read and export a report
 
 Open https://pelican.open-contracting.org. Your username and password are the same as for :ref:`Kingfisher Collect<access-scrapyd-web-service>`.
 
+Pelican signs you in as that username. OCP team members see every report. Anyone else sees nothing until a publisher is configured for them in the `administration site <https://pelican.open-contracting.org/admin/>`__, and then sees only the reports named ``{spider}_{date}`` for that publisher's spider.
+
+To add a user, add a key-value pair under the ``apache.sites.pelican_frontend.htpasswd`` key in the ``pillar/private/kingfisher_main.sls`` file, and then configure their publisher (see `Pelican frontend's documentation <https://pelican-frontend.readthedocs.io/en/latest/access.html>`__).
+
 To `export a report <https://pelican-frontend.readthedocs.io/en/latest/export.html>`__, click the report's document icon on the homepage, and fill in the short form.
 
 -  Main template ID: ``1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM`` to use `this template <https://docs.google.com/document/d/1jSGZKNJP6wBVPwi3JsvdkZ9FSpUwrK2SJxZoQQuJdnM/edit>`__. To use another template, share it with pelican@pelican-289615.iam.gserviceaccount.com as a Viewer.
 -  Export folder ID: ``1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3`` to use `this folder <https://drive.google.com/drive/folders/1ZVwf9cr29E4uCuWaVRiQLJI7_ejE00h3>`__. To use another folder, share it with pelican@pelican-289615.iam.gserviceaccount.com as a Contributor.
 
-Download all OCIDs that failed a check
---------------------------------------
+Download all failed OCIDs
+-------------------------
 
 The report displays a sample of the compiled releases that failed a check. To get them all, request the check's ``failures/`` endpoint, which returns one OCID per line.
 

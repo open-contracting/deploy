@@ -4,6 +4,13 @@ RequestHeader set X-Forwarded-Proto https env=HTTPS
 # The incoming Authorization header should not be proxied.
 RequestHeader unset Authorization
 
+# Pelican frontend signs in the user that this header names. The unset must come first:
+# otherwise, a client can set the header and sign in as anyone.
+RequestHeader unset X-Remote-User
+RequestHeader set X-Remote-User "expr=%{REMOTE_USER}"
+
+ProxyPass /admin/ http://127.0.0.1:{{ port }}/admin/
+ProxyPassReverse /admin/ http://127.0.0.1:{{ port }}/admin/
 ProxyPass /api/ http://127.0.0.1:{{ port }}/api/{% if timeout is defined %} timeout={{ timeout }}{% endif %}
 ProxyPassReverse /api/ http://127.0.0.1:{{ port }}/api/
 ProxyPass / http://127.0.0.1:{{ static_port }}/ timeout=10
