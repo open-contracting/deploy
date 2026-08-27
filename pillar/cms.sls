@@ -46,7 +46,7 @@ php:
   version: '8.1'  # sync with logrotate above
   opcache:
     memory_consumption: 256
-    interned_strings_buffer: 16
+    interned_strings_buffer: 32
     max_accelerated_files: 20000
 
 # Serves the WordPress object cache. digitalbuying has its own Redis, on the Docker network.
