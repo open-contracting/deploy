@@ -176,16 +176,25 @@ enable site {{ name }}.conf:
     - watch_in:
       - module: apache2-reload
 
+{% if "htpasswd" in entry %}
+{% set htpasswd_file = '/etc/apache2/.htpasswd-'+name %}
+.htpasswd-{{ name }}:
+  file.exists:
+    - name: {{ htpasswd_file }}
+
 {% for username, password in entry.htpasswd|items %}
-add .htpasswd-{{ name }}-{{ username }}:
-  webutil.user_exists:
-    - name: {{ username }}
-    - password: {{ password }}
-    - htpasswd_file: /etc/apache2/.htpasswd-{{ name }}
-    - update: True
+{{ htpasswd_file }} {{ username}}:
+  cmd.run:
+    - name: "htpasswd -bB {{ htpasswd_file }} \"{{ username }}\" \"$PASSWORD\""
+    - unless: "htpasswd -vb {{ htpasswd_file }} \"{{ username }}\" \"$PASSWORD\""
+    # Using `env` to prevent displaying the password on run.
+    - env:
+      - PASSWORD: {{ password }}
     - require:
-      - pkg: apache2
+      - pkg: apache2-utils
+      - file: {{ htpasswd_file }}
 {% endfor %}
+{% endif %}
 
 {% if pillar.apache.get('site_logs') and not name[:1].isdigit() %}
 /var/log/apache2/{{ name }}:

@@ -41,7 +41,7 @@ apache2-reload:
     - name: service.reload
     - m_name: apache2
 
-# https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.webutil.html
+# Installing htpasswd for basicauth
 apache2-utils:
   pkg.installed:
     - name: apache2-utils
