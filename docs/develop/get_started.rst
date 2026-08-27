@@ -34,12 +34,6 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    #. Disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items)
 
-`Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
-
-.. code-block:: bash
-
-   sudo salt-pip install click
-
 2. Clone repositories
 ---------------------
 
