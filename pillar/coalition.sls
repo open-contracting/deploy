@@ -25,6 +25,10 @@ phpfpm:
         user: coalition
         listen_user: www-data
         socket: /var/run/php/php-fpm-coalition.sock
+        # This site is near-idle. Reap, don't hold, idle workers.
+        pm: dynamic
+        pm_max_children: 6
+        pm_max_requests: 500
       cron:
         contact:
           - sysadmin@open-contracting.org
