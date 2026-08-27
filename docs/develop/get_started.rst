@@ -34,22 +34,6 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    #. Disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items)
 
-.. warning::
-
-   On macOS, all ``salt-ssh`` (and ``./run.py``) commands need to be run with ``sudo``. To run ``sudo`` without password:
-
-   #. Edit the ``/etc/sudoers`` file:
-
-      .. code-block:: bash
-
-         sudo visudo
-
-   #. After the ``%admin          ALL = (ALL) ALL`` line, add, for example:
-
-      .. code-block:: none
-
-         %admin          ALL = (root) NOPASSWD: /usr/bin/ssh, /opt/salt/salt-ssh, /path/to/deploy/run.py
-
 `Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
 
 .. code-block:: bash
