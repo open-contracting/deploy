@@ -22,6 +22,19 @@ php-fpm-reload:
     - name: service.reload
     - m_name: php{{ php_version }}-fpm.service
 
+{% if pillar.php.opcache is defined %}
+/etc/php/-/fpm/conf.d/99-opcache.ini:
+  file.managed:
+    - name: /etc/php/{{ php_version }}/fpm/conf.d/99-opcache.ini
+    - source: salt://php-fpm/files/opcache.ini
+    - template: jinja
+    - context: {{ pillar.php.opcache|yaml }}
+    - require:
+      - pkg: php-fpm
+    - watch_in:
+      - service: php-fpm
+{% endif %}
+
 /var/log/php-fpm:
   file.directory:
     - makedirs: True
@@ -56,6 +69,7 @@ php modules:
       - php{{ php_version }}-intl
       - php{{ php_version }}-mbstring
       - php{{ php_version }}-mysql
+      - php{{ php_version }}-redis
       - php{{ php_version }}-xml
       - php{{ php_version }}-zip
     - watch_in:
