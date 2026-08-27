@@ -41,6 +41,9 @@ wordpress:
   sites:
     corporate:
       database: corporate_wp
+      plugins:
+        - disable-comments-pingbacks
+        - mail-from
 
 ssh:
   corporate:
