@@ -187,12 +187,11 @@ postgresql-reload:
     - mode: 640
     - require:
       - pkg: postgresql
-    - watch_in:
-      - service: postgresql
 {% if salt['pillar.get']('postgres:backup:stanza') %}
-    - require:
       - sls: postgres.backup
 {% endif %}
+    - watch_in:
+      - service: postgresql
 {% endif %}
 
 # https://github.com/jfcoz/postgresqltuner
