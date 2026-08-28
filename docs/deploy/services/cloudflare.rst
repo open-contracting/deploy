@@ -10,13 +10,13 @@ To compare zones' resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare zones > cloudflare-zones.txt
+   uv run manage.py cloudflare zones > services/cloudflare-zones.txt
 
 To review account-level resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare account -a ACCOUNT_ID > cloudflare-account.txt
+   uv run manage.py cloudflare account -a ACCOUNT_ID > services/cloudflare-account.txt
 
 To confirm that no other resources are used, run:
 
