@@ -35,7 +35,16 @@ for database in "${databases[@]}"; do
         base_name="$(TZ=UTC date +%Y%m%dT%H%M%SZ)_$database.sql.gz"
         temp_file="$(mktemp /tmp/mysql_backup_XXXX.sql.gz)"
 
-        /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf --databases "$database" | gzip > "$temp_file"
+        non_innodb="$(/usr/bin/mysql --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf -Bse "SELECT table_name FROM information_schema.tables WHERE table_schema = '$database' AND engine <> 'InnoDB'")"
+        if [ -z "$non_innodb" ]; then
+            consistency=(--single-transaction --quick)
+        else
+            consistency=()
+            echo "Warning: $database is dumped with table locking, as these tables are not InnoDB:"
+            echo "$non_innodb"
+        fi
+
+        /usr/bin/mysqldump --defaults-extra-file=/home/sysadmin-tools/mysql-defaults.cnf "${consistency[@]}" --databases "$database" | gzip > "$temp_file"
         if zgrep -q "Dump completed on" "$temp_file"; then
             $AWS_CLI s3 cp "$temp_file" "s3://$S3_DATABASE_BACKUP_BUCKET/$base_name" --only-show-errors
         else
