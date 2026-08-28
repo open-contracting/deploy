@@ -21,6 +21,16 @@ redis:
     - watch_in:
       - service: redis
 
+{% if salt['pillar.get']('redis:users') %}
+# Required to read the socket owned by redis.
+add users to redis group:
+  group.present:
+    - name: redis
+    - addusers: {{ pillar.redis.users|yaml }}
+    - require:
+      - pkg: redis
+{% endif %}
+
 include local.conf in redis.conf:
   file.append:
     - name: /etc/redis/redis.conf

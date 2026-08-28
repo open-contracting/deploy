@@ -52,6 +52,8 @@ php:
 # Serves the WordPress object cache. digitalbuying has its own Redis, on the Docker network.
 redis:
   configuration: cache
+  users:
+    - corporate
 
 wordpress:
   cli_version: 2.12.0
