@@ -53,7 +53,8 @@ remove test database:
       - service: mysql
 
 {% if pillar.mysql.configuration %}
-/etc/mysql/conf.d/{{ pillar.mysql.configuration }}.cnf:
+# Sorts after defaults.cnf, so that this configuration overrides the default configuration.
+/etc/mysql/conf.d/local.cnf:
   file.managed:
     - source: salt://mysql/files/conf/{{ pillar.mysql.configuration }}.cnf
     - watch_in:

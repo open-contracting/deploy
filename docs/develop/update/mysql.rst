@@ -83,7 +83,7 @@ Configure MySQL
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 
-The configuration file will be in the ``/etc/mysql/conf.d`` directory on the server.
+The configuration file will be written to ``/etc/mysql/conf.d/local.cnf`` on the server.
 
 .. _mysql-backups:
 
