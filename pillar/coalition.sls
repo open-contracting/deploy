@@ -1,6 +1,8 @@
 backup:
   directories:
     /home/coalition/public_html/:
+      # Page cache, regenerated on demand.
+      exclude: --exclude=wp-content/cache
 
 apache:
   sites:

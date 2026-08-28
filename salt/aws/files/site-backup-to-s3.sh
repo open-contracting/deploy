@@ -33,13 +33,18 @@ for directory in "${BACKUP_DIRECTORIES[@]}"; do
     base_name="${safe_name}_backup_$(TZ=UTC date +%Y%m%dT%H%M%SZ).tar.gz"
     temp_file="$(mktemp /tmp/site_backup_XXXX.tar.gz)"
 
+    exclude_variable="BACKUP_EXCLUDE_${safe_name}"
+    exclude="${!exclude_variable:-}"
+
     # tar will return an exit code if a file is changed (e.g. log) or removed (e.g. cache).
     # The backup of all sites should continue, regardless.
     set +e
-    if [ -z "$BACKUP_EXCLUDE" ]; then
+    if [ -z "$exclude" ]; then
         tar czf "$temp_file" "$directory" > /dev/null 2>&1
     else
-        tar czf "$temp_file" "$directory" "$BACKUP_EXCLUDE" > /dev/null 2>&1
+        # Unquoted to allow more than one --exclude.
+        # shellcheck disable=SC2086
+        tar czf "$temp_file" $exclude "$directory" > /dev/null 2>&1
     fi
     set -e
 

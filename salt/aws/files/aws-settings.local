@@ -12,8 +12,8 @@ BACKUP_DATABASES=()
 S3_SITE_BACKUP_BUCKET=""
 # Space deliminated bash array e.x. ("/home/siteone", "/home/sitetwo")
 BACKUP_DIRECTORIES=()
-# BACKUP_EXCLUDE="--exclude=/home/example/public_html/unwanted/dir"
-BACKUP_EXCLUDE=""
+# Per-directory excludes e.x.
+# BACKUP_EXCLUDE_home_example_public_html="--exclude=unwanted/dir"
 
 # File sync
 S3_SYNC_BUCKET=""
