@@ -79,6 +79,8 @@ disable site 000-default.conf:
 # - Cap proxied requests below Cloudflare's 125-second read timeout, after which it returns 524.
 # - Do not log uptime monitoring remote requests and Netdata's mod_status requests, to reduce log noise.
 # - Restore original visitor IPs in logs when using a proxy. (%a behaves like the default %h if mod_remoteip isn't configured.)
+# - Log the peer. mod_remoteip rewrites %a to the visitor; %{c}a shows whether the request arrived via Cloudflare.
+#   Trailing, so that fail2ban filters (and any other parsers) that read logs keep their field positions.
 #
 # https://httpd.apache.org/docs/2.4/logs.html#conditional
 # https://developers.cloudflare.com/fundamentals/reference/connection-limits/
@@ -91,8 +93,8 @@ disable site 000-default.conf:
         SetEnvIf User-Agent AppBeat dontlog
         SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
-        LogFormat "%v:%p %a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
-        LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+        LogFormat "%v:%p %a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a" vhost_combined
+        LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a" combined
         CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
         {{ salt['pillar.get']('apache:customization','') | indent(8) }}
     - require:
