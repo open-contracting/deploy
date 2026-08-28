@@ -5,14 +5,32 @@ Google Cloud Platform (GCP)
 
    Use :doc:`aws`, unless an application requires access to Google-exclusive services like Google Drive.
 
-Review projects
----------------
+Maintenance
+-----------
 
 .. seealso::
 
    -  `Security recommendations <https://console.cloud.google.com/active-assist/list/security/recommendations?organizationId=1015889055088>`__
 
 Periodically review `all projects <https://console.cloud.google.com/cloud-resource-manager?organizationId=1015889055088>`__:
+
+-  Snapshot the configuration of the organization and its projects:
+
+   .. code-block:: bash
+
+      uv run manage.py gcp snapshot > services/gcp.txt
+
+   .. admonition:: Limitations
+
+      No API exposes OAuth 2.0 client IDs, `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__ or `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__. Track these under :ref:`gcp-projects`.
+
+      To reduce noise, the command omits: volatile fields (``etag``, ``generation``, ``metageneration``, ``selfLink``, ``updateTime``, ``updated``), asset types reported twice, and Logs Explorer history.
+
+      Google Workspace creates a project per Apps Script in the ``system-gsuite`` folder, which is skipped along with its descendants.
+
+-  Run ``git diff`` to review changes since the last snapshot, then commit the file.
+
+To manually review one project:
 
 -  Review `Enabled APIs & services <https://console.cloud.google.com/apis/credentials?project=ocp-library>`__, or:
 
@@ -45,14 +63,8 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
         | grep -vE 'cloudresourcemanager\.googleapis\.com/Project|logging\.googleapis\.com/(LogBucket|LogSink)|iam\.googleapis\.com/ServiceAccount|serviceusage\.googleapis\.com/Service'
 
    ..
-      cloudresourcemanager\.googleapis\.com/Project
-         The project itself.
-      logging\.googleapis\.com/(LogBucket|LogSink)
-         The _REQUIRED and _DEFAULT LogBucket and LogSink are created automatically.
-      iam\.googleapis\.com/ServiceAccount
-         Use the `gcloud iam` commands above.
-      serviceusage\.googleapis\.com/Service
-         Use the `gcloud services` command above.
+      The excluded asset types are reported by the commands above, as in GCP_REDUNDANT_ASSET_TYPES in manage.py.
+      The _Default and _Required LogBucket and LogSink are created automatically, and so are excluded here only.
 
 -  Review history in the `Activity tab <https://console.cloud.google.com/logs/query?organizationId=1015889055088&project=project=ocp-library>`__, or:
 
@@ -61,8 +73,10 @@ Periodically review `all projects <https://console.cloud.google.com/cloud-resour
       gcloud logging read 'severity>=DEFAULT' --project=$P --freshness=400d --limit=30 --order=desc \
         --format="table(timestamp, resource.type, protoPayload.methodName, protoPayload.authenticationInfo.principalEmail)"
 
+.. _gcp-projects:
+
 Known projects
-~~~~~~~~~~~~~~
+--------------
 
 .. tab-set::
 
@@ -131,6 +145,8 @@ Known projects
         Heroku `settings <https://dashboard.heroku.com/apps/ocp-library/settings>`__
       APIs
         -  Google Drive API
+
+        .. note:: `Reading history <https://github.com/nytimes/library/blob/main/server/routes/readingHistory.js>`__ is unused; it needs ``GCP_PROJECT_ID``.
       Credentials
         -  ``library`` to use Sign in with Google
         -  ``cloud-datastore-user@ocp-library.iam.gserviceaccount.com`` to use APIs in `nytimes/library <https://github.com/nytimes/library>`__

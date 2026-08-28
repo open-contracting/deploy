@@ -28,6 +28,9 @@ api_token_option = click.option(
     "--api-token", envvar="CLOUDFLARE_API_TOKEN", required=True, help="Cloudflare API token"
 )
 account_id_option = click.option("-a", "--account-id", required=True, help="Cloudflare account ID")
+organization_id_option = click.option(
+    "-o", "--organization-id", default="1015889055088", help="Google Cloud organization ID"
+)
 
 
 def get(url, **kwargs):
@@ -81,6 +84,42 @@ def gam(*args, check=True):
     if check and result.returncode:
         raise click.ClickException(result.stderr.strip())
     return result
+
+
+def gcloud(*args, decode=True):
+    """Return the output of a gcloud command, as JSON unless the caller sets its own --format."""
+    if decode:
+        args = (*args, "--format=json")
+    result = subprocess.run(["gcloud", *args], capture_output=True, text=True, check=False)  # noqa: S603 S607
+    if result.returncode:
+        raise click.ClickException(result.stderr.strip())
+    return json.loads(result.stdout) if decode else result.stdout
+
+
+def gcp_normalize(value):
+    """Return the value without volatile fields, with object keys and string arrays sorted."""
+    if isinstance(value, dict):
+        return {k: gcp_normalize(v) for k, v in sorted(value.items()) if k not in GCP_VOLATILE_FIELDS}
+    if isinstance(value, list):
+        # Arrays of objects can be ordered semantically, like the properties of a Datastore composite index.
+        if all(isinstance(item, str) for item in value):
+            return sorted(value)
+        return [gcp_normalize(item) for item in value]
+    return value
+
+
+def gcp_folders(parent):
+    """Yield the IDs of the folders under the organization or folder, less those managed by Google Workspace."""
+    for folder in gcloud("resource-manager", "folders", "list", parent):
+        if folder["displayName"] not in GCP_SYSTEM_FOLDERS:
+            folder_id = folder["name"].removeprefix("folders/")
+            yield folder_id
+            yield from gcp_folders(f"--folder={folder_id}")
+
+
+def print_gcp(label, value):
+    click.echo(f"\n-- {label}")
+    click.echo(json.dumps(gcp_normalize(value), indent=2))
 
 
 def sha256_crypt(password, salt):
@@ -306,6 +345,51 @@ def unused(api_token, account_id):
         _unused(run_cf_terraforming(api_token, resource_type, account_id))
     for resource_type in sorted(ZONE_LEVEL - ZONE_LEVEL_USED - ZONE_LEVEL_DEFAULT):
         _unused(run_cf_terraforming(api_token, resource_type, zone_id))
+
+
+@cli.group()
+def gcp():
+    """Google Cloud Platform command group"""
+
+
+@gcp.command()
+@organization_id_option
+def snapshot(organization_id):
+    """
+    Print the configuration of the organization and its projects.
+
+    OAuth 2.0 client IDs are omitted, as no API exposes them.
+    """
+    click.echo(f"== organization {organization_id}")
+    print_gcp("iam policy", gcloud("organizations", "get-iam-policy", organization_id))
+
+    parents = {organization_id, *gcp_folders(f"--organization={organization_id}")}
+    own = [project for project in gcloud("projects", "list") if project["parent"]["id"] in parents]
+    print_gcp("projects", own)
+
+    for project in sorted(p["projectId"] for p in own if p["lifecycleState"] == "ACTIVE"):
+        scope = f"--scope=projects/{project}"
+
+        click.echo(f"\n== project {project}")
+
+        click.echo("\n-- services")
+        services = gcloud(
+            "services", "list", "--enabled", f"--project={project}", "--format=value(config.name)", decode=False
+        )
+        click.echo("\n".join(sorted(services.split())))
+
+        accounts = gcloud("iam", "service-accounts", "list", f"--project={project}")
+        print_gcp("service accounts", accounts)
+
+        # Google-managed keys rotate, so only user-managed keys (`--managed-by=user`) are a configuration change.
+        for email in sorted(account["email"] for account in accounts):
+            keys = gcloud("iam", "service-accounts", "keys", "list", f"--iam-account={email}", "--managed-by=user")
+            print_gcp(f"service account keys {email}", keys)
+
+        print_gcp("iam policies", gcloud("asset", "search-all-iam-policies", scope, "--order-by=resource"))
+
+        resources = gcloud("asset", "search-all-resources", scope, "--read-mask=*", "--order-by=name")
+        print_gcp("resources", [r for r in resources if r["assetType"] not in GCP_REDUNDANT_ASSET_TYPES])
 
 
 @cli.command()
@@ -573,6 +657,18 @@ def mysql_hash(expected):
 DOMAIN = "open-contracting.org"
 TRANSFER = "operations"
 OCP_ARCHIVE_SHARED_DRIVE_ID = "0AKb5W5k2WH46Uk9PVA"
+
+# Fields that change without a configuration change, or that repeat the resource's name.
+GCP_VOLATILE_FIELDS = {"etag", "generation", "metageneration", "selfLink", "updateTime", "updated"}
+# Google Workspace creates a project per Apps Script, under a folder in this folder.
+GCP_SYSTEM_FOLDERS = {"system-gsuite"}
+GCP_REDUNDANT_ASSET_TYPES = {
+    "cloudresourcemanager.googleapis.com/Project",  # the projects section
+    "iam.googleapis.com/ServiceAccount",  # the service accounts section (`gcloud iam`)
+    "iam.googleapis.com/ServiceAccountKey",  # the service account keys sections
+    "logging.googleapis.com/RecentQuery",  # Logs Explorer history, which changes on every query
+    "serviceusage.googleapis.com/Service",  # the services section (`gcloud services`)
+}
 
 MYSQL_PREFIX_LENGTH = len("$A$005$")
 # https://github.com/mysql/mysql-server/blob/8.0/include/crypt_genhash_impl.h

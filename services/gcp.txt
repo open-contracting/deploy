@@ -1,0 +1,1051 @@
+== organization 1015889055088
+
+-- iam policy
+{
+  "bindings": [
+    {
+      "members": [
+        "user:jmckinney@open-contracting.org"
+      ],
+      "role": "roles/iam.securityAdmin"
+    },
+    {
+      "members": [
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/iam.serviceAccountAdmin"
+    },
+    {
+      "members": [
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/iam.serviceAccountKeyAdmin"
+    },
+    {
+      "members": [
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/oauthconfig.editor"
+    },
+    {
+      "members": [
+        "user:jmckinney@open-contracting.org"
+      ],
+      "role": "roles/owner"
+    },
+    {
+      "members": [
+        "domain:open-contracting.org"
+      ],
+      "role": "roles/recommender.viewer"
+    },
+    {
+      "members": [
+        "user:jmckinney@open-contracting.org",
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/resourcemanager.organizationAdmin"
+    },
+    {
+      "members": [
+        "user:jmckinney@open-contracting.org"
+      ],
+      "role": "roles/resourcemanager.projectCreator"
+    },
+    {
+      "members": [
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/serviceusage.apiKeysAdmin"
+    },
+    {
+      "members": [
+        "user:ylisnichuk@open-contracting.org"
+      ],
+      "role": "roles/serviceusage.serviceUsageAdmin"
+    }
+  ],
+  "version": 1
+}
+
+-- projects
+[
+  {
+    "createTime": "2026-08-10T15:10:02.233Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Got Your Back Project",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "gyb-project-haj-zu2-x36",
+    "projectNumber": "609687114951"
+  },
+  {
+    "createTime": "2026-08-07T16:43:00.855Z",
+    "lifecycleState": "ACTIVE",
+    "name": "GAM Project",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "gam-project-9yro6",
+    "projectNumber": "326362825176"
+  },
+  {
+    "createTime": "2024-11-20T16:29:48.033595Z",
+    "lifecycleState": "ACTIVE",
+    "name": "DREAM BI",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "dream-bi",
+    "projectNumber": "785575864606"
+  },
+  {
+    "createTime": "2020-09-15T15:20:00.824Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Pelican",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "pelican-289615",
+    "projectNumber": "1081544747394"
+  },
+  {
+    "createTime": "2019-04-26T17:19:20.684Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Library",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "ocp-library",
+    "projectNumber": "871238177644"
+  }
+]
+
+== project dream-bi
+
+-- services
+analyticsdata.googleapis.com
+analyticshub.googleapis.com
+bigquery.googleapis.com
+bigqueryconnection.googleapis.com
+bigquerydatapolicy.googleapis.com
+bigquerymigration.googleapis.com
+bigqueryreservation.googleapis.com
+bigquerystorage.googleapis.com
+cloudapis.googleapis.com
+cloudtrace.googleapis.com
+dataform.googleapis.com
+dataplex.googleapis.com
+datastore.googleapis.com
+logging.googleapis.com
+monitoring.googleapis.com
+servicemanagement.googleapis.com
+serviceusage.googleapis.com
+sql-component.googleapis.com
+storage-api.googleapis.com
+storage-component.googleapis.com
+storage.googleapis.com
+
+-- service accounts
+[
+  {
+    "disabled": false,
+    "email": "google-analytics-data@dream-bi.iam.gserviceaccount.com",
+    "name": "projects/dream-bi/serviceAccounts/google-analytics-data@dream-bi.iam.gserviceaccount.com",
+    "oauth2ClientId": "110224745430205408406",
+    "projectId": "dream-bi",
+    "uniqueId": "110224745430205408406"
+  }
+]
+
+-- service account keys google-analytics-data@dream-bi.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "GOOGLE_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/dream-bi/serviceAccounts/google-analytics-data@dream-bi.iam.gserviceaccount.com/keys/282e4a45f3ccd963343bec2545611609c7f6c0f4",
+    "validAfterTime": "2026-07-16T15:41:08Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  }
+]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        }
+      ]
+    },
+    "project": "projects/785575864606",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/dream-bi"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "cloudbilling.googleapis.com/ProjectBillingInfo",
+    "displayName": "projects/dream-bi/billingInfo",
+    "location": "global",
+    "name": "//cloudbilling.googleapis.com/projects/dream-bi/billingInfo",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-bi",
+    "project": "projects/785575864606",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "billingAccountName": "billingAccounts/01E25D-2E184A-8ED4AD",
+          "billingEnabled": true,
+          "name": "projects/dream-bi/billingInfo",
+          "projectId": "dream-bi"
+        },
+        "version": "v1"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/785575864606/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-bi",
+    "project": "projects/785575864606",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/785575864606/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/785575864606/locations/global/buckets/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-bi",
+    "project": "projects/785575864606",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/785575864606/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/785575864606/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-bi",
+    "project": "projects/785575864606",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/dream-bi/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/dream-bi/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/785575864606/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-bi",
+    "project": "projects/785575864606",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/dream-bi/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/dream-bi/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
+
+== project gam-project-9yro6
+
+-- services
+accesscontextmanager.googleapis.com
+admin.googleapis.com
+alertcenter.googleapis.com
+analyticsadmin.googleapis.com
+calendar-json.googleapis.com
+chat.googleapis.com
+chromemanagement.googleapis.com
+chromepolicy.googleapis.com
+classroom.googleapis.com
+cloudchannel.googleapis.com
+cloudidentity.googleapis.com
+cloudresourcemanager.googleapis.com
+contacts.googleapis.com
+datastudio.googleapis.com
+docs.googleapis.com
+drive.googleapis.com
+driveactivity.googleapis.com
+drivelabels.googleapis.com
+forms.googleapis.com
+gmail.googleapis.com
+groupsmigration.googleapis.com
+groupssettings.googleapis.com
+iam.googleapis.com
+iamcredentials.googleapis.com
+keep.googleapis.com
+licensing.googleapis.com
+meet.googleapis.com
+mybusinessaccountmanagement.googleapis.com
+people.googleapis.com
+pubsub.googleapis.com
+reseller.googleapis.com
+searchconsole.googleapis.com
+sheets.googleapis.com
+siteverification.googleapis.com
+storage-api.googleapis.com
+tagmanager.googleapis.com
+tasks.googleapis.com
+vault.googleapis.com
+youtube.googleapis.com
+
+-- service accounts
+[
+  {
+    "description": "GAM Project",
+    "disabled": true,
+    "displayName": "GAM Project",
+    "email": "gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com",
+    "name": "projects/gam-project-9yro6/serviceAccounts/gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com",
+    "oauth2ClientId": "115557235843080177853",
+    "projectId": "gam-project-9yro6",
+    "uniqueId": "115557235843080177853"
+  }
+]
+
+-- service account keys gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "USER_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/gam-project-9yro6/serviceAccounts/gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com/keys/95941678003c4615dac349c547c7ecf6e69c6e66",
+    "validAfterTime": "2026-08-07T16:45:02Z",
+    "validBeforeTime": "9999-12-31T23:59:00Z"
+  }
+]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        },
+        {
+          "members": [
+            "serviceAccount:service-326362825176@gcp-sa-pubsub.iam.gserviceaccount.com"
+          ],
+          "role": "roles/pubsub.serviceAgent"
+        }
+      ]
+    },
+    "project": "projects/326362825176",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/gam-project-9yro6"
+  },
+  {
+    "assetType": "iam.googleapis.com/ServiceAccount",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "serviceAccount:gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com"
+          ],
+          "role": "roles/iam.serviceAccountKeyAdmin"
+        }
+      ]
+    },
+    "project": "projects/326362825176",
+    "resource": "//iam.googleapis.com/projects/gam-project-9yro6/serviceAccounts/gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/326362825176/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gam-project-9yro6",
+    "project": "projects/326362825176",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/326362825176/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/326362825176/locations/global/buckets/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gam-project-9yro6",
+    "project": "projects/326362825176",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/326362825176/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/326362825176/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gam-project-9yro6",
+    "project": "projects/326362825176",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/gam-project-9yro6/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/gam-project-9yro6/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/326362825176/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gam-project-9yro6",
+    "project": "projects/326362825176",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/gam-project-9yro6/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/gam-project-9yro6/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
+
+== project gyb-project-haj-zu2-x36
+
+-- services
+drive.googleapis.com
+gmail.googleapis.com
+groupsmigration.googleapis.com
+iap.googleapis.com
+vault.googleapis.com
+
+-- service accounts
+[
+  {
+    "disabled": true,
+    "displayName": "GYB Project Service Account",
+    "email": "gyb-project-haj-zu2-x36@gyb-project-haj-zu2-x36.iam.gserviceaccount.com",
+    "name": "projects/gyb-project-haj-zu2-x36/serviceAccounts/gyb-project-haj-zu2-x36@gyb-project-haj-zu2-x36.iam.gserviceaccount.com",
+    "oauth2ClientId": "104989888035041949599",
+    "projectId": "gyb-project-haj-zu2-x36",
+    "uniqueId": "104989888035041949599"
+  }
+]
+
+-- service account keys gyb-project-haj-zu2-x36@gyb-project-haj-zu2-x36.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "GOOGLE_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/gyb-project-haj-zu2-x36/serviceAccounts/gyb-project-haj-zu2-x36@gyb-project-haj-zu2-x36.iam.gserviceaccount.com/keys/35a9c9602a662944848d0876f4d83d92d0585566",
+    "validAfterTime": "2026-08-10T15:10:20Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  }
+]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        }
+      ]
+    },
+    "project": "projects/609687114951",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/gyb-project-haj-zu2-x36"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/609687114951/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gyb-project-haj-zu2-x36",
+    "project": "projects/609687114951",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/609687114951/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/609687114951/locations/global/buckets/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gyb-project-haj-zu2-x36",
+    "project": "projects/609687114951",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/609687114951/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/609687114951/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gyb-project-haj-zu2-x36",
+    "project": "projects/609687114951",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/gyb-project-haj-zu2-x36/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/gyb-project-haj-zu2-x36/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/609687114951/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/gyb-project-haj-zu2-x36",
+    "project": "projects/609687114951",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/gyb-project-haj-zu2-x36/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/gyb-project-haj-zu2-x36/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
+
+== project ocp-library
+
+-- services
+drive.googleapis.com
+
+-- service accounts
+[
+  {
+    "disabled": false,
+    "displayName": "Drive API",
+    "email": "cloud-datastore-user@ocp-library.iam.gserviceaccount.com",
+    "name": "projects/ocp-library/serviceAccounts/cloud-datastore-user@ocp-library.iam.gserviceaccount.com",
+    "oauth2ClientId": "102435651536097889889",
+    "projectId": "ocp-library",
+    "uniqueId": "102435651536097889889"
+  },
+  {
+    "disabled": true,
+    "displayName": "App Engine default service account",
+    "email": "ocp-library@appspot.gserviceaccount.com",
+    "name": "projects/ocp-library/serviceAccounts/ocp-library@appspot.gserviceaccount.com",
+    "oauth2ClientId": "111821869914540274051",
+    "projectId": "ocp-library",
+    "uniqueId": "111821869914540274051"
+  }
+]
+
+-- service account keys cloud-datastore-user@ocp-library.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "GOOGLE_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/ocp-library/serviceAccounts/cloud-datastore-user@ocp-library.iam.gserviceaccount.com/keys/5371606f4bb4ff6e640af1c8a6a1abd58a456e30",
+    "validAfterTime": "2019-04-26T17:28:35Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  }
+]
+
+-- service account keys ocp-library@appspot.gserviceaccount.com
+[]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "serviceAccount:service-871238177644@gcp-gae-service.iam.gserviceaccount.com"
+          ],
+          "role": "roles/appengine.serviceAgent"
+        },
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/cloudasset.owner"
+        },
+        {
+          "members": [
+            "serviceAccount:service-871238177644@gcp-sa-firestore.iam.gserviceaccount.com"
+          ],
+          "role": "roles/firestore.serviceAgent"
+        },
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        }
+      ]
+    },
+    "project": "projects/871238177644",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/ocp-library"
+  }
+]
+
+-- resources
+[
+  {
+    "additionalAttributes": {
+      "defaultBucket": "ocp-library.appspot.com",
+      "defaultHostname": "ocp-library.uc.r.appspot.com"
+    },
+    "assetType": "appengine.googleapis.com/Application",
+    "displayName": "ocp-library",
+    "location": "us-central",
+    "name": "//appengine.googleapis.com/apps/ocp-library",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "state": "SERVING",
+    "versionedResources": [
+      {
+        "resource": {
+          "authDomain": "gmail.com",
+          "codeBucket": "staging.ocp-library.appspot.com",
+          "defaultBucket": "ocp-library.appspot.com",
+          "defaultHostname": "ocp-library.uc.r.appspot.com",
+          "featureSettings": {
+            "splitHealthChecks": true
+          },
+          "gcrDomain": "us.gcr.io",
+          "id": "ocp-library",
+          "locationId": "us-central",
+          "name": "apps/ocp-library",
+          "servingStatus": "SERVING",
+          "sslPolicy": "DEFAULT"
+        },
+        "version": "v1"
+      }
+    ]
+  },
+  {
+    "additionalAttributes": {
+      "defaultBucket": "ocp-library.appspot.com",
+      "defaultHostname": "ocp-library.uc.r.appspot.com"
+    },
+    "assetType": "appengine.googleapis.com/Application",
+    "displayName": "ocp-library",
+    "location": "us-central1",
+    "name": "//appengine.googleapis.com/projects/ocp-library/locations/us-central1/applications/ocp-library",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "state": "SERVING",
+    "versionedResources": [
+      {
+        "resource": {
+          "authDomain": "gmail.com",
+          "codeBucket": "staging.ocp-library.appspot.com",
+          "defaultBucket": "ocp-library.appspot.com",
+          "defaultHostname": "ocp-library.uc.r.appspot.com",
+          "featureSettings": {
+            "splitHealthChecks": true
+          },
+          "gcrDomain": "us.gcr.io",
+          "id": "ocp-library",
+          "locationId": "us-central",
+          "name": "apps/ocp-library",
+          "servingStatus": "SERVING",
+          "sslPolicy": "DEFAULT"
+        },
+        "version": "v1"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/871238177644/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/871238177644/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/871238177644/locations/global/buckets/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/871238177644/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/871238177644/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/ocp-library/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/ocp-library/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/871238177644/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-library",
+    "project": "projects/871238177644",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/ocp-library/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/ocp-library/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
+
+== project pelican-289615
+
+-- services
+docs.googleapis.com
+drive.googleapis.com
+
+-- service accounts
+[
+  {
+    "description": "Pelican Google Drive Docs access",
+    "disabled": false,
+    "displayName": "Pelican",
+    "email": "pelican@pelican-289615.iam.gserviceaccount.com",
+    "name": "projects/pelican-289615/serviceAccounts/pelican@pelican-289615.iam.gserviceaccount.com",
+    "oauth2ClientId": "102172623802650556396",
+    "projectId": "pelican-289615",
+    "uniqueId": "102172623802650556396"
+  }
+]
+
+-- service account keys pelican@pelican-289615.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "GOOGLE_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/pelican-289615/serviceAccounts/pelican@pelican-289615.iam.gserviceaccount.com/keys/53bb6cedcd08d606486844a044464ebc4af1524e",
+    "validAfterTime": "2023-03-24T14:14:34Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  }
+]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        }
+      ]
+    },
+    "project": "projects/1081544747394",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/pelican-289615"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/1081544747394/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/pelican-289615",
+    "project": "projects/1081544747394",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/1081544747394/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/1081544747394/locations/global/buckets/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/pelican-289615",
+    "project": "projects/1081544747394",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/1081544747394/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/1081544747394/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/pelican-289615",
+    "project": "projects/1081544747394",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/pelican-289615/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/pelican-289615/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/1081544747394/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/pelican-289615",
+    "project": "projects/1081544747394",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/pelican-289615/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/pelican-289615/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
