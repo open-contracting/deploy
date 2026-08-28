@@ -174,7 +174,7 @@ To verify that no calendar in use by active users was created by an archived use
 
    .. code-block:: bash
 
-      uv run manage.py google-calendar google-calendars.csv
+      uv run manage.py google calendar google-calendars.csv
 
 #. Transfer all reported calendars to an active user, before deleting the archived users.
 
@@ -271,7 +271,7 @@ Drive
 
    .. code-block:: bash
 
-      uv run manage.py google-drive google-drive-$user.csv google-shortcuts.csv
+      uv run manage.py google drive google-drive-$user.csv google-shortcuts.csv
 
    For each shared drive, it prints commands to run, in order to move those files next to the shortcuts in that shared drive, and to delete those shortcuts.
 

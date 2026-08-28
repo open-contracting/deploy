@@ -392,9 +392,14 @@ def snapshot(organization_id):
         print_gcp("resources", [r for r in resources if r["assetType"] not in GCP_REDUNDANT_ASSET_TYPES])
 
 
-@cli.command()
+@cli.group()
+def google():
+    """Google Workspace command group"""
+
+
+@google.command()
 @click.argument("file", type=click.File())
-def google_calendar(file):
+def calendar(file):
     """Report the secondary calendars in FILE that are owned by archived users."""
     result = gam("print", "users", "query", "isArchived=True", "fields", "primaryEmail")
     archived_users = {row["primaryEmail"] for row in csv.DictReader(result.stdout.splitlines())}
@@ -441,10 +446,10 @@ def google_calendar(file):
         click.secho("No calendars are owned by archived users", fg="green")
 
 
-@cli.command()
+@google.command()
 @click.argument("file", type=click.File())
 @click.argument("shortcuts", type=click.File())
-def google_drive(file, shortcuts):
+def drive(file, shortcuts):
     """Report the files and folders in FILE with shortcuts in SHORTCUTS."""
     # The "List the user's files in Drive" command from docs/deploy/services/google.rst guarantees a single "Owner".
     user = ""
