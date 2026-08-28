@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+#
+# Download a WordPress site's current database, and optionally its files, from its server.
+#
+# Usage: snapshot-site SITE [DESTINATION]
+#   --files        Also download public_html, as a .tar.gz
+#   --rsync        Download public_html as a directory instead, which is incremental
+#   --uploads      Include wp-content/uploads (4.9 GB on corporate)
+#   --all-tables   Include the search indexes and logs that are skipped by default
+#
+# Example: snapshot-site corporate ~/Sites/ocp --files
+
+set -euo pipefail
+
+files=""
+use_rsync=""
+uploads=""
+all_tables=""
+args=()
+for arg in "$@"; do
+    case "$arg" in
+    --files) files=1 ;;
+    --rsync) files=1; use_rsync=1 ;;
+    --uploads) uploads=1 ;;
+    --all-tables) all_tables=1 ;;
+    *) args+=("$arg") ;;
+    esac
+done
+
+site="${args[0]:-}"
+destination="${args[1]:-./$site-snapshot}"
+
+usage() { echo "Usage: $0 {corporate|coalition} [DESTINATION] [--files|--rsync] [--uploads] [--all-tables]" >&2; exit 1; }
+
+case "$site" in
+corporate | coalition) host=ocp21.open-contracting.org ;;
+*) usage ;;
+esac
+
+if [ -n "$uploads" ] && [ -z "$files" ]; then
+    echo "$0: --uploads selects part of public_html, so it needs --files or --rsync" >&2
+    usage
+fi
+
+# Search indexes and logs, which a local site regenerates or doesn't need. ocp_relevanssi alone is 124 MB.
+skip_tables="relevanssi,relevanssi_stopwords,itsec_logs,itsec_distributed_storage,itsec_temp,redirection_404,redirection_logs,blc_links,blc_instances,blc_filters,blc_synch"
+
+# Hosts behind port knocking answer only after a connection attempt on 8255. See run.py.
+python3 - "$host" <<'EOF'
+import contextlib, socket, sys
+with contextlib.suppress(OSError):
+    socket.create_connection((sys.argv[1], 8255), 1)
+EOF
+
+mkdir -p "$destination"
+
+# The site's own user, so that this works for anyone with deploy access rather than only root.
+# shellcheck disable=SC2029 # $site and $* are expanded locally, on purpose.
+wp_remote() { ssh "$site@$host" "cd ~/public_html && wp $*"; }
+
+database="$(wp_remote config get DB_NAME)"
+prefix="$(wp_remote config get table_prefix)"
+siteurl="$(wp_remote option get siteurl)"
+docroot="$(ssh "$site@$host" 'cd ~/public_html && pwd')"
+
+exclude=""
+if [ -z "$all_tables" ]; then
+    exclude="--exclude_tables=${prefix}${skip_tables//,/,$prefix}"
+fi
+
+echo "Dumping $database..."
+# wp reads the credentials from wp-config.php, so this needs no database password of its own.
+# --single-transaction, so that the dump doesn't lock tables on the live site.
+# wp db export already passes --no-tablespaces; --no- is its own negation prefix, so passing it fails.
+wp_remote db export - --single-transaction --quick "$exclude" | gzip > "$destination/$database.sql.gz"
+
+if [ -n "$files" ]; then
+    # The cache and upgrade directories are regenerated locally.
+    skip_paths=(wp-content/cache wp-content/upgrade)
+    if [ -z "$uploads" ]; then
+        skip_paths+=(wp-content/uploads)
+    fi
+
+    if [ -n "$use_rsync" ]; then
+        echo "Copying files..."
+        excludes=()
+        for path in "${skip_paths[@]}"; do
+            excludes+=(--exclude "$path/")
+        done
+        # Ownership is meaningless off-server.
+        rsync -rlptz --progress --no-owner --no-group "${excludes[@]}" \
+            "$site@$host:public_html/" "$destination/public_html/"
+    else
+        echo "Archiving files..."
+        tar_excludes=""
+        for path in "${skip_paths[@]}"; do
+            tar_excludes="$tar_excludes --exclude=public_html/$path"
+        done
+        # Streamed, so that the server needs no temporary space for a second copy of the site.
+        # shellcheck disable=SC2029 # $tar_excludes is expanded locally, on purpose.
+        ssh "$site@$host" "tar czf -$tar_excludes -C ~ public_html" > "$destination/$site-public_html.tar.gz"
+    fi
+fi
+
+cat <<EOF
+
+Done: $destination
+
+  mysql -e 'CREATE DATABASE IF NOT EXISTS $database'
+  gunzip -c $destination/$database.sql.gz | mysql $database
+  wp search-replace '$siteurl' 'http://localhost:8090' --all-tables
+  wp search-replace '$docroot' "\$(pwd)" --all-tables
+
+wp db export omits CREATE DATABASE, so the database must exist before importing.
+Both replacements are needed: the database stores the site's URL and its absolute
+paths, the latter within serialized values that a plain SQL edit would corrupt.
+EOF
