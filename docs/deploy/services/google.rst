@@ -355,6 +355,27 @@ Drive
 
          Retry on 409 Conflict. Google might still be moving files.
 
+Cloud
+~~~~~
+
+Deleting a user leaves its :doc:`gcp` policy bindings in place, as ``deleted:user:USER@open-contracting.org?uid=UID``.
+
+#. Report the projects in which the user is a member:
+
+   .. code-block:: bash
+
+      gcloud asset search-all-iam-policies --scope=organizations/1015889055088 \
+        --query="policy:$user@open-contracting.org" --format="value(resource)"
+
+#. Remove each binding, replacing ``PROJECT`` and ``ROLE``:
+
+   .. code-block:: bash
+
+      gcloud projects remove-iam-policy-binding PROJECT \
+        --member=user:$user@open-contracting.org --role=ROLE
+
+   .. note:: If the user is already deleted, quote the member, using the ``deleted:`` form above.
+
 Deletion
 ~~~~~~~~
 
