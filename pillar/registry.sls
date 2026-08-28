@@ -84,7 +84,6 @@ postgres:
   public_access: True
   data_directory: '/data/storage/postgresql/16/main'
   configuration:
-    name: registry
     source: shared
     context:
       # We need a lot of connections for all the workers and threads.

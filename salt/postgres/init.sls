@@ -177,7 +177,7 @@ postgresql-reload:
 {% endif %}
 
 {% if pillar.postgres.configuration %}
-/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_local.conf:
   file.managed:
     - source: salt://postgres/files/conf/{{ pillar.postgres.configuration.source }}.conf
     - template: jinja

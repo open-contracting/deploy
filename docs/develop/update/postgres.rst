@@ -132,11 +132,10 @@ Configure PostgreSQL
 #. Set ``postgres.configuration`` in the server's Pillar file:
 
    .. code-block:: yaml
-      :emphasize-lines: 2-6
+      :emphasize-lines: 2-5
 
       postgres:
         configuration:
-          name: kingfisher-main1
           source: shared
           context:
             mykey: myvalue
@@ -151,11 +150,10 @@ Configure PostgreSQL
    -  Set ``content`` to add content to the configuration file.
 
    .. code-block:: yaml
-      :emphasize-lines: 3-5
+      :emphasize-lines: 3-4
 
       postgres:
         configuration:
-          name: registry
           source: shared
           context:
             max_connections: 300
@@ -174,7 +172,7 @@ Configure PostgreSQL
 
 #. :doc:`Deploy the server<../../deploy/deploy>`
 
-The configuration file will be in the ``/etc/postgresql/11/main/conf.d/`` directory on the server (for PostgreSQL version 11).
+The configuration file will be written to ``/etc/postgresql/16/main/conf.d/030_local.conf`` on the server (for PostgreSQL version 16).
 
 Use CA certificates
 -------------------

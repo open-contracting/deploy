@@ -126,7 +126,6 @@ postgres:
   ssl:
     servername: postgres.kingfisher.open-contracting.org
   configuration:
-    name: kingfisher-main1
     source: shared
     context:
       storage: ssd
