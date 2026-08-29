@@ -8,10 +8,26 @@
   {{ unset_firewall('PUBLIC_HTTPS') }}
 {% endif %}
 
+apache2 dependencies:
+  pip.installed:
+    - names:
+      - saltext-apache
+    - reload_modules: true
+{% if grains.osmajorrelease|int >= 24 %}
+    # https://peps.python.org/pep-0668/
+    - extra_args:
+      - --break-system-packages
+      - --ignore-installed
+{% endif %}
+    - require:
+      - pkg: pip
+
 apache2:
   pkg.installed:
     - pkgs:
       - apache2
+    - require:
+      - pip: saltext-apache
   service.running:
     - name: apache2
     - enable: True
@@ -25,7 +41,7 @@ apache2-reload:
     - name: service.reload
     - m_name: apache2
 
-# https://docs.saltproject.io/en/latest/ref/modules/all/salt.modules.webutil.html
+# Installing htpasswd for basicauth
 apache2-utils:
   pkg.installed:
     - name: apache2-utils

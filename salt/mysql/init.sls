@@ -5,6 +5,18 @@ mysql dependencies:
   pkg.installed:
     - pkgs:
       - python3-mysqldb
+  pip.installed:
+    - names:
+      - saltext-mysql
+    - reload_modules: true
+{% if grains.osmajorrelease|int >= 24 %}
+    # https://peps.python.org/pep-0668/
+    - extra_args:
+      - --break-system-packages
+      - --ignore-installed
+{% endif %}
+    - require:
+      - pkg: pip
 
 # Using Percona's official tool "percona-release" to configure their repositories and signing keys.
 percona-release:

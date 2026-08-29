@@ -49,7 +49,7 @@ Create the server via the :ref:`host<hosting>`'s interface.
 
                The swap size should be at most 200% of RAM and:
 
-               -  If RAM is less than 2 GB: at least 100% of RAM
+               -  If RAM is less than 8 GB: set to 4096MB
                -  If RAM is less than 32 GB: at least 50% of RAM
                -  Otherwise, at least 16 GB or 25% of RAM, whichever is greater
 
