@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Disable comments and pingbacks
+ * Plugin Name: Open Contracting: Disable comments and pingbacks
  * Description: Disable comments and pingbacks, so attachment pages (which WordPress opens to comments by default)
  * can't collect spam.
  *
