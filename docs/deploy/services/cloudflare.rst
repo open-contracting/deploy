@@ -26,7 +26,7 @@ To confirm that no other resources are used, run:
 
 .. admonition:: Limitations
 
-   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support DMarc Management and omits Cloudflare-managed rulesets:
+   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support DMARC Management and omits Cloudflare-managed rulesets:
 
    -  ``ddos_l7``
    -  ``http_request_firewall_managed``
