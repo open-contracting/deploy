@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Open Contracting: Fathom Analytics
- * Description: Adds the Fathom Analytics script, except for logged-in administrators and editors.
+ * Description: Adds the Fathom Analytics script, except for logged-in users.
  *
  * You can override the domain and site ID in wp-config.php:
  *   define('FATHOM_DOMAIN', 'fathom.example.org');
@@ -13,7 +13,7 @@
 add_action(
 	'wp_head',
 	function () {
-		if ( is_user_logged_in() && array_intersect( array( 'administrator', 'editor' ), (array) wp_get_current_user()->roles ) ) {
+		if ( is_user_logged_in() ) {
 			return;
 		}
 
