@@ -45,6 +45,7 @@ wordpress:
       database: coalition_wp
       plugins:
         - auto-update-plugin
+        - disable-admin-view-transitions
         - disable-comments-pingbacks
         - fathom-analytics
         - mail-from
