@@ -93,8 +93,8 @@ disable site 000-default.conf:
         SetEnvIf User-Agent AppBeat dontlog
         SetEnvIf User-Agent Pingdom.com_bot dontlog
         SetEnvIf Request_URI "^/server-status$" dontlog
-        LogFormat "%v:%p %a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a" vhost_combined
-        LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a" combined
+        LogFormat "%v:%p %a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a %D" vhost_combined
+        LogFormat "%a %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\" %{c}a %D" combined
         CustomLog ${APACHE_LOG_DIR}/other_vhosts_access.log vhost_combined env=!dontlog
         {{ salt['pillar.get']('apache:customization','') | indent(8) }}
     - require:
