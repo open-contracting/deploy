@@ -25,6 +25,17 @@ Header set X-Content-Type-Options nosniff
     Require valid-user
 </FilesMatch>
 
+<FilesMatch "^xmlrpc\.php$">
+    Require all denied
+</FilesMatch>
+
+# Our sites need no direct HTTP access to plugin/theme PHP files.
+<DirectoryMatch "^/home/{{ user }}/public_html/wp-content/(?:uploads|plugins|themes)/">
+    <FilesMatch "\.(?:php[1-7]?|pht|phtml?|phps)\.?$">
+        Require all denied
+    </FilesMatch>
+</DirectoryMatch>
+
 <IfModule mod_mime.c>
       AddType image/webp .webp
       AddType image/avif .avif
