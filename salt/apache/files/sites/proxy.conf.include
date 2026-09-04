@@ -15,3 +15,12 @@ DocumentRoot {{ documentroot }}
     Require valid-user
 {%- endif %}
 </Location>
+{%- if authname is defined %}
+
+# Safari requests these outside the page's credential context, so a challenge here prompts for a password.
+<LocationMatch "^/(favicon\.ico|apple-touch-icon(-[0-9]+x[0-9]+)?(-precomposed)?\.png)$">
+    ProxyPass !
+    Require all granted
+</LocationMatch>
+RedirectMatch 404 ^/(favicon\.ico|apple-touch-icon(-[0-9]+x[0-9]+)?(-precomposed)?\.png)$
+{%- endif %}

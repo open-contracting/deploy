@@ -17,6 +17,9 @@ RequestHeader unset Authorization
 
 ProxyRequests off
 ProxyPreserveHost on
+# Safari requests these outside the page's credential context, so a challenge here prompts for a password.
+ProxyPassMatch ^/(favicon\.ico|apple-touch-icon(-[0-9]+x[0-9]+)?(-precomposed)?\.png)$ !
+RedirectMatch 404 ^/(favicon\.ico|apple-touch-icon(-[0-9]+x[0-9]+)?(-precomposed)?\.png)$
 ProxyPass /api/live/ws {{ proxypass|replace("http", "ws") }}api/live/ws upgrade=websocket timeout=300
 ProxyPass / {{ proxypass }}
 ProxyPassReverse / {{ proxypass }}
