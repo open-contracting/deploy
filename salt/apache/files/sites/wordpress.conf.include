@@ -9,16 +9,11 @@ Header set X-Content-Type-Options nosniff
     DirectoryIndex index.php
 </Directory>
 
-<Directory /home/{{ user }}/public_html/wp-content>
-    Require all granted
-    Options FollowSymLinks
-</Directory>
-
-<FilesMatch \.php$>
+<FilesMatch "\.php$">
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
-<FilesMatch "^wp-login\.php">
+<FilesMatch "^wp-login\.php$">
     AuthType Basic
     AuthName "Restricted Area"
     AuthUserFile /etc/apache2/.htpasswd-{{ user }}
@@ -37,6 +32,6 @@ Header set X-Content-Type-Options nosniff
 </DirectoryMatch>
 
 <IfModule mod_mime.c>
-      AddType image/webp .webp
-      AddType image/avif .avif
+    AddType image/webp .webp
+    AddType image/avif .avif
 </IfModule>
