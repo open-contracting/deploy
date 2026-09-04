@@ -32,6 +32,7 @@ phpfpm:
         env:
           # Increased to resolve WordPress menu issue.
           php_value[max_input_vars]: 3000
+          php_value[memory_limit]: 256M
           php_value[upload_max_filesize]: 8M
           php_value[post_max_size]: 10M
       cron:
