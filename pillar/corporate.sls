@@ -46,7 +46,10 @@ wordpress:
       database: corporate_wp
       plugins:
         - disable-comments-pingbacks
+        - google-tag-manager
         - mail-from
+      context:
+        GTM_CONTAINER_ID: GTM-WMV9C5F
 
 ssh:
   corporate:
