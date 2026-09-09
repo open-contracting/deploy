@@ -507,7 +507,7 @@ Configure reverse DNS
       
          ModuleNotFoundError: No module named 'backports'
 
-      Try connecting to the server and `running <https://github.com/saltstack/salt/issues/65360#issuecomment-1839127208>`:
+      Try connecting to the server and `running <https://github.com/saltstack/salt/issues/65360#issuecomment-1839127208>`__:
 
       .. code-block:: bash
 
