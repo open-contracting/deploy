@@ -33,5 +33,4 @@ Header set X-Content-Type-Options nosniff
 
 <IfModule mod_mime.c>
     AddType image/webp .webp
-    AddType image/avif .avif
 </IfModule>
