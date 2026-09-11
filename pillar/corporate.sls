@@ -45,6 +45,7 @@ wordpress:
     corporate:
       database: corporate_wp
       plugins:
+        - disable-admin-view-transitions
         - disable-comments-pingbacks
         - google-tag-manager
         - mail-from
