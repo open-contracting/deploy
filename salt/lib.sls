@@ -177,17 +177,17 @@ enable site {{ name }}.conf:
       - module: apache2-reload
 
 {% if "htpasswd" in entry %}
-{% set htpasswd_file = '/etc/apache2/.htpasswd-'+name %}
+{% set htpasswd_file = '/etc/apache2/.htpasswd-' + name %}
 .htpasswd-{{ name }}:
   file.exists:
     - name: {{ htpasswd_file }}
 
 {% for username, password in entry.htpasswd|items %}
-{{ htpasswd_file }} {{ username}}:
+{{ htpasswd_file }} {{ username }}:
   cmd.run:
-    - name: "htpasswd -bB {{ htpasswd_file }} \"{{ username }}\" \"$PASSWORD\""
-    - unless: "htpasswd -vb {{ htpasswd_file }} \"{{ username }}\" \"$PASSWORD\""
-    # Using `env` to prevent displaying the password on run.
+    - name: 'htpasswd -bB {{ htpasswd_file }} "{{ username }}" "$PASSWORD"'
+    - unless: 'htpasswd -vb {{ htpasswd_file }} "{{ username }}" "$PASSWORD"'
+    # Use `env` to not display the password on run.
     - env:
       - PASSWORD: {{ password }}
     - require:

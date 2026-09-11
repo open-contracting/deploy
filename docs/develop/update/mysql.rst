@@ -4,20 +4,13 @@ Configure MySQL
 Specify the version
 -------------------
 
-Choose a supported `LTS MySQL release<https://endoflife.date/mysql>`__.
-
-Set the desired version in the server's Pillar file:
+Set the version to an `LTS release <https://endoflife.date/mysql>`__ that matches a `Percona Server for MySQL (PS) release <https://www.percona.com/release-lifecycle-overview/#mysql>`__ in the server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 2
 
    mysql:
      version: '9.7'
-
-.. note::
-
-   We install Percona MySQL `see specific supported versions here<https://www.percona.com/release-lifecycle-overview/#mysql>`__.
-
 
 .. _mysql-password-hash:
 

@@ -6,7 +6,7 @@ Configure PHP, Node.js and Ruby
 Configure PHP
 -------------
 
-The `PHP version <https://endoflife.date/php>`__ is set to the Ubuntu-managed version for that release.
+The `PHP version <https://endoflife.date/php>`__ is set to the managed version for the Ubuntu release.
 
 Configure Node.js
 -----------------

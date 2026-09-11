@@ -6,9 +6,8 @@ mysql dependencies:
     - pkgs:
       - python3-mysqldb
   pip.installed:
-    - names:
-      - saltext-mysql
-    - reload_modules: true
+    - name: saltext-mysql
+    - reload_modules: True
 {% if grains.osmajorrelease|int >= 24 %}
     # https://peps.python.org/pep-0668/
     - extra_args:

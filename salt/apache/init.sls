@@ -10,9 +10,8 @@
 
 apache2 dependencies:
   pip.installed:
-    - names:
-      - saltext-apache
-    - reload_modules: true
+    - name: saltext-apache
+    - reload_modules: True
 {% if grains.osmajorrelease|int >= 24 %}
     # https://peps.python.org/pep-0668/
     - extra_args:
@@ -41,7 +40,7 @@ apache2-reload:
     - name: service.reload
     - m_name: apache2
 
-# Installing htpasswd for basicauth
+# Install htpasswd command.
 apache2-utils:
   pkg.installed:
     - name: apache2-utils
