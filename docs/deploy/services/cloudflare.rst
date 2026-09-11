@@ -72,8 +72,6 @@ Proxy status
 
    .. attention::
 
-      If a service expects the client's IP, reconfigure it to use the `CF-Connecting-IP <https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip>`__ header: for example, `WordFence <https://www.wordfence.com/help/dashboard/options/>`__.
-
       Inform server operators (like RBC Group and Datanomix) to reconfigure web server logging to use the ``CF-Connecting-IP`` header, as we do for Apache and Nginx.
 
 -  Proxy A, AAAA and CNAME records for `URL forwarding <https://developers.cloudflare.com/rules/page-rules/how-to/url-forwarding/>`__.
