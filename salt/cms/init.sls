@@ -16,7 +16,6 @@ wp-cli:
     - source: salt://cms/files/check-updates.php
     - makedirs: True
 
-
 {% for name, entry in pillar.phpfpm.sites|items %}
 {% set user = entry.context.user %}
 {% set userdir = '/home/' + user %}

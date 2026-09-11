@@ -168,7 +168,7 @@ WordPress
    To interpret an email it sends:
 
    -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
-   -  The updates check lists the updates that won't install automatically, like major versions.
+   -  The updates check lists the updates that won't install automatically, like major versions. It also lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license for a premium plugin, or the plugin being closed on wordpress.org.
 
 #. If you have a custom theme, download and activate it. For example:
 
