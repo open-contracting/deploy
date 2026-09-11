@@ -4,15 +4,20 @@ Configure MySQL
 Specify the version
 -------------------
 
-The `default version <https://endoflife.date/mysql>`__ is 8.0 (`LTS <https://endoflife.date/mysql>`__).
+Choose a supported `LTS MySQL release<https://endoflife.date/mysql>`__.
 
-To override the version, update the server's Pillar file:
+Set the desired version in the server's Pillar file:
 
 .. code-block:: yaml
    :emphasize-lines: 2
 
    mysql:
-     version: '8.0'
+     version: '9.7'
+
+.. note::
+
+   We install Percona MySQL `see specific supported versions here<https://www.percona.com/release-lifecycle-overview/#mysql>`__.
+
 
 .. _mysql-password-hash:
 
