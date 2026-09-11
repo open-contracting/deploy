@@ -1,7 +1,6 @@
 <?php
 /**
- * Plugin Name: Open Contracting: Check Updates
- * Description: Lists the core, plugin and theme updates that the automatic updater will not install.
+ * Lists the updates that WordPress's automatic updater won't install, and the plugins it can't update.
  *
  * Run with `wp eval-file`.
  *
@@ -10,11 +9,9 @@
  */
 
 /**
- * Returns the updates that WP_Automatic_Updater won't install.
- *
- * @return array[] Rows of type, name, installed version and available version.
+ * Requires the update API and refreshes the update transients.
  */
-function opencontracting_updates_check() {
+function opencontracting_updates_refresh() {
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	require_once ABSPATH . 'wp-admin/includes/file.php';
 	require_once ABSPATH . 'wp-admin/includes/update.php';
@@ -24,7 +21,14 @@ function opencontracting_updates_check() {
 	wp_version_check();
 	wp_update_plugins();
 	wp_update_themes();
+}
 
+/**
+ * Returns the updates that WP_Automatic_Updater won't install.
+ *
+ * @return array[] Rows of type, name, installed version and available version.
+ */
+function opencontracting_updates_check() {
 	$updater = new WP_Automatic_Updater();
 	$pending = array();
 
@@ -70,11 +74,55 @@ function opencontracting_updates_check() {
 	return $pending;
 }
 
+/**
+ * Returns the installed plugins that received no answer from their update API.
+ *
+ * WordPress lists every plugin it asked about in `checked`, and every answer in `response` or `no_update`. A plugin
+ * in neither was not answered for: the request timed out, its license is expired, or it's closed on wordpress.org.
+ * (Not `wp plugin list`, which shows such a plugin as up to date.)
+ *
+ * @return array[] Rows of name and installed version.
+ */
+function opencontracting_silent_plugins() {
+	$transient = get_site_transient( 'update_plugins' );
+
+	if ( empty( $transient->checked ) ) {
+		return array();
+	}
+
+	$silent = array_diff_key(
+		(array) $transient->checked,
+		(array) ( $transient->response ?? array() ),
+		(array) ( $transient->no_update ?? array() )
+	);
+
+	$rows = array();
+	foreach ( $silent as $file => $version ) {
+		$rows[] = array( '.' === dirname( $file ) ? $file : dirname( $file ), $version );
+	}
+
+	return $rows;
+}
+
+opencontracting_updates_refresh();
+
 $opencontracting_pending = opencontracting_updates_check();
+$opencontracting_silent  = opencontracting_silent_plugins();
+
 if ( $opencontracting_pending ) {
 	WP_CLI::line( "Updates that won't install automatically:" );
 	foreach ( $opencontracting_pending as $row ) {
 		WP_CLI::line( sprintf( '%s %s: %s -> %s', $row[0], $row[1], $row[2], $row[3] ) );
 	}
+}
+
+if ( $opencontracting_silent ) {
+	WP_CLI::line( "Plugins that can't update, because their update API gave no answer:" );
+	foreach ( $opencontracting_silent as $row ) {
+		WP_CLI::line( sprintf( 'plugin %s: %s', $row[0], $row[1] ) );
+	}
+}
+
+if ( $opencontracting_pending || $opencontracting_silent ) {
 	WP_CLI::halt( 1 );
 }
