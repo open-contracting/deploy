@@ -107,13 +107,6 @@ Cybersecurity issues are monitored by `SecurityScorecard <https://platform.secur
 #. Add a comment like: *Fathom Analytics, Google Analytics, and the Google Fonts API do not support SRI, by design: https://github.com/google/fonts/issues/473#issuecomment-331329601. As a compensating control, we subscribe to Fathom Analytics' and Google's incident alerts.*
 #. Click the *Submit* button
 
-WordFence
-~~~~~~~~~
-
-WordPress issues are monitored by `WordFence <https://www.wordfence.com/central>`__.
-
-WordFence is managed in each WordPress installation, rather than by visiting its website.
-
 .. _hosting:
 
 Hosting

@@ -153,6 +153,23 @@ WordPress
             plugins:
               - auto-update-plugin
 
+#. Unless the site uses a security plugin's file scanner, schedule checks:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            checks:
+              enabled: True
+              premium_plugins:
+                - advanced-custom-fields-pro
+
+   To interpret an email it sends:
+
+   -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
+   -  The updates check lists the updates that won't install automatically, like major versions.
+
 #. If you have a custom theme, download and activate it. For example:
 
    .. code-block:: bash
@@ -185,8 +202,3 @@ Strings to replace might include:
 -  Domain names
 -  Theme names
 -  File paths
-
-If the site uses these plugins, perform these operations to remove old items in the database:
-
--  `Rank Math <https://rankmath.com>`__: *Status & Tools* menu item > *Database Tools* tab > Click the *Delete Internal Links* and *Clear 404 Log* buttons.
--  `WordFence <https://www.wordfence.com>`__: *Scan* menu item -> Click the *START NEW SCAN* button. You can also manually delete rows from the ``wp_wfhits`` and ``wp_wflogins`` tables.

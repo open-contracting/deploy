@@ -49,5 +49,10 @@ wordpress:
         - disable-comments-pingbacks
         - fathom-analytics
         - mail-from
+      # Substitutes for Wordfence's scanner and vulnerability alerts.
+      checks:
+        enabled: True
+        premium_plugins:
+          - advanced-custom-fields-pro
       context:
         FATHOM_ANALYTICS_ID: LNRZMMVR

@@ -11,6 +11,11 @@ wp-cli:
     - source_hash: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar.sha512
     - mode: 755
 
+/usr/local/lib/wp-cli/check-updates.php:
+  file.managed:
+    - source: salt://cms/files/check-updates.php
+    - makedirs: True
+
 
 {% for name, entry in pillar.phpfpm.sites|items %}
 {% set user = entry.context.user %}
@@ -48,6 +53,7 @@ allow {{ userdir }} access:
 {% endfor %}
 
 {% for user, entry in pillar.wordpress.sites|items %}
+{% set userdir = '/home/' + user %}
 {% set database = pillar.mysql.databases[entry.database] %}
 
 {% for constant, value in (
@@ -78,4 +84,35 @@ allow {{ userdir }} access:
     - require:
       - user: {{ user }}_user_exists
 {% endfor %}
+
+{% set checks = entry.checks|default({}) %}
+{% if checks.get('enabled') %}
+{% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
+# The must-use plugins above have no checksums at wordpress.org.
+{% set exclude = checks.premium_plugins|default([]) + entry.plugins|default([])|map('regex_replace', '^', 'opencontracting-')|list %}
+
+# Not --quiet, which also hides the warnings that name the files.
+WordPress integrity check for {{ user }}:
+  cron.present:
+    - name: '( {{ wp }} core verify-checksums; {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }} ) 2>&1 | grep -v "^Success: "'
+    - identifier: WORDPRESS_INTEGRITY_CHECK
+    - user: {{ user }}
+    - hour: 5
+    - minute: 30
+    - require:
+      - user: {{ user }}_user_exists
+      - file: wp-cli
+
+WordPress updates check for {{ user }}:
+  cron.present:
+    - name: {{ wp }} eval-file /usr/local/lib/wp-cli/check-updates.php
+    - identifier: WORDPRESS_UPDATES_CHECK
+    - user: {{ user }}
+    - hour: 5
+    - minute: 45
+    - require:
+      - user: {{ user }}_user_exists
+      - file: wp-cli
+      - file: /usr/local/lib/wp-cli/check-updates.php
+{% endif %}
 {% endfor %}
