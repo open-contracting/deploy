@@ -20,6 +20,10 @@ Header set X-Content-Type-Options nosniff
     Require valid-user
 </FilesMatch>
 
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
 <FilesMatch "^xmlrpc\.php$">
     Require all denied
 </FilesMatch>
