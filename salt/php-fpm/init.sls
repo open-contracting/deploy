@@ -1,7 +1,7 @@
 {% set supported_releases = {
-    22: 'php8.1',
-    24: 'php8.3',
-    26: 'php8.5'
+    22: '8.1',
+    24: '8.3',
+    26: '8.5'
 } %}
 
 {% if grains.osmajorrelease in supported_releases %}
