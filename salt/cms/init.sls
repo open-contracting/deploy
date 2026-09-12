@@ -96,7 +96,7 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% for name in entry.mu_plugins|default([]) %}
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:
-    - source: salt://cms/files/{{ name }}.php
+    - source: salt://cms/files/mu-plugins/{{ name }}.php
     - template: jinja
     - context: {{ entry.context|yaml }}
     - user: {{ user }}
