@@ -83,6 +83,22 @@ set {{ userdir }}/public_html file permissions:
       - user: {{ user }}_user_exists
 {% endfor %}
 
+# Values are strings of PHP source. `wp config get` prints the evaluated value, like `php -r 'echo …;'`.
+{% for constant, value in dict(salt['pillar.get']('wordpress:constants', {}), **entry.constants|default({}))|items %}
+set {{ constant }} in {{ user }} wp-config.php:
+  cmd.run:
+    - name: /usr/local/bin/wp config set {{ constant }} "{{ value }}" --raw
+    - runas: {{ user }}
+    - cwd: {{ userdir }}/public_html
+    - onlyif: test -f {{ userdir }}/public_html/wp-config.php
+    - unless: >-
+        value=$(/usr/local/bin/wp config get {{ constant }} 2>/dev/null)
+        && [ "$value" = "$(php -r "echo {{ value }};")" ]
+    - require:
+      - file: wp-cli
+      - user: {{ user }}_user_exists
+{% endfor %}
+
 {% for name in entry.plugins|default([]) %}
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:
