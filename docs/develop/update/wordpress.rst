@@ -133,11 +133,7 @@ WordPress
 
       wp plugin uninstall hello
 
-#. Add a `must-use plugin <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__ to auto-update plugins for non-major versions only. For example, replacing ``USERNAME``:
-
-   .. note::
-
-      `WP Rocket can't auto-update. <https://docs.wp-rocket.me/article/1446-why-are-wp-rocket-auto-updates-disabled>`__ See the `changelog <https://wp-rocket.me/changelog/>`__.
+#. Add any `must-use plugins <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__, with any context they need. (The must-use plugins in ``wordpress:mu_plugins`` in the ``pillar/cms.sls`` file are installed on every site.) For example:
 
    .. code-block:: yaml
 
@@ -145,7 +141,9 @@ WordPress
         sites:
           USERNAME:
             mu_plugins:
-              - auto-update-plugin
+              - fathom-analytics
+            context:
+              FATHOM_ANALYTICS_ID: ABCDEFGH
 
 #. Unless the site uses a security plugin's file scanner, schedule checks:
 

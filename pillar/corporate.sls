@@ -45,10 +45,7 @@ wordpress:
           - sysadmin@open-contracting.org
           - support+ocp@theideabureau.co
       mu_plugins:
-        - disable-admin-view-transitions
-        - disable-comments-pingbacks
         - google-tag-manager
-        - mail-from
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F
 

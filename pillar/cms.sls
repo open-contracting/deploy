@@ -62,3 +62,8 @@ wordpress:
     DISABLE_WP_CRON: 'true'
     # https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing
     DISALLOW_FILE_EDIT: 'true'
+  mu_plugins:
+    - disable-admin-view-transitions
+    - disable-comments-pingbacks
+    - mail-from
+    - require-two-factor
