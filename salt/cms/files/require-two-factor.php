@@ -3,11 +3,17 @@
  * Plugin Name: Open Contracting: Require Two-Factor
  * Description: Sends administrators with no second factor to their profile page, until they enrol.
  *
- * The Two Factor plugin (https://wordpress.org/plugins/two-factor/) has no enforcement of its own. This does nothing
- * until that plugin is active.
+ * Limits the second factor to authenticator apps and backup codes.
+ *
+ * Does nothing until the Two Factor plugin (https://wordpress.org/plugins/two-factor/) is active.
  *
  * @package OpenContracting
  */
+
+add_filter(
+	'two_factor_providers',
+	fn ( $providers ) => array_intersect_key( $providers, array_flip( array( 'Two_Factor_Totp', 'Two_Factor_Backup_Codes' ) ) )
+);
 
 /**
  * Whether the current user must enrol.
