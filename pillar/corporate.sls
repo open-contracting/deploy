@@ -35,15 +35,15 @@ phpfpm:
           php_value[memory_limit]: 256M
           php_value[upload_max_filesize]: 8M
           php_value[post_max_size]: 10M
-      cron:
-        contact:
-          - sysadmin@open-contracting.org
-          - support+ocp@theideabureau.co
 
 wordpress:
   sites:
     corporate:
       database: corporate_wp
+      cron:
+        contact:
+          - sysadmin@open-contracting.org
+          - support+ocp@theideabureau.co
       mu_plugins:
         - disable-admin-view-transitions
         - disable-comments-pingbacks

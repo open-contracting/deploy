@@ -16,10 +16,11 @@ wp-cli:
     - source: salt://cms/files/check-updates.php
     - makedirs: True
 
-{% for name, entry in pillar.phpfpm.sites|items %}
-{% set user = entry.context.user %}
+{% for user, entry in pillar.wordpress.sites|items %}
 {% set userdir = '/home/' + user %}
+{% set database = pillar.mysql.databases[entry.database] %}
 
+# Every PHP-FPM site on this server is a WordPress site, so the pool users are created here.
 {{ create_user(user, authorized_keys=pillar.ssh.get(user, [])) }}
 
 # Allow Apache to traverse to, and read, what it serves. See wordpress.conf.include. Parents first.
@@ -52,8 +53,6 @@ set {{ userdir }}/public_html file permissions:
 
 {{ set_cron_env(user, 'MAILTO', entry.cron.contact|join(','), 'cms' ) }}
 
-# Assumes that all PHP-FPM sites on the CMS server are WordPress.
-
 /usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html{% if 'ignore' in entry.cron %} 2>&1 | grep -v '{{ entry.cron.ignore|join('\|') }}'{% endif %}:
   cron.present:
     - identifier: WORDPRESS_SITE_CRON
@@ -61,11 +60,6 @@ set {{ userdir }}/public_html file permissions:
     - minute: '*/5'
     - require:
       - user: {{ user }}_user_exists
-{% endfor %}
-
-{% for user, entry in pillar.wordpress.sites|items %}
-{% set userdir = '/home/' + user %}
-{% set database = pillar.mysql.databases[entry.database] %}
 
 {% for constant, value in (
     ('DB_NAME', entry.database),

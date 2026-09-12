@@ -80,12 +80,18 @@ WordPress
 
    Salt contains `WordPress states <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.wordpress.html>`__, but they are limited. Also, WordPress is often deployed by copying files, rather than via fresh installs.
 
-#. Configure `WP-CLI <https://wp-cli.org>`__. In the server's Pillar file, add, for example:
+#. Configure `WP-CLI <https://wp-cli.org>`__ and the site. In the server's Pillar file, add, for example:
 
    .. code-block:: yaml
 
       wordpress:
         cli_version: 2.7.1
+        sites:
+          coalition:
+            database: coalition_wp
+            cron:
+              contact:
+                - sysadmin@open-contracting.org
 
 #. :doc:`Deploy the server<../../deploy/deploy>`.
 #. :doc:`Connect to the server<../../use/ssh>` as the WordPress user (e.g. ``coalition``).
