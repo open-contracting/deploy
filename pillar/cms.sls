@@ -57,3 +57,8 @@ redis:
 
 wordpress:
   cli_version: 2.12.0
+  constants:
+    # https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/
+    DISABLE_WP_CRON: 'true'
+    # https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing
+    DISALLOW_FILE_EDIT: 'true'

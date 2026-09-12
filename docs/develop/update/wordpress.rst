@@ -107,24 +107,6 @@ WordPress
 
       wp config create --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
 
-#. Set `WP_AUTO_UPDATE_CORE <https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates>`__, to enable minor WordPress updates only.
-
-   .. code-block:: bash
-
-      wp config set WP_AUTO_UPDATE_CORE minor
-
-#. Set `DISABLE_WP_CRON <https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/>`__, since system cron is used instead.
-
-   .. code-block:: bash
-
-      wp config set --raw DISABLE_WP_CRON true
-
-#. Set `DISALLOW_FILE_EDIT <https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing>`__, to remove the theme and plugin file editors from the dashboard. Updates and installs are unaffected. (``DISALLOW_FILE_MODS`` would also stop automatic updates. Don't set it.)
-
-   .. code-block:: bash
-
-      wp config set --raw DISALLOW_FILE_EDIT true
-
 #. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
 
    .. code-block:: bash
@@ -189,6 +171,18 @@ WordPress
           USERNAME:
             plugins:
               - require-two-factor
+
+#. :doc:`Deploy the server<../../deploy/deploy>` again, to set the ``wp-config.php`` constants from the ``pillar/cms.sls`` file, install the must-use plugins and schedule the checks.
+
+   Add or override any constants, setting values to strings of PHP source. For example:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            constants:
+              WP_AUTO_UPDATE_CORE: 'false'
 
 #. If you have a custom theme, download and activate it. For example:
 
