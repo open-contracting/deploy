@@ -46,7 +46,7 @@ wordpress:
       constants:
         # https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates
         WP_AUTO_UPDATE_CORE: "'minor'"
-      plugins:
+      mu_plugins:
         - auto-update-plugin
         - disable-admin-view-transitions
         - disable-comments-pingbacks

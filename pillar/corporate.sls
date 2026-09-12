@@ -44,7 +44,7 @@ wordpress:
   sites:
     corporate:
       database: corporate_wp
-      plugins:
+      mu_plugins:
         - disable-admin-view-transitions
         - disable-comments-pingbacks
         - google-tag-manager
