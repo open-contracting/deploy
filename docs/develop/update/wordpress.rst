@@ -176,6 +176,20 @@ WordPress
    -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
    -  The updates check lists the updates that won't install automatically, like major versions. It also lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license for a premium plugin, or the plugin being closed on wordpress.org.
 
+#. Require two-factor authentication for administrators. Install the `Two Factor <https://wordpress.org/plugins/two-factor/>`__ plugin, which has no enforcement of its own, and add the must-use plugin that sends administrators without a second factor to their profile page until they enrol:
+
+   .. code-block:: bash
+
+      wp plugin install two-factor --activate
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            plugins:
+              - require-two-factor
+
 #. If you have a custom theme, download and activate it. For example:
 
    .. code-block:: bash

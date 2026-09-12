@@ -49,7 +49,7 @@ wordpress:
         - disable-comments-pingbacks
         - fathom-analytics
         - mail-from
-      # Substitutes for Wordfence's scanner and vulnerability alerts.
+        - require-two-factor
       checks:
         enabled: True
         premium_plugins:
