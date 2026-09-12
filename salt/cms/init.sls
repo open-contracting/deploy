@@ -19,6 +19,7 @@ wp-cli:
 {% for user, entry in pillar.wordpress.sites|items %}
 {% set userdir = '/home/' + user %}
 {% set database = pillar.mysql.databases[entry.database] %}
+{% set mu_plugins = salt['pillar.get']('wordpress:mu_plugins', []) + entry.mu_plugins|default([]) %}
 
 # Every PHP-FPM site on this server is a WordPress site, so the pool users are created here.
 {{ create_user(user, authorized_keys=pillar.ssh.get(user, [])) }}
@@ -93,7 +94,7 @@ set {{ constant }} in {{ user }} wp-config.php:
       - user: {{ user }}_user_exists
 {% endfor %}
 
-{% for name in entry.mu_plugins|default([]) %}
+{% for name in mu_plugins %}
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:
     - source: salt://cms/files/mu-plugins/{{ name }}.php
@@ -110,7 +111,7 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% if checks.get('enabled') %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
 # The must-use plugins above have no checksums at wordpress.org.
-{% set exclude = checks.premium_plugins|default([]) + entry.mu_plugins|default([])|map('regex_replace', '^', 'opencontracting-')|list %}
+{% set exclude = checks.premium_plugins|default([]) + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
 # Not --quiet, which also hides the warnings that name the files.
 WordPress integrity check for {{ user }}:
