@@ -119,6 +119,12 @@ WordPress
 
       wp config set --raw DISABLE_WP_CRON true
 
+#. Set `DISALLOW_FILE_EDIT <https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing>`__, to remove the theme and plugin file editors from the dashboard. Updates and installs are unaffected. (``DISALLOW_FILE_MODS`` would also stop automatic updates. Don't set it.)
+
+   .. code-block:: bash
+
+      wp config set --raw DISALLOW_FILE_EDIT true
+
 #. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
 
    .. code-block:: bash
