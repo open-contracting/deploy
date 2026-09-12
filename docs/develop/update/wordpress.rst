@@ -138,7 +138,7 @@ WordPress
       wordpress:
         sites:
           USERNAME:
-            plugins:
+            mu_plugins:
               - auto-update-plugin
 
 #. Unless the site uses a security plugin's file scanner, schedule checks:
@@ -169,7 +169,7 @@ WordPress
       wordpress:
         sites:
           USERNAME:
-            plugins:
+            mu_plugins:
               - require-two-factor
 
 #. :doc:`Deploy the server<../../deploy/deploy>` again, to set the ``wp-config.php`` constants from the ``pillar/cms.sls`` file, install the must-use plugins and schedule the checks.

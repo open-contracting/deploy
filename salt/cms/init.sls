@@ -99,7 +99,7 @@ set {{ constant }} in {{ user }} wp-config.php:
       - user: {{ user }}_user_exists
 {% endfor %}
 
-{% for name in entry.plugins|default([]) %}
+{% for name in entry.mu_plugins|default([]) %}
 /home/{{ user }}/public_html/wp-content/mu-plugins/opencontracting-{{ name }}.php:
   file.managed:
     - source: salt://cms/files/{{ name }}.php
@@ -116,7 +116,7 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% if checks.get('enabled') %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
 # The must-use plugins above have no checksums at wordpress.org.
-{% set exclude = checks.premium_plugins|default([]) + entry.plugins|default([])|map('regex_replace', '^', 'opencontracting-')|list %}
+{% set exclude = checks.premium_plugins|default([]) + entry.mu_plugins|default([])|map('regex_replace', '^', 'opencontracting-')|list %}
 
 # Not --quiet, which also hides the warnings that name the files.
 WordPress integrity check for {{ user }}:
