@@ -20,9 +20,37 @@ Header set X-Content-Type-Options nosniff
     Require valid-user
 </FilesMatch>
 
+# Paths inside dot-directories (.git/HEAD), except ACME's.
+<DirectoryMatch "/\.(?!well-known/)">
+    Require all denied
+</DirectoryMatch>
+# Apache's covers .ht* only.
 <FilesMatch "^\.">
     Require all denied
 </FilesMatch>
+
+<Files "wp-config.php">
+    Require all denied
+</Files>
+
+# Core's PHP entry points are all at the root (index.php, wp-login.php, wp-cron.php, ...).
+<DirectoryMatch "^/home/{{ user }}/public_html/wp-includes/">
+    <FilesMatch "\.php$">
+        Require all denied
+    </FilesMatch>
+    # The one file under wp-includes that browsers request.
+    <Files "wp-tinymce.php">
+        Require all granted
+    </Files>
+</DirectoryMatch>
+<DirectoryMatch "^/home/{{ user }}/public_html/wp-admin/includes/">
+    Require all denied
+</DirectoryMatch>
+<DirectoryMatch "^/home/{{ user }}/public_html/wp-admin/">
+    <Files "install.php">
+        Require all denied
+    </Files>
+</DirectoryMatch>
 
 <FilesMatch "^xmlrpc\.php$">
     Require all denied

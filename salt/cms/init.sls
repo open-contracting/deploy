@@ -22,21 +22,33 @@ wp-cli:
 
 {{ create_user(user, authorized_keys=pillar.ssh.get(user, [])) }}
 
-# Allow Apache to access. See wordpress.conf.include.
-allow {{ userdir }} access:
+# Allow Apache to traverse to, and read, what it serves. See wordpress.conf.include. Parents first.
+set {{ userdir }} directory permissions:
   file.directory:
-    - name: {{ userdir }}
-    - mode: 755
-    - require:
-      - user: {{ user }}_user_exists
-
-{{ userdir }}/public_html:
-  file.directory:
+    - names:
+      - {{ userdir }}
+      - {{ userdir }}/public_html
+      - {{ userdir }}/public_html/wp-content
+      - {{ userdir }}/public_html/wp-content/uploads
+      - {{ userdir }}/public_html/wp-content/plugins
+      - {{ userdir }}/public_html/wp-content/themes
     - user: {{ user }}
     - group: {{ user }}
     - mode: 755
     - require:
       - user: {{ user }}_user_exists
+
+set {{ userdir }}/public_html file permissions:
+  file.managed:
+    - names:
+      - {{ userdir }}/public_html/wp-config.php:
+        - mode: 600
+      - {{ userdir }}/public_html/.htaccess:
+        - mode: 644
+    - replace: False
+    - create: False
+    - require:
+      - file: {{ userdir }}/public_html
 
 {{ set_cron_env(user, 'MAILTO', entry.cron.contact|join(','), 'cms' ) }}
 
