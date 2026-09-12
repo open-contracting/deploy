@@ -31,18 +31,18 @@ phpfpm:
         pm: dynamic
         pm_max_children: 6
         pm_max_requests: 500
-      cron:
-        contact:
-          - sysadmin@open-contracting.org
-        # Reproduce with: wp cron event run --quiet --all
-        # https://developer.wordpress.org/reference/classes/wp_site_health/detect_plugin_theme_auto_update_issues/
-        ignore:
-          - a-fake-plugin.php
 
 wordpress:
   sites:
     coalition:
       database: coalition_wp
+      cron:
+        contact:
+          - sysadmin@open-contracting.org
+        ignore:
+          # Reproduce with: wp cron event run --quiet --all
+          # https://developer.wordpress.org/reference/classes/wp_site_health/detect_plugin_theme_auto_update_issues/
+          - a-fake-plugin.php
       constants:
         # https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates
         WP_AUTO_UPDATE_CORE: "'minor'"
