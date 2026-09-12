@@ -50,6 +50,7 @@ wordpress:
         - auto-update-plugin
         - disable-admin-view-transitions
         - disable-comments-pingbacks
+        - disable-user-enumeration
         - fathom-analytics
         - mail-from
         - require-two-factor
