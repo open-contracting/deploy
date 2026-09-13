@@ -107,25 +107,17 @@ WordPress
 
       wp core download --locale=en_US
 
-#. Create the ``wp-config.php`` file, and configure the database connection, to correspond to the :ref:`MySQL configuration<wordpress-mysql-php>`. For example:
+#. Create the ``wp-config.php`` file, and configure the database connection to correspond to the :ref:`MySQL configuration<wordpress-mysql-php>`. For example:
 
    .. code-block:: bash
 
       wp config create --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
 
-#. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
+#. Install WordPress, creating a user for yourself. For example:
 
    .. code-block:: bash
 
-      wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=siteadmin --admin_password=PASSWORD --admin_email=sysadmin@open-contracting.org --skip-email
-
-   .. tip::
-
-      To list the cron jobs, run:
-
-      .. code-block:: bash
-
-         wp cron event list
+      wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=jmckinney --admin_password=PASSWORD --admin_email=jmckinney@open-contracting.org --skip-email
 
 #. Uninstall default plugins:
 
@@ -133,7 +125,24 @@ WordPress
 
       wp plugin uninstall hello
 
-#. Add any `must-use plugins <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__, with any context they need. (The must-use plugins in ``wordpress:mu_plugins`` in the ``pillar/cms.sls`` file are installed on every site.) For example:
+#. Install `Two Factor <https://wordpress.org/plugins/two-factor/>`__ (2FA is required for administrators by the ``require-two-factor`` must-use plugin):
+
+   .. code-block:: bash
+
+      wp plugin install two-factor --activate
+
+#. Add or override any constants, setting values to strings of PHP source. (The constants under ``wordpress:constants`` in the ``pillar/cms.sls`` file are configured on every site.) For example:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            constants:
+              WP_AUTO_UPDATE_CORE: 'false'
+
+
+#. Add any `must-use plugins <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__, with any context they need. (The must-use plugins under ``wordpress:mu_plugins`` in the ``pillar/cms.sls`` file are installed on every site.) For example:
 
    .. code-block:: yaml
 
@@ -157,37 +166,12 @@ WordPress
               premium_plugins:
                 - advanced-custom-fields-pro
 
-   To interpret an email it sends:
+   .. admonition:: Interpreting the emails it sends
 
-   -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
-   -  The updates check lists the updates that won't install automatically, like major versions. It also lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license for a premium plugin, or the plugin being closed on wordpress.org.
+      -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
+      -  The updates check lists the updates that won't install automatically, like major versions. It also lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license, or the plugin being closed on wordpress.org.
 
-#. Require two-factor authentication for administrators. Install the `Two Factor <https://wordpress.org/plugins/two-factor/>`__ plugin and add the ``require-two-factor`` must-use plugin. Enforcement starts the moment Two Factor is activated, so tell administrators first:
-
-   .. code-block:: bash
-
-      wp plugin install two-factor --activate
-
-   .. code-block:: yaml
-
-      wordpress:
-        sites:
-          USERNAME:
-            mu_plugins:
-              - require-two-factor
-
-#. :doc:`Deploy the server<../../deploy/deploy>` again, to set the ``wp-config.php`` constants from the ``pillar/cms.sls`` file, install the must-use plugins and schedule the checks.
-
-   Add or override any constants, setting values to strings of PHP source. For example:
-
-   .. code-block:: yaml
-
-      wordpress:
-        sites:
-          USERNAME:
-            constants:
-              WP_AUTO_UPDATE_CORE: 'false'
-
+#. :doc:`Deploy the server<../../deploy/deploy>`.
 #. If you have a custom theme, download and activate it. For example:
 
    .. code-block:: bash
