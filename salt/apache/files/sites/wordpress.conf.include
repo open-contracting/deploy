@@ -18,6 +18,10 @@ Header set X-Content-Type-Options nosniff
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
+# An inline body, so that a 503 Apache sent because it couldn't reach PHP-FPM is distinguishable,
+# by its size in the access log, from one that PHP-FPM rendered.
+ErrorDocument 503 "Service Unavailable"
+
 <Files "wp-login.php">
     AuthType Basic
     AuthName "Restricted Area"
