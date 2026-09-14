@@ -13,8 +13,6 @@ apache:
       context:
         user: corporate
         socket: /var/run/php/php-fpm-corporate.sock
-        extra_overrides:
-         - AuthConfig
 
 mysql:
   databases:
