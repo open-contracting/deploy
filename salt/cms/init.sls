@@ -11,10 +11,12 @@ wp-cli:
     - source_hash: https://github.com/wp-cli/wp-cli/releases/download/v{{ pillar.wordpress.cli_version }}/wp-cli-{{ pillar.wordpress.cli_version }}.phar.sha512
     - mode: 755
 
-/usr/local/lib/wp-cli/check-updates.php:
+{% for name in ('check-premium-plugins', 'check-updates') %}
+/usr/local/lib/wp-cli/{{ name }}.php:
   file.managed:
-    - source: salt://cms/files/check-updates.php
+    - source: salt://cms/files/{{ name }}.php
     - makedirs: True
+{% endfor %}
 
 {% for user, entry in pillar.wordpress.sites|items %}
 {% set userdir = '/home/' + user %}
@@ -112,12 +114,13 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% set parts = ['updates', 'silent']|select('in', enabled)|list %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
 # The must-use plugins above have no checksums at wordpress.org.
-{% set exclude = checks.premium_plugins|default([]) + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
+{% set premium = checks.premium_plugins|default([]) %}
+{% set exclude = premium + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
 # Not --quiet, which also hides the warnings that name the files.
 WordPress integrity check for {{ user }}:
   cron.{{ 'present' if 'integrity' in enabled else 'absent' }}:
-    - name: '( {{ wp }} core verify-checksums; {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }} ) 2>&1 | grep -v "^Success: "'
+    - name: '( {{ wp }} core verify-checksums; {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }}{% if premium %}; {{ wp }} eval-file /usr/local/lib/wp-cli/check-premium-plugins.php {{ premium|join(' ') }}{% endif %} ) 2>&1 | grep -v "^Success: "'
     - identifier: WORDPRESS_INTEGRITY_CHECK
     - user: {{ user }}
     - hour: 5
@@ -125,6 +128,7 @@ WordPress integrity check for {{ user }}:
     - require:
       - user: {{ user }}_user_exists
       - file: wp-cli
+      - file: /usr/local/lib/wp-cli/check-premium-plugins.php
 
 WordPress updates check for {{ user }}:
   cron.{{ 'present' if parts else 'absent' }}:

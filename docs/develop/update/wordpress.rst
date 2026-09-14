@@ -172,6 +172,7 @@ WordPress
    .. admonition:: Interpreting the emails it sends
 
       -  The ``integrity`` check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
+      -  wordpress.org has no copy of a premium plugin, so the ``integrity`` check instead lists the files that changed while the plugin's version didn't. It records the files of each new version in ``premium-plugin-checksums.json``, in the site's home directory.
       -  The ``updates`` check lists the updates that won't install automatically: a major version, if ``WP_AUTO_UPDATE_CORE`` is ``'minor'``; a plugin or theme whose auto-updates are off; and a version that requires a newer PHP version than the server runs.
       -  The ``silent`` check lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license, or the plugin being closed on wordpress.org.
 
