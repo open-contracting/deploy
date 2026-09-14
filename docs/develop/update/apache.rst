@@ -30,6 +30,59 @@ This will:
 
 If you are only using Apache to serve Python apps, continue from :doc:`python`.
 
+.. _authenticated-origin-pulls:
+
+Accept web traffic from Cloudflare, only
+----------------------------------------
+
+Most web traffic is :ref:`proxied through Cloudflare<proxy-status>`, but origin servers accept HTTPS connections from anywhere. Requests that skip Cloudflare are typically vulnerability scans: for ``/.env`` files, for example.
+
+With `Authenticated Origin Pulls <https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/>`__, Cloudflare presents a client certificate when it connects to the origin server, and Apache rejects any connection without it during the TLS handshake.
+
+#. Check which requests skip Cloudflare. Such a request has the same visitor address (``%a``) and peer address (``%{c}a``), whereas a proxied request has a Cloudflare address as its peer:
+
+   .. code-block:: bash
+
+      # Requests that matched a ServerName. Read the */access.log files, instead, if site logs are split.
+      awk '$2 == $(NF-1)' /var/log/apache2/other_vhosts_access.log
+      # Requests that matched no ServerName, which are typically vulnerability scans.
+      awk '$1 == $(NF-1)' /var/log/apache2/access.log
+
+#. Check that every hostname served by the server is :ref:`proxied<proxy-status>` in Cloudflare. Any other hostname becomes unreachable over HTTPS.
+#. :ref:`Enable Authenticated Origin Pulls<cloudflare-origin-pulls>` in Cloudflare, if not already enabled. Origin servers ignore the client certificate until they are configured to require it.
+#. Add to the server's Pillar file:
+
+   .. code-block:: yaml
+      :emphasize-lines: 3
+
+      apache:
+        public_access: True
+        proxied: True
+
+#. :doc:`Deploy the server<../../deploy/deploy>`
+#. Check that the sites are reachable through Cloudflare, and unreachable directly, replacing ``SERVERNAME`` and ``ORIGIN_IP``:
+
+   .. code-block:: bash
+
+      curl -sS -o /dev/null -w '%{http_code}\n' https://SERVERNAME/
+      curl -sS -o /dev/null --resolve SERVERNAME:443:ORIGIN_IP https://SERVERNAME/
+
+   The first command should report ``200``. The second should fail the TLS handshake, reporting an alert about a certificate that is required but not sent.
+
+Port 80 stays open, and serves only the redirect to HTTPS and the challenges that Let's Encrypt reads, so :ref:`certificates are acquired<ssl-certificates>` as before.
+
+.. attention::
+
+   The setting applies to all of the server's sites at once, and a mistake affects them all at once.
+
+   The server's own hostname (like ``ocp99.open-contracting.org``) is never proxied, as that would `break SSH access <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Its placeholder website is therefore unreachable over HTTPS. Its certificate is still renewed, and :doc:`port knocking<../../use/ssh>` is unaffected.
+
+.. note::
+
+   Uptime checks that connect to an origin server over HTTPS, instead of to Cloudflare, fail. Configure them to use the hostname, as visitors do.
+
+   Nginx is not supported, as it serves one site, only.
+
 Bind addresses
 --------------
 
