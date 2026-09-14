@@ -13,7 +13,7 @@
 set -euo pipefail
 
 # Configuration variables
-skip_tables="relevanssi,relevanssi_stopwords,itsec_logs,itsec_distributed_storage,itsec_temp,redirection_404,redirection_logs,blc_links,blc_instances,blc_filters,blc_synch"
+skip_tables="relevanssi,relevanssi_stopwords,redirection_404,redirection_logs"
 skip_paths=(wp-content/cache wp-content/upgrade)
 
 # Parse arguments
