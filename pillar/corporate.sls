@@ -46,6 +46,22 @@ wordpress:
         - google-tag-manager
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F
+      checks:
+        enabled:
+          - integrity
+        premium_plugins:
+          - acfml
+          - advanced-custom-fields-pro
+          - gravityforms
+          - gravityformsturnstile
+          - sitepress-multilingual-cms
+          - wp-migrate-db-pro
+          - wp-seo-multilingual
+          - wpml-string-translation
+          # WP Migrate's must-use plugin.
+          - wp-migrate-db-pro-compatibility
+          # Closed on wordpress.org.
+          - page-for-post-type
 
 ssh:
   corporate:
