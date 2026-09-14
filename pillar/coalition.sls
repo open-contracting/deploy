@@ -48,6 +48,7 @@ wordpress:
         WP_AUTO_UPDATE_CORE: "'minor'"
       mu_plugins:
         - auto-update-plugin
+        - disable-application-passwords
         - fathom-analytics
       context:
         FATHOM_ANALYTICS_ID: LNRZMMVR
