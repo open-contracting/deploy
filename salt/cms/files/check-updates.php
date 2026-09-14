@@ -26,6 +26,9 @@ function opencontracting_updates_refresh() {
 /**
  * Returns the updates that WP_Automatic_Updater won't install.
  *
+ * WP_Automatic_Updater::should_update() declines, for example, a major version if WP_AUTO_UPDATE_CORE is 'minor', a
+ * plugin or theme whose auto-updates are off, and a version that requires a newer PHP version than the server runs.
+ *
  * @return array[] Rows of type, name, installed version and available version.
  */
 function opencontracting_updates_check() {
@@ -104,10 +107,13 @@ function opencontracting_silent_plugins() {
 	return $rows;
 }
 
+// wp eval-file passes its positional arguments as $args.
+$opencontracting_parts = $args ? $args : array( 'updates', 'silent' );
+
 opencontracting_updates_refresh();
 
-$opencontracting_pending = opencontracting_updates_check();
-$opencontracting_silent  = opencontracting_silent_plugins();
+$opencontracting_pending = in_array( 'updates', $opencontracting_parts, true ) ? opencontracting_updates_check() : array();
+$opencontracting_silent  = in_array( 'silent', $opencontracting_parts, true ) ? opencontracting_silent_plugins() : array();
 
 if ( $opencontracting_pending ) {
 	WP_CLI::line( "Updates that won't install automatically:" );

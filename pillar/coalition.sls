@@ -51,7 +51,10 @@ wordpress:
         - disable-user-enumeration
         - fathom-analytics
       checks:
-        enabled: True
+        enabled:
+          - integrity
+          - updates
+          - silent
         premium_plugins:
           - advanced-custom-fields-pro
       context:

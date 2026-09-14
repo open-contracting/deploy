@@ -108,8 +108,9 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% endfor %}
 
 {% set checks = entry.checks|default({}) %}
-{% if checks.get('enabled') %}
+{% set enabled = checks.enabled|default([]) %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
+{% if 'integrity' in enabled %}
 # The must-use plugins above have no checksums at wordpress.org.
 {% set exclude = checks.premium_plugins|default([]) + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
@@ -124,10 +125,13 @@ WordPress integrity check for {{ user }}:
     - require:
       - user: {{ user }}_user_exists
       - file: wp-cli
+{% endif %}
 
+{% set parts = ['updates', 'silent']|select('in', enabled)|list %}
+{% if parts %}
 WordPress updates check for {{ user }}:
   cron.present:
-    - name: {{ wp }} eval-file /usr/local/lib/wp-cli/check-updates.php
+    - name: {{ wp }} eval-file /usr/local/lib/wp-cli/check-updates.php {{ parts|join(' ') }}
     - identifier: WORDPRESS_UPDATES_CHECK
     - user: {{ user }}
     - hour: 5

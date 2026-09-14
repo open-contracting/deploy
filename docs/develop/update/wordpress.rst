@@ -154,7 +154,7 @@ WordPress
             context:
               FATHOM_ANALYTICS_ID: ABCDEFGH
 
-#. Unless the site uses a security plugin's file scanner, schedule checks:
+#. Schedule checks. Omit ``integrity`` if the site uses a security plugin's file scanner, and ``updates`` if an administrator updates plugins manually:
 
    .. code-block:: yaml
 
@@ -162,14 +162,18 @@ WordPress
         sites:
           USERNAME:
             checks:
-              enabled: True
+              enabled:
+                - integrity
+                - updates
+                - silent
               premium_plugins:
                 - advanced-custom-fields-pro
 
    .. admonition:: Interpreting the emails it sends
 
-      -  The integrity check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
-      -  The updates check lists the updates that won't install automatically, like major versions. It also lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license, or the plugin being closed on wordpress.org.
+      -  The ``integrity`` check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
+      -  The ``updates`` check lists the updates that won't install automatically: a major version, if ``WP_AUTO_UPDATE_CORE`` is ``'minor'``; a plugin or theme whose auto-updates are off; and a version that requires a newer PHP version than the server runs.
+      -  The ``silent`` check lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license, or the plugin being closed on wordpress.org.
 
 #. :doc:`Deploy the server<../../deploy/deploy>`.
 #. If you have a custom theme, download and activate it. For example:
