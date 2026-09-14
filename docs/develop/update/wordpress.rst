@@ -204,6 +204,8 @@ WordPress
       git -C wp-content/themes/ clone https://github.com/open-contracting-partnership/www.open-spending.eu.git
       wp theme activate www.open-spending.eu
 
+Reference: `Hardening WordPress <https://developer.wordpress.org/advanced-administration/security/hardening/>`__
+
 Migration
 ~~~~~~~~~
 
