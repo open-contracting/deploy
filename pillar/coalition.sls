@@ -48,8 +48,9 @@ wordpress:
         WP_AUTO_UPDATE_CORE: "'minor'"
       mu_plugins:
         - auto-update-plugin
-        - disable-user-enumeration
         - fathom-analytics
+      context:
+        FATHOM_ANALYTICS_ID: LNRZMMVR
       checks:
         enabled:
           - integrity
@@ -57,5 +58,3 @@ wordpress:
           - silent
         premium_plugins:
           - advanced-custom-fields-pro
-      context:
-        FATHOM_ANALYTICS_ID: LNRZMMVR

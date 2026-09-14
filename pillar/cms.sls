@@ -65,5 +65,6 @@ wordpress:
   mu_plugins:
     - disable-admin-view-transitions
     - disable-comments-pingbacks
+    - disable-user-enumeration
     - mail-from
     - require-two-factor
