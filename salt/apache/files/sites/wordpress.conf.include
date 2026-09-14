@@ -9,6 +9,11 @@ Header set X-Content-Type-Options nosniff
     DirectoryIndex index.php
 </Directory>
 
+# Only the document root's .htaccess needs FileInfo, whose SetHandler can route any extension to PHP-FPM.
+<Directory /home/{{ user }}/public_html/wp-content>
+    AllowOverride Limit Options AuthConfig
+</Directory>
+
 <FilesMatch "\.php$">
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
