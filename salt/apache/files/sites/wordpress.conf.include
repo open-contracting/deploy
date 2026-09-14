@@ -29,7 +29,7 @@ ErrorDocument 503 "Service Unavailable"
 </Files>
 
 # Paths inside dot-directories (.git/HEAD), except ACME's.
-<DirectoryMatch "/\.(?!well-known/)">
+<DirectoryMatch "/\.(?!well-known(/|$))">
     Require all denied
 </DirectoryMatch>
 # Apache's covers .ht* only.
