@@ -264,16 +264,16 @@ To diagnose:
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Stop requiring Cloudflare's client certificate
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   Solution: Restore Cloudflare's client certificate
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
    If every site on a server that :ref:`accepts web traffic from Cloudflare, only<authenticated-origin-pulls>` returns HTTP 525 (*SSL handshake failed*), then Cloudflare isn't presenting the client certificate that Apache requires. The TLS handshake fails, so the failures appear in Apache's error log, and no request reaches an access log.
 
+   Re-enable :ref:`Authenticated Origin Pulls<cloudflare-origin-pulls>`. This restores every affected server at once, without a deploy. The `audit log <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/audit-log>`__ reports who changed the setting, and when.
+
+   If the intention was to stop requiring the certificate, :ref:`change the servers first<delete-origin-pull-certificate>`, then disable the setting, which every origin server in the zone shares.
+
    If only some hostnames fail, check that they are :ref:`proxied<proxy-status>` in Cloudflare. An unproxied hostname is unreachable over HTTPS.
-
-   .. warning::
-
-      **DO NOT** disable Authenticated Origin Pulls in Cloudflare. Every origin server in the zone shares the setting, so disabling it breaks the others, too. :ref:`Change the server, instead<delete-origin-pull-certificate>`.
 
 DOS attacks
 -----------

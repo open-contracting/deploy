@@ -231,7 +231,7 @@ SSL/TLS > Origin Server
 
   .. warning::
 
-     **DO NOT** disable this while any origin server requires the certificate. Cloudflare would stop presenting it, and every such server would reject all traffic. To stop requiring it, :ref:`change the origin servers first<delete-origin-pull-certificate>`.
+     **DO NOT** disable this while any origin server requires the certificate. Cloudflare would stop presenting it, and every such server would reject all traffic, until it is :ref:`re-enabled<downtime-updates>`. To stop requiring it, :ref:`change the origin servers first<delete-origin-pull-certificate>`.
 
 Security > Settings
 ~~~~~~~~~~~~~~~~~~~
