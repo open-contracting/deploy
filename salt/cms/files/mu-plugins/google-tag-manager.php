@@ -37,19 +37,26 @@ add_action(
 	}
 );
 
-// Tag Manager wants this right after <body>, but the theme doesn't call wp_body_open().
-add_action(
-	'wp_footer',
-	function () {
-		$container_id = opencontracting_gtm_container_id();
+/**
+ * Output the <noscript> fallback, at most once.
+ */
+function opencontracting_gtm_render_no_js() {
+	static $rendered = false;
 
-		if ( null === $container_id ) {
-			return;
-		}
+	$container_id = opencontracting_gtm_container_id();
 
-		printf(
-			'<noscript><iframe src="%s" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>' . "\n",
-			esc_url( 'https://www.googletagmanager.com/ns.html?id=' . rawurlencode( $container_id ) )
-		);
+	if ( $rendered || null === $container_id ) {
+		return;
 	}
-);
+
+	$rendered = true;
+
+	printf(
+		'<noscript><iframe src="%s" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>' . "\n",
+		esc_url( 'https://www.googletagmanager.com/ns.html?id=' . rawurlencode( $container_id ) )
+	);
+}
+
+// Tag Manager wants this right after <body>. wp_footer covers themes that don't call wp_body_open().
+add_action( 'wp_body_open', 'opencontracting_gtm_render_no_js', -9999 );
+add_action( 'wp_footer', 'opencontracting_gtm_render_no_js' );
