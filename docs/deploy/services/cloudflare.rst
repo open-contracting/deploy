@@ -222,12 +222,16 @@ HTTP Strict Transport Security (HSTS):
 SSL/TLS > Origin Server
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Authenticated Origin Pulls
+`Authenticated Origin Pulls <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/ssl-tls/origin-server>`__
   Enabled, so that origin servers can :ref:`accept web traffic from Cloudflare, only<authenticated-origin-pulls>`.
 
   Cloudflare presents its client certificate to every origin server in the zone, including third-party origin servers, whether or not the origin server requires it. Enabling it therefore changes nothing until an origin server is configured to require it.
 
   After enabling it, move ``authenticated_origin_pulls_settings`` from ``ZONE_LEVEL_DEFAULT`` to ``ZONE_LEVEL_USED`` in the ``manage.py`` file.
+
+  .. warning::
+
+     **DO NOT** disable this while any origin server requires the certificate. Cloudflare would stop presenting it, and every such server would reject all traffic. To stop requiring it, :ref:`change the origin servers first<delete-origin-pull-certificate>`.
 
 Security > Settings
 ~~~~~~~~~~~~~~~~~~~

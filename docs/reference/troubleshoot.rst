@@ -261,6 +261,20 @@ To diagnose:
          apt-cache policy apache2
          apt-get install apache2:1.2.3
 
+.. card::
+   :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
+
+   Solution: Stop requiring Cloudflare's client certificate
+   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+   If every site on a server that :ref:`accepts web traffic from Cloudflare, only<authenticated-origin-pulls>` returns HTTP 525 (*SSL handshake failed*), then Cloudflare isn't presenting the client certificate that Apache requires. The TLS handshake fails, so the failures appear in Apache's error log, and no request reaches an access log.
+
+   If only some hostnames fail, check that they are :ref:`proxied<proxy-status>` in Cloudflare. An unproxied hostname is unreachable over HTTPS.
+
+   .. warning::
+
+      **DO NOT** disable Authenticated Origin Pulls in Cloudflare. Every origin server in the zone shares the setting, so disabling it breaks the others, too. :ref:`Change the server, instead<delete-origin-pull-certificate>`.
+
 DOS attacks
 -----------
 

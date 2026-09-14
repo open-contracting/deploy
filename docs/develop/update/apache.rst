@@ -83,6 +83,8 @@ Port 80 stays open, and serves only the redirect to HTTPS and the challenges tha
 
    Nginx is not supported, as it serves one site, only.
 
+To reverse this, :ref:`follow these instructions<delete-origin-pull-certificate>`.
+
 Bind addresses
 --------------
 
