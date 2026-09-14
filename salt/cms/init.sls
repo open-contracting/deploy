@@ -109,14 +109,14 @@ set {{ constant }} in {{ user }} wp-config.php:
 
 {% set checks = entry.checks|default({}) %}
 {% set enabled = checks.enabled|default([]) %}
+{% set parts = ['updates', 'silent']|select('in', enabled)|list %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
-{% if 'integrity' in enabled %}
 # The must-use plugins above have no checksums at wordpress.org.
 {% set exclude = checks.premium_plugins|default([]) + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
 # Not --quiet, which also hides the warnings that name the files.
 WordPress integrity check for {{ user }}:
-  cron.present:
+  cron.{{ 'present' if 'integrity' in enabled else 'absent' }}:
     - name: '( {{ wp }} core verify-checksums; {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }} ) 2>&1 | grep -v "^Success: "'
     - identifier: WORDPRESS_INTEGRITY_CHECK
     - user: {{ user }}
@@ -125,12 +125,9 @@ WordPress integrity check for {{ user }}:
     - require:
       - user: {{ user }}_user_exists
       - file: wp-cli
-{% endif %}
 
-{% set parts = ['updates', 'silent']|select('in', enabled)|list %}
-{% if parts %}
 WordPress updates check for {{ user }}:
-  cron.present:
+  cron.{{ 'present' if parts else 'absent' }}:
     - name: {{ wp }} eval-file /usr/local/lib/wp-cli/check-updates.php {{ parts|join(' ') }}
     - identifier: WORDPRESS_UPDATES_CHECK
     - user: {{ user }}
@@ -140,5 +137,4 @@ WordPress updates check for {{ user }}:
       - user: {{ user }}_user_exists
       - file: wp-cli
       - file: /usr/local/lib/wp-cli/check-updates.php
-{% endif %}
 {% endfor %}
