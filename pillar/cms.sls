@@ -62,7 +62,12 @@ wordpress:
     DISABLE_WP_CRON: 'true'
     # https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing
     DISALLOW_FILE_EDIT: 'true'
+    # https://github.com/stayallive/wp-sentry#modifying-the-php-sdk-clientbuilder-or-options-before-initialisation
+    WP_SENTRY_CLIENTBUILDER_CALLBACK: "'opencontracting_sentry_clientbuilder'"
+    # https://github.com/stayallive/wp-sentry#wp_sentry_error_types-php
+    WP_SENTRY_ERROR_TYPES: 'E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEPRECATED & ~E_USER_NOTICE'
   mu_plugins:
+    - 00-sentry
     - disable-admin-view-transitions
     - disable-comments-pingbacks
     - disable-user-enumeration
