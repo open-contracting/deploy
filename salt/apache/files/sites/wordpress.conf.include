@@ -18,8 +18,7 @@ Header set X-Content-Type-Options nosniff
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
-# An inline body, so that a 503 Apache sent because it couldn't reach PHP-FPM is distinguishable,
-# by its size in the access log, from one that PHP-FPM rendered.
+# An inline body, so a 503 from Apache (e.g. PHP-FPM unreachable) is distinguishable by size in the access log.
 ErrorDocument 503 "Service Unavailable"
 
 <Files "wp-login.php">
