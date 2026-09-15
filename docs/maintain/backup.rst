@@ -122,6 +122,14 @@ MySQL
 
 Backup script
   `mysql-backup-to-s3.sh <https://github.com/open-contracting/deploy/blob/main/salt/mysql/files/mysql-backup-to-s3.sh>`__ creates backup files using ``mysqldump`` and uploads them to S3.
+
+  ``--single-transaction`` avoids locking tables, but `dumps only InnoDB tables consistently <https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html#option_mysqldump_single-transaction>`__. The script uses it for databases in which every table is InnoDB; otherwise, it locks tables and warns about the non-InnoDB tables.
+
+  On receiving that warning, convert the tables:
+
+  .. code-block:: bash
+
+     mysql -e "ALTER TABLE example_database.example_table ENGINE=InnoDB;"
 Servers
   -  ``cms``
 Test
@@ -144,6 +152,7 @@ Backup script
 Servers
   -  ``cms``
   -  ``dream-bi``
+  -  ``kingfisher-main``
 Test
   .. code-block:: bash
 

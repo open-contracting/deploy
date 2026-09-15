@@ -74,7 +74,6 @@ apache:
       context:
         port: 8002
         static_port: 8003
-        timeout: 300
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.data.open-contracting.org
@@ -85,7 +84,6 @@ postgres:
   public_access: True
   data_directory: '/data/storage/postgresql/16/main'
   configuration:
-    name: registry
     source: shared
     context:
       # We need a lot of connections for all the workers and threads.

@@ -20,6 +20,21 @@ include:
     - require:
       - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
 
+{% for directory, options in pillar.backup.directories|items %}
+{% if options and options.get('exclude') %}
+set BACKUP_EXCLUDE setting for {{ directory }}:
+  file.keyvalue:
+    - name: /home/sysadmin-tools/aws-settings.local
+    # Must match safe_name in site-backup-to-s3.sh
+    - key: BACKUP_EXCLUDE_{{ directory|regex_replace('[^a-zA-Z0-9]', '_')|regex_replace('^_|_$', '') }}
+    - value: '"{{ options.exclude }}"'
+    - append_if_not_found: True
+    - require:
+      - file: /home/sysadmin-tools/bin
+      - sls: aws
+{% endif %}
+{% endfor %}
+
 set BACKUP_DIRECTORIES setting:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local

@@ -6,3 +6,37 @@ redis:
     - enable: True
     - require:
       - pkg: redis
+
+{% if pillar.redis.configuration is defined %}
+/etc/redis/local.conf:
+  file.managed:
+    - source: salt://redis/files/conf/{{ pillar.redis.configuration }}.conf
+    - template: jinja
+    - context: {{ pillar.redis.get('context', {})|yaml }}
+    - user: redis
+    - group: redis
+    - mode: 640
+    - require:
+      - pkg: redis
+    - watch_in:
+      - service: redis
+
+{% if salt['pillar.get']('redis:users') %}
+# Required to read the socket owned by redis.
+add users to redis group:
+  group.present:
+    - name: redis
+    - addusers: {{ pillar.redis.users|yaml }}
+    - require:
+      - pkg: redis
+{% endif %}
+
+include local.conf in redis.conf:
+  file.append:
+    - name: /etc/redis/redis.conf
+    - text: include /etc/redis/local.conf
+    - require:
+      - file: /etc/redis/local.conf
+    - watch_in:
+      - service: redis
+{% endif %}

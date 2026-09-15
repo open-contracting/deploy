@@ -107,13 +107,6 @@ Cybersecurity issues are monitored by `SecurityScorecard <https://platform.secur
 #. Add a comment like: *Fathom Analytics, Google Analytics, and the Google Fonts API do not support SRI, by design: https://github.com/google/fonts/issues/473#issuecomment-331329601. As a compensating control, we subscribe to Fathom Analytics' and Google's incident alerts.*
 #. Click the *Submit* button
 
-WordFence
-~~~~~~~~~
-
-WordPress issues are monitored by `WordFence <https://www.wordfence.com/central>`__.
-
-WordFence is managed in each WordPress installation, rather than by visiting its website.
-
 .. _hosting:
 
 Hosting
@@ -164,7 +157,7 @@ The server managers are:
 -  `Robert Hooper <https://robhooper.net>`__ (`GMT/BST <https://www.timeanddate.com/time/zones/gmt>`__) (servers@robhooper.net) for Linux servers
 -  `RBC Group <https://www.rbcgrp.com>`__ (`EET/EEST <https://www.timeanddate.com/time/zones/eet>`__) for Windows servers
 
-`Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) staff also have administrative roles.
+`Open Contracting Partnership <https://www.open-contracting.org/about/team/>`__ (OCP) team members also have administrative roles.
 
 .. tip::
 

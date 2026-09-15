@@ -42,28 +42,6 @@ The extensions `saltext-mysql<https://github.com/salt-extensions/saltext-mysql>`
    sudo salt-pip install saltext-apache
    sudo ./run.py --regen-thin <target> test.version
 
-.. warning::
-
-   On macOS, all ``salt-ssh`` (and ``./run.py``) commands need to be run with ``sudo``. To run ``sudo`` without password:
-
-   #. Edit the ``/etc/sudoers`` file:
-
-      .. code-block:: bash
-
-         sudo visudo
-
-   #. After the ``%admin          ALL = (ALL) ALL`` line, add, for example:
-
-      .. code-block:: none
-
-         %admin          ALL = (root) NOPASSWD: /usr/bin/ssh, /opt/salt/salt-ssh, /path/to/deploy/run.py
-
-`Click <https://click.palletsprojects.com/>`__ must be available to Salt's environment:
-
-.. code-block:: bash
-
-   sudo salt-pip install click
-
 2. Clone repositories
 ---------------------
 

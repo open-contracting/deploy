@@ -1,7 +1,7 @@
 RequestHeader unset X-Forwarded-Proto
 RequestHeader set X-Forwarded-Proto https env=HTTPS
 
-ProxyPass /api http://127.0.0.1:{{ port }}
+ProxyPass /api http://127.0.0.1:{{ port }}{% if timeout is defined %} timeout={{ timeout }}{% endif %}
 ProxyPassReverse /api http://127.0.0.1:{{ port }}
-ProxyPass / http://127.0.0.1:{{ static_port }}/
+ProxyPass / http://127.0.0.1:{{ static_port }}/ timeout=10
 ProxyPassReverse / http://127.0.0.1:{{ static_port }}/

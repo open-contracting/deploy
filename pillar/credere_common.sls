@@ -29,7 +29,6 @@ postgres:
   # Public access allows Docker connections. Linode's firewall prevents non-local connections..
   public_access: True
   configuration:
-    name: credere
     source: shared
     context:
       storage: ssd

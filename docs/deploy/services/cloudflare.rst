@@ -10,13 +10,13 @@ To compare zones' resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare zones > cloudflare-zones.txt
+   uv run manage.py cloudflare zones > services/cloudflare-zones.txt
 
 To review account-level resources, run:
 
 .. code-block:: bash
 
-   uv run manage.py cloudflare account -a ACCOUNT_ID > cloudflare-account.txt
+   uv run manage.py cloudflare account -a ACCOUNT_ID > services/cloudflare-account.txt
 
 To confirm that no other resources are used, run:
 
@@ -26,7 +26,7 @@ To confirm that no other resources are used, run:
 
 .. admonition:: Limitations
 
-   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support DMarc Management and omits Cloudflare-managed rulesets:
+   The Terraform `Cloudflare Provider <https://registry.terraform.io/providers/cloudflare/cloudflare/latest/docs>`__ doesn't support DMARC Management and omits Cloudflare-managed rulesets:
 
    -  ``ddos_l7``
    -  ``http_request_firewall_managed``
@@ -71,8 +71,6 @@ Proxy status
 -  Proxy A, AAAA and CNAME records for web traffic to OCP servers.
 
    .. attention::
-
-      If a service expects the client's IP, reconfigure it to use the `CF-Connecting-IP <https://developers.cloudflare.com/fundamentals/reference/http-headers/#cf-connecting-ip>`__ header: for example, `WordFence <https://www.wordfence.com/help/dashboard/options/>`__.
 
       Inform server operators (like RBC Group and Datanomix) to reconfigure web server logging to use the ``CF-Connecting-IP`` header, as we do for Apache and Nginx.
 

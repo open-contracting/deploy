@@ -1,6 +1,8 @@
 backup:
   directories:
     /home/corporate/public_html/:
+      # Page cache, regenerated on demand.
+      exclude: --exclude=wp-content/cache
 
 apache:
   sites:
@@ -11,8 +13,6 @@ apache:
       context:
         user: corporate
         socket: /var/run/php/php-fpm-corporate.sock
-        extra_overrides:
-         - AuthConfig
 
 mysql:
   databases:
@@ -29,18 +29,39 @@ phpfpm:
         socket: /var/run/php/php-fpm-corporate.sock
         env:
           # Increased to resolve WordPress menu issue.
-          php_value[max_input_vars]: 2000
+          php_value[max_input_vars]: 3000
+          php_value[memory_limit]: 256M
           php_value[upload_max_filesize]: 8M
           php_value[post_max_size]: 10M
-      cron:
-        contact:
-          - sysadmin@open-contracting.org
-          - support+ocp@theideabureau.co
 
 wordpress:
   sites:
     corporate:
       database: corporate_wp
+      cron:
+        contact:
+          - sysadmin@open-contracting.org
+          - support+ocp@theideabureau.co
+      mu_plugins:
+        - google-tag-manager
+      context:
+        GTM_CONTAINER_ID: GTM-WMV9C5F
+      checks:
+        enabled:
+          - integrity
+        premium_plugins:
+          - acfml
+          - advanced-custom-fields-pro
+          - gravityforms
+          - gravityformsturnstile
+          - sitepress-multilingual-cms
+          - wp-migrate-db-pro
+          - wp-seo-multilingual
+          - wpml-string-translation
+          # WP Migrate's must-use plugin.
+          - wp-migrate-db-pro-compatibility
+          # Closed on wordpress.org.
+          - page-for-post-type
 
 ssh:
   corporate:

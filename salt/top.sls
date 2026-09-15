@@ -24,6 +24,7 @@ base:
   'cms':
     - cms
     - digitalbuying
+    - redis
 
   'cove':
     - cove

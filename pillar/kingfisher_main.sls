@@ -115,7 +115,6 @@ apache:
         # Need to sync with `docker_apps.pelican_frontend.port`.
         port: 8001
         static_port: 8004
-        timeout: 300
     rabbitmq:
       configuration: rabbitmq
       servername: rabbitmq.kingfisher.open-contracting.org
@@ -127,21 +126,20 @@ postgres:
   ssl:
     servername: postgres.kingfisher.open-contracting.org
   configuration:
-    name: kingfisher-main1
     source: shared
     context:
       storage: ssd
       type: oltp
       # Kingfisher Process uses QuerySet.iterator() to not cache results at the QuerySet level.
-      # https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.iterator
+      # https://docs.djangoproject.com/en/stable/ref/models/querysets/#django.db.models.query.QuerySet.iterator
       #
       # With PostgreSQL, iterator() uses server-side cursors to stream results (and not load all at once).
       # It caches chunk_size results (default 2000) at the database driver level.
-      # https://docs.djangoproject.com/en/4.2/ref/models/querysets/#django.db.models.query.QuerySet.iterator
+      # https://docs.djangoproject.com/en/stable/ref/models/querysets/#django.db.models.query.QuerySet.iterator
       #
       # However, with server-side cursors, PostgreSQL assumes only 10% of results are fetched.
       # Kingfisher Process always uses all results from iterator(), so we set cursor_tuple_fraction to 1.0.
-      # https://docs.djangoproject.com/en/4.2/ref/databases/#server-side-cursors
+      # https://docs.djangoproject.com/en/stable/ref/databases/#server-side-cursors
       content: |
         # https://www.postgresql.org/docs/current/runtime-config-query.html#GUC-CURSOR-TUPLE-FRACTION
         cursor_tuple_fraction = 1.0
@@ -263,3 +261,6 @@ docker_apps:
       # MPLCONFIGDIR environment variable to a writable directory, in particular to speed up the import of Matplotlib
       # and to better support multiprocessing."
       MPLCONFIGDIR: /dev/shm/matplotlib
+      # Avoid error: "Fontconfig error: No writable cache directories", as the container's user has no home
+      # directory. Matplotlib loads fontconfig, and Django imports Matplotlib whenever it checks the URLconf.
+      XDG_CACHE_HOME: /dev/shm

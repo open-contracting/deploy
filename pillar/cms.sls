@@ -44,6 +44,27 @@ docker:
 
 php:
   version: '8.1'  # sync with logrotate above
+  opcache:
+    memory_consumption: 256
+    interned_strings_buffer: 32
+    max_accelerated_files: 20000
+
+# Serves the WordPress object cache. digitalbuying has its own Redis, on the Docker network.
+redis:
+  configuration: cache
+  users:
+    - corporate
 
 wordpress:
   cli_version: 2.12.0
+  constants:
+    # https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/
+    DISABLE_WP_CRON: 'true'
+    # https://developer.wordpress.org/advanced-administration/security/hardening/#disable-file-editing
+    DISALLOW_FILE_EDIT: 'true'
+  mu_plugins:
+    - disable-admin-view-transitions
+    - disable-comments-pingbacks
+    - disable-user-enumeration
+    - mail-from
+    - require-two-factor

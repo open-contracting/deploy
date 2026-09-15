@@ -2,6 +2,12 @@ global:
   scrape_interval: 60s
   scrape_timeout: 30s
 
+storage:
+  tsdb:
+    retention:
+      time: {{ pillar.prometheus.prometheus.local_storage_retention }}
+      percentage: 70
+
 scrape_configs:
   - job_name: 'prometheus-server-software'
     scrape_interval: 60s

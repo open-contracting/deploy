@@ -177,7 +177,7 @@ postgresql-reload:
 {% endif %}
 
 {% if pillar.postgres.configuration %}
-/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_{{ pillar.postgres.configuration.name }}.conf:
+/etc/postgresql/{{ pillar.postgres.version }}/main/conf.d/030_local.conf:
   file.managed:
     - source: salt://postgres/files/conf/{{ pillar.postgres.configuration.source }}.conf
     - template: jinja
@@ -187,12 +187,11 @@ postgresql-reload:
     - mode: 640
     - require:
       - pkg: postgresql
-    - watch_in:
-      - service: postgresql
 {% if salt['pillar.get']('postgres:backup:stanza') %}
-    - require:
       - sls: postgres.backup
 {% endif %}
+    - watch_in:
+      - service: postgresql
 {% endif %}
 
 # https://github.com/jfcoz/postgresqltuner

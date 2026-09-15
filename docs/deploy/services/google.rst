@@ -54,22 +54,27 @@ The `DMARC policies <https://support.google.com/a/answer/2466563>`__ send aggreg
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-contracting.org
-   v=DMARC1; p=none; rua=mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+   v=DMARC1; p=quarantine; rua=mailto:08392b564f424f42893b5f61f318fe9f@dmarc-reports.cloudflare.net,mailto:re+tvgueigvygp@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.noreply.open-contracting.org
-   v=DMARC1; p=none; rua=mailto:re+jbvvmcsfauo@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+   v=DMARC1; p=quarantine; rua=mailto:re+jbvvmcsfauo@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+
+.. code-block:: shell-session
+
+   $ dig TXT _dmarc.payments.open-contracting.org
+   v=DMARC1; p=none; rua=mailto:re+plqnurqbw3q@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 .. code-block:: shell-session
 
    $ dig TXT _dmarc.open-spending.eu
-   v=DMARC1; p=quarantine; rua=mailto:re+wtazrnx9nxe@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+   v=DMARC1; p=quarantine; rua=mailto:9307817b18554d28bb3844e0bf82a97e@dmarc-reports.cloudflare.net,mailto:re+f7lz65ojz3u@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 .. code-block:: shell-session
 
    $ dig TXT dream-office.org
-   v=DMARC1; p=none; rua=mailto:re+yjzbqifwsvu@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
+   v=DMARC1; p=quarantine; rua=mailto:f8de47fce2bf40ab833e4c36f32ff006@dmarc-reports.cloudflare.net,mailto:re+yjzbqifwsvu@dmarc.postmarkapp.com,mailto:dmarc_agg@vali.email;
 
 DMARC compliance should be over 95%, and DKIM alignment should be over 90%. Failures should be 3% or less.
 
@@ -174,7 +179,7 @@ To verify that no calendar in use by active users was created by an archived use
 
    .. code-block:: bash
 
-      uv run manage.py google-calendar google-calendars.csv
+      uv run manage.py google calendar google-calendars.csv
 
 #. Transfer all reported calendars to an active user, before deleting the archived users.
 
@@ -271,7 +276,7 @@ Drive
 
    .. code-block:: bash
 
-      uv run manage.py google-drive google-drive-$user.csv google-shortcuts.csv
+      uv run manage.py google drive google-drive-$user.csv google-shortcuts.csv
 
    For each shared drive, it prints commands to run, in order to move those files next to the shortcuts in that shared drive, and to delete those shortcuts.
 
@@ -354,6 +359,27 @@ Drive
       .. note::
 
          Retry on 409 Conflict. Google might still be moving files.
+
+Cloud
+~~~~~
+
+Deleting a user leaves its :doc:`gcp` policy bindings in place, as ``deleted:user:USER@open-contracting.org?uid=UID``.
+
+#. Report the projects in which the user is a member:
+
+   .. code-block:: bash
+
+      gcloud asset search-all-iam-policies --scope=organizations/1015889055088 \
+        --query="policy:$user@open-contracting.org" --format="value(resource)"
+
+#. Remove each binding, replacing ``PROJECT`` and ``ROLE``:
+
+   .. code-block:: bash
+
+      gcloud projects remove-iam-policy-binding PROJECT \
+        --member=user:$user@open-contracting.org --role=ROLE
+
+   .. note:: If the user is already deleted, quote the member, using the ``deleted:`` form above.
 
 Deletion
 ~~~~~~~~

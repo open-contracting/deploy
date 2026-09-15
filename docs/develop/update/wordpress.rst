@@ -80,12 +80,18 @@ WordPress
 
    Salt contains `WordPress states <https://docs.saltproject.io/en/latest/ref/states/all/salt.states.wordpress.html>`__, but they are limited. Also, WordPress is often deployed by copying files, rather than via fresh installs.
 
-#. Configure `WP-CLI <https://wp-cli.org>`__. In the server's Pillar file, add, for example:
+#. Configure `WP-CLI <https://wp-cli.org>`__ and the site. In the server's Pillar file, add, for example:
 
    .. code-block:: yaml
 
       wordpress:
         cli_version: 2.7.1
+        sites:
+          coalition:
+            database: coalition_wp
+            cron:
+              contact:
+                - sysadmin@open-contracting.org
 
 #. :doc:`Deploy the server<../../deploy/deploy>`.
 #. :doc:`Connect to the server<../../use/ssh>` as the WordPress user (e.g. ``coalition``).
@@ -101,37 +107,17 @@ WordPress
 
       wp core download --locale=en_US
 
-#. Create the ``wp-config.php`` file, and configure the database connection, to correspond to the :ref:`MySQL configuration<wordpress-mysql-php>`. For example:
+#. Create the ``wp-config.php`` file, and configure the database connection to correspond to the :ref:`MySQL configuration<wordpress-mysql-php>`. For example:
 
    .. code-block:: bash
 
       wp config create --dbname=DBNAME --dbuser=USERNAME --dbpass=PASSWORD
 
-#. Set `WP_AUTO_UPDATE_CORE <https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates>`__, to enable minor WordPress updates only.
+#. Install WordPress, creating a user for yourself. For example:
 
    .. code-block:: bash
 
-      wp config set WP_AUTO_UPDATE_CORE minor
-
-#. Set `DISABLE_WP_CRON <https://developer.wordpress.org/plugins/cron/hooking-wp-cron-into-the-system-task-scheduler/>`__, since system cron is used instead.
-
-   .. code-block:: bash
-
-      wp config set --raw DISABLE_WP_CRON true
-
-#. Install WordPress, with a ``siteadmin`` user associated to ``sysadmin@open-contracting.org``. For example:
-
-   .. code-block:: bash
-
-      wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=siteadmin --admin_password=PASSWORD --admin_email=sysadmin@open-contracting.org --skip-email
-
-   .. tip::
-
-      To list the cron jobs, run:
-
-      .. code-block:: bash
-
-         wp cron event list
+      wp core install --url=www.open-spending.eu --title="www.open-spending.eu" --admin_user=jmckinney --admin_password=PASSWORD --admin_email=jmckinney@open-contracting.org --skip-email
 
 #. Uninstall default plugins:
 
@@ -139,20 +125,58 @@ WordPress
 
       wp plugin uninstall hello
 
-#. Add a `must-use plugin <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__ to auto-update plugins for non-major versions only. For example, replacing ``USERNAME``:
+#. Install `Two Factor <https://wordpress.org/plugins/two-factor/>`__ (2FA is required for administrators by the ``require-two-factor`` must-use plugin):
 
-   .. note::
+   .. code-block:: bash
 
-      `WP Rocket can't auto-update. <https://docs.wp-rocket.me/article/1446-why-are-wp-rocket-auto-updates-disabled>`__ See the `changelog <https://wp-rocket.me/changelog/>`__.
+      wp plugin install two-factor --activate
+
+#. Add or override any constants, setting values to strings of PHP source. (The constants under ``wordpress:constants`` in the ``pillar/cms.sls`` file are configured on every site.) For example:
 
    .. code-block:: yaml
 
       wordpress:
         sites:
           USERNAME:
-            plugins:
-              - auto-update-plugin
+            constants:
+              WP_AUTO_UPDATE_CORE: 'false'
 
+
+#. Add any `must-use plugins <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__, with any context they need. (The must-use plugins under ``wordpress:mu_plugins`` in the ``pillar/cms.sls`` file are installed on every site.) For example:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            mu_plugins:
+              - fathom-analytics
+            context:
+              FATHOM_ANALYTICS_ID: ABCDEFGH
+
+#. Schedule checks. Omit ``integrity`` if the site uses a security plugin's file scanner, and ``updates`` if an administrator updates plugins manually:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            checks:
+              enabled:
+                - integrity
+                - updates
+                - silent
+              premium_plugins:
+                - advanced-custom-fields-pro
+
+   .. admonition:: Interpreting the emails it sends
+
+      -  The ``integrity`` check lists core and plugin files that differ from wordpress.org's copy: modified, missing or added. A plugin that writes to its own directory can cause a false positive. Confirm changes before restoring files from a backup.
+      -  wordpress.org has no copy of a premium plugin, so the ``integrity`` check instead lists the files that changed while the plugin's version didn't. It records the files of each new version in ``premium-plugin-checksums.json``, in the site's home directory.
+      -  The ``updates`` check lists the updates that won't install automatically: a major version, if ``WP_AUTO_UPDATE_CORE`` is ``'minor'``; a plugin or theme whose auto-updates are off; and a version that requires a newer PHP version than the server runs.
+      -  The ``silent`` check lists the plugins whose update API gave no answer, which can be due to an HTTP timeout, an expired license, or the plugin being closed on wordpress.org.
+
+#. :doc:`Deploy the server<../../deploy/deploy>`.
 #. If you have a custom theme, download and activate it. For example:
 
    .. code-block:: bash
@@ -185,8 +209,3 @@ Strings to replace might include:
 -  Domain names
 -  Theme names
 -  File paths
-
-If the site uses these plugins, perform these operations to remove old items in the database:
-
--  `Rank Math <https://rankmath.com>`__: *Status & Tools* menu item > *Database Tools* tab > Click the *Delete Internal Links* and *Clear 404 Log* buttons.
--  `WordFence <https://www.wordfence.com>`__: *Scan* menu item -> Click the *START NEW SCAN* button. You can also manually delete rows from the ``wp_wfhits`` and ``wp_wflogins`` tables.

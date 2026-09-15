@@ -9,8 +9,7 @@ ExecReload=/bin/kill -HUP $MAINPID
 ExecStart=/home/{{ user }}/{{ entry.basename }}-{{ entry.version }}.{{ grains.kernel|lower }}-{{ grains.osarch }}/{{ entry.basename }} \
     --web.listen-address 127.0.0.1:9057 \
     --config.file /home/{{ user }}/conf-prometheus.yml \
-    --storage.tsdb.path /home/{{ user }}/data \
-    --storage.tsdb.retention.time {{ entry.local_storage_retention }}
+    --storage.tsdb.path /home/{{ user }}/data
 
 [Install]
 WantedBy=multi-user.target

@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+#
+# Download a WordPress site's current database, and optionally its files, from its server.
+#
+# Usage: snapshot-site SITE [DESTINATION]
+#   --files        Download public_html as a .tar.gz
+#   --rsync        Download public_html as a directory, incrementally
+#   --uploads      Include wp-content/uploads
+#   --all-tables   Include logs and Relevanssi search indexes
+#
+# Example: snapshot-site corporate path/to/theme --files
+
+set -euo pipefail
+
+# Configuration variables
+skip_tables="relevanssi,relevanssi_stopwords,redirection_404,redirection_logs"
+skip_paths=(wp-content/cache wp-content/upgrade)
+
+# Parse arguments
+files=""
+use_rsync=""
+uploads=""
+all_tables=""
+args=()
+for arg in "$@"; do
+    case "$arg" in
+    --files) files=1 ;;
+    --rsync)
+        files=1
+        use_rsync=1
+        ;;
+    --uploads) uploads=1 ;;
+    --all-tables) all_tables=1 ;;
+    *) args+=("$arg") ;;
+    esac
+done
+
+site="${args[0]:-}"
+destination="${args[1]:-./$site-snapshot}"
+
+# Validate arguments
+usage() {
+    echo "Usage: $0 {corporate|coalition} [DESTINATION] [--files|--rsync] [--uploads] [--all-tables]" >&2
+    exit 1
+}
+
+case "$site" in
+corporate | coalition) host=ocp21.open-contracting.org ;;
+*) usage ;;
+esac
+
+if [ -n "$uploads" ] && [ -z "$files" ]; then
+    echo "$0: --uploads selects part of public_html, so it needs --files or --rsync" >&2
+    usage
+fi
+
+# Port knock
+curl --silent --output /dev/null --connect-timeout 1 "$host:8255" || true
+
+# Create destination
+mkdir -p "$destination"
+
+# shellcheck disable=SC2029 # $site and $* are expanded locally, on purpose.
+wp_remote() { ssh "$site@$host" "cd ~/public_html && wp $*"; }
+
+# Get configuration
+database="$(wp_remote config get DB_NAME)"
+prefix="$(wp_remote config get table_prefix)"
+siteurl="$(wp_remote option get siteurl)"
+docroot="$(ssh "$site@$host" 'cd ~/public_html && pwd')"
+
+exclude=""
+if [ -z "$all_tables" ]; then
+    exclude="--exclude_tables=${prefix}${skip_tables//,/,$prefix}"
+fi
+
+echo "Dumping $database..."
+wp_remote db export - --single-transaction --quick "$exclude" | gzip > "$destination/$database.sql.gz"
+
+if [ -n "$files" ]; then
+    if [ -z "$uploads" ]; then
+        skip_paths+=(wp-content/uploads)
+    fi
+
+    if [ -n "$use_rsync" ]; then
+        echo "Copying files..."
+        excludes=()
+        for path in "${skip_paths[@]}"; do
+            excludes+=(--exclude "$path/")
+        done
+        status=0
+        # Ownership is meaningless off-server.
+        rsync -rlptz --no-owner --no-group "${excludes[@]}" \
+            "$site@$host:public_html/" "$destination/public_html/" || status=$?
+        # 24 is "source files vanished", which is routine on a live site.
+        if [ "$status" -ne 0 ] && [ "$status" -ne 24 ]; then
+            exit "$status"
+        fi
+    else
+        echo "Archiving files..."
+        tar_excludes=""
+        for path in "${skip_paths[@]}"; do
+            tar_excludes="$tar_excludes --exclude=public_html/$path"
+        done
+        status=0
+        # Streamed, so that the server needs no temporary space for a second copy of the site.
+        # shellcheck disable=SC2029 # $tar_excludes is expanded locally, on purpose.
+        ssh "$site@$host" "tar czf -$tar_excludes -C ~ public_html" > "$destination/$site-public_html.tar.gz" || status=$?
+        # 1 means some files changed while being archived, which a live site does routinely.
+        if [ "$status" -ne 0 ] && [ "$status" -ne 1 ]; then
+            exit "$status"
+        fi
+    fi
+fi
+
+cat << EOF
+
+Done: $destination
+
+  mysql -e 'CREATE DATABASE IF NOT EXISTS $database'
+  gunzip -c $destination/$database.sql.gz | mysql $database
+  wp search-replace '$siteurl' 'http://localhost:8090' --all-tables
+  wp search-replace '$docroot' "\$(pwd)" --all-tables
+EOF

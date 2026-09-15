@@ -22,6 +22,7 @@ User Guides
    http.rst
    bash.rst
    databases.rst
+   wordpress.rst
    kingfisher.rst
    pelican.rst
    prometheus.rst

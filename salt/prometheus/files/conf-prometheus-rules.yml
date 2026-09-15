@@ -97,6 +97,16 @@ groups:
           summary: "Endpoint {{$labels.instance}} has less than 15% of disk space"
           description: "{{ $labels.instance }} of job {{ $labels.job }} has less than 15% of disk space."
 
+      # A filesystem is remounted read-only when the kernel detects disk errors.
+      - alert: FileSystemReadOnly
+        expr: node_filesystem_readonly{fstype!~"rootfs|selinuxfs|autofs|rpc_pipefs|tmpfs|aufs|proc", mountpoint!~".*(/aufs|docker).*"} == 1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Endpoint {{ $labels.instance }} has a read-only filesystem on {{ $labels.mountpoint }}"
+          description: "{{ $labels.instance }} of job {{ $labels.job }} has a read-only filesystem on {{ $labels.mountpoint }}."
+
       ## Hardware server, Disk SMART monitoring
 
       # Alerting when raw value > 0 https://www.backblaze.com/blog/hard-drive-smart-stats/

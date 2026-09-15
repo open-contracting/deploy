@@ -4,8 +4,14 @@
 
 import contextlib
 import os
+import shutil
 import socket
 import sys
+from pathlib import Path
+
+# Otherwise, Salt determines the prefix by running `brew` via `su`, which fails without a password.
+if "HOMEBREW_PREFIX" not in os.environ and (brew := shutil.which("brew")):
+    os.environ["HOMEBREW_PREFIX"] = str(Path(brew).parents[1])
 
 import salt.cli.ssh
 import salt.client.ssh
