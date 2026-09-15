@@ -223,7 +223,7 @@ SSL/TLS > Origin Server
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 `Authenticated Origin Pulls <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/ssl-tls/origin-server>`__
-  Enabled, so that origin servers can :ref:`accept web traffic from Cloudflare, only<authenticated-origin-pulls>`.
+  Enabled, in the *Global* section of the *Authenticated Origin Pulls* tab, so that origin servers can :ref:`accept web traffic from Cloudflare, only<authenticated-origin-pulls>`. The per-hostname certificates, on the same page, are unused.
 
   Cloudflare presents its client certificate to every origin server in the zone, including third-party origin servers, whether or not the origin server requires it. Enabling it therefore changes nothing until an origin server is configured to require it.
 

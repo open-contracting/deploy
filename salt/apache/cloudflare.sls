@@ -38,7 +38,6 @@ include:
             # virtual hosts, because the certificate is verified during the TLS handshake, which HTTP/2 can't
             # renegotiate. Port 80 stays open, to redirect to HTTPS and to answer Let's Encrypt's challenges.
             SSLVerifyClient require
-            SSLVerifyDepth 1
             SSLCACertificateFile /etc/ssl/certs/cloudflare-origin-pull-ca.pem
         </IfModule>
 {%- endif %}
