@@ -34,6 +34,14 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    #. Disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items)
 
+The extensions `saltext-mysql<https://github.com/salt-extensions/saltext-mysql>`__ and `saltext-apache<https://github.com/salt-extensions/saltext-apache>` must be installed for Salt to use.
+
+.. code-block:: bash
+
+   sudo salt-pip install saltext-mysql
+   sudo salt-pip install saltext-apache
+   sudo ./run.py --regen-thin <target> test.version
+
 2. Clone repositories
 ---------------------
 
