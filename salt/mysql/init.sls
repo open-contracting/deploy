@@ -1,21 +1,9 @@
 {% set mysql_version = pillar.mysql.version|quote %}
 
-# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.mysql_database.html
 mysql dependencies:
   pkg.installed:
     - pkgs:
       - python3-mysqldb
-  pip.installed:
-    - name: saltext-mysql
-    - reload_modules: True
-{% if grains.osmajorrelease|int >= 24 %}
-    # https://peps.python.org/pep-0668/
-    - extra_args:
-      - --break-system-packages
-      - --ignore-installed
-{% endif %}
-    - require:
-      - pkg: pip
 
 # Using Percona's official tool "percona-release" to configure their repositories and signing keys.
 percona-release:

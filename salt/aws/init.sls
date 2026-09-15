@@ -1,6 +1,9 @@
 {% from 'lib.sls' import set_config %}
 
 awscli:
+  pkg.installed:
+    - name: python3-pip
+    - install_recommends: False
   pip.installed:
     - name: awscli
 {% if grains.osmajorrelease|int >= 24 %}
@@ -9,7 +12,7 @@ awscli:
       - --break-system-packages
 {% endif %}
     - require:
-      - pkg: pip
+      - pkg: awscli
 
 /home/sysadmin-tools/aws-settings.local:
   file.managed:
