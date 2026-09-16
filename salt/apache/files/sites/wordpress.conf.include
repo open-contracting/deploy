@@ -32,8 +32,8 @@ ErrorDocument 503 "Service Unavailable"
 <DirectoryMatch "/\.(?!well-known(/|$))">
     Require all denied
 </DirectoryMatch>
-# Apache's covers .ht* only.
-<FilesMatch "^\.">
+# Dotfiles and .env environment files (Apache's covers .ht* only).
+<FilesMatch "^\.|\.env$">
     Require all denied
 </FilesMatch>
 
