@@ -27,6 +27,7 @@ phpfpm:
         user: corporate
         listen_user: www-data
         socket: /var/run/php/php-fpm-corporate.sock
+        request_slowlog_timeout: 2s
         env:
           # Increased to resolve WordPress menu issue.
           php_value[max_input_vars]: 3000
