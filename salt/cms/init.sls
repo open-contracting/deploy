@@ -117,18 +117,38 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% set premium = checks.premium_plugins|default([]) %}
 {% set exclude = premium + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
-# Not --quiet, which also hides the warnings that name the files.
+{% if 'integrity' in enabled %}
+/usr/local/lib/wp-cli/integrity-check-{{ user }}.sh:
+  file.managed:
+    - mode: 755
+    # No --quiet, which also hides the warnings that name the files.
+    - contents: |
+        #!/bin/sh
+        (
+            {{ wp }} core verify-checksums
+            {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }}
+        {%- if premium %}
+            {{ wp }} eval-file /usr/local/lib/wp-cli/check-premium-plugins.php {{ premium|join(' ') }}
+        {%- endif %}
+        ) 2>&1 | grep -v '^Success: '
+    - require:
+      - file: wp-cli
+      - file: /usr/local/lib/wp-cli/check-premium-plugins.php
+{% else %}
+/usr/local/lib/wp-cli/integrity-check-{{ user }}.sh:
+  file.absent
+{% endif %}
+
 WordPress integrity check for {{ user }}:
   cron.{{ 'present' if 'integrity' in enabled else 'absent' }}:
-    - name: '( {{ wp }} core verify-checksums; {{ wp }} plugin verify-checksums --all --exclude={{ exclude|join(',') }}{% if premium %}; {{ wp }} eval-file /usr/local/lib/wp-cli/check-premium-plugins.php {{ premium|join(' ') }}{% endif %} ) 2>&1 | grep -v "^Success: "'
+    - name: /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh
     - identifier: WORDPRESS_INTEGRITY_CHECK
     - user: {{ user }}
     - hour: 5
     - minute: 30
     - require:
       - user: {{ user }}_user_exists
-      - file: wp-cli
-      - file: /usr/local/lib/wp-cli/check-premium-plugins.php
+      - file: /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh
 
 WordPress updates check for {{ user }}:
   cron.{{ 'present' if parts else 'absent' }}:
