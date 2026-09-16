@@ -18,6 +18,9 @@ Header set X-Content-Type-Options nosniff
     SetHandler "proxy:unix:{{ socket }}|fcgi://localhost/"
 </FilesMatch>
 
+# An inline body, so a 503 from Apache (e.g. PHP-FPM unreachable) is distinguishable by size in the access log.
+ErrorDocument 503 "Service Unavailable"
+
 <Files "wp-login.php">
     AuthType Basic
     AuthName "Restricted Area"
@@ -26,7 +29,7 @@ Header set X-Content-Type-Options nosniff
 </Files>
 
 # Paths inside dot-directories (.git/HEAD), except ACME's.
-<DirectoryMatch "/\.(?!well-known/)">
+<DirectoryMatch "/\.(?!well-known(/|$))">
     Require all denied
 </DirectoryMatch>
 # Apache's covers .ht* only.

@@ -131,6 +131,12 @@ WordPress
 
       wp plugin install two-factor --activate
 
+#. Install `Sentry for WordPress <https://wordpress.org/plugins/wp-sentry-integration/>`__. Activation is optional, as it's loaded by the ``00-sentry`` must-use plugin.
+
+   .. code-block:: bash
+
+      wp plugin install wp-sentry-integration
+
 #. Add or override any constants, setting values to strings of PHP source. (The constants under ``wordpress:constants`` in the ``pillar/cms.sls`` file are configured on every site.) For example:
 
    .. code-block:: yaml
@@ -141,6 +147,20 @@ WordPress
             constants:
               WP_AUTO_UPDATE_CORE: 'false'
 
+
+#. Create a project in `Sentry <https://sentry.io/organizations/open-contracting-partnership/projects/>`__, and set its DSN in the site's private Pillar file:
+
+   .. code-block:: yaml
+
+      wordpress:
+        sites:
+          USERNAME:
+            constants:
+              WP_SENTRY_PHP_DSN: "'https://1234567890abcdef1234567890abcdef@o123456.ingest.sentry.io/1234567890123456'"
+
+   .. note:: The SDK sends each event over HTTPS as the request ends, occupying a PHP-FPM worker until the send completes. ``WP_SENTRY_CLIENTBUILDER_CALLBACK`` caps each send at a second.
+
+   .. tip:: To monitor browser JavaScript errors, create a new project, and set the ``WP_SENTRY_BROWSER_DSN`` constant.
 
 #. Add any `must-use plugins <https://developer.wordpress.org/advanced-administration/plugins/mu-plugins/>`__, with any context they need. (The must-use plugins under ``wordpress:mu_plugins`` in the ``pillar/cms.sls`` file are installed on every site.) For example:
 
@@ -183,6 +203,8 @@ WordPress
 
       git -C wp-content/themes/ clone https://github.com/open-contracting-partnership/www.open-spending.eu.git
       wp theme activate www.open-spending.eu
+
+Reference: `Hardening WordPress <https://developer.wordpress.org/advanced-administration/security/hardening/>`__
 
 Migration
 ~~~~~~~~~
