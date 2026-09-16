@@ -1,5 +1,6 @@
 {% set mysql_version = pillar.mysql.version|quote %}
 
+# Provides mysql module for saltext-mysql.
 mysql dependencies:
   pkg.installed:
     - pkgs:
