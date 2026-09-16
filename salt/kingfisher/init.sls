@@ -14,7 +14,7 @@ useful commands for data support:
 pip:
   pkg.installed:
     - name: python3-pip
-    - name: install_recommends: False
+    - install_recommends: False
   pip.installed:
     - name: pip
     - upgrade: True

@@ -1,4 +1,4 @@
-# Set desired swap size
+# Set desired swap size.
 {% if grains.mem_total > 32768 %}
   {% set swap_size = [grains.mem_total // 4, 16384] | max %}
 {% elif grains.mem_total > 8192 %}
