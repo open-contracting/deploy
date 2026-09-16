@@ -43,6 +43,7 @@ wordpress:
           - sysadmin@open-contracting.org
           - support+ocp@theideabureau.co
       mu_plugins:
+        - acf-field-group-cache
         - google-tag-manager
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F
