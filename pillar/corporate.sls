@@ -46,8 +46,10 @@ wordpress:
       mu_plugins:
         - acf-field-group-cache
         - google-tag-manager
+        - items-per-page
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F
+        ITEMS_PER_PAGE: 10
       checks:
         enabled:
           - integrity
