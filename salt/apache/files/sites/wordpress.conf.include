@@ -72,7 +72,7 @@ ErrorDocument 503 "Service Unavailable"
 
 # Handle missing static assets, instead of routing to index.php.
 RewriteEngine On
-# uploads/ is exempt: media filenames are UTF-8 on disk but percent-encoded in the URL, and
+# uploads/ is exempt: media filenames can be UTF-8 on disk but percent-encoded in the URL, and
 # %{REQUEST_URI} is not reliably decoded before mapping, so -f could 404 a file that exists.
 RewriteCond %{REQUEST_URI} !^/wp-content/uploads/
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
