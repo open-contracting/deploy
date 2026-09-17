@@ -61,6 +61,16 @@ php-fpm-reload:
       - module: php-fpm-reload
 {% endfor %}
 
+php-fpm-config-test:
+  cmd.run:
+    - name: /usr/sbin/php-fpm{{ php_version }} -t
+    - onchanges:
+{%- for site in pillar.phpfpm.sites %}
+      - file: /etc/php/-/fpm/pool.d/{{ site }}.conf
+{%- endfor %}
+    - require_in:
+      - module: php-fpm-reload
+
 php modules:
   pkg.installed:
     - pkgs:
