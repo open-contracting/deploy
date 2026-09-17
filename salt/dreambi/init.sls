@@ -5,9 +5,9 @@ include:
   - docker_apps
 
 {% set entry = pillar.docker_apps.qlikauth %}
-{% set directory = docker_apps_directory + entry.target %}
+{% set directory = docker_apps_directory ~ entry.target %}
 {% set user = 'dreambi' %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 
 {{ create_user(user, authorized_keys=pillar.ssh.dreambi) }}
 

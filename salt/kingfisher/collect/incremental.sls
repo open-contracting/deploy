@@ -5,11 +5,11 @@ include:
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_collect %}
-{% set userdir = '/home/' + entry.user %}
-{% set directory = userdir + '/' + entry.git.target %}
-{% set sqldir = userdir + '/bi/sql' %}
-{% set settingsdir = userdir + '/bi/settings' %}
-{% set scratchdir = userdir + '/bi/scratch' %}
+{% set userdir = '/home/' ~ entry.user %}
+{% set directory = userdir ~ '/' ~ entry.git.target %}
+{% set sqldir = userdir ~ '/bi/sql' %}
+{% set settingsdir = userdir ~ '/bi/settings' %}
+{% set scratchdir = userdir ~ '/bi/scratch' %}
 
 {{ create_user(entry.user) }}
 

@@ -8,11 +8,11 @@ include:
 {% for name, entry in pillar.react_apps|items %}
 
 # A user might run multiple apps, so the user is not created here.
-{% set userdir = '/home/' + entry.user %}
-{% set directory = userdir + '/' + entry.git.target %}
-{% set builddir = userdir + '/releases' %}
+{% set userdir = '/home/' ~ entry.user %}
+{% set directory = userdir ~ '/' ~ entry.git.target %}
+{% set builddir = userdir ~ '/releases' %}
 {% set timestamp = salt['cmd.run']('date +%Y%m%d%H%M%S') %}
-{% set appdir = userdir + '/current' %}
+{% set appdir = userdir ~ '/current' %}
 {% set context = {'name': name, 'entry': entry, 'appdir': appdir} %}
 
 {{ builddir }}:

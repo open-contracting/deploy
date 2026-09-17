@@ -8,7 +8,7 @@ include:
   - apache.modules.rewrite # RewriteEngine
 
 {% set user = 'ocds-docs' %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 

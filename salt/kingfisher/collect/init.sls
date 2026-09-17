@@ -8,8 +8,8 @@ include:
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
 {% set group = entry.group|default(user) %}
-{% set userdir = '/home/' + user %}
-{% set directory = userdir + '/scrapyd' %}
+{% set userdir = '/home/' ~ user %}
+{% set directory = userdir ~ '/scrapyd' %}
 
 {{ create_user(user) }}
 
@@ -55,7 +55,7 @@ allow {{ userdir }} access:
     - require:
       - file: {{ directory }}
 
-{{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
+{{ virtualenv(directory, user, {'file': directory}, {'file': directory ~ '/requirements.txt'}, 'scrapyd') }}
 
 # Maintain setuptools<81 in the Salt state, because Dependabot removes it from requirements.txt.
 {{ directory }}-setuptools:

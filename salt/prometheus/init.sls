@@ -11,7 +11,7 @@
 # - Start the `service`
 {% for name, entry in pillar.prometheus|items %}
 
-{% set userdir = '/home/' + entry.user %}
+{% set userdir = '/home/' ~ entry.user %}
 
 {{ create_user(entry.user) }}
 

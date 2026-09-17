@@ -5,7 +5,7 @@ include:
 {% set docker_apps_directory = '/data/deploy/' %}
 
 {% for name, entry in pillar.docker_apps|items %}
-{% set directory = docker_apps_directory + entry.target %}
+{% set directory = docker_apps_directory ~ entry.target %}
 
 {{ directory }}/docker-compose.yaml:
   file.managed:

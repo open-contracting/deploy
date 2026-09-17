@@ -5,8 +5,8 @@ include:
   - python_apps
 
 {% set entry = pillar.python_apps.kingfisher_summarize %}
-{% set userdir = '/home/' + entry.user %}
-{% set directory = userdir + '/' + entry.git.target %}
+{% set userdir = '/home/' ~ entry.user %}
+{% set directory = userdir ~ '/' ~ entry.git.target %}
 
 {{ create_user(entry.user) }}
 

@@ -25,6 +25,29 @@ Use dot notation:
 
    To allow the use of dot notation in Jinja, prefer underscores to hyphens in Pillar keys.
 
+Concatenation
+~~~~~~~~~~~~~
+
+To concatenate strings, use the ``~`` operator, which converts its operands to strings:
+
+.. code-block:: jinja
+
+   {% set userdir = '/home/' ~ user %}
+
+**AVOID** the ``+`` operator, which is for numbers and lists:
+
+.. code-block:: jinja
+
+   {% set userdir = '/home/' + user %}  # AVOID
+
+.. note::
+
+   Maintainers can check this style rule with this regular expression:
+
+   .. code-block:: none
+
+      \+ ['"]|['"] \+
+
 Optional mapping keys
 ~~~~~~~~~~~~~~~~~~~~~
 

@@ -19,7 +19,7 @@ wp-cli:
 {% endfor %}
 
 {% for user, entry in pillar.wordpress.sites|items %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 {% set database = pillar.mysql.databases[entry.database] %}
 {% set mu_plugins = salt['pillar.get']('wordpress:mu_plugins', []) + entry.mu_plugins|default([]) %}
 

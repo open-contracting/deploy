@@ -16,7 +16,7 @@ useful commands for CoVE analysis:
       - ripgrep
 
 {% for name, entry in pillar.docker_apps|items %}
-{% set directory = docker_apps_directory + entry.target %}
+{% set directory = docker_apps_directory ~ entry.target %}
 
 cd {{ directory }}; /usr/bin/docker compose --progress=quiet run --rm --name {{ entry.image }}-cron -e LOG_LEVEL=WARNING cron python manage.py expire_files:
   cron.present:

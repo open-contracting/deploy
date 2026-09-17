@@ -4,7 +4,7 @@ include:
   - prometheus
 
 {% set user = pillar.prometheus.node_exporter.user %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 
 {{ set_firewall('PRIVATE_PROMETHEUS_CLIENT') }}
 {{ set_firewall('PROMETHEUS_IPV4', pillar.firewall.prometheus_ipv4) }}
