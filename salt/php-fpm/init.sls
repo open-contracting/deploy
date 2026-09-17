@@ -39,8 +39,8 @@ php-fpm-reload:
   file.directory:
     - makedirs: True
 
-{% for name, entry in pillar.phpfpm.sites|items %}
-/var/log/php-fpm/{{ name }}:
+{% for site, entry in pillar.phpfpm.sites|items %}
+/var/log/php-fpm/{{ site }}:
   file.directory:
     - user: {{ entry.context.user }}
     - group: {{ entry.context.user }}
@@ -48,18 +48,28 @@ php-fpm-reload:
     - require:
       - file: /var/log/php-fpm
 
-/etc/php/-/fpm/pool.d/{{ name }}.conf:
+/etc/php/-/fpm/pool.d/{{ site }}.conf:
   file.managed:
-    - name: /etc/php/{{ php_version }}/fpm/pool.d/{{ name }}.conf
+    - name: /etc/php/{{ php_version }}/fpm/pool.d/{{ site }}.conf
     - source: salt://php-fpm/files/{{ entry.configuration }}.conf
     - template: jinja
-    - context: {{ dict(name=name, **entry.context)|yaml }}
+    - context: {{ dict(site=site, name=site, **entry.context)|yaml }}
     - require:
       - pkg: php-fpm
-      - file: /var/log/php-fpm/{{ name }}
+      - file: /var/log/php-fpm/{{ site }}
     - watch_in:
       - module: php-fpm-reload
 {% endfor %}
+
+php-fpm-config-test:
+  cmd.run:
+    - name: /usr/sbin/php-fpm{{ php_version }} -t
+    - onchanges:
+{%- for site in pillar.phpfpm.sites %}
+      - file: /etc/php/-/fpm/pool.d/{{ site }}.conf
+{%- endfor %}
+    - require_in:
+      - module: php-fpm-reload
 
 php modules:
   pkg.installed:
