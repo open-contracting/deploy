@@ -4,6 +4,7 @@
 
 import contextlib
 import os
+import subprocess
 import shutil
 import socket
 import sys
@@ -38,7 +39,8 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    os.execvp("salt-ssh", sys.argv)  # noqa: S606,S607
+    result = subprocess.run(sys.argv)
+    sys.exit(result.returncode)
 
 
 if __name__ == "__main__":
