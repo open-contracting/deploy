@@ -39,7 +39,7 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    result = subprocess.run(sys.argv, check=False) # noqa: S603
+    result = subprocess.run(sys.argv, check=False)  # noqa: S603
     sys.exit(result.returncode)
 
 
