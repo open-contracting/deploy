@@ -4,9 +4,9 @@
 
 import contextlib
 import os
-import subprocess
 import shutil
 import socket
+import subprocess
 import sys
 from pathlib import Path
 
@@ -39,7 +39,7 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    result = subprocess.run(sys.argv)
+    result = subprocess.run(sys.argv, check=False) # noqa: S603
     sys.exit(result.returncode)
 
 
