@@ -38,8 +38,8 @@ include:
 pgbackrest:
   pkg.installed:
     - name: pgbackrest
-  require:
-    - sls: postgresql
+    - require:
+      - pkg: postgresql
 
 /etc/pgbackrest/pgbackrest.conf:
   file.managed:
@@ -49,7 +49,7 @@ pgbackrest:
     - group: postgres
     - makedirs: True
     - require:
-      - pkg: postgresql
+      - pkg: pgbackrest
 
 {% if salt['pillar.get']('postgres:backup:cron') %}
 # The `grep -v` command means `root` receives mail if there is more than 1 error.

@@ -1,4 +1,14 @@
-{% set php_version = pillar.php.version|default('8.5')|quote %}
+{% set php_versions = {
+    22: '8.1',
+    24: '8.3',
+    26: '8.5',
+} %}
+
+{% if grains.osmajorrelease in php_versions %}
+  {% set php_version = php_versions[grains.osmajorrelease] %}
+{% else %}
+  {% do raise('Unrecognized Ubuntu release: ' ~ grains.osmajorrelease) %}
+{% endif %}
 
 include:
   - apache.modules.proxy_fcgi
