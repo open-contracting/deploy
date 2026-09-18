@@ -6,7 +6,7 @@ Disallow: /profiles/ppp/1.0
 # Disallow old versions.
 Disallow: /1.0
 Disallow: /legacy
-# Disallow protected development branches.
+# Disallow development branches.
 Disallow: /staging
 # Disallow Docson page loaded via JavaScript.
 Disallow: */_static/docson/public/
