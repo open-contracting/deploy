@@ -16,7 +16,6 @@ grafana:
     - humanname: Grafana Official Repository
     - name: deb [arch={{ grains.osarch }} signed-by=/usr/share/keyrings/grafana-keyring.gpg] https://apt.grafana.com stable main
     - aptkey: False
-    - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/grafana.list
     - key_url: https://apt.grafana.com/gpg.key
   pkg.installed:

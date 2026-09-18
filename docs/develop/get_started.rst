@@ -40,7 +40,7 @@ Install the `saltext-mysql <https://github.com/salt-extensions/saltext-mysql>`__
 
    sudo salt-pip install saltext-mysql
    sudo salt-pip install saltext-apache
-   sudo ./run.py --regen-thin <target> test.version
+   ./run.py --regen-thin <target> test.version
 
 2. Clone repositories
 ---------------------
