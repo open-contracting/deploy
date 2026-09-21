@@ -26,6 +26,17 @@ languages = {
     "/profiles/ppp": (["en", "es"], "/reference/schema/"),
 }
 
+# The versions that the version switcher offers: `documentation` in salt/docs/init.sls. Unlike `versions` above,
+# this omits the staging branches and the alias directories.
+switcher_versions = {
+    "": ["latest", "1.0"],
+    "/infrastructure": ["latest"],
+    "/profiles/eforms": ["latest"],
+    "/profiles/eu": ["latest"],
+    "/profiles/gpa": ["latest"],
+    "/profiles/ppp": ["latest"],
+}
+
 banner_live = [
     ("", ["latest", "1.1"]),
     ("/infrastructure", ["latest", "0.9"]),
@@ -295,6 +306,29 @@ def test_no_redirect(path):
     assert r.status_code == 200
 
 
+@pytest.mark.parametrize("root", switcher_versions)
+def test_versions_json(root):
+    r = get(f"{base_url}{root}/versions.json")
+
+    assert r.status_code == 200
+    assert r.headers["Content-Type"] == "application/json; charset=utf-8"
+    assert [version["ref"] for version in r.json()["versions"]] == switcher_versions[root]
+    assert all(version["label"] for version in r.json()["versions"])
+
+
+@pytest.mark.parametrize("root", switcher_versions)
+def test_versions_json_staging(root):
+    r = get(f"{base_url}/staging{root}/versions.json")
+
+    assert r.status_code == 200
+    assert r.json() == {"staging": True, "live_url": f"{root}/latest/en/"}
+    assert get(f"{base_url}{r.json()['live_url']}").status_code == 200
+
+
+# The three tests below cover the roots that still render the banner with a server-side include. Drop a root from
+# the lists above once it renders the banner from versions.json instead: `requests` doesn't run the JavaScript that
+# writes the banner, and the message strings are in every page's JSON configuration, so the assertions invert. The
+# frozen /1.0/ keeps its include, so test_banner_old outlives the others.
 @pytest.mark.parametrize(
     ("root", "version"), [(root, version) for root, versions in banner_live for version in versions]
 )
