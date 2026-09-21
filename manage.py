@@ -10,6 +10,7 @@ import string
 import subprocess
 import sys
 from collections import defaultdict
+from datetime import UTC, datetime, timedelta
 from email.parser import Parser
 from email.policy import default
 from itertools import islice
@@ -292,6 +293,57 @@ def zones(api_token, defaults):
                             resources[json.dumps(value, indent=2)].append(domain)
 
         print_resources(resources, disabled=disabled, default=default)
+
+
+@cloudflare.command()
+@api_token_option
+@click.option("--hours", type=int, default=24, help="Hours of events to query")
+@click.option("--limit", type=int, default=10000, help="Maximum events per zone")
+def events(api_token, hours, limit):
+    """Print firewall events, one JSON object per line."""
+    since = (datetime.now(tz=UTC) - timedelta(hours=hours)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    fields = (
+        "datetime action source ruleId edgeResponseStatus userAgent "
+        "clientIP clientAsn clientCountryName clientRequestHTTPHost clientRequestHTTPMethodName clientRequestPath"
+    )
+
+    for zone in Cloudflare(api_token=api_token).zones.list():
+        # https://developers.cloudflare.com/waf/analytics/security-events/#query-using-graphql
+        query = f"""{{
+            viewer {{
+                zones(filter: {{zoneTag: "{zone.id}"}}) {{
+                    firewallEventsAdaptive(
+                        filter: {{datetime_gt: "{since}"}}
+                        limit: {limit}
+                        orderBy: [datetime_DESC]
+                    ) {{
+                        {fields}
+                    }}
+                }}
+            }}
+        }}"""
+
+        response = requests.post(
+            "https://api.cloudflare.com/client/v4/graphql",
+            headers={"Authorization": f"Bearer {api_token}"},
+            json={"query": query},
+            timeout=10,
+        )
+        response.raise_for_status()
+        data = response.json()
+
+        # "A 200 response can contain an error."
+        # https://developers.cloudflare.com/analytics/graphql-api/errors/
+        if errors := data.get("errors"):
+            for error in errors:
+                click.secho(f"{zone.name}: {error['message']}", fg="red", err=True)
+            continue
+
+        for result in data["data"]["viewer"]["zones"]:
+            if len(result["firewallEventsAdaptive"]) == limit:
+                click.secho(f"{zone.name}: {limit} limit reached (requires pagination code)", fg="yellow", err=True)
+            for event in result["firewallEventsAdaptive"]:
+                click.echo(json.dumps({"zone": zone.name, **event}))
 
 
 @cloudflare.command()
