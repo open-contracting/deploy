@@ -88,6 +88,12 @@ backup:
     /home/incremental/data/:
     /home/incremental/logs/:
 
+sync:
+  location: ocp-external-backup/file-sync
+  directories:
+    # Must match directory in salt/kingfisher/init.sls
+    /data/external:
+
 apache:
   public_access: True
   modules:
