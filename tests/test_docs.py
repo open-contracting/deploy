@@ -308,6 +308,7 @@ def test_versions_json(root):
 
     assert r.status_code == 200
     assert r.headers["Content-Type"] == "application/json; charset=utf-8"
+    assert r.headers["Cache-Control"] == "no-cache"
     assert [version["ref"] for version in r.json()["versions"]] == switcher_versions[root]
     assert all(version["label"] for version in r.json()["versions"])
 
@@ -317,6 +318,7 @@ def test_versions_json_staging(root):
     r = get(f"{base_url}/staging{root}/versions.json")
 
     assert r.status_code == 200
+    assert r.headers["Cache-Control"] == "no-cache"
     assert r.json() == {"staging": True, "live_url": f"{root}/latest/en/"}
     assert get(f"{base_url}{r.json()['live_url']}").status_code == 200
 

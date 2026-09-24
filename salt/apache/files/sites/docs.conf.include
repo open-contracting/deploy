@@ -82,6 +82,11 @@ SetEnv BANNER /includes/banner_live.html
     # https://bugs.webkit.org/show_bug.cgi?id=197369
     AddType "application/json; charset=utf-8" .json
 
+    # Revalidate, so that an edit to versions.json reaches a reader who has visited before.
+    <Files "versions.json">
+        Header set Cache-Control "no-cache"
+    </Files>
+
     # Indexes for https://standard.open-contracting.org/schema/
     # FollowSymLinks for `latest` and `1.1` symlinks.
     # https://httpd.apache.org/docs/current/howto/ssi.html#exec
