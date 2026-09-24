@@ -45,6 +45,7 @@ wordpress:
           - support+ocp@theideabureau.co
       mu_plugins:
         - acf-field-group-cache
+        - autosave-lookup
         - google-tag-manager
         - items-per-page
       context:
