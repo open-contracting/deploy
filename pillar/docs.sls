@@ -26,8 +26,8 @@ apache:
 
 elasticsearch:
   # This is to inform the installation of ReadOnlyREST – not to control the version of Elasticsearch to install.
-  version: 9.3.2
+  version: 9.5.4
   plugins:
     readonlyrest:
-      version: 1.68.0_es9.3.2
+      version: 1.71.0_es9.5.4
       configuration: docs
