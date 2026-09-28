@@ -34,7 +34,7 @@ Follow the `Salt install guide <https://docs.saltproject.io/salt/install-guide/e
 
    #. Disable the *Salt Stack, Inc.* login item (System Settings... > General > Login Items)
 
-Install the `saltext-mysql <https://github.com/salt-extensions/saltext-mysql>`__ and `saltext-apache <https://github.com/salt-extensions/saltext-apache>` extensions, and regenerate the thin tarball once:
+Install the `saltext-mysql <https://github.com/salt-extensions/saltext-mysql>`__ and `saltext-apache <https://github.com/salt-extensions/saltext-apache>`__ extensions, and regenerate the thin tarball once:
 
 .. code-block:: bash
 
