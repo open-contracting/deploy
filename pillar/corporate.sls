@@ -44,10 +44,10 @@ wordpress:
           - sysadmin@open-contracting.org
           - support+ocp@theideabureau.co
       mu_plugins:
-        - acf-field-group-cache
-        - autosave-lookup
+        - acfml-field-group-cache
         - google-tag-manager
         - items-per-page
+        - wpml-autosave-lookup
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F
         ITEMS_PER_PAGE: 10
