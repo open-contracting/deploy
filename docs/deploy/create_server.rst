@@ -35,7 +35,6 @@ Create the server via the :ref:`host<hosting>`'s interface.
          #. Set *Add Tags* to either *Production* or *Development*
          #. Set *Root Password* to a `strong password <https://www.lastpass.com/features/password-generator>`__, and save it to OCP's `LastPass <https://www.lastpass.com>`__ account
          #. Under *Firewall*, if using Docker, click *Create Firewall* and :ref:`configure an external firewall from step 3<docker-firewall>`. Otherwise, select *No firewall - traffic is unprotected (not recommended)* from the dropdown.
-         #. Check *Backups*
          #. Click *Create Linode* and wait a few minutes for the server to power on
 
       #. From the `Linodes <https://cloud.linode.com/linodes>`__ list:

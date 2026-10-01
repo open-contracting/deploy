@@ -3,12 +3,12 @@
 # The server was initially only for the "coalition" website (open-spending.eu), so that word survives.
 
 network:
-  host_id: ocp21
-  ipv4: 139.162.211.65
-  ipv6: "2a01:7e00:e000:04e3::"
+  host_id: ocp30
+  ipv4: 178.79.176.206
+  ipv6: "2a01:7e00:e000:972::"
   networkd:
     template: linode
-    gateway4: 139.162.211.1
+    gateway4: 178.79.176.1
 
 vm:
   # For Redis service in digitalbuying.yaml.
@@ -19,7 +19,7 @@ logrotate:
     php-site-logs:
       source:  php-site-logs
       context:
-        php_version: '8.1'
+        php_version: '8.5'
 
 # Site `directories` are configured in each CMS' Pillar file.
 backup:
@@ -32,7 +32,7 @@ apache:
 
 # Databases and users are configured in each CMS' Pillar file.
 mysql:
-  version: '8.0'
+  version: '9.7'
   configuration: cms
   backup:
     location: ocp-coalition-backup/database
@@ -43,7 +43,6 @@ docker:
   syslog_logging: True
 
 php:
-  version: '8.1'  # sync with logrotate above
   opcache:
     memory_consumption: 256
     interned_strings_buffer: 32
