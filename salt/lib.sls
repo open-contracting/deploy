@@ -178,8 +178,8 @@ enable site {{ name }}.conf:
 
 {% if "htpasswd" in entry %}
 {% set htpasswd_file = '/etc/apache2/.htpasswd-' + name %}
-.htpasswd-{{ name }}:
-  file.exists:
+htpasswd-{{ name }}:
+  file.managed:
     - name: {{ htpasswd_file }}
 
 {% for username, password in entry.htpasswd|items %}
