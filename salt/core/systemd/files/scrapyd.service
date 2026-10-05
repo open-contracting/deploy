@@ -17,7 +17,7 @@ Environment="https_proxy={{ pillar.tinyproxy.url }}"
 Environment="no_proxy=localhost,sentry.io,open-contracting.org"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
-ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log
+ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log --pidfile=
 Restart=on-failure
 RestartSec=30
 
