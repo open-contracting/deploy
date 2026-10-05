@@ -34,6 +34,8 @@ mysql:
   configuration: cms
   backup:
     location: ocp-cms-backup/database
+    extra_options:
+       set-gtid-purged: "OFF"
 
 docker:
   user: deployer
