@@ -23,7 +23,7 @@ logrotate:
 
 # Site `directories` are configured in each CMS' Pillar file.
 backup:
-  location: ocp-coalition-backup/site
+  location: ocp-cms-backup/site
 
 # Sites are configured in each CMS' Pillar file.
 apache:
@@ -35,7 +35,7 @@ mysql:
   version: '9.7'
   configuration: cms
   backup:
-    location: ocp-coalition-backup/database
+    location: ocp-cms-backup/database
 
 docker:
   user: deployer
