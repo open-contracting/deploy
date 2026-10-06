@@ -27,9 +27,7 @@ include:
         [client]
         user = root
         password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
-        {%- for option, value in salt['pillar.get']('mysql:backup:extra_options', {}).items() %}
-        {{ option }} = {{ value }}
-        {% endfor %}
+        set-gtid-purged = OFF
     - mode: 600
     - require:
       - file: /home/sysadmin-tools/bin
