@@ -568,10 +568,17 @@ Existing service
 
    #. Notify relevant users of the change
    #. Reduce the TTLs of CNAME records
-   #. If the server uses :ref:`SSL certificates<ssl-certificates>`, copy the ``/etc/apache2/md`` directory
-   #. If the server runs any Django applications (like :doc:`servers/cove`), copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
-   #. If the server runs a database like PostgreSQL (``pg_dump``), MySQL (``mysqldump``) or Elasticsearch, copy the database
-   #. If the server runs a web server like Apache or application server like PHP-FPM, optionally copy the log files
+   #. If the server:
+
+      Uses :ref:`SSL certificates<ssl-certificates>`
+        Copy the ``/etc/apache2/md`` directory
+      Runs any **Django** applications (like :doc:`cove<servers/cove>` and ``cms``)
+        Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
+      Runs a database like **PostgreSQL**, **MySQL** or **Elasticsearch**
+        Copy the database with :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``
+      Runs a web server like **Apache** or application server like **PHP-FPM**:
+        Optionally, copy the log files, like ``/var/log/apache2/`` or ``/var/log/php-fpm/``
+
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
    #. :doc:`Deploy the server<deploy>`
    #. :doc:`Deploy<deploy>` the Prometheus service
