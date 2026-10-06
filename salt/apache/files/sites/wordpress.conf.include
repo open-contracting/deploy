@@ -76,9 +76,9 @@ RewriteEngine On
 # %{REQUEST_URI} is not reliably decoded before mapping, so -f could 404 a file that exists.
 RewriteCond %{REQUEST_URI} !^/wp-content/uploads/
 RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-# The extensions are from Cloudflare: plus `map` and minus `ico` (WordPress serves favicon.ico).
+# Cloudflare's list, plus `map` and `webmanifest`, minus `ico` (WordPress serves favicon.ico).
 # https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions
-RewriteRule \.(?:7z|apk|avi|avif|bin|bmp|bz2|class|css|csv|dmg|doc|docx|ejs|eot|eps|exe|flac|gif|gz|iso|jar|jpeg|jpg|js|map|mid|midi|mkv|mp3|mp4|ogg|otf|pdf|pict|pls|png|ppt|pptx|ps|rar|svg|svgz|swf|tar|tif|tiff|ttf|webm|webp|woff|woff2|xls|xlsx|zip|zst)$ - [R=404,L]
+RewriteRule \.(?:7z|apk|avi|avif|bin|bmp|bz2|class|css|csv|dmg|doc|docx|ejs|eot|eps|exe|flac|gif|gz|iso|jar|jpeg|jpg|js|map|mid|midi|mkv|mp3|mp4|ogg|otf|pdf|pict|pls|png|ppt|pptx|ps|rar|svg|svgz|swf|tar|tif|tiff|ttf|webm|webp|webmanifest|woff|woff2|xls|xlsx|zip|zst)$ - [R=404,L]
 
 <IfModule mod_mime.c>
     AddType image/webp .webp
