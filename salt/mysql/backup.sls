@@ -27,6 +27,7 @@ include:
         [client]
         user = root
         password = {{ salt['pillar.get']('mysql:users:root:password', '') }}
+        set-gtid-purged = OFF
     - mode: 600
     - require:
       - file: /home/sysadmin-tools/bin

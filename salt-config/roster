@@ -1,7 +1,7 @@
 # Linode
 
 cms:
-  host: ocp21.open-contracting.org
+  host: ocp30.open-contracting.org
 cove:
   host: ocp28.open-contracting.org
 docs:

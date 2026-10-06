@@ -18,7 +18,9 @@ percona-release:
     - name: percona-release setup ps{{ mysql_version|replace('.', '') }}
     - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-release.list
 {% else %}
-    - name: percona-release setup ps{{ mysql_version|replace('.', '') }}-lts --scheme https
+    - name: |
+       percona-release setup ps-{{ mysql_version|replace('.', '') }}-lts --scheme https
+       percona-release enable ps-{{ mysql_version|replace('.', '') }}-lts --scheme https
     - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-lts-release.list
 {% endif %}
     - require:
