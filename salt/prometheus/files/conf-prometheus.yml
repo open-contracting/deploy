@@ -17,6 +17,7 @@ scrape_configs:
 
   # Node Exporter.
 {%- for job_name, host in {
+    'coalition': 'ocp21.open-contracting.org',
     'cms': 'ocp30.open-contracting.org',
     'cove-ocds': 'ocp28.open-contracting.org',
     'dream-bi': 'ocp25.open-contracting.org',
