@@ -573,7 +573,12 @@ Existing service
       Uses :ref:`SSL certificates<ssl-certificates>`
         Copy the ``/etc/apache2/md`` directory
       Runs any **Django** applications (like :doc:`cove<servers/cove>` and ``cms``)
-        Copy the ``media`` directory and the ``db.sqlite3`` file from the app's directory
+        Copy the ``media`` directory and any ``db.sqlite3`` file from the app's directory, for example:
+
+        .. code-block:: bash
+
+           rsync -avz root@ocp99.open-contracting.org:/data/deploy/digitalbuying/media/ /data/deploy/digitalbuying/media/
+
       Runs a database like **PostgreSQL**, **MySQL** or **Elasticsearch**
         Copy the database with :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``
       Runs a web server like **Apache** or application server like **PHP-FPM**:
