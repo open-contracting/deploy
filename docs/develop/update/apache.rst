@@ -173,7 +173,7 @@ The service should now be available at its ``https://`` web address.
 
 .. tip::
 
-   In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__.
+   In case of error, see `mod_md's documentation <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ and the `Let's Encrypt community <https://community.letsencrypt.org>`__.
 
    If you need to test the acquisition of certificates, :ref:`use Let's Encrypt's staging environment<mod_md-test>`.
 

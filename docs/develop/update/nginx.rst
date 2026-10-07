@@ -110,4 +110,4 @@ The service should now be available at its ``https://`` web address. Certbot wil
 
 .. tip::
 
-   If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://github.com/icing/mod_md#dipping-the-toe>`__.
+   If you need to test the acquisition of certificates, `use Let's Encrypt's staging environment <https://letsencrypt.org/docs/staging-environment/>`__.
