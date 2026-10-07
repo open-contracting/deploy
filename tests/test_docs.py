@@ -39,11 +39,6 @@ switcher_versions = {
 
 banner_live = [
     ("", ["latest", "1.1"]),
-    ("/infrastructure", ["latest", "0.9"]),
-    ("/profiles/eforms", ["latest"]),
-    ("/profiles/eu", ["latest"]),
-    ("/profiles/gpa", ["latest"]),
-    ("/profiles/ppp", ["latest", "1.0"]),
 ]
 banner_old = [
     ("", ["1.0"]),
@@ -325,10 +320,11 @@ def test_versions_json_staging(root):
     assert get(f"{base_url}{r.json()['live_url']}").status_code == 200
 
 
-# The three tests below cover the roots that still render the banner with a server-side include. Drop a root from
-# the lists above once it renders the banner from versions.json instead: `requests` doesn't run the JavaScript that
-# writes the banner, and the message strings are in every page's JSON configuration, so the assertions invert. The
-# frozen /1.0/ keeps its include, so test_banner_old outlives the others.
+# The three tests below cover the root, which still renders its banner with a server-side include. Drop it from the
+# lists above once it renders the banner from versions.json instead, and point test_banner_staging at a staging copy
+# that still has an include: `requests` doesn't run the JavaScript that writes the banner, and the message strings
+# are in every page's JSON configuration, so the assertions invert. The frozen /1.0/ keeps its include, so
+# test_banner_old outlives the others.
 @pytest.mark.parametrize(
     ("root", "version"), [(root, version) for root, versions in banner_live for version in versions]
 )
@@ -353,13 +349,13 @@ def test_banner_old(root, version):
 
 
 def test_banner_staging():
-    r = get(f"{base_url}/staging/profiles/ppp/1.0-dev/en/")
+    r = get(f"{base_url}/staging/1.2-dev/en/")
 
     assert r.status_code == 200
     assert "This is an old version of " not in r.text
     assert "This is a development copy of " in r.text
     assert "This profile is in development " not in r.text
-    assert '<a href="/profiles/ppp/latest/en/">' in r.text
+    assert '<a href="/latest/en/">' in r.text
 
 
 @pytest.mark.parametrize(
