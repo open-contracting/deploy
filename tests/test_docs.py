@@ -150,7 +150,7 @@ def test_version_switcher(root, version):
     r = get(f"{base_url}{root}/switcher?branch={version}")
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{root}/{version}/?"
+    assert r.headers["Location"] == f"{base_url}{root}/{version}/"
 
 
 # Staging branches are not options in the version switcher.
@@ -166,7 +166,7 @@ def test_version_switcher_with_referer(root, version, path):
     )
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}{path}?"
+    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}{path}"
 
 
 @pytest.mark.parametrize(
@@ -182,7 +182,7 @@ def test_version_switcher_from_staging(from_version, to_version):
     )
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/?"
+    assert r.headers["Location"] == f"{base_url}/{to_version}/"
 
 
 @pytest.mark.parametrize(("from_version", "to_version"), permutations(["latest", "1.1", "1.0"], 2))
@@ -193,7 +193,7 @@ def test_version_switcher_stable_sitemap(from_version, to_version):
     )
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/es/schema/release/?"
+    assert r.headers["Location"] == f"{base_url}/{to_version}/es/schema/release/"
 
 
 @pytest.mark.parametrize(
@@ -210,7 +210,7 @@ def test_version_switcher_unstable_sitemap(from_version, to_version):
     )
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/?"
+    assert r.headers["Location"] == f"{base_url}/{to_version}/"
 
 
 @pytest.mark.parametrize(
@@ -228,7 +228,7 @@ def test_language_switcher(root, version, lang):
     r = get(f"{base_url}{prefix}{root}/{version}/switcher?lang={lang}")
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}/?"
+    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}/"
 
 
 @pytest.mark.parametrize(
@@ -249,7 +249,7 @@ def test_language_switcher_with_referer(root, version, lang, path):
     )
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}{path}?"
+    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}{path}"
 
 
 @pytest.mark.parametrize(
@@ -282,7 +282,8 @@ def test_default_404():
     r = get(f"{base_url}/latest/eo/")
 
     assert r.status_code == 404
-    assert f"at {fqdn} " in r.text
+    # Apache's own page, rather than the documentation's, which ErrorDocument sets per language.
+    assert "<title>404 Not Found</title>" in r.text
 
 
 # As long as no branch is named "schema" or "extension", this also serves to test no proxy.
