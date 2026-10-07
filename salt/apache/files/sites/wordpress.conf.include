@@ -80,6 +80,29 @@ RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
 # https://developers.cloudflare.com/cache/concepts/default-cache-behavior/#default-cached-file-extensions
 RewriteRule \.(?:7z|apk|avi|avif|bin|bmp|bz2|class|css|csv|dmg|doc|docx|ejs|eot|eps|exe|flac|gif|gz|iso|jar|jpeg|jpg|js|map|mid|midi|mkv|mp3|mp4|ogg|otf|pdf|pict|pls|png|ppt|pptx|ps|rar|svg|svgz|swf|tar|tif|tiff|ttf|webm|webp|webmanifest|woff|woff2|xls|xlsx|zip|zst)$ - [R=404,L]
 
+# Handle scanners' probes, which WordPress would answer with its full 404 page. WordPress has no
+# pages or endpoints at any path this rule matches, so the rule blocks nothing WordPress serves.
+#
+# Each alternative, compared to OWASP CRS (https://github.com/coreruleset/coreruleset):
+# - Missing files under wp-content/plugins/ and wp-content/themes/, mostly from plugins and
+#   themes we don't run. WordPress-specific, so not in CRS.
+# - Extensions from CRS's restricted_extensions (set in rules/REQUEST-901-INITIALIZATION.conf,
+#   used by rule 920440) that scanners request per our access logs, plus `php` (WordPress's PHP
+#   entry points exist on disk).
+# - Hidden paths (except .well-known/), wp-config backups, and the `env`, `toml`, `yaml` and `yml`
+#   extensions. CRS's rules/restricted-files.data (rule 930130) lists the wp-config backups, and
+#   some hidden paths and files with those extensions, which this rule extends to all of them.
+#
+#   The <DirectoryMatch> and <FilesMatch> above miss hidden paths if a parent directory doesn't
+#   exist: Apache tests the path only up to the first missing part (like `/app` in `/app/.env`).
+# - A dot double-encoded as `%252e` (decoded once, to `%2e`), used to access parent or hidden
+#   paths on servers that decode twice (rule 930100). Apache decodes once.
+# - A path segment that starts with `;`, like `/;.env.sample`, that scanners request per our
+#   access logs. Apache gives `;` no meaning. Not in CRS.
+RewriteCond %{REQUEST_URI} !^/wp-content/uploads/
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
+RewriteRule ^/wp-content/(?:plugins|themes)/|\.(?:bak|cfg|conf|ini|log|old|save|sql|swp|php|env|toml|ya?ml)$|/\.(?!well-known(?:/|$))|wp-config[._-]|%2e|/; - [R=404,L,NC]
+
 <IfModule mod_mime.c>
     AddType image/webp .webp
 </IfModule>
