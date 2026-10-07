@@ -52,6 +52,5 @@ linkcheck_ignore = [
 linkcheck_anchors_ignore_for_url = (
     r"^https://github\.com/[^/]+/[^/]+/blob/",
     r"^https://github\.com/[^/]+/[^/]+/tree/",
-    r"^https://github\.com/icing/mod_md",
     r"^https://rabbitmq\.kingfisher\.open-contracting\.org",
 )
