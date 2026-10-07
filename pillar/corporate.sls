@@ -47,8 +47,6 @@ wordpress:
         - acfml-field-group-cache
         - google-tag-manager
         - items-per-page
-        - super-page-cache-dashboard-widget
-        - super-page-cache-feeds
         - wpml-autosave-lookup
       context:
         GTM_CONTAINER_ID: GTM-WMV9C5F

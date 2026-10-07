@@ -70,3 +70,5 @@ wordpress:
     - disable-user-enumeration
     - mail-from
     - require-two-factor
+    - super-page-cache-dashboard-widget
+    - super-page-cache-feeds
