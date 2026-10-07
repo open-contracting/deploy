@@ -29,6 +29,18 @@ The ``state.apply`` function often completes within one minute.
 
       ./run.py --state-output=changes 'mytarget-dev' state.apply pillar='{"python_apps":{"myapp":{"git":{"branch":"BRANCH_NAME"}}}}'
 
+.. _deploy-norestart:
+
+.. tip::
+
+   To not restart Scrapyd (for example, if spiders are running), run, for example:
+
+   .. code-block:: bash
+
+      ./run.py --state-output=changes 'registry' state.apply pillar='{"scrapyd_norestart":true}'
+
+   This skips all changes to Scrapyd, which the next deployment without ``scrapyd_norestart`` will apply.
+
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
