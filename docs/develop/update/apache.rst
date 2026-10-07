@@ -70,7 +70,8 @@ This will:
    -  If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``:
 
       -  :ref:`ssl-certificates`
-      -  Create a virtual host serving port 443
+      -  Create a virtual host serving port 443 for the ``servername``
+      -  Create a virtual host serving port 443 for any ``serveraliases``, to redirect to the ``servername``
       -  Configure a HTTP to HTTPS permanent redirect
       -  Add a ``Strict-Transport-Security`` header
 
