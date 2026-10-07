@@ -5,6 +5,7 @@
 import contextlib
 import os
 import shutil
+import signal
 import socket
 import subprocess
 import sys
@@ -39,8 +40,11 @@ def main():
 
     # Run salt-ssh as usual.
     print("Running...")
-    result = subprocess.run(sys.argv, check=False)  # noqa: S603
-    sys.exit(result.returncode)
+    # Let the salt-ssh subprocess handle Ctrl-C. Otherwise, the subprocess module handles Ctrl-C and kills salt-ssh.
+    # See bpo-25942 in https://docs.python.org/3/whatsnew/changelog.html
+    signal.signal(signal.SIGINT, lambda *args: None)
+    returncode = subprocess.run(sys.argv, check=False).returncode  # noqa: S603
+    sys.exit(128 - returncode if returncode < 0 else returncode)
 
 
 if __name__ == "__main__":
