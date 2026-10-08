@@ -182,7 +182,7 @@ WordPress
         sites:
           USERNAME:
             checks:
-              enabled:
+              scheduled:
                 - integrity
                 - updates
                 - silent

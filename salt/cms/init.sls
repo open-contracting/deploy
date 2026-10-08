@@ -110,14 +110,14 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% endfor %}
 
 {% set checks = entry.checks|default({}) %}
-{% set enabled = checks.enabled|default([]) %}
-{% set parts = ['updates', 'silent']|select('in', enabled)|list %}
+{% set scheduled = checks.scheduled|default([]) %}
+{% set parts = ['updates', 'silent']|select('in', scheduled)|list %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
 # The must-use plugins above have no checksums at wordpress.org.
 {% set premium = checks.premium_plugins|default([]) %}
 {% set exclude = premium + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
-{% if 'integrity' in enabled %}
+{% if 'integrity' in scheduled %}
 /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh:
   file.managed:
     - mode: 755
@@ -140,7 +140,7 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% endif %}
 
 WordPress integrity check for {{ user }}:
-  cron.{{ 'present' if 'integrity' in enabled else 'absent' }}:
+  cron.{{ 'present' if 'integrity' in scheduled else 'absent' }}:
     - name: /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh
     - identifier: WORDPRESS_INTEGRITY_CHECK
     - user: {{ user }}

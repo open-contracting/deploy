@@ -52,7 +52,7 @@ wordpress:
         GTM_CONTAINER_ID: GTM-WMV9C5F
         ITEMS_PER_PAGE: 10
       checks:
-        enabled:
+        scheduled:
           - integrity
         premium_plugins:
           - acfml
