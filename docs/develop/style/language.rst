@@ -48,10 +48,21 @@ To concatenate strings, use the ``~`` operator, which converts its operands to s
 
       \+ ['"]|['"] \+
 
+Optional boolean keys
+~~~~~~~~~~~~~~~~~~~~~
+
+To test whether an optional boolean is true, use the ``.get()`` method:
+
+.. code-block:: jinja
+
+   {% if pillar.parent.get('enabled') %}
+
+Add a new boolean key to the regular expression under *Optional mapping keys*.
+
 Optional mapping keys
 ~~~~~~~~~~~~~~~~~~~~~
 
-To test whether a key is present in a mapping, use the ``in`` operator:
+To test whether a non-boolean key is present in a mapping, use the ``in`` operator:
 
 .. code-block:: jinja
 
@@ -59,11 +70,11 @@ To test whether a key is present in a mapping, use the ``in`` operator:
 
 .. note::
 
-   Maintainers can check this style rule with this regular expression:
+   Maintainers can check this style rule with this regular expression, which excludes boolean keys:
 
    .. code-block:: none
 
-      if .*get\(.(?!(?:autoremove|compilemessages|enabled|public_access|replication|smartmon|summarystats)\b)
+      if .*get\(.(?!(?:ENABLE_CHECKER|autoremove|cardinal|enabled|filter|public_access|replication|reports|scrapyd_norestart|site_logs|smartmon|summarystats|syslog_logging|write)\b)
 
 To iterate over an optional mapping:
 
@@ -99,15 +110,6 @@ Or:
 .. code-block:: jinja
 
    {% for value in salt['pillar.get']('parent:child', []) %}
-
-Optional boolean keys
-~~~~~~~~~~~~~~~~~~~~~
-
-To test whether an optional boolean is true, use the ``.get()`` method:
-
-.. code-block:: jinja
-
-   {% if pillar.parent.get('enabled') %}
 
 Optional keys
 ~~~~~~~~~~~~~
