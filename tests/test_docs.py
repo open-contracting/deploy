@@ -1,5 +1,4 @@
 import os
-from itertools import chain, permutations, product
 from urllib.parse import urlsplit
 
 import pytest
@@ -37,11 +36,6 @@ switcher_versions = {
     "/profiles/ppp": ["latest"],
 }
 
-banner_old = [
-    ("", ["1.0"]),
-]
-
-
 def get(url, **kwargs):
     return requests.get(url, allow_redirects=False, **kwargs)
 
@@ -59,8 +53,8 @@ def get_prefix(version):
 @pytest.mark.parametrize(
     "url",
     [
-        "http://standard.open-contracting.org/switcher?branch=latest",
-        "http://standard.open-contracting.org/latest/switcher?lang=en",
+        "http://standard.open-contracting.org/latest/en/",
+        "http://standard.open-contracting.org/robots.txt",
     ],
 )
 def test_force_https(url):
@@ -139,109 +133,6 @@ def test_profiles():
     assert "Parent Directory" in r.text
 
 
-# Only the frozen /1.0/ still posts to a version switcher, and it posts to the root's: every other version
-# navigates client-side. Staging branches are not options in the version switcher.
-@pytest.mark.parametrize("version", versions[""][0][:-1])
-def test_version_switcher(version):
-    r = get(f"{base_url}/switcher?branch={version}")
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{version}/"
-
-
-@pytest.mark.parametrize("version", versions[""][0][:-1])
-def test_version_switcher_with_referer(version):
-    path = versions[""][1]
-
-    r = get(f"{base_url}/switcher?branch={version}", headers={"Referer": f"{base_url}/latest{path}"})
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{version}{path}"
-
-
-@pytest.mark.parametrize(
-    ("from_version", "to_version"),
-    chain(
-        product(["1.0-dev"], ["latest", "1.1", "1.0"]),
-    ),
-)
-def test_version_switcher_from_staging(from_version, to_version):
-    r = get(
-        f"{base_url}/switcher?branch={to_version}",
-        headers={"Referer": f"{base_url}/staging/{from_version}/es/schema/release/"},
-    )
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/"
-
-
-@pytest.mark.parametrize(("from_version", "to_version"), permutations(["latest", "1.1", "1.0"], 2))
-def test_version_switcher_stable_sitemap(from_version, to_version):
-    r = get(
-        f"{base_url}/switcher?branch={to_version}",
-        headers={"Referer": f"{base_url}/{from_version}/es/schema/release/"},
-    )
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/es/schema/release/"
-
-
-@pytest.mark.parametrize(
-    ("from_version", "to_version"),
-    chain(
-        product(["latest", "1.1", "1.0"], ["2.0"]),
-        product(["2.0"], ["latest", "1.1", "1.0"]),
-    ),
-)
-def test_version_switcher_unstable_sitemap(from_version, to_version):
-    r = get(
-        f"{base_url}/switcher?branch={to_version}",
-        headers={"Referer": f"{base_url}/{from_version}/es/schema/release/"},
-    )
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}/{to_version}/"
-
-
-@pytest.mark.parametrize(
-    ("root", "version", "lang"),
-    [
-        (root, version, lang)
-        for root, (langs, path) in languages.items()
-        for lang in langs
-        for version in versions[root][0]
-    ],
-)
-def test_language_switcher(root, version, lang):
-    prefix = get_prefix(version)
-
-    r = get(f"{base_url}{prefix}{root}/{version}/switcher?lang={lang}")
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}/"
-
-
-@pytest.mark.parametrize(
-    ("root", "version", "lang", "path"),
-    [
-        (root, version, lang, path)
-        for root, (langs, path) in languages.items()
-        for lang in langs
-        for version in versions[root][0]
-    ],
-)
-def test_language_switcher_with_referer(root, version, lang, path):
-    prefix = get_prefix(version)
-
-    r = get(
-        f"{base_url}{prefix}{root}/{version}/switcher?lang={lang}",
-        headers={"Referer": f"{base_url}{prefix}{root}/{version}/en{path}"},
-    )
-
-    assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}/{lang}{path}"
-
-
 @pytest.mark.parametrize(
     ("root", "version", "lang"),
     [
@@ -311,21 +202,6 @@ def test_versions_json_staging(root):
     assert r.headers["Cache-Control"] == "no-cache"
     assert r.json() == {"staging": True, "live_url": f"{root}/latest/en/"}
     assert get(f"{base_url}{r.json()['live_url']}").status_code == 200
-
-
-# Only the frozen /1.0/ still renders a banner with a server-side include. Every other version writes its banner
-# with JavaScript, which `requests` doesn't run, and carries every message string in its JSON configuration, so
-# there is nothing here to assert against.
-@pytest.mark.parametrize(
-    ("root", "version"), [(root, version) for root, versions in banner_old for version in versions]
-)
-def test_banner_old(root, version):
-    r = get(f"{base_url}{root}/{version}/en/")
-
-    assert r.status_code == 200
-    assert "This is an old version of " in r.text
-    assert "This is a development copy of " not in r.text
-    assert "This profile is in development " not in r.text
 
 
 @pytest.mark.parametrize(

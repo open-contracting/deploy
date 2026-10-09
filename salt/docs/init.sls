@@ -66,14 +66,6 @@ allow Apache access to {{ userdir }}:
     - require:
       - file: {{ userdir }}/web
 
-{{ userdir }}/web/includes:
-  file.recurse:
-    - source: salt://apache/files/docs/includes
-    - user: {{ user }}
-    - group: {{ user }}
-    - require:
-      - file: {{ userdir }}/web
-
 {#-
   The versions that the documentation's version switcher offers, current version first, and their labels.
 
@@ -82,7 +74,7 @@ allow Apache access to {{ userdir }}:
   directory: they need Apache directives, but readers aren't offered them, and naming them here would make the
   documentation show its old-version banner on them.
 
-  Update this on release. It replaces includes/version-options*.html, which only the frozen /1.0/ still reads.
+  Update this on release.
 -#}
 {%- set documentation = {
     '': [
@@ -128,20 +120,6 @@ allow Apache access to {{ userdir }}:
     - require:
       - file: {{ userdir }}/web
 {%- endfor %}
-
-# /1.0/ can't be rebuilt, so its version switcher still reads this include. It is generated from the list
-# above, so that a release updates one place.
-{{ userdir }}/web/includes/version-options.html:
-  file.managed:
-    - contents:
-      - <option>Version</option>
-{%- for version in documentation[''] %}
-      - <option value="{{ version.ref }}">{{ version.label }}</option>
-{%- endfor %}
-    - user: {{ user }}
-    - group: {{ user }}
-    - require:
-      - file: {{ userdir }}/web/includes
 
 {{ userdir }}/1-size.sh:
   file.managed:

@@ -42,10 +42,6 @@
 
 DocumentRoot {{ documentroot }}
 
-<Location /1.0/>
-    SetEnv BANNER /includes/banner_old.html
-</Location>
-
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
     Require all granted
@@ -81,14 +77,6 @@ DocumentRoot {{ documentroot }}
 {%- endfor %}
 </Directory>
 
-# /1.0/ was built in May 2018 and can't be rebuilt, so it is the only tree whose pages contain
-# server-side includes. Options in a nested Directory replaces the parent's, hence the `+`.
-# https://httpd.apache.org/docs/current/howto/ssi.html#configuring
-<Directory {{ documentroot }}/1.0>
-    Options +IncludesNOEXEC
-    AddOutputFilter INCLUDES .html
-</Directory>
-
 {%- for root, opts in options|items %}
 ####################
 # {{ root or '/' }}
@@ -101,46 +89,7 @@ DocumentRoot {{ documentroot }}
 
 # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
-{%- if not root %}
-# Implement the version switcher. Only /1.0/ still posts here: every other version navigates client-side.
-<Location /switcher>
-    RewriteEngine on
-
-    {%- for versions in opts.stable_sitemap|default([None]) %}
-        {%- if versions %}
-    # Test that we are switching between versions with the same sitemap or with appropriate redirects.
-    RewriteCond "%{HTTP_REFERER}" "^https://([^/]*)/({{ versions|join('|') }})/"
-    RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
-        {%- endif %}
-    # Use the HTTP referer to return to the same page in the new version.
-    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
-    # The backreferences are the version (branch), language and path.
-    RewriteRule . /%5/%3/%4? [R,NE]
-    {%- endfor %}
-
-    # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
-    RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
-    # The backreference is the version (branch).
-    RewriteRule . /%1/? [R,NE]
-</Location>
-{%- endif %}
-
-# Implement the language switcher.
     {%- for version in opts.versions %}
-<Location {{ root }}/{{ version }}/switcher>
-    RewriteEngine on
-
-    # Use the HTTP referer to return to the same page in the new language.
-    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-    # The backreferences are the version, language and path.
-    RewriteRule . {{ root }}/%2/%5/%4? [R,NE]
-
-    # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
-    RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-    # The backreference is the language.
-    RewriteRule . {{ root }}/{{ version }}/%1/? [R,NE]
-</Location>
-
 # Configure the error page.
         {%- for lang in opts.languages %}
 <Location {{ root }}/{{ version }}/{{ lang }}/>
@@ -333,21 +282,6 @@ RedirectMatch /profiles/ppp/{{ version }}/{{ lang }}/extensions/transaction_mile
     RewriteCond "%{REQUEST_URI}" "^/staging/{{ pattern }}([^/]*/[^/]*)/(.*/)?error_redirect/(.*)"
     # The backreferences are the root, version and language, and path.
     RewriteRule . https://standard.open-contracting.org/staging/%1%2/%4 [R]
-</LocationMatch>
-
-# Implement the language switcher.
-<LocationMatch "^/staging/{{ pattern }}[^/]*/switcher/?$">
-    RewriteEngine on
-
-    # Use the HTTP referer to return to the same page in the new language.
-    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/staging/{{ pattern }}([^/]*)/([^/]*)/(.*):::lang=(.*)$"
-    # The backreferences are the root, version, language and path.
-    RewriteRule . https://standard.open-contracting.org/staging/%2%3/%6/%5? [R,NE]
-
-    # If there is no HTTP referer, or if the language is unknown, go to the version's homepage.
-    RewriteCond "%{QUERY_STRING}" "^lang=(.*)$"
-    # The backreferences are the root, version and language.
-    RewriteRule ^{{ documentroot }}/staging/{{ pattern }}([^/]*) https://standard.open-contracting.org/staging/$1$2/%1/? [R,NE]
 </LocationMatch>
 
 ####################
