@@ -129,6 +129,20 @@ allow Apache access to {{ userdir }}:
       - file: {{ userdir }}/web
 {%- endfor %}
 
+# /1.0/ can't be rebuilt, so its version switcher still reads this include. It is generated from the list
+# above, so that a release updates one place.
+{{ userdir }}/web/includes/version-options.html:
+  file.managed:
+    - contents:
+      - <option>Version</option>
+{%- for version in documentation[''] %}
+      - <option value="{{ version.ref }}">{{ version.label }}</option>
+{%- endfor %}
+    - user: {{ user }}
+    - group: {{ user }}
+    - require:
+      - file: {{ userdir }}/web/includes
+
 {{ userdir }}/1-size.sh:
   file.managed:
     - source: salt://docs/files/size.sh

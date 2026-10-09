@@ -37,9 +37,6 @@ switcher_versions = {
     "/profiles/ppp": ["latest"],
 }
 
-banner_live = [
-    ("", ["latest", "1.1"]),
-]
 banner_old = [
     ("", ["1.0"]),
 ]
@@ -142,31 +139,24 @@ def test_profiles():
     assert "Parent Directory" in r.text
 
 
-# Staging branches are not options in the version switcher.
-@pytest.mark.parametrize(
-    ("root", "version"), [(root, version) for root, (vers, path) in versions.items() for version in vers[:-1]]
-)
-def test_version_switcher(root, version):
-    r = get(f"{base_url}{root}/switcher?branch={version}")
+# Only the frozen /1.0/ still posts to a version switcher, and it posts to the root's: every other version
+# navigates client-side. Staging branches are not options in the version switcher.
+@pytest.mark.parametrize("version", versions[""][0][:-1])
+def test_version_switcher(version):
+    r = get(f"{base_url}/switcher?branch={version}")
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{root}/{version}/"
+    assert r.headers["Location"] == f"{base_url}/{version}/"
 
 
-# Staging branches are not options in the version switcher.
-@pytest.mark.parametrize(
-    ("root", "version", "path"),
-    [(root, version, path) for root, (vers, path) in versions.items() for version in vers[:-1]],
-)
-def test_version_switcher_with_referer(root, version, path):
-    prefix = get_prefix(version)
+@pytest.mark.parametrize("version", versions[""][0][:-1])
+def test_version_switcher_with_referer(version):
+    path = versions[""][1]
 
-    r = get(
-        f"{base_url}{root}/switcher?branch={version}", headers={"Referer": f"{base_url}{prefix}{root}/latest{path}"}
-    )
+    r = get(f"{base_url}/switcher?branch={version}", headers={"Referer": f"{base_url}/latest{path}"})
 
     assert r.status_code == 302
-    assert r.headers["Location"] == f"{base_url}{prefix}{root}/{version}{path}"
+    assert r.headers["Location"] == f"{base_url}/{version}{path}"
 
 
 @pytest.mark.parametrize(
@@ -323,22 +313,9 @@ def test_versions_json_staging(root):
     assert get(f"{base_url}{r.json()['live_url']}").status_code == 200
 
 
-# The three tests below cover the root, which still renders its banner with a server-side include. Drop it from the
-# lists above once it renders the banner from versions.json instead, and point test_banner_staging at a staging copy
-# that still has an include: `requests` doesn't run the JavaScript that writes the banner, and the message strings
-# are in every page's JSON configuration, so the assertions invert. The frozen /1.0/ keeps its include, so
-# test_banner_old outlives the others.
-@pytest.mark.parametrize(
-    ("root", "version"), [(root, version) for root, versions in banner_live for version in versions]
-)
-def test_banner_live(root, version):
-    r = get(f"{base_url}{root}/{version}/en/")
-
-    assert r.status_code == 200
-    assert "This is an old version of " not in r.text
-    assert "This is a development copy of " not in r.text
-
-
+# Only the frozen /1.0/ still renders a banner with a server-side include. Every other version writes its banner
+# with JavaScript, which `requests` doesn't run, and carries every message string in its JSON configuration, so
+# there is nothing here to assert against.
 @pytest.mark.parametrize(
     ("root", "version"), [(root, version) for root, versions in banner_old for version in versions]
 )
@@ -349,16 +326,6 @@ def test_banner_old(root, version):
     assert "This is an old version of " in r.text
     assert "This is a development copy of " not in r.text
     assert "This profile is in development " not in r.text
-
-
-def test_banner_staging():
-    r = get(f"{base_url}/staging/1.2-dev/en/")
-
-    assert r.status_code == 200
-    assert "This is an old version of " not in r.text
-    assert "This is a development copy of " in r.text
-    assert "This profile is in development " not in r.text
-    assert '<a href="/latest/en/">' in r.text
 
 
 @pytest.mark.parametrize(

@@ -46,32 +46,6 @@ SetEnv BANNER /includes/banner_live.html
 <Location /1.0/>
     SetEnv BANNER /includes/banner_old.html
 </Location>
-<Location /profiles/eu/>
-    SetEnv BANNER /includes/banner_eu.html
-</Location>
-
-# Staging banners.
-<Location /staging/>
-    SetEnv BANNER /includes/banner_staging.html
-</Location>
-<Location /staging/infrastructure/>
-    SetEnv BANNER /includes/banner_staging_infrastructure.html
-</Location>
-<Location /staging/profiles/>
-    SetEnv BANNER /includes/banner_staging_profiles.html
-</Location>
-<Location /staging/profiles/eforms/>
-    SetEnv BANNER /includes/banner_staging_profiles_eforms.html
-</Location>
-<Location /staging/profiles/eu/>
-    SetEnv BANNER /includes/banner_staging_profiles_eu.html
-</Location>
-<Location /staging/profiles/gpa/>
-    SetEnv BANNER /includes/banner_staging_profiles_gpa.html
-</Location>
-<Location /staging/profiles/ppp/>
-    SetEnv BANNER /includes/banner_staging_profiles_ppp.html
-</Location>
 
 # Remember: The Directory directive applies only to static files, not to proxied or redirected paths.
 <Directory {{ documentroot }}>
@@ -89,10 +63,7 @@ SetEnv BANNER /includes/banner_live.html
 
     # Indexes for https://standard.open-contracting.org/schema/
     # FollowSymLinks for `latest` and `1.1` symlinks.
-    # https://httpd.apache.org/docs/current/howto/ssi.html#exec
-    Options Indexes FollowSymLinks IncludesNOEXEC
-    # https://httpd.apache.org/docs/current/howto/ssi.html#configuring
-    AddOutputFilter INCLUDES .html
+    Options Indexes FollowSymLinks
 
     Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 
@@ -107,8 +78,16 @@ SetEnv BANNER /includes/banner_live.html
     # Add an "en" language if not present, to avoid serving a directory listing.
     # Putting this in a Directory directive rather than a Location directive avoids having to exclude /review, etc.
 {%- for root, opts in options|items %}
-    RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes + ['versions.json'] %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
+    RedirectMatch ^{{ root }}/{% for exclude in opts.redirect_excludes + ['versions.json', 'switcher'] %}(?!{{ exclude }}){% endfor %}([^/]+)/?$ {{ root }}/$1/en/
 {%- endfor %}
+</Directory>
+
+# /1.0/ was built in May 2018 and can't be rebuilt, so it is the only tree whose pages contain
+# server-side includes. Options in a nested Directory replaces the parent's, hence the `+`.
+# https://httpd.apache.org/docs/current/howto/ssi.html#configuring
+<Directory {{ documentroot }}/1.0>
+    Options +IncludesNOEXEC
+    AddOutputFilter INCLUDES .html
 </Directory>
 
 {%- for root, opts in options|items %}
@@ -123,27 +102,29 @@ SetEnv BANNER /includes/banner_live.html
 
 # Below, we match QUERY_STRING and HTTP_REFERER in the same RewriteCond for backreferences to work.
 
-# Implement the version switcher.
-<Location {{ root }}/switcher>
+{%- if not root %}
+# Implement the version switcher. Only /1.0/ still posts here: every other version navigates client-side.
+<Location /switcher>
     RewriteEngine on
 
     {%- for versions in opts.stable_sitemap|default([None]) %}
         {%- if versions %}
     # Test that we are switching between versions with the same sitemap or with appropriate redirects.
-    RewriteCond "%{HTTP_REFERER}" "^https://([^/]*){{ root }}/({{ versions|join('|') }})/"
+    RewriteCond "%{HTTP_REFERER}" "^https://([^/]*)/({{ versions|join('|') }})/"
     RewriteCond "%{QUERY_STRING}" "^branch=({{ versions|join('|') }})$"
         {%- endif %}
     # Use the HTTP referer to return to the same page in the new version.
-    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*){{ root }}/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
+    RewriteCond "%{HTTP_REFERER}:::%{QUERY_STRING}" "^https://([^/]*)/([^/]*)/([^/]*)/(.*):::branch=(.*)$"
     # The backreferences are the version (branch), language and path.
-    RewriteRule . {{ root }}/%5/%3/%4? [R,NE]
+    RewriteRule . /%5/%3/%4? [R,NE]
     {%- endfor %}
 
     # If there is no HTTP referer, or if the branch is legacy or otherwise unknown, go to the version's homepage.
     RewriteCond "%{QUERY_STRING}" "^branch=(.*)$"
     # The backreference is the version (branch).
-    RewriteRule . {{ root }}/%1/? [R,NE]
+    RewriteRule . /%1/? [R,NE]
 </Location>
+{%- endif %}
 
 # Implement the language switcher.
     {%- for version in opts.versions %}
