@@ -42,7 +42,6 @@
 
 DocumentRoot {{ documentroot }}
 
-SetEnv BANNER /includes/banner_live.html
 <Location /1.0/>
     SetEnv BANNER /includes/banner_old.html
 </Location>
