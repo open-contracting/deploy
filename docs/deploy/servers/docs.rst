@@ -73,53 +73,43 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 
 **If this is the first numbered version of a profile:**
 
-#. :ref:`Update salt/docs/robots.txt<add-new-profile>`.
+#. :ref:`Update salt/apache/files/docs/robots.txt<add-new-profile>`.
 #. In ``salt/apache/files/sites/docs.conf.include``, add the profile's latest branch, minor series and languages in the ``options`` variable.
-#. In ``tests/test_docs.py``, update the ``versions``, ``languages`` and ``banner_live`` variables.
-#. Add a ``salt/docs/includes/version-options-profiles-{root}.html`` file to this repository:
+#. In ``salt/docs/init.sls``, add the profile to the ``documentation`` variable:
 
-   .. code-block:: html
+   .. code-block:: none
 
-      <option>Version</option>
-      <option value="{latest-branch}">{version} ({latest-branch})</option>
+      'profiles/{root}/': [
+          {'ref': '{latest-branch}', 'label': '{version} ({latest-branch})'},
+      ],
 
-#. Add a ``salt/docs/includes/banner_staging_profiles_{root}.html`` file to this repository:
-
-   .. code-block:: html
-
-      <div class="oc-fixed-alert-header">
-          This is a development copy of the {name} docs, the <a href="/profiles/{root}/{latest-branch}/en/">latest live version is here</a>.
-      </div>
+#. In ``tests/test_docs.py``, update the ``versions``, ``languages`` and ``switcher_versions`` variables.
 
 **Otherwise:**
 
-#. In the appropriate ``salt/docs/includes/version-options*.html`` file, update the version number in the text of the first ``option`` element.
+#. In ``salt/docs/init.sls``, update the version's ``label`` in the ``documentation`` variable.
 
 **If this is a new major or minor version:**
 
-#. In ``salt/docs/robots.txt``, disallow the minor branch and its dev branch, for example:
+#. In ``salt/apache/files/docs/robots.txt``, disallow the minor branch and its dev branch, for example:
 
    .. code-block:: none
 
       Disallow: /1.2
       Disallow: /1.2-dev
 
-#. In ``salt/apache/files/sites/docs.conf.include``, add the minor series in the ``options`` variable, and add a new ``Location`` directive like:
-
-   .. code-block:: apache
-
-      <Location /1.1/>
-          SetEnv BANNER /includes/banner_old.html
-      </Location>
-
+#. In ``salt/apache/files/sites/docs.conf.include``, add the minor series in the ``options`` variable.
 #. In ``ocdsindex-exclude.txt``, add the base URL of the new version.
-#. In ``tests/test_docs.py``, update the ``versions``, ``banner_live`` and ``banner_old`` variables.
-#. In the appropriate ``salt/docs/includes/banner_staging*.html`` file and ``salt/docs/includes/banner_old*.html>`` file (if any), update the minor series.
-#. In the appropriate ``salt/docs/includes/version-options*.html`` file, add an ``option`` element to the "Live" ``optgroup`` for the previous minor series and previous version number, for example:
+#. In ``tests/test_docs.py``, update the ``versions``, ``banner_old`` and ``switcher_versions`` variables.
+#. In ``salt/docs/init.sls``, add the previous minor series to the root's entry in the ``documentation`` variable, after the current version, for example:
 
-   .. code-block:: html
+   .. code-block:: none
 
-      <option value="0.9">0.9.2</option>
+      {'ref': '0.9', 'label': '0.9.2'},
+
+   Listing it is what makes its pages show the old-version banner and offer it in the version switcher.
+
+#. If the root is ``/``, update the version in ``salt/apache/files/docs/includes/banner_old.html``, which the frozen ``/1.0/`` still reads.
 
 2. Update other repositories
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
