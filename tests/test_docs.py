@@ -36,6 +36,7 @@ switcher_versions = {
     "/profiles/ppp": ["latest"],
 }
 
+
 def get(url, **kwargs):
     return requests.get(url, allow_redirects=False, **kwargs)
 
