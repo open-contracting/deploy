@@ -163,7 +163,7 @@ docker:
   syslog_logging: True
 
 python:
-  version: '3.13'
+  version: '3.14'
 
 kingfisher_collect:
   user: collect
