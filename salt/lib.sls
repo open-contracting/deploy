@@ -98,8 +98,7 @@ unset {{ setting_name }} in {{ filename }}:
 # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 {% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
 {% if salt['pillar.get']('python:version') %}
-# If the Python version changes, remove the virtual environment, so that it is recreated. (A watch requisite on
-# virtualenv.managed doesn't recreate it, because the state has no mod_watch function.)
+# If the Python version changes, remove the virtual environment, so that it is recreated.
 {{ directory }}-virtualenv-clear:
   file.absent:
     - name: {{ directory }}/.ve
