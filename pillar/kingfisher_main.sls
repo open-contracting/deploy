@@ -162,6 +162,9 @@ docker:
   uid: 1005
   syslog_logging: True
 
+python:
+  version: '3.13'
+
 kingfisher_collect:
   user: collect
   group: deployer
