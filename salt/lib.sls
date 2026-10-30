@@ -97,6 +97,19 @@ unset {{ setting_name }} in {{ filename }}:
 # Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
 # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 {% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
+{% if salt['pillar.get']('python:version') %}
+# If the Python version changes, remove the virtual environment, so that it is recreated. (A watch requisite on
+# virtualenv.managed doesn't recreate it, because the state has no mod_watch function.)
+{{ directory }}-virtualenv-clear:
+  file.absent:
+    - name: {{ directory }}/.ve
+    - onchanges:
+      - pkg: python
+    - require_in:
+      - virtualenv: {{ directory }}-virtualenv
+      - virtualenv: {{ directory }}-uv
+{% endif %}
+
 {{ directory }}-virtualenv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
@@ -104,13 +117,8 @@ unset {{ setting_name }} in {{ filename }}:
     - runas: {{ user }}
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
-{% if salt['pillar.get']('python:version') %}
-    # If the Python version changes, reinstall the virtual environment.
-    - watch:
-      - pkg: python
-{% endif %}
 
-# This state only differs from the *-virtualenv state by installing uv and not watching python.
+# This state only differs from the *-virtualenv state by installing uv.
 {{ directory }}-uv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
