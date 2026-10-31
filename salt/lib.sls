@@ -130,7 +130,8 @@ unset {{ setting_name }} in {{ filename }}:
 
 {{ directory }}-requirements:
   cmd.run:
-    - name: .ve/bin/uv pip sync --python=.ve/bin/python -q requirements.txt
+    # Ignore the project's [tool.uv.pip] settings, like exclude-newer, which apply to compiling, not installing.
+    - name: .ve/bin/uv pip sync --no-config --python=.ve/bin/python -q requirements.txt
     - runas: {{ user }}
     - cwd: {{ directory }}
     - require:
