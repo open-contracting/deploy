@@ -132,6 +132,22 @@ Known projects
         -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
         -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
 
+   .. tab-item:: Google Analytics MCP
+
+      Project ID
+        ``ocp-analytics-mcp``
+      Contact
+        James
+      Documentation
+        `google-analytics-mcp <https://github.com/open-contracting/google-analytics-mcp>`__
+      Configuration
+        ``GOOGLE_CLIENT_ID`` and ``GOOGLE_CLIENT_SECRET`` secrets in the ``google-analytics-mcp`` Cloudflare Worker
+      APIs
+        -  Google Analytics Admin API
+        -  Google Analytics Data API
+      Credentials
+        -  OAuth client to use Sign in with Google and APIs in `google-analytics-mcp <https://github.com/open-contracting/google-analytics-mcp>`__
+
    .. tab-item:: GYB
 
       Project ID
