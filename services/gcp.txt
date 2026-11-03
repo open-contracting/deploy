@@ -71,6 +71,17 @@
 -- projects
 [
   {
+    "createTime": "2026-10-29T18:45:06.677Z",
+    "lifecycleState": "ACTIVE",
+    "name": "Google Analytics MCP",
+    "parent": {
+      "id": "1015889055088",
+      "type": "organization"
+    },
+    "projectId": "ocp-analytics-mcp",
+    "projectNumber": "853096710664"
+  },
+  {
     "createTime": "2026-08-10T15:10:02.233Z",
     "lifecycleState": "ACTIVE",
     "name": "Got Your Back Project",
@@ -131,26 +142,6 @@
 
 -- services
 analyticsdata.googleapis.com
-analyticshub.googleapis.com
-bigquery.googleapis.com
-bigqueryconnection.googleapis.com
-bigquerydatapolicy.googleapis.com
-bigquerymigration.googleapis.com
-bigqueryreservation.googleapis.com
-bigquerystorage.googleapis.com
-cloudapis.googleapis.com
-cloudtrace.googleapis.com
-dataform.googleapis.com
-dataplex.googleapis.com
-datastore.googleapis.com
-logging.googleapis.com
-monitoring.googleapis.com
-servicemanagement.googleapis.com
-serviceusage.googleapis.com
-sql-component.googleapis.com
-storage-api.googleapis.com
-storage-component.googleapis.com
-storage.googleapis.com
 
 -- service accounts
 [
@@ -662,6 +653,126 @@ vault.googleapis.com
   }
 ]
 
+== project ocp-analytics-mcp
+
+-- services
+analyticsadmin.googleapis.com
+analyticsdata.googleapis.com
+
+-- service accounts
+[]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/1015889055088",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "user:jmckinney@open-contracting.org"
+          ],
+          "role": "roles/owner"
+        }
+      ]
+    },
+    "project": "projects/853096710664",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/ocp-analytics-mcp"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "cloudbilling.googleapis.com/ProjectBillingInfo",
+    "displayName": "projects/ocp-analytics-mcp/billingInfo",
+    "location": "global",
+    "name": "//cloudbilling.googleapis.com/projects/ocp-analytics-mcp/billingInfo",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-analytics-mcp",
+    "project": "projects/853096710664",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "billingAccountName": "billingAccounts/01E25D-2E184A-8ED4AD",
+          "billingEnabled": true,
+          "name": "projects/ocp-analytics-mcp/billingInfo",
+          "projectId": "ocp-analytics-mcp"
+        },
+        "version": "v1"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/853096710664/locations/global/buckets/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-analytics-mcp",
+    "project": "projects/853096710664",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/853096710664/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/853096710664/sinks/_Default",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-analytics-mcp",
+    "project": "projects/853096710664",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/ocp-analytics-mcp/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/ocp-analytics-mcp/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/853096710664/sinks/_Required",
+    "organization": "organizations/1015889055088",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/ocp-analytics-mcp",
+    "project": "projects/853096710664",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/ocp-analytics-mcp/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/ocp-analytics-mcp/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
+
 == project ocp-library
 
 -- services
@@ -798,6 +909,7 @@ drive.googleapis.com
         "resource": {
           "authDomain": "gmail.com",
           "codeBucket": "staging.ocp-library.appspot.com",
+          "databaseType": "CLOUD_DATASTORE_COMPATIBILITY",
           "defaultBucket": "ocp-library.appspot.com",
           "defaultHostname": "ocp-library.uc.r.appspot.com",
           "featureSettings": {
