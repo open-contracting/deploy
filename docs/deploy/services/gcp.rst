@@ -88,6 +88,7 @@ Use a separate ``gcloud`` configuration for `dream-office.org <https://console.c
    env CLOUDSDK_ACTIVE_CONFIG_NAME=dream-office gcloud auth login
 
 Then, run ``set CLOUDSDK_ACTIVE_CONFIG_NAME dream-office`` before the commands above, and snapshot with ``uv run manage.py gcp snapshot -o 77010139352 > services/gcp-dream-office.txt``.
+
 .. _gcp-projects:
 
 Known projects
