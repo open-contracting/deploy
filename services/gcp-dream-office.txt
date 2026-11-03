@@ -1,0 +1,292 @@
+== organization 77010139352
+
+-- iam policy
+{
+  "bindings": [
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/billing.admin"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/browser"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/cloudasset.viewer"
+    },
+    {
+      "members": [
+        "user:<ustudio-1>",
+        "user:<ustudio-2>"
+      ],
+      "role": "roles/editor"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/iam.securityReviewer"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/logging.viewer"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/monitoring.viewer"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/oauthconfig.viewer"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/recommender.projectUtilViewer"
+    },
+    {
+      "members": [
+        "user:admin@dream-office.org",
+        "user:mckinney@dream-office.org",
+        "user:stets@dream-office.org"
+      ],
+      "role": "roles/resourcemanager.organizationAdmin"
+    },
+    {
+      "condition": {
+        "title": "<ustudio-1>"
+      },
+      "members": [
+        "user:<ustudio-1>"
+      ],
+      "role": "roles/resourcemanager.organizationAdmin"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/serviceusage.serviceUsageConsumer"
+    },
+    {
+      "members": [
+        "user:mckinney@dream-office.org"
+      ],
+      "role": "roles/serviceusage.serviceUsageViewer"
+    }
+  ],
+  "version": 3
+}
+
+-- projects
+[
+  {
+    "createTime": "2023-10-26T07:32:01.420806Z",
+    "lifecycleState": "ACTIVE",
+    "name": "DREAM Translation API",
+    "parent": {
+      "id": "77010139352",
+      "type": "organization"
+    },
+    "projectId": "dream-translation-api",
+    "projectNumber": "656445720093"
+  }
+]
+
+== project dream-translation-api
+
+-- services
+privilegedaccessmanager.googleapis.com
+translate.googleapis.com
+
+-- service accounts
+[
+  {
+    "disabled": false,
+    "displayName": "DREAM Translation",
+    "email": "dream-translation@dream-translation-api.iam.gserviceaccount.com",
+    "name": "projects/dream-translation-api/serviceAccounts/dream-translation@dream-translation-api.iam.gserviceaccount.com",
+    "oauth2ClientId": "108658698131882605195",
+    "projectId": "dream-translation-api",
+    "uniqueId": "108658698131882605195"
+  }
+]
+
+-- service account keys dream-translation@dream-translation-api.iam.gserviceaccount.com
+[
+  {
+    "keyAlgorithm": "KEY_ALG_RSA_2048",
+    "keyOrigin": "GOOGLE_PROVIDED",
+    "keyType": "USER_MANAGED",
+    "name": "projects/dream-translation-api/serviceAccounts/dream-translation@dream-translation-api.iam.gserviceaccount.com/keys/c4bf2a4902aead5123d900b52e3465aa0f782e5c",
+    "validAfterTime": "2023-10-26T07:38:49Z",
+    "validBeforeTime": "9999-12-31T23:59:59Z"
+  }
+]
+
+-- iam policies
+[
+  {
+    "assetType": "cloudresourcemanager.googleapis.com/Project",
+    "organization": "organizations/77010139352",
+    "policy": {
+      "bindings": [
+        {
+          "members": [
+            "serviceAccount:dream-translation@dream-translation-api.iam.gserviceaccount.com"
+          ],
+          "role": "roles/cloudtranslate.user"
+        },
+        {
+          "members": [
+            "user:herasymchuk@dream-office.org"
+          ],
+          "role": "roles/editor"
+        },
+        {
+          "members": [
+            "user:admin@dream-office.org"
+          ],
+          "role": "roles/owner"
+        },
+        {
+          "members": [
+            "user:herasymchuk@dream-office.org",
+            "user:mckinney@dream-office.org"
+          ],
+          "role": "roles/viewer"
+        }
+      ]
+    },
+    "project": "projects/656445720093",
+    "resource": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api"
+  }
+]
+
+-- resources
+[
+  {
+    "assetType": "cloudbilling.googleapis.com/ProjectBillingInfo",
+    "displayName": "projects/dream-translation-api/billingInfo",
+    "location": "global",
+    "name": "//cloudbilling.googleapis.com/projects/dream-translation-api/billingInfo",
+    "organization": "organizations/77010139352",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api",
+    "project": "projects/656445720093",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "billingAccountName": "billingAccounts/01DF72-F7AB50-282CE6",
+          "billingEnabled": true,
+          "name": "projects/dream-translation-api/billingInfo",
+          "projectId": "dream-translation-api"
+        },
+        "version": "v1"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Default bucket",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/656445720093/locations/global/buckets/_Default",
+    "organization": "organizations/77010139352",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api",
+    "project": "projects/656445720093",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Default bucket",
+          "lifecycleState": "ACTIVE",
+          "name": "projects/656445720093/locations/global/buckets/_Default",
+          "retentionDays": 30
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogBucket",
+    "description": "Audit bucket",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/656445720093/locations/global/buckets/_Required",
+    "organization": "organizations/77010139352",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api",
+    "project": "projects/656445720093",
+    "state": "ACTIVE",
+    "versionedResources": [
+      {
+        "resource": {
+          "description": "Audit bucket",
+          "lifecycleState": "ACTIVE",
+          "locked": true,
+          "name": "projects/656445720093/locations/global/buckets/_Required",
+          "retentionDays": 400
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Default",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/656445720093/sinks/_Default",
+    "organization": "organizations/77010139352",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api",
+    "project": "projects/656445720093",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/dream-translation-api/locations/global/buckets/_Default",
+          "filter": "NOT LOG_ID(\"cloudaudit.googleapis.com/activity\") AND NOT LOG_ID(\"externalaudit.googleapis.com/activity\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"externalaudit.googleapis.com/system_event\") AND NOT LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") AND NOT LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Default",
+          "resourceName": "projects/dream-translation-api/sinks/_Default"
+        },
+        "version": "v2"
+      }
+    ]
+  },
+  {
+    "assetType": "logging.googleapis.com/LogSink",
+    "displayName": "_Required",
+    "location": "global",
+    "name": "//logging.googleapis.com/projects/656445720093/sinks/_Required",
+    "organization": "organizations/77010139352",
+    "parentAssetType": "cloudresourcemanager.googleapis.com/Project",
+    "parentFullResourceName": "//cloudresourcemanager.googleapis.com/projects/dream-translation-api",
+    "project": "projects/656445720093",
+    "versionedResources": [
+      {
+        "resource": {
+          "destination": "logging.googleapis.com/projects/dream-translation-api/locations/global/buckets/_Required",
+          "filter": "LOG_ID(\"cloudaudit.googleapis.com/activity\") OR LOG_ID(\"externalaudit.googleapis.com/activity\") OR LOG_ID(\"cloudaudit.googleapis.com/system_event\") OR LOG_ID(\"externalaudit.googleapis.com/system_event\") OR LOG_ID(\"cloudaudit.googleapis.com/access_transparency\") OR LOG_ID(\"externalaudit.googleapis.com/access_transparency\")",
+          "name": "_Required",
+          "resourceName": "projects/dream-translation-api/sinks/_Required"
+        },
+        "version": "v2"
+      }
+    ]
+  }
+]
