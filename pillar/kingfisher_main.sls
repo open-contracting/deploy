@@ -106,7 +106,7 @@ apache:
       servername: collect.kingfisher.open-contracting.org
       context:
         documentroot: /home/collect/scrapyd
-        proxypass: http://localhost:6800/
+        proxypass: http://localhost:6800/ disablereuse=On
         authname: Kingfisher Scrapyd
     pelican_frontend:
       configuration: pelican
