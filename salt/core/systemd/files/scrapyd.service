@@ -17,9 +17,10 @@ Environment="https_proxy={{ pillar.tinyproxy.url }}"
 Environment="no_proxy=localhost,sentry.io,open-contracting.org"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
-ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log --pidfile=
+ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --pidfile=
 Restart=on-failure
 RestartSec=30
+LogFilterPatterns="~Pingdom"
 
 [Install]
 WantedBy=multi-user.target
