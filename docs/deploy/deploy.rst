@@ -41,6 +41,17 @@ The ``state.apply`` function often completes within one minute.
 
    This skips all changes to Scrapyd, which the next deployment without ``scrapyd_norestart`` will apply.
 
+.. _non_live_site:
+
+.. note::
+
+   To disable mod_md autorenewal (for example, if DNS is not live yet and SSL provisioning will fail), run, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'cms' state.apply pillar='{"site_non_live_dns":['coalition','corporate']}'
+
+
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
