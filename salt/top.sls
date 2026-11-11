@@ -28,6 +28,7 @@ base:
 
   'cove':
     - cove
+    - tecolote
     - tinyproxy
 
   'credere*':

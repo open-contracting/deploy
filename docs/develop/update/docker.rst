@@ -59,6 +59,21 @@ After deploying the server, run ``id -u deployer`` on the server, and set ``dock
      uid: 1002
      syslog_logging: True
 
+Pull private images
+~~~~~~~~~~~~~~~~~~
+
+If an image is private, like one built from a private repository, create a GitHub `personal access token (classic) <https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry#authenticating-with-a-personal-access-token-classic>`__ with only the ``read:packages`` scope, from an account that can read the package. In the server's private Pillar file, add, for example:
+
+.. code-block:: yaml
+
+   docker:
+     registries:
+       ghcr.io:
+         username: ocp-bot
+         password: ghp_1234567890abcdef1234567890abcdef1234
+
+This will log in to the registry as the ``root`` user and as the Docker user.
+
 Add Docker Compose file
 -----------------------
 

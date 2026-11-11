@@ -69,6 +69,22 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
+{% for registry, credentials in salt['pillar.get']('docker:registries', {})|items %}
+{% for user, home in [('root', '/root'), (pillar.docker.user, '/home/' ~ pillar.docker.user)] %}
+docker-login-{{ registry }}-{{ user }}:
+  cmd.run:
+    - name: echo "$PASSWORD" | docker login {{ registry }} -u {{ credentials.username }} --password-stdin
+    - runas: {{ user }}
+    - unless: grep -qs '"{{ registry }}"' {{ home }}/.docker/config.json
+    # Use `env` to not display the password on run.
+    - env:
+      - PASSWORD: {{ credentials.password }}
+    - require:
+      - service: docker
+      - group: add {{ pillar.docker.user }} user to docker group
+{% endfor %}
+{% endfor %}
+
 # Other files edit this with file.replace states.
 /home/{{ pillar.docker.user }}/.pgpass:
   file.managed:
