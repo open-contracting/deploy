@@ -72,7 +72,7 @@ If an image is private, like one built from a private repository, create a GitHu
          username: ocp-bot
          password: ghp_1234567890abcdef1234567890abcdef1234
 
-This will log in to the registry as the ``root`` user and as the Docker user.
+This will add the credentials to the ``~/.docker/config.json`` file of the ``root`` user and of the Docker user, like ``docker login``.
 
 Add Docker Compose file
 -----------------------

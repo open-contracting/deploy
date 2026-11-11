@@ -69,21 +69,28 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
-{% for registry, credentials in salt['pillar.get']('docker:registries', {})|items %}
+{% if 'registries' in pillar.docker %}
+# https://docs.docker.com/reference/cli/docker/login/#credential-stores
 {% for user, home in [('root', '/root'), (pillar.docker.user, '/home/' ~ pillar.docker.user)] %}
-docker-login-{{ registry }}-{{ user }}:
-  cmd.run:
-    - name: echo "$PASSWORD" | docker login {{ registry }} -u {{ credentials.username }} --password-stdin
-    - runas: {{ user }}
-    - unless: grep -qs '"{{ registry }}"' {{ home }}/.docker/config.json
-    # Use `env` to not display the password on run.
-    - env:
-      - PASSWORD: {{ credentials.password }}
+{{ home }}/.docker/config.json:
+  file.serialize:
+    - serializer: json
+    - merge_if_exists: True
+    - dataset:
+        auths:
+{%- for registry, credentials in pillar.docker.registries|items %}
+          {{ registry }}:
+            auth: {{ (credentials.username ~ ':' ~ credentials.password)|base64_encode }}
+{%- endfor %}
+    - user: {{ user }}
+    - group: {{ user }}
+    - mode: 600
+    - makedirs: True
+    - show_changes: False
     - require:
-      - service: docker
-      - group: add {{ pillar.docker.user }} user to docker group
+      - user: {{ pillar.docker.user }}_user_exists
 {% endfor %}
-{% endfor %}
+{% endif %}
 
 # Other files edit this with file.replace states.
 /home/{{ pillar.docker.user }}/.pgpass:
