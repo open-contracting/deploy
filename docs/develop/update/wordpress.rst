@@ -206,8 +206,22 @@ WordPress
 
 Reference: `Hardening WordPress <https://developer.wordpress.org/advanced-administration/security/hardening/>`__
 
+.. _wordpress-migration:
+
 Migration
 ~~~~~~~~~
+
+If the site uses an object cache (like Redis), flush it after importing or restoring the database, or after editing it with SQL. Otherwise, WordPress keeps reading the old options from the cache. Then, if the site uses a page cache (like Super Page Cache with Cloudflare), purge it entirely. For example:
+
+.. code-block:: bash
+
+   wp cache flush
+   wp cfcache purge_cache
+   wp cron event run swcfpc_cache_purge_cron
+
+.. note::
+
+   ``wp cfcache purge_cache`` only queues the purge, and ``DISABLE_WP_CRON`` is set, so the queue waits for the system cron job (every 5 minutes) unless you run the event.
 
 When migrating domains or renaming themes, you might need to search and replace items in the database, using the `wp search-replace <https://developer.wordpress.org/cli/commands/search-replace/>`__ command.
 

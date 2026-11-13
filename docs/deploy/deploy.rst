@@ -45,11 +45,13 @@ The ``state.apply`` function often completes within one minute.
 
 .. note::
 
-   To disable mod_md autorenewal (for example, if DNS is not live yet and SSL provisioning will fail), run, for example:
+   To disable mod_md autorenewal and the WordPress cron job (for example, if DNS is not live yet and SSL provisioning will fail), run, for example:
 
    .. code-block:: bash
 
-      ./run.py 'cms' state.apply pillar='{"site_non_live_dns":['coalition','corporate']}'
+      ./run.py 'cms' state.apply pillar='{"site_non_live_dns":["coalition","corporate"]}'
+
+   Once DNS is live, deploy again without ``site_non_live_dns``, to re-enable both.
 
 
 Deploy part of a service

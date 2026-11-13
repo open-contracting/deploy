@@ -63,17 +63,19 @@ mysqldump
 
    .. code-block:: bash
 
-      mysqldump coalition_wp | gzip > ~/coalition_wp.sql.gz
+      mysqldump corporate_wp | gzip > ~/corporate_wp.sql.gz
 
 #. Copy the database dump to the new server. For example:
 
    .. code-block:: bash
 
-      rsync -avz ~/coalition_wp.sql.gz root@ocp99.open-contracting.org:~/coalition_wp.sql.gz
+      rsync -avz ~/corporate_wp.sql.gz root@ocp99.open-contracting.org:~/corporate_wp.sql.gz
 
 #. Restore the database. For example:
 
    .. code-block:: bash
 
-      gunzip ~/coalition_wp.sql.gz
-      mysql corporate_wp < corporate_wp.sql
+      gunzip ~/corporate_wp.sql.gz
+      mysql corporate_wp < ~/corporate_wp.sql
+
+#. If the database is a WordPress site's, :ref:`flush its caches<wordpress-migration>`.

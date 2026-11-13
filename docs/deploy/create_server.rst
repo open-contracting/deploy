@@ -595,6 +595,7 @@ Existing service
 
            rsync -avz --exclude=wp-content/themes/ocp-v1/ root@ocp99.open-contracting.org:/home/corporate/public_html/ /home/corporate/public_html/
 
+        After the final database import, :ref:`flush the caches<wordpress-migration>`. Once DNS is live, comment out the WordPress cron job in the app user's crontab on the old server (``crontab -u corporate -e``), so that it stops updating plugins and purging the live site's cache.
 
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
    #. :doc:`Deploy the server<deploy>`
