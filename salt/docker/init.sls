@@ -69,6 +69,26 @@ add {{ pillar.docker.user }} user to docker group:
     - require:
       - user: {{ pillar.docker.user }}_user_exists
 
+{% if 'registries' in pillar.docker %}
+# Like `docker login`. https://docs.docker.com/reference/cli/docker/login/#credential-stores
+/home/{{ pillar.docker.user }}/.docker/config.json:
+  file.serialize:
+    - serializer: json
+    - dataset:
+        auths:
+{%- for registry, credentials in pillar.docker.registries|items %}
+          {{ registry }}:
+            auth: {{ (credentials.username ~ ':' ~ credentials.password)|base64_encode }}
+{%- endfor %}
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
+    - mode: 600
+    - makedirs: True
+    - show_changes: False
+    - require:
+      - user: {{ pillar.docker.user }}_user_exists
+{% endif %}
+
 # Other files edit this with file.replace states.
 /home/{{ pillar.docker.user }}/.pgpass:
   file.managed:
