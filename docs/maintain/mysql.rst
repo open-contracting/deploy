@@ -50,3 +50,30 @@ This causes brief downtime, however. For no downtime, use dual passwords, so tha
    .. code-block:: sql
 
       ALTER USER 'digitalbuying'@'172.16.0.0/12' DISCARD OLD PASSWORD;
+
+.. _mysql-recover-backup:
+
+Restore from backup
+-------------------
+
+mysqldump
+~~~~~~~~~
+
+#. Connect to the old server, and export the existing database. For example, to export ``corporate_wp``:
+
+   .. code-block:: bash
+
+      mysqldump coalition_wp | gzip > ~/coalition_wp.sql.gz
+
+#. Copy the database dump to the new server. For example:
+
+   .. code-block:: bash
+
+      rsync -avz ~/coalition_wp.sql.gz root@ocp99.open-contracting.org:~/coalition_wp.sql.gz
+
+#. Restore the database. For example:
+
+   .. code-block:: bash
+
+      gunzip ~/coalition_wp.sql.gz
+      mysql corporate_wp < corporate_wp.sql

@@ -542,6 +542,10 @@ Configure reverse DNS
 5. Deploy the server
 --------------------
 
+.. note::
+
+   Disable SSL renewal when testing before DNS is live by :ref:`setting non_live mode<non_live_site>`.
+
 New service
 ~~~~~~~~~~~
 
@@ -567,7 +571,8 @@ Existing service
 #. Prepare a migration plan (`example <https://github.com/open-contracting/deploy/pull/518#issuecomment-2435213790>`__), including:
 
    #. Notify relevant users of the change
-   #. Reduce the TTLs of CNAME records
+   #. Reduce the TTLs of DNS records (If Cloudflare proxy is enabled, then that record can be skipped)
+   #. Pause uptime monitoring checks during the migration.
    #. If the server:
 
       Uses :ref:`SSL certificates<ssl-certificates>`
@@ -580,9 +585,16 @@ Existing service
            rsync -avz root@ocp99.open-contracting.org:/data/deploy/digitalbuying/media/ /data/deploy/digitalbuying/media/
 
       Runs a database like **PostgreSQL**, **MySQL** or **Elasticsearch**
-        Copy the database with :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``
+        Copy the database with :ref:`pg_dump<pg-recover-backup-universal>` or :ref:`mysqldump<mysql-recover-backup>`
       Runs a web server like **Apache** or application server like **PHP-FPM**:
         Optionally, copy the log files, like ``/var/log/apache2/`` or ``/var/log/php-fpm/``
+      Runs a **Wordpress** site or another **cms**
+        Copy the full ``public_html`` directory, some content may be managed via other systems, for example migrating the corporate site excluding the theme:
+
+        .. code-block:: bash
+
+           rsync -avz --exclude=wp-content/themes/ocp-v1/ root@ocp99.open-contracting.org:/home/corporate/public_html/ /home/corporate/public_html/
+
 
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
    #. :doc:`Deploy the server<deploy>`
