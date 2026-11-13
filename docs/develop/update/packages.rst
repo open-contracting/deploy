@@ -43,7 +43,7 @@ This `StackOverflow answer <https://unix.stackexchange.com/a/141001>`__ works be
 
 .. code-block:: bash
 
-   comm -23 <(apt-mark showmanual | sort -u) <(curl -sS https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.manifest | cut -f1 | cut -d: -f1 | sort -u)
+   comm -23 <(apt-mark showmanual | sort -u) <(curl -sSf https://releases.ubuntu.com/bionic/ubuntu-18.04.5-live-server-amd64.manifest | cut -f1 | cut -d: -f1 | sort -u)
 
 ..
    https://unix.stackexchange.com/a/80520 is similar. Instead of `apt-mark showmanual`, it takes the packages that
