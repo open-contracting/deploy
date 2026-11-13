@@ -70,26 +70,23 @@ add {{ pillar.docker.user }} user to docker group:
       - user: {{ pillar.docker.user }}_user_exists
 
 {% if 'registries' in pillar.docker %}
-# https://docs.docker.com/reference/cli/docker/login/#credential-stores
-{% for user, home in [('root', '/root'), (pillar.docker.user, '/home/' ~ pillar.docker.user)] %}
-{{ home }}/.docker/config.json:
+# Like `docker login`. https://docs.docker.com/reference/cli/docker/login/#credential-stores
+/home/{{ pillar.docker.user }}/.docker/config.json:
   file.serialize:
     - serializer: json
-    - merge_if_exists: True
     - dataset:
         auths:
 {%- for registry, credentials in pillar.docker.registries|items %}
           {{ registry }}:
             auth: {{ (credentials.username ~ ':' ~ credentials.password)|base64_encode }}
 {%- endfor %}
-    - user: {{ user }}
-    - group: {{ user }}
+    - user: {{ pillar.docker.user }}
+    - group: {{ pillar.docker.user }}
     - mode: 600
     - makedirs: True
     - show_changes: False
     - require:
       - user: {{ pillar.docker.user }}_user_exists
-{% endfor %}
 {% endif %}
 
 # Other files edit this with file.replace states.
