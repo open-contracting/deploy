@@ -113,7 +113,7 @@ Copy incremental data
 
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the old server and the new server<../deploy>`.
-#. :doc:`SSH<../../use/ssh>` into the old server as the ``incremental`` user:
+#. :doc:`Connect to the old server<../../use/ssh>` as the ``incremental`` user:
 
    #. Stop any processes started by the cron jobs.
    #. Dump the ``kingfisher_collect`` database:
@@ -122,7 +122,7 @@ Copy incremental data
 
          pg_dump -U kingfisher_collect -h localhost -f kingfisher_collect.sql kingfisher_collect
 
-#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user, :ref:`with agent forwarding<ssh-agent-forwarding>`:
+#. Connect to the new server as the ``incremental`` user, :ref:`with agent forwarding<ssh-agent-forwarding>`:
 
    #. Copy the database dump from the old server. For example:
 

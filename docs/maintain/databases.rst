@@ -62,7 +62,7 @@ Reference: `Tracking down slow queries in PostgreSQL <https://www.cybertec-postg
 Tune server settings
 ~~~~~~~~~~~~~~~~~~~~
 
-#. :doc:`SSH<../use/ssh>` into a PostgreSQL server as the ``postgres`` user.
+#. :doc:`Connect to the server<../use/ssh>` as the ``postgres`` user.
 #. Run the ``postgresqltuner.pl`` file:
 
    .. code-block:: bash
@@ -360,7 +360,7 @@ Delete a user
 ~~~~~~~~~~~~~
 
 #. Delete the user from the private Pillar file.
-#. :doc:`SSH<../use/ssh>` into the main server as the ``root`` user.
+#. :doc:`Connect to the main server<../use/ssh>` as the ``root`` user.
 #. Attempt to drop the user as the ``postgres`` user, for example:
 
    .. code-block:: bash
@@ -588,7 +588,7 @@ Mitigate downtime
 Fix replication
 ~~~~~~~~~~~~~~~
 
-#. :doc:`SSH<../use/ssh>` into the replica server as the ``root`` user
+#. :doc:`Connect to the replica server<../use/ssh>` as the ``root`` user
 #. Stop PostgreSQL:
 
    .. code-block:: bash

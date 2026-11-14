@@ -22,7 +22,7 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 Test Alert Manager
 ------------------
 
-:doc:`SSH<../../use/ssh>` into ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
+:doc:`Connect<../../use/ssh>` to ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
 
 .. code-block:: bash
 
