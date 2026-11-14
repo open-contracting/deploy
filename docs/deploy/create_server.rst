@@ -542,10 +542,6 @@ Configure reverse DNS
 5. Deploy the server
 --------------------
 
-.. note::
-
-   While testing before DNS is live, disable certificate renewal and the WordPress cron job by :ref:`marking sites as pending<pending-sites>`.
-
 New service
 ~~~~~~~~~~~
 
@@ -573,10 +569,18 @@ Existing service
    #. Notify relevant users of the change
    #. Reduce the TTLs of DNS records (If Cloudflare proxy is enabled, then that record can be skipped)
    #. Pause uptime monitoring checks during the migration.
+   #. :doc:`Deploy the server<deploy>` with :ref:`pending_sites<pending-sites>`, to disable certificate renewal and the WordPress cron job until DNS changes
    #. If the server:
 
       Uses :ref:`SSL certificates<ssl-certificates>`
-        Copy the ``/etc/apache2/md`` directory
+        Copy the ``/var/lib/apache2/md`` directory, reload Apache, and check that no certificate expires during the migration. For example:
+
+        .. code-block:: bash
+
+           rsync -avz root@ocp99.open-contracting.org:/var/lib/apache2/md/ /var/lib/apache2/md/
+           systemctl reload apache2
+           openssl x509 -noout -enddate -in /var/lib/apache2/md/domains/www.open-contracting.org/pubcert.pem
+
       Runs any **Django** applications (like :doc:`cove<servers/cove>` and ``cms``)
         Copy the ``media`` directory and any ``db.sqlite3`` file from the app's directory, for example:
 
@@ -598,7 +602,15 @@ Existing service
         After the final database import, :ref:`flush the caches<wordpress-migration>`. Once DNS is live, comment out the WordPress cron job in the app user's crontab on the old server (``crontab -u corporate -e``), so that it stops updating plugins and purging the live site's cache.
 
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
-   #. :doc:`Deploy the server<deploy>`
+   #. If the server uses SSL certificates, copy the ``/var/lib/apache2/md`` directory again, and reload Apache. The old server renews certificates until DNS changes, and Let's Encrypt rejects the renewal of a certificate that was already replaced.
+   #. :ref:`Update the DNS records<update-external-services>`
+   #. :doc:`Deploy the server<deploy>` without ``pending_sites``, once Let's Encrypt can reach it: immediately, if Cloudflare proxies the DNS record; otherwise, once the old record's TTL has passed
+   #. Check the Apache error log for certificate errors:
+
+      .. code-block:: bash
+
+         ./run.py TARGET cmd.run 'grep "md:error" /var/log/apache2/error.log'
+
    #. :doc:`Deploy<deploy>` the Prometheus service
 
    .. seealso::
