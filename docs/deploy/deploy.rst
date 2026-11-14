@@ -41,19 +41,6 @@ The ``state.apply`` function often completes within one minute.
 
    This skips all changes to Scrapyd, which the next deployment without ``scrapyd_norestart`` will apply.
 
-.. _pending-sites:
-
-.. note::
-
-   To disable mod_md autorenewal and the WordPress cron job (for example, if DNS is not live yet and SSL provisioning will fail), run, for example:
-
-   .. code-block:: bash
-
-      ./run.py 'cms' state.apply pillar='{"pending_sites":["coalition","corporate"]}'
-
-   Once DNS is live, deploy again without ``pending_sites``, to re-enable both.
-
-
 Deploy part of a service
 ~~~~~~~~~~~~~~~~~~~~~~~~
 

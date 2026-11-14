@@ -78,4 +78,4 @@ mysqldump
       gunzip ~/corporate_wp.sql.gz
       mysql corporate_wp < ~/corporate_wp.sql
 
-#. If the database is a WordPress site's, :ref:`flush its caches<wordpress-migration>`.
+#. If it's a WordPress site's database, :ref:`flush its caches<wordpress-migration>`.
