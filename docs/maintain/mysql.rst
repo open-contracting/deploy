@@ -8,7 +8,7 @@ Forward your local port 3307 to the remote MySQL socket:
 
 .. code-block:: bash
 
-   ssh -N -L 3307:/var/run/mysqld/mysqld.sock <user>@ocp21.open-contracting.org
+   ssh -N -L 3307:/var/run/mysqld/mysqld.sock <user>@ocp99.open-contracting.org
 
 Connect to the remote MySQL database through your local port 3307. For example:
 

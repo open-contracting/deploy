@@ -1,0 +1,22 @@
+x-shared: &shared
+  env_file: .env
+  user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
+  image: "ghcr.io/open-contracting/pemex-rrap-ai-web:latest"
+  volumes:
+    # The right-hand path must match the settings.DATA_DIR default value in pemex-rrap-ai-web.
+    - {{ directory }}/data:/data
+
+services:
+  web:
+    <<: *shared
+    ports:
+      - {{ entry.port }}:8000
+  # Run only one worker: on start, it requeues the jobs that were running.
+  worker:
+    <<: *shared
+    command: python manage.py worker
+  cron:
+    <<: *shared
+    profiles:
+      - cron
