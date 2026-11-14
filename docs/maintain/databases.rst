@@ -547,17 +547,11 @@ If pgBackRest isn't an option, use ``pg_dump`` and ``pg_restore``.
 
       su - postgres -c "/usr/bin/pg_dump -Ft 'data_registry' | gzip > ~/data_registry.tar.gz"
 
-#. Copy the database dump to your local machine. For example:
+#. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, and copy the database dump. For example:
 
    .. code-block:: bash
 
-      rsync -avz root@ocp99.open-contracting.org:/var/lib/postgresql/data_registry.tar.gz .
-
-#. Copy the database dump to the new server. For example:
-
-   .. code-block:: bash
-
-      rsync -avz data_registry.tar.gz root@ocp99.open-contracting.org:~/
+      rsync -avz root@ocp99.open-contracting.org:/var/lib/postgresql/data_registry.tar.gz ~/
 
 #. Restore the database. For example:
 

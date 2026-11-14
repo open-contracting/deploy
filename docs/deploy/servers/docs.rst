@@ -121,6 +121,8 @@ Below, substitute ``{root}``, ``{latest-branch}``, ``{dev-branch}``, ``{formatte
 Migrate from an old server
 --------------------------
 
+Run these commands on the new server, :ref:`with agent forwarding<ssh-agent-forwarding>`.
+
 #. Copy the ``/home/ocds-docs/web`` directory. For example:
 
    .. code-block:: bash

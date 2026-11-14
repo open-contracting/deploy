@@ -111,28 +111,6 @@ Once DNS has propagated, :ref:`update-spiders`.
 Copy incremental data
 ^^^^^^^^^^^^^^^^^^^^^
 
-#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user:
-
-   #. Generate an SSH key pair:
-
-      .. code-block:: bash
-
-         ssh-keygen -t rsa -b 4096 -C "incremental"
-
-   #. Get the public SSH key:
-
-      .. code-block:: bash
-
-         cat ~/.ssh/id_rsa.pub
-
-#. Add the public SSH key to the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file:
-
-   .. code-block:: yaml
-
-      ssh:
-        incremental:
-          - ssh-rsa AAAB3N...
-
 #. Change ``cron.present`` to ``cron.absent`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the old server and the new server<../deploy>`.
 #. :doc:`SSH<../../use/ssh>` into the old server as the ``incremental`` user:
@@ -144,7 +122,7 @@ Copy incremental data
 
          pg_dump -U kingfisher_collect -h localhost -f kingfisher_collect.sql kingfisher_collect
 
-#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user.
+#. :doc:`SSH<../../use/ssh>` into the new server as the ``incremental`` user, :ref:`with agent forwarding<ssh-agent-forwarding>`:
 
    #. Copy the database dump from the old server. For example:
 
@@ -170,7 +148,6 @@ Copy incremental data
 
          rsync -avz incremental@ocp99.open-contracting.org:/home/incremental/logs/ /home/incremental/logs/
 
-#. Remove the public SSH key from the ``ssh.incremental`` list in the ``pillar/kingfisher_main.sls`` file.
 #. Change ``cron.absent`` to ``cron.present`` in the ``salt/kingfisher/collect/incremental.sls`` file.
 #. :doc:`Deploy the new server<../deploy>`.
 
@@ -187,17 +164,11 @@ The initial migrations for Pelican backend, which create the ``exchange_rates`` 
 
       sudo -i -u postgres psql -c '\copy exchange_rates (valid_on, rates, created, modified) to stdout' pelican_backend > exchange_rates.csv
 
-#. Copy the database dump to your local machine. For example:
+#. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, and copy the database dump. For example:
 
    .. code-block:: bash
 
-      rsync -avz root@ocp99.open-contracting.org:~/exchange_rates.csv .
-
-#. Copy the database dump to the new server. For example:
-
-   .. code-block:: bash
-
-      rsync -avz exchange_rates.sql root@ocp99.open-contracting.org:~/
+      rsync -avz root@ocp99.open-contracting.org:~/exchange_rates.csv ~/
 
 #. Populate the ``exchange_rates`` table:
 

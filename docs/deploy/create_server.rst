@@ -570,7 +570,7 @@ Existing service
    #. Reduce the TTLs of DNS records (If Cloudflare proxy is enabled, then that record can be skipped)
    #. Pause uptime monitoring checks during the migration.
    #. :doc:`Deploy the server<deploy>` with :ref:`pending_sites<pending-sites>`, to disable certificate renewal and the WordPress cron job until DNS changes
-   #. If the server:
+   #. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, to copy data from the old server. If the server:
 
       Uses :ref:`SSL certificates<ssl-certificates>`
         Copy the ``/var/lib/apache2/md`` directory, reload Apache, and check that no certificate expires during the migration. For example:

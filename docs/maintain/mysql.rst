@@ -65,11 +65,11 @@ mysqldump
 
       mysqldump corporate_wp | gzip > ~/corporate_wp.sql.gz
 
-#. Copy the database dump to the new server. For example:
+#. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, and copy the database dump. For example:
 
    .. code-block:: bash
 
-      rsync -avz ~/corporate_wp.sql.gz root@ocp99.open-contracting.org:~/corporate_wp.sql.gz
+      rsync -avz root@ocp99.open-contracting.org:~/corporate_wp.sql.gz ~/
 
 #. Restore the database. For example:
 
