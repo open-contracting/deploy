@@ -61,6 +61,9 @@ set {{ userdir }}/public_html file permissions:
     - identifier: WORDPRESS_SITE_CRON
     - user: {{ user }}
     - minute: '*/5'
+{%- if user in pillar.pending_sites|default([]) %}
+    - commented: True
+{%- endif %}
     - require:
       - user: {{ user }}_user_exists
 

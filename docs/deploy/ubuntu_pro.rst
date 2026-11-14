@@ -11,7 +11,7 @@ Installation
 ------------
 
 #. `Purchase an Ubuntu Pro license <https://ubuntu.com/pro/subscribe>`__ for *Physical servers with unlimited VMs* for the relevant Ubuntu version. A license cannot be purchased for VPS (like Linode).
-#. :doc:`SSH<../use/ssh>` into the server as the ``root`` user.
+#. :doc:`Connect to the server<../use/ssh>` as the ``root`` user.
 #. Install the Ubuntu Pro Client:
 
    .. code-block:: bash

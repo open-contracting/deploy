@@ -315,7 +315,7 @@ To test a configuration, use Let's Encrypt's `staging environment <https://letse
          MDMessageCmd: /opt/postgresql-certificates.sh
          MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
 
-You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
+You can then remove the ``/var/lib/apache2/md/staging/DOMAIN`` and ``/var/lib/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
 
 .. tip::
 

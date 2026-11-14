@@ -567,11 +567,42 @@ Existing service
 #. Prepare a migration plan (`example <https://github.com/open-contracting/deploy/pull/518#issuecomment-2435213790>`__), including:
 
    #. Notify relevant users of the change
-   #. Reduce the TTLs of CNAME records
-   #. If the server:
+   #. Reduce DNS TTLs, skipping :ref:`proxied<dns-proxy>` records
+   #. :doc:`Deploy the server<deploy>` with ``pending_sites``, to disable certificate renewal and cron jobs that affect the live site until DNS changes. For example:
+
+      .. code-block:: bash
+
+         ./run.py 'cms' state.apply pillar='{"pending_sites":["coalition","corporate"]}'
+
+   #. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, to copy data from the old server. If the server:
 
       Uses :ref:`SSL certificates<ssl-certificates>`
-        Copy the ``/etc/apache2/md`` directory
+        #. Copy the old server's mod_md store (``/etc/apache2/md`` before Ubuntu 26.04) to ``/var/lib/apache2/md``. For example:
+
+           .. code-block:: bash
+
+              rsync -avz root@ocp99.open-contracting.org:/var/lib/apache2/md/ /var/lib/apache2/md/
+
+        #. Delete the new server's hostname certificate, which mod_md can't renew with the copied ACME account, and reload Apache:
+
+           .. code-block:: bash
+
+              rm -r /var/lib/apache2/md/domains/$(hostname -f)
+              systemctl reload apache2
+
+        #. Once mod_md logs that it obtained a hostname certificate, reload Apache:
+
+           .. code-block:: bash
+
+              grep "AH10059: The Managed Domain $(hostname -f)" /var/log/apache2/error.log
+              systemctl reload apache2
+
+        #. Check that no certificate expires during the migration period:
+
+           .. code-block:: bash
+
+              for cert in /var/lib/apache2/md/domains/*/pubcert.pem; do echo "$(openssl x509 -noout -enddate -in "$cert") $cert"; done
+
       Runs any **Django** applications (like :doc:`cove<servers/cove>` and ``cms``)
         Copy the ``media`` directory and any ``db.sqlite3`` file from the app's directory, for example:
 
@@ -580,12 +611,37 @@ Existing service
            rsync -avz root@ocp99.open-contracting.org:/data/deploy/digitalbuying/media/ /data/deploy/digitalbuying/media/
 
       Runs a database like **PostgreSQL**, **MySQL** or **Elasticsearch**
-        Copy the database with :ref:`pg_dump<pg-recover-backup-universal>` or ``mysqldump``
+        Copy the database with :ref:`pg_dump<pg-recover-backup-universal>`, :ref:`mysqldump<mysql-recover-backup>` or :ref:`rsync (Elasticsearch)<docs-migrate>`
       Runs a web server like **Apache** or application server like **PHP-FPM**:
         Optionally, copy the log files, like ``/var/log/apache2/`` or ``/var/log/php-fpm/``
+      Runs a **Wordpress** site or another **cms**
+        Copy the ``public_html`` directory, excluding content that is deployed separately, like the corporate site's theme. For example:
+
+        .. code-block:: bash
+
+           rsync -avz --exclude=wp-content/themes/ocp-v1/ root@ocp99.open-contracting.org:/home/corporate/public_html/ /home/corporate/public_html/
 
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
-   #. :doc:`Deploy the server<deploy>`
+   #. Switch DNS to the new server:
+
+      #. Pause uptime monitoring
+      #. Copy any data that changed since the first copy, like databases and uploads
+      #. If the server uses SSL certificates, copy the old server's mod_md store, and reload Apache
+      #. :ref:`Update DNS records<update-external-services>`
+      #. On the old server, comment out cron jobs that affect the live site. For example:
+
+         .. code-block:: bash
+
+            crontab -u corporate -e
+
+      #. :doc:`Deploy the server<deploy>` without ``pending_sites``, once Let's Encrypt can reach every site: immediately, if Cloudflare proxies all sites' DNS records; otherwise, once the old DNS records' TTLs have passed. To enable proxied sites sooner, deploy with only the other sites in ``pending_sites``.
+      #. Check the Apache error log for certificate errors:
+
+         .. code-block:: bash
+
+            ./run.py TARGET cmd.run 'grep "md:error" /var/log/apache2/error.log'
+
+      #. Resume uptime monitoring
    #. :doc:`Deploy<deploy>` the Prometheus service
 
    .. seealso::

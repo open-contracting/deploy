@@ -63,6 +63,8 @@ The Time to Live (TTL) of a DNS record indicates how long DNS clients should cac
      - CNAME
      - 1 hour (3600 seconds)
 
+.. _dns-proxy:
+
 Proxy status
 ^^^^^^^^^^^^
 

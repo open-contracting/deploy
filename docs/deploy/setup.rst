@@ -32,7 +32,7 @@ Check the output in case there are any issues switching to the default branch or
 
 #. On ``kingfisher-main`` only:
 
-   #. :doc:`SSH<../use/ssh>` into ``kingfisher-main`` as the ``root`` user.
+   #. :doc:`Connect<../use/ssh>` to ``kingfisher-main`` as the ``root`` user.
    #. Check if any :ref:`long-running tasks<tmux>` are running, by attaching to each session in ``tmux`` to see which commands are running. If any commands would be interrupted by the deployment, don't deploy without the consent of the data team, who should be identified by the session names.
 
       To list all sessions:
