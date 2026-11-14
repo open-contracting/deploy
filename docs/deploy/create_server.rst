@@ -544,7 +544,7 @@ Configure reverse DNS
 
 .. note::
 
-   Disable SSL renewal when testing before DNS is live by :ref:`setting non_live mode<non_live_site>`.
+   While testing before DNS is live, disable certificate renewal and the WordPress cron job by :ref:`marking sites as pending<pending-sites>`.
 
 New service
 ~~~~~~~~~~~

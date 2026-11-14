@@ -41,7 +41,7 @@ The ``state.apply`` function often completes within one minute.
 
    This skips all changes to Scrapyd, which the next deployment without ``scrapyd_norestart`` will apply.
 
-.. _non_live_site:
+.. _pending-sites:
 
 .. note::
 
@@ -49,9 +49,9 @@ The ``state.apply`` function often completes within one minute.
 
    .. code-block:: bash
 
-      ./run.py 'cms' state.apply pillar='{"site_non_live_dns":["coalition","corporate"]}'
+      ./run.py 'cms' state.apply pillar='{"pending_sites":["coalition","corporate"]}'
 
-   Once DNS is live, deploy again without ``site_non_live_dns``, to re-enable both.
+   Once DNS is live, deploy again without ``pending_sites``, to re-enable both.
 
 
 Deploy part of a service
