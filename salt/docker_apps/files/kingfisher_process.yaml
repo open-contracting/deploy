@@ -1,10 +1,10 @@
 x-shared: &shared
   env_file: .env
   user: "{{ pillar.docker.uid }}:{{ pillar.docker.uid }}"
+  restart: unless-stopped
   image: "ghcr.io/open-contracting/kingfisher-process-django:latest"
   extra_hosts:
     - "host.docker.internal:host-gateway"
-  restart: unless-stopped
 
 x-filesystem: &filesystem
   <<: *shared

@@ -97,6 +97,18 @@ unset {{ setting_name }} in {{ filename }}:
 # Bug: The "user" parameter is ignored, unless the undocumented "runas" parameter is used.
 # https://github.com/saltstack/salt/issues/59088#issuecomment-912148651
 {% macro virtualenv(directory, user, parent_directory, requirements_file, watch_in=None) %}
+{% if salt['pillar.get']('python:version') %}
+# If the Python version changes, remove the virtual environment, so that it is recreated.
+{{ directory }}-virtualenv-clear:
+  file.absent:
+    - name: {{ directory }}/.ve
+    - onchanges:
+      - pkg: python
+    - require_in:
+      - virtualenv: {{ directory }}-virtualenv
+      - virtualenv: {{ directory }}-uv
+{% endif %}
+
 {{ directory }}-virtualenv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
@@ -104,13 +116,8 @@ unset {{ setting_name }} in {{ filename }}:
     - runas: {{ user }}
     - user: {{ user }}
     - require: {{ ([{'pkg': 'virtualenv'}] + [parent_directory])|yaml }}
-{% if salt['pillar.get']('python:version') %}
-    # If the Python version changes, reinstall the virtual environment.
-    - watch:
-      - pkg: python
-{% endif %}
 
-# This state only differs from the *-virtualenv state by installing uv and not watching python.
+# This state only differs from the *-virtualenv state by installing uv.
 {{ directory }}-uv:
   virtualenv.managed:
     - name: {{ directory }}/.ve
@@ -123,13 +130,14 @@ unset {{ setting_name }} in {{ filename }}:
 
 {{ directory }}-requirements:
   cmd.run:
-    - name: .ve/bin/uv pip sync --python=.ve/bin/python -q requirements.txt
+    # Ignore the project's [tool.uv.pip] settings, like exclude-newer, which apply to compiling, not installing.
+    - name: .ve/bin/uv pip sync --no-config --python=.ve/bin/python -q requirements.txt
     - runas: {{ user }}
     - cwd: {{ directory }}
     - require:
       - virtualenv: {{ directory }}-uv
     # Run the command if the virtual environment was reinstalled (64501d6) or the requirements file was changed.
-    - onchanges: {{ ([{'virtualenv': directory + '-uv'}] + [requirements_file])|yaml }}
+    - onchanges: {{ ([{'virtualenv': directory ~ '-uv'}] + [requirements_file])|yaml }}
 {% if watch_in %}
     - watch_in:
       - service: {{ watch_in }}
@@ -176,16 +184,25 @@ enable site {{ name }}.conf:
     - watch_in:
       - module: apache2-reload
 
+{% if "htpasswd" in entry %}
+{% set htpasswd_file = '/etc/apache2/.htpasswd-' + name %}
+htpasswd-{{ name }}:
+  file.managed:
+    - name: {{ htpasswd_file }}
+
 {% for username, password in entry.htpasswd|items %}
-add .htpasswd-{{ name }}-{{ username }}:
-  webutil.user_exists:
-    - name: {{ username }}
-    - password: {{ password }}
-    - htpasswd_file: /etc/apache2/.htpasswd-{{ name }}
-    - update: True
+{{ htpasswd_file }} {{ username }}:
+  cmd.run:
+    - name: 'htpasswd -bB {{ htpasswd_file }} "{{ username }}" "$PASSWORD"'
+    - unless: 'htpasswd -vb {{ htpasswd_file }} "{{ username }}" "$PASSWORD"'
+    # Use `env` to not display the password on run.
+    - env:
+      - PASSWORD: {{ password }}
     - require:
-      - pkg: apache2
+      - pkg: apache2-utils
+      - file: {{ htpasswd_file }}
 {% endfor %}
+{% endif %}
 
 {% if pillar.apache.get('site_logs') and not name[:1].isdigit() %}
 /var/log/apache2/{{ name }}:

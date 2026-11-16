@@ -35,7 +35,7 @@ If you are only using Apache to serve Python apps, continue from :doc:`python`.
 Accept web traffic from Cloudflare only
 ---------------------------------------
 
-Most web traffic is :ref:`proxied through Cloudflare<proxy-status>`, but origin servers accept HTTPS connections from anywhere. Requests that skip Cloudflare are typically vulnerability scans: for ``/.env`` files, for example.
+Most web traffic is :ref:`proxied through Cloudflare<dns-proxy>`, but origin servers accept HTTPS connections from anywhere. Requests that skip Cloudflare are typically vulnerability scans: for ``/.env`` files, for example.
 
 With `Authenticated Origin Pulls <https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/>`__, Cloudflare presents a client certificate when it connects to the origin server, and Apache rejects any connection without it during the TLS handshake.
 
@@ -48,7 +48,7 @@ With `Authenticated Origin Pulls <https://developers.cloudflare.com/ssl/origin-c
       # Requests that matched no ServerName, which are typically vulnerability scans.
       awk '$1 == $(NF-1)' /var/log/apache2/access.log
 
-#. Check that every hostname served by the server is :ref:`proxied<proxy-status>` in Cloudflare. Websites at any other hostname become unreachable.
+#. Check that every hostname served by the server is :ref:`proxied<dns-proxy>` in Cloudflare. Websites at any other hostname become unreachable.
 #. :ref:`Enable Authenticated Origin Pulls<cloudflare-origin-pulls>` in Cloudflare, if not already enabled. Origin servers ignore the client certificate until they are configured to require it.
 #. Add to the server's Pillar file:
 
@@ -121,7 +121,8 @@ This will:
    -  If ``apache.public_access`` is ``True`` and ``https`` isn't ``False``:
 
       -  :ref:`ssl-certificates`
-      -  Create a virtual host serving port 443
+      -  Create a virtual host serving port 443 for the ``servername``
+      -  Create a virtual host serving port 443 for any ``serveraliases``, to redirect to the ``servername``
       -  Configure a HTTP to HTTPS permanent redirect
       -  Add a ``Strict-Transport-Security`` header
 
@@ -223,7 +224,7 @@ The service should now be available at its ``https://`` web address.
 
 .. tip::
 
-   In case of error, see `mod_md's troubleshooting guide <https://github.com/icing/mod_md#how-to-fix-problems>`__.
+   In case of error, see `mod_md's documentation <https://httpd.apache.org/docs/2.4/mod/mod_md.html>`__ and the `Let's Encrypt community <https://community.letsencrypt.org>`__.
 
    If you need to test the acquisition of certificates, :ref:`use Let's Encrypt's staging environment<mod_md-test>`.
 
@@ -365,7 +366,7 @@ To test a configuration, use Let's Encrypt's `staging environment <https://letse
          MDMessageCmd: /opt/postgresql-certificates.sh
          MDCertificateAuthority: https://acme-staging-v02.api.letsencrypt.org/directory
 
-You can then remove the ``/etc/apache2/md/staging/DOMAIN`` and ``/etc/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
+You can then remove the ``/var/lib/apache2/md/staging/DOMAIN`` and ``/var/lib/apache2/md/domains/DOMAIN`` directories as often as needed, and :ref:`re-acquire certificates<ssl-certificates>`.
 
 .. tip::
 

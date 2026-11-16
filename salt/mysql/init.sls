@@ -1,6 +1,6 @@
-{% set mysql_version = pillar.mysql.version|default('8.4')|quote %}
+{% set mysql_version = pillar.mysql.version|quote %}
 
-# https://docs.saltproject.io/en/latest/ref/states/all/salt.states.mysql_database.html
+# Provides mysql module for saltext-mysql.
 mysql dependencies:
   pkg.installed:
     - pkgs:
@@ -18,7 +18,9 @@ percona-release:
     - name: percona-release setup ps{{ mysql_version|replace('.', '') }}
     - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-release.list
 {% else %}
-    - name: percona-release setup ps{{ mysql_version|replace('.', '') }}-lts --scheme https
+    - name: |
+       percona-release setup ps-{{ mysql_version|replace('.', '') }}-lts --scheme https
+       percona-release enable ps-{{ mysql_version|replace('.', '') }}-lts --scheme https
     - creates: /etc/apt/sources.list.d/percona-ps-{{ mysql_version|replace('.', '') }}-lts-release.list
 {% endif %}
     - require:

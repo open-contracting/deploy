@@ -106,7 +106,7 @@ Delete user
 
       .. code-block:: bash
 
-         bash <(curl -s -S -L https://gam-shortn.appspot.com/gam-install)
+         bash <(curl -sSLf https://gam-shortn.appspot.com/gam-install)
 
       -  Select only these scopes (``gam oauth create``):
 
@@ -131,7 +131,7 @@ Delete user
 
       .. code-block:: bash
 
-         bash <(curl -s -S -L https://gyb-shortn.jaylee.us/gyb-install)
+         bash <(curl -sSLf https://gyb-shortn.jaylee.us/gyb-install)
 
 Perform the global steps once, and repeat the other steps for each user to be deleted.
 

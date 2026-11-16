@@ -78,8 +78,8 @@ esac
 if [ "$MONITOR_APPBEAT" = "yes" ]; then
     echo_verbose "Get AppBeat IP addresses"
     # Account for DOS line endings.
-    APPBEAT_IPV4=$(curl -sS https://www.appbeat.io/probes/ipv4 | tr -d '\r')
-    APPBEAT_IPV6=$(curl -sS https://www.appbeat.io/probes/ipv6 | tr -d '\r')
+    APPBEAT_IPV4=$(curl -sSf https://www.appbeat.io/probes/ipv4 | tr -d '\r')
+    APPBEAT_IPV6=$(curl -sSf https://www.appbeat.io/probes/ipv6 | tr -d '\r')
 else
     APPBEAT_IPV4=""
     APPBEAT_IPV6=""
@@ -88,8 +88,8 @@ fi
 if [ "$MONITOR_PINGDOM" = "yes" ]; then
     echo_verbose "Get Pingdom IP addresses"
     # Account for DOS line endings.
-    PINGDOM_IPV4=$(curl -sS https://my.pingdom.com/probes/ipv4 | tr -d '\r')
-    PINGDOM_IPV6=$(curl -sS https://my.pingdom.com/probes/ipv6 | tr -d '\r')
+    PINGDOM_IPV4=$(curl -sSf https://my.pingdom.com/probes/ipv4 | tr -d '\r')
+    PINGDOM_IPV6=$(curl -sSf https://my.pingdom.com/probes/ipv6 | tr -d '\r')
 else
     PINGDOM_IPV4=""
     PINGDOM_IPV6=""

@@ -28,8 +28,7 @@ If you can't SSH into the server:
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Force system reboot
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Force system reboot
 
    .. tab-set::
 
@@ -151,8 +150,7 @@ System services
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Restart the service
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Restart the service
 
    For example:
 
@@ -182,8 +180,7 @@ Docker applications
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Restart the containers
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Restart the containers
 
    If newer images fix the diagnosed issue, pull all images:
 
@@ -249,8 +246,7 @@ To diagnose:
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Revert the changes
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Revert the changes
 
    If a solution is unknown, or is taking too long, revert to the previous working version.
 
@@ -277,8 +273,7 @@ You can identify a DOS attack by :ref:`reading the logs<downtime-logs>` and seei
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Block an IP address in iptables
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Block an IP address in iptables
 
    .. note::
 
@@ -300,8 +295,7 @@ You can identify a DOS attack by :ref:`reading the logs<downtime-logs>` and seei
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Block an IP address in Cloudflare
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Block an IP address in Cloudflare
 
    Block an IP address from accessing any server on the entire domain, for example:
 
@@ -329,8 +323,7 @@ A distributed denial-of-service (DDOS) attack is harder to mitigate, because tra
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Cloudflare Under Attack mode
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Cloudflare Under Attack mode
 
    This affects the entire domain.
 
@@ -354,16 +347,14 @@ Service provider incidents
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Open a support ticket
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Open a support ticket
 
    Our alerts often fire before the service provider updates its status page. If it nonetheless seems like a service provider issue, open an urgent support ticket with the service provider.
 
 .. card::
    :class-header: sd-font-weight-bold sd-bg-success sd-bg-text-success
 
-   Solution: Rebuild the server
-   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   .. card-header:: Solution: Rebuild the server
 
    In the rare event of a total loss, create a new server and recover from backups:
 

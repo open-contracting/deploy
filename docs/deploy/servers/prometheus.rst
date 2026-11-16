@@ -22,7 +22,7 @@ If the ``prometheus.node_exporter`` state file applies to the target, then `Node
 Test Alert Manager
 ------------------
 
-:doc:`SSH<../../use/ssh>` into ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
+:doc:`Connect<../../use/ssh>` to ``alertmanager.prometheus.open-contracting.org`` as the ``root`` user, and run:
 
 .. code-block:: bash
 
@@ -60,6 +60,8 @@ Once you're ready to upgrade, as with other deployment tasks, do the :doc:`setup
 
 Migrate from an old server
 --------------------------
+
+Run these commands on the new server, :ref:`with agent forwarding<ssh-agent-forwarding>`.
 
 #. Stop Prometheus, replace the ``/home/prometheus-server/data/`` directory, and start Prometheus. For example:
 

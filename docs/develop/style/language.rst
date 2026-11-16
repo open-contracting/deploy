@@ -25,14 +25,20 @@ Use dot notation:
 
    To allow the use of dot notation in Jinja, prefer underscores to hyphens in Pillar keys.
 
-Optional mapping keys
-~~~~~~~~~~~~~~~~~~~~~
+Concatenation
+~~~~~~~~~~~~~
 
-To test whether a key is present in a mapping, use the ``in`` operator:
+To concatenate strings, use the ``~`` operator, which converts its operands to strings:
 
 .. code-block:: jinja
 
-   {% if 'child' in pillar.parent %}
+   {% set userdir = '/home/' ~ user %}
+
+**AVOID** the ``+`` operator, which is for numbers and lists:
+
+.. code-block:: jinja
+
+   {% set userdir = '/home/' + user %}  # AVOID
 
 .. note::
 
@@ -40,7 +46,35 @@ To test whether a key is present in a mapping, use the ``in`` operator:
 
    .. code-block:: none
 
-      if .*get\(.(?!(?:autoremove|compilemessages|enabled|public_access|replication|smartmon|summarystats)\b)
+      \+ ['"]|['"] \+
+
+Optional boolean keys
+~~~~~~~~~~~~~~~~~~~~~
+
+To test whether an optional boolean is true, use the ``.get()`` method:
+
+.. code-block:: jinja
+
+   {% if pillar.parent.get('enabled') %}
+
+Add a new boolean key to the regular expression under *Optional mapping keys*.
+
+Optional mapping keys
+~~~~~~~~~~~~~~~~~~~~~
+
+To test whether a non-boolean key is present in a mapping, use the ``in`` operator:
+
+.. code-block:: jinja
+
+   {% if 'child' in pillar.parent %}
+
+.. note::
+
+   Maintainers can check this style rule with this regular expression, which excludes boolean keys:
+
+   .. code-block:: none
+
+      if .*get\(.(?!(?:ENABLE_CHECKER|autoremove|cardinal|enabled|filter|public_access|replication|reports|scrapyd_norestart|site_logs|smartmon|summarystats|syslog_logging|write)\b)
 
 To iterate over an optional mapping:
 
@@ -76,15 +110,6 @@ Or:
 .. code-block:: jinja
 
    {% for value in salt['pillar.get']('parent:child', []) %}
-
-Optional boolean keys
-~~~~~~~~~~~~~~~~~~~~~
-
-To test whether an optional boolean is true, use the ``.get()`` method:
-
-.. code-block:: jinja
-
-   {% if pillar.parent.get('enabled') %}
 
 Optional keys
 ~~~~~~~~~~~~~

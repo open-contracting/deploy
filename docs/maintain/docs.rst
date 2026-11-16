@@ -4,7 +4,7 @@ OCDS documentation tasks
 Clean draft documentation
 -------------------------
 
-#. :doc:`SSH<../use/ssh>` into ``standard.open-contracting.org`` as the ``ocds-docs`` user.
+#. :doc:`Connect<../use/ssh>` to ``standard.open-contracting.org`` as the ``ocds-docs`` user.
 #. Run ``1-size.sh`` to get the total sizes of old drafts. For example, for drafts older than 180 days:
 
    .. code-block:: bash
@@ -20,7 +20,7 @@ Clean draft documentation
 Check 404 errors
 ----------------
 
-#. :doc:`SSH<../use/ssh>` into ``standard.open-contracting.org`` as the ``root`` user.
+#. :doc:`Connect<../use/ssh>` to ``standard.open-contracting.org`` as the ``root`` user.
 #. Count 404 errors:
 
    .. code-block:: bash

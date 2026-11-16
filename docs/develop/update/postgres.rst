@@ -268,7 +268,7 @@ Configure the replica, if any
 
    :ref:`pg-recover-replica`
 
-#. :doc:`SSH<../../use/ssh>` into the main server as the ``postgres`` user.
+#. :doc:`Connect to the main server<../../use/ssh>` as the ``postgres`` user.
 #. Generate an SSH key pair, if one doesn't already exist:
 
    .. code-block:: bash

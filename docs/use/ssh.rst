@@ -13,6 +13,8 @@ On machines running Docker, use SSH as usual. For example:
 
 On machines not running Docker, the SSH port is closed by default. The easiest way to open it depends on whether your IP address is dynamic or static.
 
+.. _ssh-port-knock:
+
 Dynamic IP: Port knock
 ----------------------
 
@@ -36,3 +38,20 @@ Static IP: Allow list
 #. :doc:`Deploy all services<../deploy/deploy>`
 
 If you're unsure, contact sysadmin@open-contracting.org.
+
+.. _ssh-agent-forwarding:
+
+Copy files between servers
+--------------------------
+
+Connect to the first server with agent forwarding, so that it can use your SSH key:
+
+.. code-block:: bash
+
+   ssh -A root@ocp99.open-contracting.org
+
+From the first server, :ref:`port knock<ssh-port-knock>` the other server, if needed, then run ``rsync`` as usual.
+
+.. attention::
+
+   While you're connected, anyone with root access to the first server can use your key.

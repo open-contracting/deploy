@@ -37,7 +37,7 @@ Update Salt configuration and halt jobs
 Filesystem
 ~~~~~~~~~~
 
-Copy these directories from the old server to the new server, using ``rsync -avz``:
+Copy these directories from the old server to the new server, using ``rsync -avz`` :ref:`with agent forwarding<ssh-agent-forwarding>`:
 
 -  ``/data/storage/exporter``
 -  ``/home/collect/scrapyd/dbs``

@@ -21,7 +21,9 @@ base:
   'cove':
     - cove
     - cove_maintenance
+    - tecolote
     - private.cove
+    - private.tecolote
     - docker
     - tinyproxy
 

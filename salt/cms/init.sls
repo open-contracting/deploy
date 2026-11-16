@@ -19,7 +19,7 @@ wp-cli:
 {% endfor %}
 
 {% for user, entry in pillar.wordpress.sites|items %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 {% set database = pillar.mysql.databases[entry.database] %}
 {% set mu_plugins = salt['pillar.get']('wordpress:mu_plugins', []) + entry.mu_plugins|default([]) %}
 
@@ -61,6 +61,9 @@ set {{ userdir }}/public_html file permissions:
     - identifier: WORDPRESS_SITE_CRON
     - user: {{ user }}
     - minute: '*/5'
+{%- if user in pillar.pending_sites|default([]) %}
+    - commented: True
+{%- endif %}
     - require:
       - user: {{ user }}_user_exists
 
@@ -110,14 +113,14 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% endfor %}
 
 {% set checks = entry.checks|default({}) %}
-{% set enabled = checks.enabled|default([]) %}
-{% set parts = ['updates', 'silent']|select('in', enabled)|list %}
+{% set scheduled = checks.scheduled|default([]) %}
+{% set parts = ['updates', 'silent']|select('in', scheduled)|list %}
 {% set wp = '/usr/local/bin/wp --no-color --path=' ~ userdir ~ '/public_html' %}
 # The must-use plugins above have no checksums at wordpress.org.
 {% set premium = checks.premium_plugins|default([]) %}
 {% set exclude = premium + mu_plugins|map('regex_replace', '^', 'opencontracting-')|list %}
 
-{% if 'integrity' in enabled %}
+{% if 'integrity' in scheduled %}
 /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh:
   file.managed:
     - mode: 755
@@ -140,7 +143,7 @@ set {{ constant }} in {{ user }} wp-config.php:
 {% endif %}
 
 WordPress integrity check for {{ user }}:
-  cron.{{ 'present' if 'integrity' in enabled else 'absent' }}:
+  cron.{{ 'present' if 'integrity' in scheduled else 'absent' }}:
     - name: /usr/local/lib/wp-cli/integrity-check-{{ user }}.sh
     - identifier: WORDPRESS_INTEGRITY_CHECK
     - user: {{ user }}

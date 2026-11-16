@@ -8,7 +8,7 @@ include:
   - apache.modules.rewrite # RewriteEngine
 
 {% set user = 'ocds-docs' %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 
 {{ create_user(user, authorized_keys=pillar.ssh.docs) }}
 
@@ -66,13 +66,60 @@ allow Apache access to {{ userdir }}:
     - require:
       - file: {{ userdir }}/web
 
-{{ userdir }}/web/includes:
-  file.recurse:
-    - source: salt://apache/files/docs/includes
+{#-
+  The versions that the documentation's version switcher offers, current version first, and their labels.
+
+  This is deliberately not the `versions` list in apache/files/sites/docs.conf.include. That list also names the
+  alias directories (/1.1/, /infrastructure/0.9/, /profiles/ppp/1.0/), which are symlinks to the current version's
+  directory: they need Apache directives, but readers aren't offered them, and naming them here would make the
+  documentation show its old-version banner on them.
+
+  Update this on release.
+-#}
+{%- set documentation = {
+    '': [
+        {'ref': 'latest', 'label': '1.1.5 (latest)'},
+        {'ref': '1.0', 'label': '1.0.3'},
+    ],
+    'infrastructure/': [
+        {'ref': 'latest', 'label': '0.9.4 (latest)'},
+    ],
+    'profiles/eforms/': [
+        {'ref': 'latest', 'label': 'latest'},
+    ],
+    'profiles/eu/': [
+        {'ref': 'latest', 'label': 'latest'},
+    ],
+    'profiles/gpa/': [
+        {'ref': 'latest', 'label': 'latest'},
+    ],
+    'profiles/ppp/': [
+        {'ref': 'latest', 'label': '1.0.0.beta5 (latest)'},
+    ],
+} %}
+{%- for root, versions in documentation|items %}
+
+{{ userdir }}/web/{{ root }}versions.json:
+  file.managed:
+    - contents: |
+        {{ {'versions': versions}|tojson }}
     - user: {{ user }}
     - group: {{ user }}
+    - makedirs: True
     - require:
       - file: {{ userdir }}/web
+
+# The staging copy offers no versions: its directories are named after the branch that was pushed.
+{{ userdir }}/web/staging/{{ root }}versions.json:
+  file.managed:
+    - contents: |
+        {{ {'staging': True, 'live_url': '/' ~ root ~ versions[0].ref ~ '/en/'}|tojson }}
+    - user: {{ user }}
+    - group: {{ user }}
+    - makedirs: True
+    - require:
+      - file: {{ userdir }}/web
+{%- endfor %}
 
 {{ userdir }}/1-size.sh:
   file.managed:

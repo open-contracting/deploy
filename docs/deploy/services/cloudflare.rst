@@ -63,7 +63,7 @@ The Time to Live (TTL) of a DNS record indicates how long DNS clients should cac
      - CNAME
      - 1 hour (3600 seconds)
 
-.. _proxy-status:
+.. _dns-proxy:
 
 Proxy status
 ^^^^^^^^^^^^
@@ -295,7 +295,7 @@ Pages
 
 -  `Log into Cloudflare <https://dash.cloudflare.com>`__
 -  Click the *Create application* button
--  Click the *Pages* tab
+-  Click the *Continue to Pages* link
 -  Click the *Get started* button for *Import an existing Git repository*
 
    -  Select the organization from the *GitHub account* dropdown
@@ -305,7 +305,8 @@ Pages
    -  Select the branch from the *Production branch* dropdown, e.g. ``build``, ``gh-pages`` or ``main``
    -  Click the *Save and Deploy* button
 
--  Click the *Custom domains* tab, Click the *Set up a custom domain* button, and follow the prompts
+-  Click the *Custom domains* tab, click the *Set up a custom domain* button, and follow the prompts
+-  Click the *Settings* tab, click the pencil icon for *Branch control*, set *Preview branch* to *None*, and click *Save*
 
 Miscellaneous
 ~~~~~~~~~~~~~

@@ -28,7 +28,7 @@ function opencontracting_auto_update_plugin( $value, $item ) {
 	if (
 		$old_version !== $new_version
 		&& $old_version[0] === $new_version[0]
-		&& ( $old_version[0] !== '0' || $old_version[1] === $new_version[1] )
+		&& ( $old_version[0] !== '0' || ( $old_version[1] ?? '0' ) === ( $new_version[1] ?? '0' ) )
 	) {
 		return true;
 	}

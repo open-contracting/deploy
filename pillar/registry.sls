@@ -66,7 +66,7 @@ apache:
       servername: collect.data.open-contracting.org
       context:
         documentroot: /home/collect/scrapyd
-        proxypass: http://localhost:6800/
+        proxypass: http://localhost:6800/ disablereuse=On
         authname: Kingfisher Scrapyd
     registry:
       configuration: registry

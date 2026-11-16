@@ -17,11 +17,10 @@ Environment="https_proxy={{ pillar.tinyproxy.url }}"
 Environment="no_proxy=localhost,sentry.io,open-contracting.org"
 {%- endif %}
 WorkingDirectory={{ entry.appdir }}
-ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --logfile=/var/log/scrapyd/scrapyd.log
+ExecStart={{ entry.appdir }}/.ve/bin/scrapyd --pidfile=
 Restart=on-failure
 RestartSec=30
-# https://github.com/open-contracting/kingfisher-collect/issues/606#issuecomment-953896571
-LimitNOFILE=512000
+LogFilterPatterns="~Pingdom"
 
 [Install]
 WantedBy=multi-user.target

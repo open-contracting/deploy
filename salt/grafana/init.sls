@@ -16,7 +16,6 @@ grafana:
     - humanname: Grafana Official Repository
     - name: deb [arch={{ grains.osarch }} signed-by=/usr/share/keyrings/grafana-keyring.gpg] https://apt.grafana.com stable main
     - aptkey: False
-    - dist: {{ grains.oscodename }}
     - file: /etc/apt/sources.list.d/grafana.list
     - key_url: https://apt.grafana.com/gpg.key
   pkg.installed:
@@ -37,10 +36,10 @@ grafana:
           http_addr: '127.0.0.1'
           root_url: 'https://{{ pillar.apache.sites.grafana.servername }}'
         users:
-          allow_sign_up: true
+          allow_sign_up: True
         auth.proxy:
-          enabled: true
-          auto_sign_up: false
+          enabled: True
+          auto_sign_up: False
           whitelist: 127.0.0.1
     - watch_in:
       - service: grafana

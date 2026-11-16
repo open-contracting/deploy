@@ -8,8 +8,8 @@ include:
 {% set entry = pillar.kingfisher_collect %}
 {% set user = entry.user %}
 {% set group = entry.group|default(user) %}
-{% set userdir = '/home/' + user %}
-{% set directory = userdir + '/scrapyd' %}
+{% set userdir = '/home/' ~ user %}
+{% set directory = userdir ~ '/scrapyd' %}
 
 {{ create_user(user) }}
 
@@ -45,6 +45,12 @@ allow {{ userdir }} access:
       - user: {{ pillar.kingfisher_collect.user }}_user_exists
       - user: {{ pillar.kingfisher_collect.group }}_user_exists
 
+# Skip the states that restart Scrapyd, so that a later deployment applies their changes and restarts Scrapyd.
+{% if pillar.get('scrapyd_norestart') %}
+scrapyd-norestart:
+  test.show_notification:
+    - text: Skipped Scrapyd states, because scrapyd_norestart is set.
+{% else %}
 {{ directory }}/requirements.txt:
   file.managed:
     - source: https://raw.githubusercontent.com/open-contracting/kingfisher-collect/{{ pillar.kingfisher_collect.ref|default('main') }}/requirements.txt
@@ -55,7 +61,7 @@ allow {{ userdir }} access:
     - require:
       - file: {{ directory }}
 
-{{ virtualenv(directory, user, {'file': directory}, {'file': directory + '/requirements.txt'}, 'scrapyd') }}
+{{ virtualenv(directory, user, {'file': directory}, {'file': directory ~ '/requirements.txt'}, 'scrapyd') }}
 
 # Maintain setuptools<81 in the Salt state, because Dependabot removes it from requirements.txt.
 {{ directory }}-setuptools:
@@ -87,6 +93,7 @@ allow {{ userdir }} access:
       - service: scrapyd
 
 {{ systemd({'service': 'scrapyd', 'user': user, 'group': group, 'appdir': directory}) }}
+{% endif %}
 
 {{ set_cron_env(user, 'MAILTO', 'sysadmin@open-contracting.org', 'kingfisher.collect') }}
 

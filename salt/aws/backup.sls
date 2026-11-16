@@ -21,7 +21,7 @@ include:
       - file: /home/sysadmin-tools/bin/site-backup-to-s3.sh
 
 {% for directory, options in pillar.backup.directories|items %}
-{% if options and options.get('exclude') %}
+{% if options and 'exclude' in options %}
 set BACKUP_EXCLUDE setting for {{ directory }}:
   file.keyvalue:
     - name: /home/sysadmin-tools/aws-settings.local

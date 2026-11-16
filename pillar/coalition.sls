@@ -53,7 +53,7 @@ wordpress:
       context:
         FATHOM_ANALYTICS_ID: LNRZMMVR
       checks:
-        enabled:
+        scheduled:
           - integrity
           - updates
           - silent

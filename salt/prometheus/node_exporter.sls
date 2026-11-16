@@ -4,7 +4,7 @@ include:
   - prometheus
 
 {% set user = pillar.prometheus.node_exporter.user %}
-{% set userdir = '/home/' + user %}
+{% set userdir = '/home/' ~ user %}
 
 {{ set_firewall('PRIVATE_PROMETHEUS_CLIENT') }}
 {{ set_firewall('PROMETHEUS_IPV4', pillar.firewall.prometheus_ipv4) }}
@@ -52,7 +52,7 @@ include:
 
 {% if 'docker' in pillar %}
 # Filter Docker's metrics, to protect the Prometheus database from overload.
-curl -sS 127.0.0.1:9323/metrics | grep "^engine" | grep -v "seconds_" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
+curl -sSf 127.0.0.1:9323/metrics | grep "^engine" | grep -v "seconds_" > {{ userdir }}/node-exporter-textfile-directory/docker.prom:
   cron.present:
     - identifier: PROMETHEUS_CLIENT_TEXTFILE_DOCKER
     - user: {{ user }}

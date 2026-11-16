@@ -20,10 +20,10 @@ include:
   file.managed:
     - contents: |
         RemoteIPHeader CF-Connecting-IP
-{%- for ip in salt.cmd.run('curl -sS https://www.cloudflare.com/ips-v4/').split() %}
+{%- for ip in salt.cmd.run('curl -sSf https://www.cloudflare.com/ips-v4/', raise_err=True).split() %}
         RemoteIPTrustedProxy {{ ip }}
 {%- endfor %}
-{%- for ip in salt.cmd.run('curl -sS https://www.cloudflare.com/ips-v6/').split() %}
+{%- for ip in salt.cmd.run('curl -sSf https://www.cloudflare.com/ips-v6/', raise_err=True).split() %}
         RemoteIPTrustedProxy {{ ip }}
 {%- endfor %}
 {%- if proxied %}

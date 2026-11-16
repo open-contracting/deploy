@@ -6,8 +6,6 @@ x-shared: &shared
 x-django: &django
   <<: *shared
   image: "ghcr.io/open-contracting/{{ entry.image }}-django:latest"
-  extra_hosts:
-    - "host.docker.internal:host-gateway"
   volumes:
     # The right-hand path must match the settings.DATABASES default value in the CoVE repository.
     - {{ directory }}/db:/data/db

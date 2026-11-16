@@ -6,10 +6,10 @@ include:
   file.managed:
     - contents: |
         real_ip_header CF-Connecting-IP;
-{%- for ip in salt.cmd.run('curl -sS https://www.cloudflare.com/ips-v4/').split() %}
+{%- for ip in salt.cmd.run('curl -sSf https://www.cloudflare.com/ips-v4/', raise_err=True).split() %}
         set_real_ip_from {{ ip }};
 {%- endfor %}
-{%- for ip in salt.cmd.run('curl -sS https://www.cloudflare.com/ips-v6/').split() %}
+{%- for ip in salt.cmd.run('curl -sSf https://www.cloudflare.com/ips-v6/', raise_err=True).split() %}
         set_real_ip_from {{ ip }};
 {%- endfor %}
     - require:

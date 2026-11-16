@@ -9,8 +9,8 @@ include:
 {% for name, entry in pillar.python_apps|items %}
 
 # A user might run multiple apps, so the user is not created here.
-{% set userdir = '/home/' + entry.user %}
-{% set directory = userdir + '/' + entry.git.target %}
+{% set userdir = '/home/' ~ entry.user %}
+{% set directory = userdir ~ '/' ~ entry.git.target %}
 {% set context = {'name': name, 'entry': entry, 'appdir': directory} %}
 
 {{ entry.git.url }}:

@@ -73,6 +73,22 @@ To manually review one project:
       gcloud logging read 'severity>=DEFAULT' --project=$P --freshness=400d --limit=30 --order=desc \
         --format="table(timestamp, resource.type, protoPayload.methodName, protoPayload.authenticationInfo.principalEmail)"
 
+-  Review API requests in the last 6 weeks (the retention period), in `Metrics Explorer <https://console.cloud.google.com/monitoring/metrics-explorer?project=ocp-library>`__, using the ``serviceruntime.googleapis.com/api/request_count`` metric.
+
+-  Review spend in the billing account's `Reports <https://console.cloud.google.com/billing/reports>`__, grouped by project.
+
+DREAM
+~~~~~
+
+Use a separate ``gcloud`` configuration for `dream-office.org <https://console.cloud.google.com/cloud-resource-manager?organizationId=77010139352>`__:
+
+.. code-block:: bash
+
+   gcloud config configurations create dream-office --no-activate
+   env CLOUDSDK_ACTIVE_CONFIG_NAME=dream-office gcloud auth login
+
+Then, run ``set CLOUDSDK_ACTIVE_CONFIG_NAME dream-office`` before the commands above, and snapshot with ``uv run manage.py gcp snapshot -o 77010139352 > services/gcp-dream-office.txt``.
+
 .. _gcp-projects:
 
 Known projects
@@ -115,6 +131,22 @@ Known projects
         -  ``gam-project-9yro6@gam-project-9yro6.iam.gserviceaccount.com`` for ``gam user`` commands
         -  `Domain-wide Delegation <https://admin.google.com/ac/owl/domainwidedelegation>`__
         -  `App Access Control <https://admin.google.com/ac/owl/list?tab=configuredApps>`__
+
+   .. tab-item:: Google Analytics MCP
+
+      Project ID
+        ``ocp-analytics-mcp``
+      Contact
+        James
+      Documentation
+        `google-analytics-mcp <https://github.com/open-contracting/google-analytics-mcp>`__
+      Configuration
+        ``GOOGLE_CLIENT_ID`` and ``GOOGLE_CLIENT_SECRET`` secrets in the ``google-analytics-mcp`` Cloudflare Worker
+      APIs
+        -  Google Analytics Admin API
+        -  Google Analytics Data API
+      Credentials
+        -  OAuth client to use Sign in with Google and APIs in `google-analytics-mcp <https://github.com/open-contracting/google-analytics-mcp>`__
 
    .. tab-item:: GYB
 

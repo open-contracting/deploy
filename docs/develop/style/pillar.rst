@@ -23,5 +23,5 @@ Order the top-level keys in these layers:
    -  Infrastructure: ``aws``
    -  Web access: ``apache``, ``nginx``
    -  Services: ``elasticsearch``, ``mysql``, ``postgres``, ``rabbitmq``
-   -  Environments: ``docker``, ``php``, ``nodejs``, ``rvm``
+   -  Environments: ``docker``, ``nodejs``, ``php``, ``python``, ``rvm``
    -  Applications: ``docker_apps``, ``phpfpm``, ``python_apps``, ``react_apps``, ``wordpress``
