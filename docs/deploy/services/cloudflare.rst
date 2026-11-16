@@ -84,7 +84,7 @@ Proxy status
    - **DO NOT** proxy A or AAAA records for hostnames, like ``ocp99``.
    - **DO NOT** proxy CNAME records for PostgreSQL endpoints.
 
-.. attention:: An unproxied record is unreachable over HTTPS if its origin server :ref:`accepts web traffic from Cloudflare, only<authenticated-origin-pulls>`.
+.. attention:: If an origin server is configured to :ref:`accept web traffic from Cloudflare only<authenticated-origin-pulls>`, any website it serves at an unproxied hostname is unreachable.
 
 .. tip:: If requests return HTTP 403, determine the reason in `Security Analytics <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/security/analytics/events>`__.
 
@@ -223,15 +223,7 @@ SSL/TLS > Origin Server
 ~~~~~~~~~~~~~~~~~~~~~~~
 
 `Authenticated Origin Pulls <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/ssl-tls/origin-server>`__
-  Enabled, in the *Global* section of the *Authenticated Origin Pulls* tab, so that origin servers can :ref:`accept web traffic from Cloudflare, only<authenticated-origin-pulls>`. The per-hostname certificates, on the same page, are unused.
-
-  Cloudflare presents its client certificate to every origin server in the zone, including third-party origin servers, whether or not the origin server requires it. Enabling it therefore changes nothing until an origin server is configured to require it.
-
-  After enabling it, move ``authenticated_origin_pulls_settings`` from ``ZONE_LEVEL_DEFAULT`` to ``ZONE_LEVEL_USED`` in the ``manage.py`` file.
-
-  .. warning::
-
-     **DO NOT** disable this while any origin server requires the certificate. Cloudflare would stop presenting it, and every such server would reject all traffic, until it is :ref:`re-enabled<downtime-updates>`. To stop requiring it, :ref:`change the origin servers first<delete-origin-pull-certificate>`.
+  Enabled, in the *Global* section of the *Authenticated Origin Pulls* tab, so that origin servers can :ref:`accept web traffic from Cloudflare only<authenticated-origin-pulls>`.
 
 Security > Settings
 ~~~~~~~~~~~~~~~~~~~

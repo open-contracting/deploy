@@ -32,8 +32,8 @@ If you are only using Apache to serve Python apps, continue from :doc:`python`.
 
 .. _authenticated-origin-pulls:
 
-Accept web traffic from Cloudflare, only
-----------------------------------------
+Accept web traffic from Cloudflare only
+---------------------------------------
 
 Most web traffic is :ref:`proxied through Cloudflare<proxy-status>`, but origin servers accept HTTPS connections from anywhere. Requests that skip Cloudflare are typically vulnerability scans: for ``/.env`` files, for example.
 
@@ -48,7 +48,7 @@ With `Authenticated Origin Pulls <https://developers.cloudflare.com/ssl/origin-c
       # Requests that matched no ServerName, which are typically vulnerability scans.
       awk '$1 == $(NF-1)' /var/log/apache2/access.log
 
-#. Check that every hostname served by the server is :ref:`proxied<proxy-status>` in Cloudflare. Any other hostname becomes unreachable over HTTPS.
+#. Check that every hostname served by the server is :ref:`proxied<proxy-status>` in Cloudflare. Websites at any other hostname become unreachable.
 #. :ref:`Enable Authenticated Origin Pulls<cloudflare-origin-pulls>` in Cloudflare, if not already enabled. Origin servers ignore the client certificate until they are configured to require it.
 #. Add to the server's Pillar file:
 
@@ -75,15 +75,11 @@ Port 80 stays open, and serves only the redirect to HTTPS and the challenges tha
 
    The setting applies to all of the server's sites at once, and a mistake affects them all at once.
 
-   The server's own hostname (like ``ocp99.open-contracting.org``) is never proxied, as that would `break SSH access <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Its placeholder website is therefore unreachable over HTTPS. Its certificate is still renewed, and :doc:`port knocking<../../use/ssh>` is unaffected.
+   The server's own hostname (like ``ocp99.open-contracting.org``) is never proxied, as that would `break SSH access <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Its placeholder website is therefore unreachable. Its certificate is still renewed, and :doc:`port knocking<../../use/ssh>` is unaffected.
 
 .. note::
 
-   Uptime checks that connect to an origin server over HTTPS, instead of to Cloudflare, fail. Configure them to use the hostname, as visitors do.
-
-   Nginx is not supported, as it serves one site, only.
-
-To reverse this, :ref:`follow these instructions<delete-origin-pull-certificate>`.
+   To reverse this, :ref:`follow these instructions<delete-origin-pull-certificate>`.
 
 Bind addresses
 --------------
