@@ -63,7 +63,7 @@ mysqldump
 
    .. code-block:: bash
 
-      mysqldump corporate_wp | gzip > ~/corporate_wp.sql.gz
+      mysqldump --set-gtid-purged=OFF corporate_wp | gzip > ~/corporate_wp.sql.gz
 
 #. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, and copy the database dump. For example:
 

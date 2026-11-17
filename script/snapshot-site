@@ -75,7 +75,8 @@ if [ -z "$all_tables" ]; then
 fi
 
 echo "Dumping $database..."
-wp_remote db export - --single-transaction --quick "$exclude" | gzip > "$destination/$database.sql.gz"
+# The server has GTIDs enabled, and Percona's mysqldump dumps masking policies, which the site's user can't read.
+wp_remote db export - --single-transaction --quick --set-gtid-purged=OFF --skip-masking-policies "$exclude" | gzip > "$destination/$database.sql.gz"
 
 if [ -n "$files" ]; then
     if [ -z "$uploads" ]; then
