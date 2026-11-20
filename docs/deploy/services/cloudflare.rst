@@ -84,7 +84,7 @@ Proxy status
    - **DO NOT** proxy A or AAAA records for hostnames, like ``ocp99``.
    - **DO NOT** proxy CNAME records for PostgreSQL endpoints.
 
-.. attention:: If an origin server is configured to :ref:`accept web traffic from Cloudflare only<authenticated-origin-pulls>`, any website it serves at an unproxied hostname is unreachable.
+.. attention:: If an origin server is configured to :ref:`accept web traffic from Cloudflare only<authenticated-origin-pulls>`, any site it serves at an unproxied hostname is unreachable.
 
 .. tip:: If requests return HTTP 403, determine the reason in `Security Analytics <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/security/analytics/events>`__.
 
@@ -222,7 +222,7 @@ HTTP Strict Transport Security (HSTS):
 SSL/TLS > Origin Server
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-`Authenticated Origin Pulls <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/ssl-tls/origin-server>`__
+`Authenticated Origin Pulls <https://dash.cloudflare.com/db6be30e1a0704432e9e1e32ac612fe9/open-contracting.org/ssl-tls/origin/authenticated-origin-pulls>`__
   Enabled, in the *Global* section of the *Authenticated Origin Pulls* tab, so that origin servers can :ref:`accept web traffic from Cloudflare only<authenticated-origin-pulls>`.
 
 Security > Settings

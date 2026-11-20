@@ -134,21 +134,13 @@ Delete an Apache module
 
 #. Remove the temporary state
 
-.. _delete-origin-pull-certificate:
+.. _delete-authenticated-origin-pulls:
 
-Stop requiring Cloudflare's client certificate
-----------------------------------------------
-
-Change the origin server before :ref:`the Cloudflare setting<cloudflare-origin-pulls>`, which other origin servers share. An origin server that requires a certificate that Cloudflare no longer presents rejects all traffic.
+Accept web traffic from anywhere
+--------------------------------
 
 #. Delete the ``proxied`` key from the ``apache`` key in the server's Pillar file
-#. :doc:`Deploy the server<../../deploy/deploy>`, which rewrites the ``zz-cloudflare-proxy.conf`` file without the ``SSLVerifyClient`` directives
-#. Check that the server is reachable directly, replacing ``SERVERNAME`` and ``ORIGIN_IP``:
-
-   .. code-block:: bash
-
-      curl -sS -o /dev/null -w '%{http_code}\n' --resolve SERVERNAME:443:ORIGIN_IP https://SERVERNAME/
-
+#. :doc:`Deploy the server<../../deploy/deploy>`
 #. Delete the certificate authority file, for example:
 
    .. code-block:: bash
