@@ -20,7 +20,14 @@
  * @return bool|null Whether to auto-update the plugin.
  */
 function opencontracting_auto_update_plugin( $value, $item ) {
-	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $item->plugin, false, false );
+	$file = WP_PLUGIN_DIR . '/' . $item->plugin;
+
+	// Site Health's scheduled check passes a fake plugin.
+	if ( ! file_exists( $file ) ) {
+		return $value;
+	}
+
+	$plugin_data = get_plugin_data( $file, false, false );
 
 	$old_version = explode( '.', $plugin_data['Version'] );
 	$new_version = explode( '.', $item->new_version );
