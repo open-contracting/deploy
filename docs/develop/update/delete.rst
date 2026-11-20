@@ -134,6 +134,19 @@ Delete an Apache module
 
 #. Remove the temporary state
 
+.. _delete-authenticated-origin-pulls:
+
+Accept web traffic from anywhere
+--------------------------------
+
+#. Delete the ``proxied`` key from the ``apache`` key in the server's Pillar file
+#. :doc:`Deploy the server<../../deploy/deploy>`
+#. Delete the certificate authority file, for example:
+
+   .. code-block:: bash
+
+      ./run.py 'mytarget' file.remove /etc/ssl/certs/cloudflare-origin-pull-ca.pem
+
 .. _delete-htpasswd-entry:
 
 Delete an htpasswd entry

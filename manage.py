@@ -786,6 +786,7 @@ ACCOUNT_LEVEL_DEPRECATED = {
 
 ZONE_LEVEL_USED = {
     "argo_tiered_caching",  # https://developers.cloudflare.com/cache/how-to/tiered-cache/
+    "authenticated_origin_pulls_settings",  # https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/
     "bot_management",  # https://developers.cloudflare.com/bots/get-started/bot-management/
     "certificate_pack",  # https://developers.cloudflare.com/ssl/edge-certificates/custom-certificates/#certificate-packs
     "dns_record",
@@ -801,7 +802,6 @@ ZONE_LEVEL_USED = {
 # Child resources exist (e.g. "enabled = false"), but parent resources don't.
 ZONE_LEVEL_DEFAULT = {
     "api_shield_schema_validation_settings",
-    "authenticated_origin_pulls_settings",
     "email_routing_catch_all",
     "email_routing_dns",
     "email_routing_rule",

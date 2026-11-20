@@ -3,6 +3,19 @@ include:
   - apache
   - apache.modules.remoteip
 
+{% set proxied = salt['pillar.get']('apache:proxied') %}
+{%- if proxied %}
+# The certificate authority of the client certificate that Cloudflare presents to the origin server.
+# https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/
+/etc/ssl/certs/cloudflare-origin-pull-ca.pem:
+  file.managed:
+    - source: https://developers.cloudflare.com/ssl/static/authenticated_origin_pull_ca.pem
+    # curl -sS https://developers.cloudflare.com/ssl/static/authenticated_origin_pull_ca.pem | shasum -a 256
+    - source_hash: c14fed0ce5210db0719fea11d1f10b33750dc17d609aeaf47c75e9eff0d7b843
+    - watch_in:
+      - module: apache2-reload
+{%- endif %}
+
 /etc/apache2/conf-available/zz-cloudflare-proxy.conf:
   file.managed:
     - contents: |
@@ -13,8 +26,18 @@ include:
 {%- for ip in salt.cmd.run('curl -sSf https://www.cloudflare.com/ips-v6/', raise_err=True).split() %}
         RemoteIPTrustedProxy {{ ip }}
 {%- endfor %}
+{%- if proxied %}
+        <IfModule ssl_module>
+            # Reject HTTPS connections without Cloudflare's client certificate. Every SSL virtual host inherits this.
+            SSLVerifyClient require
+            SSLCACertificateFile /etc/ssl/certs/cloudflare-origin-pull-ca.pem
+        </IfModule>
+{%- endif %}
     - require:
       - pkg: apache2
+{%- if proxied %}
+      - file: /etc/ssl/certs/cloudflare-origin-pull-ca.pem
+{%- endif %}
     - watch_in:
       - module: apache2-reload
 

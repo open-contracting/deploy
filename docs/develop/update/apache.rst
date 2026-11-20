@@ -222,6 +222,49 @@ Add to your server's Pillar file:
 
 This will configure sites to use their own log file in ``/var/log/apache2/{site}/access.log``.
 
+.. _authenticated-origin-pulls:
+
+Accept web traffic from Cloudflare only
+---------------------------------------
+
+`Authenticated Origin Pulls <https://developers.cloudflare.com/ssl/origin-configuration/authenticated-origin-pull/>`__ makes Apache reject HTTPS connections that skip Cloudflare, like vulnerability scans for ``/.env`` files.
+
+.. admonition:: One-time setup
+
+   :ref:`Enable Authenticated Origin Pulls<cloudflare-origin-pulls>` in Cloudflare.
+
+#. Check that every hostname served by the server is :ref:`proxied<dns-proxy>` in Cloudflare, except the server's FQDN (like ``ocp99.open-contracting.org``), as proxying it would `break SSH access <https://blog.cloudflare.com/cloudflare-now-supporting-more-ports/>`__. Sites at unproxied hostnames become unreachable, including the server's placeholder site.
+#. :doc:`Connect to the server<../../use/ssh>`
+#. Check for clients that skip Cloudflare, which will be rejected. If site logs are split, read the ``*/access.log`` files, instead:
+
+   .. code-block:: bash
+
+      # Requests whose visitor address (%a) is their peer address (%{c}a).
+      awk '$2 == $(NF-1)' /var/log/apache2/other_vhosts_access.log
+
+#. Add to your server's Pillar file:
+
+   .. code-block:: yaml
+      :emphasize-lines: 3
+
+      apache:
+        public_access: True
+        proxied: True
+
+#. :doc:`Deploy the server<../../deploy/deploy>`
+#. Check that the sites are reachable through Cloudflare, and unreachable at the server's IP address, replacing ``SERVERNAME`` and ``ORIGIN_IP``:
+
+   .. code-block:: bash
+
+      curl -sS -o /dev/null -w '%{http_code}\n' https://SERVERNAME/
+      curl -sS -o /dev/null --resolve SERVERNAME:443:ORIGIN_IP https://SERVERNAME/
+
+   The first should succeed, reporting ``200``. The second should fail the TLS handshake, reporting a certificate that is required but not sent.
+
+.. note::
+
+   To reverse this, :ref:`follow these instructions<delete-authenticated-origin-pulls>`.
+
 .. _apache-modules:
 
 Enable Apache modules
