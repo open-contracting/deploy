@@ -28,9 +28,7 @@ include:
 {%- endfor %}
 {%- if proxied %}
         <IfModule ssl_module>
-            # Reject any connection that doesn't present Cloudflare's client certificate. This is set outside the
-            # virtual hosts, because the certificate is verified during the TLS handshake, which HTTP/2 can't
-            # renegotiate. Port 80 stays open, to redirect to HTTPS and to answer Let's Encrypt's challenges.
+            # Reject HTTPS connections without Cloudflare's client certificate. Every SSL virtual host inherits this.
             SSLVerifyClient require
             SSLCACertificateFile /etc/ssl/certs/cloudflare-origin-pull-ca.pem
         </IfModule>
