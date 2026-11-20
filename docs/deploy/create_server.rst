@@ -576,21 +576,21 @@ Existing service
 
    #. Connect to the new server :ref:`with agent forwarding<ssh-agent-forwarding>`, to copy data from the old server. If the server:
 
-      Uses :ref:`SSL certificates<ssl-certificates>`
-        #. Copy the old server's mod_md store (``/etc/apache2/md`` before Ubuntu 26.04) to ``/var/lib/apache2/md``. For example:
+      Uses **Apache** for :ref:`SSL certificates<ssl-certificates>`
+        #. Copy the old server's ``mod_md`` store (``/etc/apache2/md`` before Ubuntu 26.04) to ``/var/lib/apache2/md``. For example:
 
            .. code-block:: bash
 
               rsync -avz root@ocp99.open-contracting.org:/var/lib/apache2/md/ /var/lib/apache2/md/
 
-        #. Delete the new server's hostname certificate, which mod_md can't renew with the copied ACME account, and reload Apache:
+        #. Delete the new server's hostname certificate, which ``mod_md`` can't renew with the copied ACME account, and reload Apache:
 
            .. code-block:: bash
 
               rm -r /var/lib/apache2/md/domains/$(hostname -f)
               systemctl reload apache2
 
-        #. Once mod_md logs that it obtained a hostname certificate, reload Apache:
+        #. Once ``mod_md`` logs that it obtained a hostname certificate, reload Apache:
 
            .. code-block:: bash
 
@@ -622,26 +622,55 @@ Existing service
            rsync -avz --exclude=wp-content/themes/ocp-v1/ root@ocp99.open-contracting.org:/home/corporate/public_html/ /home/corporate/public_html/
 
    #. Test the new server, by manually changing the ``/etc/hosts`` file on your local machine
-   #. Switch DNS to the new server:
+   #. Switch DNS to the new server, for all sites at once or in batches. For each batch:
 
-      #. Pause uptime monitoring
-      #. Copy any data that changed since the first copy, like databases and uploads
-      #. If the server uses SSL certificates, copy the old server's mod_md store, and reload Apache
-      #. :ref:`Update DNS records<update-external-services>`
-      #. On the old server, comment out cron jobs that affect the live site. For example:
+      #. Pause uptime monitoring for the batch's sites
+      #. Copy the batch's data that changed since the first copy, like databases and uploads
+      #. If the server uses Apache:
+
+         #. On the old server, add ``MDRenewMode manual`` to the batch's ``<MDomain>`` sections in ``/etc/apache2/sites-enabled/``, and reload Apache
+         #. On the new server, copy from the old server's ``mod_md`` store. If switching:
+
+            All sites at once
+              Copy the store. For example:
+
+              .. code-block:: bash
+
+                 rsync -avz root@ocp99.open-contracting.org:/var/lib/apache2/md/ /var/lib/apache2/md/
+
+            One batch of sites
+              Copy only the batch's domains. For example:
+
+              .. code-block:: bash
+
+                 rsync -avz root@ocp99.open-contracting.org:/var/lib/apache2/md/domains/www.open-spending.eu/ /var/lib/apache2/md/domains/www.open-spending.eu/
+
+         #. On the new server, reload Apache:
+
+            .. code-block:: bash
+
+               systemctl reload apache2
+
+      #. :ref:`Update the batch's DNS records<update-external-services>`
+      #. On the old server, comment out the batch's cron jobs that affect the live site. For example:
 
          .. code-block:: bash
 
             crontab -u corporate -e
 
-      #. :doc:`Deploy the server<deploy>` without ``pending_sites``, once Let's Encrypt can reach every site: immediately, if Cloudflare proxies all sites' DNS records; otherwise, once the old DNS records' TTLs have passed. To enable proxied sites sooner, deploy with only the other sites in ``pending_sites``.
+      #. :doc:`Deploy the server<deploy>` with the sites not yet switched in ``pending_sites``, if any, once Let's Encrypt can reach the batch's sites: immediately, if Cloudflare proxies the sites' DNS records; otherwise, once the old DNS records' TTLs have passed. For example:
+
+         .. code-block:: bash
+
+            ./run.py 'cms' state.apply pillar='{"pending_sites":["corporate"]}'
+
       #. Check the Apache error log for certificate errors:
 
          .. code-block:: bash
 
             ./run.py TARGET cmd.run 'grep "md:error" /var/log/apache2/error.log'
 
-      #. Resume uptime monitoring
+      #. Resume uptime monitoring for the batch's sites
    #. :doc:`Deploy<deploy>` the Prometheus service
 
    .. seealso::
