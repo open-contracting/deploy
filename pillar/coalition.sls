@@ -39,15 +39,10 @@ wordpress:
       cron:
         contact:
           - sysadmin@open-contracting.org
-        ignore:
-          # Reproduce with: wp cron event run --quiet --all
-          # https://developer.wordpress.org/reference/classes/wp_site_health/detect_plugin_theme_auto_update_issues/
-          - a-fake-plugin.php
       constants:
         # https://developer.wordpress.org/advanced-administration/upgrade/upgrading/#constant-to-configure-core-updates
         WP_AUTO_UPDATE_CORE: "'minor'"
       mu_plugins:
-        - auto-update-plugin
         - disable-application-passwords
         - fathom-analytics
       context:

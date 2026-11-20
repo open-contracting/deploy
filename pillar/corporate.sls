@@ -54,6 +54,7 @@ wordpress:
       checks:
         scheduled:
           - integrity
+          - updates
         premium_plugins:
           - acfml
           - advanced-custom-fields-pro

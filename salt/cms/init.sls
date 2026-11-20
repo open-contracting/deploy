@@ -56,7 +56,7 @@ set {{ userdir }}/public_html file permissions:
 
 {{ set_cron_env(user, 'MAILTO', entry.cron.contact|join(','), 'cms' ) }}
 
-/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html{% if 'ignore' in entry.cron %} 2>&1 | grep -v '{{ entry.cron.ignore|join('\|') }}'{% endif %}:
+/usr/local/bin/wp cron event run --quiet --due-now --path={{ userdir }}/public_html:
   cron.present:
     - identifier: WORDPRESS_SITE_CRON
     - user: {{ user }}

@@ -65,6 +65,7 @@ wordpress:
     WP_SENTRY_ERROR_TYPES: 'E_ALL & ~E_DEPRECATED & ~E_NOTICE & ~E_USER_DEPRECATED & ~E_USER_NOTICE'
   mu_plugins:
     - 00-sentry
+    - auto-update-plugin
     - disable-admin-view-transitions
     - disable-comments-pingbacks
     - disable-user-enumeration
