@@ -1,10 +1,10 @@
 network:
-  host_id: ocp20
-  ipv4: 139.162.253.17
-  ipv6: "2a01:7e00:e000:04e0::"
+  host_id: ocp31
+  ipv4: 178.79.132.58
+  ipv6: "2a01:7e00:e000:04e3::"
   networkd:
     template: linode
-    gateway4: 139.162.253.1
+    gateway4: 178.79.132.1
 
 prometheus:
   prometheus:

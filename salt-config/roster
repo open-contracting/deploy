@@ -7,7 +7,7 @@ cove:
 docs:
   host: ocp19.open-contracting.org
 prometheus:
-  host: ocp20.open-contracting.org
+  host: ocp31.open-contracting.org
 
 # Hetzner Cloud
 
