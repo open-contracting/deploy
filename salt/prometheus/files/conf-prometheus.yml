@@ -22,7 +22,7 @@ scrape_configs:
     'dream-bi': 'ocp25.open-contracting.org',
     'kingfisher-main': 'ocp23.open-contracting.org',
     'ocds-live.docs': 'ocp19.open-contracting.org',
-    'prometheus-server-node': 'ocp20.open-contracting.org',
+    'prometheus-server-node': 'ocp31.open-contracting.org',
     'data-registry': 'ocp29.open-contracting.org',
 }|items %}
   - job_name: '{{ job_name }}'
