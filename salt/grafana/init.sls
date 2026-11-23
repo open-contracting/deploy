@@ -66,7 +66,6 @@ grafana:
     - watch_in:
       - service: grafana
 
-
 /etc/grafana/provisioning/dashboards/prometheus.yaml:
   file.managed:
     - source: salt://grafana/files/dashboards.yaml

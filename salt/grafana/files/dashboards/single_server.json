@@ -2517,10 +2517,6 @@
         "kind": "QueryVariable",
         "spec": {
           "name": "instance",
-          "current": {
-            "text": "ocp20.open-contracting.org:7231",
-            "value": "ocp20.open-contracting.org:7231"
-          },
           "label": "Server Hostname",
           "hide": "dontHide",
           "refresh": "onDashboardLoad",
@@ -2549,10 +2545,6 @@
         "kind": "QueryVariable",
         "spec": {
           "name": "mountpoint",
-          "current": {
-            "text": "/",
-            "value": "/"
-          },
           "label": "Disk Path",
           "hide": "dontHide",
           "refresh": "onDashboardLoad",
