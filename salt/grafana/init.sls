@@ -54,3 +54,26 @@ grafana:
       - pkg: grafana
     - watch_in:
       - service: grafana
+
+/var/lib/grafana/dashboards:
+  file.recurse:
+    - name: /var/lib/grafana/dashboards
+    - source: salt://grafana/files/dashboards
+    - user: grafana
+    - group: grafana
+    - require:
+      - pkg: grafana
+    - watch_in:
+      - service: grafana
+
+
+/etc/grafana/provisioning/dashboards/prometheus.yaml:
+  file.managed:
+    - source: salt://grafana/files/dashboards.yaml
+    - user: root
+    - group: grafana
+    - require:
+      - pkg: grafana
+      - file: /var/lib/grafana/dashboards
+    - watch_in:
+      - service: grafana
