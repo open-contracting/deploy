@@ -63,8 +63,6 @@ grafana:
     - group: grafana
     - require:
       - pkg: grafana
-    - watch_in:
-      - service: grafana
 
 /etc/grafana/provisioning/dashboards/prometheus.yaml:
   file.managed:

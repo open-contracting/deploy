@@ -2,9 +2,5 @@ apiVersion: 1
 
 providers:
   - name: 'OCP Deploy Managed'
-    type: file
-    disableDeletion: true
-    updateIntervalSeconds: 60
-    allowUiUpdates: false
     options:
       path: /var/lib/grafana/dashboards
