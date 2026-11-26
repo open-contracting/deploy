@@ -8,6 +8,8 @@ State IDs
 
 While state IDs with spaces are easier to read, they are also easier to mistype: for example, in ``require`` arguments. As such, prefer hyphens to spaces in state IDs.
 
+In ``file`` states, prefer to use the path as the state ID and omit the ``name`` argument, so that the two can't disagree if the path changes.
+
 State functions
 ---------------
 

@@ -16,7 +16,6 @@ readonlyrest-install:
 
 /etc/elasticsearch/readonlyrest.yml:
   file.managed:
-    - name: /etc/elasticsearch/readonlyrest.yml
     - source: salt://elasticsearch/files/config/readonlyrest-{{ pillar.elasticsearch.plugins.readonlyrest.configuration }}.yml
     - template: jinja
     - require:

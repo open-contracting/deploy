@@ -29,7 +29,6 @@ set jvm heap size:
 
 /etc/elasticsearch/elasticsearch.yml:
   file.keyvalue:
-    - name: /etc/elasticsearch/elasticsearch.yml
     - key_values:
         # https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html
         http.host: 127.0.0.1
@@ -60,7 +59,6 @@ set jvm heap size:
 # Prevent ElasticSearch from starting in the case of misconfiguration.
 /etc/elasticsearch/jvm.options.d/bootstrap-checks.options:
   file.managed:
-    - name: /etc/elasticsearch/jvm.options.d/bootstrap-checks.options
     - contents: "-Des.enforce.bootstrap.checks=true"
     - group: elasticsearch
     - watch_in:

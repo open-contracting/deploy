@@ -149,7 +149,6 @@ postgresql-reload:
 
 /opt/postgresql-certificates.sh:
   file.managed:
-    - name: /opt/postgresql-certificates.sh
     - source: salt://postgres/files/postgresql-certificates.sh
     - template: jinja
     - mode: 755
@@ -160,7 +159,6 @@ postgresql-reload:
 {% if salt['pillar.get']('postgres:data_directory') %}
 {{ pillar.postgres.data_directory }}:
   file.directory:
-    - name: {{ pillar.postgres.data_directory }}
     - user: postgres
     - group: postgres
     - makedirs: True
@@ -334,7 +332,6 @@ grant {{ role }} table privileges in {{ schema }}:
 
 /opt/default-privileges/{{ role }}-{{ schema }}.sql:
   file.managed:
-    - name: /opt/default-privileges/{{ role }}-{{ schema }}.sql
     - contents: "ALTER DEFAULT PRIVILEGES FOR ROLE {{ entry.user }} IN SCHEMA {{ schema }} GRANT SELECT ON TABLES TO {{ role }};"
     - makedirs: True
 
