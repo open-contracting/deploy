@@ -1,0 +1,6 @@
+apiVersion: 1
+
+providers:
+  - name: 'OCP Deploy Managed'
+    options:
+      path: /var/lib/grafana/dashboards

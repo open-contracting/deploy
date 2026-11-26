@@ -1,6 +1,6 @@
 firewall:
-  prometheus_ipv4: 139.162.253.17
-  prometheus_ipv6: "2a01:7e00::f03c:93ff:fe13:a12c 2a01:7e00:e000:4e0::/64"
+  prometheus_ipv4: 178.79.132.58
+  prometheus_ipv6: "2a01:7e00::2000:a4ff:fe05:0492 2a01:7e00:e000:4e3::/64"
 
 prometheus:
   node_exporter:
