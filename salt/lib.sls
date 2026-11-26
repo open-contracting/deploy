@@ -80,6 +80,7 @@ unset {{ setting_name }} in {{ filename }}:
 
 {{ entry.service }}:
   service.running:
+    - name: {{ entry.service }}
     - enable: True
     - require:
       - file: /etc/systemd/system/{{ entry.service }}.service
