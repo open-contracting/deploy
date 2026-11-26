@@ -74,7 +74,6 @@ Some configuration changes require a reload only, while others require a restart
 
    proxy:
      apache_module.enabled:
-       - name: proxy
        - watch_in:
          - service: apache2
 
