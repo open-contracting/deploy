@@ -33,9 +33,8 @@ php-fpm-reload:
     - m_name: php{{ php_version }}-fpm.service
 
 {% if pillar.php.opcache is defined %}
-/etc/php/-/fpm/conf.d/99-opcache.ini:
+/etc/php/{{ php_version }}/fpm/conf.d/99-opcache.ini:
   file.managed:
-    - name: /etc/php/{{ php_version }}/fpm/conf.d/99-opcache.ini
     - source: salt://php-fpm/files/opcache.ini
     - template: jinja
     - context: {{ pillar.php.opcache|yaml }}
@@ -58,9 +57,8 @@ php-fpm-reload:
     - require:
       - file: /var/log/php-fpm
 
-/etc/php/-/fpm/pool.d/{{ site }}.conf:
+/etc/php/{{ php_version }}/fpm/pool.d/{{ site }}.conf:
   file.managed:
-    - name: /etc/php/{{ php_version }}/fpm/pool.d/{{ site }}.conf
     - source: salt://php-fpm/files/{{ entry.configuration }}.conf
     - template: jinja
     - context: {{ dict(site=site, name=site, **entry.context)|yaml }}
@@ -76,7 +74,7 @@ php-fpm-config-test:
     - name: /usr/sbin/php-fpm{{ php_version }} -t
     - onchanges:
 {%- for site in pillar.phpfpm.sites %}
-      - file: /etc/php/-/fpm/pool.d/{{ site }}.conf
+      - file: /etc/php/{{ php_version }}/fpm/pool.d/{{ site }}.conf
 {%- endfor %}
     - require_in:
       - module: php-fpm-reload

@@ -53,7 +53,7 @@ This will:
 -  Enable the :ref:`proxy_fcgi<apache-modules>` Apache module
 -  Install the PHP-FPM service
 -  Create a ``/var/log/php-fpm/coalition/`` log directory
--  Create a ``/etc/php/-/fpm/pool.d/coalition.conf`` configuration file
+-  Create a ``/etc/php/8.3/fpm/pool.d/coalition.conf`` configuration file (for PHP version 8.3)
 -  Install PHP packages
 
 The configuration file enables `log_errors <https://www.php.net/manual/en/errorfunc.configuration.php#ini.log-errors>`__ and sets `error_log <https://www.php.net/manual/en/errorfunc.configuration.php#ini.error-log>`__ to ``/var/log/php-fpm/coalition/coalition.log``.
