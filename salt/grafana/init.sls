@@ -46,7 +46,6 @@ grafana:
 
 /var/lib/grafana/dashboards:
   file.recurse:
-    - name: /var/lib/grafana/dashboards
     - source: salt://grafana/files/dashboards
     - user: grafana
     - group: grafana
