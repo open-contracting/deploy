@@ -43,8 +43,8 @@ registry:
 # ocp16 was redmine (crm.open-contracting.org)
 # ocp17 was cove-oc4ids
 # ocp18 was cove on Ubuntu 22
-# ocp20 was Prometheus on Ubuntu 22
-# ocp21 was coalition and cms on Ubuntu 22
+# ocp20 was prometheus on Ubuntu 22
+# ocp21 was cms on Ubuntu 22
 # ocp22 was credere-dev
 # ocp24 was credere-production
 # ocp26 was portland-dev
